@@ -29,33 +29,24 @@ class cInstrument{
 //##########################################################################
 function show_sols()
 {
-	return "<option>nothing";
-}
-
-
-
-//##########################################################################
-function build_SolData($poData){
-	$aImages = $poData->images;
-	//---build a list of data
-	$aInstruments = array();
-	foreach ($aImages as $oItem){
-		$sInstrument = $oItem->instrument;
-		$sDate = $oItem->utc;
-		$sUrls = $oItem->urlList;
-		if ($oItem->sampleType !== "thumbnail"){
-			if (!array_key_exists($sInstrument, $aInstruments))
-				$aInstruments[$sInstrument] = new cInstrument($sInstrument);
-			$oData = $aInstruments[$sInstrument];
-			$oData->add($sInstrument, $sDate, $sUrls );
-		}
+	$sHTML = "";
+	$oManifest = cCuriosity::getManifest();
+	$aSols = $oManifest->sols;
+	foreach ($aSols as $oSol){
+		$iSol = $oSol->sol;
+		$sDate = $oSol->last_updated;
+		$sHTML .= "<option value='$iSol'>sol $iSol&nbsp;|&nbsp; $sDate";
 	}
-	return $aInstruments;
+	
+	return $sHTML;
 }
+
+
+
 //##########################################################################
 function display_results($paInstruments){
 
-	//---display header
+	//---display table of contents instruments
 	?>
 		<h1>TOC</h1>
 		<ul>
@@ -95,18 +86,19 @@ function display_results($paInstruments){
 //*********************************************************************
 function  show_form(){
 	?>
-	<form method=post>
+	<script src="functions.js"></script>
+	<form method=post name="sols" id="sols">
 		<table border=0>
 		<tr><td>
-			sol: <input type="text" size=5 id="sol" name="sol">
+			sol: <input type="text" size="5" id="sol" name="sol">
 		</td></tr>
 		<tr><td>
-			<select name="SOL" size =15>
+			<select name="SOL" size="10" id="list" name="list" onchange="clicklist()" ondblclick = "submitform()">
 				<?=show_sols()?>
 			</select>
 		</td></tr>
 		<tr><td>
-			<input type=submit name="s" id="s">
+			<input type="submit" name="s" id="s">
 		</td></tr>
 	</form>
 	<?php
@@ -116,10 +108,11 @@ function  show_form(){
 function main($pSol){
 	$sol = $_POST["sol"];
 	$oResponse = cCuriosity::getSolData($sol);
-	$aInstruments = build_SolData( $oResponse);
+	$aInstruments = cCuriosity::build_SolData( $oResponse);
 	display_results($aInstruments);
 }
-if (isset($_POST["s"])){ 	
+
+if (isset($_POST["sol"])){ 	
 	$sol=$_POST["sol"];
 	main($sol);
 }else
