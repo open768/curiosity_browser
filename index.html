@@ -1,0 +1,35 @@
+<html>
+<head>
+	<LINK href="css/css.css" rel="stylesheet" type="text/css">
+	<title>Curiosity Browser</title>
+	<script src="js/functions.js"></script>
+	<script src="js/rgraph/RGraph.common.core.js"></script>
+</head>
+<body onload="load_data();">
+
+	<font class="title">Curiosity Browser</font>
+	<p>
+	<table class="maintable">
+		<tr>
+			<td rowspan="2" class="leftcolumn">
+				<form name="sols" id="sols">
+					Sol: <span id="this_sol">???</span>
+					<br>
+					<SELECT name="SOL_list" id="sol_list" size="10" onchange="clicklist()" class="sols">
+						<option>sols go here.......................
+					</SELECT>
+					<div class="instruments" id="instruments">instruments go here</div>
+				</form>
+			</td>
+			<td id="Controls" class="gold" height="30">
+				<button id="previous">&lt;</button>
+				<button id="next">&gt;</button>
+			</td>
+		</tr>
+		<tr><td id="images" class="gold">
+			images  go here
+		</td></tr>
+	</table>
+	<font class=credits>Courtesy MSSS/MSL/NASA/JPL-Caltech.</font>
+</body>
+</html>
