@@ -4,6 +4,16 @@ body
 	font:15px arial,sans-serif;
 }
 
+.github {
+	background-color: #FFFFCC ;
+    padding: 5px;
+    border: 1px solid #e86005;
+    border-bottom: 2px solid #e86005;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+	
 .leftcolumn
 {
 	width: 230px;

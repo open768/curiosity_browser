@@ -23,18 +23,24 @@
 	foreach ($aImages as $aItem){
 		if ($aItem["p"] === $sProduct){
 			?>
-				<font class="title"><?=$aItem["p"]?></font><P>
+				<DIV class="title">Curosity Detail</DIV>
+				<DIV class="gold">
+				PRODUCT: <?=$aItem["p"]?><BR>
 				date: <?=$aItem["d"]?> <br>
 				instrument <?=$sInstrument?><BR>
 				image: <a href="<?=$aItem["i"]?>"><?=$aItem["i"]?></a>
+				</div>
 				<p>
 				<img src="<?=$aItem["i"]?>"><br>
 				<h2>Product Page</h2>
+				
 			<?php
 			if ( $aItem["l"] === "UNK" )
-				echo "UNKnown product";
+				echo "<DIV class='gold'>UNKnown product</div>";
 			else{
-			?><iframe width="100%" height="100%" src="<?=$aItem["p"]?>">Iframes not supported</iframe><?php
+				?>
+					<iframe class="gold" width="100%" height="100%" src="<?=$aItem["p"]?>">Iframes not supported</iframe>
+				<?php
 			}
 			break;
 		}
@@ -42,6 +48,7 @@
 
 ?>
 <P>
-<font class=credits>Data courtesy MSSS/MSL/NASA/JPL-Caltech.</font>
+	<p class="credits">Data courtesy MSSS/MSL/NASA/JPL-Caltech.</p>
+	<p class="github">We're on <a href="https://github.com/open768/curiosity_browser"><img src="../images/github_logo.png"></a></p>
 </body>
 </html>
