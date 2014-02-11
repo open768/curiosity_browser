@@ -5,17 +5,22 @@ require_once("inc/cached_http.php");
 class cInstrument{
 	public $instrument;
 	public $data;
+	public $product;
 	
 	function __construct($psInstrument) {
 		$this->instrument = $psInstrument;
 		$this->data = array();
 	}
 	
-	public function add($psInstrument, $psDate, $psUrls){
-		if ($psInstrument !== $this->instrument)
-			die ("attempting to add wrong instrument data");
-		
-		array_push($this->data, ["d"=>$psDate, "u"=>$psUrls]);
+	public function add($poCuriosityData){
+		//dont add thumbnail products
+		if ($poCuriosityData->sampleType !== "thumbnail")
+			array_push(	$this->data, [
+				"d"=>$poCuriosityData->utc, 
+				"i"=>$poCuriosityData->urlList, 
+				"p"=>$poCuriosityData->itemName, 
+				"l"=>$poCuriosityData->pdsLabelUrl
+			]);
 	}
 }
 
@@ -35,6 +40,7 @@ class cCuriosity{
 	//*****************************************************************************
 	public static function getSolData($psSol, $psInstrument){
 		$oJson = self::getAllSolData($psSol);
+		//cDebug::vardump($oJson);
 		$oInstrument = new cInstrument($psInstrument);
 		
 		$aImages = $oJson->images;
@@ -42,11 +48,8 @@ class cCuriosity{
 		//---build a list of data
 		foreach ($aImages as $oItem){
 			$sInstrument = $oItem->instrument;
-			if ($sInstrument == $psInstrument){
-				$sDate = $oItem->utc;
-				$sUrls = $oItem->urlList;
-				$oInstrument->add($sInstrument, $sDate, $sUrls );
-			}
+			if ($sInstrument === $psInstrument)
+				$oInstrument->add($oItem);
 		}
 		//cDebug::vardump($oInstrument);
 		return $oInstrument;
@@ -60,6 +63,21 @@ class cCuriosity{
 	}
 	
 	//*****************************************************************************
+	public static function getSolInstrumentList($piSol){
+		$aResults = [];
+		
+		cDebug::write("Getting instrument list for sol ".$piSol);
+		$oData = self::getAllSolData($piSol);
+		//cDebug::vardump($oData);
+		$aImages = $oData->images;
+		
+		foreach ($aImages as $oItem)
+			$aResults["$oItem->instrument"] = 1;
+		
+		return $aResults;
+	}
+	
+	//*****************************************************************************
 	public static function getInstrumentList(){
 		if (! self::$Instruments)
 			self::$Instruments = [ 
@@ -67,7 +85,7 @@ class cCuriosity{
 				["name"=>"FHAZ_LEFT_B","caption"=>"Left Front Hazard Avoidance Camera"],
 				["name"=>"FHAZ_RIGHT_B","caption"=>"Right Front Hazard Avoidance Camera"],
 				["name"=>"MAST_LEFT","caption"=>"MastCam Left"],
-				["name"=>"MAST_RIGHT","caption"=>"MastCam Left"],
+				["name"=>"MAST_RIGHT","caption"=>"MastCam Right"],
 				["name"=>"MAHLI","caption"=>"Mars Hand Lens Imager"],
 				["name"=>"MARDI","caption"=>"Mars Descent Imager"],
 				["name"=>"NAV_LEFT_B","caption"=>"Left Navigation Camera"],

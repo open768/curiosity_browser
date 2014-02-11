@@ -15,21 +15,25 @@
 				<form name="sols" id="sols">
 					Sol: <span id="this_sol">???</span>
 					<br>
-					<SELECT name="SOL_list" id="sol_list" size="10" onchange="clicklist()" class="sols">
+					<SELECT name="SOL_list" id="sol_list" size="10" onchange="OnChangeSolList()" class="sols">
 						<option>sols go here.......................
 					</SELECT>
 					<div class="instruments" id="instruments">instruments go here</div>
 				</form>
 			</td>
 			<td id="Controls" class="gold" height="30">
-				<button id="previous">&lt;</button>
-				<button id="next">&gt;</button>
+				<button id="previous" onclick="OnClickPrevious();">&lt;</button>
+				<span ID="current">??</span>
+				<button id="next" onclick="OnClickNext()";>&gt;</button>
+				<button id="reload" onclick="reload();">reload</button>
+				max <span ID="max">??</span><br><br>
+				Status: <span ID="status" class="status">Loading...</span>
 			</td>
 		</tr>
 		<tr><td id="images" class="gold">
 			images  go here
 		</td></tr>
 	</table>
-	<font class=credits>Courtesy MSSS/MSL/NASA/JPL-Caltech.</font>
+	<font class=credits>Data courtesy MSSS/MSL/NASA/JPL-Caltech.</font>
 </body>
 </html>

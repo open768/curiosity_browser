@@ -29,4 +29,12 @@ class cDebug{
 			echo "</PRE></td></tr></table>";
 		}
 	}
+	
+	//**************************************************************************
+	public static function check_GET_or_POST(){
+		global $_GET, $_POST;
+		
+		self::$DEBUGGING = (isset($_GET["debug"]) || isset($_POST["debug"]));
+	}
+	
 }

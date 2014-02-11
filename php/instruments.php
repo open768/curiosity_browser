@@ -2,8 +2,11 @@
 	require_once("inc/curiosity_json.php");
 	require_once("inc/debug.php");
 	
-	cDebug::$DEBUGGING=false;
+	cDebug::check_GET_or_POST();
 
-	$aList = cCuriosity::getInstrumentList();
+	if (isset( $_GET["s"]))
+		$aList = cCuriosity::getSolInstrumentList($_GET["s"]);
+	else
+		$aList = cCuriosity::getInstrumentList();
 	echo json_encode($aList);	
 ?>
