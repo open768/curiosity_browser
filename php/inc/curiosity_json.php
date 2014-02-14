@@ -95,6 +95,22 @@ class cCuriosity{
 			];
 		return self::$Instruments;
 	}
+	
+	//*****************************************************************************
+	public static function getProductDetails($psSol, $psInstrument, $psProduct){
+		
+		$oInstrumentData = cCuriosity::getSolData($psSol, $psInstrument);
+		$aImages=$oInstrumentData->data;
+		$oDetails =null;
+		
+		foreach ($aImages as $aItem)
+			if ($aItem["p"] === $psProduct){
+				$oDetails = $aItem;
+				break;
+			}
+		
+		return $oDetails;
+	}
 
 }
 ?>

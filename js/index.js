@@ -6,7 +6,6 @@ const INSTRUMENT_RADIO = "IR";
 const MAX_ID="max";
 const CURRENT_ID = "current";
 const IMAGE_ID="images";
-const STATUS_ID = "status";
 const SOL_ID = "this_sol";
 const SOL_QUERYSTRING = "sol";
 const INSTR_QUERYSTRING = "instr";
@@ -17,7 +16,6 @@ var current_image_index = 0;
 var current_sol = null;
 var current_instrument = null;
 var max_images = -1;
-var query_string = getQueryString();
 
 //###############################################################
 //# Event Handlers
@@ -32,10 +30,6 @@ function OnChangeInstrument(){
 	set_instrument(getRadioButtonValue(event.target.id));
 }
 
-//***************************************************************
-function set_status(psStatus){
-	document.getElementById(STATUS_ID).innerHTML= psStatus;
-}
 
 //***************************************************************
 function OnClickNext(){
@@ -203,7 +197,7 @@ function load_images_callback(paJS){
 		
 		for (iIndex = 0; iIndex < paJS.images.length; iIndex++){
 			oItem = paJS.images[iIndex];
-			sImgURL = "php/detail.php?sol="+ current_sol + "&instr=" + current_instrument + "&product=" + oItem.p;
+			sImgURL = "detail.html?s="+ current_sol + "&i=" + current_instrument + "&p=" + oItem.p;
 
 			sHTML += 
 				"<tr><td>" +
@@ -243,47 +237,4 @@ function mark_instruments_callback(paJS){
 	//and reload
 	reload();
 
-}
-
-
-//###############################################################
-//# DEBUG
-//###############################################################
-function debug_console(psMessage){
-	if (DEBUG_ON && console) console.log("DEBUG> " + psMessage);
-}
-
-//***************************************************************
-function write_console(psMessage){
-	if (console) console.log(psMessage);
-}
-
-//***************************************************************
-function getRadioButtonValue(psID){
-	var oRadios = document.getElementsByName(psID);
-	var sValue = null;
-	var oRadio;
-	
-	for (var i = 0; i<oRadios.length; i++){
-		oRadio = oRadios[i];
-		if (oRadio.checked) {
-			debug_console("found a checked radio");
-			sValue = oRadio.value;
-			break;
-		}
-	}
-		
-	return sValue;
-}
-
-//***************************************************************
-function getQueryString() {
-    var result = {}, keyValuePairs = location.search.slice(1).split('&');
-
-    keyValuePairs.forEach(function(keyValuePair) {
-        keyValuePair = keyValuePair.split('=');
-        result[keyValuePair[0]] = keyValuePair[1] || '';
-    });
-
-    return result;
 }

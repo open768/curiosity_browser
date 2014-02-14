@@ -1,0 +1,42 @@
+<html>
+<head>
+	<LINK href="css/css.css" rel="stylesheet" type="text/css">
+	<title>Curiosity Browser - details</title>
+	<script src="js/detail.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/rgraph/RGraph.common.core.js"></script>
+</head>
+<body onload="load_data();">
+	<DIV class="title">Curiosity Detail</DIV>
+	<!-- facebook -->
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=583529401715179";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>	
+	<!-- facebook -->
+
+	<DIV class="gold">
+		Product: <span id="product">loading</span><br>
+		Label: <span id="label_link">loading</span><br>
+		Date: <span id="date">loading</span><br>
+		Instrument: <span id="instrument">loading</span><br>
+		Image: <span id="image_link">loading</span><br>
+		Status: <span ID="status" class="status">Loading...</span>
+	</div>
+	
+	<div id="image">Image Loading</div>
+	<p>
+	<h2>Product Page</h2>
+	<iframe id="label">Label Loading...</iframe>
+	<P>
+	<div class="github">
+		We're on <img src="images/github_logo.png"> <a href="https://github.com/open768/curiosity_browser">https://github.com/open768/curiosity_browser</a>
+		<p>
+		<div class="fb-like" data-href="https://www.facebook.com/mars.features" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+	</div>
+</body>
+</html>
