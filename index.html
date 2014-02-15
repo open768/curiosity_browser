@@ -22,7 +22,7 @@
 	<p>
 	<table class="maintable">
 		<tr>
-			<td rowspan="2" class="leftcolumn">
+			<td rowspan="4" class="leftcolumn">
 				<form name="sols" id="sols">
 					Sol: <span id="this_sol">???</span>
 					<br>
@@ -32,17 +32,24 @@
 					<div class="instruments" id="instruments">instruments go here</div>
 				</form>
 			</td>
-			<td id="Controls" class="gold" height="30">
+			<td class="gold" height="30">
 				<button id="previous" onclick="OnClickPrevious();">&lt;</button>
 				<span ID="current">??</span>
 				<button id="next" onclick="OnClickNext()";>&gt;</button>
 				<button id="reload" onclick="reload();">reload</button>
 				max <span ID="max">??</span><br><br>
-				Status: <span ID="status" class="status">Loading...</span>
 			</td>
 		</tr>
+		<tr><td class="gold" height="20">
+			Status: <span ID="status" class="status">Loading...</span>
+		</td></tr>
 		<tr><td id="images" class="gold">
-			images  go here
+			select a SOL and an instrument - the images will appear here
+		</td></tr>
+		<tr><td class="gold" height="30">
+			<button onclick="OnClickPrevious();">&lt;</button>
+			<span ID="current2">??</span>
+			<button onclick="OnClickNext()";>&gt;</button>
 		</td></tr>
 	</table>
 	<p class="credits">Data courtesy MSSS/MSL/NASA/JPL-Caltech.</p>

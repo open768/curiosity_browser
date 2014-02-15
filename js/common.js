@@ -5,6 +5,8 @@ const STATUS_ID = "status";
 //***************************************************************
 function set_status(psStatus){
 	document.getElementById(STATUS_ID).innerHTML= psStatus;
+	debug_console("status: " + psStatus);
+
 }
 
 

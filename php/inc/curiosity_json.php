@@ -72,7 +72,8 @@ class cCuriosity{
 		$aImages = $oData->images;
 		
 		foreach ($aImages as $oItem)
-			$aResults["$oItem->instrument"] = 1;
+			if  (!in_array($oItem->instrument, $aResults))
+				array_push($aResults, $oItem->instrument);
 		
 		return $aResults;
 	}

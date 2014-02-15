@@ -5,11 +5,14 @@ const INSTRUMENT_DIV = "instruments";
 const INSTRUMENT_RADIO = "IR";
 const MAX_ID="max";
 const CURRENT_ID = "current";
+const CURRENT_ID2 = "current2";
 const IMAGE_ID="images";
 const SOL_ID = "this_sol";
 const SOL_QUERYSTRING = "sol";
 const INSTR_QUERYSTRING = "instr";
 const IMAGES_QUERYSTRING = "max";
+const RADIO_BACK_COLOUR = "gold";
+const BODY_COLOUR = "LemonChiffon";
 
 var HOW_MANY_IMAGES = 5;
 var current_image_index = 0;
@@ -35,7 +38,7 @@ function OnChangeInstrument(){
 function OnClickNext(){
 	var iNext;
 	
-	if (!OKToReload) return;
+	if (!OKToReload()) return;
 	iNext = current_image_index + HOW_MANY_IMAGES;
 	if (iNext > max_images) return;
 	
@@ -47,7 +50,7 @@ function OnClickNext(){
 function OnClickPrevious(){
 	var iPrevious;
 	
-	if (!OKToReload) return;
+	if (!OKToReload()) return;
 	iPrevious = current_image_index - HOW_MANY_IMAGES;
 	if (iPrevious <= 0 ) return;
 
@@ -96,7 +99,7 @@ function OKToReload(){
 	}
 		
 	if (!current_instrument){
-		set_status("No instrument Selected")
+		set_status("Now select an instrument")
 		return false;
 	}
 	
@@ -107,7 +110,7 @@ function OKToReload(){
 function reload(){
 	var sUrl;
 	
-	if (!OKToReload) return;
+	if (!OKToReload()) return;
 
 	//go ahead and get the data starting at position 0
 	get_image_data(current_sol, current_instrument,1,HOW_MANY_IMAGES);
@@ -162,7 +165,7 @@ function load_instruments_callback(paJS){
 	sHTML = "";
 	for (iIndex = 0; iIndex < paJS.length; iIndex++){
 		oInstr = paJS[iIndex];
-		sHTML += "<input type='radio' id='"+ INSTRUMENT_RADIO +"' name='" + INSTRUMENT_RADIO + "' value='" + oInstr.name + "'onchange='OnChangeInstrument()'>" + oInstr.caption + "</input><br>";
+		sHTML += "<span><input type='radio' id='"+ INSTRUMENT_RADIO +"' name='" + INSTRUMENT_RADIO + "' value='" + oInstr.name + "'onchange='OnChangeInstrument()'>" + oInstr.caption + "</input></span><br>";
 	}
 	document.getElementById(INSTRUMENT_DIV).innerHTML = sHTML;
 	loading=false;
@@ -191,6 +194,7 @@ function load_images_callback(paJS){
 		
 		current_image_index = parseInt(paJS.start);
 		document.getElementById(CURRENT_ID).innerHTML= current_image_index;
+		document.getElementById(CURRENT_ID2).innerHTML= current_image_index;
 		
 		//build the html
 		sHTML = "<table class='images'>";
@@ -219,22 +223,26 @@ function load_images_callback(paJS){
 
 //***************************************************************
 function mark_instruments_callback(paJS){
-	var oRadios, i, oRadio;
+	var aRadios, instr_idx, radio_idx, oRadio, oSpan, sInstr;
 
 	set_status("got instruments");
 	
 	//unmark all instruments
-	oRadios= document.getElementsByName(INSTRUMENT_RADIO);
-	for ( i = 0; i<oRadios.length; i++){
-		oRadio = oRadios[i];
-		//oRadio.style.backgroundColour = document.body.style.backgroundColour;
-		oRadio.style.backgroundColor = "red";
+	aRadios= document.getElementsByName(INSTRUMENT_RADIO);
+	for ( radio_idx = 0; radio_idx<aRadios.length; radio_idx++){
+		oRadio = aRadios[radio_idx];
+		oRadio.parentNode.style.visibility = "hidden";
 	}
 	
-
 	//mark the instruments remaining
-	
-	//and reload
-	reload();
+	for ( instr_idx = 0; instr_idx<paJS.length; instr_idx++){
+		sInstr = paJS[instr_idx];
+		for ( radio_idx = 0; radio_idx<aRadios.length; radio_idx++){
+			oRadio = aRadios[radio_idx];
+			if (oRadio.value == sInstr)
+				oRadio.parentNode.style.visibility = "visible";
+		}
+	}
 
+	set_status("ready");
 }
