@@ -13,37 +13,61 @@ var current_product = null;
 //###############################################################
 //***************************************************************
 function OnClickNext(){
-	//find the next product and reload
+	//find the next product
+	var sUrl;
+	
+	sUrl = "php/next.php?d=n&s=" + current_sol + "&i=" + current_instrument +"&p=" + current_product;
+	set_status("fetching next image details...");
+	async_http_get(sUrl, next_callback);
 }
 
 //***************************************************************
-function OnClickPrevious(){
-	//find the previous product and reload
+function onClickPrevious(){
+	//find the previous product
+	var sUrl;
+	
+	sUrl = "php/next.php?d=p&s=" + current_sol + "&i=" + current_instrument +"&p=" + current_product;
+	set_status("fetching previous image details...");
+	async_http_get(sUrl, next_callback);
+}
+
+//***************************************************************
+function onClickCal(){
+	//shows all data for the SOL using calendar XP
+	//http://www.calendarxp.net/tt_flat.shtml
+	alert("not implemented yet");
+}
+
+//***************************************************************
+function onClickSol(){
+	var sURL="index.html?sol="+ current_sol + "&instr=" + current_instrument;
+	window.open(sURL, "index");
+}
+
+//***************************************************************
+function onClickInstr(){
+	onClickSol();
 }
 
 //###############################################################
 //# Utility functions 
 //###############################################################
 function load_data(){
-	var sSol, sInstr, sProd;
 	
-	sSol = query_string[SOL_QUERYSTRING];
-	sInstr = query_string[INSTR_QUERYSTRING];
-	sProd = query_string[PRODUCT_QUERYSTRING];
-	
-	document.getElementById("product").innerHTML = sProd;
-	document.getElementById("instrument").innerHTML = sInstr;
-	
-	get_product_data( sSol, sInstr, sProd);
+	get_product_data( query_string[SOL_QUERYSTRING], query_string[INSTR_QUERYSTRING], query_string[PRODUCT_QUERYSTRING]);
 }
 
 //***************************************************************
 function get_product_data( psSol, psInstr, psProd){
 	var sUrl;
 	
+	current_sol = psSol;
+	current_instrument = psInstr;
+	current_product = psProd;
+	
 	loading=true;
 	sUrl = "php/detail.php?s=" + psSol + "&i=" + psInstr +"&p=" + psProd;
-	set_status("fetching data...");
+	set_status("fetching data for "+ psProd);
 	debug_console(sUrl);
 	RGraph.AJAX.getJSON(sUrl, load_detail_callback);
 }
@@ -51,12 +75,23 @@ function get_product_data( psSol, psInstr, psProd){
 //* call backs 
 //###############################################################
 function load_detail_callback(paJS){
-	var sLink;
+	var sLink, sMapLink, sURL;
 	set_status("received data...");
-	
+
+	sMapLink = "http://curiosityrover.com/imgpoint.php?name=" + current_product;
+	document.getElementById("sol").innerHTML = current_sol;
+	document.getElementById("product").innerHTML = "<a target='map' href='" + sMapLink + "'>" + current_product + "</a>";
+	document.getElementById("instrument").innerHTML = current_instrument;
+
 	document.getElementById("date").innerHTML = paJS["d"];
 	document.getElementById("image_link").innerHTML = "<a target='nasa' href='"+ paJS["i"] + "'>" + paJS["i"] + "</a>";
-	document.getElementById("image").innerHTML = "<a target='nasa' href='"+ paJS["i"] + "'><img src='" + paJS["i"] + "'></a>";
+	document.getElementById("image").innerHTML = "<a target='nasa' href='"+ paJS["i"] + "'><img id='img' src='" + paJS["i"] + "' onload='OnImageLoaded()'></a>";
+	sURL = getBaseURL() +"?s=" + current_sol + "&i=" + current_instrument + "&p=" + current_product;
+	
+	window.history.pushState("", "Detail", sURL);
+	document.getElementById("pagelink").innerHTML = "<a href='" + sURL + "'>"+ sURL + "</a>";
+	
+
 	
 	sLink = paJS["l"];
 	if (sLink=="UNK"){
@@ -66,4 +101,19 @@ function load_detail_callback(paJS){
 		document.getElementById("label_link").innerHTML = "<a target='nasa' href='"+ sLink + "'>" + sLink + "</a>";
 		document.getElementById("label").src = sLink;
 	}
+
+	set_status("OK");
 }
+
+//***************************************************************
+function next_callback(poJson){
+	get_product_data( current_sol, current_instrument, poJson["p"]);
+}
+
+//***************************************************************
+function OnImageLoaded(){
+	var iHeight= event.target.height;
+	document.getElementById("rbut").style.height=iHeight;
+	document.getElementById("lbut").style.height=iHeight;
+}
+

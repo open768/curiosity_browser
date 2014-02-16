@@ -4,6 +4,7 @@ const SOLS_LIST = "sol_list";
 const INSTRUMENT_DIV = "instruments";
 const INSTRUMENT_RADIO = "IR";
 const MAX_ID="max";
+const MAX_ID2="max2";
 const CURRENT_ID = "current";
 const CURRENT_ID2 = "current2";
 const IMAGE_ID="images";
@@ -191,6 +192,7 @@ function load_images_callback(paJS){
 		// update the maximum display
 		max_images = parseInt(paJS.max);
 		document.getElementById(MAX_ID).innerHTML= max_images;
+		document.getElementById(MAX_ID2).innerHTML= max_images;
 		
 		current_image_index = parseInt(paJS.start);
 		document.getElementById(CURRENT_ID).innerHTML= current_image_index;

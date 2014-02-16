@@ -20,15 +20,52 @@
 	<!-- facebook -->
 
 	<DIV class="gold">
-		Product: <span id="product">loading</span><br>
-		Label: <span id="label_link">loading</span><br>
-		Date: <span id="date">loading</span><br>
-		Instrument: <span id="instrument">loading</span><br>
-		Image: <span id="image_link">loading</span><br>
+		<table border=0>
+		<tr>
+			<td align="right">Product:</td>
+			<td align="left"><span id="product">loading</span>
+			<td width=50>&nbsp;</td>
+			<td align="right">Label:</td>
+			<td align="left"><span id="label_link">loading</span></td>
+		</tr>
+		<tr>
+			<td align="right">Date:</td>
+			<td align="left"><button id="date" onclick="onClickCal();">loading...</button></td>
+			<td>&nbsp;</td>
+			<td align="right">Image:</td>
+			<td align="left"><span id="image_link">loading</span></td>
+		</tr>
+		<tr>
+			<td align="right">Sol:</td>
+			<td align="left">
+				<button id="sol" onclick="onClickSol();">loading...</button>
+				-
+				<button id="instrument" onclick="onClickInstr();">loading</button>
+				:Instrument
+			</td>
+			<td>&nbsp;</td>
+			<td align="right">link:</td>
+			<td align="left"><span id="pagelink">loading</span></td>
+		</tr>
+		<tr>
+		</tr>
+		</table>
+	</div>
+	<DIV class="gold">
 		Status: <span ID="status" class="status">Loading...</span>
 	</div>
+	<table border="0" class="gold"><tr>
+		<td>
+			<button id="lbut" onclick="onClickPrevious();" style="height:600">&lt;</button>
+		</td>
+		<td>
+			<div id="image">Image Loading</div>
+		</td>
+		<td>
+			<button id="rbut" onclick="OnClickNext();" style="height:600">&gt;</button>
+		</td>
+	</tr></table>
 	
-	<div id="image">Image Loading</div>
 	<p>
 	<h2>Product Page</h2>
 	<iframe id="label" width="1000" height="500">Label Loading...</iframe>

@@ -9,6 +9,11 @@ function set_status(psStatus){
 
 }
 
+//***************************************************************
+function async_http_get(psUrl, pfnCallBack){
+	debug_console(psUrl);
+	RGraph.AJAX.getJSON(psUrl, pfnCallBack);
+}
 
 //###############################################################
 //# DEBUG
@@ -50,4 +55,9 @@ function getQueryString() {
     });
 
     return result;
+}
+
+//***************************************************************
+function getBaseURL(){
+	return document.URL.split("?")[0];
 }

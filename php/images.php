@@ -11,8 +11,8 @@
 	
 	
 	$oInstrumentData = cCuriosity::getSolData($sSol, $sInstrument);
-	$aImages=$oInstrumentData->data;
-	$iCount = count($aImages);
+	$aData = $oInstrumentData->data;
+	$iCount = count($aData);
 	cDebug::write("original array has $iCount");
 	
 	//deal with boundary conditions
@@ -25,7 +25,7 @@
 	$aOutput = [];
 	if ($iStart < $iCount) 
 		for ($iIndex = $iStart-1; $iIndex < $iEnd ; $iIndex++){
-			$oItem = $aImages[$iIndex];
+			$oItem = $aData[$iIndex];
 			cDebug::write("pushing to array");
 			array_push($aOutput, $oItem);
 		}
