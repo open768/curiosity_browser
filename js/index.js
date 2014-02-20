@@ -9,9 +9,11 @@ const CURRENT_ID = "current";
 const CURRENT_ID2 = "current2";
 const IMAGE_ID="images";
 const SOL_ID = "this_sol";
-const SOL_QUERYSTRING = "sol";
-const INSTR_QUERYSTRING = "instr";
-const IMAGES_QUERYSTRING = "max";
+const SOL_QUERYSTRING = "s";
+const INSTR_QUERYSTRING = "i";
+const MAXIMAGES_QUERYSTRING = "m";
+const IMAGE_QUERYSTRING = "b";
+
 const RADIO_BACK_COLOUR = "gold";
 const BODY_COLOUR = "LemonChiffon";
 
@@ -83,7 +85,7 @@ function mark_instrument(psInstr){
 function set_instrument(psInstr){
 	debug_console("setting instrument: " + psInstr);
 	current_instrument = psInstr;
-	reload();
+	reload_data();
 }
 
 //***************************************************************
@@ -143,7 +145,7 @@ function OKToReload(){
 }
 
 //***************************************************************
-function reload(){
+function reload_data(){
 	var sUrl;
 	
 	if (!OKToReload()) return;
@@ -156,6 +158,9 @@ function reload(){
 function get_image_data( piSol, psInstr, piStart, piEnd){
 	var sUrl;
 	
+	sUrl = getBaseURL() +"?s=" + current_sol + "&i=" + current_instrument +"&b=" + piStart;
+	window.history.pushState("", "Detail", sUrl);
+	
 	loading=true;
 	sUrl = "php/images.php?s=" + piSol + "&i=" + psInstr +"&b=" + piStart + "&e=" + piEnd;
 	set_status("fetching image data...");
@@ -166,8 +171,8 @@ function get_image_data( piSol, psInstr, piStart, piEnd){
 //***************************************************************
 function load_data(){
 	set_status("loading static data...");
-	if (query_string[IMAGES_QUERYSTRING] )
-		HOW_MANY_IMAGES = parseInt(query_string[IMAGES_QUERYSTRING]);
+	if (query_string[MAXIMAGES_QUERYSTRING] )
+		HOW_MANY_IMAGES = parseInt(query_string[MAXIMAGES_QUERYSTRING]);
 		
 
 	RGraph.AJAX.getJSON("php/instruments.php", load_instruments_callback);
@@ -285,11 +290,10 @@ function mark_instruments_callback(paJS){
 		}
 	}
 	
-	if 	(reload_after_instr){
-		reload_after_instr = false;
-		reload();
-	}
-
-
 	set_status("ready");
+	
+	if 	(current_instrument || reload_after_instr){
+		reload_after_instr = false;
+		reload_data();
+	}
 }
