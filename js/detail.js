@@ -7,6 +7,8 @@ const PRODUCT_QUERYSTRING = "p";
 var current_sol = null;
 var current_instrument = null;
 var current_product = null;
+var current_date_utc = null;
+var current_date_lmst = null;
 
 //###############################################################
 //# Event Handlers
@@ -33,9 +35,11 @@ function onClickPrevious(){
 
 //***************************************************************
 function onClickCal(){
-	//shows all data for the SOL using calendar XP
-	//http://www.calendarxp.net/tt_flat.shtml
-	alert("not implemented yet");
+	var sURL;
+	
+	sURL = "cal.html?s=" + current_sol + "&t=" + current_date_utc;
+		
+	window.open(sURL, "date");
 }
 
 //***************************************************************
@@ -82,8 +86,11 @@ function load_detail_callback(paJS){
 	document.getElementById("sol").innerHTML = current_sol;
 	document.getElementById("product").innerHTML = "<a target='map' href='" + sMapLink + "'>" + current_product + "</a>";
 	document.getElementById("instrument").innerHTML = current_instrument;
-
-	document.getElementById("date").innerHTML = paJS["d"];
+	
+	current_date_lmst = paJS["dm"];
+	current_date_utc = paJS["du"];
+	document.getElementById("date_utc").innerHTML = current_date_utc;
+	document.getElementById("date_lmst").innerHTML = current_date_lmst;
 	document.getElementById("image_link").innerHTML = "<a target='nasa' href='"+ paJS["i"] + "'>" + paJS["i"] + "</a>";
 	document.getElementById("image").innerHTML = "<a target='nasa' href='"+ paJS["i"] + "'><img id='img' src='" + paJS["i"] + "' onload='OnImageLoaded()'></a>";
 	sURL = getBaseURL() +"?s=" + current_sol + "&i=" + current_instrument + "&p=" + current_product;

@@ -16,7 +16,8 @@ class cInstrument{
 		//dont add thumbnail products
 		if ($poCuriosityData->sampleType !== "thumbnail")
 			array_push(	$this->data, [
-				"d"=>$poCuriosityData->utc, 
+				"du"=>$poCuriosityData->utc, 
+				"dm"=>$poCuriosityData->lmst, 
 				"i"=>$poCuriosityData->urlList, 
 				"p"=>$poCuriosityData->itemName, 
 				"l"=>$poCuriosityData->pdsLabelUrl

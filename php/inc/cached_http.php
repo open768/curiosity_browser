@@ -3,6 +3,9 @@ require_once("inc/cache.php");
 require_once("inc/http.php");
 require_once("inc/debug.php");
 
+// TODO use a different cache mechanism that doesnt store everything in one file
+// it uses md5 hashing to work out the filename
+
 class cCachedHttp{
 	const CACHE_EXPIRY = 3600;
 	private static $oCache = null;
