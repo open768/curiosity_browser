@@ -20,6 +20,7 @@ var current_image_index = 0;
 var current_sol = null;
 var current_instrument = null;
 var max_images = -1;
+var reload_after_instr = false;
 
 //###############################################################
 //# Event Handlers
@@ -62,24 +63,58 @@ function OnClickPrevious(){
 //###############################################################
 //# Utility functions 
 //###############################################################
-function set_instrument(psInstr){
-	debug_console("instrument: " + psInstr);
 
+function mark_instrument(psInstr){
+	var aRadios, radio_idx, oRadio;
+	
+	//find and mark the selected instrument remaining
+	aRadios= document.getElementsByName(INSTRUMENT_RADIO);
+	for ( radio_idx = 0; radio_idx<aRadios.length; radio_idx++){
+		oRadio = aRadios[radio_idx];
+		if (oRadio.value == psInstr){
+			oRadio.checked=true;
+			set_instrument(psInstr);
+			break;
+		}
+	}
+}
+
+//***************************************************************
+function set_instrument(psInstr){
+	debug_console("setting instrument: " + psInstr);
 	current_instrument = psInstr;
 	reload();
 }
 
 //***************************************************************
-function set_sol(piSol){
-	debug_console("sol: " + piSol);
-	current_sol = piSol;
+function mark_sol(psSol){
+	var aSols, sol_idx, oSol;
+	
+	aSols = document.getElementById(SOLS_LIST).children;
+
+	for ( sol_idx = 0; sol_idx<aSols.length; sol_idx++){
+		oSol = aSols[sol_idx];
+		if (oSol.value == psSol){
+			debug_console("found it");
+			oSol.selected=true;
+			reload_after_instr = true;
+			set_sol(psSol);
+			break;
+		}
+	}
+}
+
+//***************************************************************
+function set_sol(psSol){
+	debug_console("setting sol: " + psSol);
+	current_sol = psSol;
 	document.getElementById(SOL_ID).innerHTML = current_sol;
 	mark_instruments(current_sol);
 }
 
 //***************************************************************
-function mark_instruments(piSol){
-	sUrl = "php/instruments.php?s=" + piSol;
+function mark_instruments(psSol){
+	sUrl = "php/instruments.php?s=" + psSol;
 	debug_console(sUrl);
 	RGraph.AJAX.getJSON(sUrl, mark_instruments_callback);
 }
@@ -157,6 +192,10 @@ function load_sols_callback(paJS){
 	
 	oList.innerHTML = sHTML;
 	
+	// mark the sol
+	if (query_string[SOL_QUERYSTRING] ) 
+		mark_sol(query_string[SOL_QUERYSTRING]);
+	
 }
 
 //***************************************************************
@@ -173,8 +212,8 @@ function load_instruments_callback(paJS){
 	set_status("ready");
 
 	//click the buttons if stuff was passed in the query string
-	if (query_string[SOL_QUERYSTRING] ) set_sol(query_string[SOL_QUERYSTRING]);
-	if (query_string[INSTR_QUERYSTRING] ) set_instrument(query_string[INSTR_QUERYSTRING]);
+	if (query_string[INSTR_QUERYSTRING] ) 
+		mark_instrument(query_string[INSTR_QUERYSTRING]);
 
 }
 
@@ -245,6 +284,12 @@ function mark_instruments_callback(paJS){
 				oRadio.parentNode.style.visibility = "visible";
 		}
 	}
+	
+	if 	(reload_after_instr){
+		reload_after_instr = false;
+		reload();
+	}
+
 
 	set_status("ready");
 }
