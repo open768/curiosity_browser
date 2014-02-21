@@ -1,3 +1,16 @@
+/**************************************************************************
+Copyright (C) Chicken Katsu 2014 
+
+This code is protected by copyright under the terms of the 
+Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License
+http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
+
+For licenses that allow for commercial use please contact cluck@chickenkatsu.co.uk
+
+// USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
+**************************************************************************/
+
+
 var DEBUG_ON = true;
 var loading = true;
 const SOLS_LIST = "sol_list";
@@ -23,6 +36,7 @@ var current_sol = null;
 var current_instrument = null;
 var max_images = -1;
 var reload_after_instr = false;
+var reset_image_number = true;
 
 //###############################################################
 //# Event Handlers
@@ -56,10 +70,15 @@ function OnClickPrevious(){
 	
 	if (!OKToReload()) return;
 	iPrevious = current_image_index - HOW_MANY_IMAGES;
-	if (iPrevious <= 0 ) return;
+	
+	if (iPrevious <= 0 ) 
+		if (current_image_index >1)
+			iPrevious =1;
+		else
+			return;
 
 	//go ahead and get the data 
-	get_image_data(current_sol, current_instrument,iPrevious,iPrevious+HOW_MANY_IMAGES);
+	get_image_data(current_sol, current_instrument,iPrevious,iPrevious+HOW_MANY_IMAGES-1);
 }
 
 //###############################################################
@@ -151,16 +170,21 @@ function reload_data(){
 	if (!OKToReload()) return;
 
 	//go ahead and get the data starting at position 0
-	get_image_data(current_sol, current_instrument,1,HOW_MANY_IMAGES);
+	if (reset_image_number)
+		get_image_data(current_sol, current_instrument,1,HOW_MANY_IMAGES);
+	else
+		get_image_data(current_sol, current_instrument,current_image_index,current_image_index+HOW_MANY_IMAGES-1);
 }
 
 //***************************************************************
 function get_image_data( piSol, psInstr, piStart, piEnd){
 	var sUrl;
 	
+	// update the content in the address bar
 	sUrl = getBaseURL() +"?s=" + current_sol + "&i=" + current_instrument +"&b=" + piStart;
 	window.history.pushState("", "Detail", sUrl);
 	
+	// load the image data
 	loading=true;
 	sUrl = "php/images.php?s=" + piSol + "&i=" + psInstr +"&b=" + piStart + "&e=" + piEnd;
 	set_status("fetching image data...");
@@ -173,8 +197,13 @@ function load_data(){
 	set_status("loading static data...");
 	if (query_string[MAXIMAGES_QUERYSTRING] )
 		HOW_MANY_IMAGES = parseInt(query_string[MAXIMAGES_QUERYSTRING]);
+	if (query_string[IMAGE_QUERYSTRING] ){
+		current_image_index = query_string[IMAGE_QUERYSTRING];
+		reset_image_number = false;
+	}
 		
 
+		
 	RGraph.AJAX.getJSON("php/instruments.php", load_instruments_callback);
 	RGraph.AJAX.getJSON("php/sols.php", load_sols_callback);
 }
@@ -227,7 +256,9 @@ function load_images_callback(paJS){
 	var oDiv, sHTML, iIndex, oItem;
 	
 	max_images = 0;
-	current_image_index = -1;
+	
+	if (reset_image_number)
+		current_image_index = -1;
 	
 	//build the html to put into the div
 	if (paJS.max == 0)
