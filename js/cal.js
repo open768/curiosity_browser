@@ -21,6 +21,9 @@ var current_date = null;
 //###############################################################
 //# Event Handlers
 //###############################################################
+function onClick(){
+	alert("not implemented yet");
+}
 
 //###############################################################
 //# Utility functions 
@@ -46,10 +49,55 @@ function get_calendar_data( psSol){
 //* call backs 
 //###############################################################
 function load_cal_callback(paJS){
+	var sSol, aDates, aHeadings, aTimes, i,j,k, sDKey, sTKey, sHTML, aItems, oItem, sID;
 	set_status("received data...");
 
-	document.getElementById("calendar").innerHTML = paJS;
-
+	sSol = paJS.sol;
+	aDates = paJS.cal;
+	
+	// get the headings
+	aHeadings=Array();
+	for (sDKey in aDates)
+		aHeadings.push(sDKey);
+	
+	//get and sort the times
+	aTimes = Array();
+	for (sDKey in aDates)
+		for (sTKey in aDates[sDKey])
+			if (aTimes.indexOf(sTKey) == -1)
+				aTimes.push(sTKey);
+	aTimes.sort();
+	
+	//build the html
+	sHTML = "<table class='cal'>";
+		sHTML += "<tr><td></td>";
+			for (i=0; i<aHeadings.length; i++)
+				sHTML += "<TH class='caldate'>" + aHeadings[i] +"</TH>";
+		sHTML += "</tr>";
+		for (i=0; i<aTimes.length; i++){
+			sTKey = aTimes[i];
+			sHTML += "<tr><TH class='caltime'>" + aTimes[i] +"</TH>";
+			for (j=0; j<aHeadings.length; j++){
+				sDKey = aHeadings[j];
+				sHTML += "<td>" ;
+					if (aDates[sDKey].hasOwnProperty(sTKey)){
+						aItems = aDates[sDKey][sTKey];
+						for (k=0; k<aItems.length; k++){
+							oItem = aItems[k];
+							sID = oItem.i + ":" + oItem.p ; //TBD
+							sHTML += "<button class='calbutton' id='"+ sID + "' onclick='onClick();'>"+oItem.i + "</button> ";
+						}
+					}
+				sHTML += "</td>";
+			}
+			sHTML += "</tr>";
+		}
+				
+	sHTML += "</table>";
+	
+	document.getElementById("calendar").innerHTML = sHTML;
+	
+	//we're done
 	set_status("OK");
 }
 

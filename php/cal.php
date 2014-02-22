@@ -14,23 +14,41 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("inc/curiosity_json.php");
 	require_once("inc/debug.php");
 	
+	const TIMESLOT=10;
+	
 	cDebug::check_GET_or_POST();
 
 	$sSol = $_GET["s"] ;
 	
 	$oData = cCuriosity::getAllSolData($sSol);
 	$aImages = $oData->images;
+	//cDebug::vardump($aImages);
 	
-	$aData = [];
+	$aData = [ "sol"=>$sSol, "cal"=>[]];
+
 	
 	foreach ($aImages as $oItem){
 		$sInstr = $oItem->instrument;
 		$sDateTime = $oItem->utc;
 
-		array_push($aData, ["i"=>$sInstr, "u"=>$sDateTime]);
 		//TBD create array of dates, hours and 15 mins
+		$aSplit = explode("T", $sDateTime);
+		$sDate = $aSplit[0];
+		if (! array_key_exists($sDate, $aData["cal"]))
+			$aData["cal"][$sDate] = [];
+		
+		$aSplit= explode(":", $aSplit[1]);
+		$min=floor($aSplit[1]/TIMESLOT) * TIMESLOT;
+		$sTimeKey = $aSplit[0].":".$min;
+		
+		if (! array_key_exists($sTimeKey, $aData["cal"][$sDate]))
+			$aData["cal"][$sDate][$sTimeKey] = [];
+		
+		array_push( $aData["cal"][$sDate][$sTimeKey], ["i"=>$sInstr, "d"=>$sDateTime, "p"=>$oItem->itemName]);
 	}
-	
-	echo json_encode($aData );
+	if (cDebug::$DEBUGGING)
+		cDebug::vardump($aData);
+	else
+		echo json_encode($aData );
 ?>
 
