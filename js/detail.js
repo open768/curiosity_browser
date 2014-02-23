@@ -91,6 +91,7 @@ function get_product_data( psSol, psInstr, psProd){
 //* call backs 
 //###############################################################
 function load_detail_callback(paJS){
+
 	var sLink, sMapLink, sURL;
 	set_status("received data...");
 
@@ -98,6 +99,11 @@ function load_detail_callback(paJS){
 	document.getElementById("sol").innerHTML = current_sol;
 	document.getElementById("product").innerHTML = "<a target='map' href='" + sMapLink + "'>" + current_product + "</a>";
 	document.getElementById("instrument").innerHTML = current_instrument;
+
+	if (paJS == null){
+		set_status("EMPTY DATA RESPONSE - <font color=red><b>ERROR?</b></font>");
+		return;
+	}
 	
 	current_date_lmst = paJS["dm"];
 	current_date_utc = paJS["du"];
@@ -132,7 +138,12 @@ function next_callback(poJson){
 //***************************************************************
 function OnImageLoaded(){
 	var iHeight= event.target.height;
+	var iWidth= (event.target.width/2) - 2;
 	document.getElementById("rbut").style.height=iHeight;
 	document.getElementById("lbut").style.height=iHeight;
+	document.getElementById("rbut_top").style.width=iWidth;
+	document.getElementById("lbut_top").style.width=iWidth;
+	document.getElementById("rbut_bot").style.width=iWidth;
+	document.getElementById("lbut_bot").style.width=iWidth;
 }
 

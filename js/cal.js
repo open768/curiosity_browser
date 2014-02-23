@@ -22,7 +22,10 @@ var current_date = null;
 //# Event Handlers
 //###############################################################
 function onClick(){
-	alert("not implemented yet");
+	var sInstr = event.target.attributes.i.value;
+	var sProduct = event.target.attributes.p.value;
+	var sURL = "detail.html?s=" + current_sol +"&i=" + sInstr + "&p=" +sProduct;
+	window.open(sURL, "detail");
 }
 
 //###############################################################
@@ -72,7 +75,7 @@ function load_cal_callback(paJS){
 	sHTML = "<table class='cal'>";
 		sHTML += "<tr><td></td>";
 			for (i=0; i<aHeadings.length; i++)
-				sHTML += "<TH class='caldate'>" + aHeadings[i] +"</TH>";
+				sHTML += "<TH class='caldate'>UTC:" + aHeadings[i] +"</TH>";
 		sHTML += "</tr>";
 		for (i=0; i<aTimes.length; i++){
 			sTKey = aTimes[i];
@@ -85,7 +88,8 @@ function load_cal_callback(paJS){
 						for (k=0; k<aItems.length; k++){
 							oItem = aItems[k];
 							sID = oItem.i + ":" + oItem.p ; //TBD
-							sHTML += "<button class='calbutton' id='"+ sID + "' onclick='onClick();'>"+oItem.i + "</button> ";
+							sHTML += "<button class='calbutton' i='" + oItem.i + "'p='" + oItem.p + "' onclick='onClick();'>"+oItem.i + "</button> ";
+							//sHTML += "<button class='calbutton' i='" + oItem.i + "'p='" + oItem.p + "' id='"+ sID + "' onclick='onClick();'>"+oItem.i + "</button> ";
 						}
 					}
 				sHTML += "</td>";

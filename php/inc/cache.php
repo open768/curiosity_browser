@@ -18,7 +18,7 @@ class Cache {
    *
    * @var string
    */
-  private $_cachepath = 'cache/';
+  private $_cachepath = '../cache/';
 
   /**
    * The name of the default cache file

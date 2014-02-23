@@ -53,26 +53,51 @@
 	<DIV class="gold">
 		Status: <span ID="status" class="status">Loading...</span>
 	</div>
-	<table border="0" class="gold"><tr>
-		<td>
-			<button id="lbut" onclick="onClickPrevious();" style="height:600">&lt;</button>
-		</td>
-		<td>
-			<div id="image">Image Loading</div>
-		</td>
-		<td>
-			<button id="rbut" onclick="OnClickNext();" style="height:600">&gt;</button>
-		</td>
-	</tr></table>
+	<table border="0" class="gold">
+		<tr>
+			<td></td>
+			<td>
+				<button id="lbut_top" onclick="onClickPrevious();" style="width:300">&lt;</button>
+				<button id="rbut_top" onclick="OnClickNext();" style="width:300">&gt;</button>
+			</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>
+				<button id="lbut" onclick="onClickPrevious();" style="height:600">&lt;</button>
+			</td>
+			<td>
+				<div id="image">Image Loading</div>
+			</td>
+			<td>
+				<button id="rbut" onclick="OnClickNext();" style="height:600">&gt;</button>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				<button id="lbut_bot" onclick="onClickPrevious();" style="width:300">&lt;</button>
+				<button id="rbut_bot" onclick="OnClickNext();" style="width:300">&gt;</button>
+			</td>
+			<td></td>
+		</tr>
+	</table>
 	
 	<p>
 	<h2>Product Page</h2>
 	<iframe id="label" width="1000" height="500">Label Loading...</iframe>
 	<P>
+	<!-- footer -->
+	<p class="credits">Data courtesy MSSS/MSL/NASA/JPL-Caltech.</p>
 	<div class="github">
-		We're on <img src="images/github_logo.png"> <a href="https://github.com/open768/curiosity_browser">https://github.com/open768/curiosity_browser</a>
-		<p>
-		<div class="fb-like" data-href="https://www.facebook.com/mars.features" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+		<table border="0" width="100%"><tr>
+			<td width="50"><a href="http://www.chickenkatsu.co.uk" target="chicken"><img src="images/chicken_icon.png"></a></td>
+			<td>
+				We're on <img src="images/github_logo.png"> <a href="https://github.com/open768/curiosity_browser">https://github.com/open768/curiosity_browser</a>
+				<p>
+				<div class="fb-like" data-href="https://www.facebook.com/mars.features" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+			</td>
+		</tr></table>
 	</div>
 </body>
 </html>

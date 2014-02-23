@@ -95,17 +95,17 @@ class cCuriosity{
 	public static function getInstrumentList(){
 		if (! self::$Instruments)
 			self::$Instruments = [ 
-				["name"=>"CHEMCAM_RMI","caption"=>"Chemistry Camera"],
-				["name"=>"FHAZ_LEFT_B","caption"=>"Left Front Hazard Avoidance Camera"],
-				["name"=>"FHAZ_RIGHT_B","caption"=>"Right Front Hazard Avoidance Camera"],
-				["name"=>"MAST_LEFT","caption"=>"MastCam Left"],
-				["name"=>"MAST_RIGHT","caption"=>"MastCam Right"],
-				["name"=>"MAHLI","caption"=>"Mars Hand Lens Imager"],
-				["name"=>"MARDI","caption"=>"Mars Descent Imager"],
-				["name"=>"NAV_LEFT_B","caption"=>"Left Navigation Camera"],
-				["name"=>"NAV_RIGHT_B","caption"=>"Right Navigation Camera"],
-				["name"=>"RHAZ_LEFT_B","caption"=>"Left Rear Hazard Avoidance Camera"],
-				["name"=>"RHAZ_RIGHT_B","caption"=>"Right Rear Hazard Avoidance Camera"]
+				["name"=>"CHEMCAM_RMI",	"colour"=>"red",	"abbr"=>"CC",	"caption"=>"Chemistry Camera"],
+				["name"=>"FHAZ_LEFT_B",	"colour"=>"green",	"abbr"=>"FL",	"caption"=>"Left Front Hazard Avoidance Camera"],
+				["name"=>"FHAZ_RIGHT_B","colour"=>"blue",	"abbr"=>"FR",	"caption"=>"Right Front Hazard Avoidance Camera"],
+				["name"=>"MAST_LEFT",	"colour"=>"white",	"abbr"=>"ML",	"caption"=>"MastCam Left"],
+				["name"=>"MAST_RIGHT",	"colour"=>"yellow",	"abbr"=>"MR",	"caption"=>"MastCam Right"],
+				["name"=>"MAHLI",		"colour"=>"cyan",	"abbr"=>"HL",	"caption"=>"Mars Hand Lens Imager"],
+				["name"=>"MARDI",		"colour"=>"magenta","abbr"=>"DI",	"caption"=>"Mars Descent Imager"],
+				["name"=>"NAV_LEFT_B",	"colour"=>"orange",	"abbr"=>"NL",	"caption"=>"Left Navigation Camera"],
+				["name"=>"NAV_RIGHT_B",	"colour"=>"black",	"abbr"=>"NR",	"caption"=>"Right Navigation Camera"],
+				["name"=>"RHAZ_LEFT_B",	"colour"=>"pink",	"abbr"=>"RL",	"caption"=>"Left Rear Hazard Avoidance Camera"],
+				["name"=>"RHAZ_RIGHT_B","colour"=>"purple",	"abbr"=>"RR",	"caption"=>"Right Rear Hazard Avoidance Camera"]
 			];
 		return self::$Instruments;
 	}
@@ -117,11 +117,13 @@ class cCuriosity{
 		$aImages=$oInstrumentData->data;
 		$oDetails =null;
 		
+		cDebug::write("looking for $psProduct");
 		foreach ($aImages as $aItem)
 			if ($aItem["p"] === $psProduct){
 				$oDetails = $aItem;
 				break;
-			}
+			}else
+				cDebug::write("not ".$aItem["p"]);
 		
 		return $oDetails;
 	}
