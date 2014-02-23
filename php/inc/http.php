@@ -38,5 +38,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		
 		return  $response;
 	}
+	
 }
 ?>

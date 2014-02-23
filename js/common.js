@@ -14,6 +14,12 @@ var DEBUG_ON = true;
 var query_string = getQueryString();
 const STATUS_ID = "status";
 
+var cHttp = {
+	fetch_json:function(psUrl, pfnCallBack){	
+		debug_console(psUrl);
+		RGraph.AJAX.getJSON(psUrl, pfnCallBack);
+	}
+}
 //***************************************************************
 function set_status(psStatus){
 	document.getElementById(STATUS_ID).innerHTML= psStatus;
@@ -21,11 +27,6 @@ function set_status(psStatus){
 
 }
 
-//***************************************************************
-function async_http_get(psUrl, pfnCallBack){
-	debug_console(psUrl);
-	RGraph.AJAX.getJSON(psUrl, pfnCallBack);
-}
 
 //###############################################################
 //# DEBUG

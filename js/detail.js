@@ -56,7 +56,7 @@ function onClickCal(){
 
 //***************************************************************
 function onClickSol(){
-	var sURL="index.html?sol="+ current_sol + "&instr=" + current_instrument;
+	var sURL="index.html?s="+ current_sol + "&i=" + current_instrument;
 	window.open(sURL, "index");
 }
 
@@ -84,41 +84,48 @@ function get_product_data( psSol, psInstr, psProd){
 	loading=true;
 	sUrl = "php/detail.php?s=" + psSol + "&i=" + psInstr +"&p=" + psProd;
 	set_status("fetching data for "+ psProd);
-	debug_console(sUrl);
-	RGraph.AJAX.getJSON(sUrl, load_detail_callback);
+	cHttp.fetch_json(sUrl, load_detail_callback);
 }
 //###############################################################
 //* call backs 
 //###############################################################
 function load_detail_callback(paJS){
 
-	var sLink, sMapLink, sURL;
+	var sLink, sMapLink, sURL, oData;
 	set_status("received data...");
+	
+	//rely upon what came back rather than the query string
+	current_sol = paJS.s;
+	current_instrument = paJS.i;
+	current_product = paJS.p;
+	
+	//update the address bar
+	sURL = getBaseURL() +"?s=" + current_sol + "&i=" + current_instrument + "&p=" + current_product;
+	window.history.pushState("", "Detail", sURL);
+	
+	//check whether there was any data
+	oData = paJS.d
+	if (oData == null){
+		set_status("EMPTY DATA RESPONSE - <font color=red><b>ERROR?</b></font>");
+		return;
+	}
 
+	//figure out the map link
 	sMapLink = "http://curiosityrover.com/imgpoint.php?name=" + current_product;
 	document.getElementById("sol").innerHTML = current_sol;
 	document.getElementById("product").innerHTML = "<a target='map' href='" + sMapLink + "'>" + current_product + "</a>";
 	document.getElementById("instrument").innerHTML = current_instrument;
 
-	if (paJS == null){
-		set_status("EMPTY DATA RESPONSE - <font color=red><b>ERROR?</b></font>");
-		return;
-	}
 	
-	current_date_lmst = paJS["dm"];
-	current_date_utc = paJS["du"];
+	current_date_lmst = oData.dm;
+	current_date_utc = oData.du;
 	document.getElementById("date_utc").innerHTML = current_date_utc;
 	document.getElementById("date_lmst").innerHTML = current_date_lmst;
-	document.getElementById("image_link").innerHTML = "<a target='nasa' href='"+ paJS["i"] + "'>" + paJS["i"] + "</a>";
-	document.getElementById("image").innerHTML = "<a target='nasa' href='"+ paJS["i"] + "'><img id='img' src='" + paJS["i"] + "' onload='OnImageLoaded()'></a>";
-	sURL = getBaseURL() +"?s=" + current_sol + "&i=" + current_instrument + "&p=" + current_product;
-	
-	window.history.pushState("", "Detail", sURL);
+	document.getElementById("image_link").innerHTML = "<a target='nasa' href='"+ oData.i + "'>" + oData.i + "</a>";
+	document.getElementById("image").innerHTML = "<a target='nasa' href='"+ oData.i + "'><img id='img' src='" + oData.i + "' onload='OnImageLoaded()'></a>";
 	document.getElementById("pagelink").innerHTML = "<a href='" + sURL + "'>"+ sURL + "</a>";
 	
-
-	
-	sLink = paJS["l"];
+	sLink = oData.l;
 	if (sLink=="UNK"){
 		document.getElementById("label_link").innerHTML = "No Product Label data found";
 		document.getElementById("label").innerHTML = "No Product Label data found";

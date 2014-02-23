@@ -41,7 +41,7 @@ class cInstrument{
 class cCuriosity{
 	const SOL_URL = "http://mars.jpl.nasa.gov/msl-raw-images/image/images_sol";
 	const FEED_URL = "http://mars.jpl.nasa.gov/msl-raw-images/image/image_manifest.json";
-	private static $Instruments;
+	private static $Instruments, $instrument_map;
 	
 	//*****************************************************************************
 	public  static function getAllSolData($psSol){
@@ -93,7 +93,8 @@ class cCuriosity{
 	
 	//*****************************************************************************
 	public static function getInstrumentList(){
-		if (! self::$Instruments)
+		if (! self::$Instruments){
+			// build instrument list
 			self::$Instruments = [ 
 				["name"=>"CHEMCAM_RMI",	"colour"=>"red",	"abbr"=>"CC",	"caption"=>"Chemistry Camera"],
 				["name"=>"FHAZ_LEFT_B",	"colour"=>"green",	"abbr"=>"FL",	"caption"=>"Left Front Hazard Avoidance Camera"],
@@ -107,13 +108,33 @@ class cCuriosity{
 				["name"=>"RHAZ_LEFT_B",	"colour"=>"pink",	"abbr"=>"RL",	"caption"=>"Left Rear Hazard Avoidance Camera"],
 				["name"=>"RHAZ_RIGHT_B","colour"=>"purple",	"abbr"=>"RR",	"caption"=>"Right Rear Hazard Avoidance Camera"]
 			];
+			// build associative array
+			self::$instrument_map = [];
+			foreach (self::$Instruments as $oInstr){
+				self::$instrument_map[$oInstr["name"]] = $oInstr;
+				self::$instrument_map[$oInstr["abbr"]] = $oInstr;
+			}
+			
+		}
 		return self::$Instruments;
 	}
 	
 	//*****************************************************************************
+	public static function getInstrumentAbbr($psInstr){
+		self::getInstrumentList();
+		return self::$instrument_map[$psInstr]["abbr"];
+	}
+
+	
+	//*****************************************************************************
 	public static function getProductDetails($psSol, $psInstrument, $psProduct){
 		
-		$oInstrumentData = cCuriosity::getSolData($psSol, $psInstrument);
+		//cehck if the instrument might be an abbreviation
+		self::getInstrumentList();
+		$sInstr = self::$instrument_map[$psInstrument]["name"];
+		
+		//get the data
+		$oInstrumentData = cCuriosity::getSolData($psSol, $sInstr);
 		$aImages=$oInstrumentData->data;
 		$oDetails =null;
 		
@@ -125,7 +146,7 @@ class cCuriosity{
 			}else
 				cDebug::write("not ".$aItem["p"]);
 		
-		return $oDetails;
+		return [ "s"=>$psSol, "i"=>$sInstr, "p"=>$psProduct, "d"=>$oDetails];
 	}
 
 }

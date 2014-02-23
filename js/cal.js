@@ -45,8 +45,7 @@ function get_calendar_data( psSol){
 	loading=true;
 	sUrl = "php/cal.php?s=" + psSol ;
 	set_status("fetching calendar data for sol:"+ psSol);
-	debug_console(sUrl);
-	RGraph.AJAX.getJSON(sUrl, load_cal_callback);
+	cHttp.fetch_json(sUrl, load_cal_callback);
 }
 //###############################################################
 //* call backs 

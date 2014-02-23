@@ -21,6 +21,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	$sSol = $_GET["s"] ;
 	
 	$oData = cCuriosity::getAllSolData($sSol);
+	
 	$aImages = $oData->images;
 	//cDebug::vardump($aImages);
 	
@@ -29,6 +30,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	
 	foreach ($aImages as $oItem){
 		$sInstr = $oItem->instrument;
+		$sInstrAbbr=cCuriosity::getInstrumentAbbr($sInstr);
 		$sDateTime = $oItem->utc;
 
 		//TBD create array of dates, hours and 15 mins
@@ -44,7 +46,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		if (! array_key_exists($sTimeKey, $aData["cal"][$sDate]))
 			$aData["cal"][$sDate][$sTimeKey] = [];
 		
-		array_push( $aData["cal"][$sDate][$sTimeKey], ["i"=>$sInstr, "d"=>$sDateTime, "p"=>$oItem->itemName]);
+		array_push( $aData["cal"][$sDate][$sTimeKey], ["i"=>$sInstrAbbr, "d"=>$sDateTime, "p"=>$oItem->itemName]);
 	}
 	if (cDebug::$DEBUGGING)
 		cDebug::vardump($aData);

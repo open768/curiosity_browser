@@ -136,8 +136,7 @@ function set_sol(psSol){
 //***************************************************************
 function mark_instruments(psSol){
 	sUrl = "php/instruments.php?s=" + psSol;
-	debug_console(sUrl);
-	RGraph.AJAX.getJSON(sUrl, mark_instruments_callback);
+	cHttp.fetch_json(sUrl, mark_instruments_callback);
 }
 
 //***************************************************************
@@ -188,8 +187,7 @@ function get_image_data( piSol, psInstr, piStart, piEnd){
 	loading=true;
 	sUrl = "php/images.php?s=" + piSol + "&i=" + psInstr +"&b=" + piStart + "&e=" + piEnd;
 	set_status("fetching image data...");
-	debug_console(sUrl);
-	RGraph.AJAX.getJSON(sUrl, load_images_callback);
+	cHttp.fetch_json(sUrl, load_images_callback);
 }
 
 //***************************************************************
@@ -202,10 +200,10 @@ function load_data(){
 		reset_image_number = false;
 	}
 		
-
 		
-	RGraph.AJAX.getJSON("php/instruments.php", load_instruments_callback);
-	RGraph.AJAX.getJSON("php/sols.php", load_sols_callback);
+	cHttp.fetch_json("php/instruments.php", load_instruments_callback);
+	cHttp.fetch_json("php/sols.php", load_sols_callback);
+
 }
 
 //###############################################################
