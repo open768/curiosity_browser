@@ -33,6 +33,10 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		$sInstrAbbr=cCuriosity::getInstrumentAbbr($sInstr);
 		$sDateTime = $oItem->utc;
 
+		//ignore thumbnails
+		if ($oItem->sampleType === "thumbnail")
+			continue;
+
 		//TBD create array of dates, hours and 15 mins
 		$aSplit = explode("T", $sDateTime);
 		$sDate = $aSplit[0];
