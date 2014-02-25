@@ -102,7 +102,7 @@ function mark_instrument(psInstr){
 
 //***************************************************************
 function set_instrument(psInstr){
-	debug_console("setting instrument: " + psInstr);
+	cDebug.write("setting instrument: " + psInstr);
 	current_instrument = psInstr;
 	reload_data();
 }
@@ -116,7 +116,7 @@ function mark_sol(psSol){
 	for ( sol_idx = 0; sol_idx<aSols.length; sol_idx++){
 		oSol = aSols[sol_idx];
 		if (oSol.value == psSol){
-			debug_console("found it");
+			cDebug.write("found it");
 			oSol.selected=true;
 			reload_after_instr = true;
 			set_sol(psSol);
@@ -127,7 +127,7 @@ function mark_sol(psSol){
 
 //***************************************************************
 function set_sol(psSol){
-	debug_console("setting sol: " + psSol);
+	cDebug.write("setting sol: " + psSol);
 	current_sol = psSol;
 	document.getElementById(SOL_ID).innerHTML = current_sol;
 	mark_instruments(current_sol);
@@ -180,7 +180,7 @@ function get_image_data( piSol, psInstr, piStart, piEnd){
 	var sUrl;
 	
 	// update the content in the address bar
-	sUrl = getBaseURL() +"?s=" + current_sol + "&i=" + current_instrument +"&b=" + piStart;
+	sUrl = cBrowser.baseUrl() +"?s=" + current_sol + "&i=" + current_instrument +"&b=" + piStart;
 	window.history.pushState("", "Detail", sUrl);
 	
 	// load the image data
@@ -193,10 +193,10 @@ function get_image_data( piSol, psInstr, piStart, piEnd){
 //***************************************************************
 function load_data(){
 	set_status("loading static data...");
-	if (query_string[MAXIMAGES_QUERYSTRING] )
-		HOW_MANY_IMAGES = parseInt(query_string[MAXIMAGES_QUERYSTRING]);
-	if (query_string[IMAGE_QUERYSTRING] ){
-		current_image_index = query_string[IMAGE_QUERYSTRING];
+	if (cBrowser.data[MAXIMAGES_QUERYSTRING] )
+		HOW_MANY_IMAGES = parseInt(cBrowser.data[MAXIMAGES_QUERYSTRING]);
+	if (cBrowser.data[IMAGE_QUERYSTRING] ){
+		current_image_index = cBrowser.data[IMAGE_QUERYSTRING];
 		reset_image_number = false;
 	}
 		
@@ -214,7 +214,7 @@ function load_sols_callback(paJS){
 	
 	oList = document.getElementById(SOLS_LIST);
 	oList.innerHTML = "";
-	debug_console(oList);
+	cDebug.write(oList);
 	
 	sHTML = ""
 	for (iIndex = 0; iIndex < paJS.length; iIndex++){
@@ -225,8 +225,8 @@ function load_sols_callback(paJS){
 	oList.innerHTML = sHTML;
 	
 	// mark the sol
-	if (query_string[SOL_QUERYSTRING] ) 
-		mark_sol(query_string[SOL_QUERYSTRING]);
+	if (cBrowser.data[SOL_QUERYSTRING] ) 
+		mark_sol(cBrowser.data[SOL_QUERYSTRING]);
 	
 }
 
@@ -244,8 +244,8 @@ function load_instruments_callback(paJS){
 	set_status("ready");
 
 	//click the buttons if stuff was passed in the query string
-	if (query_string[INSTR_QUERYSTRING] ) 
-		mark_instrument(query_string[INSTR_QUERYSTRING]);
+	if (cBrowser.data[INSTR_QUERYSTRING] ) 
+		mark_instrument(cBrowser.data[INSTR_QUERYSTRING]);
 
 }
 

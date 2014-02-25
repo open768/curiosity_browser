@@ -32,7 +32,7 @@ function OnClickNext(){
 	
 	sUrl = "php/next.php?d=n&s=" + current_sol + "&i=" + current_instrument +"&p=" + current_product;
 	set_status("fetching next image details...");
-	async_http_get(sUrl, next_callback);
+	cHttp.fetch_json(sUrl, next_callback);
 }
 
 //***************************************************************
@@ -42,7 +42,7 @@ function onClickPrevious(){
 	
 	sUrl = "php/next.php?d=p&s=" + current_sol + "&i=" + current_instrument +"&p=" + current_product;
 	set_status("fetching previous image details...");
-	async_http_get(sUrl, next_callback);
+	cHttp.fetch_json(sUrl, next_callback);
 }
 
 //***************************************************************
@@ -70,7 +70,7 @@ function onClickInstr(){
 //###############################################################
 function load_data(){
 	
-	get_product_data( query_string[SOL_QUERYSTRING], query_string[INSTR_QUERYSTRING], query_string[PRODUCT_QUERYSTRING]);
+	get_product_data( cBrowser.data[SOL_QUERYSTRING], cBrowser.data[INSTR_QUERYSTRING], cBrowser.data[PRODUCT_QUERYSTRING]);
 }
 
 //***************************************************************
@@ -100,7 +100,7 @@ function load_detail_callback(paJS){
 	current_product = paJS.p;
 	
 	//update the address bar
-	sURL = getBaseURL() +"?s=" + current_sol + "&i=" + current_instrument + "&p=" + current_product;
+	sURL = cBrowser.baseUrl() +"?s=" + current_sol + "&i=" + current_instrument + "&p=" + current_product;
 	window.history.pushState("", "Detail", sURL);
 	
 	//check whether there was any data
@@ -139,7 +139,7 @@ function load_detail_callback(paJS){
 
 //***************************************************************
 function next_callback(poJson){
-	get_product_data( current_sol, current_instrument, poJson["p"]);
+	get_product_data( poJson.s, current_instrument, poJson.d.p);
 }
 
 //***************************************************************

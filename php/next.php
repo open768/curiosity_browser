@@ -43,11 +43,29 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	else{
 		if ($sDirection === "p"){
 			$iFound--;
-			if ($iFound <0) $iFound = $iCount-1;
+			if ($iFound <0) {
+				cDebug::write("rolled off the beginning of the sol");
+				if ($sSol >0){
+					$sSol--;
+					cDebug::write("going to sol $sSol");
+					$oInstrumentData = cCuriosity::getSolData($sSol, $sInstrument);
+					$aImages=$oInstrumentData->data;
+					$iFound = count($aImages)-1;
+				}else{
+					cDebug::write("going to last item of current sol");
+					$iFound = $iCount -1;
+				}
+			}
 		}else{
 			$iFound++;
-			if ($iFound >= $iCount) $iFound = 0;
+			if ($iFound >= $iCount) {
+				//move to next sol
+				$iFound = 0;
+				$sSol ++;
+				$oInstrumentData = cCuriosity::getSolData($sSol, $sInstrument);
+				$aImages=$oInstrumentData->data;
+			};
 		}
-		echo json_encode($aImages[$iFound]);
+		echo json_encode(["s"=>$sSol, "d"=>$aImages[$iFound]]);
 	}
 ?>

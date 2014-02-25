@@ -32,7 +32,7 @@ function onClick(){
 //# Utility functions 
 //###############################################################
 function load_data(){
-	get_calendar_data( query_string[SOL_QUERYSTRING]);
+	get_calendar_data( cBrowser.data[SOL_QUERYSTRING]);
 }
 
 //***************************************************************

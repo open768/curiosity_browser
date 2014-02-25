@@ -11,33 +11,32 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 var DEBUG_ON = true;
-var query_string = getQueryString();
 const STATUS_ID = "status";
 
+//###############################################################
+//# HTTP
+//###############################################################
 var cHttp = {
 	fetch_json:function(psUrl, pfnCallBack){	
-		debug_console(psUrl);
+		cDebug.write(psUrl);
 		RGraph.AJAX.getJSON(psUrl, pfnCallBack);
 	}
 }
-//***************************************************************
-function set_status(psStatus){
-	document.getElementById(STATUS_ID).innerHTML= psStatus;
-	debug_console("status: " + psStatus);
-
-}
-
 
 //###############################################################
 //# DEBUG
 //###############################################################
-function debug_console(psMessage){
-	if (DEBUG_ON && console) console.log("DEBUG> " + psMessage);
+var cDebug = {
+	write:function(psMessage){
+		if (DEBUG_ON && console) console.log("DEBUG> " + psMessage);
+	}
 }
 
+
 //***************************************************************
-function write_console(psMessage){
-	if (console) console.log(psMessage);
+function set_status(psStatus){
+	document.getElementById(STATUS_ID).innerHTML= psStatus;
+	cDebug.write("status: " + psStatus);
 }
 
 //***************************************************************
@@ -49,7 +48,7 @@ function getRadioButtonValue(psID){
 	for (var i = 0; i<oRadios.length; i++){
 		oRadio = oRadios[i];
 		if (oRadio.checked) {
-			debug_console("found a checked radio");
+			cDebug.write("found a checked radio");
 			sValue = oRadio.value;
 			break;
 		}
@@ -58,19 +57,26 @@ function getRadioButtonValue(psID){
 	return sValue;
 }
 
-//***************************************************************
-function getQueryString() {
-    var result = {}, keyValuePairs = location.search.slice(1).split('&');
+//###############################################################
+//# BROWSER
+//###############################################################
+cBrowser = {
+	data:null,
+	
+	init:function (){
+		var result = {}, keyValuePairs = location.search.slice(1).split('&');
 
-    keyValuePairs.forEach(function(keyValuePair) {
-        keyValuePair = keyValuePair.split('=');
-        result[keyValuePair[0]] = keyValuePair[1] || '';
-    });
+		keyValuePairs.forEach(function(keyValuePair) {
+			keyValuePair = keyValuePair.split('=');
+			result[keyValuePair[0]] = keyValuePair[1] || '';
+		});
 
-    return result;
+		this.data = result;
+	},
+	
+	baseUrl:function(){
+		return document.URL.split("?")[0];
+	}
 }
+cBrowser.init();
 
-//***************************************************************
-function getBaseURL(){
-	return document.URL.split("?")[0];
-}
