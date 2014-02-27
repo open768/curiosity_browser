@@ -13,18 +13,10 @@
 
 class Cache {
 
-  /**
-   * The path to the cache file folder
-   *
-   * @var string
-   */
+  /* The path to the cache file folder   */
   private $_cachepath = '../cache/';
 
-  /**
-   * The name of the default cache file
-   *
-   * @var string
-   */
+  /* The name of the default cache file   */
   private $_cachename = 'default';
 
   /**
@@ -33,6 +25,7 @@ class Cache {
    * @var string
    */
   private $_extension = '.cache';
+  public $_hash_filename = true;			//added flag to control hashing
 
   /**
    * Default constructor
@@ -205,7 +198,8 @@ class Cache {
     if (true === $this->_checkCacheDir()) {
       $filename = $this->getCache();
       $filename = preg_replace('/[^0-9a-z\.\_\-]/i', '', strtolower($filename));
-      return $this->getCachePath() . $this->_getHash($filename) . $this->getExtension();
+	  if ($this->_hash_filename) $filename = $this->_getHash($filename);
+      return $this->getCachePath() . $filename . $this->getExtension();
     }
   }
 

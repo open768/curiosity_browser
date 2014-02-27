@@ -47,6 +47,7 @@ class cCuriosity{
 	public  static function getAllSolData($psSol){
 		$url=cCuriosity::SOL_URL."${psSol}.json";
 		cDebug::write("Getting sol data from: ".$url);
+		cCachedHttp::setCacheFile($psSol);
 		return cCachedHttp::getCachedJson($url);
 	}
 	
@@ -72,6 +73,7 @@ class cCuriosity{
 	//*****************************************************************************
 	public static function getManifest(){
 		cDebug::write("Getting sol manifest  from: ".self::FEED_URL);
+		cCachedHttp::setCacheFile("manifest");
 		return cCachedHttp::getCachedJson(self::FEED_URL);
 	}
 	
@@ -139,14 +141,17 @@ class cCuriosity{
 		$oDetails =null;
 		
 		cDebug::write("looking for $psProduct");
-		foreach ($aImages as $aItem)
+		$iCount = count($aImages);
+		for ($i=0; $i<$iCount ; $i++){
+			$aItem = $aImages[$i];
 			if ($aItem["p"] === $psProduct){
 				$oDetails = $aItem;
 				break;
 			}else
 				cDebug::write("not ".$aItem["p"]);
+		}
 		
-		return [ "s"=>$psSol, "i"=>$sInstr, "p"=>$psProduct, "d"=>$oDetails];
+		return [ "s"=>$psSol, "i"=>$sInstr, "p"=>$psProduct, "d"=>$oDetails, "max"=>$iCount, "item"=>$i+1];
 	}
 
 }

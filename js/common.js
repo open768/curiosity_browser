@@ -11,7 +11,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 var DEBUG_ON = true;
-const STATUS_ID = "status";
+var STATUS_ID = "status";
 
 //###############################################################
 //# HTTP
@@ -76,6 +76,11 @@ cBrowser = {
 	
 	baseUrl:function(){
 		return document.URL.split("?")[0];
+	},
+	
+	pushState:function(psTitle, psUrl){
+		if (window.history.pushState)
+			window.history.pushState("", psTitle, psUrl);
 	}
 }
 cBrowser.init();

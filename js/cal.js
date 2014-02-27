@@ -12,8 +12,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 var DEBUG_ON = true;
 var loading = true;
-const SOL_QUERYSTRING = "s";
-const DATE_QUERYSTRING = "d";
+var SOL_QUERYSTRING = "s";
+var DATE_QUERYSTRING = "d";
 
 var current_sol = null;
 var current_date = null;

@@ -12,9 +12,9 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 var DEBUG_ON = true;
 var loading = true;
-const SOL_QUERYSTRING = "s";
-const INSTR_QUERYSTRING = "i";
-const PRODUCT_QUERYSTRING = "p";
+var SOL_QUERYSTRING = "s";
+var INSTR_QUERYSTRING = "i";
+var PRODUCT_QUERYSTRING = "p";
 
 var current_sol = null;
 var current_instrument = null;
@@ -99,9 +99,13 @@ function load_detail_callback(paJS){
 	current_instrument = paJS.i;
 	current_product = paJS.p;
 	
+	//update the title
+	document.title = "Curiosity Browser - details - sol:" + current_sol + " instrument:" + current_instrument;
+	
 	//update the address bar
 	sURL = cBrowser.baseUrl() +"?s=" + current_sol + "&i=" + current_instrument + "&p=" + current_product;
-	window.history.pushState("", "Detail", sURL);
+	cBrowser.pushState("Detail", sURL);
+	document.getElementById("pagelink").innerHTML = sURL;
 	
 	//check whether there was any data
 	oData = paJS.d
@@ -110,11 +114,17 @@ function load_detail_callback(paJS){
 		return;
 	}
 
+	
+	//update image index details
+	document.getElementById("img_index").innerHTML = paJS.item;
+	document.getElementById("max_images").innerHTML = paJS.max;
+
+	document.getElementById("sol").innerHTML = current_sol;
+	document.getElementById("instrument").innerHTML = current_instrument;
+	
 	//figure out the map link
 	sMapLink = "http://curiosityrover.com/imgpoint.php?name=" + current_product;
-	document.getElementById("sol").innerHTML = current_sol;
-	document.getElementById("product").innerHTML = "<a target='map' href='" + sMapLink + "'>" + current_product + "</a>";
-	document.getElementById("instrument").innerHTML = current_instrument;
+	document.getElementById("maplink").innerHTML = "<a target='map' href='" + sMapLink + "'>" + current_product + "</a>";
 
 	
 	current_date_lmst = oData.dm;
@@ -123,7 +133,6 @@ function load_detail_callback(paJS){
 	document.getElementById("date_lmst").innerHTML = current_date_lmst;
 	document.getElementById("image_link").innerHTML = "<a target='nasa' href='"+ oData.i + "'>" + oData.i + "</a>";
 	document.getElementById("image").innerHTML = "<a target='nasa' href='"+ oData.i + "'><img id='img' src='" + oData.i + "' onload='OnImageLoaded()'></a>";
-	document.getElementById("pagelink").innerHTML = "<a href='" + sURL + "'>"+ sURL + "</a>";
 	
 	sLink = oData.l;
 	if (sLink=="UNK"){
@@ -145,7 +154,7 @@ function next_callback(poJson){
 //***************************************************************
 function OnImageLoaded(){
 	var iHeight= event.target.height;
-	var iWidth= (event.target.width/2) - 2;
+	var iWidth= (event.target.width/2) - 4;
 	document.getElementById("rbut").style.height=iHeight;
 	document.getElementById("lbut").style.height=iHeight;
 	document.getElementById("rbut_top").style.width=iWidth;

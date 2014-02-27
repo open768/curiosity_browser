@@ -16,17 +16,30 @@ require_once("inc/http.php");
 require_once("inc/debug.php");
 
 // TODO use a different cache mechanism that doesnt store everything in one file
-// it uses md5 hashing to work out the filename
 
 class cCachedHttp{
 	const CACHE_EXPIRY = 3600;
 	private static $oCache = null;
+	private static $sCacheFile = null;
+	public static $fileHashing = true;
+
 
 	//*****************************************************************************
-	private static function getCache(){
+	public static function setCacheFile($psCacheFile){	
+		self::$sCacheFile = $psCacheFile;	
+		self::$fileHashing = false;
+	}
+	
+	//*****************************************************************************
+	private static function getCacheObj(){
 		if (! self::$oCache) {
-			self::$oCache = new Cache();
-			self::$oCache->eraseExpired();
+			$oCache = new Cache();
+			if (self::$sCacheFile)
+				$oCache->setCache(self::$sCacheFile);
+			$oCache->_hash_filename = self::$fileHashing;
+			
+			$oCache->eraseExpired();
+			self::$oCache = $oCache;
 		}
 		return self::$oCache;
 	}
@@ -35,7 +48,7 @@ class cCachedHttp{
 	public static function getCachedJson($psURL){
 		
 		// create cache object and erase anything expired
-		$oCache = self::getCache();
+		$oCache = self::getCacheObj();
 		
 		//get the curiosity data
 		if ($oCache->isCached($psURL)){

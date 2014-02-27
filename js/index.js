@@ -13,22 +13,22 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 var DEBUG_ON = true;
 var loading = true;
-const SOLS_LIST = "sol_list";
-const INSTRUMENT_DIV = "instruments";
-const INSTRUMENT_RADIO = "IR";
-const MAX_ID="max";
-const MAX_ID2="max2";
-const CURRENT_ID = "current";
-const CURRENT_ID2 = "current2";
-const IMAGE_ID="images";
-const SOL_ID = "this_sol";
-const SOL_QUERYSTRING = "s";
-const INSTR_QUERYSTRING = "i";
-const MAXIMAGES_QUERYSTRING = "m";
-const IMAGE_QUERYSTRING = "b";
+var SOLS_LIST = "sol_list";
+var INSTRUMENT_DIV = "instruments";
+var INSTRUMENT_RADIO = "IR";
+var MAX_ID="max";
+var MAX_ID2="max2";
+var CURRENT_ID = "current";
+var CURRENT_ID2 = "current2";
+var IMAGE_ID="images";
+var SOL_ID = "this_sol";
+var SOL_QUERYSTRING = "s";
+var INSTR_QUERYSTRING = "i";
+var MAXIMAGES_QUERYSTRING = "m";
+var IMAGE_QUERYSTRING = "b";
 
-const RADIO_BACK_COLOUR = "gold";
-const BODY_COLOUR = "LemonChiffon";
+var RADIO_BACK_COLOUR = "gold";
+var BODY_COLOUR = "LemonChiffon";
 
 var HOW_MANY_IMAGES = 5;
 var current_image_index = 0;
@@ -181,7 +181,7 @@ function get_image_data( piSol, psInstr, piStart, piEnd){
 	
 	// update the content in the address bar
 	sUrl = cBrowser.baseUrl() +"?s=" + current_sol + "&i=" + current_instrument +"&b=" + piStart;
-	window.history.pushState("", "Detail", sUrl);
+	cBrowser.pushState("Detail", sUrl);
 	
 	// load the image data
 	loading=true;
@@ -262,6 +262,9 @@ function load_images_callback(paJS){
 	if (paJS.max == 0)
 		sHTML = "No instrument data found";
 	else{
+		//update title
+		document.title = "Curiosity Browser - index - sol:" + current_sol + " instrument:" + current_instrument;
+		
 		// update the maximum display
 		max_images = parseInt(paJS.max);
 		document.getElementById(MAX_ID).innerHTML= max_images;
