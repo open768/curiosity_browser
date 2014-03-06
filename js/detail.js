@@ -65,6 +65,11 @@ function onClickInstr(){
 	onClickSol();
 }
 
+//***************************************************************
+function onAddTag(){
+	alert ("not implemented");
+}
+
 //###############################################################
 //# Utility functions 
 //###############################################################
@@ -114,6 +119,14 @@ function load_detail_callback(paJS){
 		return;
 	}
 
+	//tags 
+	if (!paJS.tags)
+		document.getElementById("tags").innerHTML = "no Tags - be the first to add one";
+	else{
+		document.getElementById("tags").innerHTML = paJS.tags;
+		//not full implemented!
+	}
+		
 	
 	//update image index details
 	document.getElementById("img_index").innerHTML = paJS.item;
@@ -126,12 +139,13 @@ function load_detail_callback(paJS){
 	sMapLink = "http://curiosityrover.com/imgpoint.php?name=" + current_product;
 	document.getElementById("maplink").innerHTML = "<a target='map' href='" + sMapLink + "'>" + current_product + "</a>";
 
-	
+	//populate the remaining fields
 	current_date_lmst = oData.dm;
 	current_date_utc = oData.du;
 	document.getElementById("date_utc").innerHTML = current_date_utc;
 	document.getElementById("date_lmst").innerHTML = current_date_lmst;
 	document.getElementById("image_link").innerHTML = "<a target='nasa' href='"+ oData.i + "'>" + oData.i + "</a>";
+	document.getElementById("msldata").innerHTML = "<pre>" + cDebug.vardump(oData.data,1) + "</pre>";
 	document.getElementById("image").innerHTML = "<a target='nasa' href='"+ oData.i + "'><img id='img' src='" + oData.i + "' onload='OnImageLoaded()'></a>";
 	
 	sLink = oData.l;
@@ -143,7 +157,7 @@ function load_detail_callback(paJS){
 		document.getElementById("label").src = sLink;
 	}
 
-	set_status("OK");
+	set_status("Image Loading");
 }
 
 //***************************************************************
@@ -155,11 +169,17 @@ function next_callback(poJson){
 function OnImageLoaded(){
 	var iHeight= event.target.height;
 	var iWidth= (event.target.width/2) - 4;
+	
+	cDebug.write("setting button sizes");
+	cDebug.write("width: " + iWidth);
+	cDebug.write("height: " + iHeight);
+	
 	document.getElementById("rbut").style.height=iHeight;
 	document.getElementById("lbut").style.height=iHeight;
 	document.getElementById("rbut_top").style.width=iWidth;
 	document.getElementById("lbut_top").style.width=iWidth;
 	document.getElementById("rbut_bot").style.width=iWidth;
 	document.getElementById("lbut_bot").style.width=iWidth;
+	set_status("OK");
 }
 

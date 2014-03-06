@@ -4,6 +4,7 @@
 	<title>Curiosity Browser - details</title>
 	<script src="js/detail.js"></script>
 	<script src="js/common.js"></script>
+	<script src="js/tagging.js"></script>
 	<script src="js/rgraph/RGraph.common.core.js"></script>
 </head>
 <body onload="load_data();">
@@ -50,6 +51,9 @@
 	<DIV class="gold">
 		Status: <span ID="status" class="status">Loading...</span>
 	</div>
+	<DIV class="gold">
+		Tags: <span ID="tags">Loading...</span> <input type="text" size=10 id="tagtext"><button onclick="onAddTag();">Add</button>
+	</div>
 	<table border="0" class="gold">
 		<tr>
 			<td></td>
@@ -79,8 +83,11 @@
 			<td></td>
 		</tr>
 	</table>
-	
 	<p>
+	<DIV class="gold" ID="msldata">
+		loading MSL data
+	</div>
+
 	<h2>Product Page</h2>
 	<iframe id="label" width="1000" height="500">Label Loading...</iframe>
 	<P>

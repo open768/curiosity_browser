@@ -20,14 +20,15 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 	$sSol = $_GET["s"] ;
 	
+	cDebug::write("getting instruments");
+	$oInstruments = cCuriosity::getInstrumentList();
 	$oData = cCuriosity::getAllSolData($sSol);
-	
 	$aImages = $oData->images;
-	//cDebug::vardump($aImages);
 	
-	$aData = [ "sol"=>$sSol, "cal"=>[]];
+	$aData = [ "sol"=>$sSol, "cal"=>[], "instr"=>$oInstruments];
 
 	
+	cDebug::write("processing images");
 	foreach ($aImages as $oItem){
 		$sInstr = $oItem->instrument;
 		$sInstrAbbr=cCuriosity::getInstrumentAbbr($sInstr);
@@ -37,7 +38,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		if ($oItem->sampleType === "thumbnail")
 			continue;
 
-		//TBD create array of dates, hours and 15 mins
+		//create array of dates, hours and 15 mins
 		$aSplit = explode("T", $sDateTime);
 		$sDate = $aSplit[0];
 		if (! array_key_exists($sDate, $aData["cal"]))
@@ -52,6 +53,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		
 		array_push( $aData["cal"][$sDate][$sTimeKey], ["i"=>$sInstrAbbr, "d"=>$sDateTime, "p"=>$oItem->itemName]);
 	}
+	
 	if (cDebug::$DEBUGGING)
 		cDebug::vardump($aData);
 	else

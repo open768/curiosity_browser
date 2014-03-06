@@ -17,6 +17,7 @@ var DATE_QUERYSTRING = "d";
 
 var current_sol = null;
 var current_date = null;
+var oColours = {};
 
 //###############################################################
 //# Event Handlers
@@ -51,11 +52,24 @@ function get_calendar_data( psSol){
 //* call backs 
 //###############################################################
 function load_cal_callback(paJS){
-	var sSol, aDates, aHeadings, aTimes, i,j,k, sDKey, sTKey, sHTML, aItems, oItem, sID;
+	var sSol, aDates, aHeadings, aTimes, i,j,k, sDKey, sTKey, sHTML, aItems, oItem, sID, sColour;
+	var aInstr, oInstr;
+	
 	set_status("received data...");
 
 	sSol = paJS.sol;
 	aDates = paJS.cal;
+	aInstr = paJS.instr;
+	
+	//display the colours and build the colour array
+	sHTML = "";
+	for (i=0 ; i<aInstr.length; i++){
+		oInstr = aInstr[i];
+		sHTML += "<span class='greybox'>" + oInstr.name + " <span  style='background-color:" + oInstr.colour + "'>&nbsp;&nbsp;&nbsp;</span></span> ";
+		oColours[oInstr.abbr] = oInstr.colour;
+	}
+	document.getElementById("colours").innerHTML = sHTML;
+	
 	
 	// get the headings
 	aHeadings=Array();
@@ -86,9 +100,8 @@ function load_cal_callback(paJS){
 						aItems = aDates[sDKey][sTKey];
 						for (k=0; k<aItems.length; k++){
 							oItem = aItems[k];
-							sID = oItem.i + ":" + oItem.p ; //TBD
-							sHTML += "<button class='calbutton' i='" + oItem.i + "'p='" + oItem.p + "' onclick='onClick();'>"+oItem.i + "</button> ";
-							//sHTML += "<button class='calbutton' i='" + oItem.i + "'p='" + oItem.p + "' id='"+ sID + "' onclick='onClick();'>"+oItem.i + "</button> ";
+							sColour = oColours[oItem.i];
+							sHTML += "<button class='calbutton' style='background-color:"+ sColour +"' i='" + oItem.i + "'p='" + oItem.p + "' onclick='onClick();' title='" + oItem.i + "'>&nbsp;</button>";
 						}
 					}
 				sHTML += "</td>";

@@ -12,6 +12,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 require_once("inc/cached_http.php");
+require_once("inc/tags.php");
 
 //##########################################################################
 class cInstrument{
@@ -32,7 +33,9 @@ class cInstrument{
 				"dm"=>$poCuriosityData->lmst, 
 				"i"=>$poCuriosityData->urlList, 
 				"p"=>$poCuriosityData->itemName, 
-				"l"=>$poCuriosityData->pdsLabelUrl
+				"l"=>$poCuriosityData->pdsLabelUrl,
+				"data"=>$poCuriosityData
+				
 			]);
 	}
 }
@@ -44,7 +47,7 @@ class cCuriosity{
 	private static $Instruments, $instrument_map;
 	
 	//*****************************************************************************
-	public  static function getAllSolData($psSol){
+	public static function getAllSolData($psSol){
 		$url=cCuriosity::SOL_URL."${psSol}.json";
 		cDebug::write("Getting sol data from: ".$url);
 		cCachedHttp::setCacheFile($psSol);
@@ -72,7 +75,7 @@ class cCuriosity{
 	
 	//*****************************************************************************
 	public static function getManifest(){
-		cDebug::write("Getting sol manifest  from: ".self::FEED_URL);
+		cDebug::write("Getting sol manifest from: ".self::FEED_URL);
 		cCachedHttp::setCacheFile("manifest");
 		return cCachedHttp::getCachedJson(self::FEED_URL);
 	}
@@ -87,7 +90,7 @@ class cCuriosity{
 		$aImages = $oData->images;
 		
 		foreach ($aImages as $oItem)
-			if  (!in_array($oItem->instrument, $aResults))
+			if (!in_array($oItem->instrument, $aResults))
 				array_push($aResults, $oItem->instrument);
 		
 		return $aResults;
@@ -98,17 +101,23 @@ class cCuriosity{
 		if (! self::$Instruments){
 			// build instrument list
 			self::$Instruments = [ 
-				["name"=>"CHEMCAM_RMI",	"colour"=>"red",	"abbr"=>"CC",	"caption"=>"Chemistry Camera"],
-				["name"=>"FHAZ_LEFT_B",	"colour"=>"green",	"abbr"=>"FL",	"caption"=>"Left Front Hazard Avoidance Camera"],
-				["name"=>"FHAZ_RIGHT_B","colour"=>"blue",	"abbr"=>"FR",	"caption"=>"Right Front Hazard Avoidance Camera"],
+				["name"=>"CHEMCAM_RMI",	"colour"=>"red",	"abbr"=>"CC",	"caption"=>"Chemistry "],
+				["name"=>"FHAZ_LEFT_A",	"colour"=>"green",	"abbr"=>"FLa",	"caption"=>"Left Front Hazard Avoidance (A)"],
+				["name"=>"FHAZ_RIGHT_A","colour"=>"steelblue",	"abbr"=>"FRa",	"caption"=>"Right Front Hazard Avoidance (A)"],
+				["name"=>"FHAZ_LEFT_B",	"colour"=>"lime",	"abbr"=>"FLb",	"caption"=>"Left Front Hazard Avoidance (B)"],
+				["name"=>"FHAZ_RIGHT_B","colour"=>"blue",	"abbr"=>"FRb",	"caption"=>"Right Front Hazard Avoidance (B)"],
 				["name"=>"MAST_LEFT",	"colour"=>"white",	"abbr"=>"ML",	"caption"=>"MastCam Left"],
 				["name"=>"MAST_RIGHT",	"colour"=>"yellow",	"abbr"=>"MR",	"caption"=>"MastCam Right"],
 				["name"=>"MAHLI",		"colour"=>"cyan",	"abbr"=>"HL",	"caption"=>"Mars Hand Lens Imager"],
 				["name"=>"MARDI",		"colour"=>"magenta","abbr"=>"DI",	"caption"=>"Mars Descent Imager"],
-				["name"=>"NAV_LEFT_B",	"colour"=>"orange",	"abbr"=>"NL",	"caption"=>"Left Navigation Camera"],
-				["name"=>"NAV_RIGHT_B",	"colour"=>"black",	"abbr"=>"NR",	"caption"=>"Right Navigation Camera"],
-				["name"=>"RHAZ_LEFT_B",	"colour"=>"pink",	"abbr"=>"RL",	"caption"=>"Left Rear Hazard Avoidance Camera"],
-				["name"=>"RHAZ_RIGHT_B","colour"=>"purple",	"abbr"=>"RR",	"caption"=>"Right Rear Hazard Avoidance Camera"]
+				["name"=>"NAV_LEFT_A",	"colour"=>"tomato",	"abbr"=>"NLa",	"caption"=>"Left Navigation (A)"],
+				["name"=>"NAV_RIGHT_A",	"colour"=>"gray",	"abbr"=>"NRa",	"caption"=>"Right Navigation (A)"],
+				["name"=>"NAV_LEFT_B",	"colour"=>"orange",	"abbr"=>"NLb",	"caption"=>"Left Navigation (B)"],
+				["name"=>"NAV_RIGHT_B",	"colour"=>"black",	"abbr"=>"NRb",	"caption"=>"Right Navigation (B)"],
+				["name"=>"RHAZ_LEFT_A",	"colour"=>"pink",	"abbr"=>"RLa",	"caption"=>"Left Rear Hazard Avoidance (A)"],
+				["name"=>"RHAZ_RIGHT_A","colour"=>"purple",	"abbr"=>"RRa",	"caption"=>"Right Rear Hazard Avoidance (A)"],
+				["name"=>"RHAZ_LEFT_B",	"colour"=>"fuschia",	"abbr"=>"RLb",	"caption"=>"Left Rear Hazard Avoidance (B)"],
+				["name"=>"RHAZ_RIGHT_B","colour"=>"indigo",	"abbr"=>"RRb",	"caption"=>"Right Rear Hazard Avoidance (B)"]
 			];
 			// build associative array
 			self::$instrument_map = [];
@@ -127,6 +136,10 @@ class cCuriosity{
 		return self::$instrument_map[$psInstr]["abbr"];
 	}
 
+	//*****************************************************************************
+	public static function getTagKey($psSol, $psInstrument, $psProduct){
+		return "CURI.$psSol.$psInstrument.$psProduct";
+	}
 	
 	//*****************************************************************************
 	public static function getProductDetails($psSol, $psInstrument, $psProduct){
@@ -146,12 +159,18 @@ class cCuriosity{
 			$aItem = $aImages[$i];
 			if ($aItem["p"] === $psProduct){
 				$oDetails = $aItem;
+				cDebug::write("found $psProduct");
 				break;
-			}else
-				cDebug::write("not ".$aItem["p"]);
+			}
 		}
 		
-		return [ "s"=>$psSol, "i"=>$sInstr, "p"=>$psProduct, "d"=>$oDetails, "max"=>$iCount, "item"=>$i+1];
+		//get the tags
+		$sKey = self::getTagKey($psSol, $psInstrument, $psProduct);
+		cDebug::write("tag key $sKey");
+		$aTags = cTags::getTags($sKey);
+		
+		//return the result
+		return [ "s"=>$psSol, "i"=>$sInstr, "p"=>$psProduct, "d"=>$oDetails, "max"=>$iCount, "item"=>$i+1, "tags"=>$aTags];
 	}
 
 }

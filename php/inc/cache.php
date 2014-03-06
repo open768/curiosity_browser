@@ -14,7 +14,7 @@
 class Cache {
 
   /* The path to the cache file folder   */
-  private $_cachepath = '../cache/';
+  public $_cachepath = '../cache/';
 
   /* The name of the default cache file   */
   private $_cachename = 'default';
@@ -79,7 +79,7 @@ class Cache {
       $dataArray = array($key => $storeData);
     }
     $cacheData = json_encode($dataArray);
-    file_put_contents($this->getCacheDir(), $cacheData);
+    file_put_contents($this->getCacheDir(), $cacheData, LOCK_EX);
     return $this;
   }
 
@@ -130,7 +130,7 @@ class Cache {
       if (true === isset($cacheData[$key])) {
         unset($cacheData[$key]);
         $cacheData = json_encode($cacheData);
-        file_put_contents($this->getCacheDir(), $cacheData);
+        file_put_contents($this->getCacheDir(), $cacheData, LOCK_EX);
       } else {
         throw new Exception("Error: erase() - Key '{$key}' not found.");
       }
@@ -155,7 +155,7 @@ class Cache {
       }
       if ($counter > 0) {
         $cacheData = json_encode($cacheData);
-        file_put_contents($this->getCacheDir(), $cacheData);
+        file_put_contents($this->getCacheDir(), $cacheData, LOCK_EX);
       }
       return $counter;
     }

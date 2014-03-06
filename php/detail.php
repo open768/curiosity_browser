@@ -21,6 +21,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	$sProduct = $_GET["p"];
 	
 	$oInstrumentData = cCuriosity::getProductDetails($sSol, $sInstrument, $sProduct);
+	
 	echo json_encode($oInstrumentData );
 ?>
 

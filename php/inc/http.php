@@ -33,7 +33,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		if ($iErr!=0 ) {
 			print curl_error($oCurl)."<p>";
 			curl_close($oCurl);
-			die ("ERROR URL was: $url <p>");
+			die ("ERROR URL was: $psUrl <p>");
 		}
 		
 		return  $response;
