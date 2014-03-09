@@ -1,30 +1,91 @@
 <?php
+require_once("inc/objstore.php");
+
 class cTags{
-	private static $tag_folder = "../tags/";
+	static $topTagFile = "[top].txt";
+	static $tagFilename = "[tag].txt";
+	static $tagFolder = "[tags]";
 	
-	/**************************************************************************
-	Copyright (C) Chicken Katsu 2014 
+	//********************************************************************
+	static function get_tag_names($psRealm, $psFolder){
+		$aTags = cObjStore::get_file($psRealm, $psFolder, self::$tagFilename);
+		if (!$aTags) $aTags=[];
+		
+		$aKeys = [];
+		foreach ($aTags as $sKey=>$oValue)
+			array_push($aKeys, $sKey);
+			
+		return $aKeys;
+	}
 
-	This code is protected by copyright under the terms of the 
-	Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License
-	http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
-
-	For licenses that allow for commercial use please contact cluck@chickenkatsu.co.uk
-
-	// USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
-	**************************************************************************/
+	//********************************************************************
+	static function set_tag($psRealm, $psFolder, $psTag, $psUser){
 	
-	//*****************************************************************************
-	public static function getTags($psKey){
-		$oCache = new Cache();
-		$oCache->_cachepath = self::$tag_folder;
-		$sTags = $oCache->retrieve($psKey);
-		return unserialize($sTags);
+		$psTag = preg_replace("/[^A-Za-z0-9]/", '', $psTag);
+
+		//get the file from the object store
+		$aData = cObjStore::get_file($psRealm, $psFolder, self::$tagFilename);
+		if (!$aData) $aData=[];
+		
+		//update the structure (array of arrays)
+		if (!array_key_exists($psTag, $aData)){
+			cDebug::write("creating tag entry: $psTag");
+			$aData[$psTag] = [];
+		}
+		
+		if (!array_key_exists($psUser, $aData[$psTag])){
+			cDebug::write("adding user $psUser to tags : $psTag");
+			$aData[$psTag][$psUser] = 1;
+		}else{
+			cDebug::write("user has already reported this tag : $psTag");
+			return;
+		}
+		
+		//put the file back
+		cObjStore::put_file($psRealm, $psFolder, self::$tagFilename, $aData);
+		
+		//now update the index
+		self::update_top_index($psRealm, $psTag);
+		
+		//and update the specific tag details for the image
+		self::update_tag_index($psRealm, $psTag, $psFolder);
 	}
 	
-	//*****************************************************************************
-	public static function setTag($psKey, $psValue){
+	//********************************************************************
+	static function update_tag_index($psRealm, $psTag, $psValue){
+		cDebug::write("updating index for tag:$psTag - folder:$psValue");
+		$filename = $psTag.".txt";
+
+		// get the existing details
+		$aData = cObjStore::get_file($psRealm, self::$tagFolder, $filename);
+		if (!$aData) $aData=[];
+		
+		//update the count
+		$aData[] = $psValue;
+		cDebug::vardump($aData);
+		
+		//write out the data
+		cObjStore::put_file($psRealm, self::$tagFolder, $filename, $aData);
 	}
 	
+	//********************************************************************
+	static function update_top_index($psRealm, $psTag){
+		cDebug::write("updating index for tag : $psTag");
+
+		// get the existing tags
+		$aData = cObjStore::get_file($psRealm, "", self::$topTagFile);
+		if (!$aData) $aData=[];
+		
+		//update the count
+		$count =0;
+		if (array_key_exists($psTag, $aData)) $count = $aData[$psTag];
+		$count++;
+		$aData[$psTag] = $count;
+		cDebug::vardump($aData);
+		
+		//write out the data
+		cObjStore::put_file($psRealm, "", self::$topTagFile, $aData);
+	}
+	//
 }
 ?>

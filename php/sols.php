@@ -28,5 +28,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		array_push( $aData, ["sol"=>$iSol, "date"=>$sDate]);
 	}
 	
-	echo json_encode($aData);
+	if (cDebug::$DEBUGGING)
+		cDebug::vardump($aData);
+	else
+		echo json_encode($aData );
 ?>

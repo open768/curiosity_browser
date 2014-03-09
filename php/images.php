@@ -22,26 +22,31 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	$iEnd = $_GET["e"];
 	
 	
+	cDebug::write("getting sol $sSol data");
 	$oInstrumentData = cCuriosity::getSolData($sSol, $sInstrument);
 	$aData = $oInstrumentData->data;
 	$iCount = count($aData);
+	
 	cDebug::write("original array has $iCount");
+	//cDebug::vardump($aData);
 	
 	//deal with boundary conditions
-	if ($iStart < 0 ) $iStart = 0;
-	if ($iEnd >= $iCount - 1) $iEnd = $iCount;
-		
+	if ($iStart < 1 ) $iStart = 1;
+	if ($iEnd > $iCount) $iEnd = $iCount;
 	cDebug::write("start=$iStart, end=$iEnd");
 
 	//build the array
 	$aOutput = [];
-	if ($iStart < $iCount) 
-		for ($iIndex = $iStart-1; $iIndex < $iEnd ; $iIndex++){
-			$oItem = $aData[$iIndex];
-			cDebug::write("pushing to array");
-			array_push($aOutput, $oItem);
-		}
+	for ($iIndex = $iStart-1; $iIndex < $iEnd ; $iIndex++){
+		$oItem = $aData[$iIndex];
+		cDebug::write("pushing to array");
+		array_push($aOutput, $oItem);
+	}
 	
-	cDebug::vardump($aOutput);
-	echo json_encode(["max"=>$iCount, "start"=>$iStart, "images"=>$aOutput]);
+	//output the json
+	$aData = ["max"=>$iCount, "start"=>$iStart, "images"=>$aOutput];
+	if (cDebug::$DEBUGGING)
+		cDebug::vardump($aData);
+	else
+		echo json_encode($aData );
 ?>

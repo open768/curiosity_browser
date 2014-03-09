@@ -12,7 +12,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 require_once("inc/cached_http.php");
-require_once("inc/tags.php");
 
 //##########################################################################
 class cInstrument{
@@ -28,15 +27,23 @@ class cInstrument{
 	public function add($poCuriosityData){
 		//dont add thumbnail products
 		if ($poCuriosityData->sampleType !== "thumbnail")
-			array_push(	$this->data, [
+		{
+			//cDebug::vardump($poCuriosityData);
+			$aData = [
 				"du"=>$poCuriosityData->utc, 
 				"dm"=>$poCuriosityData->lmst, 
 				"i"=>$poCuriosityData->urlList, 
 				"p"=>$poCuriosityData->itemName, 
-				"l"=>$poCuriosityData->pdsLabelUrl,
 				"data"=>$poCuriosityData
-				
-			]);
+			];
+			if (array_key_exists("pdsLabelUrl", $poCuriosityData))
+				$aData["l"] = $poCuriosityData->pdsLabelUrl;
+			else
+				$aData["l"] = "UNK";
+
+			
+			array_push(	$this->data, $aData);
+		}
 	}
 }
 
@@ -136,11 +143,7 @@ class cCuriosity{
 		return self::$instrument_map[$psInstr]["abbr"];
 	}
 
-	//*****************************************************************************
-	public static function getTagKey($psSol, $psInstrument, $psProduct){
-		return "CURI.$psSol.$psInstrument.$psProduct";
-	}
-	
+
 	//*****************************************************************************
 	public static function getProductDetails($psSol, $psInstrument, $psProduct){
 		
@@ -163,14 +166,9 @@ class cCuriosity{
 				break;
 			}
 		}
-		
-		//get the tags
-		$sKey = self::getTagKey($psSol, $psInstrument, $psProduct);
-		cDebug::write("tag key $sKey");
-		$aTags = cTags::getTags($sKey);
-		
+			
 		//return the result
-		return [ "s"=>$psSol, "i"=>$sInstr, "p"=>$psProduct, "d"=>$oDetails, "max"=>$iCount, "item"=>$i+1, "tags"=>$aTags];
+		return [ "s"=>$psSol, "i"=>$sInstr, "p"=>$psProduct, "d"=>$oDetails, "max"=>$iCount, "item"=>$i+1];
 	}
 
 }

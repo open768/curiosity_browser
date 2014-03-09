@@ -21,62 +21,43 @@
 	<!-- facebook -->
 
 	<DIV class="gold">
-		<table border=0>
-		<tr><td colspan=2><table><tr>
-			<td><button id="sol" onclick="onClickSol();">loading...</button></td>
-			<td><button id="instrument" onclick="onClickInstr();">loading</button></td>
-			<td><span id="date_lmst">loading...</span></td>
-			<td><button id="date_utc" onclick="onClickCal();">loading...</button></td>
-			<td>image <span id="img_index">??</span> of <span id="max_images">??</span></td>
-			<td><span id="maplink">loading</span>
-		</tr></table></td></tr>
-		<tr>
-			<td align="right">Label:</td>
-			<td><span id="label_link">loading</span></td>
-		</tr>
-		<tr>
-			<td align="right">Image:</td>
-			<td align="left"><span id="image_link">loading</span></td>
-		</tr>
-		<tr>
-			<td align="right">Product:</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td align="right">link:</td>
-			<td align="left" ><span id="pagelink">loading</span></td>
-		</tr>
-		</table>
+		<button id="sol" title="Choose Sol" onclick="onClickSol();">loading...</button>
+		<button id="instrument" title="Choose Instrument" onclick="onClickInstr();">loading</button>
+		<span id="date_lmst">loading...</span>
+		<button id="date_utc" title="Show SOL Calendar" onclick="onClickCal();">loading...</button>
+		image <span id="img_index">??</span> of <span id="max_images">??</span>
+		<button title="Map at curiositybrowser.com" id="maplink" onclick="onClickMap()">Map</button>
+		<button title="Original Nasa image" id="nasalink" onclick="onClickNASA()">NASA</button>
+		Label:<span id="label_link">loading</span>
+		<br><br>
+		Tags: <span ID="tags">Loading...</span> <input type="text" size="10" maxlength="10" id="tagtext"><button onclick="onAddTag();">Add</button>
 	</div>
 	<DIV class="gold">
 		Status: <span ID="status" class="status">Loading...</span>
 	</div>
-	<DIV class="gold">
-		Tags: <span ID="tags">Loading...</span> <input type="text" size=10 id="tagtext"><button onclick="onAddTag();">Add</button>
-	</div>
 	<table border="0" class="gold">
 		<tr>
 			<td></td>
-			<td>
+			<td valign="bottom">
 				<button id="lbut_top" onclick="onClickPrevious();" style="width:300">&lt;</button>
 				<button id="rbut_top" onclick="OnClickNext();" style="width:300">&gt;</button>
 			</td>
 			<td></td>
 		</tr>
 		<tr>
-			<td>
+			<td align="right">
 				<button id="lbut" onclick="onClickPrevious();" style="height:600">&lt;</button>
 			</td>
 			<td>
 				<div id="image">Image Loading</div>
 			</td>
-			<td>
+			<td align="left">
 				<button id="rbut" onclick="OnClickNext();" style="height:600">&gt;</button>
 			</td>
 		</tr>
 		<tr>
 			<td></td>
-			<td>
+			<td valign="top">
 				<button id="lbut_bot" onclick="onClickPrevious();" style="width:300">&lt;</button>
 				<button id="rbut_bot" onclick="OnClickNext();" style="width:300">&gt;</button>
 			</td>
@@ -92,7 +73,10 @@
 	<iframe id="label" width="1000" height="500">Label Loading...</iframe>
 	<P>
 	<!-- footer -->
-	<p class="credits">Data courtesy MSSS/MSL/NASA/JPL-Caltech.</p>
+	<p class="credits">
+		Data courtesy MSSS/MSL/NASA/JPL-Caltech.<br>
+		link to curiosityrover.com courtesy of Joe Knapp
+	</p>
 	<div class="github">
 		<table border="0" width="100%"><tr>
 			<td width="50"><a href="http://www.chickenkatsu.co.uk" target="chicken"><img src="images/chicken_icon.png"></a></td>

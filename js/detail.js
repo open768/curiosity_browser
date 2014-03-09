@@ -21,6 +21,8 @@ var current_instrument = null;
 var current_product = null;
 var current_date_utc = null;
 var current_date_lmst = null;
+var nasa_link = null;
+var mapLink = null;
 
 //###############################################################
 //# Event Handlers
@@ -55,6 +57,11 @@ function onClickCal(){
 }
 
 //***************************************************************
+function onClickMap(){
+	window.open(mapLink, "map");
+}
+
+//***************************************************************
 function onClickSol(){
 	var sURL="index.html?s="+ current_sol + "&i=" + current_instrument;
 	window.open(sURL, "index");
@@ -66,15 +73,30 @@ function onClickInstr(){
 }
 
 //***************************************************************
+function onClickNASA(){
+	window.open(nasa_link, "nasa");
+}
+
+//***************************************************************
 function onAddTag(){
-	alert ("not implemented");
+	var sKey, sTag;
+
+	//check something was entered
+	sTag = document.getElementById("tagtext").value;
+	if (sTag === ""){
+		alert ("no tag text");
+		return;
+	}
+	
+	set_status("setting tag");
+	sKey = cTagging.setTag(current_sol+"/"+current_instrument+"/"+current_product, sTag, tag_callback);
 }
 
 //###############################################################
 //# Utility functions 
 //###############################################################
 function load_data(){
-	
+	cTagging.realm="Curiosity";
 	get_product_data( cBrowser.data[SOL_QUERYSTRING], cBrowser.data[INSTR_QUERYSTRING], cBrowser.data[PRODUCT_QUERYSTRING]);
 }
 
@@ -94,9 +116,28 @@ function get_product_data( psSol, psInstr, psProd){
 //###############################################################
 //* call backs 
 //###############################################################
+function tag_callback(paJS){
+	var sHTML, i, sTag;
+	
+	set_status("got tag");
+	if (paJS.length== 0){
+		sHTML = "No Tags found, be the first to add one";
+	}else{
+		sHTML = "";
+		for (i=0; i<paJS.length; i++){
+			sTag = paJS[i];
+			sHTML += "<a target='tags' href='tags.html?t=" + sTag + "'>#" + sTag + "</a> ";
+		}
+	}
+	document.getElementById("tags").innerHTML = sHTML;
+	
+	set_status("ok");
+}
+
+//***************************************************************
 function load_detail_callback(paJS){
 
-	var sLink, sMapLink, sURL, oData;
+	var sLink, sURL, oData;
 	set_status("received data...");
 	
 	//rely upon what came back rather than the query string
@@ -110,7 +151,6 @@ function load_detail_callback(paJS){
 	//update the address bar
 	sURL = cBrowser.baseUrl() +"?s=" + current_sol + "&i=" + current_instrument + "&p=" + current_product;
 	cBrowser.pushState("Detail", sURL);
-	document.getElementById("pagelink").innerHTML = sURL;
 	
 	//check whether there was any data
 	oData = paJS.d
@@ -118,6 +158,7 @@ function load_detail_callback(paJS){
 		set_status("EMPTY DATA RESPONSE - <font color=red><b>ERROR?</b></font>");
 		return;
 	}
+	nasa_link = oData.i;
 
 	//tags 
 	if (!paJS.tags)
@@ -136,15 +177,13 @@ function load_detail_callback(paJS){
 	document.getElementById("instrument").innerHTML = current_instrument;
 	
 	//figure out the map link
-	sMapLink = "http://curiosityrover.com/imgpoint.php?name=" + current_product;
-	document.getElementById("maplink").innerHTML = "<a target='map' href='" + sMapLink + "'>" + current_product + "</a>";
+	mapLink = "http://curiosityrover.com/imgpoint.php?name=" + current_product;
 
 	//populate the remaining fields
 	current_date_lmst = oData.dm;
 	current_date_utc = oData.du;
 	document.getElementById("date_utc").innerHTML = current_date_utc;
 	document.getElementById("date_lmst").innerHTML = current_date_lmst;
-	document.getElementById("image_link").innerHTML = "<a target='nasa' href='"+ oData.i + "'>" + oData.i + "</a>";
 	document.getElementById("msldata").innerHTML = "<pre>" + cDebug.vardump(oData.data,1) + "</pre>";
 	document.getElementById("image").innerHTML = "<a target='nasa' href='"+ oData.i + "'><img id='img' src='" + oData.i + "' onload='OnImageLoaded()'></a>";
 	
@@ -157,6 +196,10 @@ function load_detail_callback(paJS){
 		document.getElementById("label").src = sLink;
 	}
 
+	//get the tags
+	sKey = cTagging.getTags(current_sol+"/"+current_instrument+"/"+current_product, tag_callback);
+	
+	//set status
 	set_status("Image Loading");
 }
 
