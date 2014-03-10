@@ -20,15 +20,27 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	//***************************************************
 	$sOperation = $_GET["o"] ;
 	$sRealm = $_GET["r"] ;
-	$sFolder = $_GET["f"] ;
+	$aData = null;
 	
-	if ($sOperation === "set"){
-		$sTag = $_GET["v"] ;
-		$sUser = "anonymous";   //for the moment at least assume an anonymous user
-		cTags::set_tag($sRealm, $sFolder, $sTag, $sUser);
+	switch($sOperation){
+		case "set":
+			$sFolder = $_GET["f"] ;
+			$sTag = $_GET["v"] ;
+			$sUser = "anonymous";   //for the moment at least assume an anonymous user
+			cTags::set_tag($sRealm, $sFolder, $sTag, $sUser);
+		case "get":
+			$sFolder = $_GET["f"] ;
+			$aData = cTags::get_tag_names($sRealm, $sFolder);
+			break;
+		case "detail":
+			$sTag = $_GET["t"] ;
+			$aData = cTags::get_tag_index($sRealm, $sTag);
+			break;
+		case "all":
+			$aData = cTags::get_top_tags($sRealm);
+			break;
 	}
-	$aData = cTags::get_tag_names($sRealm, $sFolder);
-		
+	
 	//***************************************************
 	//output the tags
 	if (cDebug::$DEBUGGING)

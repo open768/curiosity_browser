@@ -1,0 +1,50 @@
+<html>
+<head>
+	<LINK href="css/css.css" rel="stylesheet" type="text/css">
+	<title>Curiosity Browser - Tags</title>
+	<script src="js/common.js"></script>
+	<script src="js/tag.js"></script>
+	<script src="js/tagging.js"></script>
+	<script src="js/rgraph/RGraph.common.core.js"></script>
+</head>
+<body onload="load_data();">
+	<DIV class="title">Instances of Tag "<span id="tagname">tag goes here</span>"</DIV>
+	<!-- facebook -->
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=583529401715179";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>	
+	<!-- facebook -->
+<p>
+	<div class="gold">
+	Status: <span class="status" id="status">	loading...</span>
+	</div>
+	<div class="gold" >
+		This Tag was seen in the following:
+		<p>
+		<ul id="tagdata">
+			<li>tag data goes here
+		</ul>
+	</div>
+	<P>
+	<div class="gold" id="tags">Loading tags</div>
+	<!-- footer -->
+	<p class="credits">
+		Data courtesy MSSS/MSL/NASA/JPL-Caltech.<br>
+	</p>
+	<div class="github">
+		<table border="0" width="100%"><tr>
+			<td width="50"><a href="http://www.chickenkatsu.co.uk" target="chicken"><img src="images/chicken_icon.png"></a></td>
+			<td>
+				We're on <img src="images/github_logo.png"> <a href="https://github.com/open768/curiosity_browser">https://github.com/open768/curiosity_browser</a>
+				<p>
+				<div class="fb-like" data-href="https://www.facebook.com/mars.features" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+			</td>
+		</tr></table>
+	</div>
+</body>
+</html>

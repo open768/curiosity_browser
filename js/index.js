@@ -192,6 +192,8 @@ function get_image_data( piSol, psInstr, piStart, piEnd){
 
 //***************************************************************
 function load_data(){
+	cTagging.realm="Curiosity";
+
 	set_status("loading static data...");
 	if (cBrowser.data[MAXIMAGES_QUERYSTRING] )
 		HOW_MANY_IMAGES = parseInt(cBrowser.data[MAXIMAGES_QUERYSTRING]);
@@ -203,12 +205,26 @@ function load_data(){
 		
 	cHttp.fetch_json("php/instruments.php", load_instruments_callback);
 	cHttp.fetch_json("php/sols.php", load_sols_callback);
-
+	cTagging.getTagNames(tagnames_callback);
 }
 
 //###############################################################
 //* call backs 
 //###############################################################
+function tagnames_callback(poJs){
+	var sHTML = "";
+	var sKey, iCount;
+	
+	for (sKey in poJs){
+		iCount = poJs[sKey];
+		sHTML += "<a href='tag.html?t=" + sKey  + "'>" + sKey + "[" + iCount + "]</a> ";
+	}
+	document.getElementById("tags").innerHTML = sHTML;
+	
+	set_status("got tag names");
+}
+
+//***************************************************************
 function load_sols_callback(paJS){
 	var iIndex, oSol, oList, sHTML;
 	

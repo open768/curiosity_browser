@@ -52,6 +52,18 @@ class cTags{
 	}
 	
 	//********************************************************************
+	static function get_top_tags($psRealm){
+		return 	cObjStore::get_file($psRealm, "", self::$topTagFile);
+	}
+	
+	//********************************************************************
+	static function get_tag_index($psRealm, $psTag){
+		$filename = $psTag.".txt";
+
+		return cObjStore::get_file($psRealm, self::$tagFolder, $filename);
+	}
+	
+	//********************************************************************
 	static function update_tag_index($psRealm, $psTag, $psValue){
 		cDebug::write("updating index for tag:$psTag - folder:$psValue");
 		$filename = $psTag.".txt";

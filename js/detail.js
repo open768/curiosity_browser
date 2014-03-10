@@ -126,7 +126,7 @@ function tag_callback(paJS){
 		sHTML = "";
 		for (i=0; i<paJS.length; i++){
 			sTag = paJS[i];
-			sHTML += "<a target='tags' href='tags.html?t=" + sTag + "'>#" + sTag + "</a> ";
+			sHTML += "<a target='tags' href='tag.html?t=" + sTag + "'>#" + sTag + "</a> ";
 		}
 	}
 	document.getElementById("tags").innerHTML = sHTML;
