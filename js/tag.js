@@ -29,15 +29,7 @@ function load_data(){
 //* call backs 
 //###############################################################
 function tagnames_callback(poJs){
-	var sHTML = "";
-	var sKey, iCount;
-	
-	for (sKey in poJs){
-		iCount = poJs[sKey];
-		sHTML += "<a href='tag.html?t=" + sKey  + "'>" + sKey + "[" + iCount + "]</a> ";
-	}
-	document.getElementById("tags").innerHTML = sHTML;
-	
+	cTagging.showTagCloud("tags",poJs);
 	set_status("got tag names");
 }
 
@@ -46,12 +38,13 @@ function tagdetails_callback(paJs){
 	var sHTML, i, sItem, aParts;
 	var sSol, sInstr, sProd;
 	
-	sHTML = "";
 	set_status("got tag names");
 	
 	if (!paJs)
 		sHTML = "<li>No instances of this tag found";
-	else
+	else{
+		sHTML = "<table class='tagtable'><tr><th width='100'>sol</th><th width='100'>Instrument</th><th>link</th></tr>";
+		
 		for (i=0 ; i<paJs.length; i++){
 			cDebug.write("got a detail: " + sItem);
 			sItem = paJs[i];
@@ -61,8 +54,10 @@ function tagdetails_callback(paJs){
 			sProd = aParts[2];
 			sUrl = "detail.html?s="+sSol +"&i=" + sInstr + "&p=" + sProd;
 			
-			sHTML += "<li>sol:<i>" + sSol + "</i> Instrument:<i>" + sInstr +"</i> Product: <a target='detail' href='" + sUrl + "'>" + sProd + "</a>";
+			sHTML += "<tr><td align='middle'>" + sSol + "</td><td align='middle'>" + sInstr +"</td><td><a target='detail' href='" + sUrl + "'>" + sProd + "</a></td></tr>";
 		}
+		sHTML += "</table>"
+	}
 		
 	document.getElementById("tagdata").innerHTML = sHTML;
 }

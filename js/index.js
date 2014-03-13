@@ -212,16 +212,8 @@ function load_data(){
 //* call backs 
 //###############################################################
 function tagnames_callback(poJs){
-	var sHTML = "";
-	var sKey, iCount;
-	
-	for (sKey in poJs){
-		iCount = poJs[sKey];
-		sHTML += "<a href='tag.html?t=" + sKey  + "'>" + sKey + "[" + iCount + "]</a> ";
-	}
-	document.getElementById("tags").innerHTML = sHTML;
-	
 	set_status("got tag names");
+	cTagging.showTagCloud("tags",poJs);
 }
 
 //***************************************************************

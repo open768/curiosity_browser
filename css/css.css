@@ -33,6 +33,13 @@ body
 	width: 100%;
 }
 
+.tagtable
+{
+	width: 80%;
+	padding: 3px;
+	border:1px solid gold;
+}
+
 .gold
 {
 	border-radius: 10px;

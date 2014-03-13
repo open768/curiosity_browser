@@ -1,6 +1,7 @@
 <?php
 require_once("inc/objstore.php");
 
+
 class cTags{
 	static $topTagFile = "[top].txt";
 	static $tagFilename = "[tag].txt";
@@ -60,7 +61,9 @@ class cTags{
 	static function get_tag_index($psRealm, $psTag){
 		$filename = $psTag.".txt";
 
-		return cObjStore::get_file($psRealm, self::$tagFolder, $filename);
+		$aTags = cObjStore::get_file($psRealm, self::$tagFolder, $filename);
+		sort($aTags);
+		return $aTags;
 	}
 	
 	//********************************************************************
