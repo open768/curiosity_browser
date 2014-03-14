@@ -20,5 +20,10 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		$aList = cCuriosity::getSolInstrumentList($_GET["s"]);
 	else
 		$aList = cCuriosity::getInstrumentList();
-	echo json_encode($aList);	
+		
+	if (cDebug::$DEBUGGING)
+		cDebug::vardump($aList);
+	else
+		echo json_encode($aList );
+
 ?>

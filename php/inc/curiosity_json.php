@@ -97,8 +97,9 @@ class cCuriosity{
 		$aImages = $oData->images;
 		
 		foreach ($aImages as $oItem)
-			if (!in_array($oItem->instrument, $aResults))
-				array_push($aResults, $oItem->instrument);
+			if ($oItem->sampleType !== "thumbnail")
+				if (!in_array($oItem->instrument, $aResults))
+					array_push($aResults, $oItem->instrument);
 		
 		return $aResults;
 	}

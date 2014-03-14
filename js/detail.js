@@ -78,6 +78,13 @@ function onClickNASA(){
 }
 
 //***************************************************************
+function onClickNotebook(){
+	//var sURL = "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx?tab=solsumm&sol=" + current_sol;
+	var sURL = "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx?tab=solsumm&p=" + current_product;
+	window.open(sURL, "notebook");
+}
+
+//***************************************************************
 function onAddTag(){
 	var sKey, sTag;
 

@@ -46,11 +46,17 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			if ($iFound <0) {
 				cDebug::write("rolled off the beginning of the sol");
 				if ($sSol >0){
-					$sSol--;
-					cDebug::write("going to sol $sSol");
-					$oInstrumentData = cCuriosity::getSolData($sSol, $sInstrument);
-					$aImages=$oInstrumentData->data;
-					$iFound = count($aImages)-1;
+					// instrument may not be there in previous sol so keep going until instrument is found 
+					while ($sSol >0){
+						$sSol--;
+						cDebug::write("going to sol $sSol");
+						$oInstrumentData = cCuriosity::getSolData($sSol, $sInstrument);
+						$aImages=$oInstrumentData->data;
+						if (count($aImages) >0){
+							$iFound = count($aImages)-1;
+							break;
+						}
+					}
 				}else{
 					cDebug::write("going to last item of current sol");
 					$iFound = $iCount -1;
@@ -59,11 +65,18 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		}else{
 			$iFound++;
 			if ($iFound >= $iCount) {
-				//move to next sol
-				$iFound = 0;
-				$sSol ++;
-				$oInstrumentData = cCuriosity::getSolData($sSol, $sInstrument);
-				$aImages=$oInstrumentData->data;
+				$iCount = 0;
+				while ($iCount == 0){
+					//move to next sol
+					// on, last SOL this may runaway
+					$iFound = 0;
+					$sSol ++;
+					$oInstrumentData = cCuriosity::getSolData($sSol, $sInstrument);
+					$aImages=$oInstrumentData->data;
+					if (count($aImages) >0)
+						break;
+						
+				}
 			};
 		}
 		echo json_encode(["s"=>$sSol, "d"=>$aImages[$iFound]]);
