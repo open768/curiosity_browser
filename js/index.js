@@ -41,6 +41,15 @@ var reset_image_number = true;
 //###############################################################
 //# Event Handlers
 //###############################################################
+function OnSearch(){
+	var sText = document.getElementById("search_text").value;
+	if (sText !== ""){
+		sUrl="php/search.php?s=" + sText;
+		cHttp.fetch_json(sUrl, search_callback);
+	}
+}
+
+//***************************************************************
 function OnChangeSolList(){
 	if (loading) return;
 	set_sol(event.target.value);
@@ -211,6 +220,19 @@ function load_data(){
 //###############################################################
 //* call backs 
 //###############################################################
+function search_callback(poJS){
+	var sUrl;
+	
+	if (!poJS)
+		set_status("not a valid search");
+	else{
+		set_status("got search callback");
+		sUrl = "detail.html?s=" + poJS.s + "&i=" + poJS.d.instrument + "&p=" + poJS.d.itemName;
+		document.location.href = sUrl;
+	}
+}
+
+//***************************************************************
 function tagnames_callback(poJs){
 	set_status("got tag names");
 	cTagging.showTagCloud("tags",poJs);

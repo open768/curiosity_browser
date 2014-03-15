@@ -54,6 +54,32 @@ class cCuriosity{
 	private static $Instruments, $instrument_map;
 	
 	//*****************************************************************************
+	public static function search_product($psSearch){
+		//split parts into variables using regular expressions
+		//locate the product, make sure its not a thumbnail
+		$oData = null;
+		
+		if (preg_match("/^[0]*(\d+)\w+\d+/", $psSearch, $matches)){
+			$sSol= $matches[1];
+			cDebug::write("$psSearch is for sol $sSol");
+			$oSolData = self::getAllSolData($sSol);
+			if ($oSolData){
+				$aImages = $oSolData->images;
+				
+				foreach ($aImages as $oItem)
+					if ($oItem->itemName === $psSearch){
+						cDebug::write("found it");
+						$oData = ["s"=>$sSol, "d"=>$oItem];
+						break;
+					}
+			}
+		}
+		
+		//return the product data
+		return $oData;
+	}
+	
+	//*****************************************************************************
 	public static function getAllSolData($psSol){
 		$url=cCuriosity::SOL_URL."${psSol}.json";
 		cDebug::write("Getting sol data from: ".$url);

@@ -105,6 +105,7 @@ function onAddTag(){
 function load_data(){
 	cTagging.realm="Curiosity";
 	get_product_data( cBrowser.data[SOL_QUERYSTRING], cBrowser.data[INSTR_QUERYSTRING], cBrowser.data[PRODUCT_QUERYSTRING]);
+	cTagging.getTagNames(tagnames_callback);
 }
 
 //***************************************************************
@@ -123,6 +124,12 @@ function get_product_data( psSol, psInstr, psProd){
 //###############################################################
 //* call backs 
 //###############################################################
+function tagnames_callback(poJs){
+	cTagging.showTagCloud("tagcloud",poJs);
+	set_status("got tag names");
+}
+
+//***************************************************************
 function tag_callback(paJS){
 	var sHTML, i, sTag;
 	
