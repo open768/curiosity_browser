@@ -2,6 +2,7 @@
 <head>
 	<LINK href="css/css.css" rel="stylesheet" type="text/css">
 	<title>Curiosity Browser - details</title>
+	<script src="js/secret.js"></script>
 	<script src="js/detail.js"></script>
 	<script src="js/common.js"></script>
 	<script src="js/tagging.js"></script>
@@ -15,7 +16,7 @@
 		  var js, fjs = d.getElementsByTagName(s)[0];
 		  if (d.getElementById(id)) return;
 		  js = d.createElement(s); js.id = id;
-		  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=583529401715179";
+		  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId="+cSecret.FBAppid;
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));</script>	
 	<!-- facebook -->
