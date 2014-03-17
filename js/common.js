@@ -58,6 +58,11 @@ var cDebug = {
 
 
 //***************************************************************
+function set_error_status(psStatus){
+	document.getElementById(STATUS_ID).innerHTML= psStatus;
+	cDebug.write("<font color='red'>status: " + psStatus + "</font>");
+}
+//***************************************************************
 function set_status(psStatus){
 	document.getElementById(STATUS_ID).innerHTML= psStatus;
 	cDebug.write("status: " + psStatus);

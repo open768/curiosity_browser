@@ -51,6 +51,7 @@ class cInstrument{
 class cCuriosity{
 	const SOL_URL = "http://mars.jpl.nasa.gov/msl-raw-images/image/images_sol";
 	const FEED_URL = "http://mars.jpl.nasa.gov/msl-raw-images/image/image_manifest.json";
+
 	private static $Instruments, $instrument_map;
 	
 	//*****************************************************************************
@@ -80,8 +81,20 @@ class cCuriosity{
 	}
 	
 	//*****************************************************************************
+	public static function getNoThumbnails($psSol){
+		$aData = [];
+		
+		$oSolData =  self::getAllSolData($psSol);
+		$aImages = $oSolData->images;
+		foreach ($aImages as $oItem)
+			if ($oItem->sampleType !== "thumbnail")
+				$aData[] = $oItem;
+		return $aData;
+	}
+	
+	//*****************************************************************************
 	public static function getAllSolData($psSol){
-		$url=cCuriosity::SOL_URL."${psSol}.json";
+		$url=self::SOL_URL."${psSol}.json";
 		cDebug::write("Getting sol data from: ".$url);
 		cCachedHttp::setCacheFile($psSol);
 		return cCachedHttp::getCachedJson($url);
@@ -179,7 +192,7 @@ class cCuriosity{
 		$sInstr = self::$instrument_map[$psInstrument]["name"];
 		
 		//get the data
-		$oInstrumentData = cCuriosity::getSolData($psSol, $sInstr);
+		$oInstrumentData = self::getSolData($psSol, $sInstr);
 		$aImages=$oInstrumentData->data;
 		$oDetails =null;
 		

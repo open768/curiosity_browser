@@ -38,6 +38,20 @@ function OnClickNext(){
 }
 
 //***************************************************************
+function OnClickNextTime(){
+	sUrl = "php/nexttime.php?d=n&s=" + current_sol + "&p=" + current_product;
+	set_status("fetching next image details...");
+	cHttp.fetch_json(sUrl, nexttime_callback);
+}
+
+//***************************************************************
+function onClickPreviousTime(){
+	sUrl = "php/nexttime.php?d=p&s=" + current_sol + "&p=" + current_product;
+	set_status("fetching previous image details...");
+	cHttp.fetch_json(sUrl, nexttime_callback);
+}
+
+//***************************************************************
 function onClickPrevious(){
 	//find the previous product
 	var sUrl;
@@ -218,6 +232,14 @@ function load_detail_callback(paJS){
 }
 
 //***************************************************************
+function nexttime_callback(poJson){
+	if (!poJson)
+		set_error_status("unable to find");
+	else
+		get_product_data( poJson.s, poJson.d.instrument, poJson.d.itemName);
+}
+
+//***************************************************************
 function next_callback(poJson){
 	get_product_data( poJson.s, current_instrument, poJson.d.p);
 }
@@ -225,7 +247,7 @@ function next_callback(poJson){
 //***************************************************************
 function OnImageLoaded(){
 	var iHeight= event.target.height;
-	var iWidth= (event.target.width/2) - 4;
+	var iWidth= (event.target.width/2) - 6 - 100;
 	
 	cDebug.write("setting button sizes");
 	cDebug.write("width: " + iWidth);
