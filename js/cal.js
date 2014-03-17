@@ -13,7 +13,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 var DEBUG_ON = true;
 var loading = true;
 var SOL_QUERYSTRING = "s";
-var DATE_QUERYSTRING = "d";
+var DATE_QUERYSTRING = "t";
 
 var current_sol = null;
 var current_date = null;
@@ -33,6 +33,7 @@ function onClick(){
 //# Utility functions 
 //###############################################################
 function load_data(){
+	current_date = cBrowser.data[DATE_QUERYSTRING];
 	get_calendar_data( cBrowser.data[SOL_QUERYSTRING]);
 }
 
@@ -52,7 +53,7 @@ function get_calendar_data( psSol){
 //* call backs 
 //###############################################################
 function load_cal_callback(paJS){
-	var sSol, aDates, aHeadings, aTimes, i,j,k, sDKey, sTKey, sHTML, aItems, oItem, sID, sColour;
+	var sSol, aDates, aHeadings, aTimes, i,j,k, sDKey, sTKey, sHTML, aItems, oItem, sID, sColour, sStyle;
 	var aInstr, oInstr;
 	
 	set_status("received data...");
@@ -101,7 +102,14 @@ function load_cal_callback(paJS){
 						for (k=0; k<aItems.length; k++){
 							oItem = aItems[k];
 							sColour = oColours[oItem.i];
-							sHTML += "<button class='calbutton' style='background-color:"+ sColour +"' i='" + oItem.i + "'p='" + oItem.p + "' onclick='onClick();' title='" + oItem.i + "'>&nbsp;</button>";
+							sStyle = "background-color:" + sColour;
+							if (oItem.d === current_date){
+								cDebug.write("found a match");
+								sStyle += ";border:4px double black" 
+							}
+
+							
+							sHTML += "<button class='calbutton' style='" + sStyle + "' i='" + oItem.i + "'p='" + oItem.p + "' onclick='onClick();' title='" + oItem.i + "'>&nbsp;</button>";
 						}
 					}
 				sHTML += "</td>";
