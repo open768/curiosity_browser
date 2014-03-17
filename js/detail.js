@@ -99,6 +99,13 @@ function onClickNotebook(){
 }
 
 //***************************************************************
+function onClickMSLRaw(){
+	var sURL = "http://mars.nasa.gov/msl/multimedia/raw/?rawid=" + current_product + "&s=" + current_sol;
+	window.open(sURL, "mslraw");
+}
+
+
+//***************************************************************
 function onAddTag(){
 	var sKey, sTag;
 
