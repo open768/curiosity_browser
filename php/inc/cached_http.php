@@ -45,7 +45,17 @@ class cCachedHttp{
 	}
 	
 	//*****************************************************************************
-	public static function getCachedJson($psURL){
+	public static function getCachedUrl($psURL){	
+		return self::pr_do_get($psURL, false);
+	}
+
+	//*****************************************************************************
+	public static function getCachedJson($psURL){	
+		return self::pr_do_get($psURL, true);
+	}
+	
+	//*****************************************************************************
+	public static function pr_do_get($psURL, $pbJson){
 		
 		// create cache object and erase anything expired
 		$oCache = self::getCacheObj();
@@ -56,9 +66,11 @@ class cCachedHttp{
 			$oResponse = unserialize($sSerial);
 			cDebug::write("cached");
 		}else{
-			
-			//----------fetch the sol details
-			$oResponse = cHttp::getJson($psURL);
+			//----------fetch the  details
+			if ($pbJson)
+				$oResponse = cHttp::getJson($psURL);
+			else
+				$oResponse = cHttp::fetch_url($psURL);
 			cDebug::write("no cached ");
 			$sSerial = serialize($oResponse);
 			$oCache->store($psURL, $sSerial, self::$CACHE_EXPIRY);

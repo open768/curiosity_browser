@@ -11,7 +11,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-require_once("inc/cached_http.php");
+require_once("inc/http.php");
 require_once("inc/objstore.php");
 require_once("inc/curiosity/json.php");
 require_once("inc/curiosity/instrument.php");
@@ -24,6 +24,7 @@ class cCuriosityPDS{
 	const OBJDATA_TOP_FOLDER = "[PDS]";
 	const PDS_MAP_FILENAME="[pds].map";
 	const max_released = 449;
+	const LBL_CACHE = 12628000; //a long time
 	
 	//**********************************************************************
 	public static function convert_Msl_product($psProduct){
@@ -70,10 +71,22 @@ class cCuriosityPDS{
 	}
 	
 	//**********************************************************************
-	public static function run_indexer($psInstrument, $piVolume){
+	public static function run_indexer($psVolume){
 		
 		//get the LBL file to understand how to parse the file http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0003/INDEX/EDRINDEX.LBL
+		$sLBLUrl = self::PDS_URL."/$psVolume/INDEX/EDRINDEX.LBL";
+		$sFilename = "$psVolume.LBL";
+		try{
+			$sCacheFile = cHttp::fetch_large_url($sLBLUrl, $sFilename, false);
+		}catch(Exception $e){
+			cDebug::write("didnt work - not a real PDS catalog?");
+			cDebug::write($e);
+			return null;
+		}
+		
 		//get and cache file eg http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0003/INDEX/EDRINDEX.TAB - its a comma separated fixed field length file can be many MB
+		//-- $sTABUrl = self::PDS_URL."/$psVolume/INDEX/EDRINDEX.TAB";
+		
 		//step through a lineat a time extracting the SOL, Instrument , Product ID , Time, product name
 		//on every new sol start a new Objstore file
 		//at the end of each sol and the run flush out the objstore

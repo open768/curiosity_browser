@@ -1,5 +1,7 @@
 cache/
 objdata/
+\[Largeurls\]/
 php/shell/
 *secret*
 *\.dpp
+\.gitignore
