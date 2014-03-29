@@ -3,13 +3,13 @@ require_once("inc/objstore.php");
 
 
 class cTags{
-	static $topTagFile = "[top].txt";
-	static $tagFilename = "[tag].txt";
-	static $tagFolder = "[tags]";
+	const TOP_TAG_FILE = "[top].txt";
+	const TAG_FILENAME = "[tag].txt";
+	const TAG_FOLDER = "[tags]";
 	
 	//********************************************************************
 	static function get_tag_names($psRealm, $psFolder){
-		$aTags = cObjStore::get_file($psRealm, $psFolder, self::$tagFilename);
+		$aTags = cObjStore::get_file($psRealm, $psFolder, self::TAG_FILENAME);
 		if (!$aTags) $aTags=[];
 		
 		$aKeys = [];
@@ -25,7 +25,7 @@ class cTags{
 		$psTag = preg_replace("/[^A-Za-z0-9]/", '', $psTag);
 
 		//get the file from the object store
-		$aData = cObjStore::get_file($psRealm, $psFolder, self::$tagFilename);
+		$aData = cObjStore::get_file($psRealm, $psFolder, self::TAG_FILENAME);
 		if (!$aData) $aData=[];
 		
 		//update the structure (array of arrays)
@@ -43,7 +43,7 @@ class cTags{
 		}
 		
 		//put the file back
-		cObjStore::put_file($psRealm, $psFolder, self::$tagFilename, $aData);
+		cObjStore::put_file($psRealm, $psFolder, self::TAG_FILENAME, $aData);
 		
 		//now update the index
 		self::update_top_index($psRealm, $psTag);
@@ -54,14 +54,14 @@ class cTags{
 	
 	//********************************************************************
 	static function get_top_tags($psRealm){
-		return 	cObjStore::get_file($psRealm, "", self::$topTagFile);
+		return 	cObjStore::get_file($psRealm, "", self::TOP_TAG_FILE);
 	}
 	
 	//********************************************************************
 	static function get_tag_index($psRealm, $psTag){
 		$filename = $psTag.".txt";
 
-		$aTags = cObjStore::get_file($psRealm, self::$tagFolder, $filename);
+		$aTags = cObjStore::get_file($psRealm, self::TAG_FOLDER, $filename);
 		sort($aTags);
 		return $aTags;
 	}
@@ -72,7 +72,7 @@ class cTags{
 		$filename = $psTag.".txt";
 
 		// get the existing details
-		$aData = cObjStore::get_file($psRealm, self::$tagFolder, $filename);
+		$aData = cObjStore::get_file($psRealm, self::TAG_FOLDER, $filename);
 		if (!$aData) $aData=[];
 		
 		//update the count
@@ -80,7 +80,7 @@ class cTags{
 		cDebug::vardump($aData);
 		
 		//write out the data
-		cObjStore::put_file($psRealm, self::$tagFolder, $filename, $aData);
+		cObjStore::put_file($psRealm, self::TAG_FOLDER, $filename, $aData);
 	}
 	
 	//********************************************************************
@@ -88,7 +88,7 @@ class cTags{
 		cDebug::write("updating index for tag : $psTag");
 
 		// get the existing tags
-		$aData = cObjStore::get_file($psRealm, "", self::$topTagFile);
+		$aData = cObjStore::get_file($psRealm, "", self::TOP_TAG_FILE);
 		if (!$aData) $aData=[];
 		
 		//update the count
@@ -99,7 +99,7 @@ class cTags{
 		cDebug::vardump($aData);
 		
 		//write out the data
-		cObjStore::put_file($psRealm, "", self::$topTagFile, $aData);
+		cObjStore::put_file($psRealm, "", self::TOP_TAG_FILE, $aData);
 	}
 	//
 }

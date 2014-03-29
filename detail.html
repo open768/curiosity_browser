@@ -1,12 +1,16 @@
 <html>
 <head>
 	<LINK href="css/css.css" rel="stylesheet" type="text/css">
+	<LINK href="css/drag.css" rel="stylesheet" type="text/css">
 	<title>Curiosity Browser - details</title>
 	<script src="js/secret.js"></script>
 	<script src="js/detail.js"></script>
 	<script src="js/common.js"></script>
 	<script src="js/tagging.js"></script>
 	<script src="js/rgraph/RGraph.common.core.js"></script>
+	<script src="js/jquery/jquery-1.11.0.js"></script>
+	<script src="js/jquery/jquery-ui-1.10.4.js"></script>
+	<script src="js/imghilite.js"></script>
 </head>
 <body onload="load_data();">
 	<DIV class="title">Curiosity Detail</DIV>
@@ -31,6 +35,7 @@
 		<button title="Original Nasa image" id="nasalink" onclick="onClickNASA()">NASA</button>
 		<button title="MSL curiosity Notebook" id="notelink" onclick="onClickNotebook()">MSL NoteBook</button>
 		<button title="MSL curiosity Raw images" id="mslrawlink" onclick="onClickMSLRaw()">MSL Raw Image</button>
+		<button title="released PDS product" id="pds_product" onclick="onClickPDS()">PDS Product</button>
 		<br>
 		Label:<span id="label_link">loading</span>
 		<br><br>
@@ -58,7 +63,16 @@
 				<button id="lbut" onclick="onClickPrevious();" style="height:600">&lt;</button>
 			</td>
 			<td>
-				<div id="image">Image Loading</div>
+				<div id="container" class="container">
+					<div id="image">Image Loading</div>
+					<div id="highlight"></div>
+				</div>
+				<!-- template div is not visible and doesnt have to be contained -->
+				<div id="box_template" class="redbox" style="display:none" highlight="true"><div id="controls">
+					<button class="smallbutton" title="accept" onclick="onClickBoxAccept();"><img src="images/bullet_tick.png"></button
+					><button class="smallbutton" title="cancel" onclick="onClickBoxCancel();"><img src="images/bullet_cross.png"></button>
+				</div></div>
+				
 			</td>
 			<td align="left">
 				<button id="rbut" onclick="OnClickNext();" style="height:600">&gt;</button>
@@ -70,7 +84,7 @@
 				<button id="ltimebut_bot" title="previous in timeline" onclick="onClickPreviousTime();" style="width:100"><img src="images/back.png"></button>
 				<button id="lbut_bot" onclick="onClickPrevious();" style="width:300">&lt;</button>
 				<button id="rbut_bot" onclick="OnClickNext();" style="width:300">&gt;</button>
-				<button id="rtimebut_bot" title="next in timeline" onclick="OnClickNextTime();" style="width:100"><img src="images/forward.png"
+				<button id="rtimebut_bot" title="next in timeline" onclick="OnClickNextTime();" style="width:100"><img src="images/forward.png"></button>
 			</td>
 			<td></td>
 		</tr>

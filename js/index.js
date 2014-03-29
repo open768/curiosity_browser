@@ -52,11 +52,13 @@ function OnSearch(){
 //***************************************************************
 function OnChangeSolList(){
 	if (loading) return;
+	reset_image_number = true;
 	set_sol(event.target.value);
 }
 
 //***************************************************************
 function OnChangeInstrument(){
+	reset_image_number = true;
 	set_instrument(getRadioButtonValue(event.target.id));
 }
 
@@ -90,11 +92,29 @@ function OnClickPrevious(){
 	get_image_data(current_sol, current_instrument,iPrevious,iPrevious+HOW_MANY_IMAGES-1);
 }
 
+//***************************************************************
+function msl_notebook(){
+	var sURL;
+	
+	sURL = "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx?tab=solsumm&sol=" + current_sol;
+	window.open(sURL, "date");
+}
+
+//***************************************************************
+function msl_notebook_map(){
+	var sURL;
+	
+	sURL = "https://an.rsl.wustl.edu/msl/mslbrowser/tab.aspx?t=mp&i=A&it=MT&ii=SOL," + current_sol;
+	window.open(sURL, "map");
+}
+
+
+
 //###############################################################
 //# Utility functions 
 //###############################################################
 
-function mark_instrument(psInstr){
+function set_instrument(psInstr){
 	var aRadios, radio_idx, oRadio;
 	
 	//find and mark the selected instrument remaining
@@ -139,13 +159,16 @@ function set_sol(psSol){
 	cDebug.write("setting sol: " + psSol);
 	current_sol = psSol;
 	document.getElementById(SOL_ID).innerHTML = current_sol;
-	mark_instruments(current_sol);
+	get_instruments(current_sol);
 }
 
 //***************************************************************
-function mark_instruments(psSol){
+function get_instruments(psSol){
+	set_status("getting instruments");
+
+	hide_instruments();
 	sUrl = "php/instruments.php?s=" + psSol;
-	cHttp.fetch_json(sUrl, mark_instruments_callback);
+	cHttp.fetch_json(sUrl, get_instruments_callback);
 }
 
 //***************************************************************
@@ -189,7 +212,7 @@ function get_image_data( piSol, psInstr, piStart, piEnd){
 	var sUrl;
 	
 	// update the content in the address bar
-	sUrl = cBrowser.baseUrl() +"?s=" + current_sol + "&i=" + current_instrument +"&b=" + piStart;
+	sUrl = cBrowser.pageUrl() +"?s=" + current_sol + "&i=" + current_instrument +"&b=" + piStart;
 	cBrowser.pushState("Detail", sUrl);
 	
 	// load the image data
@@ -201,8 +224,6 @@ function get_image_data( piSol, psInstr, piStart, piEnd){
 
 //***************************************************************
 function load_data(){
-	cTagging.realm="Curiosity";
-
 	set_status("loading static data...");
 	if (cBrowser.data[MAXIMAGES_QUERYSTRING] )
 		HOW_MANY_IMAGES = parseInt(cBrowser.data[MAXIMAGES_QUERYSTRING]);
@@ -242,6 +263,7 @@ function tagnames_callback(poJs){
 function load_sols_callback(paJS){
 	var iIndex, oSol, oList, sHTML;
 	
+	
 	oList = document.getElementById(SOLS_LIST);
 	oList.innerHTML = "";
 	cDebug.write(oList);
@@ -275,7 +297,7 @@ function load_instruments_callback(paJS){
 
 	//click the buttons if stuff was passed in the query string
 	if (cBrowser.data[INSTR_QUERYSTRING] ) 
-		mark_instrument(cBrowser.data[INSTR_QUERYSTRING]);
+		set_instrument(cBrowser.data[INSTR_QUERYSTRING]);
 
 }
 
@@ -330,18 +352,23 @@ function load_images_callback(paJS){
 }
 
 //***************************************************************
-function mark_instruments_callback(paJS){
-	var aRadios, instr_idx, radio_idx, oRadio, oSpan, sInstr;
-
-	set_status("got instruments");
-	
-	//unmark all instruments
+function  hide_instruments(){
+	var aRadios, radio_idx, oRadio;
 	aRadios= document.getElementsByName(INSTRUMENT_RADIO);
 	for ( radio_idx = 0; radio_idx<aRadios.length; radio_idx++){
 		oRadio = aRadios[radio_idx];
 		oRadio.parentNode.style.visibility = "hidden";
 	}
+}
+
+//***************************************************************
+function get_instruments_callback(paJS){
+	var aRadios, instr_idx, radio_idx, oRadio, oSpan, sInstr;
+
+	set_status("got instruments");
 	
+	aRadios= document.getElementsByName(INSTRUMENT_RADIO);
+
 	//mark the instruments remaining
 	for ( instr_idx = 0; instr_idx<paJS.length; instr_idx++){
 		sInstr = paJS[instr_idx];
@@ -352,10 +379,9 @@ function mark_instruments_callback(paJS){
 		}
 	}
 	
-	set_status("ready");
-	
 	if 	(current_instrument || reload_after_instr){
 		reload_after_instr = false;
 		reload_data();
 	}
+	set_status("ready");
 }

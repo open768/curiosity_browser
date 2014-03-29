@@ -1,0 +1,40 @@
+#baseimg {
+    position: relative;
+	z-index: 1;
+}
+
+.redbox {
+	width: 120px;
+    height: 120px;
+    position: absolute;
+    border: 3px solid red;
+	z-index: 3;
+}
+
+.bluebox {
+	width: 120px;
+    height: 120px;
+    position: absolute;
+    border: 3px solid blue;
+	z-index: 2;
+}
+.bluebox :hover{
+	display: none;
+}
+#highlight{
+    position: absolute;
+	z-index:2;
+	top: 0px;
+	left: 0px;
+}
+
+#container{
+    position: relative;
+    border: 1px solid white;
+}
+
+#controls {
+	position: absolute; bottom: 0; right: 0;
+}
+.smallbutton{
+}

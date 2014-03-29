@@ -18,8 +18,33 @@ var STATUS_ID = "status";
 //###############################################################
 var cHttp = {
 	fetch_json:function(psUrl, pfnCallBack){	
-		cDebug.write(psUrl);
+		//if the url doesnt contain http
+		if (psUrl.search("http:") == -1)
+			cDebug.write(cBrowser.baseUrl() + psUrl);
+		else
+			cDebug.write(psUrl);
 		RGraph.AJAX.getJSON(psUrl, pfnCallBack);
+	}
+}
+
+//###############################################################
+//# STRINGS
+//###############################################################
+var cString = {
+	last:function (psText, psSearch){
+		var sReverseTxt = this.reverse(psText);
+		var sReverseSearch = this.reverse(psSearch);
+		
+		var iFound = sReverseTxt.search(sReverseSearch);
+		
+		if (iFound != -1)
+			iFound = psText.length - iFound;
+		return iFound;
+	},
+	
+	//***************************************************************
+	reverse:function reverse(psText){
+		return psText.split("").reverse().join("");
 	}
 }
 
@@ -31,6 +56,7 @@ var cDebug = {
 		if (DEBUG_ON && console) console.log("DEBUG> " + psMessage);
 	},
 	
+	//***************************************************************
 	vardump:function(arr, level){
 		var dumped_text = "";
 		if(!level) level = 0;
@@ -56,8 +82,56 @@ var cDebug = {
 	}
 }
 
+//###############################################################
+//# BROWSER
+//###############################################################
+cBrowser = {
+	data:null,
+	
+	//***************************************************************
+	init:function (){
+		var result = {}, keyValuePairs = location.search.slice(1).split('&');
 
-//***************************************************************
+		keyValuePairs.forEach(function(keyValuePair) {
+			keyValuePair = keyValuePair.split('=');
+			result[keyValuePair[0]] = keyValuePair[1] || '';
+		});
+
+		this.data = result;
+	},
+	
+	//***************************************************************
+	pageUrl:function(){
+		return document.URL.split("?")[0];
+	},
+	
+	//***************************************************************
+	baseUrl:function(){
+		var sUrl, iLast, sBase;
+		
+		sUrl = this.pageUrl();
+		cDebug.write("page url: "+ sUrl);
+		iLast = cString.last(sUrl, "/");
+		if (iLast == -1)
+			sBase = "";
+		else
+			sBase = sUrl.substring(0,iLast);
+		
+		cDebug.write("url is "+ sBase);
+		return sBase;
+	},
+	
+	//***************************************************************
+	pushState:function(psTitle, psUrl){
+		if (window.history.pushState)
+			window.history.pushState("", psTitle, psUrl);
+	}
+}
+cBrowser.init();
+
+//###############################################################
+//# MISC
+//###############################################################
 function set_error_status(psStatus){
 	document.getElementById(STATUS_ID).innerHTML= psStatus;
 	cDebug.write("<font color='red'>status: " + psStatus + "</font>");
@@ -86,31 +160,4 @@ function getRadioButtonValue(psID){
 	return sValue;
 }
 
-//###############################################################
-//# BROWSER
-//###############################################################
-cBrowser = {
-	data:null,
-	
-	init:function (){
-		var result = {}, keyValuePairs = location.search.slice(1).split('&');
-
-		keyValuePairs.forEach(function(keyValuePair) {
-			keyValuePair = keyValuePair.split('=');
-			result[keyValuePair[0]] = keyValuePair[1] || '';
-		});
-
-		this.data = result;
-	},
-	
-	baseUrl:function(){
-		return document.URL.split("?")[0];
-	},
-	
-	pushState:function(psTitle, psUrl){
-		if (window.history.pushState)
-			window.history.pushState("", psTitle, psUrl);
-	}
-}
-cBrowser.init();
 

@@ -11,7 +11,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-	require_once("inc/curiosity_json.php");
+	require_once("inc/curiosity/json.php");
+	require_once("inc/curiosity/instrument.php");
 	require_once("inc/debug.php");
 	
 	const TIMESLOT=10;
@@ -21,7 +22,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	$sSol = $_GET["s"] ;
 	
 	cDebug::write("getting instruments");
-	$oInstruments = cCuriosity::getInstrumentList();
+	$oInstruments = cInstrument::getInstrumentList();
 	$oData = cCuriosity::getAllSolData($sSol);
 	$aImages = $oData->images;
 	
@@ -31,7 +32,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	cDebug::write("processing images");
 	foreach ($aImages as $oItem){
 		$sInstr = $oItem->instrument;
-		$sInstrAbbr=cCuriosity::getInstrumentAbbr($sInstr);
+		$sInstrAbbr=cInstrument::getInstrumentAbbr($sInstr);
 		$sDateTime = $oItem->utc;
 
 		//ignore thumbnails

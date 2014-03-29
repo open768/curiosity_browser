@@ -13,7 +13,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 	require_once("inc/debug.php");
 	require_once("inc/tags.php");
-	require_once("inc/curiosity/static.php");
 	
 	cDebug::check_GET_or_POST();
 

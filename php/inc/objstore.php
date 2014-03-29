@@ -20,13 +20,15 @@ class cObjStore{
 	static function get_file($psRealm, $psFolder, $psFile){
 		$aData = null;
 
+		cDebug::write("looking for file:$psFile in folder:$psFolder in realm:$psRealm");
 		$folder = self::pr_get_folder_name($psRealm, $psFolder);
 		if (!is_dir($folder)){
-			cDebug::write("no tag data at all");
+			cDebug::write("no obstore data at all in folder: $psFolder");
 			return $aData;
 		}
 		
 		$file = "$folder/$psFile";
+		cDebug::write("File: $file");
 		if (file_exists($file)){
 			$sText = file_get_contents($file);
 			$aData = unserialize($sText);

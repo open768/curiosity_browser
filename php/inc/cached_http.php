@@ -18,7 +18,7 @@ require_once("inc/debug.php");
 // TODO use a different cache mechanism that doesnt store everything in one file
 
 class cCachedHttp{
-	const CACHE_EXPIRY = 3600;
+	public static $CACHE_EXPIRY = 3600;  //(seconds)
 	private static $oCache = null;
 	private static $sCacheFile = null;
 	public static $fileHashing = true;
@@ -61,7 +61,7 @@ class cCachedHttp{
 			$oResponse = cHttp::getJson($psURL);
 			cDebug::write("no cached ");
 			$sSerial = serialize($oResponse);
-			$oCache->store($psURL, $sSerial, self::CACHE_EXPIRY);
+			$oCache->store($psURL, $sSerial, self::$CACHE_EXPIRY);
 		}
 		
 		return $oResponse;

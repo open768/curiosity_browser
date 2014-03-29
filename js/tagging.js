@@ -1,12 +1,11 @@
 var cTagging = {
-	baseURL:"php/tag.php",
-	realm:"UNK",
+	phpBaseURL:"php/tag.php",
 	maxFont:24,
 	minFont:8,
 	
 	//********************************************************************************
 	getTags: function(psFolder, pfnCallback){
-		sUrl = this.baseURL + "?o=get&r="+ this.realm +"&f="+psFolder;
+		sUrl = this.phpBaseURL + "?o=get&f="+psFolder;
 		set_status("getting tag");
 		cHttp.fetch_json(sUrl, pfnCallback);
 	},
@@ -14,7 +13,7 @@ var cTagging = {
 	//********************************************************************************
 	setTag: function(psFolder, psTagname, pfnCallback){
 		var sUrl;
-		sUrl = this.baseURL + "?o=set&r="+ this.realm +"&f="+psFolder+"&v="+psTagname;
+		sUrl = this.phpBaseURL + "?o=set&f="+psFolder+"&v="+psTagname;
 		set_status("setting tag " + sUrl);
 		cHttp.fetch_json(sUrl, pfnCallback);
 	},
@@ -22,7 +21,7 @@ var cTagging = {
 	//********************************************************************************
 	getTagNames: function(pfnCallback){
 		var sUrl;
-		sUrl = this.baseURL + "?o=all&r="+ this.realm ;
+		sUrl = this.phpBaseURL + "?o=all" ;
 		set_status("fetching tagnames");
 		cHttp.fetch_json(sUrl, pfnCallback);
 	},
@@ -31,7 +30,7 @@ var cTagging = {
 	getTagDetails:function(psTag, pfnCallback){
 		var sUrl;
 		set_status("fetching tag details");
-		sUrl = this.baseURL + "?o=detail&r="+ this.realm + "&t=" + psTag;
+		sUrl = this.phpBaseURL + "?o=detail&t=" + psTag;
 		cHttp.fetch_json(sUrl, pfnCallback);
 	},
 	
@@ -51,7 +50,7 @@ var cTagging = {
 			iCount = poData[sKey];
 			iSize = this.minFont + iCount * fsRatio;
 			iWeight = 100 + Math.round(iCount * fwRatio);
-			sHTML += "<a target='tags' style='font-size:"+iSize+"px;font-weight:"+ iWeight +"' href='tag.html?t=" + sKey  + "'>" + sKey +"</a> ";
+			sHTML += "<a target='tags' style='font-size:" + iSize + "px;font-weight:" + iWeight + "' href='tag.html?t=" + sKey  + "'>" + sKey +"</a> ";
 		}
 		document.getElementById(psElement).innerHTML = sHTML;
 	}

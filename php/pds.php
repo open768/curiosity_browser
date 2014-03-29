@@ -12,20 +12,18 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 	require_once("inc/curiosity/json.php");
+	require_once("inc/curiosity/pds.php");
+	require_once("inc/curiosity/lbl.php");
 	require_once("inc/debug.php");
 	
 	cDebug::check_GET_or_POST();
 
-	$sSol = $_GET["s"] ;
-	$sInstrument = $_GET["i"];	
 	$sProduct = $_GET["p"];
 	
-	cDebug::write("getting product details for $sSol, $sInstrument, $sProduct");
-	$oInstrumentData = cCuriosity::getProductDetails($sSol, $sInstrument, $sProduct);
+	$sPDSProduct = cCuriosityPDS::convert_Msl_product($sProduct);
 	
 	if (cDebug::$DEBUGGING)
-		cDebug::vardump($oInstrumentData);
+		cDebug::vardump($sPDSProduct);
 	else
-		echo json_encode($oInstrumentData );
+		echo json_encode($sPDSProduct );
 ?>
-

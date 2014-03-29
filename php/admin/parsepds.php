@@ -11,12 +11,13 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-	require_once("inc/debug.php");
-	require_once("inc/tags.php");
-	require_once("inc/curiosity/static.php");
+	require_once("../inc/debug.php");
+	require_once("../inc/curiosity_pds.php");
+	require_once("../inc/curiosity/static.php");
 	
 	cDebug::check_GET_or_POST();
 
+	
 	
 	//***************************************************
 	$sOperation = $_GET["o"] ;

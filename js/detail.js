@@ -16,68 +16,67 @@ var SOL_QUERYSTRING = "s";
 var INSTR_QUERYSTRING = "i";
 var PRODUCT_QUERYSTRING = "p";
 
-var current_sol = null;
-var current_instrument = null;
-var current_product = null;
-var current_date_utc = null;
-var current_date_lmst = null;
-var nasa_link = null;
-var mapLink = null;
+var goItem = null;
 
 //###############################################################
 //# Event Handlers
 //###############################################################
 //***************************************************************
+function onJqueryLoad(){
+	//nothing to do here ;-)
+}
+
+//***************************************************************
 function OnClickNext(){
 	//find the next product
-	var sUrl;
+	var sURL;
 	
-	sUrl = "php/next.php?d=n&s=" + current_sol + "&i=" + current_instrument +"&p=" + current_product;
+	sURL = "php/next.php?d=n&s=" + goItem.s + "&i=" + goItem.i +"&p=" + goItem.p;
 	set_status("fetching next image details...");
-	cHttp.fetch_json(sUrl, next_callback);
+	cHttp.fetch_json(sURL, next_callback);
 }
 
 //***************************************************************
 function OnClickNextTime(){
-	sUrl = "php/nexttime.php?d=n&s=" + current_sol + "&p=" + current_product;
+	sURL = "php/nexttime.php?d=n&s=" + goItem.s + "&p=" + goItem.p;
 	set_status("fetching next image details...");
-	cHttp.fetch_json(sUrl, nexttime_callback);
+	cHttp.fetch_json(sURL, nexttime_callback);
 }
 
 //***************************************************************
 function onClickPreviousTime(){
-	sUrl = "php/nexttime.php?d=p&s=" + current_sol + "&p=" + current_product;
+	sURL = "php/nexttime.php?d=p&s=" + goItem.s + "&p=" + goItem.p;
 	set_status("fetching previous image details...");
-	cHttp.fetch_json(sUrl, nexttime_callback);
+	cHttp.fetch_json(sURL, nexttime_callback);
 }
 
 //***************************************************************
 function onClickPrevious(){
 	//find the previous product
-	var sUrl;
+	var sURL;
 	
-	sUrl = "php/next.php?d=p&s=" + current_sol + "&i=" + current_instrument +"&p=" + current_product;
+	sURL = "php/next.php?d=p&s=" + goItem.s + "&i=" + goItem.i +"&p=" + goItem.p;
 	set_status("fetching previous image details...");
-	cHttp.fetch_json(sUrl, next_callback);
+	cHttp.fetch_json(sURL, next_callback);
 }
 
 //***************************************************************
 function onClickCal(){
 	var sURL;
 	
-	sURL = "cal.html?s=" + current_sol + "&t=" + current_date_utc;
-		
-	window.open(sURL, "date");
+	sURL = "cal.html?s=" + goItem.s + "&t=" + goItem.d.du;
+	window.open(sURL, "calendar");
 }
 
 //***************************************************************
 function onClickMap(){
-	window.open(mapLink, "map");
+	var sURL = "http://curiosityrover.com/imgpoint.php?name=" + goItem.p;
+	window.open(sURL, "map");
 }
 
 //***************************************************************
 function onClickSol(){
-	var sURL="index.html?s="+ current_sol + "&i=" + current_instrument;
+	var sURL="index.html?s="+ goItem.s + "&i=" + goItem.i;
 	window.open(sURL, "index");
 }
 
@@ -88,20 +87,27 @@ function onClickInstr(){
 
 //***************************************************************
 function onClickNASA(){
-	window.open(nasa_link, "nasa");
+	window.open(goItem.d.i, "nasa");
 }
 
 //***************************************************************
 function onClickNotebook(){
-	//var sURL = "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx?tab=solsumm&sol=" + current_sol;
-	var sURL = "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx?tab=solsumm&p=" + current_product;
+	//var sURL = "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx?tab=solsumm&sol=" + goItem.s;
+	var sURL = "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx?tab=solsumm&p=" + goItem.p;
 	window.open(sURL, "notebook");
 }
 
 //***************************************************************
 function onClickMSLRaw(){
-	var sURL = "http://mars.nasa.gov/msl/multimedia/raw/?rawid=" + current_product + "&s=" + current_sol;
+	var sURL = "http://mars.nasa.gov/msl/multimedia/raw/?rawid=" + goItem.p + "&s=" + goItem.s;
 	window.open(sURL, "mslraw");
+}
+
+//***************************************************************
+function onClickPDS(){
+	var sURL = "php/pds.php?p=" + goItem.p ;
+	set_status("getting PDS information");
+	cHttp.fetch_json(sURL, get_pds_callback);
 }
 
 
@@ -110,44 +116,51 @@ function onAddTag(){
 	var sKey, sTag;
 
 	//check something was entered
-	sTag = document.getElementById("tagtext").value;
+	sTag = $("#tagtext").val();
 	if (sTag === ""){
 		alert ("no tag text");
 		return;
 	}
 	
-	set_status("setting tag");
-	sKey = cTagging.setTag(current_sol+"/"+current_instrument+"/"+current_product, sTag, tag_callback);
+	set_status("setting tag: " + sTag);
+	sKey = cTagging.setTag(goItem.s+"/"+goItem.i+"/"+goItem.p, sTag, tag_callback);
 }
 
 //###############################################################
 //# Utility functions 
 //###############################################################
 function load_data(){
-	cTagging.realm="Curiosity";
 	get_product_data( cBrowser.data[SOL_QUERYSTRING], cBrowser.data[INSTR_QUERYSTRING], cBrowser.data[PRODUCT_QUERYSTRING]);
 	cTagging.getTagNames(tagnames_callback);
+	$(onJqueryLoad); //load jQuery
 }
+
 
 //***************************************************************
 function get_product_data( psSol, psInstr, psProd){
-	var sUrl;
-	
-	current_sol = psSol;
-	current_instrument = psInstr;
-	current_product = psProd;
+	var sURL;
 	
 	loading=true;
-	sUrl = "php/detail.php?s=" + psSol + "&i=" + psInstr +"&p=" + psProd;
+	sURL = "php/detail.php?s=" + psSol + "&i=" + psInstr +"&p=" + psProd;
 	set_status("fetching data for "+ psProd);
-	cHttp.fetch_json(sUrl, load_detail_callback);
+	cHttp.fetch_json(sURL, load_detail_callback);
 }
 //###############################################################
 //* call backs 
 //###############################################################
+function get_pds_callback(poJS){
+	set_status("got PDS callback");
+}
+
+//***************************************************************
 function tagnames_callback(poJs){
 	cTagging.showTagCloud("tagcloud",poJs);
 	set_status("got tag names");
+}
+
+//***************************************************************
+function highlight_callback(paJS){
+	//TBD
 }
 
 //***************************************************************
@@ -164,7 +177,7 @@ function tag_callback(paJS){
 			sHTML += "<a target='tags' href='tag.html?t=" + sTag + "'>#" + sTag + "</a> ";
 		}
 	}
-	document.getElementById("tags").innerHTML = sHTML;
+	$("#tags").html( sHTML);
 	
 	set_status("ok");
 }
@@ -176,15 +189,13 @@ function load_detail_callback(paJS){
 	set_status("received data...");
 	
 	//rely upon what came back rather than the query string
-	current_sol = paJS.s;
-	current_instrument = paJS.i;
-	current_product = paJS.p;
+	goItem = paJS;
 	
 	//update the title
-	document.title = "Curiosity Browser - details - sol:" + current_sol + " instrument:" + current_instrument;
+	document.title = "Curiosity Browser - details - sol:" + goItem.s + " instrument:" + goItem.i;
 	
 	//update the address bar
-	sURL = cBrowser.baseUrl() +"?s=" + current_sol + "&i=" + current_instrument + "&p=" + current_product;
+	sURL = cBrowser.pageUrl() +"?s=" + goItem.s + "&i=" + goItem.i + "&p=" + goItem.p;
 	cBrowser.pushState("Detail", sURL);
 	
 	//check whether there was any data
@@ -193,46 +204,46 @@ function load_detail_callback(paJS){
 		set_status("EMPTY DATA RESPONSE - <font color=red><b>ERROR?</b></font>");
 		return;
 	}
-	nasa_link = oData.i;
 
 	//tags 
 	if (!paJS.tags)
-		document.getElementById("tags").innerHTML = "no Tags - be the first to add one";
+		$("#tags").html( "no Tags - be the first to add one");
 	else{
-		document.getElementById("tags").innerHTML = paJS.tags;
+		$("#tags").html( paJS.tags);
 		//not full implemented!
 	}
-		
 	
 	//update image index details
-	document.getElementById("img_index").innerHTML = paJS.item;
-	document.getElementById("max_images").innerHTML = paJS.max;
-
-	document.getElementById("sol").innerHTML = current_sol;
-	document.getElementById("instrument").innerHTML = current_instrument;
+	$("#img_index").html( paJS.item);
+	$("#max_images").html( paJS.max);
+	$("#sol").html( goItem.s);
+	$("#instrument").html( goItem.i);
 	
-	//figure out the map link
-	mapLink = "http://curiosityrover.com/imgpoint.php?name=" + current_product;
-
 	//populate the remaining fields
-	current_date_lmst = oData.dm;
-	current_date_utc = oData.du;
-	document.getElementById("date_utc").innerHTML = current_date_utc;
-	document.getElementById("date_lmst").innerHTML = current_date_lmst;
-	document.getElementById("msldata").innerHTML = "<pre>" + cDebug.vardump(oData.data,1) + "</pre>";
-	document.getElementById("image").innerHTML = "<a target='nasa' href='"+ oData.i + "'><img id='img' src='" + oData.i + "' onload='OnImageLoaded()'></a>";
+	$("#date_utc").html( goItem.d.du);
+	$("#date_lmst").html( goItem.d.dm);
+	$("#msldata").html( "<pre>" + cDebug.vardump(oData.data,1) + "</pre>");
+	
+	//add the image 
+	$("#image").empty();
+	var oImg = $("<img/>").attr({"src":oData.i, "id":"baseimg", "onload":"OnImageLoaded()"});
+	$("#image").append(oImg);
+	
 	
 	sLink = oData.l;
 	if (sLink=="UNK"){
-		document.getElementById("label_link").innerHTML = "No Product Label data found";
-		document.getElementById("label").innerHTML = "No Product Label data found";
+		$("#label_link").html( "No Product Label data found");
+		$("#label").html( "No Product Label data found");
 	}else{
-		document.getElementById("label_link").innerHTML = "<a target='nasa' href='"+ sLink + "'>" + sLink + "</a>";
-		document.getElementById("label").src = sLink;
+		$("#label_link").html( "<a target='nasa' href='"+ sLink + "'>" + sLink + "</a>");
+		$("#label").html (sLink);
 	}
 
 	//get the tags
-	sKey = cTagging.getTags(current_sol+"/"+current_instrument+"/"+current_product, tag_callback);
+	sKey = cTagging.getTags(goItem.s+"/"+goItem.i+"/"+goItem.p, tag_callback);
+	
+	//empty highligths
+	cImgHilite.remove_boxes();
 	
 	//set status
 	set_status("Image Loading");
@@ -248,24 +259,50 @@ function nexttime_callback(poJson){
 
 //***************************************************************
 function next_callback(poJson){
-	get_product_data( poJson.s, current_instrument, poJson.d.p);
+	get_product_data( poJson.s, goItem.i, poJson.d.p);
 }
 
 //***************************************************************
 function OnImageLoaded(){
-	var iHeight= event.target.height;
-	var iWidth= (event.target.width/2) - 6 - 100;
+	var iHeight= $(event.target).height();
+	var iWidth= $(event.target).width()/2 - 20- 100;
 	
+	//make the buttons the right size
 	cDebug.write("setting button sizes");
 	cDebug.write("width: " + iWidth);
 	cDebug.write("height: " + iHeight);
 	
-	document.getElementById("rbut").style.height=iHeight;
-	document.getElementById("lbut").style.height=iHeight;
-	document.getElementById("rbut_top").style.width=iWidth;
-	document.getElementById("lbut_top").style.width=iWidth;
-	document.getElementById("rbut_bot").style.width=iWidth;
-	document.getElementById("lbut_bot").style.width=iWidth;
+	$("#rbut").height(iHeight);
+	$("#lbut").height(iHeight);
+	$("#rbut_top").width(iWidth);
+	$("#lbut_top").width(iWidth);
+	$("#rbut_bot").width(iWidth);
+	$("#lbut_bot").width(iWidth);
+	
+	//make the image clickable
+	$(event.target).click(OnImageClick);
+	cImgHilite.imgTarget = event.target;
+	
+	//get the highlights if any
+	cImgHilite.getHighlights(goItem.s+"/"+goItem.i+"/"+goItem.p, highlight_callback);
+	
 	set_status("OK");
 }
+
+//***************************************************************
+function OnImageClick(poEvent){
+	cImgHilite.makeBox(poEvent.pageX, poEvent.pageY);
+}
+
+//**************************************************
+function onClickBoxAccept(){
+	var oBox = cImgHilite.acceptBox(event.currentTarget);
+	cImgHilite.save_highlight(goItem.s+"/"+goItem.i+"/"+goItem.p, oBox);
+}
+
+//**************************************************
+function onClickBoxCancel(){
+	cImgHilite.rejectBox(event.currentTarget);
+}
+
 
