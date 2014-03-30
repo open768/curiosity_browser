@@ -28,6 +28,12 @@ class cDebug{
 			echo "</PRE></td></tr></table>";
 		}
 	}
+
+	//**************************************************************************
+	public static function error($psText){
+		self::write("error: $psText");
+		throw new Exception($psText);
+	}
 	
 	//**************************************************************************
 	public static function check_GET_or_POST(){
@@ -35,5 +41,7 @@ class cDebug{
 		
 		self::$DEBUGGING = (isset($_GET["debug"]) || isset($_POST["debug"]));
 	}
+	
+	
 	
 }

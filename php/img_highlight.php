@@ -12,38 +12,36 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 	require_once("inc/debug.php");
-	require_once("inc/tags.php");
+	require_once("inc/pichighlight.php");
+	require_once("inc/curiosity/static.php");
 	
 	cDebug::check_GET_or_POST();
 
 	
 	//***************************************************
 	$sOperation = $_GET["o"] ;
-	$aData = null;
+	$oResult = null;
 	
 	switch($sOperation){
-		case "set":
-			$sFolder = $_GET["f"] ;
-			$sTag = $_GET["v"] ;
-			$sUser = "anonymous";   //for the moment at least assume an anonymous user
-			cTags::set_tag(OBJDATA_REALM, $sFolder, $sTag, $sUser);
+		case "add":
+			$folder= $_GET["f"];
+			$top= $_GET["t"];
+			$left= $_GET["l"];
+			$oResult = cImageHighlight::set(OBJDATA_REALM, $folder, $top, $left);
+			break;
 		case "get":
-			$sFolder = $_GET["f"] ;
-			$aData = cTags::get_tag_names(OBJDATA_REALM, $sFolder);
+			$folder= $_GET["f"];
+			$oResult = cImageHighlight::get(OBJDATA_REALM,$folder);
 			break;
-		case "detail":
-			$sTag = $_GET["t"] ;
-			$aData = cTags::get_tag_index(OBJDATA_REALM, $sTag);
-			break;
-		case "all":
-			$aData = cTags::get_top_tags(OBJDATA_REALM);
+		default:
+			cDebug::error("unsupported operation");
 			break;
 	}
 	
 	//***************************************************
 	//output the tags
 	if (cDebug::$DEBUGGING)
-		cDebug::vardump($aData);
+		cDebug::vardump($oResult);
 	else
-		echo json_encode($aData );	
+		echo json_encode($oResult );	
 ?>

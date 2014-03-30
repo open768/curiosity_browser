@@ -16,6 +16,7 @@ require_once("inc/objstore.php");
 require_once("inc/curiosity/json.php");
 require_once("inc/curiosity/instrument.php");
 require_once("inc/curiosity/static.php");
+require_once("inc/curiosity/lbl.php");
 
 
 //##########################################################################
@@ -83,6 +84,8 @@ class cCuriosityPDS{
 			cDebug::write($e);
 			return null;
 		}
+		$oLBL = cPDS_LBL::parse($sCacheFile);
+		
 		
 		//get and cache file eg http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0003/INDEX/EDRINDEX.TAB - its a comma separated fixed field length file can be many MB
 		//-- $sTABUrl = self::PDS_URL."/$psVolume/INDEX/EDRINDEX.TAB";

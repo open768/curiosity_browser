@@ -3,6 +3,7 @@ var cImgHilite = {
 	containerID:"#highlight",
 	baseImageID:"#baseimg",
 	url:"php/img_highlight.php",
+	controlsID:"#controls",
 	imgTarget:null,
 	ID:0,
 	
@@ -65,7 +66,24 @@ var cImgHilite = {
 		//make it draggable to the image	
 		oBox.draggable({ containment: oImg});
 		
-		return sID;
+		return oBox;
+	},
+	
+	//**************************************************
+	make_fixed_box:function(psTop, psLeft){
+		var oBox, oControls;
+
+		//make and position the box
+		oBox = this.makeBox(100,100);
+		oBox.css({position: 'absolute',	top: psTop,	left: psLeft})
+		
+		//disable dragging and make it blue
+		oBox.draggable('disable');
+		oBox.className="bluebox";
+		
+		//find and disable controls
+		oControls = oBox.find(this.controlsID);
+		$(oControls).hide()
 	},
 	
 	//**************************************************
@@ -77,11 +95,13 @@ var cImgHilite = {
 	//**************************************************
 	save_highlight:function(psPath, psID){
 		var oBox = $(psID);
-		sUrl = this.url+"o=add&f=" + psPath + "&t=" + oBox.css("top") + "&l=" + oBox.css("left");
+		sUrl = this.url+"?o=add&f=" + psPath + "&t=" + oBox.css("top") + "&l=" + oBox.css("left");
 		cHttp.fetch_json(sUrl, null);
 	},
 	
 	//**************************************************
 	getHighlights:function(psPath, pfnCallBack){
+		sUrl = this.url+"?o=get&f=" + psPath;
+		cHttp.fetch_json(sUrl, pfnCallBack);
 	},
 }

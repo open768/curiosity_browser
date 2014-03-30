@@ -16,7 +16,8 @@ require_once("inc/cached_http.php");
 	
 //##########################################################################
 class cPDS_LBL{
-	function parse($psUrl){
+	function parse($psfilename){
+		throw new Exception("to be done");
 	}
 }
 ?>

@@ -160,7 +160,17 @@ function tagnames_callback(poJs){
 
 //***************************************************************
 function highlight_callback(paJS){
-	//TBD
+	var i, aItem;
+	if (!paJS){
+		cDebug.write("no highlights");
+		return;
+	}
+	
+	for (i=0; i<paJS.length; i++){
+		aItem = paJS[i];
+		cDebug.write("adding highlight: top=" + aItem.t + " left=" + aItem.l);
+		cImgHilite.make_fixed_box(aItem.t, aItem.l);
+	}
 }
 
 //***************************************************************

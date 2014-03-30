@@ -28,17 +28,16 @@ class cHttp{
 		curl_setopt($oCurl, CURLOPT_URL, $psUrl);
 		curl_setopt($oCurl, CURLOPT_FAILONERROR, 1);
 		curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1);
-		try{
-			$response = curl_exec($oCurl);
-			$iErr = curl_errno($oCurl);
-			if ($iErr!=0 ) {
-				print curl_error($oCurl)."<p>";
-				throw new Exception("ERROR URL was: $psUrl <p>");
-			}
-		}finally{
-			curl_close($oCurl);
-		}
 		
+		$response = curl_exec($oCurl);
+		$iErr = curl_errno($oCurl);
+		if ($iErr!=0 ) {
+			print curl_error($oCurl)."<p>";
+			curl_close($oCurl);
+			throw new Exception("ERROR URL was: $psUrl <p>");
+		}else
+			curl_close($oCurl);
+			
 		return  $response;
 	}
 	
@@ -68,18 +67,17 @@ class cHttp{
 		curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 0);
 		curl_setopt($oCurl, CURLOPT_FILE, $fHandle);
 		$iErr = 0;
-		try{
-			$response = curl_exec($oCurl);
-			$iErr = curl_errno($oCurl);
-			if ($iErr!=0 ) {
-				print curl_error($oCurl)."<p>";
-				throw new Exception("ERROR URL was: $psUrl <p>");
-			}
-		}finally{
-			curl_close($oCurl);
-			fclose($fHandle);
-			if ($iErr !=0) unlink($sPath);
+		$response = curl_exec($oCurl);
+		$iErr = curl_errno($oCurl);
+		if ($iErr!=0 ) 	print curl_error($oCurl)."<p>";
+		curl_close($oCurl);
+		fclose($fHandle);
+		
+		if ($iErr !=0){
+			unlink($sPath);
+			throw new Exception("ERROR URL was: $psUrl <p>");
 		}
+
 		
 		return $sPath;
 	}
