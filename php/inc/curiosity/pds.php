@@ -27,10 +27,44 @@ class cCuriosityPDS{
 	const max_released = 449;
 	const LBL_CACHE = 12628000; //a long time
 	
+	const PICNO_REGEX = "/^(\d{4})(\D{2})(\d{6})(\d{3})(\d{2})(\d{5})(\D)(.)(\d)_(\D+)/";
+	const SHORT_REGEX = "/^(\d{4})(\D{2})(\d{4})(\d+)(\D)(\d)_(\D+)/";
+
+	//*****************************************************************************
+	//* see http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0005/DOCUMENT/MSL_MMM_EDR_RDR_DPSIS.PDF pg23 PICNO
+	public static function explode_product($psProduct){
+		$aResult = null;
+		if (preg_match(self::SHORT_REGEX, $psProduct, $aMatches)){	
+			$aResult = [
+				"sol"=>(int)$aMatches[1],
+				"instrument"=>$aMatches[2],
+				"sequence" => (int) $aMatches[3],
+				"product type" => $aMatches[5],
+				"gop counter" => (int) $aMatches[6],
+				"processing code" => $aMatches[7]
+			];
+		}elseif (preg_match(self::PICNO_REGEX, $psProduct, $aMatches)){
+			$aResult = [
+				"sol"=>(int)$aMatches[1],
+				"instrument"=>$aMatches[2],
+				"seqid" => (int) $aMatches[3],
+				"seq line" => (int) $aMatches[3],
+				"CDPID" => (int) $aMatches[6],
+				"product type" => $aMatches[7],
+				"gop counter" => $aMatches[8],
+				"version" => (int) $aMatches[9],
+				"processing code" => $aMatches[10],
+			];
+		}else{
+			cDebug::error("not a valid MSL product: '$psProduct'");
+		}
+		return $aResult;
+	}
+	
 	//**********************************************************************
 	public static function convert_Msl_product($psProduct){
 		//split the MSL product apart	
-		$aMSLProduct = cCuriosity::explode_product($psProduct);
+		$aMSLProduct = self::explode_product($psProduct);
 		cDebug::vardump($aMSLProduct);
 
 		//get the utc (whichis nearly common with the PDS catalog

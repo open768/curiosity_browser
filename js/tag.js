@@ -18,7 +18,7 @@ var DEBUG_ON = true;
 
 function load_data(){
 	var sTag = cBrowser.data["t"];
-	document.getElementById("tagname").innerHTML = sTag;
+	$("#tagname").html(sTag);
 	cTagging.getTagDetails(sTag, tagdetails_callback);
 	cTagging.getTagNames(tagnames_callback);
 }
@@ -57,5 +57,5 @@ function tagdetails_callback(paJs){
 		sHTML += "</table>"
 	}
 		
-	document.getElementById("tagdata").innerHTML = sHTML;
+	$("#tagdata").html(sHTML);
 }

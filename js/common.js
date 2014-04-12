@@ -23,8 +23,15 @@ var cHttp = {
 			cDebug.write(cBrowser.baseUrl() + psUrl);
 		else
 			cDebug.write(psUrl);
-		RGraph.AJAX.getJSON(psUrl, pfnCallBack);
+		$.getJSON(psUrl, pfnCallBack).fail(this.fail);
+	},
+	
+	fail:function( jqxhr, textStatus, error ){
+		set_error_status("Json call failed: see javascript console");
+		cDebug.write("ERROR: " + textStatus + "," + error);		
 	}
+	
+	
 }
 
 //###############################################################

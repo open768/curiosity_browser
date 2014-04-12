@@ -12,6 +12,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 	require_once("inc/debug.php");
+	require_once("inc/tags.php");
 	require_once("inc/curiosity/pds.php");
 	require_once("inc/curiosity/static.php");
 	
@@ -40,7 +41,12 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 		//------------------------------------------------------
 		case "killTag":
-			throw new Exception("to be done");
+			if (! array_key_exists( "t", $_GET)){
+				echo "usage: admin.php?o=killTag&t=tag";
+				exit();
+			}
+			cTags::kill_tag(OBJDATA_REALM, $_GET["t"]);
+
 			break;
 
 		//------------------------------------------------------

@@ -7,7 +7,7 @@
 	<script src="js/detail.js"></script>
 	<script src="js/common.js"></script>
 	<script src="js/tagging.js"></script>
-	<script src="js/rgraph/RGraph.common.core.js"></script>
+	<script src="js/comments.js"></script>
 	<script src="js/jquery/jquery-1.11.0.js"></script>
 	<script src="js/jquery/jquery-ui-1.10.4.js"></script>
 	<script src="js/imghilite.js"></script>
@@ -32,7 +32,7 @@
 		<button id="date_utc" title="Show SOL Calendar" onclick="onClickCal();">loading...</button>
 		image <span id="img_index">??</span> of <span id="max_images">??</span>
 		<button title="Map at curiositybrowser.com" id="maplink" onclick="onClickMap()">Map</button>
-		<button title="Original Nasa image" id="nasalink" onclick="onClickNASA()">NASA</button>
+		<button title="Original Nasa image" id="nasalink" onclick="onClickNASA()">Original</button>
 		<button title="MSL curiosity Notebook" id="notelink" onclick="onClickNotebook()">MSL NoteBook</button>
 		<button title="MSL curiosity Raw images" id="mslrawlink" onclick="onClickMSLRaw()">MSL Raw Image</button>
 		<button title="released PDS product" id="pds_product" onclick="onClickPDS()">PDS Product</button>
@@ -47,22 +47,24 @@
 	<DIV class="gold">
 		Status: <span ID="status" class="status">Loading...</span>
 	</div>
+	<!-- image container -->
 	<table border="0" class="gold">
 		<tr>
 			<td></td>
 			<td valign="bottom">
-				<button id="ltimebut_top" title="previous in timeline" onclick="onClickPreviousTime();" style="width:100"><img src="images/back.png"></button>
-				<button id="lbut_top" onclick="onClickPrevious();" style="width:300">&lt;</button>
-				<button id="rbut_top" onclick="OnClickNext();" style="width:300">&gt;</button>
-				<button id="rtimebut_top" title="next in timeline" onclick="OnClickNextTime();" style="width:100"><img src="images/forward.png"></button>
+				<nobr><button id="ltimebut_top" class="topnavbut" title="previous in timeline" onclick="onClickPreviousTime();" style="width:100"><img src="images/back.png"></button
+				><button id="lbut_top" class="topnavbut" onclick="onClickPrevious();" style="width:300">&lt;</button
+				><button id="rbut_top" class="topnavbut" onclick="OnClickNext();" style="width:300">&gt;</button
+				><button id="rtimebut_top" class="topnavbut" title="next in timeline" onclick="OnClickNextTime();" style="width:100"><img src="images/forward.png"></button>
+				</nobr>
 			</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td align="right">
-				<button id="lbut" onclick="onClickPrevious();" style="height:600">&lt;</button>
+				<button id="lbut" onclick="onClickPrevious();" style="height:600" class="lnavbut">&lt;</button>
 			</td>
-			<td>
+			<td align="middle">
 				<div id="container" class="container">
 					<div id="image">Image Loading</div>
 					<div id="highlight"></div>
@@ -75,21 +77,27 @@
 				
 			</td>
 			<td align="left">
-				<button id="rbut" onclick="OnClickNext();" style="height:600">&gt;</button>
+				<button id="rbut" onclick="OnClickNext();" style="height:600" class="rnavbut">&gt;</button>
 			</td>
 		</tr>
 		<tr>
 			<td></td>
 			<td valign="top">
-				<button id="ltimebut_bot" title="previous in timeline" onclick="onClickPreviousTime();" style="width:100"><img src="images/back.png"></button>
-				<button id="lbut_bot" onclick="onClickPrevious();" style="width:300">&lt;</button>
-				<button id="rbut_bot" onclick="OnClickNext();" style="width:300">&gt;</button>
-				<button id="rtimebut_bot" title="next in timeline" onclick="OnClickNextTime();" style="width:100"><img src="images/forward.png"></button>
+				<button id="ltimebut_bot" title="previous in timeline" onclick="onClickPreviousTime();" class="botnavbut" style="width:100"><img src="images/back.png"></button
+				><button id="lbut_bot" class="botnavbut" onclick="onClickPrevious();" style="width:300">&lt;</button
+				><button id="rbut_bot" class="botnavbut" onclick="OnClickNext();" style="width:300">&gt;</button
+				><button id="rtimebut_bot" class="botnavbut" title="next in timeline" onclick="OnClickNextTime();" style="width:100"><img src="images/forward.png"></button>
 			</td>
 			<td></td>
 		</tr>
 	</table>
+	<!-- end image container -->
 	<p>
+	<div class="gold">
+		<div ID="comments" class="comments">loading comments data...</div>
+		<p>
+		<textarea rows="3" cols="120" id="Commentsbox" placeholder="go on share your thoughts with everyone"></textarea><button onclick="onClickComment()" title="submit comment">comment</button>
+	</div>
 	<div class="gold" ID="msldata">
 		loading MSL data
 	</div>

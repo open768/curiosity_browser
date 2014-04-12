@@ -6,9 +6,10 @@
 	<script src="js/common.js"></script>
 	<script src="js/index.js"></script>
 	<script src="js/tagging.js"></script>
-	<script src="js/rgraph/RGraph.common.core.js"></script>
+	<script src="js/jquery/jquery-1.11.0.js"></script>
+	<script src="js/jquery/jquery-ui-1.10.4.js"></script>
 </head>
-<body onload="load_data();">
+<body onload="$(onloadJQuery);">
 	<!-- facebook -->
 		<div id="fb-root"></div>
 		<script>(function(d, s, id) {
@@ -28,14 +29,19 @@
 				<form name="sols" id="sols">
 					Sol: <span id="this_sol">???</span>
 					<br>
-					<SELECT name="SOL_list" id="sol_list" size="10" onchange="OnChangeSolList()" class="sols">
+					<SELECT id="sol_list" size="10" onchange="OnChangeSolList()" class="sols">
 						<option>sols go here.......................
 					</SELECT>
-					<div class="instruments" id="instruments">instruments go here</div>
+					<div class="instruments" id="instruments">loading instruments</div>
 				</form>
 				<div><button id="reload_images" onclick="reload_data();">reload</button></div>
 				<p>
-				<div class="gold" id="tags">Tags go here</div>
+				<div class="gold" id="tags">Loading Tags</div>
+				<p>
+				<div class="gold">
+					<button onclick="window.open('about.html', 'about');">About</button>
+					<button title="Where is curiosity now?" onclick="window.open('http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/', 'whereami');">Where is Curiosity</button>
+				</div>
 			</td>
 			<td class="gold" height="30">
 				<button id="previous" onclick="OnClickPrevious();">&lt;</button>
@@ -46,6 +52,7 @@
 				<input type="textbox" id="search_text" maxlength="30" size="30"><button onclick="OnSearch()" title="Search for Product">Search</button>
 				<button title="MSL curiosity notebook" onclick="msl_notebook();">MSL Notebook</button>
 				<button title="MSL curiosity notebook MAP" onclick="msl_notebook_map();">Map</button>
+				<button title="Calendar" onclick="onClickCalendar()">Calendar</button>
 			</td>
 		</tr>
 		<tr><td class="gold" height="20">

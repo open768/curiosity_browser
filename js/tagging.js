@@ -4,16 +4,16 @@ var cTagging = {
 	minFont:8,
 	
 	//********************************************************************************
-	getTags: function(psFolder, pfnCallback){
-		sUrl = this.phpBaseURL + "?o=get&f="+psFolder;
+	getTags: function(psSol,psInstr, psProduct, pfnCallback){
+		sUrl = this.phpBaseURL + "?o=get&s=" + psSol + "&i=" + psInstr + "&p=" + psProduct;
 		set_status("getting tag");
 		cHttp.fetch_json(sUrl, pfnCallback);
 	},
 
 	//********************************************************************************
-	setTag: function(psFolder, psTagname, pfnCallback){
+	setTag: function(psSol,psInstr, psProduct, psTagname, pfnCallback){
 		var sUrl;
-		sUrl = this.phpBaseURL + "?o=set&f="+psFolder+"&v="+psTagname;
+		sUrl = this.phpBaseURL + "?o=set&s=" + psSol + "&i=" + psInstr + "&p=" + psProduct+"&v="+psTagname;
 		set_status("setting tag " + sUrl);
 		cHttp.fetch_json(sUrl, pfnCallback);
 	},
@@ -52,6 +52,6 @@ var cTagging = {
 			iWeight = 100 + Math.round(iCount * fwRatio);
 			sHTML += "<a target='tags' style='font-size:" + iSize + "px;font-weight:" + iWeight + "' href='tag.html?t=" + sKey  + "'>" + sKey +"</a> ";
 		}
-		document.getElementById(psElement).innerHTML = sHTML;
+		$("#"+psElement).html(sHTML);
 	}
 }

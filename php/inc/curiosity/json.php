@@ -13,36 +13,18 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 require_once("inc/cached_http.php");
 require_once("inc/curiosity/instrument.php");
+require_once("inc/curiosity/pds.php");
 
 
 //##########################################################################
 class cCuriosity{
 	const SOL_URL = "http://mars.jpl.nasa.gov/msl-raw-images/image/images_sol";
 	const FEED_URL = "http://mars.jpl.nasa.gov/msl-raw-images/image/image_manifest.json";
-	const PRODUCT_REGEX = "/^(\d+)(\D+)(\d{4})(\d+)(\D)(\d)_(\D+)/";
 	const SOL_CACHE = 604800;	//1 week
 	const MANIFEST_CACHE = 3600;	//1 hour
 
 	private static $Instruments, $instrument_map;
 	
-	//*****************************************************************************
-	public static function explode_product($psProduct){
-		$aResult = null;
-		//eg 0184MR0925101000E1_DXXX
-		if (preg_match(self::PRODUCT_REGEX, $psProduct, $aMatches)){	
-			$aResult = [
-				"sol"=>(int)$aMatches[1],
-				"instrument"=>$aMatches[2],
-				"product identifier" => (int) $aMatches[3],
-				"product type" => $aMatches[5],
-				"gop counter" => (int) $aMatches[6],
-				"processing code" => $aMatches[7]
-			];
-		}else
-			throw new Exception("not a valid MSL product");
-		
-		return $aResult;
-	}
 	
 	//*****************************************************************************
 	public static function search_product($psSearch){
@@ -50,9 +32,10 @@ class cCuriosity{
 		//locate the product, make sure its not a thumbnail
 		$oData = null;
 		
-		if (preg_match("/^[0]*(\d+)\w+\d+/", $psSearch, $matches)){
-			$sSol= $matches[1];
-			cDebug::write("$psSearch is for sol $sSol");
+		$aExploded = cCuriosityPDS::explode_product($psSearch);
+		if ($aExploded != null){
+			$sSol= $aExploded["sol"];
+			cDebug::write("$psSearch is for sol '$sSol'");
 			$oSolData = self::getAllSolData($sSol);
 			if ($oSolData){
 				$aImages = $oSolData->images;

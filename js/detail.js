@@ -23,7 +23,8 @@ var goItem = null;
 //###############################################################
 //***************************************************************
 function onJqueryLoad(){
-	//nothing to do here ;-)
+	get_product_data( cBrowser.data[SOL_QUERYSTRING], cBrowser.data[INSTR_QUERYSTRING], cBrowser.data[PRODUCT_QUERYSTRING]);
+	cTagging.getTagNames(tagnames_callback);
 }
 
 //***************************************************************
@@ -34,6 +35,12 @@ function OnClickNext(){
 	sURL = "php/next.php?d=n&s=" + goItem.s + "&i=" + goItem.i +"&p=" + goItem.p;
 	set_status("fetching next image details...");
 	cHttp.fetch_json(sURL, next_callback);
+}
+
+//***************************************************************
+function onClickComment(){
+	var sText = $("#Commentsbox").val();
+	cComments.set(goItem.s+"/"+goItem.i+"/"+goItem.p, sText, get_comments_callback);
 }
 
 //***************************************************************
@@ -123,15 +130,13 @@ function onAddTag(){
 	}
 	
 	set_status("setting tag: " + sTag);
-	sKey = cTagging.setTag(goItem.s+"/"+goItem.i+"/"+goItem.p, sTag, tag_callback);
+	sKey = cTagging.setTag(goItem.s,goItem.i,goItem.p, sTag, addtag_callback);
 }
 
 //###############################################################
 //# Utility functions 
 //###############################################################
 function load_data(){
-	get_product_data( cBrowser.data[SOL_QUERYSTRING], cBrowser.data[INSTR_QUERYSTRING], cBrowser.data[PRODUCT_QUERYSTRING]);
-	cTagging.getTagNames(tagnames_callback);
 	$(onJqueryLoad); //load jQuery
 }
 
@@ -171,6 +176,12 @@ function highlight_callback(paJS){
 		cDebug.write("adding highlight: top=" + aItem.t + " left=" + aItem.l);
 		cImgHilite.make_fixed_box(aItem.t, aItem.l);
 	}
+}
+
+//***************************************************************
+function addtag_callback(paJS){
+	tag_callback(paJS);
+	cTagging.getTagNames(tagnames_callback);
 }
 
 //***************************************************************
@@ -249,14 +260,32 @@ function load_detail_callback(paJS){
 		$("#label").html (sLink);
 	}
 
-	//get the tags
-	sKey = cTagging.getTags(goItem.s+"/"+goItem.i+"/"+goItem.p, tag_callback);
+	//get the tags and comments
+	sKey = cTagging.getTags(goItem.s,goItem.i,goItem.p, tag_callback);
+	cComments.get(goItem.s+"/"+goItem.i+"/"+goItem.p, get_comments_callback);
 	
 	//empty highligths
 	cImgHilite.remove_boxes();
 	
 	//set status
 	set_status("Image Loading");
+}
+
+//***************************************************************
+function get_comments_callback(paJson){
+	var i, oText, sHTML;
+	
+	if (!paJson)
+		sHTML = "No Comments - be the first !";
+	else{
+		sHTML = "";
+		for (i=0; i<paJson.length; i++)
+			sHTML += paJson[i].u +":" + paJson[i].c + "<p>";
+	}
+	
+	oText = $("#comments");
+	oText.html(sHTML);
+	set_status("ok");
 }
 
 //***************************************************************
@@ -274,11 +303,17 @@ function next_callback(poJson){
 
 //***************************************************************
 function OnImageLoaded(){
-	var iHeight= $(event.target).height();
-	var iWidth= $(event.target).width()/2 - 20- 100;
+	var iWidth, iHeight, iImgW, iButW;
+	
+	iHeight= $(event.target).height();
+	iImgW = $(event.target).width();
+	iButW = $("#ltimebut_top").width();
+	iWidth= iImgW/2 - iButW - 28 ;
 	
 	//make the buttons the right size
 	cDebug.write("setting button sizes");
+	cDebug.write("imageWidth: " + iImgW);
+	cDebug.write("button width: " + iButW);
 	cDebug.write("width: " + iWidth);
 	cDebug.write("height: " + iHeight);
 	
@@ -294,7 +329,7 @@ function OnImageLoaded(){
 	cImgHilite.imgTarget = event.target;
 	
 	//get the highlights if any
-	cImgHilite.getHighlights(goItem.s+"/"+goItem.i+"/"+goItem.p, highlight_callback);
+	cImgHilite.getHighlights(goItem.s,goItem.i,goItem.p, highlight_callback);
 	
 	set_status("OK");
 }
@@ -307,7 +342,7 @@ function OnImageClick(poEvent){
 //**************************************************
 function onClickBoxAccept(){
 	var oBox = cImgHilite.acceptBox(event.currentTarget);
-	cImgHilite.save_highlight(goItem.s+"/"+goItem.i+"/"+goItem.p, oBox);
+	cImgHilite.save_highlight(goItem.s,goItem.i,goItem.p, oBox);
 }
 
 //**************************************************

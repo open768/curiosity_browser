@@ -29,6 +29,16 @@ function onClick(){
 	window.open(sURL, "detail");
 }
 
+function onClickNext(){
+	var iSol = parseInt(current_sol) +1;
+	get_calendar_data(iSol);
+}
+function onClickPrevious(){
+	var iSol = parseInt(current_sol) -1;
+	get_calendar_data(iSol);
+}
+
+
 //###############################################################
 //# Utility functions 
 //###############################################################
@@ -69,7 +79,7 @@ function load_cal_callback(paJS){
 		sHTML += "<span class='greybox'>" + oInstr.name + " <span  style='background-color:" + oInstr.colour + "'>&nbsp;&nbsp;&nbsp;</span></span> ";
 		oColours[oInstr.abbr] = oInstr.colour;
 	}
-	document.getElementById("colours").innerHTML = sHTML;
+	$("#colours").html(sHTML);
 	
 	
 	// get the headings
@@ -119,7 +129,7 @@ function load_cal_callback(paJS){
 				
 	sHTML += "</table>";
 	
-	document.getElementById("calendar").innerHTML = sHTML;
+	$("#calendar").html(sHTML);
 	
 	//we're done
 	set_status("OK");

@@ -93,15 +93,15 @@ var cImgHilite = {
 	},
 	
 	//**************************************************
-	save_highlight:function(psPath, psID){
+	save_highlight:function(psSol,psInstr, psProduct, psID){
 		var oBox = $(psID);
-		sUrl = this.url+"?o=add&f=" + psPath + "&t=" + oBox.css("top") + "&l=" + oBox.css("left");
+		sUrl = this.url+"?o=add&s=" + psSol + "&i=" + psInstr + "&p=" + psProduct +"&t=" + oBox.css("top") + "&l=" + oBox.css("left");
 		cHttp.fetch_json(sUrl, null);
 	},
 	
 	//**************************************************
-	getHighlights:function(psPath, pfnCallBack){
-		sUrl = this.url+"?o=get&f=" + psPath;
+	getHighlights:function(psSol,psInstr, psProduct, pfnCallBack){
+		sUrl = this.url+"?o=get&s=" + psSol + "&i=" + psInstr + "&p=" + psProduct;
 		cHttp.fetch_json(sUrl, pfnCallBack);
 	},
 }

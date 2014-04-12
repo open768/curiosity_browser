@@ -24,14 +24,19 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	
 	switch($sOperation){
 		case "add":
-			$folder= $_GET["f"];
+			$sSol = $_GET["s"];
+			$sInstrument= $_GET["i"];
+			$sProduct= $_GET["p"];
 			$top= $_GET["t"];
 			$left= $_GET["l"];
-			$oResult = cImageHighlight::set(OBJDATA_REALM, $folder, $top, $left);
+			$sUser = "anonymous";   //for the moment at least assume an anonymous user
+			$oResult = cImageHighlight::set(OBJDATA_REALM, $sSol, $sInstrument, $sProduct, $top, $left, $sUser);
 			break;
 		case "get":
-			$folder= $_GET["f"];
-			$oResult = cImageHighlight::get(OBJDATA_REALM,$folder);
+			$sSol = $_GET["s"];
+			$sInstrument= $_GET["i"];
+			$sProduct= $_GET["p"];
+			$oResult = cImageHighlight::get(OBJDATA_REALM, $sSol, $sInstrument, $sProduct);
 			break;
 		default:
 			cDebug::error("unsupported operation");

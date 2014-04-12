@@ -14,6 +14,10 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 require_once("inc/debug.php");
 require_once("inc/cached_http.php");
 	
+class cPDS_LBL_OBJ{
+	public $name = "";
+}
+
 //##########################################################################
 class cPDS_LBL{
 	function parse($psfilename){

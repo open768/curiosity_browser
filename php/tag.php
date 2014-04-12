@@ -24,13 +24,17 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	
 	switch($sOperation){
 		case "set":
-			$sFolder = $_GET["f"] ;
+			$sSol = $_GET["s"];
+			$sInstrument= $_GET["i"];
+			$sProduct= $_GET["p"];
 			$sTag = $_GET["v"] ;
 			$sUser = "anonymous";   //for the moment at least assume an anonymous user
-			cTags::set_tag(OBJDATA_REALM, $sFolder, $sTag, $sUser);
+			cTags::set_tag(OBJDATA_REALM, $sSol, $sInstrument, $sProduct, $sTag, $sUser);
 		case "get":
-			$sFolder = $_GET["f"] ;
-			$aData = cTags::get_tag_names(OBJDATA_REALM, $sFolder);
+			$sSol = $_GET["s"];
+			$sInstrument= $_GET["i"];
+			$sProduct= $_GET["p"];
+			$aData = cTags::get_tag_names(OBJDATA_REALM, $sSol, $sInstrument, $sProduct);
 			break;
 		case "detail":
 			$sTag = $_GET["t"] ;

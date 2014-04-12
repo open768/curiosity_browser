@@ -42,7 +42,7 @@ var reset_image_number = true;
 //# Event Handlers
 //###############################################################
 function OnSearch(){
-	var sText = document.getElementById("search_text").value;
+	var sText = $("#search_text").val();
 	if (sText !== ""){
 		sUrl="php/search.php?s=" + sText;
 		cHttp.fetch_json(sUrl, search_callback);
@@ -59,9 +59,16 @@ function OnChangeSolList(){
 //***************************************************************
 function OnChangeInstrument(){
 	reset_image_number = true;
-	set_instrument(getRadioButtonValue(event.target.id));
+	do_set_instrument(event.target.value);
 }
 
+//***************************************************************
+function onClickCalendar(){
+	var sURL;
+	
+	sURL = "cal.html?s=" + current_sol ;
+	window.open(sURL, "calendar");
+}
 
 //***************************************************************
 function OnClickNext(){
@@ -115,22 +122,18 @@ function msl_notebook_map(){
 //###############################################################
 
 function set_instrument(psInstr){
-	var aRadios, radio_idx, oRadio;
+	var oRadio;
 	
 	//find and mark the selected instrument remaining
-	aRadios= document.getElementsByName(INSTRUMENT_RADIO);
-	for ( radio_idx = 0; radio_idx<aRadios.length; radio_idx++){
-		oRadio = aRadios[radio_idx];
-		if (oRadio.value == psInstr){
-			oRadio.checked=true;
-			set_instrument(psInstr);
-			break;
-		}
+	oRadio = $("[name="+INSTRUMENT_RADIO+"][value="+psInstr+"]")
+	if (oRadio.length>0){
+		oRadio.prop("checked",true);
+		do_set_instrument(psInstr);
 	}
 }
 
 //***************************************************************
-function set_instrument(psInstr){
+function do_set_instrument(psInstr){
 	cDebug.write("setting instrument: " + psInstr);
 	current_instrument = psInstr;
 	reload_data();
@@ -140,25 +143,17 @@ function set_instrument(psInstr){
 function mark_sol(psSol){
 	var aSols, sol_idx, oSol;
 	
-	aSols = document.getElementById(SOLS_LIST).children;
-
-	for ( sol_idx = 0; sol_idx<aSols.length; sol_idx++){
-		oSol = aSols[sol_idx];
-		if (oSol.value == psSol){
-			cDebug.write("found it");
-			oSol.selected=true;
-			reload_after_instr = true;
-			set_sol(psSol);
-			break;
-		}
-	}
+	$("#"+SOLS_LIST + " option[value="+psSol+"]").attr("selected", true);
+	reload_after_instr = true;
+	set_sol(psSol);
 }
 
 //***************************************************************
 function set_sol(psSol){
 	cDebug.write("setting sol: " + psSol);
 	current_sol = psSol;
-	document.getElementById(SOL_ID).innerHTML = current_sol;
+	$("#"+SOL_ID).html(current_sol);
+	
 	get_instruments(current_sol);
 }
 
@@ -166,7 +161,10 @@ function set_sol(psSol){
 function get_instruments(psSol){
 	set_status("getting instruments");
 
-	hide_instruments();
+	//hide instruments using obfuscated jQUERY - yeuchhhh!!!! 
+	$("input[name=" + INSTRUMENT_RADIO + "]").each( function(){$(this).parent().hide();});
+	
+	//get the instruments for this sol
 	sUrl = "php/instruments.php?s=" + psSol;
 	cHttp.fetch_json(sUrl, get_instruments_callback);
 }
@@ -223,7 +221,7 @@ function get_image_data( piSol, psInstr, piStart, piEnd){
 }
 
 //***************************************************************
-function load_data(){
+function onloadJQuery(){
 	set_status("loading static data...");
 	if (cBrowser.data[MAXIMAGES_QUERYSTRING] )
 		HOW_MANY_IMAGES = parseInt(cBrowser.data[MAXIMAGES_QUERYSTRING]);
@@ -264,9 +262,7 @@ function load_sols_callback(paJS){
 	var iIndex, oSol, oList, sHTML;
 	
 	
-	oList = document.getElementById(SOLS_LIST);
-	oList.innerHTML = "";
-	cDebug.write(oList);
+	$("#"+SOLS_LIST).empty();
 	
 	sHTML = ""
 	for (iIndex = 0; iIndex < paJS.length; iIndex++){
@@ -274,7 +270,7 @@ function load_sols_callback(paJS){
 		sHTML += "<option value='" + oSol.sol + "'>Sol: " + oSol.sol + "  |  " + oSol.date + "</option>"		
 	}
 	
-	oList.innerHTML = sHTML;
+	$("#"+SOLS_LIST).html(sHTML);
 	
 	// mark the sol
 	if (cBrowser.data[SOL_QUERYSTRING] ) 
@@ -289,9 +285,9 @@ function load_instruments_callback(paJS){
 	sHTML = "";
 	for (iIndex = 0; iIndex < paJS.length; iIndex++){
 		oInstr = paJS[iIndex];
-		sHTML += "<span><input type='radio' id='"+ INSTRUMENT_RADIO +"' name='" + INSTRUMENT_RADIO + "' value='" + oInstr.name + "'onchange='OnChangeInstrument()'>" + oInstr.caption + "</input></span><br>";
+		sHTML += "<span><input type='radio' name='" + INSTRUMENT_RADIO + "' value='" + oInstr.name + "'onchange='OnChangeInstrument()'>" + oInstr.caption + "</input></span><br>";
 	}
-	document.getElementById(INSTRUMENT_DIV).innerHTML = sHTML;
+	$("#"+INSTRUMENT_DIV).html(sHTML);
 	loading=false;
 	set_status("ready");
 
@@ -319,12 +315,12 @@ function load_images_callback(paJS){
 		
 		// update the maximum display
 		max_images = parseInt(paJS.max);
-		document.getElementById(MAX_ID).innerHTML= max_images;
-		document.getElementById(MAX_ID2).innerHTML= max_images;
+		$("#"+MAX_ID).html(max_images);
+		$("#"+MAX_ID2).html(max_images);
 		
 		current_image_index = parseInt(paJS.start);
-		document.getElementById(CURRENT_ID).innerHTML= current_image_index;
-		document.getElementById(CURRENT_ID2).innerHTML= current_image_index;
+		$("#"+CURRENT_ID).html(current_image_index);
+		$("#"+CURRENT_ID2).html(current_image_index);
 		
 		//build the html
 		sHTML = "<table class='images'>";
@@ -345,38 +341,23 @@ function load_images_callback(paJS){
 	}
 	
 	//write out the html
-	document.getElementById(IMAGE_ID).innerHTML= sHTML;
+	$("#"+IMAGE_ID).html(sHTML);
 	
 	loading=false;
 	set_status("ready");
 }
 
-//***************************************************************
-function  hide_instruments(){
-	var aRadios, radio_idx, oRadio;
-	aRadios= document.getElementsByName(INSTRUMENT_RADIO);
-	for ( radio_idx = 0; radio_idx<aRadios.length; radio_idx++){
-		oRadio = aRadios[radio_idx];
-		oRadio.parentNode.style.visibility = "hidden";
-	}
-}
 
 //***************************************************************
 function get_instruments_callback(paJS){
-	var aRadios, instr_idx, radio_idx, oRadio, oSpan, sInstr;
+	var instr_idx, sInstr;
 
 	set_status("got instruments");
 	
-	aRadios= document.getElementsByName(INSTRUMENT_RADIO);
-
 	//mark the instruments remaining
 	for ( instr_idx = 0; instr_idx<paJS.length; instr_idx++){
 		sInstr = paJS[instr_idx];
-		for ( radio_idx = 0; radio_idx<aRadios.length; radio_idx++){
-			oRadio = aRadios[radio_idx];
-			if (oRadio.value == sInstr)
-				oRadio.parentNode.style.visibility = "visible";
-		}
+		$("[name="+INSTRUMENT_RADIO+"][value="+sInstr+"]").parent().show();
 	}
 	
 	if 	(current_instrument || reload_after_instr){

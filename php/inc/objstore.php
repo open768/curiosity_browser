@@ -3,7 +3,7 @@
 //% OBJSTORE - simplistic store objects without a database!
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 class cObjStore{
-	static $rootFolder = "../objdata";
+	static $rootFolder = "../[objdata]";
 	
 	//#####################################################################
 	//# PRIVATES
@@ -17,6 +17,15 @@ class cObjStore{
 	//#####################################################################
 	//# PUBLIC
 	//#####################################################################
+	static function kill_file($psRealm, $psFolder, $psFile){
+		$folder = self::pr_get_folder_name($psRealm, $psFolder);
+		$file = "$folder/$psFile";
+		if (file_exists($file)){
+			unlink($file);
+			cDebug::write("deleted file $file");
+		}
+	}
+	
 	static function get_file($psRealm, $psFolder, $psFile){
 		$aData = null;
 
@@ -53,6 +62,17 @@ class cObjStore{
 		
 		$sText = serialize($poData);
 		file_put_contents($file, $sText, LOCK_EX);
+	}
+	
+	//********************************************************************
+	static function push_to_array($psRealm, $psFolder, $psFile, $poData){
+		//always get the latest file
+		$aData = self::get_file($psRealm, $psFolder, $psFile);
+		//update the data
+		if (!$aData) $aData=[];
+		$aData[] = $poData;
+		//put the data back
+		self::put_file($psRealm, $psFolder, $psFile, $aData);
 	}
 }
 ?>
