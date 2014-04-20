@@ -1,10 +1,4 @@
-cache/
-objdata/
-\[Largeurls\]/
-php/shell/
+/\[objdata\]/
+/\[cache\]/
+/\[Largeurls\]/
 *secret*
-*\.dpp
-\.gitignore
-[cache]/1.cache
-[cache]/522.cache
-*.cache
