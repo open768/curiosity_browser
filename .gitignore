@@ -5,3 +5,6 @@ php/shell/
 *secret*
 *\.dpp
 \.gitignore
+[cache]/1.cache
+[cache]/522.cache
+*.cache
