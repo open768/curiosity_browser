@@ -38,6 +38,17 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			$sProduct= $_GET["p"];
 			$oResult = cImageHighlight::get(OBJDATA_REALM, $sSol, $sInstrument, $sProduct);
 			break;
+		case "solcount":
+			$sSol = $_GET["s"];
+			$oResult = cImageHighlight::get_solcount(OBJDATA_REALM, $sSol);
+			break;
+		case "topsolindex":
+			$aData = cImageHighlight::get_top_sol_data(OBJDATA_REALM);
+			break;
+		case "soldata":
+			$sSol = $_GET["s"];
+			$oResult = cImageHighlight::get_sol_data(OBJDATA_REALM, $sSol);
+			break;
 		default:
 			cDebug::error("unsupported operation");
 			break;

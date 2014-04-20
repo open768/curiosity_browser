@@ -1,7 +1,7 @@
 var cTagging = {
 	phpBaseURL:"php/tag.php",
 	maxFont:24,
-	minFont:8,
+	minFont:10,
 	
 	//********************************************************************************
 	getTags: function(psSol,psInstr, psProduct, pfnCallback){

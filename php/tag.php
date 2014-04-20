@@ -40,6 +40,17 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			$sTag = $_GET["t"] ;
 			$aData = cTags::get_tag_index(OBJDATA_REALM, $sTag);
 			break;
+		case "topsolindex":
+			$aData = cTags::get_top_sol_index(OBJDATA_REALM);
+			break;
+		case "sol":
+			$sSol = $_GET["s"];
+			$aData = cTags::get_sol_tags(OBJDATA_REALM, $sSol);
+			break;
+		case "solcount":
+			$sSol = $_GET["s"];
+			$aData = cTags::get_sol_tag_count(OBJDATA_REALM, $sSol);
+			break;
 		case "all":
 			$aData = cTags::get_top_tags(OBJDATA_REALM);
 			break;

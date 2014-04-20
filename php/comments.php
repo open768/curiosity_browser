@@ -21,16 +21,23 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	//***************************************************
 	$sOperation = $_GET["o"] ;
 	$oResult = null;
-	$sFolder = $_GET["f"] ;
 	
 	switch($sOperation){
 		case "get":
-			$aResult= cComments::get(OBJDATA_REALM, $sFolder);
+			$sSol = $_GET["s"];
+			$sInstrument= $_GET["i"];
+			$sProduct= $_GET["p"];
+
+			$aResult= cComments::get(OBJDATA_REALM, $sSol, $sInstrument, $sProduct);
+			
 			break;
 		case "set":
+			$sSol = $_GET["s"];
+			$sInstrument= $_GET["i"];
+			$sProduct= $_GET["p"];
 			$sComment= $_GET["v"];
 			$sUser = "anonymous";   //for the moment at least assume an anonymous user
-			$aResult = cComments::set(OBJDATA_REALM,$sFolder, $sComment, $sUser);
+			$aResult = cComments::set(OBJDATA_REALM,$sSol, $sInstrument, $sProduct, $sComment, $sUser);
 			break;
 		default:
 			cDebug::error("unsupported operation");

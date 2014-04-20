@@ -4,25 +4,23 @@ class cComments{
 	const COMMENT_FILENAME = "[comment].txt";
 	
 	//********************************************************************
-	static function get($psRealm, $psFolder){
-		$aTags = cObjStore::get_file($psRealm, $psFolder, self::COMMENT_FILENAME);
+	static function get($psRealm, $psSol, $psInstrument, $psProduct){
+		$sFolder = "$psSol/$psInstrument/$psProduct";
+		$aTags = cObjStore::get_file($psRealm, $sFolder, self::COMMENT_FILENAME);
 		return $aTags;
 	}
 
 	//********************************************************************
-	static function set($psRealm, $psFolder, $psComment, $psUser){
-	
+	static function set($psRealm, $psSol, $psInstrument, $psProduct, $psComment, $psUser){
+		$sFolder = "$psSol/$psInstrument/$psProduct";
 		$psComment = strip_tags($psComment);
 
-		//get the file from the object store
-		$aData = cObjStore::get_file($psRealm, $psFolder, self::COMMENT_FILENAME);
-		if (!$aData) $aData=[];
-
-		$aData[] = ["c"=>$psComment, "u"=>$psUser];
+		$aData = ["c"=>$psComment, "u"=>$psUser];
+		$aData = cObjStore::push_to_array($psRealm, $sFolder, self::COMMENT_FILENAME, $aData);
 		
-		//put the file back
-		cObjStore::put_file($psRealm, $psFolder, self::COMMENT_FILENAME, $aData);
-		
+		// update SOL
+		// update SOL/Instrument
+		// update recent
 		return $aData;
 	}
 	//

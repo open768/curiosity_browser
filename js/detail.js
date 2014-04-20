@@ -22,12 +22,6 @@ var goItem = null;
 //# Event Handlers
 //###############################################################
 //***************************************************************
-function onJqueryLoad(){
-	get_product_data( cBrowser.data[SOL_QUERYSTRING], cBrowser.data[INSTR_QUERYSTRING], cBrowser.data[PRODUCT_QUERYSTRING]);
-	cTagging.getTagNames(tagnames_callback);
-}
-
-//***************************************************************
 function OnClickNext(){
 	//find the next product
 	var sURL;
@@ -40,7 +34,7 @@ function OnClickNext(){
 //***************************************************************
 function onClickComment(){
 	var sText = $("#Commentsbox").val();
-	cComments.set(goItem.s+"/"+goItem.i+"/"+goItem.p, sText, get_comments_callback);
+	cComments.set(goItem.s,goItem.i,goItem.p, sText, get_comments_callback);
 }
 
 //***************************************************************
@@ -119,7 +113,7 @@ function onClickPDS(){
 
 
 //***************************************************************
-function onAddTag(){
+function onClickAddTag(){
 	var sKey, sTag;
 
 	//check something was entered
@@ -140,6 +134,11 @@ function load_data(){
 	$(onJqueryLoad); //load jQuery
 }
 
+//***************************************************************
+function onJqueryLoad(){
+	get_product_data( cBrowser.data[SOL_QUERYSTRING], cBrowser.data[INSTR_QUERYSTRING], cBrowser.data[PRODUCT_QUERYSTRING]);
+	cTagging.getTagNames(tagnames_callback);
+}
 
 //***************************************************************
 function get_product_data( psSol, psInstr, psProd){
@@ -243,7 +242,7 @@ function load_detail_callback(paJS){
 	//populate the remaining fields
 	$("#date_utc").html( goItem.d.du);
 	$("#date_lmst").html( goItem.d.dm);
-	$("#msldata").html( "<pre>" + cDebug.vardump(oData.data,1) + "</pre>");
+	$("#msldata").html( "<pre>" + cDebug.dump(oData.data,1) + "</pre>");
 	
 	//add the image 
 	$("#image").empty();
@@ -262,7 +261,7 @@ function load_detail_callback(paJS){
 
 	//get the tags and comments
 	sKey = cTagging.getTags(goItem.s,goItem.i,goItem.p, tag_callback);
-	cComments.get(goItem.s+"/"+goItem.i+"/"+goItem.p, get_comments_callback);
+	cComments.get(goItem.s,goItem.i,goItem.p, get_comments_callback);
 	
 	//empty highligths
 	cImgHilite.remove_boxes();

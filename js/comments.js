@@ -2,16 +2,16 @@ var cComments = {
 	phpBaseURL:"php/comments.php",
 	
 	//********************************************************************************
-	get: function(psFolder, pfnCallback){
-		sUrl = this.phpBaseURL + "?o=get&f="+psFolder;
+	get: function(psSol,psInstr, psProduct, pfnCallback){
+		sUrl = this.phpBaseURL + "?o=get&s=" + psSol + "&i=" + psInstr + "&p=" + psProduct;
 		set_status("getting comments");
 		cHttp.fetch_json(sUrl, pfnCallback);
 	},
 
 	//********************************************************************************
-	set: function(psFolder, psComment, pfnCallback){
+	set: function(psSol,psInstr, psProduct, psComment, pfnCallback){
 		var sUrl;
-		sUrl = this.phpBaseURL + "?o=set&f="+psFolder+"&v="+psComment;
+		sUrl = this.phpBaseURL + "?o=set&s=" + psSol + "&i=" + psInstr + "&p=" + psProduct+"&v="+psComment;
 		set_status("setting tag " + sUrl);
 		cHttp.fetch_json(sUrl, pfnCallback);
 	}

@@ -13,6 +13,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 	require_once("inc/debug.php");
 	require_once("inc/tags.php");
+	require_once("inc/pichighlight.php");
 	require_once("inc/curiosity/pds.php");
 	require_once("inc/curiosity/static.php");
 	
@@ -21,11 +22,11 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	//***************************************************
 
 	if (! array_key_exists( "o", $_GET)){
-		echo "usage: admin.php?o=<i>operation</i>";
-		exit();
-	}
+		$sOperation = "";
+	}else
+		$sOperation = $_GET["o"] ;
+	
 
-	$sOperation = $_GET["o"] ;
 	$aData = null;
 	
 	switch($sOperation){
@@ -42,13 +43,29 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		//------------------------------------------------------
 		case "killTag":
 			if (! array_key_exists( "t", $_GET)){
-				echo "usage: admin.php?o=killTag&t=tag";
+				?>
+				<form method="get">
+					<Input type="hidden" name="o" value="killTag">
+					<Input type="hidden" name="debug" value="1">
+					<Input type="input" name="t"><br>
+					<input type="submit"></input>
+				</form>
+				<?php
 				exit();
 			}
 			cTags::kill_tag(OBJDATA_REALM, $_GET["t"]);
-
 			break;
 
+		//------------------------------------------------------
+		case "reindexTags":
+			cTags::reindex(OBJDATA_REALM);
+			break;
+
+			//------------------------------------------------------
+		case "reindexHilite":
+			cImageHighlight::reindex(OBJDATA_REALM);
+			break;
+			
 		//------------------------------------------------------
 		case "mergeTags":
 			throw new Exception("to be done");
@@ -56,7 +73,17 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			
 		//------------------------------------------------------
 		default:
-			echo "operations supported: parsePDS killTag mergeTags";
+			?>
+				<form method="get">
+					<Input type="radio" name="o" value="parsePDS">parse PDS files<br>
+					<Input type="radio" name="o" value="killTag">remove tag<br>
+					<Input type="radio" name="o" value="mergeTags">merge a tag<br>
+					<Input type="radio" name="o" value="reindexTags">reindex Tags - needed after deletion<br>
+					<Input type="radio" name="o" value="reindexHilite">reindex image highlights <br>
+					<Input type="hidden" name="debug" value="1">
+					<input type="submit"></input>
+				</form>
+			<?php
 			break;
 	}
 ?>

@@ -19,55 +19,77 @@
 		  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId="+cSecret.FBAppid;
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));</script>	
-	<!-- facebook -->
-		
+	<!-- facebook -->	
 	<font class="title">Curiosity Browser</font>
 	<p>
-	<table class="maintable">
-		<tr>
-			<td rowspan="4" class="leftcolumn">
-				<form name="sols" id="sols">
-					Sol: <span id="this_sol">???</span>
-					<br>
-					<SELECT id="sol_list" size="10" onchange="OnChangeSolList()" class="sols">
-						<option>sols go here.......................
-					</SELECT>
-					<div class="instruments" id="instruments">loading instruments</div>
-				</form>
-				<div><button id="reload_images" onclick="reload_data();">reload</button></div>
-				<p>
-				<div class="gold" id="tags">Loading Tags</div>
-				<p>
+	
+	<table width="100%"><tr>
+		<td class="leftcolumn" valign="top">
+			<form name="sols" id="sols">
 				<div class="gold">
-					<button onclick="window.open('about.html', 'about');">About</button>
-					<button title="Where is curiosity now?" onclick="window.open('http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/', 'whereami');">Where is Curiosity</button>
+					<div class="subtitle">Sol: <span id="this_sol">???</span></div>
+					<SELECT id="sol_list" size="10" onchange="OnChangeSolList()" class="sols">
+						<option>loading...
+					</SELECT>
+					<table border="0" width="100%"><tr>
+						<td align="left"><button title="previous Sol" type="button" onclick="onClickPreviousSol();">&lt;--</button></td>
+						<td align="right"><button title="next Sol" type="button" onclick="onClickNextSol();">--&gt;</button></td>
+					</tr></table>
 				</div>
-			</td>
-			<td class="gold" height="30">
-				<button id="previous" onclick="OnClickPrevious();">&lt;</button>
+				<div class="gold">
+					<div class="subtitle">Instruments:</div>
+					<div class="instruments" id="instruments">loading ...</div>
+				</div>
+			</form>
+			<div class="gold">
+				<div class="subtitle">Tags:</div>
+				<div id="tags">Loading...</div>
+			</div>
+			<div class="gold">
+				<div class="subtitle">All Sols:</div>				
+				<a target="allsoltags" href="allsoltags.html">Tagged Sols</a>
+			</div>
+			<div class="gold">
+				<div class="subtitle">Sol:</div>				
+				Tags: <span id="soltags">select a sol..</span><br>
+				highlights: <span id="solhighs">select a sol..</span>
+			</div>
+			<div class="gold">
+				<div class="subtitle">Instrument:</div>				
+				Tags: <span id="instrtags">select  instrument ..</span><br>
+				highlights: <span id="instrhighs">select instrument..</span>
+			</div>
+			<div class="gold">
+				<button onclick="window.open('about.html', 'about');">About</button>
+				<button title="Where is curiosity now?" onclick="window.open('http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/', 'whereami');">Where is Curiosity</button>
+			</div>
+		</td>
+		<td valign="top">
+			<div class="gold">
+				<button id="previous" onclick="onClickPreviousImage();">&lt;</button>
 				<span ID="current">??</span>
-				<button id="next" onclick="OnClickNext();">&gt;</button>
+				<button id="next" onclick="onClickNextImage();">&gt;</button>
 				max <span ID="max">??</span>
 				&nbsp;
-				<input type="textbox" id="search_text" maxlength="30" size="30"><button onclick="OnSearch()" title="Search for Product">Search</button>
-				<button title="MSL curiosity notebook" onclick="msl_notebook();">MSL Notebook</button>
-				<button title="MSL curiosity notebook MAP" onclick="msl_notebook_map();">Map</button>
+				<input type="textbox" id="search_text" maxlength="30" size="30"><button onclick="onClickSearch()" title="Search for Product">Search</button>
+				<button title="MSL curiosity notebook" onclick="onClickMslNotebook();">MSL Notebook</button>
+				<button title="MSL curiosity notebook MAP" onclick="onClickMslNotebookMap();">Map</button>
 				<button title="Calendar" onclick="onClickCalendar()">Calendar</button>
-			</td>
-		</tr>
-		<tr><td class="gold" height="20">
-			Status: <span ID="status" class="status">Loading...</span>
-		</td></tr>
-		<tr><td id="images" class="gold">
-			select a SOL and an instrument - the images will appear here
-		</td></tr>
-		<tr><td class="gold" height="30">
-			<button onclick="OnClickPrevious();">&lt;</button>
-			<span ID="current2">??</span>
-			<button onclick="OnClickNext();">&gt;</button>
-			max <span ID="max2">??</span><br><br>
-		</td></tr>
-	</table>
+			</div>
+			<div class="gold">
+				<span class="subtitle"> Status: </span><span ID="status" class="status">Loading...</span>
+			</div>
+			<div class="gold" id="images">
+				select a SOL and an instrument - the images will appear here
+			</div>
+			<div class="gold">
+				<button onclick="onClickPreviousImage();">&lt;</button>
+				<span ID="current2">??</span>
+				<button onclick="onClickNextImage();">&gt;</button>
+				max <span ID="max2">??</span><br><br>
+			</div>
+		</td>
+	</tr></table>
 	
 	<!-- footer -->
 	<p class="credits">Data courtesy MSSS/MSL/NASA/JPL-Caltech.</p>

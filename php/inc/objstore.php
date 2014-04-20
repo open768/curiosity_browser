@@ -26,6 +26,7 @@ class cObjStore{
 		}
 	}
 	
+	//********************************************************************
 	static function get_file($psRealm, $psFolder, $psFile){
 		$aData = null;
 
@@ -73,6 +74,8 @@ class cObjStore{
 		$aData[] = $poData;
 		//put the data back
 		self::put_file($psRealm, $psFolder, $psFile, $aData);
+		
+		return $aData;
 	}
 }
 ?>

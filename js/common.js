@@ -65,12 +65,18 @@ var cDebug = {
 	
 	//***************************************************************
 	vardump:function(arr, level){
+		sDump = this.dump(arr, level);
+		this.write(sDump);
+	},
+	
+	//***************************************************************
+	dump:function(arr, level){
 		var dumped_text = "";
 		if(!level) level = 0;
 		
 		//The padding given at the beginning of the line.
 		var level_padding = "";
-		for(var j=0;j<level+1;j++) level_padding += "    ";
+		for(var j=0;j<level+1;j++) level_padding += "\t";
 		
 		if(typeof(arr) == 'object') { //Array/Hashes/Objects 
 			for(var item in arr) {
@@ -78,7 +84,7 @@ var cDebug = {
 				
 				if(typeof(value) == 'object') { //If it is an array,
 					dumped_text += level_padding + "'" + item + "' ...\n";
-					dumped_text += dump(value,level+1);
+					dumped_text += this.dump(value,level+1);
 				} else {
 					dumped_text += level_padding + "'" + item + "' => \"" + value + "\"\n";
 				}
@@ -140,8 +146,8 @@ cBrowser.init();
 //# MISC
 //###############################################################
 function set_error_status(psStatus){
-	document.getElementById(STATUS_ID).innerHTML= psStatus;
-	cDebug.write("<font color='red'>status: " + psStatus + "</font>");
+	$("#"+STATUS_ID).html("<font color='red'>" + psStatus + "</font>");
+	cDebug.write("Error: " + psStatus );
 }
 //***************************************************************
 function set_status(psStatus){

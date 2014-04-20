@@ -16,8 +16,10 @@ class cDebug{
 	public static $DEBUGGING=false;
 	
 	public static function write($poThing){
-		if (self::$DEBUGGING)
-			echo "<p><font color=red><code>$poThing</code></font><p>";
+		if (self::$DEBUGGING){
+			$sDate = date('d-m-Y H:i:s');
+			echo "<p><font color=red><code>$sDate: $poThing</code></font><p>";
+		}
 	}
 	
 	//**************************************************************************

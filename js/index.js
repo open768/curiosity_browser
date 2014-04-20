@@ -39,9 +39,26 @@ var reload_after_instr = false;
 var reset_image_number = true;
 
 //###############################################################
+//* JQUERY
+//###############################################################
+function onloadJQuery(){
+	set_status("loading static data...");
+	if (cBrowser.data[MAXIMAGES_QUERYSTRING] )
+		HOW_MANY_IMAGES = parseInt(cBrowser.data[MAXIMAGES_QUERYSTRING]);
+	if (cBrowser.data[IMAGE_QUERYSTRING] ){
+		current_image_index = cBrowser.data[IMAGE_QUERYSTRING];
+		reset_image_number = false;
+	}
+		
+	cHttp.fetch_json("php/instruments.php", load_instruments_callback);
+	cHttp.fetch_json("php/sols.php", load_sols_callback);
+	cTagging.getTagNames(tagnames_callback);
+}
+
+//###############################################################
 //# Event Handlers
 //###############################################################
-function OnSearch(){
+function onClickSearch(){
 	var sText = $("#search_text").val();
 	if (sText !== ""){
 		sUrl="php/search.php?s=" + sText;
@@ -71,7 +88,7 @@ function onClickCalendar(){
 }
 
 //***************************************************************
-function OnClickNext(){
+function onClickNextImage(){
 	var iNext;
 	
 	if (!OKToReload()) return;
@@ -83,7 +100,7 @@ function OnClickNext(){
 }
 
 //***************************************************************
-function OnClickPrevious(){
+function onClickPreviousImage(){
 	var iPrevious;
 	
 	if (!OKToReload()) return;
@@ -100,7 +117,43 @@ function OnClickPrevious(){
 }
 
 //***************************************************************
-function msl_notebook(){
+function onClickPreviousSol(){
+	var oItem, oPrev;
+	oItem = $('#sol_list option:selected');
+	if (oItem.length == 0)	{
+		set_error_status("select a Sol");
+		return true;
+	}
+
+	oPrev = oItem.prev('option')
+	if (oPrev.length>0){
+		oPrev.attr('selected', 'selected');
+		set_sol(oPrev.val());
+	}
+	
+	//find value of previous
+}
+
+//***************************************************************
+function onClickNextSol(){	
+	var oItem, oNext;
+	oItem = $('#sol_list option:selected');
+	if (oItem.length == 0)	{
+		set_error_status("select a Sol");
+		return true;
+	}
+	
+	oNext = oItem.next('option')
+	if (oNext.length>0){
+		oNext.attr('selected', 'selected');
+		set_sol(oNext.val());
+	}
+
+	return false;
+}
+
+//***************************************************************
+function onClickMslNotebook(){
 	var sURL;
 	
 	sURL = "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx?tab=solsumm&sol=" + current_sol;
@@ -108,19 +161,16 @@ function msl_notebook(){
 }
 
 //***************************************************************
-function msl_notebook_map(){
+function onClickMslNotebookMap(){
 	var sURL;
 	
 	sURL = "https://an.rsl.wustl.edu/msl/mslbrowser/tab.aspx?t=mp&i=A&it=MT&ii=SOL," + current_sol;
 	window.open(sURL, "map");
 }
 
-
-
 //###############################################################
 //# Utility functions 
 //###############################################################
-
 function set_instrument(psInstr){
 	var oRadio;
 	
@@ -155,19 +205,10 @@ function set_sol(psSol){
 	$("#"+SOL_ID).html(current_sol);
 	
 	get_instruments(current_sol);
+	get_sol_tag_count(current_sol);
+	get_sol_hilite_count(current_sol);
 }
 
-//***************************************************************
-function get_instruments(psSol){
-	set_status("getting instruments");
-
-	//hide instruments using obfuscated jQUERY - yeuchhhh!!!! 
-	$("input[name=" + INSTRUMENT_RADIO + "]").each( function(){$(this).parent().hide();});
-	
-	//get the instruments for this sol
-	sUrl = "php/instruments.php?s=" + psSol;
-	cHttp.fetch_json(sUrl, get_instruments_callback);
-}
 
 //***************************************************************
 function OKToReload(){
@@ -205,6 +246,20 @@ function reload_data(){
 		get_image_data(current_sol, current_instrument,current_image_index,current_image_index+HOW_MANY_IMAGES-1);
 }
 
+//###############################################################
+//* GETTERS
+//###############################################################
+function get_instruments(psSol){
+	set_status("getting instruments");
+
+	//hide instruments using obfuscated jQUERY - yeuchhhh!!!! 
+	$("input[name=" + INSTRUMENT_RADIO + "]").each( function(){$(this).parent().hide();});
+	
+	//get the instruments for this sol
+	sUrl = "php/instruments.php?s=" + psSol;
+	cHttp.fetch_json(sUrl, get_instruments_callback);
+}
+
 //***************************************************************
 function get_image_data( piSol, psInstr, piStart, piEnd){
 	var sUrl;
@@ -221,24 +276,43 @@ function get_image_data( piSol, psInstr, piStart, piEnd){
 }
 
 //***************************************************************
-function onloadJQuery(){
-	set_status("loading static data...");
-	if (cBrowser.data[MAXIMAGES_QUERYSTRING] )
-		HOW_MANY_IMAGES = parseInt(cBrowser.data[MAXIMAGES_QUERYSTRING]);
-	if (cBrowser.data[IMAGE_QUERYSTRING] ){
-		current_image_index = cBrowser.data[IMAGE_QUERYSTRING];
-		reset_image_number = false;
-	}
-		
-		
-	cHttp.fetch_json("php/instruments.php", load_instruments_callback);
-	cHttp.fetch_json("php/sols.php", load_sols_callback);
-	cTagging.getTagNames(tagnames_callback);
+function get_sol_tag_count(psSol){
+	var sUrl;
+	set_status("fetching tagcount");
+	sUrl = "php/tag.php?s=" + psSol + "&o=solcount";
+	cHttp.fetch_json(sUrl, tagcount_callback);
 }
+
+//***************************************************************
+function get_sol_hilite_count(psSol){
+	var sUrl;
+	set_status("fetching hilite count");
+	sUrl = "php/img_highlight.php?s=" + psSol + "&o=solcount";
+	cHttp.fetch_json(sUrl, solhighcount_callback);
+}
+
 
 //###############################################################
 //* call backs 
 //###############################################################
+function solhighcount_callback(piJS){
+	//RETURNS ALL THE TAGS
+	if (piJS > 0)
+		$("#solhighs").html("<a target='solhigh' href='solhigh.html?s="+current_sol+"'>" + piJS + "</a>");
+	else
+		$("#solhighs").html("none");
+}
+
+//***************************************************************
+function tagcount_callback(piJS){
+	//RETURNS ALL THE TAGS
+	if (piJS > 0)
+		$("#soltags").html("<a target='soltag' href='soltag.html?s="+current_sol+"'>" + piJS + "</a>");
+	else
+		$("#soltags").html("none");
+}
+
+//***************************************************************
 function search_callback(poJS){
 	var sUrl;
 	
@@ -323,21 +397,22 @@ function load_images_callback(paJS){
 		$("#"+CURRENT_ID2).html(current_image_index);
 		
 		//build the html
-		sHTML = "<table class='images'>";
-		
+		sHTML = "";
 		for (iIndex = 0; iIndex < paJS.images.length; iIndex++){
 			oItem = paJS.images[iIndex];
 			sImgURL = "detail.html?s="+ current_sol + "&i=" + current_instrument + "&p=" + oItem.p;
 
 			sHTML += 
-				"<tr><td>" +
-					"<a target='detail' href='" + sImgURL + "'><img src='" +oItem.i + "'></a><br>" +
-					"Date: " + oItem.d + "<br>" +
-					"Product: " + oItem.p + "<br>" +
-					"PDS label: <target='PDS' href='" + oItem.l + "'>" + oItem.l + "</a>" +
-				"</td></tr>";
+					"<div id='" + oItem.p + "'>" +
+						"<a target='detail' href='" + sImgURL + "'><img src='" +oItem.i + "'></a><br>" +
+						"<span class='subtitle'>Date:</span> " + oItem.du + "<br>" +
+					"</div>" +
+					"<span class='subtitle'>Product:</span> " + oItem.p;
+			if (oItem.l && (oItem.l !== "UNK"))
+				sHTML +="<br><span class='subtitle'>PDS label:</span> <a target='PDS' href='" + oItem.l + "'>" + oItem.l + "</a>";
+			sHTML += "<hr>";
+					
 		}
-		sHTML += "</table>";
 	}
 	
 	//write out the html
