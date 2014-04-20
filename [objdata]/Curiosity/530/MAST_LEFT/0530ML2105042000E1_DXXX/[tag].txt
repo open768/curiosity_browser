@@ -1,1 +1,0 @@
-a:3:{s:7:"carving";a:1:{s:9:"anonymous";i:1;}s:6:"statue";a:1:{s:9:"anonymous";i:1;}s:4:"ruin";a:1:{s:9:"anonymous";i:1;}}

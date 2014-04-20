@@ -1,1 +1,0 @@
-a:2:{s:4:"face";a:1:{s:9:"anonymous";i:1;}s:6:"statue";a:1:{s:9:"anonymous";i:1;}}

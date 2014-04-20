@@ -1,1 +1,0 @@
-a:3:{s:6:"statue";a:1:{s:9:"anonymous";i:1;}s:5:"jesus";a:1:{s:9:"anonymous";i:1;}s:9:"anomalous";a:1:{s:9:"anonymous";i:1;}}
