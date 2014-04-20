@@ -43,7 +43,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			$oResult = cImageHighlight::get_solcount(OBJDATA_REALM, $sSol);
 			break;
 		case "topsolindex":
-			$aData = cImageHighlight::get_top_sol_data(OBJDATA_REALM);
+			$oResult = cImageHighlight::get_top_sol_data(OBJDATA_REALM);
 			break;
 		case "soldata":
 			$sSol = $_GET["s"];

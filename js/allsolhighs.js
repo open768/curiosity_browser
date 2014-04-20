@@ -1,0 +1,65 @@
+/**************************************************************************
+Copyright (C) Chicken Katsu 2014 
+
+This code is protected by copyright under the terms of the 
+Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License
+http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
+
+For licenses that allow for commercial use please contact cluck@chickenkatsu.co.uk
+
+// USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
+**************************************************************************/
+
+
+var DEBUG_ON = true;
+var COLUMNS = 25;
+var oSolIndex = null;
+
+//###############################################################
+//# Utility functions 
+//###############################################################
+
+function load_data(){
+	set_status("fetching Highlights");
+	cHttp.fetch_json("php/img_highlight.php?&o=topsolindex", topsol_callback);
+}
+
+//###############################################################
+//* call backs 
+//###############################################################
+function topsol_callback(poJs){
+	oSolIndex = poJs;
+	set_status("fetching sols");
+	cHttp.fetch_json("php/sols.php", sols_callback);
+}
+
+function sols_callback(paJS){
+	var sHTML, i, iCount, sSol;
+	
+	sHTML = "<center><table cellpadding=5>";
+	iCount =0;
+	for (i = 0; i < paJS.length; i++){
+		if (iCount == 0) sHTML += "<tr>";
+		sSol = paJS[i].sol.toString();
+		sHTML += "<TD align=middle>"
+		if (oSolIndex[sSol])
+			sHTML += "<a class='subtitle' target='solhigh' href='solhigh.html?s="+sSol+"'>"+sSol+"</a>";
+		else
+			sHTML += sSol;
+		sHTML += "</TD>"
+			
+		iCount++;
+		if (iCount >=COLUMNS){
+			sHTML+="</tr>";
+			iCount = 0;
+		}
+			
+	}
+	if (iCount >0) sHTML+="</tr>";
+
+	sHTML += "</table></center>";
+	
+	$("#solhighs").html(sHTML);
+	set_status("ok");
+}
+
