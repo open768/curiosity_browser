@@ -36,14 +36,14 @@ function topsol_callback(poJs){
 function sols_callback(paJS){
 	var sHTML, i, iCount, sSol;
 	
-	sHTML = "<center><table cellpadding=5>";
+	sHTML = "<form method='get' target='solhigh' action='solhigh.html'><center><table cellpadding=5>";
 	iCount =0;
 	for (i = 0; i < paJS.length; i++){
 		if (iCount == 0) sHTML += "<tr>";
 		sSol = paJS[i].sol.toString();
 		sHTML += "<TD align=middle>"
 		if (oSolIndex[sSol])
-			sHTML += "<a class='subtitle' target='solhigh' href='solhigh.html?s="+sSol+"'>"+sSol+"</a>";
+			sHTML += "<button name='s' value='"+sSol+"'>"+sSol+"</button>";
 		else
 			sHTML += sSol;
 		sHTML += "</TD>"
@@ -57,7 +57,7 @@ function sols_callback(paJS){
 	}
 	if (iCount >0) sHTML+="</tr>";
 
-	sHTML += "</table></center>";
+	sHTML += "</table></center></form>";
 	
 	$("#solhighs").html(sHTML);
 	set_status("ok");

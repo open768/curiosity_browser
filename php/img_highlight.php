@@ -40,14 +40,14 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			break;
 		case "solcount":
 			$sSol = $_GET["s"];
-			$oResult = cImageHighlight::get_solcount(OBJDATA_REALM, $sSol);
+			$oResult = cIndexes::get_solcount(OBJDATA_REALM, $sSol, cImageHighlight::SOL_HIGH_FILE);
 			break;
 		case "topsolindex":
-			$oResult = cImageHighlight::get_top_sol_data(OBJDATA_REALM);
+			$oResult = cIndexes::get_top_sol_data(OBJDATA_REALM, cImageHighlight::TOP_SOL_HIGH_FILE);
 			break;
 		case "soldata":
 			$sSol = $_GET["s"];
-			$oResult = cImageHighlight::get_sol_data(OBJDATA_REALM, $sSol);
+			$oResult = cIndexes::get_sol_data(OBJDATA_REALM, $sSol, cImageHighlight::SOL_HIGH_FILE);
 			break;
 		default:
 			cDebug::error("unsupported operation");
