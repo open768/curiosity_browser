@@ -22,10 +22,10 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	$sProduct = $_GET["p"];
 	$iFound = -1;
 	
+	//get the data for sol and instrument to find the index of the product
 	$oInstrumentData = cCuriosity::getSolData($sSol, $sInstrument);
 	$aImages=$oInstrumentData->data;
 	$iCount = count($aImages);
-	//cDebug::vardump($aImages);
 	
 	//LOOK FOR THE PRODUCT
 	for ($i = 0 ; $i<$iCount; $i++){
@@ -37,48 +37,36 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		}
 	}
 	
-	//FIGURE OUT THE NEXT/PREVIOUS PRODUCT
-	if ($iFound == -1)
-		echo json_encode(null);
-	else{
-		if ($sDirection === "p"){
-			$iFound--;
-			if ($iFound <0) {
-				cDebug::write("rolled off the beginning of the sol");
-				if ($sSol >0){
-					// instrument may not be there in previous sol so keep going until instrument is found 
-					while ($sSol >0){
-						$sSol--;
-						cDebug::write("going to sol $sSol");
-						$oInstrumentData = cCuriosity::getSolData($sSol, $sInstrument);
-						$aImages=$oInstrumentData->data;
-						if (count($aImages) >0){
-							$iFound = count($aImages)-1;
-							break;
-						}
-					}
-				}else{
-					cDebug::write("going to last item of current sol");
-					$iFound = $iCount -1;
-				}
-			}
-		}else{
-			$iFound++;
-			if ($iFound >= $iCount) {
-				$iCount = 0;
-				while ($iCount == 0){
-					//move to next sol
-					// on, last SOL this may runaway
-					$iFound = 0;
-					$sSol ++;
-					$oInstrumentData = cCuriosity::getSolData($sSol, $sInstrument);
-					$aImages=$oInstrumentData->data;
-					if (count($aImages) >0)
-						break;
-						
-				}
-			};
-		}
-		echo json_encode(["s"=>$sSol, "d"=>$aImages[$iFound]]);
+	if ($iFound == -1){
+		cDebug::error("product not found - incorrect parameters given");
+		return;
 	}
+
+	// go backwards or forwards in instrument list depending on parameters to script
+	$bOverflow = false;
+	$iIncrement = 1;
+	if ($sDirection === "p") $iIncrement = -1;
+	$iFound += $iIncrement;
+		
+	//have we gone past the beginning or end? look in neighbouring sols
+	if (($iFound <0) || ($iFound >= $iCount)){
+		cDebug::write("rolled off the beginning of the sol");
+		while (($sSol >0) || ($sSol < $iCount)){
+			$sSol = cCuriosity::nextSol($sSol, $iIncrement);
+			if ($sSol == null){
+				cDebug::error("no more sols - sorry");
+				return;
+			}
+					
+			$oInstrumentData = cCuriosity::getSolData($sSol, $sInstrument);
+			$aImages=$oInstrumentData->data;
+			$iCountNew = count($aImages);
+			if ($iCountNew >0){
+				$iFound = 0;
+				if ($iIncrement == -1) $iFound = $iCountNew-1;
+				break;
+			}
+		}
+	}
+	echo json_encode(["s"=>$sSol, "d"=>$aImages[$iFound]]);
 ?>

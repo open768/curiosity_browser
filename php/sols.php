@@ -16,17 +16,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	
 	cDebug::$DEBUGGING=false;
 
-
-	$oManifest = cCuriosity::getManifest();
-	$aSols = $oManifest->sols;
-	$aData = [];
-	
-	
-	foreach ($aSols as $oSol){
-		$iSol = $oSol->sol;
-		$sDate = $oSol->last_updated;
-		array_push( $aData, ["sol"=>$iSol, "date"=>$sDate]);
-	}
+	$aData = cCuriosity::getSolList();
 	
 	if (cDebug::$DEBUGGING)
 		cDebug::vardump($aData);

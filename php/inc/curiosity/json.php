@@ -102,6 +102,38 @@ class cCuriosity{
 	}
 	
 	//*****************************************************************************
+	public static function getSolList(){
+		//get the manifest
+		$oManifest = self::getManifest();
+		$aSols = $oManifest->sols;
+		$aData = [];
+		
+		//extract sols - should be cached ideally!
+		foreach ($aSols as $oSol){
+			$iSol = $oSol->sol;
+			$sDate = $oSol->last_updated;
+			array_push( $aData, ["sol"=>$iSol, "date"=>$sDate]);
+		}
+		
+		return $aData;
+	}
+	
+	//*****************************************************************************
+	public static function nextSol($piSol, $piIncrement){
+		$aSols = self::getSolList();
+		$iCount = count($aSols);
+		
+		for ($i = 0; $i<$iCount; $i++)
+			if ($aSols[$i]["sol"] == $piSol){
+				$i2 = $i + $piIncrement;
+				if (($i2>=0) && ($i2<$iCount))
+					return $aSols[$i2]["sol"];
+			}
+		
+		return null;
+	}
+	
+	//*****************************************************************************
 	public static function getSolInstrumentList($piSol){
 		$aResults = [];
 		
