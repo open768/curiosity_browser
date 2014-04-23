@@ -14,8 +14,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("inc/curiosity/json.php");
 	require_once("inc/debug.php");
 	
-	cDebug::$DEBUGGING=false;
-
+	cDebug::check_GET_or_POST();
 	$aData = cCuriosity::getSolList();
 	
 	if (cDebug::$DEBUGGING)

@@ -164,7 +164,7 @@ function tagnames_callback(poJs){
 
 //***************************************************************
 function highlight_callback(paJS){
-	var i, aItem;
+	var i, aItem, oBox, oNumber;
 	if (!paJS){
 		cDebug.write("no highlights");
 		return;
@@ -173,7 +173,10 @@ function highlight_callback(paJS){
 	for (i=0; i<paJS.length; i++){
 		aItem = paJS[i];
 		cDebug.write("adding highlight: top=" + aItem.t + " left=" + aItem.l);
-		cImgHilite.make_fixed_box(aItem.t, aItem.l);
+		oBox = cImgHilite.make_fixed_box(aItem.t, aItem.l);
+		
+		oNumber = $(oBox).find(cImgHilite.numberID);
+		oNumber.html(i+1);
 	}
 }
 

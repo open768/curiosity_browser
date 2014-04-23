@@ -11,6 +11,21 @@
 	z-index: 3;
 }
 
+.lucky8{
+	background:rgba(0,0,0,0.2);     
+    border: 2px solid white;
+    border-radius: 12px; /* one half of ( (border * 2) + height + padding ) */
+    box-shadow: 1px 1px 1px black;
+    color: white;
+    font: bold 15px/13px Helvetica, Verdana, Tahoma;
+    height: 16px; 
+    padding: 4px 3px 0 3px;
+    text-align: center;
+    width: 14px;
+	position: absolute; bottom: 0; right: 0;
+	display:none;
+}
+
 .bluebox {
 	width: 120px;
     height: 120px;

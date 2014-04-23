@@ -4,6 +4,7 @@ var cImgHilite = {
 	baseImageID:"#baseimg",
 	url:"php/img_highlight.php",
 	controlsID:"#controls",
+	numberID:"#number",
 	imgTarget:null,
 	ID:0,
 	
@@ -71,7 +72,7 @@ var cImgHilite = {
 	
 	//**************************************************
 	make_fixed_box:function(psTop, psLeft){
-		var oBox, oControls;
+		var oBox, oControls, oNumber;
 
 		//make and position the box
 		oBox = this.makeBox(100,100);
@@ -84,6 +85,12 @@ var cImgHilite = {
 		//find and disable controls
 		oControls = oBox.find(this.controlsID);
 		$(oControls).hide()
+		
+		//find and enable number
+		oNumber = oBox.find(this.numberID);
+		$(oNumber).show();
+		
+		return oBox;
 	},
 	
 	//**************************************************

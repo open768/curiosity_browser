@@ -29,8 +29,12 @@ function load_data(){
 //###############################################################
 function topsol_callback(poJs){
 	oSolIndex = poJs;
-	set_status("fetching sols");
-	cHttp.fetch_json("php/sols.php", sols_callback);
+	if (oSolIndex == null)
+		set_error_status("No Tags found");
+	else{
+		set_status("fetching sols");
+		cHttp.fetch_json("php/sols.php", sols_callback);
+	}
 }
 
 function sols_callback(paJS){

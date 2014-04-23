@@ -16,6 +16,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("inc/pichighlight.php");
 	require_once("inc/curiosity/pds.php");
 	require_once("inc/curiosity/static.php");
+	require_once("inc/cached_http.php");
 	
 	cDebug::check_GET_or_POST();
 	
@@ -25,7 +26,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		$sOperation = "";
 	}else
 		$sOperation = $_GET["o"] ;
-	
+	cDebug::write("Operation is '$sOperation'");
 
 	$aData = null;
 	
@@ -57,6 +58,11 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			break;
 
 		//------------------------------------------------------
+		case "killCache":
+			cCachedHttp::clearCache();
+			break;
+			
+		//------------------------------------------------------
 		case "reindexTags":
 			cTags::reindex(OBJDATA_REALM);
 			break;
@@ -76,6 +82,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			?>
 				<form method="get">
 					<Input type="radio" name="o" value="parsePDS">parse PDS files<br>
+					<Input type="radio" name="o" value="killCache">clear cache<br>
 					<Input type="radio" name="o" value="killTag">remove tag<br>
 					<Input type="radio" name="o" value="mergeTags">merge a tag<br>
 					<Input type="radio" name="o" value="reindexTags">reindex Tags - needed after deletion<br>

@@ -15,8 +15,6 @@ require_once("inc/cache.php");
 require_once("inc/http.php");
 require_once("inc/debug.php");
 
-// TODO use a different cache mechanism that doesnt store everything in one file
-
 class cCachedHttp{
 	public static $CACHE_EXPIRY = 3600;  //(seconds)
 	private static $oCache = null;
@@ -24,6 +22,17 @@ class cCachedHttp{
 	public static $fileHashing = true;
 
 
+	//*****************************************************************************
+	public static function clearCache(){
+		$oCache = new Cache();
+		$aFiles = scandir($oCache->_cachepath);
+		foreach ($aFiles as $sFile)
+			if (!preg_match("/^\./", $sFile)){
+				cDebug::write($sFile);
+				unlink ($oCache->_cachepath."/".$sFile);
+			}
+	}
+	
 	//*****************************************************************************
 	public static function setCacheFile($psCacheFile){	
 		self::$sCacheFile = $psCacheFile;	
