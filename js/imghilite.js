@@ -15,19 +15,9 @@ var cImgHilite = {
 	},
 		
 	//**************************************************
-	acceptBox:function(poButton){
+	getBoxFromButton:function(poButton){
 		//find the parent div and hide
-		var oControlBox = poButton.parentNode;
-		$(oControlBox).hide()
-		
-		//no longer draggable
-		var oBox= oControlBox.parentNode;
-		$(oBox).draggable('disable');
-		
-		//change the class to be a blue box
-		oBox.className="bluebox";
-		
-		return oBox;
+		return poButton.parentNode.parentNode;
 	},
 	
 	//**************************************************
@@ -80,7 +70,7 @@ var cImgHilite = {
 		
 		//disable dragging and make it blue
 		oBox.draggable('disable');
-		oBox.className="bluebox";
+		oBox.attr("class","bluebox");
 		
 		//find and disable controls
 		oControls = oBox.find(this.controlsID);
