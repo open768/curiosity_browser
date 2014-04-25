@@ -337,6 +337,12 @@ function OnImageLoaded(){
 }
 
 //***************************************************************
+function onSaveHighCallback(poEvent){
+	cImgHilite.remove_boxes();
+	cImgHilite.getHighlights(goItem.s,goItem.i,goItem.p, highlight_callback);
+}
+
+//***************************************************************
 function OnImageClick(poEvent){
 	cImgHilite.makeBox(poEvent.pageX, poEvent.pageY);
 }
@@ -344,9 +350,7 @@ function OnImageClick(poEvent){
 //**************************************************
 function onClickBoxAccept(){
 	var oBox = cImgHilite.getBoxFromButton(event.currentTarget);
-	cImgHilite.save_highlight(goItem.s,goItem.i,goItem.p, oBox);
-	cImgHilite.remove_boxes();
-	cImgHilite.getHighlights(goItem.s,goItem.i,goItem.p, highlight_callback);
+	cImgHilite.save_highlight(goItem.s,goItem.i,goItem.p, oBox, onSaveHighCallback);
 }
 
 //**************************************************

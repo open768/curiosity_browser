@@ -29,5 +29,9 @@ class cImageHighlight{
 		return "ok";
 	}
 	
+	static function reindex($psRealm){
+		cIndexes::reindex($psRealm, 1, self::TOP_SOL_HIGH_FILE, self::SOL_HIGH_FILE, self::INSTR_HIGH_FILE, self::IMGHIGH_FILENAME );
+	}
+	
 }
 ?>

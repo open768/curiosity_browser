@@ -90,10 +90,10 @@ var cImgHilite = {
 	},
 	
 	//**************************************************
-	save_highlight:function(psSol,psInstr, psProduct, psID){
+	save_highlight:function(psSol,psInstr, psProduct, psID, pfnCallback){
 		var oBox = $(psID);
 		sUrl = this.url+"?o=add&s=" + psSol + "&i=" + psInstr + "&p=" + psProduct +"&t=" + oBox.css("top") + "&l=" + oBox.css("left");
-		cHttp.fetch_json(sUrl, null);
+		cHttp.fetch_json(sUrl, pfnCallback);
 	},
 	
 	//**************************************************

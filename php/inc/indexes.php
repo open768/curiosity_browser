@@ -69,5 +69,48 @@ class cIndexes{
 		$aData[$psProduct] = $poData;
 		cObjStore::put_file($psRealm, $sFolder, $psFile, $aData);
 	}
+
+	//######################################################################
+	//# reindex functions
+	//######################################################################
+	static function reindex($psRealm, $poInstrData, $psTopFile, $psSolFile, $psInstrFile, $psProdFile){
+		$aData = [];
+
+		$toppath = cObjStore::$rootFolder."/$psRealm";
+		
+		//find the highlight files - tried to do this cleverly, but was more lines of code - so brute force it is
+		$aSols = scandir($toppath);
+		foreach ($aSols as $sSol)
+			if (preg_match("/\d+/", $sSol)){
+				$solPath = "$toppath/$sSol";
+				$aInstrs = scandir($solPath);
+				foreach ($aInstrs as $sInstr)
+					if (! preg_match("/[\[\.]/", $sInstr)){
+						$instrPath = "$solPath/$sInstr";
+						$aProducts = scandir($instrPath);
+						foreach ($aProducts as $sProduct)
+							if (! preg_match("/[\[\.]/", $sProduct)){
+								$prodPath = "$instrPath/$sProduct";
+								$aFiles = scandir($prodPath);
+								foreach ($aFiles as $sFile)
+									if ( $sFile === $psProdFile){
+										if (!array_key_exists ($sSol, $aData)) $aData[$sSol] = [];
+										if (!array_key_exists ($sInstr, $aData[$sSol])) $aData[$sSol][$sInstr] = [];
+										$aData[$sSol][$sInstr][$sProduct] = $poInstrData;
+									}
+							}
+					}
+			}
+			
+		//write out the  index files
+		$aTopSols = [];
+		foreach ($aData as  $sSol=>$aSolData)	{
+			$aTopSols[$sSol] = 1;
+			foreach ($aSolData as $sInstr=>$aInstrData)
+				cObjStore::put_file($psRealm, "$sSol/$sInstr", $psInstrFile, $aInstrData);				
+			cObjStore::put_file($psRealm, $sSol, $psSolFile, $aSolData);				
+		}
+		cObjStore::put_file($psRealm, "", $psTopFile, $aTopSols);
+	}
 }
 ?>
