@@ -3,16 +3,17 @@
 	<LINK href="css/css.css" rel="stylesheet" type="text/css">
 	<LINK href="css/drag.css" rel="stylesheet" type="text/css">
 	<title>Curiosity Browser - details</title>
-	<script src="js/secret.js"></script>
-	<script src="js/detail.js"></script>
-	<script src="js/common.js"></script>
-	<script src="js/tagging.js"></script>
-	<script src="js/comments.js"></script>
+	<script src="js/inc/secret.js"></script>
+	<script src="js/pages/detail.js"></script>
+	<script src="js/inc/auth.js"></script>
+	<script src="js/inc/common.js"></script>
+	<script src="js/inc/tagging.js"></script>
+	<script src="js/inc/comments.js"></script>
+	<script src="js/inc/imghilite.js"></script>
 	<script src="js/jquery/jquery-1.11.0.js"></script>
 	<script src="js/jquery/jquery-ui-1.10.4.js"></script>
-	<script src="js/imghilite.js"></script>
 </head>
-<body onload="load_data();">
+<body onload="$(onLoadJQuery);">
 	<DIV class="title">Curiosity Detail</DIV>
 	<!-- facebook -->
 		<div id="fb-root"></div>

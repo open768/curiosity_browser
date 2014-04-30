@@ -33,6 +33,7 @@ function OnClickNext(){
 
 //***************************************************************
 function onClickComment(){
+	cAuth.forceLogin();
 	var sText = $("#Commentsbox").val();
 	cComments.set(goItem.s,goItem.i,goItem.p, sText, get_comments_callback);
 }
@@ -116,6 +117,8 @@ function onClickPDS(){
 function onClickAddTag(){
 	var sKey, sTag;
 
+	cAuth.forceLogin();
+	
 	//check something was entered
 	sTag = $("#tagtext").val();
 	if (sTag === ""){
@@ -130,12 +133,15 @@ function onClickAddTag(){
 //###############################################################
 //# Utility functions 
 //###############################################################
-function load_data(){
-	$(onJqueryLoad); //load jQuery
+function onLoadJQuery(){
+	set_status("loading user data...");
+	cAuth.getUser(authCallback);
 }
 
 //***************************************************************
-function onJqueryLoad(){
+function authCallback(psUser){
+	cAuth.user = psUser;
+	if (cAuth.user) set_status("welcome " + cAuth.user);
 	get_product_data( cBrowser.data[SOL_QUERYSTRING], cBrowser.data[INSTR_QUERYSTRING], cBrowser.data[PRODUCT_QUERYSTRING]);
 	cTagging.getTagNames(tagnames_callback);
 }
@@ -344,6 +350,7 @@ function onSaveHighCallback(poEvent){
 
 //***************************************************************
 function OnImageClick(poEvent){
+	cAuth.forceLogin();
 	cImgHilite.makeBox(poEvent.pageX, poEvent.pageY);
 }
 

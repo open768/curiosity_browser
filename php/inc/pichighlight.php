@@ -33,5 +33,12 @@ class cImageHighlight{
 		cIndexes::reindex($psRealm, 1, self::TOP_SOL_HIGH_FILE, self::SOL_HIGH_FILE, self::INSTR_HIGH_FILE, self::IMGHIGH_FILENAME );
 	}
 	
+	static function kill_highlites($psRealm, $psSol, $psInstr, $psProduct, $psWhich){
+		$sFolder="$psSol/$psInstr/$psProduct";
+		cObjStore::kill_file($psRealm, $sFolder, self::IMGHIGH_FILENAME);
+		cDebug::write("now reindex the image highlihgts");
+	}
+
+	
 }
 ?>

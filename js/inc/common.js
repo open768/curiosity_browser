@@ -92,6 +92,10 @@ var cDebug = {
 		} else 
 			dumped_text = "===>"+arr+"<===("+typeof(arr)+")";
 		return dumped_text;
+	},
+	
+	error:function(psErr){
+		throw psErr;
 	}
 }
 
@@ -103,14 +107,14 @@ cBrowser = {
 	
 	//***************************************************************
 	init:function (){
-		var result = {}, keyValuePairs = location.search.slice(1).split('&');
+		var oResult = {}, aPairs = location.search.slice(1).split('&');
 
-		keyValuePairs.forEach(function(keyValuePair) {
-			keyValuePair = keyValuePair.split('=');
-			result[keyValuePair[0]] = keyValuePair[1] || '';
+		aPairs.forEach(function(sPair) {
+			aPair = sPair.split('=');
+			oResult[aPair[0]] = aPair[1] || '';
 		});
 
-		this.data = result;
+		this.data = oResult;
 	},
 	
 	//***************************************************************

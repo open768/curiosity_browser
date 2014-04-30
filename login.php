@@ -1,17 +1,25 @@
+<?php
+
+require_once "php/inc/debug.php";
+require_once "php/inc/secret.php";
+require_once "php/inc/auth.php";
+require_once "php/ayah/ayah.php";
+
+cDebug::check_GET_or_POST();
+
+//***** check if logged in
+session_start();
+$sMessage = cAuth::check();
+
+?>
+
 <html>
 <head>
 	<LINK href="css/css.css" rel="stylesheet" type="text/css">
-	<title>Curiosity Browser - Tags</title>
-	<script src="js/inc/secret.js"></script>
-	<script src="js/inc/common.js"></script>
-	<script src="js/inc/auth.js"></script>
-	<script src="js/pages/allsoltags.js"></script>
-	<script src="js/inc/tagging.js"></script>
-	<script src="js/jquery/jquery-1.11.0.js"></script>
-	<script src="js/jquery/jquery-ui-1.10.4.js"></script>
+	<title>Login Required</title>
 </head>
-<body onload="$(onLoadJQuery);">
-	<DIV class="title">Tagged Sols</DIV>
+<body>
+	<DIV class="title">Login Needed</DIV>
 	<!-- facebook -->
 		<div id="fb-root"></div>
 		<script>(function(d, s, id) {
@@ -22,19 +30,16 @@
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));</script>	
 	<!-- facebook -->
-<p>
-	<div class="gold">
-		<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
+
+	<DIV class="gold" id="colours">
+		<?php
+			if ($sMessage) echo "<i>$sMessage</i><p>";
+			cAuth::show_form();
+		?>
 	</div>
-	<div class="gold"  id="soltag">
-		Loading...
-	</div>
-	<P>
 	
-	<!-- *************** footer *********************** -->
-	<p class="credits">
-		Data courtesy MSSS/MSL/NASA/JPL-Caltech.<br>
-	</p>
+	<!-- footer -->
+	<p class="credits">Data courtesy MSSS/MSL/NASA/JPL-Caltech.</p>
 	<div class="github">
 		<table border="0" width="100%"><tr>
 			<td width="50"><a href="http://www.chickenkatsu.co.uk" target="chicken"><img src="images/chicken_icon.png"></a></td>
@@ -47,3 +52,7 @@
 	</div>
 </body>
 </html>
+	
+
+
+

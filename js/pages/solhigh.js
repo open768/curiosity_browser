@@ -14,17 +14,10 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 var DEBUG_ON = true;
 var current_sol = null;
 //###############################################################
-//# event handlers
-//###############################################################
-function onClickAllSols(){
-	window.open("allsoltags.html", "allsoltags");
-}
-
-//###############################################################
 //# Utility functions 
 //###############################################################
 
-function load_data(){
+function onLoadJQuery(){
 	var sUrl, sSol;
 	
 	//update sol number
@@ -33,36 +26,29 @@ function load_data(){
 	current_sol = sSol;
 	
 	//load tags
-	sUrl = "php/tag.php?s=" + sSol + "&o=sol";
-	set_status("fetching tags");
-	cHttp.fetch_json(sUrl, load_soltag_callback);
+	sUrl = "php/img_highlight.php?s=" + sSol + "&o=soldata";
+	set_status("fetching highlights");
+	cHttp.fetch_json(sUrl, hilite_callback);
 }
 
 //###############################################################
 //* call backs 
 //###############################################################
-function load_soltag_callback(poJs){
-	var sInstr, sHTML, aTags,i, sProduct, sTag, oItem, sTagUrl, sProductURL;
+function hilite_callback(poJs){
+	var sInstr, sHTML, sProduct, oItem, sTagUrl, sProductURL;
 	
 	sHTML = "<dl>";
 	for (sInstr in poJs){
-		sHTML += "<dt>Instrument: " + sInstr + "</dt>";
+		sHTML += "<dt>" + sInstr + "</dt>";
 		sHTML += "<dd><ul>";
-		aTags = poJs[sInstr];
-		
-		for (i=0; i< aTags.length; i++){
-			oItem = aTags[i];
-			sProduct = oItem.p;
-			sTag = oItem.t;
-			sTagUrl = "<a target='tag' href='tag.html?t=" + sTag + "'>" + sTag + "</a>";
-			sProductURL = "<a target='detail' href='detail.html?s=" + current_sol + "&i=" + sInstr + "&p=" + sProduct + "'>" + sProduct + "</a>";
-			sHTML += "<li>tag " + sTagUrl + " in " + sProductURL;
-		}
+		aProducts = poJs[sInstr];
+		for (sProduct in aProducts)
+			sHTML += "<li><a target='detail' href='detail.html?s=" + current_sol + "&i=" + sInstr + "&p=" + sProduct + "'>" + sProduct + "</a>";
 		
 		sHTML += "</ul></dd>";
 	}
 	sHTML += "</dl>";
-	$("#soltag").html(sHTML);
+	$("#solhigh").html(sHTML);
 	set_status("ok");
 }
 

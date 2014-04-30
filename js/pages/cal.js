@@ -42,7 +42,7 @@ function onClickPrevious(){
 //###############################################################
 //# Utility functions 
 //###############################################################
-function load_data(){
+function onLoadJQuery(){
 	current_date = cBrowser.data[DATE_QUERYSTRING];
 	get_calendar_data( cBrowser.data[SOL_QUERYSTRING]);
 }

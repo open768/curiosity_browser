@@ -22,9 +22,9 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	
 	//***************************************************
 
-	if (! array_key_exists( "o", $_GET)){
+	if (!isset($_GET["o"] ))
 		$sOperation = "";
-	}else
+	else
 		$sOperation = $_GET["o"] ;
 	cDebug::write("Operation is '$sOperation'");
 
@@ -39,6 +39,25 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			}
 			$volume = $_GET["v"];
 			cCuriosityPDS::run_indexer($volume);
+			break;
+
+		//------------------------------------------------------
+		case "killHighlight":
+			if (! array_key_exists( "p", $_GET)){
+				?>
+				<form method="get">
+					<Input type="hidden" name="o" value="killHighlight">
+					<Input type="hidden" name="debug" value="1">
+					sol: <Input type="input" name="s"><br>
+					instr: <Input type="input" name="i"><br>
+					product: <Input type="input" name="p"><br>
+					which: <Input type="input" name="w"><br>
+					<input type="submit">
+				</form>
+				<?php
+				exit();
+			}
+			cImageHighlight::kill_highlites(OBJDATA_REALM, $_GET["s"], $_GET["i"], $_GET["p"], $_GET["w"]);
 			break;
 
 		//------------------------------------------------------
@@ -57,6 +76,12 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			cTags::kill_tag(OBJDATA_REALM, $_GET["t"]);
 			break;
 
+		//------------------------------------------------------
+		case "killSession":
+			session_start();
+			cDebug::write("ok");
+			session_destroy();
+			break;
 		//------------------------------------------------------
 		case "killCache":
 			cCachedHttp::clearCache();
@@ -87,6 +112,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 					<Input type="radio" name="o" value="mergeTags">merge a tag<br>
 					<Input type="radio" name="o" value="reindexTags">reindex Tags - needed after deletion<br>
 					<Input type="radio" name="o" value="reindexHilite">reindex image highlights <br>
+					<Input type="radio" name="o" value="killHighlight">delete highlights<br>
+					<Input type="radio" name="o" value="killSession">kill the session<br>
 					<Input type="hidden" name="debug" value="1">
 					<input type="submit"></input>
 				</form>

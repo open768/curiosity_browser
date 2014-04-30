@@ -16,7 +16,7 @@ var DEBUG_ON = true;
 //# Utility functions 
 //###############################################################
 
-function load_data(){
+function onLoadJQuery(){
 	var sTag = cBrowser.data["t"];
 	$("#tagname").html(sTag);
 	cTagging.getTagDetails(sTag, tagdetails_callback);

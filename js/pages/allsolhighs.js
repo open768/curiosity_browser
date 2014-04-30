@@ -19,9 +19,9 @@ var oSolIndex = null;
 //# Utility functions 
 //###############################################################
 
-function load_data(){
-	set_status("fetching tags");
-	cHttp.fetch_json("php/tag.php?&o=topsolindex", topsol_callback);
+function onLoadJQuery(){
+	set_status("fetching Highlights");
+	cHttp.fetch_json("php/img_highlight.php?&o=topsolindex", topsol_callback);
 }
 
 //###############################################################
@@ -29,8 +29,8 @@ function load_data(){
 //###############################################################
 function topsol_callback(poJs){
 	oSolIndex = poJs;
-	if (oSolIndex == null)
-		set_error_status("No Tags found");
+	if (oSolIndex==null)
+		set_error_status("No Highlights found");
 	else{
 		set_status("fetching sols");
 		cHttp.fetch_json("php/sols.php", sols_callback);
@@ -40,7 +40,7 @@ function topsol_callback(poJs){
 function sols_callback(paJS){
 	var sHTML, i, iCount, sSol;
 	
-	sHTML = "<form target='soltag' method='GET' action='soltag.html'><center><table cellpadding=5>";
+	sHTML = "<form method='get' target='solhigh' action='solhigh.html'><center><table cellpadding=5>";
 	iCount =0;
 	for (i = 0; i < paJS.length; i++){
 		if (iCount == 0) sHTML += "<tr>";
@@ -63,7 +63,7 @@ function sols_callback(paJS){
 
 	sHTML += "</table></center></form>";
 	
-	$("#soltag").html(sHTML);
+	$("#solhighs").html(sHTML);
 	set_status("ok");
 }
 

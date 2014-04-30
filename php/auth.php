@@ -13,42 +13,24 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 	require_once("inc/debug.php");
 	require_once("inc/auth.php");
-	require_once("inc/comments.php");
-	require_once("inc/curiosity/static.php");
 	
 	cDebug::check_GET_or_POST();
-
 	
 	//***************************************************
 	$sOperation = $_GET["o"] ;
-	$oResult = null;
 	
 	switch($sOperation){
-		case "get":
-			$sSol = $_GET["s"];
-			$sInstrument= $_GET["i"];
-			$sProduct= $_GET["p"];
-
-			$aResult= cComments::get(OBJDATA_REALM, $sSol, $sInstrument, $sProduct);
-			
-			break;
-		case "set":
-			$sUser = cAuth::must_get_user(); 
-			$sSol = $_GET["s"];
-			$sInstrument= $_GET["i"];
-			$sProduct= $_GET["p"];
-			$sComment= $_GET["v"];
-			$aResult = cComments::set(OBJDATA_REALM,$sSol, $sInstrument, $sProduct, $sComment, $sUser);
-			break;
-		default:
-			cDebug::error("unsupported operation");
+		case "getuser":
+			session_start();
+			$sUser = cAuth::get_user();
+			cDebug::write("user : $sUser");
 			break;
 	}
 	
 	//***************************************************
-	//output the tags
+	//output the 
 	if (cDebug::$DEBUGGING)
-		cDebug::vardump($aResult);
+		cDebug::write($sUser);
 	else
-		echo json_encode($aResult );	
+		echo json_encode($sUser );	
 ?>

@@ -13,6 +13,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 	require_once("inc/debug.php");
 	require_once("inc/tags.php");
+	require_once("inc/auth.php");
 	require_once("inc/curiosity/static.php");
 	
 	cDebug::check_GET_or_POST();
@@ -24,11 +25,11 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	
 	switch($sOperation){
 		case "set":
+			$sUser = cAuth::must_get_user(); 
 			$sSol = $_GET["s"];
 			$sInstrument= $_GET["i"];
 			$sProduct= $_GET["p"];
 			$sTag = $_GET["v"] ;
-			$sUser = "anonymous";   //for the moment at least assume an anonymous user
 			cTags::set_tag(OBJDATA_REALM, $sSol, $sInstrument, $sProduct, $sTag, $sUser);
 		case "get":
 			$sSol = $_GET["s"];
