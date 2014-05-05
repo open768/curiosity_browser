@@ -1,5 +1,5 @@
 <?php
-require_once("inc/objstore.php");
+require_once("$root/php/inc/objstore.php");
 class cComments{
 	const COMMENT_FILENAME = "[comment].txt";
 	

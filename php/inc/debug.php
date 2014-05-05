@@ -19,6 +19,8 @@ class cDebug{
 		if (self::$DEBUGGING){
 			$sDate = date('d-m-Y H:i:s');
 			echo "<p><font color=red><code>$sDate: $poThing</code></font><p>";
+			ob_flush();
+			flush();
 		}
 	}
 	
@@ -28,6 +30,8 @@ class cDebug{
 			echo "<table border=1 width=100%><tr><td><PRE>";
 			var_dump($poThing);
 			echo "</PRE></td></tr></table>";
+			ob_flush();
+			flush();
 		}
 	}
 

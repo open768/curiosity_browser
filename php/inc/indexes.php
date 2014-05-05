@@ -1,5 +1,5 @@
 <?php
-require_once("inc/objstore.php");
+require_once("$root/php/inc/objstore.php");
 
 
 class cIndexes{

@@ -11,9 +11,9 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-require_once("inc/cache.php");
-require_once("inc/http.php");
-require_once("inc/debug.php");
+require_once("$root/php/inc/cache.php");
+require_once("$root/php/inc/http.php");
+require_once("$root/php/inc/debug.php");
 
 class cCachedHttp{
 	public static $CACHE_EXPIRY = 3600;  //(seconds)
@@ -76,11 +76,12 @@ class cCachedHttp{
 			cDebug::write("cached");
 		}else{
 			//----------fetch the  details
+			cDebug::write("not cached fetching");
 			if ($pbJson)
 				$oResponse = cHttp::getJson($psURL);
 			else
 				$oResponse = cHttp::fetch_url($psURL);
-			cDebug::write("no cached ");
+			cDebug::write("storing");
 			$sSerial = serialize($oResponse);
 			$oCache->store($psURL, $sSerial, self::$CACHE_EXPIRY);
 		}

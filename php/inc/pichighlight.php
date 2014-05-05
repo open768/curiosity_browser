@@ -1,6 +1,6 @@
 <?php
-require_once("inc/objstore.php");
-require_once("inc/indexes.php");
+require_once("$root/php/inc/objstore.php");
+require_once("$root/php/inc/indexes.php");
 
 class cImageHighlight{
 	const IMGHIGH_FILENAME = "[imgbox].txt";

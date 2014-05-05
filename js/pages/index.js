@@ -404,7 +404,7 @@ function load_images_callback(paJS){
 
 			sHTML += 
 					"<div id='" + oItem.p + "'>" +
-						"<a target='detail' href='" + sImgURL + "'><img src='" +oItem.i + "'></a><br>" +
+						"<a target='detail' href='" + sImgURL + "'><img src='" +oItem.i + "' width='100%'></a><br>" +
 						"<span class='subtitle'>Date:</span> " + oItem.du + "<br>" +
 					"</div>" +
 					"<span class='subtitle'>Product:</span> " + oItem.p;

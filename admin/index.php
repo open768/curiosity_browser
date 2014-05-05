@@ -10,13 +10,14 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
-
-	require_once("inc/debug.php");
-	require_once("inc/tags.php");
-	require_once("inc/pichighlight.php");
-	require_once("inc/curiosity/pds.php");
-	require_once("inc/curiosity/static.php");
-	require_once("inc/cached_http.php");
+	$root=realpath("../");
+	require_once("$root/php/inc/debug.php");
+	require_once("$root/php/inc/tags.php");
+	require_once("$root/php/inc/pichighlight.php");
+	require_once("$root/php/curiosity/pds.php");
+	require_once("$root/php/curiosity/static.php");
+	require_once("$root/php/inc/cached_http.php");
+	
 	
 	cDebug::check_GET_or_POST();
 	
@@ -34,7 +35,14 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		//------------------------------------------------------
 		case "parsePDS":
 			if (! array_key_exists( "v", $_GET)){
-				echo "usage: admin.php?o=parsePDS&v=volume";
+				?>
+				<form method="get">
+					<Input type="hidden" name="o" value="<?=$sOperation?>">
+					<Input type="hidden" name="debug" value="1">
+					volume: <Input type="input" name="v"><br>
+					<input type="submit">
+				</form>
+				<?php
 				exit();
 			}
 			$volume = $_GET["v"];
@@ -46,7 +54,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			if (! array_key_exists( "p", $_GET)){
 				?>
 				<form method="get">
-					<Input type="hidden" name="o" value="killHighlight">
+					<Input type="hidden" name="o" value="<?=$sOperation?>">
 					<Input type="hidden" name="debug" value="1">
 					sol: <Input type="input" name="s"><br>
 					instr: <Input type="input" name="i"><br>

@@ -72,7 +72,8 @@ class cHttp{
 		if ($iErr!=0 ) 	print curl_error($oCurl)."<p>";
 		curl_close($oCurl);
 		fclose($fHandle);
-		
+		cDebug::write("ok got $psUrl ");
+
 		if ($iErr !=0){
 			unlink($sPath);
 			throw new Exception("ERROR URL was: $psUrl <p>");

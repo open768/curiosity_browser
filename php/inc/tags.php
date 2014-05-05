@@ -1,6 +1,6 @@
 <?php
-require_once("inc/objstore.php");
-require_once("inc/debug.php");
+require_once("$root/php/inc/objstore.php");
+require_once("$root/php/inc/debug.php");
 
 
 class cTags{

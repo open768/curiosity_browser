@@ -11,7 +11,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-require_once("inc/cached_http.php");
+require_once("$root/php/inc/cached_http.php");
 
 //##########################################################################
 class cInstrument{

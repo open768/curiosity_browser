@@ -11,9 +11,10 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-	require_once("inc/curiosity/json.php");
-	require_once("inc/curiosity/instrument.php");
-	require_once("inc/debug.php");
+	$root=realpath("..");
+	require_once("$root/php/curiosity/json.php");
+	require_once("$root/php/curiosity/instrument.php");
+	require_once("$root/php/inc/debug.php");
 	
 	cDebug::check_GET_or_POST();
 

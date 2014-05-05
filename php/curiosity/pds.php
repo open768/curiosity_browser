@@ -11,12 +11,12 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-require_once("inc/http.php");
-require_once("inc/objstore.php");
-require_once("inc/curiosity/json.php");
-require_once("inc/curiosity/instrument.php");
-require_once("inc/curiosity/static.php");
-require_once("inc/curiosity/lbl.php");
+require_once("$root/php/inc/http.php");
+require_once("$root/php/inc/objstore.php");
+require_once("$root/php/curiosity/json.php");
+require_once("$root/php/curiosity/instrument.php");
+require_once("$root/php/curiosity/static.php");
+require_once("$root/php/curiosity/lbl.php");
 
 
 //##########################################################################
@@ -114,11 +114,18 @@ class cCuriosityPDS{
 		try{
 			$sCacheFile = cHttp::fetch_large_url($sLBLUrl, $sFilename, false);
 		}catch(Exception $e){
-			cDebug::write("didnt work - not a real PDS catalog?");
-			cDebug::write($e);
+			cDebug::write("$e<p>didnt work - bad volume name?");
+			cDebug::write("for real volumes check  <a target='new' href='".self::PDS_URL."'>Here</a>");
 			return null;
 		}
-		$oLBL = cPDS_LBL::parse($sCacheFile);
+		
+		//parse the lbl file
+		$oLBL = new cPDS_LBL();
+		$oLBL->parseFile($sCacheFile);
+		cDebug::write("parse file OK");
+		
+		//
+		cDebug::error("to be done");
 		
 		
 		//get and cache file eg http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0003/INDEX/EDRINDEX.TAB - its a comma separated fixed field length file can be many MB
@@ -127,8 +134,6 @@ class cCuriosityPDS{
 		//step through a lineat a time extracting the SOL, Instrument , Product ID , Time, product name
 		//on every new sol start a new Objstore file
 		//at the end of each sol and the run flush out the objstore
-		
-		throw new Exception("to be done");
 	}
 	
 	
