@@ -107,24 +107,41 @@ class cCuriosityPDS{
 	
 	//**********************************************************************
 	public static function run_indexer($psVolume){
-		
-		//get the LBL file to understand how to parse the file http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0003/INDEX/EDRINDEX.LBL
+		//-------------------------------------------------------------------------------
+		//get the LBL file to understand how to parse the file 
+		// eg http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0003/INDEX/EDRINDEX.LBL
 		$sLBLUrl = self::PDS_URL."/$psVolume/INDEX/EDRINDEX.LBL";
-		$sFilename = "$psVolume.LBL";
+		$sOutFile = "$psVolume.LBL";
 		try{
-			$sCacheFile = cHttp::fetch_large_url($sLBLUrl, $sFilename, false);
+			$sLBLFile = cHttp::fetch_large_url($sLBLUrl, $sOutFile, false);
 		}catch(Exception $e){
 			cDebug::write("$e<p>didnt work - bad volume name?");
 			cDebug::write("for real volumes check  <a target='new' href='".self::PDS_URL."'>Here</a>");
 			return null;
 		}
 		
+		//-------------------------------------------------------------------------------
 		//parse the lbl file
 		$oLBL = new cPDS_LBL();
-		$oLBL->parseFile($sCacheFile);
+		$oLBL->parseFile($sLBLFile);
 		cDebug::write("parse file OK");
 		
-		//
+		//-------------------------------------------------------------------------------
+		//get the TAB file
+		$sTBLFileName = $oLBL->get("^INDEX_TABLE");
+		cDebug::write("TAB fie is $sTBLFileName");
+		cDebug::write("fetching TAB file");
+		$sTABUrl = self::PDS_URL."/$psVolume/INDEX/$sTBLFileName";
+		$sOutFile = "$psVolume.TAB";
+		try{
+			$sTABFile = cHttp::fetch_large_url($sTABUrl, $sOutFile, false);
+		}catch(Exception $e){
+			cDebug::write("$e<p>TAB file doesnt Exist?");
+			return null;
+		}
+		
+		//-------------------------------------------------------------------------------
+		// work through the TAB file
 		cDebug::error("to be done");
 		
 		

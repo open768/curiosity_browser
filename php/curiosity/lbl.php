@@ -16,7 +16,7 @@ require_once("$root/php/inc/cached_http.php");
 $count =0;
 	
 class cPDS_LBL{
-	private $aData = [];
+	protected $aData = [];
 	public $sName = "TOP";
 
 	//*****************************************
@@ -34,11 +34,12 @@ class cPDS_LBL{
 			
 			if ($bInString){
 				//-- was inside a string - check whether string has ended
-				$sStringValue .=  $line;
+				$sStringValue .=  " $line";
 				$chLast = substr($line,-1);
 				// at end of string  - set and clear buffers
 				if ( $chLast === '"'){
 					//cDebug::write("end of string");
+					$sStringValue = substr($sStringValue, 1, strlen($sStringValue)-2);
 					$this->set($sStringName, $sStringValue);
 					$bInString = false;
 					$sStringName = null;
@@ -62,9 +63,11 @@ class cPDS_LBL{
 				//-- look for specific keywords
 				if ($sValue[0] == '"'){
 					//-- starting a string
-					if (substr($sValue,-1) == '"')
+					if (substr($sValue,-1) == '"'){
+						// if the first and last characters are quotes
+						$sValue = substr($sValue, 1, strlen($sValue)-2);
 						$this->set($sKey, $sValue);
-					else{
+					}else{
 						$bInString = true;
 						$sStringName = $sKey;
 						$sStringValue = $sValue;
@@ -85,14 +88,32 @@ class cPDS_LBL{
 	
 	//*****************************************
 	function set($psName, $psValue){
-		$this->aData[] = [$psName,$psValue];
+		//if the key exists make it into an array
+		if (array_key_exists($psName, $this->aData)){
+			if (gettype($this->aData[$psName]) === "array"){
+				$this->aData[$psName][]= $psValue;
+			}else{
+				$sOrig = $this->aData[$psName];
+				$this->aData[$psName] = [$sOrig];
+			}
+		}else
+			$this->aData[$psName]= $psValue;
+	}
+	
+	//*****************************************
+	function get($psName){
+		//if the key exists make it into an array
+		if (array_key_exists($psName, $this->aData))
+			return $this->aData[$psName];
+		else
+			return null;
 	}
 	
 	//*****************************************
 	public function __toString(){
         return 'LBL Object';
     }
-
+	
 	//*****************************************
 	public function parseFile($psfilename){
 		//open the file for read only
