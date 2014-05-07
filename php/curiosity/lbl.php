@@ -120,9 +120,9 @@ class cPDS_LBL{
 		$fHandle = fopen($psfilename, 'r');
 		try{
 			$this->parseFileHandle($fHandle);
-		}finally{
-			fclose($fHandle);
-		}
+		}catch(Exception $e){}
+		fclose($fHandle);
+		
 	}
 }
 ?>

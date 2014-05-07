@@ -130,6 +130,11 @@ function onClickAddTag(){
 	sKey = cTagging.setTag(goItem.s,goItem.i,goItem.p, sTag, addtag_callback);
 }
 
+//***************************************************************
+function onClickPixlr(){
+	pixlr.edit({image:goItem.d.i, service:'express', exit:document.location});
+}
+
 //###############################################################
 //# Utility functions 
 //###############################################################
