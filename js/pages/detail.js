@@ -132,7 +132,7 @@ function onClickAddTag(){
 
 //***************************************************************
 function onClickPixlr(){
-	pixlr.edit({image:goItem.d.i, service:'express', exit:document.location});
+	pixlr.edit({image:goItem.d.i, service:'editor', exit:document.location});
 }
 
 //###############################################################

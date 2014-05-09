@@ -102,11 +102,35 @@ class cPDS_LBL{
 	
 	//*****************************************
 	function get($psName){
-		//if the key exists make it into an array
 		if (array_key_exists($psName, $this->aData))
 			return $this->aData[$psName];
 		else
 			return null;
+	}
+	
+	//*****************************************
+	function dump(){
+		$sOut = "";
+		foreach ($this->aData as $sKey=>$oValue){
+			$sType = gettype($oValue);
+			switch($sType){
+				case "string": 
+					$sOut .= "$sKey : $oValue\n"; 
+					break;
+				default:
+					$sOut .= "$sKey : [$sType]\n"; 
+			}
+		}
+		cDebug::write("<hr><pre>$sOut</pre><hr>");
+	}
+	
+	//*****************************************
+	function dump_array($psKey1, $psKey2){
+		$sOut = "";
+		$aThings = $this->get($psKey1);
+		foreach ($aThings as $oItem)
+			$sOut .= $oItem->get($psKey2)."\n";
+		cDebug::write("<hr><pre>$sOut</pre><hr>");
 	}
 	
 	//*****************************************

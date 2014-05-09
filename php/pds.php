@@ -13,8 +13,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 	$root=realpath("..");
 	require_once("$root/php/curiosity/json.php");
-	require_once("$root/php/curiosity/pds.php");
-	require_once("$root/php/curiosity/lbl.php");
+	require_once("$root/php/pds/pds.php");
+	require_once("$root/php/pds/lbl.php");
 	require_once("$root/php/inc/debug.php");
 	
 	cDebug::check_GET_or_POST();

@@ -37,7 +37,7 @@ class cDebug{
 
 	//**************************************************************************
 	public static function error($psText){
-		self::write("error: $psText");
+		self::write("error: <$psText");
 		throw new Exception($psText);
 	}
 	

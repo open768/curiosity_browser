@@ -15,8 +15,9 @@ require_once("$root/php/inc/http.php");
 require_once("$root/php/inc/objstore.php");
 require_once("$root/php/curiosity/json.php");
 require_once("$root/php/curiosity/instrument.php");
-require_once("$root/php/curiosity/static.php");
-require_once("$root/php/curiosity/lbl.php");
+require_once("$root/php/inc/static.php");
+require_once("$root/php/pds/lbl.php");
+require_once("$root/php/pds/pdsIndexer.php");
 
 
 //##########################################################################
@@ -112,45 +113,22 @@ class cCuriosityPDS{
 		// eg http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0003/INDEX/EDRINDEX.LBL
 		$sLBLUrl = self::PDS_URL."/$psVolume/INDEX/EDRINDEX.LBL";
 		$sOutFile = "$psVolume.LBL";
-		try{
-			$sLBLFile = cHttp::fetch_large_url($sLBLUrl, $sOutFile, false);
-		}catch(Exception $e){
-			cDebug::write("$e<p>didnt work - bad volume name?");
-			cDebug::write("for real volumes check  <a target='new' href='".self::PDS_URL."'>Here</a>");
-			return null;
-		}
-		
-		//-------------------------------------------------------------------------------
-		//parse the lbl file
-		$oLBL = new cPDS_LBL();
-		$oLBL->parseFile($sLBLFile);
-		cDebug::write("parse file OK");
+		$oLBL = cPDS_Indexer::fetch_lbl($sLBLUrl, $sOutFile);
 		
 		//-------------------------------------------------------------------------------
 		//get the TAB file
 		$sTBLFileName = $oLBL->get("^INDEX_TABLE");
-		cDebug::write("TAB fie is $sTBLFileName");
-		cDebug::write("fetching TAB file");
 		$sTABUrl = self::PDS_URL."/$psVolume/INDEX/$sTBLFileName";
 		$sOutFile = "$psVolume.TAB";
-		try{
-			$sTABFile = cHttp::fetch_large_url($sTABUrl, $sOutFile, false);
-		}catch(Exception $e){
-			cDebug::write("$e<p>TAB file doesnt Exist?");
-			return null;
-		}
+		$sTABFile = cPDS_Indexer::fetch_tab($sTABUrl, $sOutFile);
 		
 		//-------------------------------------------------------------------------------
-		// work through the TAB file
-		cDebug::error("to be done");
+		//find out where the product files are:
+		$oData = cPDS_Indexer::parse_TAB($oLBL, $sTABFile);
 		
-		
-		//get and cache file eg http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0003/INDEX/EDRINDEX.TAB - its a comma separated fixed field length file can be many MB
-		//-- $sTABUrl = self::PDS_URL."/$psVolume/INDEX/EDRINDEX.TAB";
-		
+		//-------------------------------------------------------------------------------
 		//step through a lineat a time extracting the SOL, Instrument , Product ID , Time, product name
-		//on every new sol start a new Objstore file
-		//at the end of each sol and the run flush out the objstore
+		//build the objstore files
 	}
 	
 	
