@@ -2,8 +2,10 @@
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //% OBJSTORE - simplistic store objects without a database!
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+cObjStore::$rootFolder= "$root/[objdata]";
+
 class cObjStore{
-	static $rootFolder = "../[objdata]";
+	public static $rootFolder = "";
 	
 	//#####################################################################
 	//# PRIVATES

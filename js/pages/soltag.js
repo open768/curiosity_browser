@@ -33,7 +33,7 @@ function onLoadJQuery(){
 	current_sol = sSol;
 	
 	//load tags
-	sUrl = "php/tag.php?s=" + sSol + "&o=sol";
+	sUrl = "php/rest/tag.php?s=" + sSol + "&o=sol";
 	set_status("fetching tags");
 	cHttp.fetch_json(sUrl, load_soltag_callback);
 }

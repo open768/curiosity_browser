@@ -13,11 +13,12 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 require_once("$root/php/inc/http.php");
 require_once("$root/php/inc/objstore.php");
+require_once("$root/php/inc/indexes.php");
 require_once("$root/php/curiosity/json.php");
 require_once("$root/php/curiosity/instrument.php");
 require_once("$root/php/inc/static.php");
 require_once("$root/php/pds/lbl.php");
-require_once("$root/php/pds/pdsIndexer.php");
+require_once("$root/php/pds/pdsreader.php");
 
 
 //##########################################################################
@@ -30,6 +31,9 @@ class cCuriosityPDS{
 	
 	const PICNO_REGEX = "/^(\d{4})(\D{2})(\d{6})(\d{3})(\d{2})(\d{5})(\D)(.)(\d)_(\D+)/";
 	const SHORT_REGEX = "/^(\d{4})(\D{2})(\d{4})(\d+)(\D)(\d)_(\D+)/";
+	private static $PDS_COL_NAMES = ["PATH_NAME", "FILE_NAME", "MSL:INPUT_PRODUCT_ID", "INSTRUMENT_ID", "PLANET_DAY_NUMBER", "PRODUCT_ID"];
+	const PDS_SUFFIX = "PDS";
+
 
 	//*****************************************************************************
 	//* see http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0005/DOCUMENT/MSL_MMM_EDR_RDR_DPSIS.PDF pg23 PICNO
@@ -107,30 +111,70 @@ class cCuriosityPDS{
 	}
 	
 	//**********************************************************************
-	public static function run_indexer($psVolume){
+	public static function index_everything($psRealm){
+		for ($i=1; $i<6;$i++){
+			if ($i>1)	self::run_indexer($psRealm, "MSLMHL_000$i", "EDRINDEX");
+			self::run_indexer($psRealm, "MSLMRD_000$i", "EDRINDEX");
+			self::run_indexer($psRealm, "MSLMST_000$i", "EDRINDEX");
+		}
+		
+		self::run_indexer($psRealm, "MSLNAV_0XXX", "INDEX");
+		self::run_indexer($psRealm, "MSLNAV_1XXX", "INDEX");
+		self::run_indexer($psRealm, "MSLHAZ_0XXX", "INDEX");
+		self::run_indexer($psRealm, "MSLHAZ_1XXX", "INDEX");
+		self::run_indexer($psRealm, "MSLHAZ_1XXX", "INDEX");
+		
+		//mosaics are different!
+		//self::run_indexer($psRealm, "MSLMOS_1XXX", "INDEX");
+	}
+	
+	//**********************************************************************
+	public static function run_indexer($psRealm, $psVolume, $psIndex){
 		//-------------------------------------------------------------------------------
 		//get the LBL file to understand how to parse the file 
 		// eg http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0003/INDEX/EDRINDEX.LBL
-		$sLBLUrl = self::PDS_URL."/$psVolume/INDEX/EDRINDEX.LBL";
+		$sLBLUrl = self::PDS_URL."/$psVolume/INDEX/$psIndex.LBL";
 		$sOutFile = "$psVolume.LBL";
-		$oLBL = cPDS_Indexer::fetch_lbl($sLBLUrl, $sOutFile);
+		$oLBL = cPDS_Reader::fetch_lbl($sLBLUrl, $sOutFile);
 		
 		//-------------------------------------------------------------------------------
 		//get the TAB file
 		$sTBLFileName = $oLBL->get("^INDEX_TABLE");
 		$sTABUrl = self::PDS_URL."/$psVolume/INDEX/$sTBLFileName";
 		$sOutFile = "$psVolume.TAB";
-		$sTABFile = cPDS_Indexer::fetch_tab($sTABUrl, $sOutFile);
+		$sTABFile = cPDS_Reader::fetch_tab($sTABUrl, $sOutFile);
 		
 		//-------------------------------------------------------------------------------
 		//find out where the product files are:
-		$oData = cPDS_Indexer::parse_TAB($oLBL, $sTABFile);
+		$aData = cPDS_Reader::parse_TAB($oLBL, $sTABFile, self::$PDS_COL_NAMES);
+		self::create_index_files($psRealm, self::PDS_URL."/$psVolume/", $aData, false);
 		
-		//-------------------------------------------------------------------------------
-		//step through a lineat a time extracting the SOL, Instrument , Product ID , Time, product name
-		//build the objstore files
+		cDebug::write("Done OK");
 	}
 	
+	//**********************************************************************
+	private static function create_index_files($psRealm, $psUrlPrefix, $paTabData, $pbReplace){
+		$aData = [];
+		
+		//build the index
+		foreach ($paTabData as $aLine){
+			$sSol = $aLine["PLANET_DAY_NUMBER"];
+			$sInstr = $aLine["INSTRUMENT_ID"];
+			$sMSL_product = $aLine["INSTRUMENT_ID"];
+			$sPDS_product = $aLine["PRODUCT_ID"];
+			$sUrl = $psUrlPrefix.$aLine["PATH_NAME"].$aLine["FILE_NAME"];
+			
+			if (!array_key_exists ($sSol, $aData)) $aData[$sSol] = [];
+			if (!array_key_exists ($sInstr, $aData[$sSol])) $aData[$sSol][$sInstr] = [];
+			$aData[$sSol][$sInstr][$sMSL_product] = $sUrl;
+		}
+		
+		//write out the files
+		foreach ($aData as  $sSol=>$aSolData)	{
+			foreach ($aSolData as $sInstr=>$aInstrData)
+				cObjStore::put_file($psRealm, "[pds]/$sSol/$sInstr", cIndexes::get_filename(cIndexes::INSTR_PREFIX, self::PDS_SUFFIX), $aInstrData);				
+		}
+	}
 	
 	//**********************************************************************
 	public function map_MSL_Instrument($psInstrument){

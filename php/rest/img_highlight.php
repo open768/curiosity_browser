@@ -11,57 +11,56 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-	$root=realpath("..");
+	$root=realpath("../..");
 	require_once("$root/php/inc/debug.php");
-	require_once("$root/php/inc/tags.php");
 	require_once("$root/php/inc/auth.php");
+	require_once("$root/php/inc/pichighlight.php");
 	require_once("$root/php/inc/static.php");
+	require_once("$root/php/inc/indexes.php");
 	
 	cDebug::check_GET_or_POST();
 
 	
 	//***************************************************
 	$sOperation = $_GET["o"] ;
-	$aData = null;
+	$oResult = null;
 	
 	switch($sOperation){
-		case "set":
-			$sUser = cAuth::must_get_user(); 
+		case "add":
+			$sUser = cAuth::must_get_user();
 			$sSol = $_GET["s"];
 			$sInstrument= $_GET["i"];
 			$sProduct= $_GET["p"];
-			$sTag = $_GET["v"] ;
-			cTags::set_tag(OBJDATA_REALM, $sSol, $sInstrument, $sProduct, $sTag, $sUser);
+			$top= $_GET["t"];
+			$left= $_GET["l"];
+			$oResult = cImageHighlight::set(OBJDATA_REALM, $sSol, $sInstrument, $sProduct, $top, $left, $sUser);
+			break;
 		case "get":
 			$sSol = $_GET["s"];
 			$sInstrument= $_GET["i"];
 			$sProduct= $_GET["p"];
-			$aData = cTags::get_tag_names(OBJDATA_REALM, $sSol, $sInstrument, $sProduct);
-			break;
-		case "detail":
-			$sTag = $_GET["t"] ;
-			$aData = cTags::get_tag_index(OBJDATA_REALM, $sTag);
-			break;
-		case "topsolindex":
-			$aData = cTags::get_top_sol_index(OBJDATA_REALM);
-			break;
-		case "sol":
-			$sSol = $_GET["s"];
-			$aData = cTags::get_sol_tags(OBJDATA_REALM, $sSol);
+			$oResult = cImageHighlight::get(OBJDATA_REALM, $sSol, $sInstrument, $sProduct);
 			break;
 		case "solcount":
 			$sSol = $_GET["s"];
-			$aData = cTags::get_sol_tag_count(OBJDATA_REALM, $sSol);
+			$oResult = cIndexes::get_solcount(OBJDATA_REALM, $sSol, cImageHighlight::INDEX_SUFFIX);
 			break;
-		case "all":
-			$aData = cTags::get_top_tags(OBJDATA_REALM);
+		case "topsolindex":
+			$oResult = cIndexes::get_top_sol_data(OBJDATA_REALM, cImageHighlight::INDEX_SUFFIX);
+			break;
+		case "soldata":
+			$sSol = $_GET["s"];
+			$oResult = cIndexes::get_sol_data(OBJDATA_REALM, $sSol, cImageHighlight::INDEX_SUFFIX);
+			break;
+		default:
+			cDebug::error("unsupported operation");
 			break;
 	}
 	
 	//***************************************************
 	//output the tags
 	if (cDebug::$DEBUGGING)
-		cDebug::vardump($aData);
+		cDebug::vardump($oResult);
 	else
-		echo json_encode($aData );	
+		echo json_encode($oResult );	
 ?>

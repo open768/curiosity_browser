@@ -3,19 +3,30 @@ require_once("$root/php/inc/objstore.php");
 
 
 class cIndexes{
-	//********************************************************************
-	static function get_top_sol_data($psRealm, $psFile){
-		return cObjStore::get_file($psRealm, "", $psFile);
+	const TOP_PREFIX = "t";
+	const SOL_PREFIX = "s";
+	const INSTR_PREFIX = "i";
+	
+	public static function get_filename( $psPrefix, $psSuffix){
+		return "[${psPrefix}${psSuffix}].txt";
 	}
 	
 	//********************************************************************
-	static function get_sol_data($psRealm, $psSol, $psFile){
-		return cObjStore::get_file($psRealm, $psSol, $psFile);
+	static function get_top_sol_data($psRealm, $psSuffix){
+		$sFile = self::get_filename(self::TOP_PREFIX, $psSuffix);
+		return cObjStore::get_file($psRealm, "", $sFile);
+	}
+	
+	//********************************************************************
+	static function get_sol_data($psRealm, $psSol, $psSuffix){
+		$sFile = self::get_filename(self::SOL_PREFIX, $psSuffix);
+		return cObjStore::get_file($psRealm, $psSol, $sFile);
 	}
 	
 	//********************************************************************
 	static function get_instr_data($psRealm, $psSol, $psInstrument, $psFile){
-		return cObjStore::get_file($psRealm, "$psSol/$psInstrument", $psFile);
+		$sFile = self::get_filename(self::INSTR_PREFIX, $psSuffix);
+		return cObjStore::get_file($psRealm, "$psSol/$psInstrument", $sFile);
 	}
 	
 	//********************************************************************
@@ -35,45 +46,48 @@ class cIndexes{
 	//######################################################################
 	//# UPDATE functions
 	//######################################################################
-	static function update_indexes($psRealm, $psSol, $psInstrument, $psProduct, $poData, $psTopFile, $psSolFile, $psInstrFile){
-		self::update_instr_index($psRealm, $psSol, $psInstrument, $psProduct, $poData, $psInstrFile);
-		self::update_sol_index($psRealm, $psSol, $psInstrument, $psProduct, $psSolFile);
-		self::update_top_sol_index($psRealm, $psSol, $psTopFile);		
+	static function update_indexes($psRealm, $psSol, $psInstrument, $psProduct, $poData, $psSuffix){
+		self::update_instr_index($psRealm, $psSol, $psInstrument, $psProduct, $poData, $psSuffix);
+		self::update_sol_index($psRealm, $psSol, $psInstrument, $psProduct, $psSuffix);
+		self::update_top_sol_index($psRealm, $psSol, $psSuffix);		
 	}
 	
 	//********************************************************************
-	static function update_top_sol_index($psRealm, $psSol, $psFile){
-		$aData = cObjStore::get_file($psRealm, "", $psFile);
+	static function update_top_sol_index($psRealm, $psSol, $psSuffix){
+		$sFile = self::get_filename(self::TOP_PREFIX, $psSuffix);
+		$aData = cObjStore::get_file($psRealm, "", $sFile);
 		if (!$aData) $aData=[];
 		if ( !array_key_exists( $psSol, $aData)){
 			$aData[$psSol] = 1;
 			cDebug::write("updating top sol index for sol $psSol");
-			cObjStore::put_file($psRealm, "", $psFile, $aData);
+			cObjStore::put_file($psRealm, "", $sFile, $aData);
 		}
 	}
 		
 	//********************************************************************
-	static function update_sol_index($psRealm, $psSol, $psInstrument, $psProduct, $psFile){
-		$aData = cObjStore::get_file($psRealm, $psSol, $psFile);
+	static function update_sol_index($psRealm, $psSol, $psInstrument, $psProduct, $psSuffix){
+		$sFile = self::get_filename(self::SOL_PREFIX, $psSuffix);
+		$aData = cObjStore::get_file($psRealm, $psSol, $sFile);
 		if (!$aData) $aData=[];
 		if (!array_key_exists( $psInstrument, $aData)) $aData[$psInstrument] = [];
 		$aData[$psInstrument][$psProduct] = 1;
-		cObjStore::put_file($psRealm, $psSol, $psFile, $aData);
+		cObjStore::put_file($psRealm, $psSol, $sFile, $aData);
 	}
 		
 	//********************************************************************
-	static function update_instr_index($psRealm, $psSol, $psInstrument, $psProduct, $poData, $psFile ){
+	static function update_instr_index($psRealm, $psSol, $psInstrument, $psProduct, $poData, $psSuffix ){
+		$sFile = self::get_filename(self::INSTR_PREFIX, $psSuffix);
 		$sFolder="$psSol/$psInstrument";
-		$aData = cObjStore::get_file($psRealm, $sFolder, $psFile);
+		$aData = cObjStore::get_file($psRealm, $sFolder, $sFile);
 		if (!$aData) $aData=[];
 		$aData[$psProduct] = $poData;
-		cObjStore::put_file($psRealm, $sFolder, $psFile, $aData);
+		cObjStore::put_file($psRealm, $sFolder, $sFile, $aData);
 	}
 
 	//######################################################################
 	//# reindex functions
 	//######################################################################
-	static function reindex($psRealm, $poInstrData, $psTopFile, $psSolFile, $psInstrFile, $psProdFile){
+	static function reindex($psRealm, $poInstrData, $psSuffix){
 		$aData = [];
 
 		$toppath = cObjStore::$rootFolder."/$psRealm";
@@ -102,15 +116,19 @@ class cIndexes{
 					}
 			}
 			
-		//write out the  index files
+		self::write_index_files($psRealm, $aData,$psSuffix);
+	}
+	
+	//***********************************************************************************************************
+	public static function write_index_files( $psRealm, $paData, $psSuffix){
 		$aTopSols = [];
-		foreach ($aData as  $sSol=>$aSolData)	{
+		foreach ($paData as  $sSol=>$aSolData)	{
 			$aTopSols[$sSol] = 1;
 			foreach ($aSolData as $sInstr=>$aInstrData)
-				cObjStore::put_file($psRealm, "$sSol/$sInstr", $psInstrFile, $aInstrData);				
-			cObjStore::put_file($psRealm, $sSol, $psSolFile, $aSolData);				
+				cObjStore::put_file($psRealm, "$sSol/$sInstr", self::get_filename(self::INSTR_PREFIX, $psSuffix), $aInstrData);				
+			cObjStore::put_file($psRealm, $sSol, self::get_filename(self::SOL_PREFIX, $psSuffix), $aSolData);				
 		}
-		cObjStore::put_file($psRealm, "", $psTopFile, $aTopSols);
+		cObjStore::put_file($psRealm, "", self::get_filename(self::TOP_PREFIX, $psSuffix), $aTopSols);
 	}
 }
 ?>

@@ -21,7 +21,7 @@ var oSolIndex = null;
 
 function onLoadJQuery(){
 	set_status("fetching tags");
-	cHttp.fetch_json("php/tag.php?&o=topsolindex", topsol_callback);
+	cHttp.fetch_json("php/rest/tag.php?&o=topsolindex", topsol_callback);
 }
 
 //###############################################################
@@ -33,7 +33,7 @@ function topsol_callback(poJs){
 		set_error_status("No Tags found");
 	else{
 		set_status("fetching sols");
-		cHttp.fetch_json("php/sols.php", sols_callback);
+		cHttp.fetch_json("php/rest/sols.php", sols_callback);
 	}
 }
 

@@ -33,20 +33,26 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	
 	switch($sOperation){
 		//------------------------------------------------------
+		case "parseAll":
+			cCuriosityPDS::index_everything(OBJDATA_REALM);
+			break;
 		case "parsePDS":
 			if (! array_key_exists( "v", $_GET)){
 				?>
 				<form method="get">
 					<Input type="hidden" name="o" value="<?=$sOperation?>">
 					<Input type="hidden" name="debug" value="1">
-					volume: <Input type="input" name="v"><br>
+					volume: <Input type="input" name="v">
+					Index: <Input type="input" name="i" value="EDRINDEX">
 					<input type="submit">
 				</form>
 				<?php
 				exit();
 			}
-			$volume = $_GET["v"];
-			cCuriosityPDS::run_indexer($volume);
+			$sVolume = $_GET["v"];
+			if (!isset($_GET["i"] )) cDebug::error("no index specified");
+			$sIndex= $_GET["i"];
+			cCuriosityPDS::run_indexer(OBJDATA_REALM, $sVolume, $sIndex);
 			break;
 
 		//------------------------------------------------------
@@ -115,6 +121,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			?>
 				<form method="get">
 					<Input type="radio" name="o" value="parsePDS">parse PDS files<br>
+					<Input type="radio" name="o" value="parseAll">parse ALL PDS files<br>
 					<Input type="radio" name="o" value="killCache">clear cache<br>
 					<Input type="radio" name="o" value="killTag">remove tag<br>
 					<Input type="radio" name="o" value="mergeTags">merge a tag<br>

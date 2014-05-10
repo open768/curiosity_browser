@@ -2,7 +2,7 @@ var cImgHilite = {
 	templateID:"#box_template",
 	containerID:"#highlight",
 	baseImageID:"#baseimg",
-	url:"php/img_highlight.php",
+	url:"php/rest/img_highlight.php",
 	controlsID:"#controls",
 	numberID:"#number",
 	imgTarget:null,

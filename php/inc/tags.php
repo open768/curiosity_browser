@@ -66,7 +66,10 @@ class cTags{
 	
 	//********************************************************************
 	static function get_top_tags($psRealm){
-		return 	cObjStore::get_file($psRealm, "", self::TOP_TAG_FILE);
+		$aTags = cObjStore::get_file($psRealm, "", self::TOP_TAG_FILE);
+		cDebug::vardump($aTags);
+		ksort($aTags);
+		return $aTags;
 	}
 	
 	//********************************************************************

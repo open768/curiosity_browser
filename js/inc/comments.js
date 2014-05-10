@@ -1,5 +1,5 @@
 var cComments = {
-	phpBaseURL:"php/comments.php",
+	phpBaseURL:"php/rest/comments.php",
 	
 	//********************************************************************************
 	get: function(psSol,psInstr, psProduct, pfnCallback){

@@ -25,7 +25,7 @@ var cAuth = {
 	
 	//**********************************************************
 	getUser:function ( pfnCallback ){
-		cHttp.fetch_json("php/auth.php?o=getuser", pfnCallback);
+		cHttp.fetch_json("php/rest/auth.php?o=getuser", pfnCallback);
 	},
 	
 	//**********************************************************

@@ -1,5 +1,5 @@
 var cTagging = {
-	phpBaseURL:"php/tag.php",
+	phpBaseURL:"php/rest/tag.php",
 	maxFont:24,
 	minFont:10,
 	

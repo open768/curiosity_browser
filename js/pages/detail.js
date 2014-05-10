@@ -26,7 +26,7 @@ function OnClickNext(){
 	//find the next product
 	var sURL;
 	
-	sURL = "php/next.php?d=n&s=" + goItem.s + "&i=" + goItem.i +"&p=" + goItem.p;
+	sURL = "php/rest/next.php?d=n&s=" + goItem.s + "&i=" + goItem.i +"&p=" + goItem.p;
 	set_status("fetching next image details...");
 	cHttp.fetch_json(sURL, next_callback);
 }
@@ -40,14 +40,14 @@ function onClickComment(){
 
 //***************************************************************
 function OnClickNextTime(){
-	sURL = "php/nexttime.php?d=n&s=" + goItem.s + "&p=" + goItem.p;
+	sURL = "php/rest/nexttime.php?d=n&s=" + goItem.s + "&p=" + goItem.p;
 	set_status("fetching next image details...");
 	cHttp.fetch_json(sURL, nexttime_callback);
 }
 
 //***************************************************************
 function onClickPreviousTime(){
-	sURL = "php/nexttime.php?d=p&s=" + goItem.s + "&p=" + goItem.p;
+	sURL = "php/rest/nexttime.php?d=p&s=" + goItem.s + "&p=" + goItem.p;
 	set_status("fetching previous image details...");
 	cHttp.fetch_json(sURL, nexttime_callback);
 }
@@ -57,7 +57,7 @@ function onClickPrevious(){
 	//find the previous product
 	var sURL;
 	
-	sURL = "php/next.php?d=p&s=" + goItem.s + "&i=" + goItem.i +"&p=" + goItem.p;
+	sURL = "php/rest/next.php?d=p&s=" + goItem.s + "&i=" + goItem.i +"&p=" + goItem.p;
 	set_status("fetching previous image details...");
 	cHttp.fetch_json(sURL, next_callback);
 }
@@ -107,7 +107,7 @@ function onClickMSLRaw(){
 
 //***************************************************************
 function onClickPDS(){
-	var sURL = "php/pds.php?p=" + goItem.p ;
+	var sURL = "php/rest/pds.php?p=" + goItem.p ;
 	set_status("getting PDS information");
 	cHttp.fetch_json(sURL, get_pds_callback);
 }
@@ -156,7 +156,7 @@ function get_product_data( psSol, psInstr, psProd){
 	var sURL;
 	
 	loading=true;
-	sURL = "php/detail.php?s=" + psSol + "&i=" + psInstr +"&p=" + psProd;
+	sURL = "php/rest/detail.php?s=" + psSol + "&i=" + psInstr +"&p=" + psProd;
 	set_status("fetching data for "+ psProd);
 	cHttp.fetch_json(sURL, load_detail_callback);
 }

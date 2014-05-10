@@ -17,7 +17,7 @@ require_once("$root/php/inc/objstore.php");
 require_once("$root/php/inc/static.php");
 
 
-class cPDS_Indexer{
+class cPDS_Reader{
 	//**********************************************************************
 	public static function fetch_lbl( $psUrl, $psOutFile){
 		cDebug::write("fetching $psUrl");
@@ -39,9 +39,9 @@ class cPDS_Indexer{
 	}
 	
 	//**********************************************************************
-	public static function parse_tab( $poLBL, $psTabFile){
+	public static function parse_TAB( $poLBL, $psTabFile, $aColNames){
 		// get the columns to be used for indexing
-		$aCols = self::pr__get_tab_columns($poLBL);
+		$aCols = self::pr__get_tab_columns($poLBL, $aColNames);
 		//cDebug::vardump($aCols);
 		
 		//open the tab file
@@ -50,6 +50,7 @@ class cPDS_Indexer{
 		$fHandle = fopen($psTabFile, 'r');
 		while(!feof($fHandle)){
 			$sLine = fgets($fHandle);
+			if (trim($sLine) == "") continue;
 			$aLine = self::pr__extract_tab_line($sLine, $aCols);
 			$aOut[] = $aLine;
 			$iCount ++;
@@ -57,7 +58,7 @@ class cPDS_Indexer{
 		fclose($fHandle);
 		
 		cDebug::write("Processed $iCount lines");
-		cDebug::vardump($aOut);
+		//cDebug::vardump($aOut);
 
 		return $aOut;
 	}
@@ -65,7 +66,7 @@ class cPDS_Indexer{
 	//######################################################################
 	//# PRIVATES
 	//######################################################################
-	private static function pr__get_tab_columns($poLBL){
+	private static function pr__get_tab_columns($poLBL, $paColNames){
 		$aResult = [];
 		//get the column names of interest
 		$oINDEXLBL = $poLBL->get("INDEX_TABLE");
@@ -73,8 +74,7 @@ class cPDS_Indexer{
 		//$oINDEXLBL->dump_array("COLUMN", "NAME");
 		$aCols = $oINDEXLBL->get("COLUMN");
 		
-		$aNames = ["PATH_NAME", "FILE_NAME", "MSL:INPUT_PRODUCT_ID", "INSTRUMENT_ID", "PLANET_DAY_NUMBER", "PRODUCT_ID"];
-		foreach ($aNames as $sName){
+		foreach ($paColNames as $sName){
 			foreach ($aCols as $oCol)
 				if ($oCol->get("NAME") === $sName){
 					$aResult[$sName] = $oCol;

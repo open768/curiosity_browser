@@ -14,7 +14,7 @@
 class Cache {
 
   /* The path to the cache file folder   */
-  public $_cachepath = '../[cache]/';
+  public $_cachepath = "cache/";
 
   /* The name of the default cache file   */
   private $_cachename = 'default';

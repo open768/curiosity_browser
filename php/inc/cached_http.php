@@ -20,11 +20,16 @@ class cCachedHttp{
 	private static $oCache = null;
 	private static $sCacheFile = null;
 	public static $fileHashing = true;
+	
 
 
 	//*****************************************************************************
 	public static function clearCache(){
+		global $root;
+		$oCache->_cachepath = "$root/[cache]/";
+		
 		$oCache = new Cache();
+
 		$aFiles = scandir($oCache->_cachepath);
 		foreach ($aFiles as $sFile)
 			if (!preg_match("/^\./", $sFile)){
@@ -41,8 +46,12 @@ class cCachedHttp{
 	
 	//*****************************************************************************
 	private static function getCacheObj(){
+		global $root;
+		
 		if (! self::$oCache) {
 			$oCache = new Cache();
+			$oCache->_cachepath = "$root/[cache]/";
+			
 			if (self::$sCacheFile)
 				$oCache->setCache(self::$sCacheFile);
 			$oCache->_hash_filename = self::$fileHashing;

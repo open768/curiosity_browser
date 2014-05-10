@@ -55,7 +55,7 @@ function get_calendar_data( psSol){
 	current_sol = psSol;
 	
 	loading=true;
-	sUrl = "php/cal.php?s=" + psSol ;
+	sUrl = "php/rest/cal.php?s=" + psSol ;
 	set_status("fetching calendar data for sol:"+ psSol);
 	cHttp.fetch_json(sUrl, load_cal_callback);
 }

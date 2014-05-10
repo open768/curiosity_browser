@@ -50,8 +50,8 @@ function onloadJQuery(){
 		reset_image_number = false;
 	}
 		
-	cHttp.fetch_json("php/instruments.php", load_instruments_callback);
-	cHttp.fetch_json("php/sols.php", load_sols_callback);
+	cHttp.fetch_json("php/rest/instruments.php", load_instruments_callback);
+	cHttp.fetch_json("php/rest/sols.php", load_sols_callback);
 	cTagging.getTagNames(tagnames_callback);
 }
 
@@ -61,7 +61,7 @@ function onloadJQuery(){
 function onClickSearch(){
 	var sText = $("#search_text").val();
 	if (sText !== ""){
-		sUrl="php/search.php?s=" + sText;
+		sUrl="php/rest/search.php?s=" + sText;
 		cHttp.fetch_json(sUrl, search_callback);
 	}
 }
@@ -256,7 +256,7 @@ function get_instruments(psSol){
 	$("input[name=" + INSTRUMENT_RADIO + "]").each( function(){$(this).parent().hide();});
 	
 	//get the instruments for this sol
-	sUrl = "php/instruments.php?s=" + psSol;
+	sUrl = "php/rest/instruments.php?s=" + psSol;
 	cHttp.fetch_json(sUrl, get_instruments_callback);
 }
 
@@ -270,7 +270,7 @@ function get_image_data( piSol, psInstr, piStart, piEnd){
 	
 	// load the image data
 	loading=true;
-	sUrl = "php/images.php?s=" + piSol + "&i=" + psInstr +"&b=" + piStart + "&e=" + piEnd;
+	sUrl = "php/rest/images.php?s=" + piSol + "&i=" + psInstr +"&b=" + piStart + "&e=" + piEnd;
 	set_status("fetching image data...");
 	cHttp.fetch_json(sUrl, load_images_callback);
 }
@@ -279,7 +279,7 @@ function get_image_data( piSol, psInstr, piStart, piEnd){
 function get_sol_tag_count(psSol){
 	var sUrl;
 	set_status("fetching tagcount");
-	sUrl = "php/tag.php?s=" + psSol + "&o=solcount";
+	sUrl = "php/rest/tag.php?s=" + psSol + "&o=solcount";
 	cHttp.fetch_json(sUrl, tagcount_callback);
 }
 
@@ -287,7 +287,7 @@ function get_sol_tag_count(psSol){
 function get_sol_hilite_count(psSol){
 	var sUrl;
 	set_status("fetching hilite count");
-	sUrl = "php/img_highlight.php?s=" + psSol + "&o=solcount";
+	sUrl = "php/rest/img_highlight.php?s=" + psSol + "&o=solcount";
 	cHttp.fetch_json(sUrl, solhighcount_callback);
 }
 

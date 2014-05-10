@@ -11,21 +11,22 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-	$root=realpath("..");
+	$root=realpath("../..");
 	require_once("$root/php/curiosity/json.php");
-	require_once("$root/php/curiosity/instrument.php");
 	require_once("$root/php/inc/debug.php");
 	
 	cDebug::check_GET_or_POST();
 
-	if (isset( $_GET["s"]))
-		$aList = cCuriosity::getSolInstrumentList($_GET["s"]);
-	else
-		$aList = cInstrument::getInstrumentList();
-		
+	$sSol = $_GET["s"] ;
+	$sInstrument = $_GET["i"];	
+	$sProduct = $_GET["p"];
+	
+	cDebug::write("getting product details for $sSol, $sInstrument, $sProduct");
+	$oInstrumentData = cCuriosity::getProductDetails($sSol, $sInstrument, $sProduct);
+	
 	if (cDebug::$DEBUGGING)
-		cDebug::vardump($aList);
+		cDebug::vardump($oInstrumentData);
 	else
-		echo json_encode($aList );
-
+		echo json_encode($oInstrumentData );
 ?>
+

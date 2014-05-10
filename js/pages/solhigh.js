@@ -26,7 +26,7 @@ function onLoadJQuery(){
 	current_sol = sSol;
 	
 	//load tags
-	sUrl = "php/img_highlight.php?s=" + sSol + "&o=soldata";
+	sUrl = "php/rest/img_highlight.php?s=" + sSol + "&o=soldata";
 	set_status("fetching highlights");
 	cHttp.fetch_json(sUrl, hilite_callback);
 }
