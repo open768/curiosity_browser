@@ -24,15 +24,16 @@ require_once("$root/php/pds/pdsreader.php");
 //##########################################################################
 class cCuriosityPDS{
 	const PDS_URL = "http://pds-imaging.jpl.nasa.gov/data/msl";
-	const OBJDATA_TOP_FOLDER = "[PDS]";
+	const OBJDATA_TOP_FOLDER = "[pds]";
 	const PDS_MAP_FILENAME="[pds].map";
 	const max_released = 449;
 	const LBL_CACHE = 12628000; //a long time
 	
 	const PICNO_REGEX = "/^(\d{4})(\D{2})(\d{6})(\d{3})(\d{2})(\d{5})(\D)(.)(\d)_(\D+)/";
-	const SHORT_REGEX = "/^(\d{4})(\D{2})(\d{4})(\d+)(\D)(\d)_(\D+)/";
-	private static $PDS_COL_NAMES = ["PATH_NAME", "FILE_NAME", "MSL:INPUT_PRODUCT_ID", "INSTRUMENT_ID", "PLANET_DAY_NUMBER", "PRODUCT_ID"];
+	const SHORT_REGEX = "/^(\d{4})(\D{2})(\d{4})(\d{3})(\d{3})(\D)(\d)_(\D+)/";
+	private static $PDS_COL_NAMES = ["PATH_NAME", "FILE_NAME", "MSL:INPUT_PRODUCT_ID", "INSTRUMENT_ID", "PLANET_DAY_NUMBER", "PRODUCT_ID", "IMAGE_TIME"];
 	const PDS_SUFFIX = "PDS";
+	const PICNO_FORMAT = "%04d%s%06d%03d%0d2%s.%d_%s";
 
 
 	//*****************************************************************************
@@ -43,10 +44,12 @@ class cCuriosityPDS{
 			$aResult = [
 				"sol"=>(int)$aMatches[1],
 				"instrument"=>$aMatches[2],
-				"sequence" => (int) $aMatches[3],
-				"product type" => $aMatches[5],
-				"gop counter" => (int) $aMatches[6],
-				"processing code" => $aMatches[7]
+				"seqid" => (int) $aMatches[3],
+				"seq line" => (int)$aMatches[4],
+				"CDPID" => (int)$aMatches[5],
+				"product type" => $aMatches[6],
+				"gop counter" => (int) $aMatches[7],
+				"processing code" => $aMatches[8]
 			];
 		}elseif (preg_match(self::PICNO_REGEX, $psProduct, $aMatches)){
 			$aResult = [
@@ -67,18 +70,25 @@ class cCuriosityPDS{
 	}
 	
 	//**********************************************************************
-	public static function convert_Msl_product($psProduct){
+	private static function pr__get_pds_regex($psProduct){
 		//split the MSL product apart	
 		$aMSLProduct = self::explode_product($psProduct);
 		cDebug::vardump($aMSLProduct);
 
-		//get the utc (whichis nearly common with the PDS catalog
-		$oData = cCuriosity::search_product($psProduct);
-		$utc = $oData["d"]->utc;
-		cDebug::write("utc: ".$utc);
+		$PICNO_FORMAT = "/%04d%2s%06d%03d%s%s%02d_%s/";
+		$sPDSProduct = sprintf(	$PICNO_FORMAT, 
+			$aMSLProduct["sol"],
+			$aMSLProduct["instrument"] , 
+			$aMSLProduct["seqid"] ,
+			$aMSLProduct["seq line"],
+			"\d{7}",
+			$aMSLProduct["product type"] , 
+			$aMSLProduct["gop counter"] , 
+			$aMSLProduct["processing code"] 
+		);
 		
-		//find the PDS product
-		return self::pr_search_product($aMSLProduct, $utc);
+		cDebug::write("PDS: $sPDSProduct");
+		return $sPDSProduct;
 	}
 	
 	//**********************************************************************
@@ -86,43 +96,63 @@ class cCuriosityPDS{
 	//so there has to be a separate indexing process that creates objdata
 	//this function should look through that data to find the matching product
 	//**********************************************************************
-	private static function pr_get_objstore_Folder($psSol, $psInstrument){
+	private static function pr__get_objstore_Folder($psSol, $psInstrument){
 		$sFolder = self::OBJDATA_TOP_FOLDER."/$psSol/$psInstrument";
 		cDebug::write("PDS folder: $sFolder");
 		return $sFolder;
 	}
 	
 	//**********************************************************************
-	private static function pr_search_product($poProduct, $psUTC){
-		//convert the instrument to PDS instrument
-		$sInstrument = self::map_MSL_Instrument($poProduct["instrument"]);
+	public static function get_pds_data($psSol, $psInstrument){
+		$sFolder = self::pr__get_objstore_Folder($psSol,$psInstrument);
+		return cObjStore::get_file(OBJDATA_REALM, $sFolder, cIndexes::get_filename(cIndexes::INSTR_PREFIX, self::PDS_SUFFIX));
+	}
+	
+	//**********************************************************************
+	public static function search_pds($psSol, $psInstument, $psProduct){
 		
-		//find the objstore data
-		$sFolder = self::pr_get_objstore_Folder($poProduct["sol"],$sInstrument);
-		$aMapping = cObjStore::get_file(OBJDATA_REALM, $sFolder, self::PDS_MAP_FILENAME);
-		if (!$aMapping){
-			cDebug::write("No mappings found - have you run the admin indexer?");
+		cDebug::write("looking for $psSol, $psInstument, $psProduct");
+		
+		//---- convert to PDS format ------------------
+		$sPDSRegex = self::pr__get_pds_regex($psProduct);
+		
+		//-----retrive PDS stuff ----------------
+		$aData = self::get_pds_data($psSol, $psInstument );
+		if ($aData === null){
+			cDebug::write("no pds data found");
 			return null;
+		}	
+			
+		//debug
+		$oMatch = null;
+		$sProducts = "<br>";
+		foreach ($aData as $sKey=>$oData){
+			$sProducts.="$sKey<br>";
+			if ( preg_match($sPDSRegex, $sKey)){
+				cDebug::write("got a match with $sKey");
+				$oMatch=$oData;
+				break;
+			}
 		}
 		
-		$pID = (int) $poProduct;
-		//go through objstore data matching the product identifier and the closest utc
-		throw new Exception("to be done");
+		cDebug::write("no matches found with $sKey");
+		cDebug::write("<pre>$sProducts</pre>");
+		return $oMatch;
 	}
 	
 	//**********************************************************************
 	public static function index_everything($psRealm){
 		for ($i=1; $i<6;$i++){
-			if ($i>1)	self::run_indexer($psRealm, "MSLMHL_000$i", "EDRINDEX");
-			self::run_indexer($psRealm, "MSLMRD_000$i", "EDRINDEX");
+			//if ($i>1)	self::run_indexer($psRealm, "MSLMHL_000$i", "EDRINDEX");
+			//self::run_indexer($psRealm, "MSLMRD_000$i", "EDRINDEX");
 			self::run_indexer($psRealm, "MSLMST_000$i", "EDRINDEX");
 		}
 		
-		self::run_indexer($psRealm, "MSLNAV_0XXX", "INDEX");
-		self::run_indexer($psRealm, "MSLNAV_1XXX", "INDEX");
-		self::run_indexer($psRealm, "MSLHAZ_0XXX", "INDEX");
-		self::run_indexer($psRealm, "MSLHAZ_1XXX", "INDEX");
-		self::run_indexer($psRealm, "MSLHAZ_1XXX", "INDEX");
+		//self::run_indexer($psRealm, "MSLNAV_0XXX", "INDEX");
+		//self::run_indexer($psRealm, "MSLNAV_1XXX", "INDEX");
+		//self::run_indexer($psRealm, "MSLHAZ_0XXX", "INDEX");
+		//self::run_indexer($psRealm, "MSLHAZ_1XXX", "INDEX");
+		//self::run_indexer($psRealm, "MSLHAZ_1XXX", "INDEX");
 		
 		//mosaics are different!
 		//self::run_indexer($psRealm, "MSLMOS_1XXX", "INDEX");
@@ -136,6 +166,7 @@ class cCuriosityPDS{
 		$sLBLUrl = self::PDS_URL."/$psVolume/INDEX/$psIndex.LBL";
 		$sOutFile = "$psVolume.LBL";
 		$oLBL = cPDS_Reader::fetch_lbl($sLBLUrl, $sOutFile);
+		//$oLBL->__dump();
 		
 		//-------------------------------------------------------------------------------
 		//get the TAB file
@@ -147,32 +178,40 @@ class cCuriosityPDS{
 		//-------------------------------------------------------------------------------
 		//find out where the product files are:
 		$aData = cPDS_Reader::parse_TAB($oLBL, $sTABFile, self::$PDS_COL_NAMES);
-		self::create_index_files($psRealm, self::PDS_URL."/$psVolume/", $aData, false);
+		self::pr__create_index_files($psRealm, self::PDS_URL."/$psVolume/", $aData, false);
 		
 		cDebug::write("Done OK");
 	}
 	
 	//**********************************************************************
-	private static function create_index_files($psRealm, $psUrlPrefix, $paTabData, $pbReplace){
+	private static function pr__create_index_files($psRealm, $psUrlPrefix, $paTabData, $pbReplace){
 		$aData = [];
 		
 		//build the index
 		foreach ($paTabData as $aLine){
-			$sSol = $aLine["PLANET_DAY_NUMBER"];
+			$sSol = "".(int) $aLine["PLANET_DAY_NUMBER"];
 			$sInstr = $aLine["INSTRUMENT_ID"];
-			$sMSL_product = $aLine["INSTRUMENT_ID"];
+			$sMSL_product = $aLine["MSL:INPUT_PRODUCT_ID"];
 			$sPDS_product = $aLine["PRODUCT_ID"];
 			$sUrl = $psUrlPrefix.$aLine["PATH_NAME"].$aLine["FILE_NAME"];
+			$sAcqTime = $aLine["IMAGE_TIME"];
 			
 			if (!array_key_exists ($sSol, $aData)) $aData[$sSol] = [];
 			if (!array_key_exists ($sInstr, $aData[$sSol])) $aData[$sSol][$sInstr] = [];
-			$aData[$sSol][$sInstr][$sMSL_product] = $sUrl;
+			$aData[$sSol][$sInstr][$sMSL_product] = ["u"=>$sUrl, "t"=>$sAcqTime];
 		}
 		
-		//write out the files
-		foreach ($aData as  $sSol=>$aSolData)	{
-			foreach ($aSolData as $sInstr=>$aInstrData)
-				cObjStore::put_file($psRealm, "[pds]/$sSol/$sInstr", cIndexes::get_filename(cIndexes::INSTR_PREFIX, self::PDS_SUFFIX), $aInstrData);				
+		//write out the files - merge with whats there
+		foreach ($aData as  $sSol=>$aSolData)	
+			foreach ($aSolData as $sInstr=>$aInstrData){
+				$sFilename = cIndexes::get_filename(cIndexes::INSTR_PREFIX, self::PDS_SUFFIX);
+				$aExisting = cObjStore::get_file($psRealm, self::OBJDATA_TOP_FOLDER."/$sSol/$sInstr", $sFilename);				
+				if ($aExisting){  //update existing with new data
+					foreach ($aData as $sNewKey=>$aNewData)
+						$aExisting[$sNewKey] = $aNewData;
+					cObjStore::put_file($psRealm, self::OBJDATA_TOP_FOLDER."/$sSol/$sInstr", $sFilename, $aExisting);				
+				}else
+					cObjStore::put_file($psRealm, self::OBJDATA_TOP_FOLDER."/$sSol/$sInstr", $sFilename, $aInstrData);				
 		}
 	}
 	
@@ -182,7 +221,7 @@ class cCuriosityPDS{
 			"ML"=>"MST",
 			"MR"=>"MST",
 			"MH"=>"MHL",
-			"MD"=>"MRD",
+			"MD"=>"MRD"
 		];
 		return $aMapping[$psInstrument];
 	}

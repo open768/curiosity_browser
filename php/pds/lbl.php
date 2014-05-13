@@ -109,25 +109,41 @@ class cPDS_LBL{
 	}
 	
 	//*****************************************
-	function dump(){
+	function __do_dump( $psPrefix){
 		$sOut = "";
 		foreach ($this->aData as $sKey=>$oValue){
 			$sType = gettype($oValue);
 			switch($sType){
 				case "string": 
-					$sOut .= "$sKey : $oValue\n"; 
+					echo "$psPrefix$sKey : $oValue\n"; 
+					break;
+				case "object":
+					echo "$psPrefix$sKey : [$sType]\n"; 
+					$oValue->__do_dump("\t$psPrefix");
+					break;
+				case "array":
+					echo "$psPrefix$sKey : [$sType]\n"; 
+					for ($i=0; $i<count($oValue); $i++){
+						echo "${psPrefix}[$i]\n"; 
+						$oValue[$i]->__do_dump("\t$psPrefix");
+					}
 					break;
 				default:
-					$sOut .= "$sKey : [$sType]\n"; 
+					echo "$psPrefix$sKey : [$sType]\n"; 
 			}
 		}
-		cDebug::write("<hr><pre>$sOut</pre><hr>");
+	}
+	//*****************************************
+	function __dump( $psPrefix=""){
+		echo "<hr><pre>";
+			$this->__do_dump($psPrefix);
+		echo "</pre><hr>";
 	}
 	
 	//*****************************************
-	function dump_array($psKey1, $psKey2){
+	function __dump_array($psArrayName, $psKey){
 		$sOut = "";
-		$aThings = $this->get($psKey1);
+		$aThings = $this->get($psArrayName);
 		foreach ($aThings as $oItem)
 			$sOut .= $oItem->get($psKey2)."\n";
 		cDebug::write("<hr><pre>$sOut</pre><hr>");
