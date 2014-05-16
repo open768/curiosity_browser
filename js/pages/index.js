@@ -41,7 +41,11 @@ var reset_image_number = true;
 //###############################################################
 //* JQUERY
 //###############################################################
-function onloadJQuery(){
+function onloadJQuery(){	
+	//set up the onchange handler for sols
+	$("#sol_list").change( OnChangeSolList);
+	
+	//go and load stuff
 	set_status("loading static data...");
 	if (cBrowser.data[MAXIMAGES_QUERYSTRING] )
 		HOW_MANY_IMAGES = parseInt(cBrowser.data[MAXIMAGES_QUERYSTRING]);
@@ -67,16 +71,16 @@ function onClickSearch(){
 }
 
 //***************************************************************
-function OnChangeSolList(){
+function OnChangeSolList(poEvent){
 	if (loading) return;
 	reset_image_number = true;
-	set_sol(event.target.value);
+	set_sol(poEvent.target.value);
 }
 
 //***************************************************************
-function OnChangeInstrument(){
+function OnChangeInstrument(poEvent){
 	reset_image_number = true;
-	do_set_instrument(event.target.value);
+	do_set_instrument(poEvent.target.value);
 }
 
 //***************************************************************
@@ -354,14 +358,20 @@ function load_sols_callback(paJS){
 
 //***************************************************************
 function load_instruments_callback(paJS){
-	var sHTML, iIndex, oInstr;
+	var sHTML, iIndex, oInstr, oDiv, sID, oInput,oSpan;
 	
-	sHTML = "";
+	
+	oDiv = $("#"+INSTRUMENT_DIV);
+	oDiv.empty();
 	for (iIndex = 0; iIndex < paJS.length; iIndex++){
 		oInstr = paJS[iIndex];
-		sHTML += "<span><input type='radio' name='" + INSTRUMENT_RADIO + "' value='" + oInstr.name + "'onchange='OnChangeInstrument()'>" + oInstr.caption + "</input></span><br>";
+		sID = "instr_"+iIndex;
+		
+		oSpan= $("<SPAN>");
+		oInput = $("<input>").attr({type: "radio", name: INSTRUMENT_RADIO, value: oInstr.name, id: sID}).change(OnChangeInstrument);
+		oSpan.append(oInput).append(oInstr.caption+"<br>");
+		oDiv.append(oSpan);
 	}
-	$("#"+INSTRUMENT_DIV).html(sHTML);
 	loading=false;
 	set_status("ready");
 

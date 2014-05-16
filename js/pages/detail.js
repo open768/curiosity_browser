@@ -107,8 +107,8 @@ function onClickMSLRaw(){
 
 //***************************************************************
 function onClickPDS(){
-	var sURL = "php/rest/pds.php?s="+ goItem.s + "&i=" + goItem.i +"&p=" + goItem.p +"&t=" + escape(goItem.d.du);
-	cHttp.fetch_json(sURL, get_pds_callback);
+	var sURL = "pds.html?s="+ goItem.s + "&i=" + goItem.i +"&p=" + goItem.p +"&t=" + escape(goItem.d.du);
+	window.open(sURL, "pds");
 }
 
 //***************************************************************
@@ -161,14 +161,6 @@ function get_product_data( psSol, psInstr, psProd){
 //###############################################################
 //* call backs 
 //###############################################################
-function get_pds_callback(poJS){
-	var sHTML;
-	if (poJS==null)
-		set_error_status("no PDS data found");
-	else
-		window.open(poJS.u, "pds");
-}
-
 //***************************************************************
 function tagnames_callback(poJs){
 	cTagging.showTagCloud("tagcloud",poJs);

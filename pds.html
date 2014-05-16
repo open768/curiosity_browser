@@ -1,0 +1,50 @@
+<html>
+<head>
+	<LINK href="css/css.css" rel="stylesheet" type="text/css">
+	<LINK href="css/drag.css" rel="stylesheet" type="text/css">
+	<title>Curiosity Browser - PDS details</title>
+	<script src="js/inc/secret.js"></script>
+	<script src="js/pages/pds.js"></script>
+	<script src="js/inc/common.js"></script>
+	<script src="js/jquery/jquery-1.11.0.js"></script>
+	<script src="js/jquery/jquery-ui-1.10.4.js"></script>
+</head>
+<body onload="$(onLoadJQuery);">
+	<DIV class="title">Curiosity PDS Detail</DIV>
+	<!-- facebook -->
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId="+cSecret.FBAppid;
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>	
+	<!-- facebook -->
+
+	<DIV class="gold">
+		<button id="PDS" title="jump to PDS" onclick="onClickPDS();">PDS</button>
+		<span class="subtitle">NasaView:</span> use  <a href="https://pds.jpl.nasa.gov/tools/nasa-view.shtml" target="blank">NASAVIEW</a> to explore PDS data
+		<span class="subtitle">Status:</span> <span ID="status" class="status">Loading...</span>
+	</div>
+	<DIV class="gold">
+		<IFRAME id="PDS_FRAME" width=100% height=80%>
+			lOADING pds DATA...
+		</IFRAME>
+	</div>
+	<!-- footer -->
+	<p class="credits">
+		Data courtesy MSSS/MSL/NASA/JPL-Caltech.<br>
+	</p>
+	<div class="github">
+		<table border="0" width="100%"><tr>
+			<td width="50"><a href="http://www.chickenkatsu.co.uk" target="chicken"><img src="images/chicken_icon.png"></a></td>
+			<td>
+				We're on <img src="images/github_logo.png"> <a href="https://github.com/open768/curiosity_browser">https://github.com/open768/curiosity_browser</a>
+				<p>
+				<div class="fb-like" data-href="https://www.facebook.com/mars.features" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+			</td>
+		</tr></table>
+	</div>
+</body>
+</html>

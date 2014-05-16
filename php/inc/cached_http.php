@@ -26,15 +26,12 @@ class cCachedHttp{
 	//*****************************************************************************
 	public static function clearCache(){
 		global $root;
-		$oCache->_cachepath = "$root/[cache]/";
-		
-		$oCache = new Cache();
-
-		$aFiles = scandir($oCache->_cachepath);
+		$sPath = "$root/[cache]/";
+		$aFiles = scandir($sPath);
 		foreach ($aFiles as $sFile)
 			if (!preg_match("/^\./", $sFile)){
 				cDebug::write($sFile);
-				unlink ($oCache->_cachepath."/".$sFile);
+				unlink ("$sPath/$sFile");
 			}
 	}
 	

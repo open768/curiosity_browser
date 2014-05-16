@@ -11,7 +11,7 @@ var cComments = {
 	//********************************************************************************
 	set: function(psSol,psInstr, psProduct, psComment, pfnCallback){
 		var sUrl;
-		sUrl = this.phpBaseURL + "?o=set&s=" + psSol + "&i=" + psInstr + "&p=" + psProduct+"&v="+psComment;
+		sUrl = this.phpBaseURL + "?o=set&s=" + psSol + "&i=" + psInstr + "&p=" + psProduct+"&v="+escape(psComment);
 		set_status("setting tag " + sUrl);
 		cHttp.fetch_json(sUrl, pfnCallback);
 	}

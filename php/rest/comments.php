@@ -38,7 +38,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			$sSol = $_GET["s"];
 			$sInstrument= $_GET["i"];
 			$sProduct= $_GET["p"];
-			$sComment= $_GET["v"];
+			$sComment= utf8_encode($_GET["v"]);
 			$aResult = cComments::set(OBJDATA_REALM,$sSol, $sInstrument, $sProduct, $sComment, $sUser);
 			break;
 		default:
@@ -48,8 +48,12 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	
 	//***************************************************
 	//output the tags
-	if (cDebug::$DEBUGGING)
+	if (cDebug::$DEBUGGING){
+		$sEncoded = json_encode($aResult );	
+		if ($sEncoded == "")
+			cDebug::error("couldnt encode");
 		cDebug::vardump($aResult);
-	else
+		echo "encoded: $sEncoded";
+	}else
 		echo json_encode($aResult );	
 ?>

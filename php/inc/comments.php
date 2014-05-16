@@ -14,6 +14,7 @@ class cComments{
 	static function set($psRealm, $psSol, $psInstrument, $psProduct, $psComment, $psUser){
 		$sFolder = "$psSol/$psInstrument/$psProduct";
 		$psComment = strip_tags($psComment);
+		cDebug::write("comment: $psComment");
 
 		$aData = ["c"=>$psComment, "u"=>$psUser];
 		$aData = cObjStore::push_to_array($psRealm, $sFolder, self::COMMENT_FILENAME, $aData);
