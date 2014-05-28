@@ -22,7 +22,7 @@ var goItem = null;
 //# Event Handlers
 //###############################################################
 //***************************************************************
-function OnClickNext(){
+function onClickNext(){
 	//find the next product
 	var sURL;
 	
@@ -39,7 +39,7 @@ function onClickComment(){
 }
 
 //***************************************************************
-function OnClickNextTime(){
+function onClickNextTime(){
 	sURL = "php/rest/nexttime.php?d=n&s=" + goItem.s + "&p=" + goItem.p;
 	set_status("fetching next image details...");
 	cHttp.fetch_json(sURL, nexttime_callback);
@@ -133,10 +133,43 @@ function onClickPixlr(){
 	pixlr.edit({image:goItem.d.i, service:'editor', exit:document.location});
 }
 
+function onKeyPress(poEvent){
+	var sChar = String.fromCharCode(poEvent.which);
+	switch(sChar){
+		case "n": onClickNext();break;
+		case "N": onClickNextTime();break;
+		case "p": onClickPrevious();break;
+		case "P": onClickPreviousTime();break;
+	}
+	
+}
+
+function onInputFocus(){
+	$(window).unbind("keypress");
+}
+
+function onInputDefocus(){
+	$(window).keypress(onKeyPress);
+}
+
 //###############################################################
 //# Utility functions 
 //###############################################################
 function onLoadJQuery(){
+	//set up event handler on screen elements
+	$(":input").each(function(index,oObj){
+		if ($(oObj).attr("type")==="text"){
+			$(oObj).focus(onInputFocus);
+			$(oObj).blur(onInputDefocus);
+		}
+	});
+	$("textarea").each(function(index,oObj){
+		$(oObj).focus(onInputFocus);
+		$(oObj).blur(onInputDefocus);
+	});
+	$(window).keypress(onKeyPress);
+	
+	//get user data
 	set_status("loading user data...");
 	cAuth.getUser(authCallback);
 }

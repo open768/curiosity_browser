@@ -11,7 +11,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 class cHttp{
-	const LARGE_URL_DIR = "../[Largeurls]";
+	const LARGE_URL_DIR = "[cache]/[Largeurls]";
 	public static $progress_len = 0;
 	public static $progress_count = 0;
 	
@@ -43,21 +43,11 @@ class cHttp{
 	}
 	
 	//*****************************************************************************
-	public static function fetch_large_url($psUrl, $psFilename, $pbOverwrite)
-	{
-		$oCurl = curl_init();	
-		$sPath = self::LARGE_URL_DIR."/".$psFilename;
-		
-		//check the folder is there
-		if (!is_dir( self::LARGE_URL_DIR)){
-			cDebug::write("making cache dir ".self::LARGE_URL_DIR);
-			mkdir(self::LARGE_URL_DIR, 0700, true);
-		}
-		
+	public static function fetch_to_file($psUrl, $psPath, $pbOverwrite=false, $pbShowProgress=false, $piTimeOut=60){
 		//check whether the file exists
-		if (!$pbOverwrite &&file_exists($sPath)){
-			cDebug::write("file exists $sPath");
-			return $sPath;
+		if (!$pbOverwrite &&file_exists($psPath)){
+			cDebug::write("file exists $psPath");
+			return $psPath;
 		}
 		
 		//ok get the file
@@ -65,16 +55,18 @@ class cHttp{
 		self::$progress_len = 0;
 		self::$progress_count = 0;
 		
-		$fHandle = fopen($sPath, 'w');
+		$fHandle = fopen($psPath, 'w');
+		$oCurl = curl_init();	
 		curl_setopt($oCurl, CURLOPT_URL, $psUrl);
 		curl_setopt($oCurl, CURLOPT_FAILONERROR, 1);
 		curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 0);
 		curl_setopt($oCurl, CURLOPT_PROGRESSFUNCTION, '__progress_callback');
-		curl_setopt($oCurl, CURLOPT_NOPROGRESS, false); // needed to make progress function work
+		if ($pbShowProgress)
+			curl_setopt($oCurl, CURLOPT_NOPROGRESS, false); // needed to make progress function work
 
 		curl_setopt($oCurl, CURLOPT_FILE, $fHandle);
 		$iErr = 0;
-		set_time_limit(600);
+		set_time_limit($piTimeOut);
 		$response = curl_exec($oCurl);
 		$iErr = curl_errno($oCurl);
 		if ($iErr!=0 ) 	print curl_error($oCurl)."<p>";
@@ -87,8 +79,24 @@ class cHttp{
 			throw new Exception("ERROR URL was: $psUrl <p>");
 		}
 
+		return $psPath;
+	}
+	
+	//*****************************************************************************
+	public static function fetch_large_url($psUrl, $psFilename, $pbOverwrite=false)
+	{
+		global $root;
 		
-		return $sPath;
+		$sDir = "$root/".self::LARGE_URL_DIR;
+		$sPath = "$sDir/$psFilename";
+		
+		//check the folder is there
+		if (!is_dir( $sDir)){
+			cDebug::write("making cache dir $sDir");
+			mkdir($sDir, 0700, true);
+		}
+		
+		return self::fetch_to_file($psUrl, $sPath, $pbOverwrite, true,600);
 	}
 }
 

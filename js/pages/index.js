@@ -172,6 +172,16 @@ function onClickMslNotebookMap(){
 	window.open(sURL, "map");
 }
 
+//***************************************************************
+function onClickRefresh(){
+	if (!current_sol){ 	
+		set_error_status("NO Sol Selected...");
+		return false;
+	}
+	
+	get_instruments(current_sol,true);
+}
+
 //###############################################################
 //# Utility functions 
 //###############################################################
@@ -208,7 +218,7 @@ function set_sol(psSol){
 	current_sol = psSol;
 	$("#"+SOL_ID).html(current_sol);
 	
-	get_instruments(current_sol);
+	get_instruments(current_sol,false);
 	get_sol_tag_count(current_sol);
 	get_sol_hilite_count(current_sol);
 }
@@ -225,12 +235,12 @@ function OKToReload(){
 	// TODO Validate that a list item and instrument are selected
 	// otherwise do nothing
 	if (!current_sol){ 	
-		set_status("NO Sol Selected...");
+		set_error_status("NO Sol Selected...");
 		return false;
 	}
 		
 	if (!current_instrument){
-		set_status("Now select an instrument")
+		set_error_status("Now select an instrument")
 		return false;
 	}
 	
@@ -253,14 +263,14 @@ function reload_data(){
 //###############################################################
 //* GETTERS
 //###############################################################
-function get_instruments(psSol){
+function get_instruments(psSol, pbRefresh){
 	set_status("getting instruments");
 
 	//hide instruments using obfuscated jQUERY - yeuchhhh!!!! 
 	$("input[name=" + INSTRUMENT_RADIO + "]").each( function(){$(this).parent().hide();});
 	
 	//get the instruments for this sol
-	sUrl = "php/rest/instruments.php?s=" + psSol;
+	sUrl = "php/rest/instruments.php?s=" + psSol + "&r=" + pbRefresh;
 	cHttp.fetch_json(sUrl, get_instruments_callback);
 }
 

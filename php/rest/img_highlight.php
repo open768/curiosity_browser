@@ -17,6 +17,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("$root/php/inc/pichighlight.php");
 	require_once("$root/php/inc/static.php");
 	require_once("$root/php/inc/indexes.php");
+	require_once("$root/php/inc/common.php");
 	
 	cDebug::check_GET_or_POST();
 
@@ -59,8 +60,5 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	
 	//***************************************************
 	//output the tags
-	if (cDebug::$DEBUGGING)
-		cDebug::vardump($oResult);
-	else
-		echo json_encode($oResult );	
+	cCommon::write_json($oResult);
 ?>

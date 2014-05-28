@@ -31,13 +31,25 @@ function onClickPDS(){
 		window.open(gsPdsUrl, "_blank_");
 }
 
+//***************************************************************
+function onClickParsePDS(){
+	if (!gsPdsUrl){
+		set_error_status("Whoa no PDS link found yet");
+		return;
+	}
+	
+	sUrl = "php/rest/pds.php?a=p&debug&u=" + escape(gsPdsUrl);
+	
+	window.open(sUrl, "parsePDS");
+}
+
 //###############################################################
 //# Utility functions 
 //###############################################################
 function onLoadJQuery(){
 	set_status("loading pds data...");
 	var sURL = 	
-		"php/rest/pds.php?s="+ cBrowser.data[SOL_QUERYSTRING] + 
+		"php/rest/pds.php?a=s&s="+ cBrowser.data[SOL_QUERYSTRING] + 
 		"&i=" + cBrowser.data[INSTR_QUERYSTRING] +
 		"&p=" + cBrowser.data[PRODUCT_QUERYSTRING] +
 		"&t=" + cBrowser.data[TIMESTAMP_QUERYSTRING];

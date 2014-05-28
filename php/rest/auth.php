@@ -14,6 +14,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	$root=realpath("../..");
 	require_once("$root/php/inc/debug.php");
 	require_once("$root/php/inc/auth.php");
+	require_once("$root/php/inc/common.php");
 	
 	cDebug::check_GET_or_POST();
 	
@@ -30,8 +31,5 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	
 	//***************************************************
 	//output the 
-	if (cDebug::$DEBUGGING)
-		cDebug::write($sUser);
-	else
-		echo json_encode($sUser );	
+	cCommon::write_json($sUser);
 ?>

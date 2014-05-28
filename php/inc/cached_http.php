@@ -11,52 +11,21 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-require_once("$root/php/inc/cache.php");
 require_once("$root/php/inc/http.php");
 require_once("$root/php/inc/debug.php");
+require_once("$root/php/inc/hash.php");
 
 class cCachedHttp{
 	public static $CACHE_EXPIRY = 3600;  //(seconds)
 	private static $oCache = null;
 	private static $sCacheFile = null;
 	public static $fileHashing = true;
-	
 
 
 	//*****************************************************************************
-	public static function clearCache(){
-		global $root;
-		$sPath = "$root/[cache]/";
-		$aFiles = scandir($sPath);
-		foreach ($aFiles as $sFile)
-			if (!preg_match("/^\./", $sFile)){
-				cDebug::write($sFile);
-				unlink ("$sPath/$sFile");
-			}
-	}
-	
-	//*****************************************************************************
-	public static function setCacheFile($psCacheFile){	
-		self::$sCacheFile = $psCacheFile;	
-		self::$fileHashing = false;
-	}
-	
-	//*****************************************************************************
-	private static function getCacheObj(){
-		global $root;
-		
-		if (! self::$oCache) {
-			$oCache = new Cache();
-			$oCache->_cachepath = "$root/[cache]/";
-			
-			if (self::$sCacheFile)
-				$oCache->setCache(self::$sCacheFile);
-			$oCache->_hash_filename = self::$fileHashing;
-			
-			$oCache->eraseExpired();
-			self::$oCache = $oCache;
-		}
-		return self::$oCache;
+	public static function deleteCachedURL($psURL){
+		$sHash = cHash::hash($psURL);
+		cHash::delete_hash($sHash);
 	}
 	
 	//*****************************************************************************
@@ -71,25 +40,20 @@ class cCachedHttp{
 	
 	//*****************************************************************************
 	public static function pr_do_get($psURL, $pbJson){
+
+		$sHash = cHash::hash($psURL);
+		cHash::$CACHE_EXPIRY = self::$CACHE_EXPIRY;
+		$oResponse = null;
 		
-		// create cache object and erase anything expired
-		$oCache = self::getCacheObj();
-		
-		//get the curiosity data
-		if ($oCache->isCached($psURL)){
-			$sSerial = $oCache->retrieve($psURL);
-			$oResponse = unserialize($sSerial);
-			cDebug::write("cached");
+		if (cHash::exists($sHash)){
+			$oResponse = cHash::get_obj($sHash);
 		}else{
-			//----------fetch the  details
-			cDebug::write("not cached fetching");
 			if ($pbJson)
 				$oResponse = cHttp::getJson($psURL);
 			else
 				$oResponse = cHttp::fetch_url($psURL);
-			cDebug::write("storing");
-			$sSerial = serialize($oResponse);
-			$oCache->store($psURL, $sSerial, self::$CACHE_EXPIRY);
+				
+			cHash::put_obj($sHash, $oResponse, true);
 		}
 		
 		return $oResponse;

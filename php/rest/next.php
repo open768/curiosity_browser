@@ -14,6 +14,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	$root=realpath("../..");
 	require_once("$root/php/curiosity/json.php");
 	require_once("$root/php/inc/debug.php");
+	require_once("$root/php/inc/common.php");
 	
 	cDebug::check_GET_or_POST();
 
@@ -69,5 +70,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			}
 		}
 	}
-	echo json_encode(["s"=>$sSol, "d"=>$aImages[$iFound]]);
+
+	cCommon::write_json(["s"=>$sSol, "d"=>$aImages[$iFound]]);
 ?>

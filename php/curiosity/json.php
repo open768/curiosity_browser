@@ -67,11 +67,17 @@ class cCuriosity{
 	
 	//*****************************************************************************
 	public static function getAllSolData($psSol){
-		$url=self::SOL_URL."${psSol}.json";
-		cDebug::write("Getting sol data from: ".$url);
+		$sUrl=self::SOL_URL."${psSol}.json";
+		cDebug::write("Getting sol data from: ".$sUrl);
 		cCachedHttp::$CACHE_EXPIRY=self::SOL_CACHE;
-		cCachedHttp::setCacheFile($psSol);
-		return cCachedHttp::getCachedJson($url);
+		return cCachedHttp::getCachedJson($sUrl);
+	}
+	
+	//*****************************************************************************
+	public static function clearSolDataCache($psSol){
+		cDebug::write("clearing sol cache : ".$psSol);
+		$sUrl=self::SOL_URL."${psSol}.json";
+		cCachedHttp::deleteCachedURL($sUrl);
 	}
 	
 	//*****************************************************************************
@@ -96,7 +102,6 @@ class cCuriosity{
 	//*****************************************************************************
 	public static function getManifest(){
 		cDebug::write("Getting sol manifest from: ".self::FEED_URL);
-		cCachedHttp::setCacheFile("manifest");
 		cCachedHttp::$CACHE_EXPIRY=self::MANIFEST_CACHE;
 		return cCachedHttp::getCachedJson(self::FEED_URL);
 	}

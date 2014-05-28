@@ -15,17 +15,15 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("$root/php/curiosity/json.php");
 	require_once("$root/php/curiosity/instrument.php");
 	require_once("$root/php/inc/debug.php");
+	require_once("$root/php/inc/common.php");
 	
 	cDebug::check_GET_or_POST();
 
-	if (isset( $_GET["s"]))
+	if (isset( $_GET["s"])){
+		if ($_GET["r"]==="true") cCuriosity::clearSolDataCache($_GET["s"]);
 		$aList = cCuriosity::getSolInstrumentList($_GET["s"]);
-	else
+	}else
 		$aList = cInstrument::getInstrumentList();
 		
-	if (cDebug::$DEBUGGING)
-		cDebug::vardump($aList);
-	else
-		echo json_encode($aList );
-
+	cCommon::write_json($aList);
 ?>

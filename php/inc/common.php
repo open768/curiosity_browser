@@ -1,6 +1,7 @@
 <?php
+
 /**************************************************************************
-Copyright (C) Chicken Katsu 2014 
+Copyright (C) Chicken Katsu 2013 
 
 This code is protected by copyright under the terms of the 
 Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License
@@ -11,16 +12,13 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-	$root=realpath("../..");
-	require_once("$root/php/curiosity/json.php");
-	require_once("$root/php/inc/debug.php");
-	require_once("$root/php/inc/common.php");
-	
-	cDebug::check_GET_or_POST();
+require_once("$root/php/inc/debug.php");
 
-	$sSearch = $_GET["s"] ;
-	$oData = cCuriosity::search_product($sSearch);
-	
-	cCommon::write_json($oData);
-?>
-
+class cCommon{
+	public static function write_json($poThing){
+		if (cDebug::$DEBUGGING)
+			cDebug::vardump($poThing);
+		else
+			echo json_encode($poThing );
+	}
+}

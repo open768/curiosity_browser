@@ -22,19 +22,23 @@ class cPDS_LBL{
 	//*****************************************
 	public function parseFileHandle($pfHandle){
 		$bInString = false;
+		$bInComment = false;
+		$bInBrackets = false;
 		$sStringName = null;
 		$sStringValue = null;
+		$sBracketName = null;
+		$sBracketValue = null;
 		
 		while(!feof($pfHandle)){
 			//--- process a line at a time
 			$line = fgets($pfHandle);
 			$line = trim($line);
-			if ($line == "") 	continue;
+			if ($line == "") 	continue;  //empty line
 			//cDebug::write("line: $line");
 			
 			if ($bInString){
 				//-- was inside a string - check whether string has ended
-				$sStringValue .=  " $line";
+				$sStringValue .=  "\n$line";
 				$chLast = substr($line,-1);
 				// at end of string  - set and clear buffers
 				if ( $chLast === '"'){
@@ -44,6 +48,17 @@ class cPDS_LBL{
 					$bInString = false;
 					$sStringName = null;
 					$sStringValue = null;
+				}
+			}elseif ( $bInComment){
+				if (substr($line,-2) === "*/")
+					$bInComment = false;
+			}elseif ( $bInBrackets){
+				$sBracketValue .= $line;
+				if (substr($line,-1) === ")"){
+					$sBracketValue = substr($sBracketValue, 1, strlen($sBracketValue)-2);
+					$aData = str_getcsv ($sBracketValue);
+					$this->set($sBracketName, $aData);
+					$bInBrackets = false;
 				}
 			}else{
 				//-- not  inside a string - split line into keys and values
@@ -55,7 +70,7 @@ class cPDS_LBL{
 				if ($sValue == "") continue;
 				
 				// look for end object
-				if ($sKey === "END_OBJECT"){
+				if ($sKey === "END_OBJECT" || $sKey === "END_GROUP"){
 					//cDebug::write("End Object ". $this->sName);
 					break;
 				}
@@ -72,7 +87,19 @@ class cPDS_LBL{
 						$sStringName = $sKey;
 						$sStringValue = $sValue;
 					}
-				}elseif ($sKey === "OBJECT"){
+				}elseif ($sValue[0] == '('){
+					//-- starting a bracket
+					if (substr($sValue,-1) == ')'){
+						// if the first and last characters are quotes
+						$sValue = substr($sValue, 1, strlen($sValue)-2);
+						$aData = str_getcsv ($sValue);
+						$this->set($sKey, $aData);
+					}else{
+						$bInBrackets = true;
+						$sBracketName = $sKey;
+						$sBracketValue = $sValue;
+					}
+				}elseif ($sKey === "OBJECT" || $sKey === "GROUP"){
 					// process objects
 					$oObj = new cPDS_LBL;
 					$oObj->sName = $sValue;
@@ -88,6 +115,11 @@ class cPDS_LBL{
 	
 	//*****************************************
 	function set($psName, $psValue){
+		if ($psName == ""){
+			cDebug::write("attempt to write empty key");
+			return;
+		}
+		
 		//if the key exists make it into an array
 		if (array_key_exists($psName, $this->aData)){
 			if (gettype($this->aData[$psName]) === "array"){
@@ -108,45 +140,37 @@ class cPDS_LBL{
 			return null;
 	}
 	
-	//*****************************************
-	function __do_dump( $psPrefix){
-		$sOut = "";
-		foreach ($this->aData as $sKey=>$oValue){
-			$sType = gettype($oValue);
-			switch($sType){
-				case "string": 
-					echo "$psPrefix$sKey : $oValue\n"; 
-					break;
-				case "object":
-					echo "$psPrefix$sKey : [$sType]\n"; 
-					$oValue->__do_dump("\t$psPrefix");
-					break;
-				case "array":
-					echo "$psPrefix$sKey : [$sType]\n"; 
-					for ($i=0; $i<count($oValue); $i++){
-						echo "${psPrefix}[$i]\n"; 
-						$oValue[$i]->__do_dump("\t$psPrefix");
-					}
-					break;
-				default:
-					echo "$psPrefix$sKey : [$sType]\n"; 
-			}
+	protected function pr__do_dump_write($psKey, $poValue, $psPrefix){
+		$sType = gettype($poValue);
+		switch($sType){
+			case "string": 
+				echo "$psPrefix$psKey : $poValue\n"; 
+				break;
+			case "object":
+				$sClass = get_class($poValue);
+				echo "\n$psPrefix<font color=red>$psKey</font> :\n"; 
+				$poValue->pr__do_dump("\t$psPrefix");
+				break;
+			case "array":
+				echo "$psPrefix$psKey :\n"; 
+				for ($i=0; $i<count($poValue); $i++)
+					$this->pr__do_dump_write("[$i]", $poValue[$i], "\t$psPrefix");
+				break;
+			default:
+				echo "$psPrefix$psKey : [$sType]\n"; 
 		}
+	}
+	//*****************************************
+	protected function pr__do_dump( $psPrefix){	
+		foreach ($this->aData as $sKey=>$oValue)
+			$this->pr__do_dump_write($sKey, $oValue, $psPrefix);
+		echo "\n";
 	}
 	//*****************************************
 	function __dump( $psPrefix=""){
 		echo "<hr><pre>";
-			$this->__do_dump($psPrefix);
+			$this->pr__do_dump($psPrefix);
 		echo "</pre><hr>";
-	}
-	
-	//*****************************************
-	function __dump_array($psArrayName, $psKey){
-		$sOut = "";
-		$aThings = $this->get($psArrayName);
-		foreach ($aThings as $oItem)
-			$sOut .= $oItem->get($psKey2)."\n";
-		cDebug::write("<hr><pre>$sOut</pre><hr>");
 	}
 	
 	//*****************************************

@@ -15,21 +15,62 @@ require_once("$root/php/inc/debug.php");
 require_once("$root/php/inc/http.php");
 require_once("$root/php/inc/objstore.php");
 require_once("$root/php/inc/static.php");
+require_once("$root/php/inc/common.php");
+require_once("$root/php/inc/hash.php");
 
 
 class cPDS_Reader{
 	//**********************************************************************
-	public static function fetch_lbl( $psUrl, $psOutFile){
+	public static function fetch_volume_lbl( $psBaseUrl, $psVolume, $psIndex){
+		$sLBLUrl = $psBaseUrl."/$psVolume/INDEX/$psIndex.LBL";
+		$sOutFile = "$psVolume.LBL";
+		
 		cDebug::write("fetching $psUrl");
-		$sLBLFile = cHttp::fetch_large_url($psUrl, $psOutFile, false);
+		$sLBLFile = cHttp::fetch_large_url($sLBLUrl, $sOutFile, false);
 		cDebug::write("output filename is $sLBLFile");
 		
 		//------------------------------------------------------------------
 		//parse the lbl file
-		$oLBL = new cPDS_LBL();
-		$oLBL->parseFile($sLBLFile);
-		cDebug::write("parse file OK");
+		return self::parse_LBL($sLBLFile);
+	}
+	
+	//**********************************************************************
+	public static function fetch_lbl( $psUrl){
+		global $root;
+		//create a unique hash for the 
+		cHash::$CACHE_EXPIRY = cHash::FOREVER;		//cache forever
+		$sHashUrl = cHash::hash($psUrl);
+		$sHashLBL = cHash::hash("PDSOBJ-$psUrl");
 		
+		if (!cHash::exists($sHashLBL)){
+			//--- fetch the raw LBL file
+			cDebug::write("Hash doesnt Exist");
+			$sFolder = cHash::make_hash_folder($sHashUrl);
+			$sUrlFilename = cHash::getPath($sHashUrl);
+			cHttp::fetch_to_file($psUrl, $sUrlFilename, false);
+			
+			//---parse into a LBL obj
+			cDebug::write("Parsing http");
+			$oLBL = new cPDS_LBL();
+			$oLBL->parseFile($sUrlFilename);
+			
+			//--- store LBL obj
+			cHash::put_obj($sHashLBL, $oLBL);
+			
+			//--- delete url hash
+			unlink($sUrlFilename);
+		}else
+			$oLBL = cHash::get_obj($sHashLBL);
+		$oLBL->__dump();
+		return $oLBL;
+	}
+	
+	
+	//**********************************************************************
+	public static function parse_LBL( $psFilename){
+		$oLBL = new cPDS_LBL();
+		$oLBL->parseFile($psFilename);
+		cDebug::write("parse file OK");
 		return $oLBL;
 	}
 	

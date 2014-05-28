@@ -13,22 +13,31 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 	$root=realpath("../..");
 	require_once("$root/php/curiosity/pds.php");
+	require_once("$root/php/pds/pdsreader.php");
 	require_once("$root/php/inc/debug.php");
+	require_once("$root/php/inc/common.php");
 	
 	cDebug::check_GET_or_POST();
 
-	$sSol = $_GET["s"];
-	$sInstr = $_GET["i"];
-	$sProduct = $_GET["p"];
-	$sUTC = $_GET["t"];
-	if (!$sSol || !$sInstr || !$sProduct) cDebug::error("missing parameters!");
+	switch($_GET["a"]){
+	case "s":
+		$sSol = $_GET["s"];
+		$sInstr = $_GET["i"];
+		$sProduct = $_GET["p"];
+		$sUTC = $_GET["t"];
+		if (!$sSol || !$sInstr || !$sProduct) cDebug::error("missing parameters!");
 	
 	
-	//-------------------
-	$oData = cCuriosityPDS::search_pds($sSol, $sInstr, $sProduct);
+		//-------------------
+		$oData = cCuriosityPDS::search_pds($sSol, $sInstr, $sProduct);
+		break;
 	
-	if (cDebug::$DEBUGGING)
-		cDebug::vardump($oData);
-	else
-		echo json_encode($oData );
+	case "p":
+		$sPDSUrl =  $_GET["u"];
+		cDebug::write($sPDSUrl);
+		$oData = cCuriosityPDS::get_pds_product($sPDSUrl);
+		break;
+	}
+	
+	cCommon::write_json($oData);
 ?>

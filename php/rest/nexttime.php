@@ -14,6 +14,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	$root=realpath("../..");
 	require_once("$root/php/curiosity/json.php");
 	require_once("$root/php/inc/debug.php");
+	require_once("$root/php/inc/common.php");
 
 	cDebug::check_GET_or_POST();
 
@@ -61,8 +62,5 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 	//***************************************************
 	//output the tags
-	if (cDebug::$DEBUGGING)
-		cDebug::vardump($oData);
-	else
-		echo json_encode($oData );	
+	cCommon::write_json($oData);
 ?>

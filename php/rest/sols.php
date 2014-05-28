@@ -14,12 +14,10 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	$root=realpath("../..");
 	require_once("$root/php/curiosity/json.php");
 	require_once("$root/php/inc/debug.php");
+	require_once("$root/php/inc/common.php");
 	
 	cDebug::check_GET_or_POST();
 	$aData = cCuriosity::getSolList();
 	
-	if (cDebug::$DEBUGGING)
-		cDebug::vardump($aData);
-	else
-		echo json_encode($aData );
+	cCommon::write_json($aData);
 ?>

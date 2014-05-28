@@ -24,7 +24,18 @@
 
 	<DIV class="gold">
 		<button id="PDS" title="jump to PDS" onclick="onClickPDS();">PDS</button>
-		<span class="subtitle">NasaView:</span> use  <a href="https://pds.jpl.nasa.gov/tools/nasa-view.shtml" target="blank">NASAVIEW</a> to explore PDS data
+		<button id="ParsePDS" title="parse product PDS" onclick="onClickParsePDS();">Debug - Parse PDS</button><br>
+		<ul>
+			<li>To understand PDS format  see: <a target="NASA" href="http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0002/DOCUMENT/MSL_MMM_EDR_RDR_DPSIS.PDF"
+			>Software Interface Specification</a>
+			<li>use  <a href="https://pds.jpl.nasa.gov/tools/nasa-view.shtml" target="blank">NASAVIEW</a> to explore PDS data. 
+			You need to download both the LBL and the DAT file to use NASAview.
+			<li>you will need <a target="NASA" href="http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0002/SOFTWARE/SRC/">DAT2IMG</a> 
+			to extract IMG files from the DAT files. <a href="[tools]/dat2img.zip">[Download for windows7]</a>
+			<li>on MSWindows you might like to use bash from cygwin to run dat2zip.
+		</ul>
+	</div>
+	<DIV class="gold">
 		<span class="subtitle">Status:</span> <span ID="status" class="status">Loading...</span>
 	</div>
 	<DIV class="gold">

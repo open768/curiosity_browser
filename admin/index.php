@@ -15,7 +15,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("$root/php/inc/tags.php");
 	require_once("$root/php/inc/pichighlight.php");
 	require_once("$root/php/inc/static.php");
-	require_once("$root/php/curiosity/pds.php");
+	require_once("$root/php/curiosity/pdsindexer.php");
 	require_once("$root/php/inc/cached_http.php");
 	
 	
@@ -33,9 +33,26 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	
 	switch($sOperation){
 		//------------------------------------------------------
-		case "parseAll":
-			cCuriosityPDS::index_everything(OBJDATA_REALM);
+		case "backup":
+			$sFilename = addslashes("$root/backup.zip");
+			$sFolder = addslashes("$root/[objdata]");
+			$cmd = "zip -r \"$sFilename\" \"$sFolder\"";
+			cDebug::write("running command $cmd");
+			$iReturn = 0;
+			echo exec( $cmd, $output, $iReturn);
+			cDebug::write("done: $iReturn");
+			cDebug::vardump($output);
 			break;
+			
+		case "parseAllPDS":
+			set_time_limit(600);
+			cCuriosityPdsIndexer::index_everything(OBJDATA_REALM);
+			break;
+			
+		case "killPDS":
+			cDebug::write("use phpshell to delete PDS files");
+			break;
+			
 		case "parsePDS":
 			if (! array_key_exists( "v", $_GET)){
 				?>
@@ -49,10 +66,11 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 				<?php
 				exit();
 			}
+			set_time_limit(600);
 			$sVolume = $_GET["v"];
 			if (!isset($_GET["i"] )) cDebug::error("no index specified");
 			$sIndex= $_GET["i"];
-			cCuriosityPDS::run_indexer(OBJDATA_REALM, $sVolume, $sIndex);
+			cCuriosityPdsIndexer::run_indexer(OBJDATA_REALM, $sVolume, $sIndex);
 			break;
 
 		//------------------------------------------------------
@@ -99,6 +117,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		//------------------------------------------------------
 		case "killCache":
 			cCachedHttp::clearCache();
+			cDebug::write("ok");
 			break;
 			
 		//------------------------------------------------------
@@ -120,8 +139,10 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		default:
 			?>
 				<form method="get">
+					<Input type="radio" name="o" value="backup">backup objdata<br>
 					<Input type="radio" name="o" value="parsePDS">parse PDS files<br>
-					<Input type="radio" name="o" value="parseAll">parse ALL PDS files<br>
+					<Input type="radio" name="o" value="parseAllPDS">parse ALL PDS files<br>
+					<Input type="radio" name="o" value="killPDS">Kill ALL PDS files<br>
 					<Input type="radio" name="o" value="killCache">clear cache<br>
 					<Input type="radio" name="o" value="killTag">remove tag<br>
 					<Input type="radio" name="o" value="mergeTags">merge a tag<br>

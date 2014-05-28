@@ -15,6 +15,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("$root/php/curiosity/json.php");
 	require_once("$root/php/curiosity/instrument.php");
 	require_once("$root/php/inc/debug.php");
+	require_once("$root/php/inc/common.php");
 	
 	const TIMESLOT=10;
 	
@@ -56,9 +57,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		array_push( $aData["cal"][$sDate][$sTimeKey], ["i"=>$sInstrAbbr, "d"=>$sDateTime, "p"=>$oItem->itemName]);
 	}
 	
-	if (cDebug::$DEBUGGING)
-		cDebug::vardump($aData);
-	else
-		echo json_encode($aData );
+	cCommon::write_json($aData);
 ?>
 
