@@ -88,9 +88,12 @@ class cHash{
 		else{
 			self::make_hash_folder($psHash);
 			$sSerial = serialize($poObj);
-			
-			//TBD use zlib to compress content
-			file_put_contents( $sFile, $sSerial, LOCK_EX);
+
+			//use gzlib to write the file compressed - this is more scalable than writing the whole file out
+			//file_put_contents( $sFile, $sSerial, LOCK_EX);
+			$fp = gzopen($sFile, "wb");
+			gzwrite($fp, $sSerial);
+			gzclose($fp);
 		}
 	}
 
@@ -100,7 +103,11 @@ class cHash{
 		if (self::exists($psHash)){
 			cDebug::write("exists in cache");
 			$sFile = cHash::getPath($psHash);
-			$sSerialised = file_get_contents($sFile);
+			
+			$aLines = gzfile($sFile);
+			$sSerialised = "";
+			foreach ( $aLines as $sLine)
+				$sSerialised .= $sLine;
 			$oResponse = unserialize($sSerialised);
 		}else
 			cDebug::write("doesnt exist in cache");
