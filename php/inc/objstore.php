@@ -2,6 +2,9 @@
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //% OBJSTORE - simplistic store objects without a database!
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+require_once("$root/php/inc/gz.php");
+
 cObjStore::$rootFolder= "$root/[objdata]";
 
 class cObjStore{
@@ -33,18 +36,16 @@ class cObjStore{
 		$aData = null;
 
 		cDebug::write("looking for file:$psFile in folder:$psFolder in realm:$psRealm");
-		$folder = self::pr_get_folder_name($psRealm, $psFolder);
-		if (!is_dir($folder)){
-			cDebug::write("no obstore data at all in folder: $psFolder");
+		$sFolder = self::pr_get_folder_name($psRealm, $psFolder);
+		if (!is_dir($sFolder)){
+			cDebug::write("no objstore data at all in folder: $psFolder");
 			return $aData;
 		}
 		
-		$file = "$folder/$psFile";
-		cDebug::write("File: $file");
-		if (file_exists($file)){
-			$sText = file_get_contents($file);
-			$aData = unserialize($sText);
-		}
+		$sFile = "$sFolder/$psFile";
+		cDebug::write("File: $sFile");
+		if (file_exists($sFile))
+			$aData = cGzip::readObj($sFile);
 		
 		return $aData;
 	}
@@ -60,11 +61,10 @@ class cObjStore{
 		}
 		
 		//write out the file
-		$file = "$folder/$psFile";
-		cDebug::write("writing to: $file");
+		$sFile = "$folder/$psFile";
+		cDebug::write("writing to: $sFile");
 		
-		$sText = serialize($poData);
-		file_put_contents($file, $sText, LOCK_EX);
+		cGzip::writeObj($sFile, $poData);
 	}
 	
 	//********************************************************************

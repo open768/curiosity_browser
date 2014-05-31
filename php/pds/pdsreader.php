@@ -14,6 +14,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 require_once("$root/php/inc/debug.php");
 require_once("$root/php/inc/http.php");
 require_once("$root/php/inc/objstore.php");
+require_once("$root/php/inc/gz.php");
 require_once("$root/php/inc/static.php");
 require_once("$root/php/inc/common.php");
 require_once("$root/php/inc/hash.php");
@@ -25,13 +26,22 @@ class cPDS_Reader{
 		$sLBLUrl = $psBaseUrl."/$psVolume/INDEX/$psIndex.LBL";
 		$sOutFile = "$psVolume.LBL";
 		
-		cDebug::write("fetching $psUrl");
-		$sLBLFile = cHttp::fetch_large_url($sLBLUrl, $sOutFile, false);
-		cDebug::write("output filename is $sLBLFile");
+		cDebug::write("fetching volume LBL $sLBLUrl");
+		$sFile = cHttp::large_url_path($sOutFile);
+		if (!file_exists("$sFile.gz")){
+			cDebug::write("$sFile.gz doesnt exist" );
+			
+			$sLBLFile = cHttp::fetch_large_url($sLBLUrl, $sOutFile, false);
+			cDebug::write("fetched to $sLBLFile" );
+			
+			cDebug::write("compressing $sLBLFile");
+			cGzip::compress_file($sLBLFile);
+			cDebug::write("output filename is $sLBLFile");
+		}
 		
 		//------------------------------------------------------------------
 		//parse the lbl file
-		return self::parse_LBL($sLBLFile);
+		return self::parse_LBL("$sFile.gz");
 	}
 	
 	//**********************************************************************
@@ -39,6 +49,8 @@ class cPDS_Reader{
 		global $root;
 		//create a unique hash for the 
 		cHash::$CACHE_EXPIRY = cHash::FOREVER;		//cache forever
+		//cHash::$show_filenames = true;
+
 		$sHashUrl = cHash::hash($psUrl);
 		$sHashLBL = cHash::hash("PDSOBJ-$psUrl");
 		
@@ -59,8 +71,10 @@ class cPDS_Reader{
 			
 			//--- delete url hash
 			unlink($sUrlFilename);
-		}else
+		}else{
+			cDebug::write("Hash Exists");
 			$oLBL = cHash::get_obj($sHashLBL);
+		}
 		$oLBL->__dump();
 		return $oLBL;
 	}
@@ -76,7 +90,12 @@ class cPDS_Reader{
 	
 	//**********************************************************************
 	public static function fetch_tab( $psUrl, $psOutFile){
-		return cHttp::fetch_large_url($psUrl, $psOutFile, false);
+		$sFile = cHttp::large_url_path($psOutFile);
+		if (!file_exists("$sFile.gz")){
+			$sFile = cHttp::fetch_large_url($psUrl, $psOutFile, false);
+			cGzip::compress_file($sFile);
+		}
+		return "$sFile.gz";
 	}
 	
 	//**********************************************************************
@@ -88,15 +107,15 @@ class cPDS_Reader{
 		//open the tab file
 		$aOut = [];
 		$iCount = 0;
-		$fHandle = fopen($psTabFile, 'r');
-		while(!feof($fHandle)){
-			$sLine = fgets($fHandle);
+		$fHandle = gzopen($psTabFile, 'rb');
+		while(!gzeof($fHandle)){
+			$sLine = gzgets($fHandle);
 			if (trim($sLine) == "") continue;
 			$aLine = self::pr__extract_tab_line($sLine, $aCols);
 			$aOut[] = $aLine;
 			$iCount ++;
 		}
-		fclose($fHandle);
+		gzclose($fHandle);
 		
 		cDebug::write("Processed $iCount lines");
 		//cDebug::vardump($aOut);

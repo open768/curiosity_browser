@@ -29,9 +29,9 @@ class cPDS_LBL{
 		$sBracketName = null;
 		$sBracketValue = null;
 		
-		while(!feof($pfHandle)){
+		while(!gzeof($pfHandle)){
 			//--- process a line at a time
-			$line = fgets($pfHandle);
+			$line = gzgets($pfHandle);
 			$line = trim($line);
 			if ($line == "") 	continue;  //empty line
 			//cDebug::write("line: $line");
@@ -179,13 +179,12 @@ class cPDS_LBL{
     }
 	
 	//*****************************************
-	public function parseFile($psfilename){
+	public function parseFile($psFile){
 		//open the file for read only
-		$fHandle = fopen($psfilename, 'r');
-		try{
-			$this->parseFileHandle($fHandle);
-		}catch(Exception $e){}
-		fclose($fHandle);
+		cDebug::write("Parsing LBL: $psFile");
+		$fHandle = gzopen($psFile, 'rb');
+		$this->parseFileHandle($fHandle);
+		gzclose($fHandle);
 		
 	}
 }

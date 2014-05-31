@@ -29,13 +29,23 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	
 	
 		//-------------------
-		$oData = cCuriosityPDS::search_pds($sSol, $sInstr, $sProduct);
+		try{
+			$oData = cCuriosityPDS::search_pds($sSol, $sInstr, $sProduct);
+		}catch (Exception $e){
+			cDebug::write("search failed");
+			$oData = null;
+		}
 		break;
 	
 	case "p":
 		$sPDSUrl =  $_GET["u"];
 		cDebug::write($sPDSUrl);
-		$oData = cCuriosityPDS::get_pds_product($sPDSUrl);
+		try{
+			$oData = cCuriosityPDS::get_pds_product($sPDSUrl);
+		}catch (Exception $e){
+			cDebug::write("error :".e );
+			$oData = null;
+		}
 		break;
 	}
 	

@@ -14,6 +14,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 require_once("$root/php/inc/objstore.php");
 require_once("$root/php/inc/indexes.php");
 require_once("$root/php/inc/static.php");
+require_once("$root/php/inc/gz.php");
 require_once("$root/php/pds/pdsreader.php");
 require_once("$root/php/curiosity/pds.php");
 
@@ -21,6 +22,8 @@ require_once("$root/php/curiosity/pds.php");
 //##########################################################################
 class cCuriosityPdsIndexer{
 	const PDS_URL = "http://pds-imaging.jpl.nasa.gov/data/msl";
+	const OBJDATA_TOP_FOLDER = "[pds]";
+	
 	private static $PDS_COL_NAMES = ["PATH_NAME", "FILE_NAME", "MSL:INPUT_PRODUCT_ID", "INSTRUMENT_ID", "PLANET_DAY_NUMBER", "PRODUCT_ID", "IMAGE_TIME"];
 	
 	//**********************************************************************
@@ -52,6 +55,8 @@ class cCuriosityPdsIndexer{
 		//-------------------------------------------------------------------------------
 		//get the TAB file
 		$sTBLFileName = $oLBL->get("^INDEX_TABLE");
+		if ($sTBLFileName == null)
+			cDebug::error("unable to determine TAB - was the LBL Parsed correctly?");
 		$sTABUrl = self::PDS_URL."/$psVolume/INDEX/$sTBLFileName";
 		$sOutFile = "$psVolume.TAB";
 		$sTABFile = cPDS_Reader::fetch_tab($sTABUrl, $sOutFile);

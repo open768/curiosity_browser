@@ -13,11 +13,13 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 require_once("$root/php/inc/debug.php");
+require_once("$root/php/inc/gz.php");
 
 class cHash{
 	const HASH_FOLDER = "[cache]/[hash]";
 	const FOREVER = -1;
 	public static $CACHE_EXPIRY = 3600;  //(seconds)
+	public static $show_filenames = false;
 	
 	
 	//************************************************************************
@@ -66,7 +68,9 @@ class cHash{
 	//************************************************************************
 	public static function getPath($psHash){
 		$sFolder = self::get_folder($psHash);
-		$sFile = "$sFolder/$psHash.txt";
+		$sFile = "$sFolder/$psHash";
+		if 	(self::$show_filenames) cDebug::write("hash_file: $sFile");
+
 		return $sFile;
 	}
 	
@@ -87,13 +91,7 @@ class cHash{
 			cDebug::error("hash exists: $psHash");
 		else{
 			self::make_hash_folder($psHash);
-			$sSerial = serialize($poObj);
-
-			//use gzlib to write the file compressed - this is more scalable than writing the whole file out
-			//file_put_contents( $sFile, $sSerial, LOCK_EX);
-			$fp = gzopen($sFile, "wb");
-			gzwrite($fp, $sSerial);
-			gzclose($fp);
+			cGzip::writeObj($sFile, $poObj);
 		}
 	}
 
@@ -103,12 +101,7 @@ class cHash{
 		if (self::exists($psHash)){
 			cDebug::write("exists in cache");
 			$sFile = cHash::getPath($psHash);
-			
-			$aLines = gzfile($sFile);
-			$sSerialised = "";
-			foreach ( $aLines as $sLine)
-				$sSerialised .= $sLine;
-			$oResponse = unserialize($sSerialised);
+			$oResponse = cGzip::readObj($sFile);
 		}else
 			cDebug::write("doesnt exist in cache");
 		

@@ -282,7 +282,7 @@ function load_detail_callback(paJS){
 	
 	//populate the remaining fields
 	$("#date_utc").html( goItem.d.du);
-	$("#date_lmst").html( goItem.d.dm);
+	//$("#date_lmst").html( goItem.d.dm);
 	$("#msldata").html( "<pre>" + cDebug.dump(oData.data,1) + "</pre>");
 	
 	//add the image 
@@ -290,16 +290,6 @@ function load_detail_callback(paJS){
 	var oImg = $("<img/>").attr({"src":oData.i, "id":"baseimg", "onload":"OnImageLoaded()"});
 	$("#image").append(oImg);
 	
-	
-	sLink = oData.l;
-	if (sLink=="UNK"){
-		$("#label_link").html( "No Product Label data found");
-		$("#label").html( "No Product Label data found");
-	}else{
-		$("#label_link").html( "<a target='nasa' href='"+ sLink + "'>" + sLink + "</a>");
-		$("#label").html (sLink);
-	}
-
 	//get the tags and comments
 	sKey = cTagging.getTags(goItem.s,goItem.i,goItem.p, tag_callback);
 	cComments.get(goItem.s,goItem.i,goItem.p, get_comments_callback);

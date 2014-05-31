@@ -74,8 +74,8 @@ class cHttp{
 		fclose($fHandle);
 		cDebug::write("ok got $psUrl ");
 
-		if ($iErr !=0){
-			unlink($sPath);
+		if ($iErr != 0){
+			unlink($psPath);
 			throw new Exception("ERROR URL was: $psUrl <p>");
 		}
 
@@ -83,19 +83,26 @@ class cHttp{
 	}
 	
 	//*****************************************************************************
+	public static function large_url_path($psFilename){
+		global $root;
+		
+		$sDir = "$root/".self::LARGE_URL_DIR;
+		return "$sDir/$psFilename";
+	}
+	
+	//*****************************************************************************
 	public static function fetch_large_url($psUrl, $psFilename, $pbOverwrite=false)
 	{
 		global $root;
 		
-		$sDir = "$root/".self::LARGE_URL_DIR;
-		$sPath = "$sDir/$psFilename";
-		
 		//check the folder is there
+		$sDir = "$root/".self::LARGE_URL_DIR;
 		if (!is_dir( $sDir)){
 			cDebug::write("making cache dir $sDir");
 			mkdir($sDir, 0700, true);
 		}
 		
+		$sPath = self::large_url_path($psFilename);
 		return self::fetch_to_file($psUrl, $sPath, $pbOverwrite, true,600);
 	}
 }
