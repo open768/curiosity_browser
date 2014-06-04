@@ -121,11 +121,16 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			break;
 			
 		//------------------------------------------------------
+		case "rebuildHiliteSolIndex":
+			cImageHighlight::rebuildSolIndices(OBJDATA_REALM);
+			break;
+				
+		//------------------------------------------------------
 		case "reindexTags":
 			cTags::reindex(OBJDATA_REALM);
 			break;
 
-			//------------------------------------------------------
+		//------------------------------------------------------
 		case "reindexHilite":
 			cImageHighlight::reindex(OBJDATA_REALM);
 			break;
@@ -146,6 +151,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 					<Input type="radio" name="o" value="killCache">clear cache<br>
 					<Input type="radio" name="o" value="killTag">remove tag<br>
 					<Input type="radio" name="o" value="mergeTags">merge a tag<br>
+					
+					<Input type="radio" name="o" value="rebuildHiliteSolIndex">rebuild hilite indices<br>
 					<Input type="radio" name="o" value="reindexTags">reindex Tags - needed after deletion<br>
 					<Input type="radio" name="o" value="reindexHilite">reindex image highlights <br>
 					<Input type="radio" name="o" value="killHighlight">delete highlights<br>

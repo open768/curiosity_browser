@@ -19,6 +19,8 @@ $sMessage = cAuth::check();
 	<title>Login Required</title>
 </head>
 <body>
+	<script src="js/inc/secret.js"></script>
+	<script src="js/inc/analytics.js"></script>
 	<DIV class="title">Login Needed</DIV>
 	<!-- facebook -->
 		<div id="fb-root"></div>

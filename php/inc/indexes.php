@@ -87,7 +87,7 @@ class cIndexes{
 	//######################################################################
 	//# reindex functions
 	//######################################################################
-	static function reindex($psRealm, $poInstrData, $psSuffix){
+	static function reindex($psRealm, $poInstrData, $psSuffix, $psProdFile){
 		$aData = [];
 
 		$toppath = cObjStore::$rootFolder."/$psRealm";

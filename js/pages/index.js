@@ -270,6 +270,7 @@ function get_instruments(psSol, pbRefresh){
 	$("input[name=" + INSTRUMENT_RADIO + "]").each( function(){$(this).parent().hide();});
 	
 	//get the instruments for this sol
+	$("#instr_load").show();
 	sUrl = "php/rest/instruments.php?s=" + psSol + "&r=" + pbRefresh;
 	cHttp.fetch_json(sUrl, get_instruments_callback);
 }
@@ -305,6 +306,13 @@ function get_sol_hilite_count(psSol){
 	cHttp.fetch_json(sUrl, solhighcount_callback);
 }
 
+// ***************************************************************
+function get_image_info(psSol, psInstr, psProd){
+	var sUrl;
+	
+	sUrl = "php/rest/img_info.php?s="+psSol +"&i=" +psInstr + "&p=" + psProd;
+	cHttp.fetch_json(sUrl, imginfo_callback);
+}
 
 //###############################################################
 //* call backs 
@@ -392,6 +400,18 @@ function load_instruments_callback(paJS){
 }
 
 //***************************************************************
+function imginfo_callback(paJS){
+	var oImgSpan, sProd, iTagCount, iHighCount;
+	
+	//add a "T" if the tagcount is 
+	oImgSpan = $("#"+paJS.p);
+	if (paJS.t >0)
+		oImgSpan.append($("<span>").attr({class:"imginfo"}).html(" Tags"));
+	if (paJS.h >0)
+		oImgSpan.append($("<span>").attr({class:"imginfo"}).html(" Highlites"));
+}
+
+//***************************************************************
 function load_images_callback(paJS){
 	var oDiv, sHTML, iIndex, oItem;
 	
@@ -417,37 +437,57 @@ function load_images_callback(paJS){
 		$("#"+CURRENT_ID2).html(current_image_index);
 		
 		//build the html
+		$("#"+IMAGE_ID).empty();
+		
 		sHTML = "";
+		var oOuterDiv = $("#"+IMAGE_ID);
 		for (iIndex = 0; iIndex < paJS.images.length; iIndex++){
+			var oDiv, oImgDiv, oA, oImg;
+			
+			// get the img details
 			oItem = paJS.images[iIndex];
 			sImgURL = "detail.html?s="+ current_sol + "&i=" + current_instrument + "&p=" + oItem.p;
-
-			sHTML += 
-					"<div id='" + oItem.p + "'>" +
-						"<a target='detail' href='" + sImgURL + "'><img src='" +oItem.i + "' width='100%'></a><br>" +
-						"<span class='subtitle'>Date:</span> " + oItem.du + "<br>" +
-					"</div>" +
-					"<span class='subtitle'>Product:</span> " + oItem.p;
-			if (oItem.l && (oItem.l !== "UNK"))
-				sHTML +="<br><span class='subtitle'>PDS label:</span> <a target='PDS' href='" + oItem.l + "'>" + oItem.l + "</a>";
-			sHTML += "<hr>";
-					
+			
+			//build up the div
+			oDiv = $("<DIV>");
+			
+			//build up the image div
+			oImgDiv = $("<DIV>").attr({id:oItem.p});
+			oA= $("<A>").attr({target:"detail", href:sImgURL});
+			oImg = $("<IMG>").attr({src:oItem.i, width:"100%"}); 
+			
+			oA.append(oImg);
+			oImgDiv.append(oA);	
+			
+			//add the lot to the new div
+			oDiv.append(oImgDiv);
+			oDiv.append($("<SPAN>").attr({class:"subtitle"}).html("Date:"));
+			oDiv.append(" " +oItem.du +" ");
+			oDiv.append($("<SPAN>").attr({class:"subtitle"}).html("Product:"));
+			oDiv.append(" " +oItem.p );
+			oDiv.append("<HR>");
+			
+			//add new div to uber div
+			oOuterDiv.append(oDiv);
+			
+			//in parallel go and get the count of highlights and tags
+			get_image_info(current_sol, current_instrument, oItem.p);
 		}
 	}
 	
 	//write out the html
-	$("#"+IMAGE_ID).html(sHTML);
 	
 	loading=false;
 	set_status("ready");
 }
 
 
-//***************************************************************
+// ***************************************************************
 function get_instruments_callback(paJS){
 	var instr_idx, sInstr;
 
 	set_status("got instruments");
+	$("#instr_load").hide();
 	
 	//mark the instruments remaining
 	for ( instr_idx = 0; instr_idx<paJS.length; instr_idx++){

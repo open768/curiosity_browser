@@ -31,7 +31,7 @@ class cImageHighlight{
 	//# ADMIN functions
 	//######################################################################
 	static function reindex($psRealm){
-		cIndexes::reindex($psRealm, 1, self::INDEX_SUFFIX );
+		cIndexes::reindex($psRealm, 1, self::INDEX_SUFFIX , self::IMGHIGH_FILENAME);
 	}
 	
 	static function kill_highlites($psRealm, $psSol, $psInstr, $psProduct, $psWhich){
