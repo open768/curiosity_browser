@@ -101,10 +101,11 @@ function onClickNextImage(){
 	
 	if (!OKToReload()) return;
 	iNext = current_image_index + HOW_MANY_IMAGES;
-	if (iNext > max_images) return;
-	
+	if (iNext > max_images) 
+		onClickNextSol();
+	else
 	//go ahead and get the data 
-	get_image_data(current_sol, current_instrument,iNext,iNext+HOW_MANY_IMAGES);
+		get_image_data(current_sol, current_instrument,iNext,iNext+HOW_MANY_IMAGES);
 }
 
 //***************************************************************
@@ -114,14 +115,14 @@ function onClickPreviousImage(){
 	if (!OKToReload()) return;
 	iPrevious = current_image_index - HOW_MANY_IMAGES;
 	
-	if (iPrevious <= 0 ) 
+	if (iPrevious <= 0 ) {
 		if (current_image_index >1)
 			iPrevious =1;
 		else
-			return;
-
-	//go ahead and get the data 
-	get_image_data(current_sol, current_instrument,iPrevious,iPrevious+HOW_MANY_IMAGES-1);
+			onClickPreviousSol();
+	}else
+		//go ahead and get the data 
+		get_image_data(current_sol, current_instrument,iPrevious,iPrevious+HOW_MANY_IMAGES-1);
 }
 
 //***************************************************************
@@ -327,6 +328,9 @@ function get_image_data( piSol, psInstr, piStart, piEnd){
 	sUrl = cBrowser.pageUrl() +"?s=" + current_sol + "&i=" + current_instrument +"&b=" + piStart;
 	cBrowser.pushState("Detail", sUrl);
 	
+	//clear out the image data
+	$("#"+IMAGE_ID).html("<p class='subtitle'>loading images");
+	
 	// load the image data
 	loading=true;
 	sUrl = "php/rest/images.php?s=" + piSol + "&i=" + psInstr +"&b=" + piStart + "&e=" + piEnd;
@@ -450,9 +454,11 @@ function imginfo_callback(paJS){
 	//add a "T" if the tagcount is 
 	oImgSpan = $("#"+paJS.p);
 	if (paJS.t >0)
-		oImgSpan.append($("<span>").attr({class:"imginfo"}).html(" Tags"));
-	if (paJS.h >0)
-		oImgSpan.append($("<span>").attr({class:"imginfo"}).html(" Highlites"));
+		oImgSpan.append($("<span>").attr({class:"imginfo"}).html("T"));
+	if (paJS.h >0){
+		oImgSpan.append(" ");
+		oImgSpan.append($("<span>").attr({class:"imginfo"}).html("H"));
+	}
 }
 
 //***************************************************************
@@ -464,9 +470,12 @@ function load_images_callback(paJS){
 	if (reset_image_number)
 		current_image_index = -1;
 	
+	//clear out the image div
+	$("#"+IMAGE_ID).empty();
+		
 	//build the html to put into the div
 	if (paJS.max == 0)
-		sHTML = "No instrument data found";
+		$("#"+IMAGE_ID).html("No instrument data found");
 	else{
 		//update title
 		document.title = "Curiosity Browser - index - sol:" + current_sol + " instrument:" + current_instrument;
@@ -479,9 +488,6 @@ function load_images_callback(paJS){
 		current_image_index = parseInt(paJS.start);
 		$("#"+CURRENT_ID).html(current_image_index);
 		$("#"+CURRENT_ID2).html(current_image_index);
-		
-		//build the html
-		$("#"+IMAGE_ID).empty();
 		
 		sHTML = "";
 		var oOuterDiv = $("#"+IMAGE_ID);
@@ -525,7 +531,6 @@ function load_images_callback(paJS){
 
 		}
 	}
-	
 	
 	loading=false;
 	set_status("ready");
