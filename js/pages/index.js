@@ -45,6 +45,10 @@ function onloadJQuery(){
 	//set up the onchange handler for sols
 	$("#sol_list").change( OnChangeSolList);
 	
+	//hide things
+	$("#nav1").hide();
+	$("#nav2").hide();
+	
 	//go and load stuff
 	set_status("loading static data...");
 	if (cBrowser.data[MAXIMAGES_QUERYSTRING] )
@@ -183,11 +187,48 @@ function onClickRefresh(){
 }
 
 //###############################################################
+//# keypress functions 
+//###############################################################
+function setup_keypress(){
+	if (this.keypress) return;
+	this.keypress=true;
+	
+	//catch key presses but not on text inputs
+	$(window).keypress(onKeyPress);
+	$(":input").each(function(index,oObj){
+		if ($(oObj).attr("type")==="text"){
+			$(oObj).focus(onInputFocus);
+			$(oObj).blur(onInputDefocus);
+		}
+	});
+}
+
+function onKeyPress(poEvent){
+	var sChar = String.fromCharCode(poEvent.which);
+	switch(sChar){
+		case "n": onClickNextImage();break;
+		case "p": onClickPreviousImage();break;
+	}	
+}
+
+function onInputFocus(){
+	$(window).unbind("keypress");
+}
+
+function onInputDefocus(){
+	$(window).keypress(onKeyPress);
+}
+
+//###############################################################
 //# Utility functions 
 //###############################################################
 function set_instrument(psInstr){
 	var oRadio;
 	
+	//hide the navigation
+	$("#nav1").hide();
+	$("#nav2").hide();
+
 	//find and mark the selected instrument remaining
 	oRadio = $("[name="+INSTRUMENT_RADIO+"][value="+psInstr+"]")
 	if (oRadio.length>0){
@@ -218,6 +259,9 @@ function set_sol(psSol){
 	current_sol = psSol;
 	$("#"+SOL_ID).html(current_sol);
 	
+	$("#nav1").hide();
+	$("#nav2").hide();
+
 	get_instruments(current_sol,false);
 	get_sol_tag_count(current_sol);
 	get_sol_hilite_count(current_sol);
@@ -472,10 +516,16 @@ function load_images_callback(paJS){
 			
 			//in parallel go and get the count of highlights and tags
 			get_image_info(current_sol, current_instrument, oItem.p);
+			
+			//unhide the navigation controls
+			$("#nav1").show();
+			$("#nav2").show();
+			setup_keypress();
+			
+
 		}
 	}
 	
-	//write out the html
 	
 	loading=false;
 	set_status("ready");

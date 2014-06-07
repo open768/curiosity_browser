@@ -70,10 +70,12 @@
 		</td>
 		<td valign="top">
 			<div class="gold">
-				<button id="previous" onclick="onClickPreviousImage();">&lt;</button>
-				<span ID="current">??</span>
-				<button id="next" onclick="onClickNextImage();">&gt;</button>
-				max <span ID="max">??</span>
+				<span id="nav1">
+					<button id="previous" title="Previous page (p)" onclick="onClickPreviousImage();">&lt;</button>
+					<span ID="current">??</span>
+					<button id="next" title="Next page (n)" onclick="onClickNextImage();">&gt;</button>
+					max <span ID="max">??</span>
+				</span>
 				&nbsp;
 				<input type="textbox" id="search_text" maxlength="30" size="30"><button onclick="onClickSearch()" title="Search for Product">Search</button>
 				<button title="MSL curiosity notebook" onclick="onClickMslNotebook();">MSL Notebook</button>
@@ -85,12 +87,12 @@
 				<span class="subtitle"> Status: </span><span ID="status" class="status">Loading...</span>
 			</div>
 			<div class="gold" id="images">
-				select a SOL and an instrument - the images will appear here
+				<span class="subtitle">select a SOL and an instrument - the images will appear here</span>
 			</div>
-			<div class="gold">
-				<button onclick="onClickPreviousImage();">&lt;</button>
+			<div class="gold" id="nav2">
+				<button title="Previous page (p)" onclick="onClickPreviousImage();">&lt;</button>
 				<span ID="current2">??</span>
-				<button onclick="onClickNextImage();">&gt;</button>
+				<button title="Next page (n)" onclick="onClickNextImage();">&gt;</button>
 				max <span ID="max2">??</span><br><br>
 			</div>
 		</td>
