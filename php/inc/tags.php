@@ -68,7 +68,7 @@ class cTags{
 	static function get_top_tags($psRealm){
 		$aTags = cObjStore::get_file($psRealm, "", self::TOP_TAG_FILE);
 		cDebug::vardump($aTags);
-		ksort($aTags);
+		if ($aTags) ksort($aTags);
 		return $aTags;
 	}
 	
@@ -77,7 +77,7 @@ class cTags{
 		$filename = $psTag.".txt";
 
 		$aTags = cObjStore::get_file($psRealm, self::TAG_FOLDER, $filename);
-		sort($aTags);
+		if ($aTags) sort($aTags);
 		return $aTags;
 	}
 	
