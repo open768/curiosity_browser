@@ -18,7 +18,7 @@ require_once("$root/php/inc/gz.php");
 class cHash{
 	const HASH_FOLDER = "[cache]/[hash]";
 	const FOREVER = -1;
-	public static $CACHE_EXPIRY = 3600;  //(seconds)
+	public static $CACHE_EXPIRY =  2592000 ;  //(1 month in seconds)
 	public static $show_filenames = false;
 	
 	
@@ -97,7 +97,7 @@ class cHash{
 
 	//************************************************************************
 	public static function get_obj( $psHash){
-		$oReponse = null;
+		$oResponse = null;
 		if (self::exists($psHash)){
 			cDebug::write("exists in cache");
 			$sFile = cHash::getPath($psHash);

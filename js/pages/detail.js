@@ -92,12 +92,6 @@ function onClickNASA(){
 	window.open(goItem.d.i, "nasa");
 }
 
-//***************************************************************
-function onClickNotebook(){
-	//var sURL = "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx?tab=solsumm&sol=" + goItem.s;
-	var sURL = "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx?tab=solsumm&p=" + goItem.p;
-	window.open(sURL, "notebook");
-}
 
 //***************************************************************
 function onClickMSLRaw(){
@@ -253,7 +247,7 @@ function load_detail_callback(paJS){
 	goItem = paJS;
 	
 	//update the title
-	document.title = "Curiosity Browser - details - sol:" + goItem.s + " instrument:" + goItem.i;
+	document.title = "detail: s:" + goItem.s + " i:" + goItem.i + " p:" + goItem.p + " (Curiosity Browser)";
 	
 	//update the address bar
 	sURL = cBrowser.pageUrl() +"?s=" + goItem.s + "&i=" + goItem.i + "&p=" + goItem.p;

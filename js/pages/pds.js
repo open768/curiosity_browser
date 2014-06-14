@@ -25,23 +25,34 @@ var gsPdsUrl = null;
 
 //***************************************************************
 function onClickPDS(){
-	if (!gsPdsUrl)
-		set_error_status("Whoa no PDS link found yet");
-	else
-		window.open(gsPdsUrl, "_blank_");
+	if (!has_pds_url()) return;
+	window.open(gsPdsUrl, "_blank_");
 }
 
 //***************************************************************
 function onClickParsePDS(){
-	if (!gsPdsUrl){
-		set_error_status("Whoa no PDS link found yet");
-		return;
-	}
+	if (!has_pds_url()) return;
 	
 	sUrl = "php/rest/pds.php?a=p&debug&u=" + escape(gsPdsUrl);
 	
 	window.open(sUrl, "parsePDS");
 }
+
+//***************************************************************
+function onClickNotebook(){
+	var aSplit,sProduct;
+	
+	if (!has_pds_url()) return;
+	
+	aSplit = gsPdsUrl.split("/");
+	sProduct = aSplit[ aSplit.length -1];
+	aSplit = sProduct.split(".");
+	sProduct = aSplit[0];
+	
+	var sURL = "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx?tab=solsumm&p=" + sProduct;
+	window.open(sURL, "notebook");
+}
+
 
 //###############################################################
 //# Utility functions 
@@ -54,6 +65,13 @@ function onLoadJQuery(){
 		"&p=" + cBrowser.data[PRODUCT_QUERYSTRING] +
 		"&t=" + cBrowser.data[TIMESTAMP_QUERYSTRING];
 	cHttp.fetch_json(sURL, get_pds_callback);
+}
+
+
+function has_pds_url(){
+	if (!gsPdsUrl)
+		set_error_status("Whoa no PDS link found yet");
+	return gsPdsUrl;
 }
 
 //###############################################################

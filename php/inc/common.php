@@ -16,9 +16,10 @@ require_once("$root/php/inc/debug.php");
 
 class cCommon{
 	public static function write_json($poThing){
-		if (cDebug::$DEBUGGING)
+		if (cDebug::$DEBUGGING){
+			cDebug::write("json output:");
 			cDebug::vardump($poThing);
-		else
+		}else
 			echo json_encode($poThing );
 	}
 }

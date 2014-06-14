@@ -478,7 +478,7 @@ function load_images_callback(paJS){
 		$("#"+IMAGE_ID).html("No instrument data found");
 	else{
 		//update title
-		document.title = "Curiosity Browser - index - sol:" + current_sol + " instrument:" + current_instrument;
+		document.title = "Index - s:" + current_sol + " i:" + current_instrument + "(curiosity browser)";
 		
 		// update the maximum display
 		max_images = parseInt(paJS.max);

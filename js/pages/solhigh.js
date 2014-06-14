@@ -31,24 +31,56 @@ function onLoadJQuery(){
 	cHttp.fetch_json(sUrl, hilite_callback);
 }
 
+
+//***************************************************************
+function load_highlights(psSol, psInstr, psProduct){
+	sUrl = "php/rest/img_highlight.php?s=" + psSol + "&i=" + psInstr + "&p=" + psProduct + "&o=thumbs";
+	set_status("fetching images");
+	cHttp.fetch_json(sUrl, load_thumbs_callback);
+}
+
 //###############################################################
 //* call backs 
 //###############################################################
 function hilite_callback(poJs){
-	var sInstr, sHTML, sProduct, oItem, sTagUrl, sProductURL;
+	var sInstr, sProduct;
+	var oDiv, oTable, oRow;
 	
-	sHTML = "<dl>";
+	oDiv = $("#solhigh");
+	oDiv.empty();
+	
 	for (sInstr in poJs){
-		sHTML += "<dt>" + sInstr + "</dt>";
-		sHTML += "<dd><ul>";
-		aProducts = poJs[sInstr];
-		for (sProduct in aProducts)
-			sHTML += "<li><a target='detail' href='detail.html?s=" + current_sol + "&i=" + sInstr + "&p=" + sProduct + "'>" + sProduct + "</a>";
+		oDiv.append("<h3>" + sInstr + "</h3>")
+		oTable = $("<TABLE border=1 cellspacing=0 width=100%>");
+		oDiv.append(oTable);
 		
-		sHTML += "</ul></dd>";
+		//build the table
+		aProducts = poJs[sInstr];
+		for (sProduct in aProducts){
+			oRow = $("<TR>");
+			oTable.append(oRow);
+			
+			oRow.append("<td width=200><a target='detail' href='detail.html?s=" + current_sol + "&i=" + sInstr + "&p=" + sProduct + "'>" + sProduct + "</a></td>");
+			oRow.append("<td align=left><div id='"+sProduct+"'>loading images</div></td>");
+			
+			load_highlights(current_sol, sInstr, sProduct);
+		}
 	}
-	sHTML += "</dl>";
-	$("#solhigh").html(sHTML);
 	set_status("ok");
+}
+
+//***************************************************************
+function load_thumbs_callback(poJS){
+	var oDiv = $("#" + poJS.p);
+	oDiv.empty();
+	var aUrls = poJS.u;
+	
+	if (aUrls.length == 0)
+		oDiv.html("no thumbnails found");
+	else{
+		var i;
+		for (i=0 ; i< aUrls.length; i++)
+			oDiv.append($("<IMG>").attr({"src":aUrls[i]}));
+	}
 }
 

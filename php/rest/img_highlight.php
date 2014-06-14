@@ -42,6 +42,12 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			$sProduct= $_GET["p"];
 			$oResult = cImageHighlight::get(OBJDATA_REALM, $sSol, $sInstrument, $sProduct);
 			break;
+		case "thumbs":
+			$sSol = $_GET["s"];
+			$sInstrument= $_GET["i"];
+			$sProduct= $_GET["p"];
+			$oResult = cImageHighlight::get_thumbs(OBJDATA_REALM, $sSol, $sInstrument, $sProduct);
+			break;
 		case "solcount":
 			$sSol = $_GET["s"];
 			$oResult = cIndexes::get_solcount(OBJDATA_REALM, $sSol, cImageHighlight::INDEX_SUFFIX);
