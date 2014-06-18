@@ -12,6 +12,7 @@ class cImageHighlight{
 	const THUMBS_FOLDER = "images/highs/";
 	const CROP_WIDTH = 120;
 	const CROP_HEIGHT = 120;
+	const THUMB_QUALITY = 80;
 	
 	//######################################################################
 	//# GETTERS functions
@@ -19,7 +20,8 @@ class cImageHighlight{
 	static function get($psRealm, $psSol, $psInstrument, $psProduct){
 		$sFolder = "$psSol/$psInstrument/$psProduct";
 		$aData = cObjStore::get_file($psRealm, $sFolder, self::IMGHIGH_FILENAME);
-		return $aData;
+		$aOut = ["s"=>$psSol, "i"=>$psInstrument, "p"=>$psProduct , "d"=>$aData];
+		return $aOut;
 	}
 	
 	//**********************************************************************
@@ -78,7 +80,7 @@ class cImageHighlight{
 						mkdir($sRealFolder, 0755, true); //folder needs to readable by apache
 					}
 					cDebug::write("writing jpeg to $sRealFile");
-					imagejpeg($oDest, $sRealFile, 60 );
+					imagejpeg($oDest, $sRealFile, self::THUMB_QUALITY );
 					imagedestroy($oDest);
 					
 					//update the structure

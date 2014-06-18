@@ -18,15 +18,19 @@ var current_sol = null;
 //###############################################################
 
 function onLoadJQuery(){
-	var sUrl, sSol;
+	var sUrl, iSol;
 	
 	//update sol number
-	sSol = cBrowser.data["s"];
-	$("#sol").html(sSol);
-	current_sol = sSol;
+	iSol = parseInt(cBrowser.data["s"]);
+	load_sol_data(iSol);
+}
+
+function load_sol_data(piSol){
+	$("#sol").html(piSol);
+	current_sol = piSol;
 	
 	//load tags
-	sUrl = "php/rest/img_highlight.php?s=" + sSol + "&o=soldata";
+	sUrl = "php/rest/img_highlight.php?s=" + piSol + "&o=soldata";
 	set_status("fetching highlights");
 	cHttp.fetch_json(sUrl, hilite_callback);
 }
@@ -39,17 +43,29 @@ function load_highlights(psSol, psInstr, psProduct){
 	cHttp.fetch_json(sUrl, load_thumbs_callback);
 }
 
+function onClickPrevious_sol(){
+	var iSol = current_sol -1;
+	load_sol_data(iSol);
+}
+
+function onClickNext_sol(){
+	var iSol = current_sol +1;
+	load_sol_data(iSol);
+}
+
 //###############################################################
 //* call backs 
 //###############################################################
 function hilite_callback(poJs){
-	var sInstr, sProduct;
-	var oDiv, oTable, oRow;
+	var sInstr, sProduct, sUrl;
+	var oDiv, oTable, oRow, iCount;
 	
 	oDiv = $("#solhigh");
 	oDiv.empty();
+	iCount = 0;
 	
 	for (sInstr in poJs){
+		iCount ++;
 		oDiv.append("<h3>" + sInstr + "</h3>")
 		oTable = $("<TABLE border=1 cellspacing=0 width=100%>");
 		oDiv.append(oTable);
@@ -59,14 +75,18 @@ function hilite_callback(poJs){
 		for (sProduct in aProducts){
 			oRow = $("<TR>");
 			oTable.append(oRow);
-			
-			oRow.append("<td width=200><a target='detail' href='detail.html?s=" + current_sol + "&i=" + sInstr + "&p=" + sProduct + "'>" + sProduct + "</a></td>");
-			oRow.append("<td align=left><div id='"+sProduct+"'>loading images</div></td>");
+			sUrl= "detail.html?s=" + current_sol + "&i=" + sInstr + "&p=" + sProduct ;
+			oRow.append("<td width=200><a target='detail' href='" + sUrl + "'>" + sProduct + "</a></td>");
+			oRow.append("<td align=left><a target='detail' href='" + sUrl + "'><div id='"+sProduct+"'><font class='subtitle'>loading images</font></div></a></td>");
 			
 			load_highlights(current_sol, sInstr, sProduct);
 		}
 	}
-	set_status("ok");
+	
+	if (iCount ==0)
+		set_error_status("no highlights found");
+	else
+		set_status("ok");
 }
 
 //***************************************************************
@@ -80,7 +100,7 @@ function load_thumbs_callback(poJS){
 	else{
 		var i;
 		for (i=0 ; i< aUrls.length; i++)
-			oDiv.append($("<IMG>").attr({"src":aUrls[i]}));
+			oDiv.append($("<IMG>").attr({"src":aUrls[i],"class":"polaroid"}));
 	}
 }
 

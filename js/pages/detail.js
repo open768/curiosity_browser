@@ -197,13 +197,13 @@ function tagnames_callback(poJs){
 //***************************************************************
 function highlight_callback(paJS){
 	var i, aItem, oBox, oNumber;
-	if (!paJS){
+	if (!paJS.d){
 		cDebug.write("no highlights");
 		return;
 	}
 	
-	for (i=0; i<paJS.length; i++){
-		aItem = paJS[i];
+	for (i=0; i<paJS.d.length; i++){
+		aItem = paJS.d[i];
 		cDebug.write("adding highlight: top=" + aItem.t + " left=" + aItem.l);
 		oBox = cImgHilite.make_fixed_box(aItem.t, aItem.l);
 		

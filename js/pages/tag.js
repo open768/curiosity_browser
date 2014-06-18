@@ -37,7 +37,7 @@ function get_product_data( psSol, psInstr, psProd){
 //* call backs 
 //###############################################################
 function load_product_callback(poJS){
-	var oData, sUrl, oDiv, oA;
+	var oData, sUrl, oDiv, oImgDiv, oA, sId;
 	
 	oDiv = $("#"+poJS.p);
 	oDiv.empty();
@@ -48,17 +48,47 @@ function load_product_callback(poJS){
 		return;
 	}
 	
+	//display details of the product
 	sUrl = "detail.html?s=" + poJS.s + "&i=" + poJS.i + "&p=" + poJS.p;
-	oA = $("<A>").attr({"href":sUrl, "target":"detail"});
+	sId = "i" + poJS.p;
+	oImgDiv = $("<DIV>").attr({"id":sId});
 	
-	oA.append($("<IMG>").attr({"src": poJS.d.i, "width":"100%"}));
+	oA = $("<A>").attr({href:sUrl, target:"detail"});
+	oA.append($("<IMG>").attr({"src": poJS.d.i}));
+	oImgDiv.append(oA);
+	oDiv.append(oImgDiv);
 	
-	oDiv.append(oA);
+	//and get the image highlights
+	cImgHilite.getHighlights(poJS.s,poJS.i,poJS.p, highlight_callback);
 }
 
+//***************************************************************
+function highlight_callback(paJS){
+	var i, sID, oDiv, oRedBox, iLeft, iTop, iPos, oParentLoc;
+	
+	if (!paJS.d) return;
+	sID = "i" + paJS.p;
+	oDiv = $("#"+sID);
+	
+	for (i=0; i<paJS.d.length; i++){
+		aItem = paJS.d[i];
+		cDebug.write("orig: top=" + aItem.t + " left=" + aItem.l);
+		
+		//create a redbox and display it
+		oRedBox = $("<DIV>").attr({class:"redbox"});
+		oDiv.append(oRedBox);
+		
+		//place it relative to the parent location
+		oParentLoc = oDiv.offset();
+		iTop = parseInt(aItem.t) + oParentLoc.top;
+		iLeft = parseInt(aItem.l) + oParentLoc.left;
+		oRedBox.css({position: 'absolute',	top: iTop,	left: iLeft})
+	}
+}
+
+//***************************************************************
 function tagnames_callback(poJs){
 	cTagging.showTagCloud("tags",poJs);
-	set_status("got tag names");
 }
 
 //***************************************************************
@@ -71,25 +101,27 @@ function tagdetails_callback(paJs){
 	
 	oList = $("#tagdata")
 	oList.empty();
-	if (!paJs)
+	if (!paJs){
 		oList.append($("<li>").html("<span class='subtitle'>No instances of this tag found</span>"));
-	else{
-		for (i=0 ; i<paJs.length; i++){
-			cDebug.write("got a detail: " + sItem);
-			sItem = paJs[i];
-			aParts = sItem.split("/");
-			sSol = aParts[0];
-			sInstr = aParts[1];
-			sProd = aParts[2];
-			
-			
-			oLi = $("<LI>");
-			oLi.append(sSol + ", " + sInstr + ", " + sProd );
-			oLi.append($("<div>").attr({"id": sProd}).append("Loading image..."));
-			
-			oList.append(oLi);
-			
-			get_product_data(sSol, sInstr, sProd);
-		}
+		return;
+	}
+
+	//create placeholders for each tag
+	for (i=0 ; i<paJs.length; i++){
+		cDebug.write("got a detail: " + sItem);
+		sItem = paJs[i];
+		aParts = sItem.split("/");
+		sSol = aParts[0];
+		sInstr = aParts[1];
+		sProd = aParts[2];
+		
+		
+		oLi = $("<LI>");
+		oLi.append(sSol + ", " + sInstr + ", " + sProd );
+		oLi.append($("<div>").attr({"id": sProd}).append("Loading image..."));
+		oList.append(oLi);
+
+		//load images async
+		get_product_data(sSol, sInstr, sProd);
 	}
 }

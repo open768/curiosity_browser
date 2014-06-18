@@ -42,27 +42,27 @@ function onLoadJQuery(){
 //* call backs 
 //###############################################################
 function load_soltag_callback(poJs){
-	var sInstr, sHTML, aTags,i, sProduct, sTag, oItem, sTagUrl, sProductURL;
+	var sInstr, aTags,i, sProduct, sTag, oItem, sTagUrl, sProductURL;
+	var oDiv;
 	
-	sHTML = "<dl>";
+	oDiv = $("#soltag");
+	oDiv.empty();
+	
+	
 	for (sInstr in poJs){
-		sHTML += "<dt>Instrument: " + sInstr + "</dt>";
-		sHTML += "<dd><ul>";
+		oDiv.append("<h2>"+sInstr +"</h2>");
 		aTags = poJs[sInstr];
-		
+
 		for (i=0; i< aTags.length; i++){
 			oItem = aTags[i];
 			sProduct = oItem.p;
 			sTag = oItem.t;
 			sTagUrl = "<a target='tag' href='tag.html?t=" + sTag + "'>" + sTag + "</a>";
 			sProductURL = "<a target='detail' href='detail.html?s=" + current_sol + "&i=" + sInstr + "&p=" + sProduct + "'>" + sProduct + "</a>";
-			sHTML += "<li>tag " + sTagUrl + " in " + sProductURL;
+			oDiv.append( sTagUrl + " in " + sProductURL + "<br>")
 		}
-		
-		sHTML += "</ul></dd>";
 	}
-	sHTML += "</dl>";
-	$("#soltag").html(sHTML);
+	
 	set_status("ok");
 }
 
