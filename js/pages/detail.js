@@ -223,16 +223,17 @@ function tag_callback(paJS){
 	var sHTML, i, sTag;
 	
 	set_status("got tag");
-	if (paJS.length== 0){
+	if (paJS.d.length== 0){
 		sHTML = "No Tags found, be the first to add one";
 	}else{
 		sHTML = "";
-		for (i=0; i<paJS.length; i++){
-			sTag = paJS[i];
+		for (i=0; i<paJS.d.length; i++){
+			sTag = paJS.d[i];
 			sHTML += "<a target='tags' href='tag.html?t=" + sTag + "'>#" + sTag + "</a> ";
 		}
 	}
 	$("#tags").html( sHTML);
+
 	
 	set_status("ok");
 }

@@ -37,7 +37,9 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			$sSol = $_GET["s"];
 			$sInstrument= $_GET["i"];
 			$sProduct= $_GET["p"];
-			$aData = cTags::get_tag_names(OBJDATA_REALM, $sSol, $sInstrument, $sProduct);
+			$aTags = cTags::get_tag_names(OBJDATA_REALM, $sSol, $sInstrument, $sProduct);
+			cDebug::vardump($aTags);
+			$aData = ["p"=>$sProduct, "d"=>$aTags];
 			break;
 		case "detail":
 			$sTag = $_GET["t"] ;

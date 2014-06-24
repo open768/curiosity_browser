@@ -360,6 +360,8 @@ function get_image_info(psSol, psInstr, psProd){
 	
 	sUrl = "php/rest/img_info.php?s="+psSol +"&i=" +psInstr + "&p=" + psProd;
 	cHttp.fetch_json(sUrl, imginfo_callback);
+	
+	cTagging.getTags(psSol,psInstr, psProd, tag_callback);
 }
 
 //###############################################################
@@ -453,8 +455,11 @@ function imginfo_callback(paJS){
 	
 	//add a "T" if the tagcount is 
 	oImgSpan = $("#"+paJS.p);
+	/*
 	if (paJS.t >0)
 		oImgSpan.append($("<span>").attr({class:"imginfo"}).html("T"));
+	*/
+	
 	if (paJS.h >0){
 		oImgSpan.append(" ");
 		oImgSpan.append($("<span>").attr({class:"imginfo"}).html("H"));
@@ -515,6 +520,7 @@ function load_images_callback(paJS){
 			oDiv.append(" " +oItem.du +" ");
 			oDiv.append($("<SPAN>").attr({class:"subtitle"}).html("Product:"));
 			oDiv.append(" " +oItem.p );
+			oDiv.append(" <span class='subtitle'>Tags:</span> <span id='T"+oItem.p+"' class='soltags'>Loading ...</span>");
 			oDiv.append("<HR>");
 			
 			//add new div to uber div
@@ -536,6 +542,27 @@ function load_images_callback(paJS){
 	set_status("ready");
 }
 
+// ***************************************************************
+function tag_callback(paJS){
+	var oDiv, sHTML, sTag, i;
+	
+	oDiv = $("#T" + paJS.p);
+	oDiv.empty();
+	
+	if (paJS.d.length== 0) {
+		oDiv.html( "no Tags");
+		return;
+	}
+
+	//put in the tags
+	sHTML = "";
+	for (i=0; i<paJS.d.length; i++){
+		sTag = paJS.d[i];
+		sHTML += "<a target='tags' href='tag.html?t=" + sTag + "'>#" + sTag + "</a> ";
+	}
+	oDiv.html( sHTML);
+	
+}
 
 // ***************************************************************
 function get_instruments_callback(paJS){

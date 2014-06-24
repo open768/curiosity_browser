@@ -8,14 +8,14 @@ class cTags{
 	const TOP_SOL_TAG_FILE = "[solstag].txt";
 	const SOL_TAG_FILE = "[soltag].txt";
 	const INSTR_TAG_FILE = "[instrtag].txt";
-	const TAG_FILENAME = "[tag].txt";
+	const PROD_TAG_FILE = "[tag].txt";
 	const TAG_FOLDER = "[tags]";
 	const RECENT_TAG = "TAG";
 	
 	//********************************************************************
 	static function get_tag_names($psRealm, $psSol, $psInstrument, $psProduct){
 		$sFolder = "$psSol/$psInstrument/$psProduct";
-		$aTags = cObjStore::get_file($psRealm, $sFolder, self::TAG_FILENAME);
+		$aTags = cObjStore::get_file($psRealm, $sFolder, self::PROD_TAG_FILE);
 		if (!$aTags) $aTags=[];
 		
 		$aKeys = [];
@@ -31,7 +31,7 @@ class cTags{
 		$psTag = preg_replace("/[^A-Za-z0-9.]/", '', $psTag);
 		
 		//get the file from the object store
-		$aData = cObjStore::get_file($psRealm, $sFolder, self::TAG_FILENAME);
+		$aData = cObjStore::get_file($psRealm, $sFolder, self::PROD_TAG_FILE);
 		if (!$aData) $aData=[];
 		
 		//update the structure (array of arrays)
@@ -49,7 +49,7 @@ class cTags{
 		}
 		
 		//put the file back
-		cObjStore::put_file($psRealm, $sFolder, self::TAG_FILENAME, $aData);
+		cObjStore::put_file($psRealm, $sFolder, self::PROD_TAG_FILE, $aData);
 
 		//now update the top_index
 		self::update_top_index($psRealm, $psTag);
@@ -189,7 +189,7 @@ class cTags{
 			$aSolDataOut = [];
 			foreach ($aSolData as $sInstr=>$aInstrData){
 				$aInstrDataOut = [];
-				foreach ($aInstrData as $sProduct=>$aProductData)
+				foreach ($aInstrData as $sProduct=>$aProductData){
 					foreach ($aProductData as $sTag=>$iValue){
 						//update the sol data 
 						if (!array_key_exists( $sInstr, $aSolDataOut)) $aSolDataOut[$sInstr] = [];
@@ -200,6 +200,8 @@ class cTags{
 						$aInstrDataOut[$sProduct][] = $sTag;
 
 					}
+					cObjStore::put_file($psRealm, "$sSol/$sInstr/$sProduct", self::PROD_TAG_FILE, $aProductData);				
+				}
 				cObjStore::put_file($psRealm, "$sSol/$sInstr", self::INSTR_TAG_FILE, $aInstrDataOut);				
 			}
 			cObjStore::put_file($psRealm, $sSol, self::SOL_TAG_FILE, $aSolDataOut);				
@@ -236,7 +238,7 @@ class cTags{
 		
 		//remove individual tags
 		foreach ($aTags as $sFolder)
-			cObjStore::kill_file($psRealm, $sFolder, self::TAG_FILENAME);
+			cObjStore::kill_file($psRealm, $sFolder, self::PROD_TAG_FILE);
 	
 		cDebug::write("ok");
 	}

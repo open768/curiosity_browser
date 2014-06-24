@@ -129,7 +129,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		case "reindexTags":
 			cTags::reindex(OBJDATA_REALM);
 			break;
-
+			
 		//------------------------------------------------------
 		case "reindexHilite":
 			cImageHighlight::reindex(OBJDATA_REALM);

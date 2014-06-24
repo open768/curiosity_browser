@@ -37,7 +37,7 @@ function get_product_data( psSol, psInstr, psProd){
 //* call backs 
 //###############################################################
 function load_product_callback(poJS){
-	var oData, sUrl, oDiv, oImgDiv, oA, sId;
+	var oData, sUrl, oDiv, oImg, oImgDiv, oA, sId;
 	
 	oDiv = $("#"+poJS.p);
 	oDiv.empty();
@@ -54,12 +54,11 @@ function load_product_callback(poJS){
 	oImgDiv = $("<DIV>").attr({"id":sId});
 	
 	oA = $("<A>").attr({href:sUrl, target:"detail"});
-	oA.append($("<IMG>").attr({"src": poJS.d.i}));
+	oImg = $("<IMG>").attr({"src": poJS.d.i});
+	oImg.on("load", function (){cImgHilite.getHighlights(poJS.s,poJS.i,poJS.p, highlight_callback);});
+	oA.append(oImg);
 	oImgDiv.append(oA);
 	oDiv.append(oImgDiv);
-	
-	//and get the image highlights
-	cImgHilite.getHighlights(poJS.s,poJS.i,poJS.p, highlight_callback);
 }
 
 //***************************************************************

@@ -33,7 +33,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	if ($aTagData) $iTagCount=count($aTagData);
 	
 	$aImgData = cImageHighlight::get(OBJDATA_REALM, $sSol, $sInstrument, $sProduct);
-	if ($aImgData) $iHighCount=count($aImgData);
+	if ($aImgData["d"]) $iHighCount=count($aImgData["d"]);
 	
 	$oResult = ["p"=>$sProduct, "t"=>$iTagCount, "h"=>$iHighCount];
 	

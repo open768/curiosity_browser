@@ -76,10 +76,11 @@ function hilite_callback(poJs){
 			oRow = $("<TR>");
 			oTable.append(oRow);
 			sUrl= "detail.html?s=" + current_sol + "&i=" + sInstr + "&p=" + sProduct ;
-			oRow.append("<td width=200><a target='detail' href='" + sUrl + "'>" + sProduct + "</a></td>");
-			oRow.append("<td align=left><a target='detail' href='" + sUrl + "'><div id='"+sProduct+"'><font class='subtitle'>loading images</font></div></a></td>");
+			oRow.append("<td width=200><a target='detail' href='" + sUrl + "'>" + sProduct + "</a><p><div class='soltags' id='T"+sProduct+"'>Loading Tags..<div></td>");
+			oRow.append("<td align=left><a target='detail' href='" + sUrl + "'><div id='"+sProduct+"'><font class='subtitle'>Loading images</font></div></a></td>");
 			
 			load_highlights(current_sol, sInstr, sProduct);
+			cTagging.getTags(current_sol,sInstr,sProduct, tag_callback);
 		}
 	}
 	
@@ -87,6 +88,25 @@ function hilite_callback(poJs){
 		set_error_status("no highlights found");
 	else
 		set_status("ok");
+}
+
+//***************************************************************
+function tag_callback(paJS){
+	var oDiv, sHTML, sTag, i;
+
+	//clear out the div
+	oDiv = $("#T" + paJS.p);
+	oDiv.empty();
+	
+	if (paJS.d.length== 0) return;
+
+	//put in the tags
+	sHTML = "";
+	for (i=0; i<paJS.d.length; i++){
+		sTag = paJS.d[i];
+		sHTML += "<a target='tags' href='tag.html?t=" + sTag + "'>#" + sTag + "</a> ";
+	}
+	oDiv.html( sHTML);
 }
 
 //***************************************************************

@@ -39,11 +39,11 @@ class cImageHighlight{
 
 		//get the highlights for the selected product
 		$aHighs = self::get($psRealm, $psSol, $psInstrument, $psProduct);
-		if ($aHighs){
+		if ($aHighs["d"]){
 			
 			//work through each checking if the thumbnail is present
-			for( $i=0 ; $i < count($aHighs); $i++){
-				$oItem = $aHighs[$i];
+			for( $i=0 ; $i < count($aHighs["d"]); $i++){
+				$oItem = $aHighs["d"][$i];
 				$sKey = $psProduct . $oItem["t"] . $oItem["l"];
 				if (array_key_exists($sKey, $aThumbs))  
 					cDebug::write("Key exists : $sKey");
@@ -65,8 +65,10 @@ class cImageHighlight{
 					$oDest = imagecreatetruecolor(self::CROP_WIDTH, self::CROP_HEIGHT);
 					preg_match("/^(\d*)/",$oItem["l"], $aMatches);
 					$iX = $aMatches[0];
+					if ($iX < 0) $iX=0;
 					preg_match("/^(\d*)/",$oItem["t"], $aMatches);
 					$iY = $aMatches[0];
+					if ($iY < 0) $iY=0;
 					cDebug::write("cropping to $iX, $iY");
 					imagecopy($oDest, $oMSLImg, 0,0, $iX, $iY, self::CROP_WIDTH, self::CROP_HEIGHT);
 					
