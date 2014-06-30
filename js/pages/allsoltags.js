@@ -12,7 +12,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 
 var DEBUG_ON = true;
-var COLUMNS = 25;
+var COLUMNS = 18;
 var oSolIndex = null;
 
 //###############################################################
@@ -49,7 +49,8 @@ function sols_callback(paJS){
 		if (oSolIndex[sSol])
 			sHTML += "<button name='s' value='"+sSol+"'>"+sSol+"</button>";
 		else
-			sHTML += sSol;
+			sHTML += "<a target='index' href='index.html?s=" + sSol+"'>"+sSol+"</a>";
+
 		sHTML += "</TD>"
 			
 		iCount++;

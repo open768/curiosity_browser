@@ -26,7 +26,7 @@ function onLoadJQuery(){
 }
 
 function load_sol_data(piSol){
-	$("#sol").html(piSol);
+	$("#sol").html("<a target='title' href='index.html?s=" +piSol+"'>" + piSol + "</a>");
 	current_sol = piSol;
 	
 	//load tags

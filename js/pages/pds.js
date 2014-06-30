@@ -24,9 +24,32 @@ var gsPdsUrl = null;
 //###############################################################
 
 //***************************************************************
-function onClickPDS(){
+function onClickRDRLBL(){
+	var sRDRUrl;
 	if (!has_pds_url()) return;
-	window.open(gsPdsUrl, "_blank_");
+
+	sRDRUrl = gsPdsUrl.replace("EDR", "RDR").replace("XXXX","DRXX");
+	window.open(sRDRUrl, "RDR");
+}
+
+function onClickRDRIMG(){
+	var sRDRUrl;
+	if (!has_pds_url()) return;
+
+	sRDRUrl = gsPdsUrl.replace("EDR", "RDR").replace("XXXX","DRXX").replace(".LBL",".IMG");
+	window.open(sRDRUrl, "RDR");
+}
+
+function onClickEDRLBL(){
+	if (!has_pds_url()) return;
+	window.open(gsPdsUrl, "EDR");
+}
+
+function onClickEDRDAT(){
+	var sUrl;
+	if (!has_pds_url()) return;
+	sUrl = gsPdsUrl.replace(".LBL", ".DAT");
+	window.open(sUrl, "EDR");
 }
 
 //***************************************************************

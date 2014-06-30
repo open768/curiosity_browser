@@ -29,7 +29,7 @@ function onLoadJQuery(){
 	
 	//update sol number
 	sSol = cBrowser.data["s"];
-	$("#sol").html(sSol);
+	$("#sol").html("<a target='title' href='index.html?s=" +sSol+"'>" + sSol + "</a>");
 	current_sol = sSol;
 	
 	//load tags

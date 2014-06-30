@@ -24,7 +24,10 @@
 	<!-- facebook -->
 
 	<DIV class="gold">
-		<button id="PDS" title="jump to PDS" onclick="onClickPDS();">PDS</button>
+		<button id="EDR" title="jump to PDS EDR" onclick="onClickEDRLBL();">EDR LBL</button>
+		<button id="EDR" title="jump to PDS EDR" onclick="onClickEDRDAT();">EDR DAT</button>
+		<button id="RDR" title="jump to PDS RDR" onclick="onClickRDRLBL();">RDR LBL</button>
+		<button id="RDR" title="jump to PDS RDR" onclick="onClickRDRIMG();">RDR IMG</button>
 		<button title="MSL curiosity Notebook" id="notelink" onclick="onClickNotebook()">MSL NoteBook</button>
 		<button id="ParsePDS" title="parse product PDS" onclick="onClickParsePDS();">Debug - Parse PDS</button><br>
 		<ul>
@@ -35,6 +38,11 @@
 			<li>you will need <a target="NASA" href="http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0002/SOFTWARE/SRC/">DAT2IMG</a> 
 			to extract IMG files from the DAT files. <a href="https://drive.google.com/file/d/0B0mcRo6MJ9NhSjlJWUIxLTVLWTg/edit?usp=sharing">[Download for windows7]</a>
 			<li>on MSWindows you might like to use bash from cygwin to run dat2zip.
+			<li>the XXXX and DRXXX and DRCX are processing codes. (see the SIS for details on what the letters mean)
+			<ul>
+			<li>The EDR is always named XXXX as it is the unprocessed original from the spacecraft. 
+			<li>the RDR will contain processed files eg DRCL, DRCX,DRLX, DRXX 
+			</ul>
 		</ul>
 	</div>
 	<DIV class="gold">
