@@ -12,7 +12,7 @@ class cImageHighlight{
 	const THUMBS_FOLDER = "images/highs/";
 	const CROP_WIDTH = 120;
 	const CROP_HEIGHT = 120;
-	const THUMB_QUALITY = 80;
+	const THUMB_QUALITY = 90;
 	
 	//######################################################################
 	//# GETTERS functions
@@ -22,6 +22,39 @@ class cImageHighlight{
 		$aData = cObjStore::get_file($psRealm, $sFolder, self::IMGHIGH_FILENAME);
 		$aOut = ["s"=>$psSol, "i"=>$psInstrument, "p"=>$psProduct , "d"=>$aData];
 		return $aOut;
+	}
+	
+	//**********************************************************************
+	private static function pr_get_image($psSol, $psInstrument, $psProduct){
+		//get the original image once 
+		$oInstrumentData = cCuriosity::getProductDetails($psSol, $psInstrument, $psProduct);
+		$sImageUrl = $oInstrumentData["d"]["i"];
+		
+		//get the  image
+		cDebug::write("fetching image from $sImageUrl");
+		$oMSLImg = imagecreatefromjpeg($sImageUrl);
+		return $oMSLImg;
+	}
+	
+	//**********************************************************************
+	private static function pr_perform_crop($poImg, $piX, $piY, $psSol, $psInstrument, $psProduct, $psPath){
+		global $root;
+		cDebug::write("cropping to $piX, $piY");
+		
+		$oDest = imagecreatetruecolor(self::CROP_WIDTH, self::CROP_HEIGHT);
+		imagecopy($oDest, $poImg, 0,0, $piX, $piY, self::CROP_WIDTH, self::CROP_HEIGHT);
+		
+		//write out the file
+		$sFilename = "$root/$psPath";
+		$sFolder = dirname($sFilename);
+		if (!file_exists($sFolder)){
+			cDebug::write("creating folder: $sFolder");
+			mkdir($sFolder, 0755, true); //folder needs to readable by apache
+		}
+		
+		cDebug::write("writing jpeg to $sFilename");
+		imagejpeg($oDest, $sFilename, self::THUMB_QUALITY );
+		imagedestroy($oDest);
 	}
 	
 	//**********************************************************************
@@ -45,50 +78,36 @@ class cImageHighlight{
 			for( $i=0 ; $i < count($aHighs["d"]); $i++){
 				$oItem = $aHighs["d"][$i];
 				$sKey = $psProduct . $oItem["t"] . $oItem["l"];
-				if (array_key_exists($sKey, $aThumbs))  
+
+				//figure out where stuff should go 
+				$sRelative = self::THUMBS_FOLDER."$psSol/$psInstrument/$psProduct/$i.jpg";
+				$sReal = "$root/$sRelative";
+				
+
+				//check if the array entry exists and the thumbnail exists
+				if (array_key_exists($sKey, $aThumbs)){  
 					cDebug::write("Key exists : $sKey");
-				else{
-					cDebug::write("missing Key is $sKey");
-					cDebug::vardump($oItem);
-					
-					if (! $oMSLImg){
-						//get the original image once 
-						$oInstrumentData = cCuriosity::getProductDetails($psSol, $psInstrument, $psProduct);
-						$sImageUrl = $oInstrumentData["d"]["i"];
-						
-						//get the  image
-						cDebug::write("fetching image from $sImageUrl");
-						$oMSLImg = imagecreatefromjpeg($sImageUrl);
-					}
-					
-					//perform the crop on the image
-					$oDest = imagecreatetruecolor(self::CROP_WIDTH, self::CROP_HEIGHT);
-					preg_match("/^(\d*)/",$oItem["l"], $aMatches);
-					$iX = $aMatches[0];
-					if ($iX < 0) $iX=0;
-					preg_match("/^(\d*)/",$oItem["t"], $aMatches);
-					$iY = $aMatches[0];
-					if ($iY < 0) $iY=0;
-					cDebug::write("cropping to $iX, $iY");
-					imagecopy($oDest, $oMSLImg, 0,0, $iX, $iY, self::CROP_WIDTH, self::CROP_HEIGHT);
-					
-					//write out the file
-					$sThumbFolder = self::THUMBS_FOLDER."$psSol/$psInstrument/$psProduct";
-					$sThumbFile = $sThumbFolder ."/$i.jpg";
-					$sRealFolder = "$root/$sThumbFolder";
-					$sRealFile = "$sRealFolder/$i.jpg";
-					if (!file_exists($sRealFolder)){
-						cDebug::write("creating folder: $sRealFolder");
-						mkdir($sRealFolder, 0755, true); //folder needs to readable by apache
-					}
-					cDebug::write("writing jpeg to $sRealFile");
-					imagejpeg($oDest, $sRealFile, self::THUMB_QUALITY );
-					imagedestroy($oDest);
-					
-					//update the structure
-					$aThumbs[$sKey] = $sThumbFile;
-					$bUpdated = true;
+					if (file_exists($sReal))continue;	
 				}
+
+				//if you got here something wasnt there - regenerate the thumbnail
+				cDebug::write("creating thumbnail ");
+				if (! $oMSLImg) $oMSLImg = self::pr_get_image($psSol, $psInstrument, $psProduct);
+					
+				//get the coordinates of the box
+				preg_match("/^(\d*)/",$oItem["l"], $aMatches);
+				$iX = $aMatches[0];
+				if ($iX < 0) $iX=0;
+				preg_match("/^(\d*)/",$oItem["t"], $aMatches);
+				$iY = $aMatches[0];
+				if ($iY < 0) $iY=0;
+
+				//perform the crop
+				self::pr_perform_crop($oMSLImg, $iX, $iY, $psSol, $psInstrument, $psProduct, $sRelative);
+				
+				//update the structure
+				$aThumbs[$sKey] = $sRelative;
+				$bUpdated = true;
 			}
 		
 			//update the objstore if necessary
