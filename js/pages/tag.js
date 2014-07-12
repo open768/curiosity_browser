@@ -52,6 +52,7 @@ function load_product_callback(poJS){
 	sUrl = "detail.html?s=" + poJS.s + "&i=" + poJS.i + "&p=" + poJS.p;
 	sId = "i" + poJS.p;
 	oImgDiv = $("<DIV>").attr({"id":sId});
+	oImgDiv.css({position: 'relative'});
 	
 	oA = $("<A>").attr({href:sUrl, target:"detail"});
 	oImg = $("<IMG>").attr({"src": poJS.d.i});
@@ -78,9 +79,8 @@ function highlight_callback(paJS){
 		oDiv.append(oRedBox);
 		
 		//place it relative to the parent location
-		oParentLoc = oDiv.offset();
-		iTop = parseInt(aItem.t) + oParentLoc.top;
-		iLeft = parseInt(aItem.l) + oParentLoc.left;
+		iTop = parseInt(aItem.t);
+		iLeft = parseInt(aItem.l);
 		oRedBox.css({position: 'absolute',	top: iTop,	left: iLeft})
 	}
 }

@@ -19,19 +19,10 @@ $sMessage = cAuth::check();
 	<title>Login Required</title>
 </head>
 <body>
+	<script src="js/inc/common.js"></script>
 	<script src="js/inc/secret.js"></script>
 	<script src="js/inc/analytics.js"></script>
 	<DIV class="title">Login Needed</DIV>
-	<!-- facebook -->
-		<div id="fb-root"></div>
-		<script>(function(d, s, id) {
-		  var js, fjs = d.getElementsByTagName(s)[0];
-		  if (d.getElementById(id)) return;
-		  js = d.createElement(s); js.id = id;
-		  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId="+cSecret.FBAppid;
-		  fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));</script>	
-	<!-- facebook -->
 
 	<DIV class="gold" id="colours">
 		<?php

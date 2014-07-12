@@ -48,6 +48,13 @@ body
 	width: 230px;
 }
 
+.pagenav{
+	width: 150px;
+}
+.solnav{
+	width: 70px;
+}
+
 .maintable
 {
 	width: 100%;

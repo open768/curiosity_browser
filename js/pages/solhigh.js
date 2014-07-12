@@ -26,7 +26,9 @@ function onLoadJQuery(){
 }
 
 function load_sol_data(piSol){
-	$("#sol").html("<a target='title' href='index.html?s=" +piSol+"'>" + piSol + "</a>");
+	$("#sol").html(piSol);
+	$("#solbutton").html(piSol);
+
 	current_sol = piSol;
 	
 	//load tags
@@ -51,6 +53,10 @@ function onClickPrevious_sol(){
 function onClickNext_sol(){
 	var iSol = current_sol +1;
 	load_sol_data(iSol);
+}
+
+function onClickSol(){
+	window.open("index.html?s=" +current_sol, "index");
 }
 
 //###############################################################

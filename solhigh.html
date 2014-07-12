@@ -12,20 +12,11 @@
 	<script src="js/jquery/jquery-ui-1.10.4.js"></script>
 </head>
 <body onload="$(onLoadJQuery);">
-	<!-- facebook -->
-		<div id="fb-root"></div>
-		<script>(function(d, s, id) {
-		  var js, fjs = d.getElementsByTagName(s)[0];
-		  if (d.getElementById(id)) return;
-		  js = d.createElement(s); js.id = id;
-		  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId="+cSecret.FBAppid;
-		  fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));</script>	
-	<!-- facebook -->
-	<DIV class="title">Highlights for sol:<span id="sol">??</span></DIV>
+	<DIV class="title">Highlights for sol:<span id="sol">sol??</span></DIV>
 <p>
 	<div class="gold">
 		<button onclick="onClickPrevious_sol()" title="previous sol">&lt;&lt;&lt;</button>
+		<button onclick="onClickSol();">sol <span id="solbutton">???</span></button>
 		<button onclick="window.open('allsolhighs.html','allhighs');">All Sols</button>
 		<button onclick="onClickNext_sol()" title="next sol">&gt;&gt;&gt;</button>
 		<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>

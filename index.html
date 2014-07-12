@@ -1,6 +1,7 @@
 <html>
 <head>
 	<LINK href="css/css.css" rel="stylesheet" type="text/css">
+	<LINK href="css/drag.css" rel="stylesheet" type="text/css">
 	<title>Curiosity Browser</title>
 	<script src="js/inc/secret.js"></script>
 	<script src="js/inc/analytics.js"></script>
@@ -8,20 +9,11 @@
 	<script src="js/inc/auth.js"></script>
 	<script src="js/pages/index.js"></script>
 	<script src="js/inc/tagging.js"></script>
+	<script src="js/inc/imghilite.js"></script>
 	<script src="js/jquery/jquery-1.11.0.js"></script>
 	<script src="js/jquery/jquery-ui-1.10.4.js"></script>
 </head>
 <body onload="$(onloadJQuery);">
-	<!-- facebook -->
-		<div id="fb-root"></div>
-		<script>(function(d, s, id) {
-		  var js, fjs = d.getElementsByTagName(s)[0];
-		  if (d.getElementById(id)) return;
-		  js = d.createElement(s); js.id = id;
-		  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId="+cSecret.FBAppid;
-		  fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));</script>	
-	<!-- facebook -->	
 	<font class="title">Curiosity Browser</font>
 	<p>
 	
@@ -34,8 +26,8 @@
 						<option>loading...
 					</SELECT>
 					<table border="0" width="100%"><tr>
-						<td align="left"><button title="previous Sol" type="button" onclick="onClickPreviousSol();">&lt;--</button></td>
-						<td align="right"><button title="next Sol" type="button" onclick="onClickNextSol();">--&gt;</button></td>
+						<td align="left"><button class="solnav" title="previous Sol" type="button" onclick="onClickPreviousSol();">&lt;--</button></td>
+						<td align="right"><button class="solnav" title="next Sol" type="button" onclick="onClickNextSol();">--&gt;</button></td>
 					</tr></table>
 				</div>
 				<div class="gold">
@@ -46,8 +38,10 @@
 			</form>
 			<div class="gold">
 				<div class="subtitle">Sol:</div>				
-				Tags: <span id="soltags">select a sol..</span><br>
-				highlights: <span id="solhighs">select a sol..</span>
+				<table border="0" width="100%"><tr>
+					<td width="50%">Tags: <span id="soltags">??</span></td>
+					<td width="50%">Highlights: <span id="solhighs">??</span></td>
+				</tr></table>
 			</div>
 			<div class="gold">
 				<div class="subtitle">Tags:</div>
@@ -55,13 +49,17 @@
 			</div>
 			<div class="gold">
 				<div class="subtitle">All Sols:</div>				
-				<button onclick="window.open('allsoltags.html','alltags');">Tagged Sols</button>
-				<button onclick="window.open('allsolhighs.html','allhighs');">Highlighted Sols</button>
+				<table border="0" width="100%"><tr>
+					<td width="50%"><button onclick="window.open('allsoltags.html','alltags');">Tags</button></td>
+					<td width="50%"><button onclick="window.open('allsolhighs.html','allhighs');">Highlights</button></td>
+				</tr></table>
 			</div>
 			<div class="gold">
 				<div class="subtitle">Instrument:</div>				
-				Tags: <span id="instrtags">select  instrument ..</span><br>
-				highlights: <span id="instrhighs">select instrument..</span>
+				<table border="0" width="100%"><tr>
+					<td width="50%">Tags: <span id="instrtags">??</span></td>
+					<td width="50%">Highlights: <span id="instrhighs">??</span></td>
+				</tr></table>
 			</div>
 			<div class="gold">
 				<button onclick="window.open('about.html', 'about');">About</button>
@@ -71,9 +69,9 @@
 		<td valign="top">
 			<div class="gold">
 				<span id="nav1">
-					<button id="previous" title="Previous page (p)" onclick="onClickPreviousImage();">&lt;</button>
+					<button class="pagenav" id="previous" title="Previous page (p)" onclick="onClickPreviousImage();">&lt;</button>
 					<span ID="current">??</span>
-					<button id="next" title="Next page (n)" onclick="onClickNextImage();">&gt;</button>
+					<button class="pagenav" id="next" title="Next page (n)" onclick="onClickNextImage();">&gt;</button>
 					max <span ID="max">??</span>
 				</span>
 				&nbsp;
@@ -87,9 +85,9 @@
 				<span class="subtitle">select a SOL and an instrument - the images will appear here</span>
 			</div>
 			<div class="gold" id="nav2">
-				<button title="Previous page (p)" onclick="onClickPreviousImage();">&lt;</button>
+				<button class="pagenav" title="Previous page (p)" onclick="onClickPreviousImage();">&lt;</button>
 				<span ID="current2">??</span>
-				<button title="Next page (n)" onclick="onClickNextImage();">&gt;</button>
+				<button class="pagenav" title="Next page (n)" onclick="onClickNextImage();">&gt;</button>
 				max <span ID="max2">??</span><br><br>
 			</div>
 			<div class="gold">

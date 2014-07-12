@@ -220,6 +220,7 @@ function onInputDefocus(){
 	$(window).keypress(onKeyPress);
 }
 
+
 //###############################################################
 //# Utility functions 
 //###############################################################
@@ -354,16 +355,6 @@ function get_sol_hilite_count(psSol){
 	cHttp.fetch_json(sUrl, solhighcount_callback);
 }
 
-// ***************************************************************
-function get_image_info(psSol, psInstr, psProd){
-	var sUrl;
-	
-	sUrl = "php/rest/img_info.php?s="+psSol +"&i=" +psInstr + "&p=" + psProd;
-	cHttp.fetch_json(sUrl, imginfo_callback);
-	
-	cTagging.getTags(psSol,psInstr, psProd, tag_callback);
-}
-
 //###############################################################
 //* call backs 
 //###############################################################
@@ -450,23 +441,6 @@ function load_instruments_callback(paJS){
 }
 
 //***************************************************************
-function imginfo_callback(paJS){
-	var oImgSpan, sProd, iTagCount, iHighCount;
-	
-	//add a "T" if the tagcount is 
-	oImgSpan = $("#"+paJS.p);
-	/*
-	if (paJS.t >0)
-		oImgSpan.append($("<span>").attr({class:"imginfo"}).html("T"));
-	*/
-	
-	if (paJS.h >0){
-		oImgSpan.append(" ");
-		oImgSpan.append($("<span>").attr({class:"imginfo"}).html("H"));
-	}
-}
-
-//***************************************************************
 function load_images_callback(paJS){
 	var oDiv, sHTML, iIndex, oItem;
 	
@@ -508,8 +482,10 @@ function load_images_callback(paJS){
 			
 			//build up the image div
 			oImgDiv = $("<DIV>").attr({id:oItem.p});
+			oImgDiv.css({position: 'relative'});
+
 			oA= $("<A>").attr({target:"detail", href:sImgURL});
-			oImg = $("<IMG>").attr({src:oItem.i, width:"100%"}); 
+			oImg = $("<IMG>").attr({src:oItem.i}); 
 			
 			oA.append(oImg);
 			oImgDiv.append(oA);	
@@ -526,15 +502,14 @@ function load_images_callback(paJS){
 			//add new div to uber div
 			oOuterDiv.append(oDiv);
 			
-			//in parallel go and get the count of highlights and tags
-			get_image_info(current_sol, current_instrument, oItem.p);
+			//get the image and tag highlights
+			cImgHilite.getHighlights(current_sol,current_instrument,oItem.p, highlight_callback);
+			cTagging.getTags(current_sol,current_instrument,oItem.p, tag_callback);
 			
 			//unhide the navigation controls
 			$("#nav1").show();
 			$("#nav2").show();
 			setup_keypress();
-			
-
 		}
 	}
 	
@@ -582,4 +557,25 @@ function get_instruments_callback(paJS){
 		reload_data();
 	}
 	set_status("ready");
+}
+
+// ***************************************************************
+function highlight_callback(paJS){
+	var i, oDiv, oImg, oRedBox, iLeft, iTop, iPos;
+	
+	if (!paJS.d) return;
+	oDiv = $("#"+paJS.p);
+	
+	for (i=0; i<paJS.d.length; i++){
+		aItem = paJS.d[i];
+		
+		//create a redbox and display it
+		oRedBox = $("<DIV>").attr({class:"redbox"});
+		oDiv.append(oRedBox);
+		
+		//place it relative to the parent location
+		iTop = parseInt(aItem.t);
+		iLeft = parseInt(aItem.l);
+		oRedBox.css({position: 'absolute',	top: iTop,	left: iLeft})
+	}
 }
