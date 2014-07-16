@@ -1,30 +1,20 @@
 <?php
-	//from the marvellous work of Nev Thompson http://www.gigapan.com/profiles/pencilnev
-	
 	$root=realpath("../..");
 	require_once("$root/php/inc/debug.php");
-	require_once("$root/php/inc/gigapan.php");
+	require_once("$root/php/inc/static.php");
+	require_once("$root/php/inc/common.php");
+	require_once("$root/php/inc/pencilnev.php");
 	
-	//cDebug::$DEBUGGING = true;
-	if (isset($_GET["page"] ))  
-		$iPage = (int) $_GET["page"];
-	else
-		$iPage = 1;
-	
-	$oData = cGigapan::get_gigapans("pencilnev",$iPage);
-	
-	$aItems = $oData["d"];
-	echo "<ul>";
-	foreach ($aItems as $aItem){
-		$sId = $aItem["I"];
-		$sDescrip = $aItem["D"];
+	cDebug::check_GET_or_POST();
 
-		echo "<li><a target='giga' href='http://www.gigapan.com/gigapans/$sId'>$sDescrip</a>";
+	$aData = null;
+	switch ( $_GET["o"]){
+		case "sol":
+			$aData = cPencilNev::get_sol_gigas(OBJDATA_REALM, $_GET["s"]);
+			break;
+		case "all":
+			$aData = cPencilNev::get_top_gigas(OBJDATA_REALM);
+			break;
 	}
-	echo "</ul><p>";
-	$iPage++;
-	
-	echo "<a href='gigapans.php?page=$iPage'>Next</a>";
+	cCommon::write_json($aData);
 ?>
-<hr>
-from the marvellous work of Nev Thompson on <a target="gprofile" href="http://www.gigapan.com/profiles/pencilnev">Gigapan.com</a>

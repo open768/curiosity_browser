@@ -48,6 +48,7 @@ function onloadJQuery(){
 	//hide things
 	$("#nav1").hide();
 	$("#nav2").hide();
+	$("#solgiga").attr('disabled', "disabled");
 	
 	//go and load stuff
 	set_status("loading static data...");
@@ -66,6 +67,11 @@ function onloadJQuery(){
 //###############################################################
 //# Event Handlers
 //###############################################################
+function onClickSolGiga(){
+	window.open("solgigas.html?s=" + current_sol, "solgigas");
+}
+
+//***************************************************************
 function onClickSearch(){
 	var sText = $("#search_text").val();
 	if (sText !== ""){
@@ -187,6 +193,7 @@ function onClickRefresh(){
 	get_instruments(current_sol,true);
 }
 
+
 //###############################################################
 //# keypress functions 
 //###############################################################
@@ -267,6 +274,9 @@ function set_sol(psSol){
 	get_instruments(current_sol,false);
 	get_sol_tag_count(current_sol);
 	get_sol_hilite_count(current_sol);
+	
+	$("#solgiga").attr('disabled', "disabled");
+	get_gigapans(current_sol);
 }
 
 
@@ -340,6 +350,11 @@ function get_image_data( piSol, psInstr, piStart, piEnd){
 }
 
 //***************************************************************
+function get_gigapans(psSol){
+	cHttp.fetch_json("php/rest/gigapans.php?o=sol&s=" + psSol, gigapans_callback);
+}
+
+//***************************************************************
 function get_sol_tag_count(psSol){
 	var sUrl;
 	set_status("fetching tagcount");
@@ -358,6 +373,12 @@ function get_sol_hilite_count(psSol){
 //###############################################################
 //* call backs 
 //###############################################################
+function gigapans_callback(paJS){
+	if (paJS == null) return;
+	$("#solgiga").removeAttr('disabled');
+}
+
+
 function solhighcount_callback(piJS){
 	//RETURNS ALL THE TAGS
 	if (piJS > 0)

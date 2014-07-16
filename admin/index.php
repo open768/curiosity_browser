@@ -17,6 +17,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("$root/php/inc/static.php");
 	require_once("$root/php/curiosity/pdsindexer.php");
 	require_once("$root/php/inc/cached_http.php");
+	require_once("$root/php/inc/gigapan.php");
+	require_once("$root/php/inc/pencilnev.php");
 	
 	
 	cDebug::check_GET_or_POST();
@@ -141,6 +143,13 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			break;
 			
 		//------------------------------------------------------
+		case "indexGigas":
+			set_time_limit(600);
+			$aItems = cGigapan::get_all_gigapans("pencilnev");
+			cPencilNev::index_gigapans(OBJDATA_REALM, $aItems);
+			break;
+			
+		//------------------------------------------------------
 		default:
 			?>
 				<form method="get">
@@ -151,6 +160,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 					<Input type="radio" name="o" value="killCache">clear cache<br>
 					<Input type="radio" name="o" value="killTag">remove tag<br>
 					<Input type="radio" name="o" value="mergeTags">merge a tag<br>
+					<Input type="radio" name="o" value="indexGigas">index Nevilles gigapans<br>
 					
 					<Input type="radio" name="o" value="rebuildHiliteSolIndex">rebuild hilite indices<br>
 					<Input type="radio" name="o" value="reindexTags">reindex Tags - needed after deletion<br>
