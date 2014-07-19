@@ -41,22 +41,23 @@
 				<button title="MSL curiosity notebook" id="solnotebook" onclick="onClickMslNotebook();">MSL Notebook</button>
 				<button title="MSL curiosity notebook MAP" id="solmap" onclick="onClickMslNotebookMap();">Map</button>
 				<button title="Calendar" id="solcalendar" onclick="onClickCalendar()">Calendar</button>
-				<button title="force refresh cache" id="solrefresh" onclick="onClickRefresh()">Refresh</button>
+				<button title="force refresh cache" id="solrefresh" onclick="onClickRefresh()">Refresh Data</button>
 			</div>
 			<div class="gold">
 				<div class="subtitle">Tags:</div>
 				<div id="tags">Loading...</div>
 			</div>
+		</td>
+		<td valign="top">
 			<div class="gold">
-				<div class="subtitle">More Info:</div>				
-				<button onclick="window.open('about.html', 'about');">About</button>
+				<input type="textbox" id="search_text" maxlength="30" size="30"><button onclick="onClickSearch()" title="Search for Product">Search</button>
+				&nbsp;&nbsp;&nbsp;
+				<button onclick="window.open('about.html', 'about');">About </button>
 				<button onclick="window.open('allsoltags.html','alltags');">All Tags</button>
 				<button onclick="window.open('allsolhighs.html','allhighs');">All Highlights</button>
 				<button onclick="window.open('allgigas.html','allgigas');">All Gigapans</button>
 				<button title="Where is curiosity now?" onclick="window.open('http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/', 'whereami');">Where is Curiosity</button>
 			</div>
-		</td>
-		<td valign="top">
 			<div class="gold">
 				<span id="nav1">
 					<button class="pagenav" id="previous" title="Previous page (p)" onclick="onClickPreviousImage();">&lt;</button>
@@ -64,8 +65,6 @@
 					<button class="pagenav" id="next" title="Next page (n)" onclick="onClickNextImage();">&gt;</button>
 					max <span ID="max">??</span>
 				</span>
-				&nbsp;
-				<input type="textbox" id="search_text" maxlength="30" size="30"><button onclick="onClickSearch()" title="Search for Product">Search</button>
 			</div>
 			<div class="gold" id="images">
 				<span class="subtitle">select a SOL and an instrument - the images will appear here</span>
