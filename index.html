@@ -19,57 +19,40 @@
 	
 	<table width="100%"><tr>
 		<td class="leftcolumn" valign="top">
-			<form name="sols" id="sols">
-				<div class="gold">
-					<div class="subtitle">Sol: <span id="this_sol">???</span></div>
-					<SELECT id="sol_list" size="10" class="sols">
-						<option>loading...
-					</SELECT>
-					<table border="0" width="100%"><tr>
-						<td align="left"><button class="solnav" title="previous Sol" type="button" onclick="onClickPreviousSol();">&lt;--</button></td>
-						<td align="right"><button class="solnav" title="next Sol" type="button" onclick="onClickNextSol();">--&gt;</button></td>
-					</tr></table>
-				</div>
-				<div class="gold">
-					<div class="subtitle">Instruments:</div>
-					<div class="instruments" id="instruments"></div>
-					<div class="subtitle" id="instr_load"><i>loading...</i></div>
-				</div>
-			</form>
 			<div class="gold">
-				<div class="subtitle">Sol:</div>				
+				<div class="subtitle">Sol: <span id="this_sol">???</span></div>
+				<SELECT id="sol_list" size="10" class="sols">
+					<option>loading...
+				</SELECT>
 				<table border="0" width="100%"><tr>
-					<td width="50%">Tags: <span id="soltags">??</span></td>
-					<td width="50%">Highlights: <span id="solhighs">??</span></td>
+					<td align="left"><button class="solnav" title="previous Sol" type="button" onclick="onClickPreviousSol();">&lt;--</button></td>
+					<td align="right"><button class="solnav" title="next Sol" type="button" onclick="onClickNextSol();">--&gt;</button></td>
 				</tr></table>
-			</div>
-			<div class="gold">
-				<div class="subtitle">Gigapans:</div>				
-				<table border="0" width="100%"><tr>
-					<td width="50%"><button id="solgiga" onclick="onClickSolGiga();">This Sol</button></td>
-					<td width="50%"><button onclick="window.open('allgigas.html','allgigas');">All Sols</button></td>
-				</tr></table>
+				<!-- ************************************** -->
+				<div class="subtitle">Instruments:</div>
+				<div class="instruments" id="instruments">
+				</div>
+				<div class="subtitle" id="instr_load"><i>loading...</i></div>
+				<!-- ************************************** -->
+				<div class="subtitle">Sol Information:</div>				
+				<button title="Tags for selected Sol" id="soltag" onclick="onClickSolTags();">Tags</button>
+				<button title="Highlights for selected Sol" id="solhigh" onclick="onClickSolHighs();">Highlights</button>
+				<button title="Gigapans for selected Sol" id="solgiga" onclick="onClickSolGiga();">Gigapans</button>
+				<button title="MSL curiosity notebook" id="solnotebook" onclick="onClickMslNotebook();">MSL Notebook</button>
+				<button title="MSL curiosity notebook MAP" id="solmap" onclick="onClickMslNotebookMap();">Map</button>
+				<button title="Calendar" id="solcalendar" onclick="onClickCalendar()">Calendar</button>
+				<button title="force refresh cache" id="solrefresh" onclick="onClickRefresh()">Refresh</button>
 			</div>
 			<div class="gold">
 				<div class="subtitle">Tags:</div>
 				<div id="tags">Loading...</div>
 			</div>
 			<div class="gold">
-				<div class="subtitle">All Sols:</div>				
-				<table border="0" width="100%"><tr>
-					<td width="50%"><button onclick="window.open('allsoltags.html','alltags');">Tags</button></td>
-					<td width="50%"><button onclick="window.open('allsolhighs.html','allhighs');">Highlights</button></td>
-				</tr></table>
-			</div>
-			<div class="gold">
-				<div class="subtitle">Instrument:</div>				
-				<table border="0" width="100%"><tr>
-					<td width="50%">Tags: <span id="instrtags">??</span></td>
-					<td width="50%">Highlights: <span id="instrhighs">??</span></td>
-				</tr></table>
-			</div>
-			<div class="gold">
+				<div class="subtitle">More Info:</div>				
 				<button onclick="window.open('about.html', 'about');">About</button>
+				<button onclick="window.open('allsoltags.html','alltags');">All Tags</button>
+				<button onclick="window.open('allsolhighs.html','allhighs');">All Highlights</button>
+				<button onclick="window.open('allgigas.html','allgigas');">All Gigapans</button>
 				<button title="Where is curiosity now?" onclick="window.open('http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/', 'whereami');">Where is Curiosity</button>
 			</div>
 		</td>
@@ -83,10 +66,6 @@
 				</span>
 				&nbsp;
 				<input type="textbox" id="search_text" maxlength="30" size="30"><button onclick="onClickSearch()" title="Search for Product">Search</button>
-				<button title="MSL curiosity notebook" onclick="onClickMslNotebook();">MSL Notebook</button>
-				<button title="MSL curiosity notebook MAP" onclick="onClickMslNotebookMap();">Map</button>
-				<button title="Calendar" onclick="onClickCalendar()">Calendar</button>
-				<button title="force refresh cache" onclick="onClickRefresh()">Refresh</button>
 			</div>
 			<div class="gold" id="images">
 				<span class="subtitle">select a SOL and an instrument - the images will appear here</span>

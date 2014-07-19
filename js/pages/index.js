@@ -49,6 +49,12 @@ function onloadJQuery(){
 	$("#nav1").hide();
 	$("#nav2").hide();
 	$("#solgiga").attr('disabled', "disabled");
+	$("#soltag").attr('disabled', "disabled");
+	$("#solhigh").attr('disabled', "disabled");
+	$("#solnotebook").attr('disabled', "disabled");
+	$("#solmap").attr('disabled', "disabled");
+	$("#solcalendar").attr('disabled', "disabled");
+	$("#solrefresh").attr('disabled', "disabled");
 	
 	//go and load stuff
 	set_status("loading static data...");
@@ -69,6 +75,12 @@ function onloadJQuery(){
 //###############################################################
 function onClickSolGiga(){
 	window.open("solgigas.html?s=" + current_sol, "solgigas");
+}
+function onClickSolTag(){
+	window.open("soltags.html?s=" + current_sol, "soltag");
+}
+function onClickSolHighs(){
+	window.open("solhigh.html?s=" + current_sol, "solhigh");
 }
 
 //***************************************************************
@@ -271,6 +283,11 @@ function set_sol(psSol){
 	$("#nav1").hide();
 	$("#nav2").hide();
 
+	$("#solnotebook").removeAttr('disabled');
+	$("#solmap").removeAttr('disabled');
+	$("#solcalendar").removeAttr('disabled');
+	$("#solrefresh").removeAttr('disabled');
+
 	get_instruments(current_sol,false);
 	get_sol_tag_count(current_sol);
 	get_sol_hilite_count(current_sol);
@@ -378,22 +395,21 @@ function gigapans_callback(paJS){
 	$("#solgiga").removeAttr('disabled');
 }
 
-
 function solhighcount_callback(piJS){
 	//RETURNS ALL THE TAGS
 	if (piJS > 0)
-		$("#solhighs").html("<a target='solhigh' href='solhigh.html?s="+current_sol+"'>" + piJS + "</a>");
+		$("#solhigh").removeAttr('disabled');
 	else
-		$("#solhighs").html("none");
+		$("#solhigh").attr('disabled', "disabled");
 }
 
 //***************************************************************
 function tagcount_callback(piJS){
 	//RETURNS ALL THE TAGS
 	if (piJS > 0)
-		$("#soltags").html("<a target='soltag' href='soltag.html?s="+current_sol+"'>" + piJS + "</a>");
+		$("#soltag").removeAttr('disabled');
 	else
-		$("#soltags").html("none");
+		$("#soltag").attr('disabled', "disabled");
 }
 
 //***************************************************************
@@ -440,7 +456,7 @@ function load_sols_callback(paJS){
 function load_instruments_callback(paJS){
 	var sHTML, iIndex, oInstr, oDiv, sID, oInput,oSpan;
 	
-	
+	$("#instr_load").hide();
 	oDiv = $("#"+INSTRUMENT_DIV);
 	oDiv.empty();
 	for (iIndex = 0; iIndex < paJS.length; iIndex++){
