@@ -10,10 +10,10 @@
 	$aData = null;
 	switch ( $_GET["o"]){
 		case "sol":
-			$aData = cPencilNev::get_sol_gigas(OBJDATA_REALM, $_GET["s"]);
+			$aData = cPencilNev::get_sol_gigas( $_GET["s"]);
 			break;
 		case "all":
-			$aData = cPencilNev::get_top_gigas(OBJDATA_REALM);
+			$aData = cPencilNev::get_top_gigas();
 			break;
 	}
 	cCommon::write_json($aData);

@@ -13,8 +13,8 @@ class cObjStore{
 	//#####################################################################
 	//# PRIVATES
 	//#####################################################################
-	private static function pr_get_folder_name($psRealm, $psFolder){
-		$sOut = self::$rootFolder."/$psRealm";
+	private static function pr_get_folder_name( $psFolder){
+		$sOut = self::$rootFolder."/".OBJDATA_REALM;
 		if ($psFolder) $sOut.= "/$psFolder";
 		return $sOut;
 	}
@@ -22,8 +22,8 @@ class cObjStore{
 	//#####################################################################
 	//# PUBLIC
 	//#####################################################################
-	static function kill_file($psRealm, $psFolder, $psFile){
-		$folder = self::pr_get_folder_name($psRealm, $psFolder);
+	static function kill_file( $psFolder, $psFile){
+		$folder = self::pr_get_folder_name( $psFolder);
 		$file = "$folder/$psFile";
 		if (file_exists($file)){
 			unlink($file);
@@ -32,11 +32,11 @@ class cObjStore{
 	}
 	
 	//********************************************************************
-	static function get_file($psRealm, $psFolder, $psFile){
+	static function get_file( $psFolder, $psFile){
 		$aData = null;
 
-		cDebug::write("looking for file:$psFile in folder:$psFolder in realm:$psRealm");
-		$sFolder = self::pr_get_folder_name($psRealm, $psFolder);
+		cDebug::write("looking for file:$psFile in folder:$psFolder");
+		$sFolder = self::pr_get_folder_name( $psFolder);
 		if (!is_dir($sFolder)){
 			cDebug::write("no objstore data at all in folder: $psFolder");
 			return $aData;
@@ -51,10 +51,10 @@ class cObjStore{
 	}
 	
 	//********************************************************************
-	static function put_file($psRealm, $psFolder, $psFile, $poData){
+	static function put_file( $psFolder, $psFile, $poData){
 			
 		//check that the folder exists
-		$folder = self::pr_get_folder_name($psRealm, $psFolder);
+		$folder = self::pr_get_folder_name( $psFolder);
 		if (!file_exists($folder)){
 			cDebug::write("creating folder: $folder");
 			mkdir($folder, 0700, true);
@@ -68,14 +68,14 @@ class cObjStore{
 	}
 	
 	//********************************************************************
-	static function push_to_array($psRealm, $psFolder, $psFile, $poData){
+	static function push_to_array( $psFolder, $psFile, $poData){
 		//always get the latest file
-		$aData = self::get_file($psRealm, $psFolder, $psFile);
+		$aData = self::get_file( $psFolder, $psFile);
 		//update the data
 		if (!$aData) $aData=[];
 		$aData[] = $poData;
 		//put the data back
-		self::put_file($psRealm, $psFolder, $psFile, $aData);
+		self::put_file( $psFolder, $psFile, $aData);
 		
 		return $aData;
 	}

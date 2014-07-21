@@ -27,25 +27,25 @@ class cCuriosityPdsIndexer{
 	private static $PDS_COL_NAMES = ["PATH_NAME", "FILE_NAME", "MSL:INPUT_PRODUCT_ID", "INSTRUMENT_ID", "PLANET_DAY_NUMBER", "PRODUCT_ID", "IMAGE_TIME"];
 	
 	//**********************************************************************
-	public static function index_everything($psRealm){
+	public static function index_everything(){
 		for ($i=1; $i<6;$i++){
-			//if ($i>1)	self::run_indexer($psRealm, "MSLMHL_000$i", "EDRINDEX");
-			//self::run_indexer($psRealm, "MSLMRD_000$i", "EDRINDEX");
-			self::run_indexer($psRealm, "MSLMST_000$i", "EDRINDEX");
+			//if ($i>1)	self::run_indexer( "MSLMHL_000$i", "EDRINDEX");
+			//self::run_indexer( "MSLMRD_000$i", "EDRINDEX");
+			self::run_indexer( "MSLMST_000$i", "EDRINDEX");
 		}
 		
-		//self::run_indexer($psRealm, "MSLNAV_0XXX", "INDEX");
-		//self::run_indexer($psRealm, "MSLNAV_1XXX", "INDEX");
-		//self::run_indexer($psRealm, "MSLHAZ_0XXX", "INDEX");
-		//self::run_indexer($psRealm, "MSLHAZ_1XXX", "INDEX");
-		//self::run_indexer($psRealm, "MSLHAZ_1XXX", "INDEX");
+		//self::run_indexer( "MSLNAV_0XXX", "INDEX");
+		//self::run_indexer( "MSLNAV_1XXX", "INDEX");
+		//self::run_indexer( "MSLHAZ_0XXX", "INDEX");
+		//self::run_indexer( "MSLHAZ_1XXX", "INDEX");
+		//self::run_indexer( "MSLHAZ_1XXX", "INDEX");
 		
 		//mosaics are different!
-		//self::run_indexer($psRealm, "MSLMOS_1XXX", "INDEX");
+		//self::run_indexer( "MSLMOS_1XXX", "INDEX");
 	}
 	
 	//**********************************************************************
-	public static function run_indexer($psRealm, $psVolume, $psIndex){
+	public static function run_indexer( $psVolume, $psIndex){
 		//-------------------------------------------------------------------------------
 		//get the LBL file to understand how to parse the file 
 		// eg http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0003/INDEX/EDRINDEX.LBL
@@ -64,13 +64,13 @@ class cCuriosityPdsIndexer{
 		//-------------------------------------------------------------------------------
 		//find out where the product files are:
 		$aData = cPDS_Reader::parse_TAB($oLBL, $sTABFile, self::$PDS_COL_NAMES);
-		self::pr__create_index_files($psRealm, self::PDS_URL."/$psVolume/", $aData, false);
+		self::pr__create_index_files(self::PDS_URL."/$psVolume/", $aData, false);
 		
 		cDebug::write("Done OK");
 	}
 	
 	//**********************************************************************
-	private static function pr__create_index_files($psRealm, $psUrlPrefix, $paTabData, $pbReplace){
+	private static function pr__create_index_files($psUrlPrefix, $paTabData, $pbReplace){
 		$aData = [];
 		
 		//build the index
@@ -91,13 +91,13 @@ class cCuriosityPdsIndexer{
 		foreach ($aData as  $sSol=>$aSolData)	
 			foreach ($aSolData as $sInstr=>$aInstrData){
 				$sFilename = cIndexes::get_filename(cIndexes::INSTR_PREFIX, cCuriosityPDS::PDS_SUFFIX);
-				$aExisting = cObjStore::get_file($psRealm, self::OBJDATA_TOP_FOLDER."/$sSol/$sInstr", $sFilename);				
+				$aExisting = cObjStore::get_file(self::OBJDATA_TOP_FOLDER."/$sSol/$sInstr", $sFilename);				
 				if ($aExisting){  //update existing with new data
 					foreach ($aData as $sNewKey=>$aNewData)
 						$aExisting[$sNewKey] = $aNewData;
-					cObjStore::put_file($psRealm, self::OBJDATA_TOP_FOLDER."/$sSol/$sInstr", $sFilename, $aExisting);				
+					cObjStore::put_file( self::OBJDATA_TOP_FOLDER."/$sSol/$sInstr", $sFilename, $aExisting);				
 				}else
-					cObjStore::put_file($psRealm, self::OBJDATA_TOP_FOLDER."/$sSol/$sInstr", $sFilename, $aInstrData);				
+					cObjStore::put_file( self::OBJDATA_TOP_FOLDER."/$sSol/$sInstr", $sFilename, $aInstrData);				
 		}
 	}
 }

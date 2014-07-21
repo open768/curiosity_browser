@@ -9,19 +9,20 @@
 		const TOP_NEVILLE_FILENAME = "[topnevgig].txt";
 		
 		//***********************************************************************************************
-		public static function get_top_gigas($psRealm){
-			return cObjStore::get_file($psRealm, "", self::TOP_NEVILLE_FILENAME);
+		public static function get_top_gigas(){
+			return cObjStore::get_file("", self::TOP_NEVILLE_FILENAME);
 		}
 		
 		//***********************************************************************************************
-		public static function get_sol_gigas($psRealm, $psSol){
-			return cObjStore::get_file($psRealm, $psSol, self::NEVILLE_FILENAME);
+		public static function get_sol_gigas( $psSol){
+			return cObjStore::get_file($psSol, self::NEVILLE_FILENAME);
 		}
 		
 		//***********************************************************************************************
-		public static function index_gigapans($psRealm, $paData){
+		public static function index_gigapans( $paData){
 			$aData = [];
 			$aTop = [];
+			$iMatched = 0;
 			
 			//build up the list
 			foreach ($paData as $aItem){
@@ -33,21 +34,23 @@
 					if (!array_key_exists ($sSol, $aData))	$aData[$sSol] = [];
 					$aData[$sSol][] = $aItem; 
 					$aTop[$sSol] = 1;
-				}
+					$iMatched ++;
+				}else
+					cDebug::write("skipping:$sDescr");
 			}
 			ksort($aData);
-			
+			if ($iMatched == 0)	cDebug::error("** nothing matched");
 			//output the files
 			foreach ($aData as $sSol=>$aItems)
-				cObjStore::put_file($psRealm, $sSol, self::NEVILLE_FILENAME, $aItems);
-			cObjStore::put_file($psRealm, "", self::TOP_NEVILLE_FILENAME, $aTop);
+				cObjStore::put_file($sSol, self::NEVILLE_FILENAME, $aItems);
+			cObjStore::put_file("", self::TOP_NEVILLE_FILENAME, $aTop);
 				
 			cDebug::write("Completed indexing of neville gigapans");
 		}
 		
 		//***********************************************************************************************
-		public static function get_gigas($psRealm, $psSol){
-			return cObjStore::get_file($psRealm, $psSol, self::NEVILLE_FILENAME);
+		public static function get_gigas( $psSol){
+			return cObjStore::get_file($psSol, self::NEVILLE_FILENAME);
 		}
 	}
 

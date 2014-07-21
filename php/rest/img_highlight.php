@@ -34,30 +34,30 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			$sProduct= $_GET["p"];
 			$top= $_GET["t"];
 			$left= $_GET["l"];
-			$oResult = cImageHighlight::set(OBJDATA_REALM, $sSol, $sInstrument, $sProduct, $top, $left, $sUser);
+			$oResult = cImageHighlight::set( $sSol, $sInstrument, $sProduct, $top, $left, $sUser);
 			break;
 		case "get":
 			$sSol = $_GET["s"];
 			$sInstrument= $_GET["i"];
 			$sProduct= $_GET["p"];
-			$oResult = cImageHighlight::get(OBJDATA_REALM, $sSol, $sInstrument, $sProduct);
+			$oResult = cImageHighlight::get( $sSol, $sInstrument, $sProduct);
 			break;
 		case "thumbs":
 			$sSol = $_GET["s"];
 			$sInstrument= $_GET["i"];
 			$sProduct= $_GET["p"];
-			$oResult = cImageHighlight::get_thumbs(OBJDATA_REALM, $sSol, $sInstrument, $sProduct);
+			$oResult = cImageHighlight::get_thumbs( $sSol, $sInstrument, $sProduct);
 			break;
 		case "solcount":
 			$sSol = $_GET["s"];
-			$oResult = cIndexes::get_solcount(OBJDATA_REALM, $sSol, cImageHighlight::INDEX_SUFFIX);
+			$oResult = cIndexes::get_solcount( $sSol, cImageHighlight::INDEX_SUFFIX);
 			break;
 		case "topsolindex":
-			$oResult = cIndexes::get_top_sol_data(OBJDATA_REALM, cImageHighlight::INDEX_SUFFIX);
+			$oResult = cIndexes::get_top_sol_data( cImageHighlight::INDEX_SUFFIX);
 			break;
 		case "soldata":
 			$sSol = $_GET["s"];
-			$oResult = cIndexes::get_sol_data(OBJDATA_REALM, $sSol, cImageHighlight::INDEX_SUFFIX);
+			$oResult = cIndexes::get_sol_data( $sSol, cImageHighlight::INDEX_SUFFIX);
 			break;
 		default:
 			cDebug::error("unsupported operation");

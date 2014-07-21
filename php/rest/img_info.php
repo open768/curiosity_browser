@@ -29,10 +29,10 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	$sInstrument= $_GET["i"];
 	$sProduct= $_GET["p"];
 	
-	$aTagData = cTags::get_tag_names(OBJDATA_REALM, $sSol, $sInstrument, $sProduct);
+	$aTagData = cTags::get_tag_names( $sSol, $sInstrument, $sProduct);
 	if ($aTagData) $iTagCount=count($aTagData);
 	
-	$aImgData = cImageHighlight::get(OBJDATA_REALM, $sSol, $sInstrument, $sProduct);
+	$aImgData = cImageHighlight::get( $sSol, $sInstrument, $sProduct);
 	if ($aImgData["d"]) $iHighCount=count($aImgData["d"]);
 	
 	$oResult = ["p"=>$sProduct, "t"=>$iTagCount, "h"=>$iHighCount];

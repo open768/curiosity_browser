@@ -12,27 +12,27 @@ class cIndexes{
 	}
 	
 	//********************************************************************
-	static function get_top_sol_data($psRealm, $psSuffix){
+	static function get_top_sol_data( $psSuffix){
 		$sFile = self::get_filename(self::TOP_PREFIX, $psSuffix);
-		return cObjStore::get_file($psRealm, "", $sFile);
+		return cObjStore::get_file( "", $sFile);
 	}
 	
 	//********************************************************************
-	static function get_sol_data($psRealm, $psSol, $psSuffix){
+	static function get_sol_data( $psSol, $psSuffix){
 		$sFile = self::get_filename(self::SOL_PREFIX, $psSuffix);
-		return cObjStore::get_file($psRealm, $psSol, $sFile);
+		return cObjStore::get_file( $psSol, $sFile);
 	}
 	
 	//********************************************************************
-	static function get_instr_data($psRealm, $psSol, $psInstrument, $psFile){
+	static function get_instr_data( $psSol, $psInstrument, $psFile){
 		$sFile = self::get_filename(self::INSTR_PREFIX, $psSuffix);
-		return cObjStore::get_file($psRealm, "$psSol/$psInstrument", $sFile);
+		return cObjStore::get_file( "$psSol/$psInstrument", $sFile);
 	}
 	
 	//********************************************************************
-	static function get_solcount($psRealm, $psSol, $psFile){
+	static function get_solcount( $psSol, $psFile){
 		$iCount = 0;
-		$aData = self::get_sol_data($psRealm, $psSol, $psFile);
+		$aData = self::get_sol_data( $psSol, $psFile);
 		if ($aData){
 			foreach ( $aData as $sInstr=>$aInstrData){
 				foreach ($aInstrData as $sProduct)
@@ -46,51 +46,51 @@ class cIndexes{
 	//######################################################################
 	//# UPDATE functions
 	//######################################################################
-	static function update_indexes($psRealm, $psSol, $psInstrument, $psProduct, $poData, $psSuffix){
-		self::update_instr_index($psRealm, $psSol, $psInstrument, $psProduct, $poData, $psSuffix);
-		self::update_sol_index($psRealm, $psSol, $psInstrument, $psProduct, $psSuffix);
-		self::update_top_sol_index($psRealm, $psSol, $psSuffix);		
+	static function update_indexes( $psSol, $psInstrument, $psProduct, $poData, $psSuffix){
+		self::update_instr_index( $psSol, $psInstrument, $psProduct, $poData, $psSuffix);
+		self::update_sol_index( $psSol, $psInstrument, $psProduct, $psSuffix);
+		self::update_top_sol_index( $psSol, $psSuffix);		
 	}
 	
 	//********************************************************************
-	static function update_top_sol_index($psRealm, $psSol, $psSuffix){
+	static function update_top_sol_index( $psSol, $psSuffix){
 		$sFile = self::get_filename(self::TOP_PREFIX, $psSuffix);
-		$aData = cObjStore::get_file($psRealm, "", $sFile);
+		$aData = cObjStore::get_file( "", $sFile);
 		if (!$aData) $aData=[];
 		if ( !array_key_exists( $psSol, $aData)){
 			$aData[$psSol] = 1;
 			cDebug::write("updating top sol index for sol $psSol");
-			cObjStore::put_file($psRealm, "", $sFile, $aData);
+			cObjStore::put_file( "", $sFile, $aData);
 		}
 	}
 		
 	//********************************************************************
-	static function update_sol_index($psRealm, $psSol, $psInstrument, $psProduct, $psSuffix){
+	static function update_sol_index( $psSol, $psInstrument, $psProduct, $psSuffix){
 		$sFile = self::get_filename(self::SOL_PREFIX, $psSuffix);
-		$aData = cObjStore::get_file($psRealm, $psSol, $sFile);
+		$aData = cObjStore::get_file( $psSol, $sFile);
 		if (!$aData) $aData=[];
 		if (!array_key_exists( $psInstrument, $aData)) $aData[$psInstrument] = [];
 		$aData[$psInstrument][$psProduct] = 1;
-		cObjStore::put_file($psRealm, $psSol, $sFile, $aData);
+		cObjStore::put_file( $psSol, $sFile, $aData);
 	}
 		
 	//********************************************************************
-	static function update_instr_index($psRealm, $psSol, $psInstrument, $psProduct, $poData, $psSuffix ){
+	static function update_instr_index( $psSol, $psInstrument, $psProduct, $poData, $psSuffix ){
 		$sFile = self::get_filename(self::INSTR_PREFIX, $psSuffix);
 		$sFolder="$psSol/$psInstrument";
-		$aData = cObjStore::get_file($psRealm, $sFolder, $sFile);
+		$aData = cObjStore::get_file( $sFolder, $sFile);
 		if (!$aData) $aData=[];
 		$aData[$psProduct] = $poData;
-		cObjStore::put_file($psRealm, $sFolder, $sFile, $aData);
+		cObjStore::put_file( $sFolder, $sFile, $aData);
 	}
 
 	//######################################################################
 	//# reindex functions
 	//######################################################################
-	static function reindex($psRealm, $poInstrData, $psSuffix, $psProdFile){
+	static function reindex( $poInstrData, $psSuffix, $psProdFile){
 		$aData = [];
 
-		$toppath = cObjStore::$rootFolder."/$psRealm";
+		$toppath = cObjStore::$rootFolder."/".OBJDATA_REALM;
 		
 		//find the highlight files - tried to do this cleverly, but was more lines of code - so brute force it is
 		$aSols = scandir($toppath);
@@ -116,19 +116,19 @@ class cIndexes{
 					}
 			}
 			
-		self::write_index_files($psRealm, $aData,$psSuffix);
+		self::write_index_files( $aData,$psSuffix);
 	}
 	
 	//***********************************************************************************************************
-	public static function write_index_files( $psRealm, $paData, $psSuffix){
+	public static function write_index_files($paData, $psSuffix){
 		$aTopSols = [];
 		foreach ($paData as  $sSol=>$aSolData)	{
 			$aTopSols[$sSol] = 1;
 			foreach ($aSolData as $sInstr=>$aInstrData)
-				cObjStore::put_file($psRealm, "$sSol/$sInstr", self::get_filename(self::INSTR_PREFIX, $psSuffix), $aInstrData);				
-			cObjStore::put_file($psRealm, $sSol, self::get_filename(self::SOL_PREFIX, $psSuffix), $aSolData);				
+				cObjStore::put_file( "$sSol/$sInstr", self::get_filename(self::INSTR_PREFIX, $psSuffix), $aInstrData);				
+			cObjStore::put_file( $sSol, self::get_filename(self::SOL_PREFIX, $psSuffix), $aSolData);				
 		}
-		cObjStore::put_file($psRealm, "", self::get_filename(self::TOP_PREFIX, $psSuffix), $aTopSols);
+		cObjStore::put_file( "", self::get_filename(self::TOP_PREFIX, $psSuffix), $aTopSols);
 	}
 }
 ?>

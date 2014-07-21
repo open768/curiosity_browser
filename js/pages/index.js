@@ -86,7 +86,11 @@ function onClickSolHighs(){
 //***************************************************************
 function onClickSearch(){
 	var sText = $("#search_text").val();
-	if (sText !== ""){
+	if (sText == "") return;
+	
+	if (!isNaN(sText))
+			set_sol(sText);
+	else{
 		sUrl="php/rest/search.php?s=" + sText;
 		cHttp.fetch_json(sUrl, search_callback);
 	}
@@ -226,6 +230,8 @@ function setup_keypress(){
 function onKeyPress(poEvent){
 	var sChar = String.fromCharCode(poEvent.which);
 	switch(sChar){
+		case "[": onClickPreviousSol();break;
+		case "]": onClickNextSol();break;
 		case "n": onClickNextImage();break;
 		case "p": onClickPreviousImage();break;
 	}	
@@ -276,9 +282,14 @@ function mark_sol(psSol){
 
 //***************************************************************
 function set_sol(psSol){
+
 	cDebug.write("setting sol: " + psSol);
+	$("#"+IMAGE_ID).html("<span class='subtitle'>to see images for sol " + psSol + " - select an instrument</span>");
 	current_sol = psSol;
 	$("#"+SOL_ID).html(current_sol);
+	// update the content in the address bar
+	sUrl = cBrowser.pageUrl() +"?s=" + psSol ;
+	cBrowser.pushState("Detail", sUrl);
 	
 	$("#nav1").hide();
 	$("#nav2").hide();

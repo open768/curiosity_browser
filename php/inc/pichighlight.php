@@ -17,9 +17,9 @@ class cImageHighlight{
 	//######################################################################
 	//# GETTERS functions
 	//######################################################################
-	static function get($psRealm, $psSol, $psInstrument, $psProduct){
+	static function get( $psSol, $psInstrument, $psProduct){
 		$sFolder = "$psSol/$psInstrument/$psProduct";
-		$aData = cObjStore::get_file($psRealm, $sFolder, self::IMGHIGH_FILENAME);
+		$aData = cObjStore::get_file( $sFolder, self::IMGHIGH_FILENAME);
 		$aOut = ["s"=>$psSol, "i"=>$psInstrument, "p"=>$psProduct , "d"=>$aData];
 		return $aOut;
 	}
@@ -58,7 +58,7 @@ class cImageHighlight{
 	}
 	
 	//**********************************************************************
-	static function get_thumbs($psRealm, $psSol, $psInstrument, $psProduct){
+	static function get_thumbs( $psSol, $psInstrument, $psProduct){
 		global $root;
 		
 		$bUpdated = false;
@@ -71,7 +71,7 @@ class cImageHighlight{
 		if ($aThumbs == null)	$aThumbs = [];
 
 		//get the highlights for the selected product
-		$aHighs = self::get($psRealm, $psSol, $psInstrument, $psProduct);
+		$aHighs = self::get( $psSol, $psInstrument, $psProduct);
 		if ($aHighs["d"]){
 			
 			//work through each checking if the thumbnail is present
@@ -130,25 +130,25 @@ class cImageHighlight{
 	//######################################################################
 	//# UPDATE functions
 	//######################################################################
-	static function set($psRealm, $psSol, $psInstrument, $psProduct, $psTop, $psLeft, $psUser){
+	static function set( $psSol, $psInstrument, $psProduct, $psTop, $psLeft, $psUser){
 		//get the file from the object store to get the latest version
 		$sFolder = "$psSol/$psInstrument/$psProduct";
 		$aData = ["t"=>$psTop, "l"=>$psLeft, "u"=>$psUser];
-		cObjStore::push_to_array($psRealm, $sFolder, self::IMGHIGH_FILENAME, $aData); //store highlight
-		cIndexes::update_indexes($psRealm, $psSol, $psInstrument, $psProduct, 1, self::INDEX_SUFFIX);
+		cObjStore::push_to_array( $sFolder, self::IMGHIGH_FILENAME, $aData); //store highlight
+		cIndexes::update_indexes( $psSol, $psInstrument, $psProduct, 1, self::INDEX_SUFFIX);
 		return "ok";
 	}
 	
 	//######################################################################
 	//# ADMIN functions
 	//######################################################################
-	static function reindex($psRealm){
-		cIndexes::reindex($psRealm, 1, self::INDEX_SUFFIX , self::IMGHIGH_FILENAME);
+	static function reindex(){
+		cIndexes::reindex( 1, self::INDEX_SUFFIX , self::IMGHIGH_FILENAME);
 	}
 	
-	static function kill_highlites($psRealm, $psSol, $psInstr, $psProduct, $psWhich){
+	static function kill_highlites( $psSol, $psInstr, $psProduct, $psWhich){
 		$sFolder="$psSol/$psInstr/$psProduct";
-		cObjStore::kill_file($psRealm, $sFolder, self::IMGHIGH_FILENAME);
+		cObjStore::kill_file( $sFolder, self::IMGHIGH_FILENAME);
 		cDebug::write("now reindex the image highlihgts");
 	}
 

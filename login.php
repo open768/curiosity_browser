@@ -1,4 +1,4 @@
-<?php
+<?php
 
 require_once "php/inc/debug.php";
 require_once "php/inc/secret.php";
@@ -22,7 +22,9 @@ $sMessage = cAuth::check();
 	<script src="js/inc/common.js"></script>
 	<script src="js/inc/secret.js"></script>
 	<script src="js/inc/analytics.js"></script>
-	<DIV class="title">Login Needed</DIV>
+	<script src="js/jquery/jquery.js"></script>
+	<script src="js/jquery/jquery-ui.js"></script>
+<DIV class="title">Login Needed</DIV>
 
 	<DIV class="gold" id="colours">
 		<?php

@@ -31,7 +31,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			$sInstrument= $_GET["i"];
 			$sProduct= $_GET["p"];
 
-			$aResult= cComments::get(OBJDATA_REALM, $sSol, $sInstrument, $sProduct);
+			$aResult= cComments::get( $sSol, $sInstrument, $sProduct);
 			
 			break;
 		case "set":
@@ -40,7 +40,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			$sInstrument= $_GET["i"];
 			$sProduct= $_GET["p"];
 			$sComment= utf8_encode($_GET["v"]);
-			$aResult = cComments::set(OBJDATA_REALM,$sSol, $sInstrument, $sProduct, $sComment, $sUser);
+			$aResult = cComments::set($sSol, $sInstrument, $sProduct, $sComment, $sUser);
 			break;
 		default:
 			cDebug::error("unsupported operation");

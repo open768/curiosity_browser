@@ -32,32 +32,32 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			$sInstrument= $_GET["i"];
 			$sProduct= $_GET["p"];
 			$sTag = $_GET["v"] ;
-			cTags::set_tag(OBJDATA_REALM, $sSol, $sInstrument, $sProduct, $sTag, $sUser);
+			cTags::set_tag( $sSol, $sInstrument, $sProduct, $sTag, $sUser);
 		case "get":
 			$sSol = $_GET["s"];
 			$sInstrument= $_GET["i"];
 			$sProduct= $_GET["p"];
-			$aTags = cTags::get_tag_names(OBJDATA_REALM, $sSol, $sInstrument, $sProduct);
+			$aTags = cTags::get_tag_names( $sSol, $sInstrument, $sProduct);
 			cDebug::vardump($aTags);
 			$aData = ["p"=>$sProduct, "d"=>$aTags];
 			break;
 		case "detail":
 			$sTag = $_GET["t"] ;
-			$aData = cTags::get_tag_index(OBJDATA_REALM, $sTag);
+			$aData = cTags::get_tag_index( $sTag);
 			break;
 		case "topsolindex":
-			$aData = cTags::get_top_sol_index(OBJDATA_REALM);
+			$aData = cTags::get_top_sol_index();
 			break;
 		case "sol":
 			$sSol = $_GET["s"];
-			$aData = cTags::get_sol_tags(OBJDATA_REALM, $sSol);
+			$aData = cTags::get_sol_tags( $sSol);
 			break;
 		case "solcount":
 			$sSol = $_GET["s"];
-			$aData = cTags::get_sol_tag_count(OBJDATA_REALM, $sSol);
+			$aData = cTags::get_sol_tag_count( $sSol);
 			break;
 		case "all":
-			$aData = cTags::get_top_tags(OBJDATA_REALM);
+			$aData = cTags::get_top_tags();
 			break;
 	}
 	

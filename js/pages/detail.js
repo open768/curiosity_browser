@@ -17,6 +17,7 @@ var INSTR_QUERYSTRING = "i";
 var PRODUCT_QUERYSTRING = "p";
 
 var goItem = null;
+var gaTags = null;
 
 //###############################################################
 //# Event Handlers
@@ -163,6 +164,7 @@ function onLoadJQuery(){
 	});
 	$(window).keypress(onKeyPress);
 	
+	
 	//get user data
 	set_status("loading user data...");
 	cAuth.getUser(authCallback);
@@ -173,7 +175,7 @@ function authCallback(psUser){
 	cAuth.user = psUser;
 	if (cAuth.user) set_status("welcome " + cAuth.user);
 	get_product_data( cBrowser.data[SOL_QUERYSTRING], cBrowser.data[INSTR_QUERYSTRING], cBrowser.data[PRODUCT_QUERYSTRING]);
-	cTagging.getTagNames(tagnames_callback);
+	cTagging.getTagNames(alltagnames_callback);
 }
 
 //***************************************************************
@@ -189,9 +191,12 @@ function get_product_data( psSol, psInstr, psProd){
 //* call backs 
 //###############################################################
 //***************************************************************
-function tagnames_callback(poJs){
-	cTagging.showTagCloud("tagcloud",poJs);
+function alltagnames_callback(poJs){
 	set_status("got tag names");
+	gaTags = new Array();
+	for (sKey in poJs)
+		gaTags.push(sKey);
+    $( "#tagtext" ).autocomplete({source: gaTags});
 }
 
 //***************************************************************
@@ -215,7 +220,7 @@ function highlight_callback(paJS){
 //***************************************************************
 function addtag_callback(paJS){
 	tag_callback(paJS);
-	cTagging.getTagNames(tagnames_callback);
+	cTagging.getTagNames(alltagnames_callback);
 }
 
 //***************************************************************
@@ -266,7 +271,6 @@ function load_detail_callback(paJS){
 		$("#tags").html( "no Tags - be the first to add one");
 	else{
 		$("#tags").html( paJS.tags);
-		//not full implemented!
 	}
 	
 	//update image index details
