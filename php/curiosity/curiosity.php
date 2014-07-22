@@ -54,6 +54,27 @@ class cCuriosity{
 	}
 	
 	//*****************************************************************************
+	public static function getThumbnails($psSol, $psInstrument){
+		$aThumbData = [];
+		
+		$oSolData =  self::getAllSolData($psSol);
+		$aImages = $oSolData->images;
+		foreach ($aImages as $oItem)
+			if ($oItem->sampleType === "thumbnail"){
+				$sInstrument = $oItem->instrument;
+				if ($sInstrument === $psInstrument){
+					$sProduct = $oItem->itemName;
+					$sProduct = str_replace("I1_D", "E1_D", $sProduct);
+					$aThumbData[] = ["i"=>$oItem->urlList, "p"=>$sProduct];
+					//$aData[] = ["i"=>$oItem->urlList, "p"=>$sProduct, "f"=>$oItem];
+					//TODO check if product actually linked to exists
+				}
+			}
+		
+		return ["s"=>$psSol, "i"=>$psInstrument, "d"=>$aThumbData];
+	}
+	
+	//*****************************************************************************
 	public static function getNoThumbnails($psSol){
 		$aData = [];
 		

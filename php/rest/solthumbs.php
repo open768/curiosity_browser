@@ -13,17 +13,18 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 	$root=realpath("../..");
 	require_once("$root/php/curiosity/curiosity.php");
-	require_once("$root/php/curiosity/instrument.php");
 	require_once("$root/php/inc/debug.php");
 	require_once("$root/php/inc/common.php");
 	
 	cDebug::check_GET_or_POST();
 
-	if (isset( $_GET["s"])){
-		if ($_GET["r"]==="true") cCuriosity::clearSolDataCache($_GET["s"]);
-		$aList = cCuriosity::getSolInstrumentList($_GET["s"]);
-	}else
-		$aList = cInstrument::getInstrumentList();
-		
-	cCommon::write_json($aList);
+	$sSol = $_GET["s"] ;
+	$sInstr = $_GET["i"] ;
+	
+	if (! $sSol || !$sInstr) cDebug::error("wrong parameters");
+	
+	cDebug::write("getting sol $sSol data");
+	$aData = cCuriosity::getThumbnails($sSol, $sInstr);
+	
+	cCommon::write_json($aData);
 ?>

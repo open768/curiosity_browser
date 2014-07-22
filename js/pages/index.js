@@ -55,6 +55,7 @@ function onloadJQuery(){
 	$("#solmap").attr('disabled', "disabled");
 	$("#solcalendar").attr('disabled', "disabled");
 	$("#solrefresh").attr('disabled', "disabled");
+	$("#solthumbs").attr('disabled', "disabled");
 	
 	//go and load stuff
 	set_status("loading static data...");
@@ -82,6 +83,11 @@ function onClickSolTag(){
 function onClickSolHighs(){
 	window.open("solhigh.html?s=" + current_sol, "solhigh");
 }
+function onClickSolThumbs(){
+	window.open("solthumb.html?s=" + current_sol + "&i=" + current_instrument, "solthumb");
+}
+
+
 
 //***************************************************************
 function onClickSearch(){
@@ -298,6 +304,7 @@ function set_sol(psSol){
 	$("#solmap").removeAttr('disabled');
 	$("#solcalendar").removeAttr('disabled');
 	$("#solrefresh").removeAttr('disabled');
+	$("#solthumbs").attr('disabled', "disabled");
 
 	get_instruments(current_sol,false);
 	get_sol_tag_count(current_sol);
@@ -504,6 +511,9 @@ function load_images_callback(paJS){
 	if (paJS.max == 0)
 		$("#"+IMAGE_ID).html("No instrument data found");
 	else{
+		//enable thumbnails
+		$("#solthumbs").removeAttr('disabled');
+		
 		//update title
 		document.title = "Index - s:" + current_sol + " i:" + current_instrument + "(curiosity browser)";
 		

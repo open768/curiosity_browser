@@ -12,7 +12,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 	$root=realpath("../..");
-	require_once("$root/php/curiosity/json.php");
+	require_once("$root/php/curiosity/curiosity.php");
 	require_once("$root/php/curiosity/instrument.php");
 	require_once("$root/php/inc/debug.php");
 	require_once("$root/php/inc/common.php");

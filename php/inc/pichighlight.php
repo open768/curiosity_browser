@@ -3,7 +3,7 @@ require_once("$root/php/inc/objstore.php");
 require_once("$root/php/inc/indexes.php");
 require_once("$root/php/inc/http.php");
 require_once("$root/php/inc/hash.php");
-require_once("$root/php/curiosity/json.php");
+require_once("$root/php/curiosity/curiosity.php");
 
 class cImageHighlight{
 	const INDEX_SUFFIX = "Highlite";

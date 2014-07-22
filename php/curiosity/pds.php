@@ -14,7 +14,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 require_once("$root/php/inc/http.php");
 require_once("$root/php/inc/objstore.php");
 require_once("$root/php/inc/indexes.php");
-require_once("$root/php/curiosity/json.php");
+require_once("$root/php/curiosity/curiosity.php");
 require_once("$root/php/curiosity/instrument.php");
 require_once("$root/php/curiosity/pdsindexer.php");
 require_once("$root/php/inc/static.php");

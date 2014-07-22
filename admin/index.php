@@ -48,7 +48,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			
 		case "parseAllPDS":
 			set_time_limit(600);
-			cCuriosityPdsIndexer::index_everything(OBJDATA_REALM);
+			cCuriosityPdsIndexer::index_everything();
 			break;
 			
 		case "killPDS":
@@ -72,7 +72,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			$sVolume = $_GET["v"];
 			if (!isset($_GET["i"] )) cDebug::error("no index specified");
 			$sIndex= $_GET["i"];
-			cCuriosityPdsIndexer::run_indexer(OBJDATA_REALM, $sVolume, $sIndex);
+			cCuriosityPdsIndexer::run_indexer( $sVolume, $sIndex);
 			break;
 
 		//------------------------------------------------------
@@ -91,7 +91,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 				<?php
 				exit();
 			}
-			cImageHighlight::kill_highlites(OBJDATA_REALM, $_GET["s"], $_GET["i"], $_GET["p"], $_GET["w"]);
+			cImageHighlight::kill_highlites( $_GET["s"], $_GET["i"], $_GET["p"], $_GET["w"]);
 			break;
 
 		//------------------------------------------------------
@@ -107,7 +107,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 				<?php
 				exit();
 			}
-			cTags::kill_tag(OBJDATA_REALM, $_GET["t"]);
+			cTags::kill_tag( $_GET["t"]);
 			break;
 
 		//------------------------------------------------------
@@ -124,17 +124,17 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			
 		//------------------------------------------------------
 		case "rebuildHiliteSolIndex":
-			cImageHighlight::rebuildSolIndices(OBJDATA_REALM);
+			cImageHighlight::rebuildSolIndices();
 			break;
 				
 		//------------------------------------------------------
 		case "reindexTags":
-			cTags::reindex(OBJDATA_REALM);
+			cTags::reindex();
 			break;
 			
 		//------------------------------------------------------
 		case "reindexHilite":
-			cImageHighlight::reindex(OBJDATA_REALM);
+			cImageHighlight::reindex();
 			break;
 			
 		//------------------------------------------------------
@@ -146,7 +146,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		case "indexGigas":
 			set_time_limit(600);
 			$aItems = cGigapan::get_all_gigapans("pencilnev");
-			cPencilNev::index_gigapans(OBJDATA_REALM, $aItems);
+			cPencilNev::index_gigapans($aItems);
 			break;
 			
 		//------------------------------------------------------
