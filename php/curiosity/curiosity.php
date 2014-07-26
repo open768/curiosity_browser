@@ -32,7 +32,7 @@ class cCuriosity{
 		//locate the product, make sure its not a thumbnail
 		$oData = null;
 		
-		$aExploded = cCuriosityPDS::explode_product($psSearch);
+		$aExploded = cCuriosityPDS::explode_productID($psSearch);
 		if ($aExploded != null){
 			$sSol= $aExploded["sol"];
 			cDebug::write("$psSearch is for sol '$sSol'");
@@ -55,23 +55,62 @@ class cCuriosity{
 	
 	//*****************************************************************************
 	public static function getThumbnails($psSol, $psInstrument){
-		$aThumbData = [];
 		
-		$oSolData =  self::getAllSolData($psSol);
-		$aImages = $oSolData->images;
-		foreach ($aImages as $oItem)
-			if ($oItem->sampleType === "thumbnail"){
-				$sInstrument = $oItem->instrument;
-				if ($sInstrument === $psInstrument){
-					$sProduct = $oItem->itemName;
-					$sProduct = str_replace("I1_D", "E1_D", $sProduct);
-					$aThumbData[] = ["i"=>$oItem->urlList, "p"=>$sProduct];
-					//$aData[] = ["i"=>$oItem->urlList, "p"=>$sProduct, "f"=>$oItem];
-					//TODO check if product actually linked to exists
+		//get the thumbnails and the non thumbnails
+		$oThumbs = self::getSolData($psSol, $psInstrument, true);
+		$aTData = $oThumbs->data;
+		$iTCount = count($aTData);
+		if ($iTCount == 0){
+			cDebug::write("no thumbnails found");
+		}else{
+			// read the img files
+			cDebug::write("Found $iTCount thumbnails: ");
+			$oImg = self::getSolData($psSol, $psInstrument, false);
+			$aIData = $oImg->data;
+			$iICount = count($aIData);
+			
+			// index by the product ID
+			$aIProducts = [];
+			foreach ($aIData as $oIItem)
+				$aIProducts[$oIItem["p"]] = 1;
+			$aIProductKeys = array_keys($aIProducts);
+			
+			//try to match them up or delete
+			for ($i=$iTCount-1; $i>=0 ;$i--){
+				$aTItem = $aTData[$i];
+				$sTProduct = $aTItem["p"];
+				$sIProduct = str_replace("I1_D", "E1_D", $sTProduct);
+				if (array_key_exists($sIProduct, $aIProducts)){
+					$aTItem["p"] = $sIProduct;
+					$aTData[$i] = $aTItem;
+				}else{
+					$aParts = cCuriosityPDS::explode_productID($sTProduct);
+					$sPartial = sprintf( "/%04d%s%06d%03d/", $aParts["sol"],	$aParts["instrument"] , $aParts["seqid"] ,$aParts["seq line"], $aParts["CDPID"]);
+					$aMatches = preg_grep($sPartial,$aIProductKeys);
+					if (count($aMatches) > 0 ){
+						$aValues = array_values($aMatches);
+						cDebug::write("thumbnail $sTProduct matches ".$aValues[0]);
+						$aTItem["p"] = $aValues[0];
+						$aTData[$i] = $aTItem;
+					}else{
+						cDebug::write("Thumbnail didnt match $sPartial");
+						unset($aTData[$i]);
+					}
 				}
 			}
+			
+			if (count($aTData) == 0){
+				cDebug::write("no thumbnails matched");
+				cDebug::vardump($aIProducts);
+			}
+				
+			//TBD
+			//store the final version of the data			
+			$aValues = array_values($aTData);
+			$oThumbs->data = $aValues;
+		}
 		
-		return ["s"=>$psSol, "i"=>$psInstrument, "d"=>$aThumbData];
+		return ["s"=>$psSol, "i"=>$psInstrument, "d"=>$oThumbs];
 	}
 	
 	//*****************************************************************************
@@ -102,9 +141,8 @@ class cCuriosity{
 	}
 	
 	//*****************************************************************************
-	public static function getSolData($psSol, $psInstrument){
+	public static function getSolData($psSol, $psInstrument, $pbThumbs=false){
 		$oJson = self::getAllSolData($psSol);
-		//cDebug::vardump($oJson);
 		$oInstrument = new cInstrument($psInstrument);
 		
 		$aImages = $oJson->images;
@@ -113,11 +151,9 @@ class cCuriosity{
 		foreach ($aImages as $oItem){
 			$sInstrument = $oItem->instrument;
 			if ($sInstrument === $psInstrument)
-				$oInstrument->add($oItem);
+				$oInstrument->add($oItem, $pbThumbs);
 		}
-		//cDebug::vardump($oInstrument);
 		return $oInstrument;
-
 	}
 	
 	//*****************************************************************************
@@ -165,7 +201,6 @@ class cCuriosity{
 		
 		cDebug::write("Getting instrument list for sol ".$piSol);
 		$oData = self::getAllSolData($piSol);
-		//cDebug::vardump($oData);
 		$aImages = $oData->images;
 		
 		foreach ($aImages as $oItem)
@@ -201,7 +236,6 @@ class cCuriosity{
 		//raise an exception if nothing found
 		if (!$oDetails){
 			cDebug::write("Nothing found!! for $psProduct");
-			cDebug::vardump($oInstrumentData);
 		}
 			
 		//return the result

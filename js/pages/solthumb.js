@@ -31,7 +31,7 @@ function onLoadJQuery(){
 	$("#sol").html("<a target='title' href='index.html?s=" +sSol+"'>" + sSol + "</a>");
 	current_sol = sSol;
 	
-	//load tags
+	//load thumbs
 	sUrl = "php/rest/solthumbs.php?s=" + sSol + "&i=" + sInstr;
 	set_status("fetching thumbnails");
 	cHttp.fetch_json(sUrl, load_thumbs_callback);
@@ -41,16 +41,17 @@ function onLoadJQuery(){
 //* call backs 
 //###############################################################
 function load_thumbs_callback(poJS){
-	var oDiv, i, oItem;
+	var oDiv, i, oItem, aData;
 	
 	oDiv = $("#solthumb");
 	oDiv.empty();
 	
-	if (poJS.d.Length == 0)
+	aData = poJS.d.data;
+	if (aData.Length == 0)
 		oDiv.append("<p class='subtitle'>Sorry no thumbnails found</p>");
 	else{
-		for (i=0; i< poJS.d.length; i++){
-			oItem = poJS.d[i];
+		for (i=0; i< aData.length; i++){
+			oItem = aData[i];
 			oDiv.append("<a target='detail' href='detail.html?s=" + poJS.s + "&i=" + poJS.i +"&p=" +oItem.p +"'><img border='0' src='" +oItem.i + "'></a> ");
 		}
 	}

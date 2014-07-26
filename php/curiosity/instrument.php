@@ -27,10 +27,15 @@ class cInstrument{
 	}
 	
 	//*************************************************************************
-	public function add($poCuriosityData){
-		//dont add thumbnail products
-		if ($poCuriosityData->sampleType !== "thumbnail")
-		{
+	public function add($poCuriosityData, $pbThumbs=false){
+		//dont add thumbnail products if not wanted
+		$bProceed = false;
+		if ($poCuriosityData->sampleType === "thumbnail")
+			$bProceed = $pbThumbs;
+		else	
+			$bProceed = !$pbThumbs;
+		
+		if ($bProceed){
 			//cDebug::vardump($poCuriosityData);
 			$aData = [
 				"du"=>$poCuriosityData->utc, 

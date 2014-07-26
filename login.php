@@ -1,4 +1,4 @@
-<?php
+<?php
 
 require_once "php/inc/debug.php";
 require_once "php/inc/secret.php";
@@ -10,7 +10,6 @@ cDebug::check_GET_or_POST();
 //***** check if logged in
 session_start();
 $sMessage = cAuth::check();
-
 ?>
 
 <html>
@@ -47,7 +46,3 @@ $sMessage = cAuth::check();
 	</div>
 </body>
 </html>
-	
-
-
-

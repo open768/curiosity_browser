@@ -29,17 +29,18 @@ class cCuriosityPDS{
 	const max_released = 449;
 	const LBL_CACHE = 12628000; //a long time
 	
-	const PICNO_REGEX = "/^(\d{4})(\D{2})(\d{6})(\d{3})(\d{2})(\d{5})(\D)(.)(\d)_(\D+)/";
-	const SHORT_REGEX = "/^(\d{4})(\D{2})(\d{4})(\d{3})(\d{3})(\D)(\d)_(\D+)/";
-	const PICNO_FORMAT = "%04d%s%06d%03d%0d2%s.%d_%s";
+	const SHORT_REGEX = "/^(\d{4})(\D{2})(\d{4})(\d{3})(\d{3})(\D)(\d)_(\D{4})/";
+	const PICNO_REGEX = "/^(\d{4})(\D{2})(\d{6})(\d{3})(\d{2})(\d{5})(\D)(\d{2})_(\D{4})/";
+	const PICNO_FORMAT = "%04d%s%06d%03d%02d%05d%s%02d_%s";
 	const PDS_SUFFIX = "PDS";
 
 
 	//*****************************************************************************
 	//* see http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0005/DOCUMENT/MSL_MMM_EDR_RDR_DPSIS.PDF pg23 PICNO
-	public static function explode_product($psProduct){
+	public static function explode_productID($psProduct){
 		$aResult = null;
 		if (preg_match(self::SHORT_REGEX, $psProduct, $aMatches)){	
+			cDebug::write("matches SHORTREGEX");
 			$aResult = [
 				"sol"=>(int)$aMatches[1],
 				"instrument"=>$aMatches[2],
@@ -51,16 +52,17 @@ class cCuriosityPDS{
 				"processing code" => $aMatches[8]
 			];
 		}elseif (preg_match(self::PICNO_REGEX, $psProduct, $aMatches)){
+			cDebug::write("matches PICNOREGEX");
 			$aResult = [
 				"sol"=>(int)$aMatches[1],
 				"instrument"=>$aMatches[2],
 				"seqid" => (int) $aMatches[3],
-				"seq line" => (int) $aMatches[3],
-				"CDPID" => (int) $aMatches[6],
-				"product type" => $aMatches[7],
-				"gop counter" => $aMatches[8],
-				"version" => (int) $aMatches[9],
-				"processing code" => $aMatches[10],
+				"seq line" => (int) $aMatches[4],
+				"CDPID" => (int) $aMatches[5],
+				"product type" => $aMatches[6],
+				"gop counter" => $aMatches[7],
+				"version" => (int) $aMatches[8],
+				"processing code" => $aMatches[9],
 			];
 		}else{
 			cDebug::error("not a valid MSL product: '$psProduct'");
@@ -69,19 +71,18 @@ class cCuriosityPDS{
 	}
 
 	//**********************************************************************
-	private static function get_MSL_regex($psSearch){
-		$aExplode = self::explode_product($psProduct);
+	private static function get_MSL_ProductID($psSearch){
+		$aExplode = self::explode_productID($psProduct);
 		##TBD;
 	}
 	
 	//**********************************************************************
-	private static function pr__get_pds_regex($psProduct){
+	public static function get_pds_productID($psProduct){
 		//split the MSL product apart	
-		$aMSLProduct = self::explode_product($psProduct);
+		$aMSLProduct = self::explode_productID($psProduct);
 		cDebug::vardump($aMSLProduct);
 
-		$PICNO_FORMAT = "/%04d%2s%06d%03d%s%s%02d_%s/";
-		$sPDSProduct = sprintf(	$PICNO_FORMAT, 
+		$sPDSProduct = sprintf(	self::PICNO_FORMAT, 
 			$aMSLProduct["sol"],
 			$aMSLProduct["instrument"] , 
 			$aMSLProduct["seqid"] ,
@@ -115,7 +116,7 @@ class cCuriosityPDS{
 		cDebug::write("looking for $psSol, $psInstument, $psProduct");
 		
 		//---- convert to PDS format ------------------
-		$sPDSRegex = self::pr__get_pds_regex($psProduct);
+		$sPDSRegex = self::get_pds_productID($psProduct);
 		
 		//-----retrive PDS stuff ----------------
 		$aData = self::get_pds_data($psSol, $psInstument );
