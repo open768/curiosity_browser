@@ -241,6 +241,5 @@ class cCuriosity{
 		//return the result
 		return [ "s"=>$psSol, "i"=>$sInstr, "p"=>$psProduct, "d"=>$oDetails, "max"=>$iCount, "item"=>$i+1];
 	}
-
 }
 ?>

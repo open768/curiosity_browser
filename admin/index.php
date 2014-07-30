@@ -16,6 +16,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("$root/php/inc/pichighlight.php");
 	require_once("$root/php/inc/static.php");
 	require_once("$root/php/curiosity/pdsindexer.php");
+	require_once("$root/php/curiosity/locations.php");
 	require_once("$root/php/inc/cached_http.php");
 	require_once("$root/php/inc/gigapan.php");
 	require_once("$root/php/inc/pencilnev.php");
@@ -150,6 +151,11 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			break;
 			
 		//------------------------------------------------------
+		case "parseLocations":	
+			cCuriosityLocations::parseLocations();
+			break;
+		
+		//------------------------------------------------------
 		default:
 			?>
 				<form method="get">
@@ -161,6 +167,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 					<Input type="radio" name="o" value="killTag">remove tag<br>
 					<Input type="radio" name="o" value="mergeTags">merge a tag<br>
 					<Input type="radio" name="o" value="indexGigas">index Nevilles gigapans<br>
+					<Input type="radio" name="o" value="parseLocations">parse curiosity locations<br>
 					
 					<Input type="radio" name="o" value="rebuildHiliteSolIndex">rebuild hilite indices<br>
 					<Input type="radio" name="o" value="reindexTags">reindex Tags - needed after deletion<br>

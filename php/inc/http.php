@@ -16,6 +16,16 @@ class cHttp{
 	public static $progress_count = 0;
 	
 	//*****************************************************************************
+	public static function getXML($psURL){
+		cDebug::write("Getting XML from: $psURL");
+		$sXML = cCachedHttp::getCachedUrl($psURL);
+		cDebug::write("converting string to XML: ");
+		$oXML = simplexml_load_string($sXML);
+		cDebug::write("finished conversion");
+		return $oXML;
+	}
+
+	//*****************************************************************************
 	public static function getJson($psURL){
 		$response = self::fetch_url($psURL);
 		$oResponse = json_decode($response);
@@ -29,6 +39,10 @@ class cHttp{
 		curl_setopt($oCurl, CURLOPT_URL, $psUrl);
 		curl_setopt($oCurl, CURLOPT_FAILONERROR, 1);
 		curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1);
+		if (CURL_USE_PROXY){
+			curl_setopt($oCurl, CURLOPT_PROXY, CURL_PROXY);
+			curl_setopt($oCurl, CURLOPT_PROXYPORT, CURL_PROXYPORT );
+		}
 		
 		$response = curl_exec($oCurl);
 		$iErr = curl_errno($oCurl);
@@ -61,6 +75,10 @@ class cHttp{
 		curl_setopt($oCurl, CURLOPT_FAILONERROR, 1);
 		curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 0);
 		curl_setopt($oCurl, CURLOPT_PROGRESSFUNCTION, '__progress_callback');
+		if (CURL_USE_PROXY){
+			curl_setopt($oCurl, CURLOPT_PROXY, CURL_PROXY);
+			curl_setopt($oCurl, CURLOPT_PROXYPORT, CURL_PROXYPORT );
+		}
 		if ($pbShowProgress)
 			curl_setopt($oCurl, CURLOPT_NOPROGRESS, false); // needed to make progress function work
 

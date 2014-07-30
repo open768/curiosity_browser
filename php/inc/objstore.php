@@ -13,7 +13,7 @@ class cObjStore{
 	//#####################################################################
 	//# PRIVATES
 	//#####################################################################
-	private static function pr_get_folder_name( $psFolder){
+	private static function pr_get_folder_path( $psFolder){
 		$sOut = self::$rootFolder."/".OBJDATA_REALM;
 		if ($psFolder) $sOut.= "/$psFolder";
 		return $sOut;
@@ -23,7 +23,7 @@ class cObjStore{
 	//# PUBLIC
 	//#####################################################################
 	static function kill_file( $psFolder, $psFile){
-		$folder = self::pr_get_folder_name( $psFolder);
+		$folder = self::pr_get_folder_path( $psFolder);
 		$file = "$folder/$psFile";
 		if (file_exists($file)){
 			unlink($file);
@@ -36,7 +36,7 @@ class cObjStore{
 		$aData = null;
 
 		cDebug::write("looking for file:$psFile in folder:$psFolder");
-		$sFolder = self::pr_get_folder_name( $psFolder);
+		$sFolder = self::pr_get_folder_path( $psFolder);
 		if (!is_dir($sFolder)){
 			cDebug::write("no objstore data at all in folder: $psFolder");
 			return $aData;
@@ -54,7 +54,7 @@ class cObjStore{
 	static function put_file( $psFolder, $psFile, $poData){
 			
 		//check that the folder exists
-		$folder = self::pr_get_folder_name( $psFolder);
+		$folder = self::pr_get_folder_path( $psFolder);
 		if (!file_exists($folder)){
 			cDebug::write("creating folder: $folder");
 			mkdir($folder, 0700, true);

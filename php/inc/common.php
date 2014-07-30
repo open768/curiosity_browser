@@ -22,4 +22,9 @@ class cCommon{
 		}else
 			echo json_encode($poThing );
 	}
+	
+	public static function serialise($poThing){
+		if (!is_object($poThing)) cDebug::error("not an object");
+		return get_object_vars($poThing); 
+	}
 }
