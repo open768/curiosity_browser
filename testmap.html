@@ -1,0 +1,57 @@
+<html>
+<head>
+  <title>Sample</title>
+	<LINK href="css/css.css" rel="stylesheet" type="text/css">
+	<title>Site - Curiosity Browser</title>
+	<script src="js/inc/secret.js"></script>
+	<script src="js/inc/common.js"></script>
+	<script src="js/inc/auth.js"></script>
+	<script src="js/pages/site.js"></script>
+	<script src="js/jquery/jquery.js"></script>
+	<script src="js/jquery/jquery-ui.js"></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript">
+		google.load("earth", "1");
+	</script>
+
+</head>
+<body onload="load_jquery()">
+<!-- https://developers.google.com/earth/documentation/sky_mars_moon#mars -->
+
+<script type="text/javascript">
+	var oPlugin;
+	function load_jquery(){
+		$(init);
+	}
+		
+	function init() {
+		window.onresize = resize;
+		resize();
+		google.earth.createInstance('mymap', init_instance, failureCB, { database: 'http://khmdb.google.com/?db=mars' });
+	}
+
+	function init_instance(instance) {
+	  oPlugin = instance;
+	  oPlugin.getWindow().setVisibility(true);
+	}
+
+	function failureCB(errorCode) {
+	}
+	
+	function resize(){
+		var iWidth=$("#mapParent").innerWidth() -30;
+		var iHeight= $( window ).height() - $("#statusParent").outerHeight() -30;
+ 
+		$("#mymap").width(iWidth);
+		$("#mymap").height(iHeight);
+	}
+
+  </script>
+	<div class="gold" id="statusParent">
+		<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
+	</div>
+	<DIV class="gold" id="mapParent">
+		<div id="mymap" style="height: 400px; width: 800px;"></div>
+	</DIV>
+</body>
+</html>

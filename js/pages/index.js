@@ -56,6 +56,7 @@ function onloadJQuery(){
 	$("#solcalendar").attr('disabled', "disabled");
 	$("#solrefresh").attr('disabled', "disabled");
 	$("#solthumbs").attr('disabled', "disabled");
+	$("#solsite").attr('disabled', "disabled");
 	
 	//go and load stuff
 	set_status("loading static data...");
@@ -85,6 +86,9 @@ function onClickSolHighs(){
 }
 function onClickSolThumbs(){
 	window.open("solthumb.html?s=" + current_sol + "&i=" + current_instrument, "solthumb");
+}
+function onClickSolSite(){
+	window.open("site.html?sol=" + current_sol , "site");
 }
 
 
@@ -304,6 +308,8 @@ function set_sol(psSol){
 	$("#solmap").removeAttr('disabled');
 	$("#solcalendar").removeAttr('disabled');
 	$("#solrefresh").removeAttr('disabled');
+	$("#solsite").removeAttr('disabled');
+	$("#solsite").removeAttr('disabled');
 	$("#solthumbs").attr('disabled', "disabled");
 
 	get_instruments(current_sol,false);

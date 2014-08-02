@@ -4,7 +4,6 @@
 	<LINK href="css/drag.css" rel="stylesheet" type="text/css">
 	<title>Curiosity Browser</title>
 	<script src="js/inc/secret.js"></script>
-	<script src="js/inc/analytics.js"></script>
 	<script src="js/inc/common.js"></script>
 	<script src="js/inc/auth.js"></script>
 	<script src="js/pages/index.js"></script>
@@ -12,6 +11,8 @@
 	<script src="js/inc/imghilite.js"></script>
 	<script src="js/jquery/jquery.js"></script>
 	<script src="js/jquery/jquery-ui.js"></script>
+	<script src="js/inc/analytics.js"></script>
+	<script src="js/inc/facebook.js"></script>
 </head>
 <body onload="$(onloadJQuery);">
 	<font class="title">Curiosity Browser</font>
@@ -43,6 +44,7 @@
 				<button title="Calendar" id="solcalendar" onclick="onClickCalendar()">Calendar</button>
 				<button title="force refresh cache" id="solrefresh" onclick="onClickRefresh()">Refresh Data</button>
 				<button title="thumbnails for sol" id="solthumbs" onclick="onClickSolThumbs()">Thumbnails</button>
+				<button title="site details for sol" id="solsite" onclick="onClickSolSite()">Site</button>
 			</div>
 			<div class="gold">
 				<div class="subtitle">Tags:</div>

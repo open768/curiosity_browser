@@ -36,7 +36,7 @@ function sites_callback(paJS){
 			if (iCount == 0) sHTML += "<tr>";
 			sHTML += "<TD>";
 			if (paJS[i]==1)
-				sHTML += "<button name='s' value='"+i+"'>"+i+"</button>";
+				sHTML += "<button name='site' value='"+i+"'>"+i+"</button>";
 			else
 				sHTML += i;
 
