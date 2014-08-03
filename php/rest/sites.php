@@ -33,8 +33,11 @@
 			$sDrive = $_GET["drive"];
 			$aData = cCuriosityLocations::getDriveBounds($sDrive);
 			break;
-		case "all":
+		case "allSitesIndex":
 			$aData = cCuriosityLocations::getSiteIndex();
+			break;
+		case "allSitesBounds":
+			$aData = cCuriosityLocations::getAllSiteBounds();
 			break;
 	}
 	cCommon::write_json($aData);

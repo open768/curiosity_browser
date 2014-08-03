@@ -105,6 +105,11 @@ class cCuriosityLocations{
 		return cObjStore::get_file( self::TOP_FOLDER, self::SITES_INDEX_FILE);		
 	}
 	//***********************************************************************
+	public static function getAllSiteBounds(){
+		return cObjStore::get_file( self::TOP_FOLDER."/".self::SITES_FOLDER, self::BOUNDS_INDEX_FILE);
+	}
+	
+	//***********************************************************************
 	public static function getSite($piSite){
 		return cObjStore::get_file( self::TOP_FOLDER."/".self::SITES_FOLDER, $piSite);		
 	}

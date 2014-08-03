@@ -10,6 +10,11 @@
 	<script src="js/jquery/jquery-ui.js"></script>
 	<script src="js/inc/analytics.js"></script>
 	<script src="js/inc/facebook.js"></script>
+	<script src="js/inc/googleearth.js"></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript">
+		google.load("earth", "1");
+	</script>
 </head>
 <body onload="$(onLoadJQuery);">
 	<DIV class="title">All Sites</DIV>
@@ -17,9 +22,14 @@
 	<div class="gold">
 		<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
 	</div>
-	<div class="gold"  id="sites">
-		Loading...
-	</div>
+	<table border="0" width="100%" height="600"><tr>
+		<td class="leftcolumn"><div id="sites" class="gold">
+			Loading sites...
+		</div></td>
+		<td><div class="gold">
+			<span id="map"></span>
+		</div></td>
+	</tr></table>
 	<P>
 	
 	<!-- *************** footer *********************** -->
