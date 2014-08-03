@@ -13,6 +13,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 var DEBUG_ON = true;
 var aSites = null;
+var bPluginLoaded = false;
+var oCentre = null;
 
 
 //###############################################################
@@ -49,15 +51,17 @@ function sites_callback(paJS){
 			
 			// cant add placemark as google earth may not be loaded
 		}
+		
 		set_status("waiting for google earth plugin");
 	}
 }
 
 //****************************************************************
 function onGoogleEarthLoaded(){
-	var i, oBounds;
+	var i, oBounds, sLink, oPlace;
 	var fAll =null;
 	var bFirst = true;
+	var aRoverJourney = [];
 	
 	set_status("adding placemarks");
 
@@ -80,14 +84,27 @@ function onGoogleEarthLoaded(){
 		// make the placemark
 		fLat = (oBounds.lat1 + oBounds.lat2)/2;
 		fLong = (oBounds.long1 + oBounds.long2)/2;
-		cGoogleEarth.makePlacemark(fLat, fLong, ""+i);
+		sLink = '<a href="site.html?site=' +i + '">click here</a>';
+		oPlace = cGoogleEarth.makePlacemark(fLat, fLong, ""+i, "This is site " + i + '. <br>To see more details ' + sLink);
+		oBounds.place = oPlace;
 		
-		//start a line
+		//draw bounds 
+		oPlace = cGoogleEarth.makeRect(oBounds);
+		
+		//push the coordinate to the journey array
+		aRoverJourney.push({lat:fLat, lon:fLong});
 	}
+
+	//add vector to google earth
+	oPlace = cGoogleEarth.makeVector(aRoverJourney);
+	cGoogleEarth.setLineColour(oPlace, "yellow");
+	
 	
 	//fly to the centre
-	cGoogleEarth.flyTo( (fAll.lat1 + fAll.lat2)/2, (fAll.long1 + fAll.long2)/2 , 9000.0);
+	oCentre = {lat:(fAll.lat1 + fAll.lat2)/2, lon:(fAll.long1 + fAll.long2)/2};
+	cGoogleEarth.flyTo( oCentre.lat, oCentre.lon , 9000.0);
 
+	bPluginLoaded = true;
 	set_status("ok");
 }
 
@@ -95,7 +112,26 @@ function onGoogleEarthLoaded(){
 function onclickSite(){
 	var iSite;
 	
+	if (!bPluginLoaded){
+		set_error_status("wait for google earth plugin to load");
+		return;
+	}
+	
 	iSite = parseInt($(this).val());
 	set_status("clicked site "+ iSite);
+	
+	oBounds = aSites[iSite];
+	cGoogleEarth.flyTo( (oBounds.lat1 + oBounds.lat2)/2, (oBounds.long1 + oBounds.long2)/2 , 500.0);
+}
+
+//****************************************************************
+function onclickZoomout(){
+	
+	if (!bPluginLoaded){
+		set_error_status("wait for google earth plugin to load");
+		return;
+	}
+	
+	cGoogleEarth.flyTo( oCentre.lat, oCentre.lon , 9000.0);
 }
 

@@ -36,23 +36,75 @@ var cGoogleEarth = {
 	},
 	
 	//***********************************************************
-	makePlacemark:function (pfLat, pfLong, psCaption){
+	makePlacemark:function (pfLat, pfLong, psCaption, psDescription){
 		var ge = this.oEarth;
 		
 		// Create the placemark.
-		var oMark = ge.createPlacemark('');
-		oMark.setName(psCaption);
+		var oPlace = ge.createPlacemark('');
+		oPlace.setName(psCaption);
 
 		// Set the placemark's location.  
 		var oPt = ge.createPoint('');
 		oPt.setLatitude(pfLat);
 		oPt.setLongitude(pfLong);
-		oMark.setGeometry(oPt);
-
-		// Add the placemark to Earth.
-		ge.getFeatures().appendChild(oMark);		
+		oPlace.setGeometry(oPt);
+		oPlace.setDescription(psDescription);
 		
-		return oMark;
+		// Add the placemark to Earth.
+		ge.getFeatures().appendChild(oPlace);		
+		
+		return oPlace;
+	},
+	
+	//***********************************************************
+	makeVector:function (paCoords){
+		var i, oCoords;
+		var ge = this.oEarth;
+		
+
+		var oVector = ge.createLineString('');		
+		
+		for (i=0; i<paCoords.length; i++){
+			oCoords = paCoords[i];
+			oVector.getCoordinates().pushLatLngAlt(oCoords.lat, oCoords.lon, 0);
+		}
+		
+		var oPlace = ge.createPlacemark('');
+		oPlace.setGeometry(oVector);
+		ge.getFeatures().appendChild(oPlace);	
+
+		return 	oPlace;
+	},
+	
+	//***********************************************************
+	makeRect:function(paCoords){
+		var ge = this.oEarth;
+		
+		var oVector = ge.createLineString('');
+		oVector.getCoordinates().pushLatLngAlt(paCoords.lat1, paCoords.long1, 0);
+		oVector.getCoordinates().pushLatLngAlt(paCoords.lat1, paCoords.long2, 0);
+		oVector.getCoordinates().pushLatLngAlt(paCoords.lat2, paCoords.long2, 0);
+		oVector.getCoordinates().pushLatLngAlt(paCoords.lat2, paCoords.long1, 0);
+		oVector.getCoordinates().pushLatLngAlt(paCoords.lat1, paCoords.long1, 0);
+		
+		var oPlace = ge.createPlacemark('');
+		oPlace.setGeometry(oVector);
+		ge.getFeatures().appendChild(oPlace);
+
+		return oPlace;
+	},
+	
+	//***********************************************************
+	setLineColour:function (poPlace, psColour){
+		var oStyle;
+		var ge = this.oEarth;
+		
+		oStyle = poPlace.getStyleSelector();
+		if(!oStyle){
+			oStyle = ge.createStyle('');
+			poPlace.setStyleSelector(oStyle);
+		}
+		oStyle.getLineStyle().getColor().set(psColour);
 	},
 	
 	//***********************************************************
