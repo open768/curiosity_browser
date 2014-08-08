@@ -13,7 +13,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 require_once("$root/php/inc/objstore.php");
 require_once("$root/php/inc/indexes.php");
-require_once("$root/php/inc/static.php");
+require_once("$root/php/static/static.php");
 require_once("$root/php/inc/gz.php");
 require_once("$root/php/pds/pdsreader.php");
 require_once("$root/php/curiosity/pds.php");

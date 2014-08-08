@@ -17,7 +17,7 @@ require_once("$root/php/inc/indexes.php");
 require_once("$root/php/curiosity/curiosity.php");
 require_once("$root/php/curiosity/instrument.php");
 require_once("$root/php/curiosity/pdsindexer.php");
-require_once("$root/php/inc/static.php");
+require_once("$root/php/static/static.php");
 require_once("$root/php/pds/lbl.php");
 require_once("$root/php/pds/pdsreader.php");
 

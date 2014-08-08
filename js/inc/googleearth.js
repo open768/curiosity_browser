@@ -15,6 +15,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 //###############################################################
 function pr_GE_onInit(poInstance){ cGoogleEarth.pr_init_callback(poInstance); }
 function pr_GE_onFail(){}
+var USGS_MARS_KML = "http://planetarynames.wr.usgs.gov/shapefiles/MARS_nomenclature.kmz";
 
 var cGoogleEarth = {
 	oEarth:null,
@@ -25,6 +26,11 @@ var cGoogleEarth = {
 	pr_init_callback:function(poInstance){
 	  this.oEarth = poInstance;
 	  poInstance.getWindow().setVisibility(true);
+	  
+	  //add the nomenclature layer
+	  set_status("adding mars names");
+	  this.addKML(USGS_MARS_KML);
+	  
 	  if (this.callback)this.callback();
 	},
 	
@@ -36,8 +42,23 @@ var cGoogleEarth = {
 	},
 	
 	//***********************************************************
+	addKML:function(psUrl){
+		var ge = this.oEarth;
+		var link = ge.createLink('');
+		link.setHref(psUrl);
+		var networkLink = ge.createNetworkLink('');
+		networkLink.set(link, true, false); // Sets the link, refreshVisibility, and flyToView
+		ge.getFeatures().appendChild(networkLink);	
+	},
+	
+	//***********************************************************
 	makePlacemark:function (pfLat, pfLong, psCaption, psDescription){
 		var ge = this.oEarth;
+		
+		if (psDescription == null|| psCaption == null) {
+			cDebug.write("incorrect number of parameters");
+			return;
+		}
 		
 		// Create the placemark.
 		var oPlace = ge.createPlacemark('');
@@ -121,5 +142,17 @@ var cGoogleEarth = {
 
 		// Update the view in Google Earth.
 		ge.getView().setAbstractView(oLookAt);	
+	},
+	
+	//***********************************************************
+	addListener: function(psEvent, pfnCallback){
+		var ge = this.oEarth;
+		google.earth.addEventListener(ge, psEvent, pfnCallback);
+	},
+	
+	//***********************************************************
+	removeListener: function(psEvent, pfnCallback){
+		var ge = this.oEarth;
+		google.earth.removeEventListener(ge, psEvent, pfnCallback);
 	}
 }

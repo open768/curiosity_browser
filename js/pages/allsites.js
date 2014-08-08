@@ -22,46 +22,46 @@ var oCentre = null;
 //###############################################################
 
 function onLoadJQuery(){
-	cGoogleEarth.init("map");
+	set_status("initialising Google Earth");
 	cGoogleEarth.callback = onGoogleEarthLoaded;
-	
-	set_status("fetching sites");
-	cHttp.fetch_json("php/rest/sites.php?&o=allSitesBounds", sites_callback);
+	cGoogleEarth.init("map");
+}
+
+function onGoogleEarthLoaded(){
+	set_status("retrieving sites");
+	cHttp.fetch_json("php/rest/sites.php?&o=allSitesBounds", all_sites_callback);
 }
 
 //###############################################################
 //* call backs 
 //###############################################################
-function sites_callback(paJS){
+function all_sites_callback(paJS){
 	var oButton, oBounds, fLat, fLong;
 	
 	$("#sites").empty();
-	if (paJS == null)
+	if (paJS.d == null)
 		set_error_status("No sites found");
 	else{
-		aSites = paJS;
+		aSites = paJS.d;
 		iCount =0;
-		for (i = 0; i < paJS.length; i++){
+		for (i = 0; i < aSites.length; i++){
 			// create button to interact with site
-			oBounds = paJS[i];
+			oBounds = aSites[i];
 			if ( oBounds != null){
 				oButton = $("<button>"+i+"</button>").attr({"value":i}).click(onclickSite);
 				$("#sites").append(oButton);
 			}
-			
-			// cant add placemark as google earth may not be loaded
 		}
 		
-		set_status("waiting for google earth plugin");
+		render_sites();
 	}
 }
 
 //****************************************************************
-function onGoogleEarthLoaded(){
+function render_sites(){
 	var i, oBounds, sLink, oPlace;
 	var fAll =null;
 	var bFirst = true;
-	var aRoverJourney = [];
 	
 	set_status("adding placemarks");
 
@@ -84,30 +84,48 @@ function onGoogleEarthLoaded(){
 		// make the placemark
 		fLat = (oBounds.lat1 + oBounds.lat2)/2;
 		fLong = (oBounds.long1 + oBounds.long2)/2;
-		sLink = '<a href="site.html?site=' +i + '">click here</a>';
-		oPlace = cGoogleEarth.makePlacemark(fLat, fLong, ""+i, "This is site " + i + '. <br>To see more details ' + sLink);
+		sLink = '<a href="site.html?o=site&site=' +i + '">click here</a>';
+		oPlace = cGoogleEarth.makePlacemark(fLat, fLong, "site: "+i, "To see more details " + sLink);
+		
 		oBounds.place = oPlace;
 		
 		//draw bounds 
 		oPlace = cGoogleEarth.makeRect(oBounds);
-		
-		//push the coordinate to the journey array
-		aRoverJourney.push({lat:fLat, lon:fLong});
 	}
 
-	//add vector to google earth
-	oPlace = cGoogleEarth.makeVector(aRoverJourney);
-	cGoogleEarth.setLineColour(oPlace, "yellow");
-	
-	
 	//fly to the centre
 	oCentre = {lat:(fAll.lat1 + fAll.lat2)/2, lon:(fAll.long1 + fAll.long2)/2};
+	cGoogleEarth.addListener( "frameend", lookat_callback);
 	cGoogleEarth.flyTo( oCentre.lat, oCentre.lon , 9000.0);
-
+	set_status("waiting for flight to finish");
 	bPluginLoaded = true;
+}
+
+//****************************************************************
+function lookat_callback(){
+	cGoogleEarth.removeListener( "frameend", lookat_callback);
+	set_status("fetching sites");
+	for (i = 0; i < aSites.length; i++)
+		cHttp.fetch_json("php/rest/sites.php?&o=site&site="+i, get_site_callback);
 	set_status("ok");
 }
 
+//****************************************************************
+function get_site_callback(paJS){
+	var i, aItem, aVector, fLat, fLong, aData;
+	
+	if (paJS.d == null)	return;
+	aData = paJS.d ;
+	
+	aVector = [];
+	
+	for (i=0; i< aData.length; i++){
+		fLat = parseFloat(aData[i].lat);
+		fLong = parseFloat(aData[i].lon);
+		aVector.push({lat:fLat, lon:fLong});
+	}
+	cGoogleEarth.makeVector(aVector);
+}
 //****************************************************************
 function onclickSite(){
 	var iSite;

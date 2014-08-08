@@ -14,7 +14,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("$root/php/inc/debug.php");
 	require_once("$root/php/inc/tags.php");
 	require_once("$root/php/inc/pichighlight.php");
-	require_once("$root/php/inc/static.php");
+	require_once("$root/php/static/static.php");
 	require_once("$root/php/curiosity/pdsindexer.php");
 	require_once("$root/php/curiosity/locations.php");
 	require_once("$root/php/inc/cached_http.php");

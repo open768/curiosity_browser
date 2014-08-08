@@ -1,7 +1,7 @@
 <?php
 	$root=realpath("../..");
 	require_once("$root/php/inc/debug.php");
-	require_once("$root/php/inc/static.php");
+	require_once("$root/php/static/static.php");
 	require_once("$root/php/inc/common.php");
 	require_once("$root/php/inc/pencilnev.php");
 	
