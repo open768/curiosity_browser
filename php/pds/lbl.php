@@ -34,7 +34,7 @@ class cPDS_LBL{
 			$line = gzgets($pfHandle);
 			$line = trim($line);
 			if ($line == "") 	continue;  //empty line
-			//cDebug::write("line: $line");
+			//cDebug::write("<font color=blue>line: $line</font>");
 			
 			if ($bInString){
 				//-- was inside a string - check whether string has ended
@@ -63,17 +63,19 @@ class cPDS_LBL{
 			}else{
 				//-- not  inside a string - split line into keys and values
 				$aVar = explode("=", $line);
-				if (count($aVar) != 2) continue;
 				
 				$sKey = trim($aVar[0]);
+				//cDebug::write("Key is '$sKey'");
+				
+				// look for end object
+				if ($sKey === "END_OBJECT" || $sKey === "END_GROUP")
+					break;
+
+				//ignore blank data
+				if (count($aVar) != 2) continue;
 				$sValue = trim($aVar[1]);
 				if ($sValue == "") continue;
 				
-				// look for end object
-				if ($sKey === "END_OBJECT" || $sKey === "END_GROUP"){
-					//cDebug::write("End Object ". $this->sName);
-					break;
-				}
 				
 				//-- look for specific keywords
 				if ($sValue[0] == '"'){
@@ -83,6 +85,7 @@ class cPDS_LBL{
 						$sValue = substr($sValue, 1, strlen($sValue)-2);
 						$this->set($sKey, $sValue);
 					}else{
+						//cDebug::write("in string");
 						$bInString = true;
 						$sStringName = $sKey;
 						$sStringValue = $sValue;
@@ -100,6 +103,7 @@ class cPDS_LBL{
 						$sBracketValue = $sValue;
 					}
 				}elseif ($sKey === "OBJECT" || $sKey === "GROUP"){
+					//cDebug::write("Object ". $sValue);
 					// process objects
 					$oObj = new cPDS_LBL;
 					$oObj->sName = $sValue;

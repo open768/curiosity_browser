@@ -42,6 +42,7 @@ var reset_image_number = true;
 //* JQUERY
 //###############################################################
 function onloadJQuery(){	
+	$("#tabs").tabs();
 	//set up the onchange handler for sols
 	$("#sol_list").change( OnChangeSolList);
 	

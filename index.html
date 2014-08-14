@@ -2,6 +2,7 @@
 <head>
 	<LINK href="css/css.css" rel="stylesheet" type="text/css">
 	<LINK href="css/drag.css" rel="stylesheet" type="text/css">
+	<link href="css/jquery/jquery-ui.css" rel="stylesheet" >
 	<title>Curiosity Browser</title>
 	<script src="js/inc/secret.js"></script>
 	<script src="js/inc/common.js"></script>
@@ -20,47 +21,54 @@
 	
 	<table width="100%"><tr>
 		<td class="leftcolumn" valign="top">
-			<div class="gold">
-				<div class="subtitle">Sol: <span id="this_sol">???</span></div>
-				<SELECT id="sol_list" size="10" class="sols">
-					<option>loading...
-				</SELECT>
-				<table border="0" width="100%"><tr>
-					<td align="left"><button class="solnav" title="previous Sol ([)" type="button" onclick="onClickPreviousSol();">&lt;--</button></td>
-					<td align="right"><button class="solnav" title="next Sol (])" type="button" onclick="onClickNextSol();">--&gt;</button></td>
-				</tr></table>
-				<!-- ************************************** -->
-				<div class="subtitle">Instruments:</div>
-				<div class="instruments" id="instruments">
+			<div id="tabs">
+				<ul>
+					<li><a href="#tabs-1" class="subtitle">Sol</a></li>
+					<li><a href="#tabs-2" class="subtitle">Tags</a></li>
+					<li><a href="#tabs-3" class="subtitle">Info</a></li>
+			   </ul>
+				<div class="gold" id="tabs-1">
+					<div class="subtitle">Sol: <span id="this_sol">???</span></div>
+					<SELECT id="sol_list" size="10" class="sols">
+						<option>loading...
+					</SELECT>
+					<table border="0" width="100%"><tr>
+						<td align="left"><button class="solnav" title="previous Sol ([)" type="button" onclick="onClickPreviousSol();">&lt;--</button></td>
+						<td align="right"><button class="solnav" title="next Sol (])" type="button" onclick="onClickNextSol();">--&gt;</button></td>
+					</tr></table>
+					<!-- ************************************** -->
+					<div class="subtitle">Instruments:</div>
+					<div class="instruments" id="instruments">
+					</div>
+					<div class="subtitle" id="instr_load"><i>loading...</i></div>
+					<!-- ************************************** -->
+					<div class="subtitle">Sol Information:</div>				
+					<button title="Tags for selected Sol" id="soltag" onclick="onClickSolTags();">Tags</button>
+					<button title="Highlights for selected Sol" id="solhigh" onclick="onClickSolHighs();">Highlights</button>
+					<button title="Gigapans for selected Sol" id="solgiga" onclick="onClickSolGiga();">Gigapans</button>
+					<button title="MSL curiosity notebook" id="solnotebook" onclick="onClickMslNotebook();">MSL Notebook</button>
+					<button title="MSL curiosity notebook MAP" id="solmap" onclick="onClickMslNotebookMap();">Map</button>
+					<button title="Calendar" id="solcalendar" onclick="onClickCalendar()">Calendar</button>
+					<button title="force refresh cache" id="solrefresh" onclick="onClickRefresh()">Refresh Data</button>
+					<button title="thumbnails for sol" id="solthumbs" onclick="onClickSolThumbs()">Thumbnails</button>
+					<button title="site details for sol" id="solsite" onclick="onClickSolSite()">Site</button>
 				</div>
-				<div class="subtitle" id="instr_load"><i>loading...</i></div>
-				<!-- ************************************** -->
-				<div class="subtitle">Sol Information:</div>				
-				<button title="Tags for selected Sol" id="soltag" onclick="onClickSolTags();">Tags</button>
-				<button title="Highlights for selected Sol" id="solhigh" onclick="onClickSolHighs();">Highlights</button>
-				<button title="Gigapans for selected Sol" id="solgiga" onclick="onClickSolGiga();">Gigapans</button>
-				<button title="MSL curiosity notebook" id="solnotebook" onclick="onClickMslNotebook();">MSL Notebook</button>
-				<button title="MSL curiosity notebook MAP" id="solmap" onclick="onClickMslNotebookMap();">Map</button>
-				<button title="Calendar" id="solcalendar" onclick="onClickCalendar()">Calendar</button>
-				<button title="force refresh cache" id="solrefresh" onclick="onClickRefresh()">Refresh Data</button>
-				<button title="thumbnails for sol" id="solthumbs" onclick="onClickSolThumbs()">Thumbnails</button>
-				<button title="site details for sol" id="solsite" onclick="onClickSolSite()">Site</button>
-			</div>
-			<div class="gold">
-				<div class="subtitle">Tags:</div>
-				<div id="tags">Loading...</div>
+				<div class="gold" id="tabs-2">
+					<div id="tags">Loading...</div>
+				</div>
+				<div class="gold" id="tabs-3">
+					<button onclick="window.open('allsoltags.html','alltags');">All Tags</button>
+					<button onclick="window.open('allsolhighs.html','allhighs');">All Highlights</button>
+					<button onclick="window.open('allgigas.html','allgigas');">All Gigapans</button>
+					<button onclick="window.open('allsites.html','allsites');">All Sites</button>
+					<button title="Where is curiosity now?" onclick="window.open('http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/', 'whereami');">Where is Curiosity</button>
+				</div>
 			</div>
 		</td>
 		<td valign="top">
 			<div class="gold">
-				<input type="textbox" id="search_text" maxlength="30" size="30"><button onclick="onClickSearch()" title="Search for Product">Search</button>
-				&nbsp;&nbsp;&nbsp;
 				<button onclick="window.open('about.html', 'about');">About </button>
-				<button onclick="window.open('allsoltags.html','alltags');">All Tags</button>
-				<button onclick="window.open('allsolhighs.html','allhighs');">All Highlights</button>
-				<button onclick="window.open('allgigas.html','allgigas');">All Gigapans</button>
-				<button onclick="window.open('allsites.html','allsites');">All Sites</button>
-				<button title="Where is curiosity now?" onclick="window.open('http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/', 'whereami');">Where is Curiosity</button>
+				<input type="textbox" id="search_text" maxlength="30" size="30"><button onclick="onClickSearch()" title="Search for Product">Search</button>
 			</div>
 			<div class="gold">
 				<span id="nav1">
@@ -79,7 +87,8 @@
 				To get started select a <span class="subtitle">SOL</span> from the left hand list, or type it in the box above. SOL represents the number of days that  Curiosity had been or Mars. Next  select from the <span class="subtitle">instruments</span> shown for that SOL to see the amazing images.
 				<p>
 				The next steps are up to you - browse the great images and you too might discover and  <span class="subtitle">tag</span> or <span class="subtitle">highlight</span> it so that anyone else can see what you are seeing. You might find a fascinating golological rock, an intruiging rock, evidence of water flows. In fact you might be the one who discovers the next great scientific discovery of Mars. Imagine that, your name up there in lights in the the halls of Science as being the one who discovered it. Go on.. its over to you then :-) 
-				
+				<p>
+				<span class="subtitle">This web site is not affiliated with JPL or NASA.</span>
 			</div>
 			<div class="gold" id="nav2">
 				<button class="pagenav" title="Previous page (p)" onclick="onClickPreviousImage();">&lt;</button>
@@ -100,7 +109,6 @@
 			<td width="50"><a href="http://www.chickenkatsu.co.uk" target="chicken"><img src="images/chicken_icon.png"></a></td>
 			<td>
 				We're on <img src="images/github_logo.png"> <a href="https://github.com/open768/curiosity_browser">https://github.com/open768/curiosity_browser</a>
-				<p>
 				<div class="fb-like" data-href="https://www.facebook.com/mars.features" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
 			</td>
 		</tr></table>

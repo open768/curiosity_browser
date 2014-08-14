@@ -18,9 +18,13 @@ require_once("$root/php/inc/gz.php");
 require_once("$root/php/static/static.php");
 require_once("$root/php/inc/common.php");
 require_once("$root/php/inc/hash.php");
+require_once("$root/php/pds/lbl.php");
 
 
 class cPDS_Reader{
+	public static $force_delete = false;
+	public static $columns_object_name = "INDEX_TABLE";
+	
 	//**********************************************************************
 	public static function fetch_volume_lbl( $psBaseUrl, $psVolume, $psIndex){
 		$sLBLUrl = $psBaseUrl."/$psVolume/INDEX/$psIndex.LBL";
@@ -54,9 +58,15 @@ class cPDS_Reader{
 		$sHashUrl = cHash::hash($psUrl);
 		$sHashLBL = cHash::hash("PDSOBJ-$psUrl");
 		
+		if (self::$force_delete){
+			cDebug::write("deleting cached file for $psUrl");
+			cHash::delete_hash($sHashLBL);
+			self::$force_delete = false;
+		}
+
+		
 		if (!cHash::exists($sHashLBL)){
 			//--- fetch the raw LBL file
-			cDebug::write("Hash doesnt Exist");
 			$sFolder = cHash::make_hash_folder($sHashUrl);
 			$sUrlFilename = cHash::getPath($sHashUrl);
 			cHttp::fetch_to_file($psUrl, $sUrlFilename, false);
@@ -72,10 +82,9 @@ class cPDS_Reader{
 			//--- delete url hash
 			unlink($sUrlFilename);
 		}else{
-			cDebug::write("Hash Exists");
 			$oLBL = cHash::get_obj($sHashLBL);
 		}
-		$oLBL->__dump();
+		//$oLBL->__dump();
 		return $oLBL;
 	}
 	
@@ -129,8 +138,14 @@ class cPDS_Reader{
 	private static function pr__get_tab_columns($poLBL, $paColNames){
 		$aResult = [];
 		//get the column names of interest
-		$oINDEXLBL = $poLBL->get("INDEX_TABLE");
-		//cDebug::write("column names:");
+		$oINDEXLBL = $poLBL->get(self::$columns_object_name);
+		if (!$oINDEXLBL){
+			//cDebug::write("column names:");
+			$poLBL->__dump();
+			cDebug::error("couldnt find column ". self::$columns_object_name);
+			return;
+		}
+		
 		//$oINDEXLBL->dump_array("COLUMN", "NAME");
 		$aCols = $oINDEXLBL->get("COLUMN");
 		
