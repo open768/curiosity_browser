@@ -2,6 +2,7 @@
 
 require_once "php/inc/debug.php";
 require_once "php/inc/secret.php";
+require_once "php/static/static.php";
 require_once "php/inc/auth.php";
 require_once "php/ayah/ayah.php";
 

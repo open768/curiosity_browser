@@ -13,8 +13,13 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 var DEBUG_ON = true;
 var aSites = null;
+var aHirise=[];
 var bPluginLoaded = false;
 var oCentre = null;
+var sSiteColor = "ffff0000";
+var sHiriseColor = "ff00ff00";
+var sSelectedHiriseColor = "ff0000ff";
+var oSelectedHiRise=null;
 
 
 //###############################################################
@@ -37,21 +42,32 @@ function onGoogleEarthLoaded(){
 //###############################################################
 function all_sites_callback(paJS){
 	var oButton, oBounds, fLat, fLong;
+	var oSelect, oOption;
 	
 	$("#sites").empty();
 	if (paJS.d == null)
 		set_error_status("No sites found");
 	else{
 		aSites = paJS.d;
+		
+		oSelect = $("<SELECT>");
 		iCount =0;
 		for (i = 0; i < aSites.length; i++){
-			// create button to interact with site
 			oBounds = aSites[i];
 			if ( oBounds != null){
-				oButton = $("<button>"+i+"</button>").attr({"value":i}).click(onclickSite);
-				$("#sites").append(oButton);
+				oOption = $("<option>").attr({"value":i});
+				oOption.html(i);
+				oSelect.append(oOption);
 			}
 		}
+		
+		//add reset option
+		oOption = $("<option>").attr({"value":"reset"});
+		oOption.html("Reset Zoom");
+		oSelect.append(oOption);
+		
+		$("#sites").append(oSelect);
+		oSelect.change(onClickSite);
 		
 		render_sites();
 	}
@@ -91,14 +107,43 @@ function render_sites(){
 		
 		//draw bounds 
 		oPlace = cGoogleEarth.makeRect(oBounds);
+		cGoogleEarth.setLineColour(oPlace, sSiteColor);	
 	}
-
+	//get the hirise targets
+	set_status("fetching hirise observations");
+	sURL="../hirise?o=intersect&la1="+oBounds.lat1+"&lo1="+oBounds.long1+"&la2="+oBounds.lat2+"&lo2="+oBounds.long2;
+	cHttp.fetch_json(sURL, hirise_callback);
+	
 	//fly to the centre
 	oCentre = {lat:(fAll.lat1 + fAll.lat2)/2, lon:(fAll.long1 + fAll.long2)/2};
 	cGoogleEarth.addListener( "frameend", lookat_callback);
 	cGoogleEarth.flyTo( oCentre.lat, oCentre.lon , 9000.0);
 	set_status("waiting for flight to finish");
 	bPluginLoaded = true;
+}
+
+//****************************************************************
+function hirise_callback(paData){
+	var oSelect, i, oOption, oItem, oBound;
+	
+	set_status("got hirise data"); 
+	$("#hirise").empty();
+	
+	oSelect = $("<SELECT>");
+	for (i = 0; i < paData.length; i++){
+		oItem = paData[i];
+		oOption = $("<option>").attr({"value":i});
+		oOption.html(oItem.sID);
+		oSelect.append(oOption);
+		
+		//TBD add it to map
+		oPlace = cGoogleEarth.makeRect(oItem.oRect);
+		cGoogleEarth.setLineColour(oPlace, sHiriseColor);
+		aHirise[i] = oPlace;
+	}
+	
+	$("#hirise").append(oSelect);
+	oSelect.change(onClickHirise);
 }
 
 //****************************************************************
@@ -126,30 +171,41 @@ function get_site_callback(paJS){
 	}
 	cGoogleEarth.makeVector(aVector);
 }
-//****************************************************************
-function onclickSite(){
-	var iSite;
+
+//###############################################################
+//* EVENTS
+//###############################################################
+function onClickSite(){
+	var iSite, sVal;
 	
 	if (!bPluginLoaded){
 		set_error_status("wait for google earth plugin to load");
 		return;
 	}
 	
-	iSite = parseInt($(this).val());
-	set_status("clicked site "+ iSite);
-	
-	oBounds = aSites[iSite];
-	cGoogleEarth.flyTo( (oBounds.lat1 + oBounds.lat2)/2, (oBounds.long1 + oBounds.long2)/2 , 500.0);
+	sVal = $(this).val();
+	if (sVal === "reset")
+		cGoogleEarth.flyTo( oCentre.lat, oCentre.lon , 9000.0);
+	else{
+		iSite = parseInt(sVal);
+		set_status("clicked site "+ iSite);
+		
+		oBounds = aSites[iSite];
+		cGoogleEarth.flyTo( (oBounds.lat1 + oBounds.lat2)/2, (oBounds.long1 + oBounds.long2)/2 , 500.0);
+	}
 }
 
 //****************************************************************
-function onclickZoomout(){
+function onClickHirise(){
+	var sVal,iIndex,oPlace;
 	
-	if (!bPluginLoaded){
-		set_error_status("wait for google earth plugin to load");
-		return;
-	}
-	
-	cGoogleEarth.flyTo( oCentre.lat, oCentre.lon , 9000.0);
+	sVal = $(this).val();
+	iIndex = parseInt(sVal);
+	oPlace = aHirise[iIndex];
+
+	if (oSelectedHiRise != null)
+		cGoogleEarth.setLineColour(oSelectedHiRise, sHiriseColor);
+	oSelectedHiRise = oPlace;
+	cGoogleEarth.setLineColour(oSelectedHiRise, sSelectedHiriseColor);
 }
 

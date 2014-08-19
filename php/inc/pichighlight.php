@@ -32,7 +32,8 @@ class cImageHighlight{
 		
 		//get the  image
 		cDebug::write("fetching image from $sImageUrl");
-		$oMSLImg = imagecreatefromjpeg($sImageUrl);
+		//$oMSLImg = imagecreatefromjpeg($sImageUrl);
+		$oMSLImg = cHttp::fetch_image($sImageUrl);
 		return $oMSLImg;
 	}
 	

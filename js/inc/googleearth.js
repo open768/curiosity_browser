@@ -100,13 +100,23 @@ var cGoogleEarth = {
 	//***********************************************************
 	makeRect:function(paCoords){
 		var ge = this.oEarth;
+		var oCoords = null;
 		
 		var oVector = ge.createLineString('');
-		oVector.getCoordinates().pushLatLngAlt(paCoords.lat1, paCoords.long1, 0);
-		oVector.getCoordinates().pushLatLngAlt(paCoords.lat1, paCoords.long2, 0);
-		oVector.getCoordinates().pushLatLngAlt(paCoords.lat2, paCoords.long2, 0);
-		oVector.getCoordinates().pushLatLngAlt(paCoords.lat2, paCoords.long1, 0);
-		oVector.getCoordinates().pushLatLngAlt(paCoords.lat1, paCoords.long1, 0);
+		oCoords = oVector.getCoordinates();
+		if (paCoords.lat1){
+			oCoords.pushLatLngAlt(paCoords.lat1, paCoords.long1, 0);
+			oCoords.pushLatLngAlt(paCoords.lat1, paCoords.long2, 0);
+			oCoords.pushLatLngAlt(paCoords.lat2, paCoords.long2, 0);
+			oCoords.pushLatLngAlt(paCoords.lat2, paCoords.long1, 0);
+			oCoords.pushLatLngAlt(paCoords.lat1, paCoords.long1, 0);
+		}else{
+			oCoords.pushLatLngAlt(paCoords.P1.x, paCoords.P1.y, 0);
+			oCoords.pushLatLngAlt(paCoords.P1.x, paCoords.P2.y, 0);
+			oCoords.pushLatLngAlt(paCoords.P2.x, paCoords.P2.y, 0);
+			oCoords.pushLatLngAlt(paCoords.P2.x, paCoords.P1.y, 0);
+			oCoords.pushLatLngAlt(paCoords.P1.x, paCoords.P1.y, 0);
+		}
 		
 		var oPlace = ge.createPlacemark('');
 		oPlace.setGeometry(oVector);
@@ -116,6 +126,7 @@ var cGoogleEarth = {
 	},
 	
 	//***********************************************************
+	//color is aabbggrr in hex a=alpha, b=blue, g=green, r=red
 	setLineColour:function (poPlace, psColour){
 		var oStyle;
 		var ge = this.oEarth;

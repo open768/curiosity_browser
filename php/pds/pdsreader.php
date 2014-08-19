@@ -82,6 +82,7 @@ class cPDS_Reader{
 			//--- delete url hash
 			unlink($sUrlFilename);
 		}else{
+			cDebug::write("file exists on disk $sHashLBL");
 			$oLBL = cHash::get_obj($sHashLBL);
 		}
 		//$oLBL->__dump();
@@ -103,12 +104,18 @@ class cPDS_Reader{
 		if (!file_exists("$sFile.gz")){
 			$sFile = cHttp::fetch_large_url($psUrl, $psOutFile, false);
 			cGzip::compress_file($sFile);
-		}
+		}else
+			cDebug::write("file exists on disk $sFile.gz");
+
 		return "$sFile.gz";
 	}
 	
 	//**********************************************************************
 	public static function parse_TAB( $poLBL, $psTabFile, $aColNames){
+
+		//bolster available memory - TODO chunk the TAB into files and return the file count
+		ini_set("memory_limit","1G");
+		
 		// get the columns to be used for indexing
 		$aCols = self::pr__get_tab_columns($poLBL, $aColNames);
 		//cDebug::vardump($aCols);

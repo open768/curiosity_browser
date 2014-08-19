@@ -34,11 +34,42 @@ class cHttp{
 	}
 	
 	//*****************************************************************************
+	public static function fetch_image($psUrl){
+		$oCurl = curl_init();	
+		curl_setopt($oCurl, CURLOPT_URL, $psUrl);
+		curl_setopt($oCurl, CURLOPT_FAILONERROR, 1);
+		curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($oCurl, CURLOPT_BINARYTRANSFER, 1); 
+		
+		if (CURL_USE_PROXY){
+			curl_setopt($oCurl, CURLOPT_PROXY, CURL_PROXY);
+			curl_setopt($oCurl, CURLOPT_PROXYPORT, CURL_PROXYPORT );
+		}
+		
+		$response = curl_exec($oCurl);
+		$iErr = curl_errno($oCurl);
+		if ($iErr!=0 ) {
+			print curl_error($oCurl)."<p>";
+			curl_close($oCurl);
+			throw new Exception("ERROR URL was: $psUrl <p>");
+		}else
+			curl_close($oCurl);
+		
+		$oImage = imagecreatefromstring($response);
+	
+		return  $oImage;
+	}
+	
+	//*****************************************************************************
 	public static function fetch_url($psUrl){
 		$oCurl = curl_init();	
 		curl_setopt($oCurl, CURLOPT_URL, $psUrl);
 		curl_setopt($oCurl, CURLOPT_FAILONERROR, 1);
 		curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1);
+		
+		//TBD request using gzip compression to save bandwidth
+		//curl_setopt($curl, CURLOPT_ENCODING, 'gzip'); 
+		
 		if (CURL_USE_PROXY){
 			curl_setopt($oCurl, CURLOPT_PROXY, CURL_PROXY);
 			curl_setopt($oCurl, CURLOPT_PROXYPORT, CURL_PROXYPORT );

@@ -67,7 +67,9 @@ class cAuth{
 	
 	//**********************************************************
 	public static function show_form(){
+		cDebug::write("loadig AYAH");
 		$oAyah = new AYAH();
+		cDebug::write("done loadig AYAH");
 		?>
 		We pardon the interruption but we need a name to continue.
 		<p>
