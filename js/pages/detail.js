@@ -288,6 +288,7 @@ function load_detail_callback(paJS){
 	$("#image").empty();
 	var oImg = $("<img/>").attr({"src":oData.i, "id":"baseimg", "onload":"OnImageLoaded()"});
 	$("#image").append(oImg);
+	$("meta[property='og:image']").attr("content", oData.i);		//facebook tag for image
 	
 	//get the tags and comments
 	sKey = cTagging.getTags(goItem.s,goItem.i,goItem.p, tag_callback);

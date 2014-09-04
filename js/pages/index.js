@@ -14,8 +14,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 var DEBUG_ON = true;
 var loading = true;
 var SOLS_LIST = "sol_list";
-var INSTRUMENT_DIV = "instruments";
-var INSTRUMENT_RADIO = "IR";
+var SOL_SUMMARY = "sol_summary";
+var INSTRUMENT_LIST = "instruments";
 var MAX_ID="max";
 var MAX_ID2="max2";
 var CURRENT_ID = "current";
@@ -26,6 +26,7 @@ var SOL_QUERYSTRING = "s";
 var INSTR_QUERYSTRING = "i";
 var MAXIMAGES_QUERYSTRING = "m";
 var IMAGE_QUERYSTRING = "b";
+var SOL_DIVISIONS=50;
 
 var RADIO_BACK_COLOUR = "gold";
 var BODY_COLOUR = "LemonChiffon";
@@ -44,7 +45,10 @@ var reset_image_number = true;
 function onloadJQuery(){	
 	$("#tabs").tabs();
 	//set up the onchange handler for sols
-	$("#sol_list").change( OnChangeSolList);
+	$("#"+SOLS_LIST).change( OnChangeSolList);
+	$("#"+SOL_SUMMARY).change( OnChangeSolSummaryList);
+	
+	$("#"+INSTRUMENT_LIST).change(OnChangeInstrument)
 	
 	//hide things
 	$("#nav1").hide();
@@ -100,11 +104,16 @@ function onClickSearch(){
 	if (sText == "") return;
 	
 	if (!isNaN(sText))
-			set_sol(sText);
+		mark_sol(sText);
 	else{
 		sUrl="php/rest/search.php?s=" + sText;
 		cHttp.fetch_json(sUrl, search_callback);
 	}
+}
+
+//***************************************************************
+function OnChangeSolSummaryList(poEvent){
+	mark_sol(poEvent.target.value);
 }
 
 //***************************************************************
@@ -116,6 +125,8 @@ function OnChangeSolList(poEvent){
 
 //***************************************************************
 function OnChangeInstrument(poEvent){
+	cDebug.write("changing instrument: ");
+
 	reset_image_number = true;
 	do_set_instrument(poEvent.target.value);
 }
@@ -217,7 +228,7 @@ function onClickRefresh(){
 		return false;
 	}
 	
-	get_instruments(current_sol,true);
+	get_sol_instruments(current_sol,true);
 }
 
 
@@ -261,18 +272,12 @@ function onInputDefocus(){
 //# Utility functions 
 //###############################################################
 function set_instrument(psInstr){
-	var oRadio;
-	
 	//hide the navigation
 	$("#nav1").hide();
 	$("#nav2").hide();
 
-	//find and mark the selected instrument remaining
-	oRadio = $("[name="+INSTRUMENT_RADIO+"][value="+psInstr+"]")
-	if (oRadio.length>0){
-		oRadio.prop("checked",true);
-		do_set_instrument(psInstr);
-	}
+	$("#"+ INSTRUMENT_LIST +" option[value='" + psInstr + "']").attr("selected", true);
+	do_set_instrument(psInstr);
 }
 
 //***************************************************************
@@ -284,11 +289,16 @@ function do_set_instrument(psInstr){
 
 //***************************************************************
 function mark_sol(psSol){
-	var aSols, sol_idx, oSol;
+	var oOption;
 	
-	$("#"+SOLS_LIST + " option[value="+psSol+"]").attr("selected", true);
-	reload_after_instr = true;
-	set_sol(psSol);
+	oOption = $("#"+SOLS_LIST + " option[value="+psSol+"]");
+	if ((oOption.length > 0) && (oOption.attr("disabled")!=="disabled")){
+		$("#"+SOLS_LIST + " option[value="+psSol+"]").attr("selected", true);
+		reload_after_instr = true;
+		set_sol(psSol);
+	}else{
+		set_error_status("No such SOL...");
+	}
 }
 
 //***************************************************************
@@ -300,6 +310,8 @@ function set_sol(psSol){
 	$("#"+SOL_ID).html(current_sol);
 	// update the content in the address bar
 	sUrl = cBrowser.pageUrl() +"?s=" + psSol ;
+	if (cBrowser.data[INSTR_QUERYSTRING] ) 
+		sUrl += "&" + INSTR_QUERYSTRING + "=" + cBrowser.data[INSTR_QUERYSTRING];
 	cBrowser.pushState("Detail", sUrl);
 	
 	$("#nav1").hide();
@@ -313,7 +325,7 @@ function set_sol(psSol){
 	$("#solsite").removeAttr('disabled');
 	$("#solthumbs").attr('disabled', "disabled");
 
-	get_instruments(current_sol,false);
+	get_sol_instruments(current_sol,false);
 	get_sol_tag_count(current_sol);
 	get_sol_hilite_count(current_sol);
 	
@@ -361,16 +373,18 @@ function reload_data(){
 //###############################################################
 //* GETTERS
 //###############################################################
-function get_instruments(psSol, pbRefresh){
-	set_status("getting instruments");
+function get_sol_instruments(psSol, pbRefresh){
+	set_status("getting instruments for sol" + psSol);
 
-	//hide instruments using obfuscated jQUERY - yeuchhhh!!!! 
-	$("input[name=" + INSTRUMENT_RADIO + "]").each( function(){$(this).parent().hide();});
+	//hide instruments jQUERY 
+	$("#"+ INSTRUMENT_LIST  + " option").each(
+		function (pIndex, pObj){ $(pObj).attr({disabled:"disabled"})}
+	);
 	
 	//get the instruments for this sol
 	$("#instr_load").show();
 	sUrl = "php/rest/instruments.php?s=" + psSol + "&r=" + pbRefresh;
-	cHttp.fetch_json(sUrl, get_instruments_callback);
+	cHttp.fetch_json(sUrl, get_sol_instruments_callback);
 }
 
 //***************************************************************
@@ -458,18 +472,36 @@ function tagnames_callback(poJs){
 
 //***************************************************************
 function load_sols_callback(paJS){
-	var iIndex, oSol, oList, sHTML;
+	var iIndex, oSol, oList, oSumList, oOption, iSol, iLastRange, iRange, iDivision, iDivision2;
+
+	cDebug.write("got sols callback");
 	
 	
-	$("#"+SOLS_LIST).empty();
+	oList = $("#"+SOLS_LIST);
+	oList.empty();
+	oSumList = $("#"+SOL_SUMMARY);
+	oSumList.empty();
+	iLastRange = -1;
 	
-	sHTML = ""
 	for (iIndex = 0; iIndex < paJS.length; iIndex++){
 		oSol = paJS[iIndex];
-		sHTML += "<option value='" + oSol.sol + "'>Sol: " + oSol.sol + "  |  " + oSol.date + "</option>"		
+		iSol = parseInt(oSol.sol);
+		iRange = Math.floor(iSol/SOL_DIVISIONS);
+		
+		if (iRange != iLastRange){
+			iDivision = iRange * SOL_DIVISIONS;
+			iDivision2 = iDivision + SOL_DIVISIONS -1;
+			oOption = $("<option>").attr({value:iSol}).html("" + iDivision + " to " + iDivision2);
+			oSumList.append(oOption);
+			
+			oOption = $("<option>").attr({value:"NaN",disabled:"disabled"}).html("-- " + iDivision + " --");
+			oList.append(oOption);
+			iLastRange = iRange;
+		}
+
+		oOption = $("<option>").attr({value:oSol.sol}).html(oSol.sol);
+		oList.append(oOption);
 	}
-	
-	$("#"+SOLS_LIST).html(sHTML);
 	
 	// mark the sol
 	if (cBrowser.data[SOL_QUERYSTRING] ) 
@@ -479,19 +511,18 @@ function load_sols_callback(paJS){
 
 //***************************************************************
 function load_instruments_callback(paJS){
-	var sHTML, iIndex, oInstr, oDiv, sID, oInput,oSpan;
+	var iIndex, oInstr, oList, sID;
 	
 	$("#instr_load").hide();
-	oDiv = $("#"+INSTRUMENT_DIV);
-	oDiv.empty();
+	oList = $("#"+INSTRUMENT_LIST);
+	oList.empty();
+	
+	oList.append( $("<option>").attr({value:"",disabled:"disabled"}).html("Select an Instrument..."));
+	
 	for (iIndex = 0; iIndex < paJS.length; iIndex++){
 		oInstr = paJS[iIndex];
-		sID = "instr_"+iIndex;
-		
-		oSpan= $("<SPAN>");
-		oInput = $("<input>").attr({type: "radio", name: INSTRUMENT_RADIO, value: oInstr.name, id: sID}).change(OnChangeInstrument);
-		oSpan.append(oInput).append(oInstr.caption+"<br>");
-		oDiv.append(oSpan);
+		sID= INSTRUMENT_LIST + oInstr.name;
+		oList.append( $("<option>").attr({value:oInstr.name,disabled:"disabled",ID:sID}).html(oInstr.caption));
 	}
 	loading=false;
 	set_status("ready");
@@ -605,16 +636,18 @@ function tag_callback(paJS){
 }
 
 // ***************************************************************
-function get_instruments_callback(paJS){
-	var instr_idx, sInstr;
+function get_sol_instruments_callback(paJS){
+	var instr_idx, sInstr, oSelect;
 
 	set_status("got instruments");
 	$("#instr_load").hide();
+	oSelect = $("#" + INSTRUMENT_LIST);
 	
 	//mark the instruments remaining
 	for ( instr_idx = 0; instr_idx<paJS.length; instr_idx++){
+		
 		sInstr = paJS[instr_idx];
-		$("[name="+INSTRUMENT_RADIO+"][value="+sInstr+"]").parent().show();
+		oSelect.find('option[value=\"'+ sInstr + '\"]').removeAttr('disabled');
 	}
 	
 	if 	(current_instrument || reload_after_instr){

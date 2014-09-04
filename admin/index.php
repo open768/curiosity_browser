@@ -23,6 +23,9 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	
 	
 	cDebug::check_GET_or_POST();
+	ini_set("max_execution_time", 60);
+	ini_set("max_input_time", 60);
+	set_time_limit(600);
 	
 	//***************************************************
 
@@ -48,7 +51,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			break;
 			
 		case "parseAllPDS":
-			set_time_limit(600);
 			cCuriosityPdsIndexer::index_everything();
 			break;
 			
@@ -69,7 +71,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 				<?php
 				exit();
 			}
-			set_time_limit(600);
 			$sVolume = $_GET["v"];
 			if (!isset($_GET["i"] )) cDebug::error("no index specified");
 			$sIndex= $_GET["i"];
@@ -152,6 +153,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			
 		//------------------------------------------------------
 		case "parseLocations":	
+			set_time_limit(600);
 			cCuriosityLocations::parseLocations();
 			break;
 			

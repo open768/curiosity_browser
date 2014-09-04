@@ -140,8 +140,10 @@ cBrowser = {
 	
 	//***************************************************************
 	pushState:function(psTitle, psUrl){
-		if (window.history.pushState)
+		if (window.history.pushState){
 			window.history.pushState("", psTitle, psUrl);
+			this.init();
+		}
 	}
 }
 cBrowser.init();

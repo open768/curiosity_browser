@@ -23,7 +23,22 @@ function onLoadJQuery(){
 	//update sol number
 	iSol = parseInt(cBrowser.data["s"]);
 	load_sol_data(iSol);
+	
+	//change visibility of buttons
+	pr_set_button_visibility();
+	
 }
+
+function pr_set_button_visibility(){
+	if (cBrowser.data["sheet"] == null){
+		$("#detail").attr({disabled:"disabled"});
+		$("#sheet").removeAttr('disabled');
+	}else{
+		$("#sheet").attr({disabled:"disabled"});
+		$("#detail").removeAttr('disabled');
+	}
+}
+
 
 function load_sol_data(piSol){
 	$("#sol").html(piSol);
@@ -45,6 +60,9 @@ function load_highlights(psSol, psInstr, psProduct){
 	cHttp.fetch_json(sUrl, load_thumbs_callback);
 }
 
+//###############################################################
+//# events
+//###############################################################
 function onClickPrevious_sol(){
 	var iSol = current_sol -1;
 	load_sol_data(iSol);
@@ -59,12 +77,36 @@ function onClickSol(){
 	window.open("index.html?s=" +current_sol, "index");
 }
 
+function onClickDetails(){
+	var sUrl, sSol;
+	
+	sSol = parseInt(cBrowser.data["s"]);
+	sUrl = "solhigh.html?s="+sSol;
+	cBrowser.pushState("highlights", sUrl);
+	onLoadJQuery();
+}
+
+function onClickNoDetails(){
+	var sUrl, sSol;
+	
+	sSol = parseInt(cBrowser.data["s"]);
+	sUrl = "solhigh.html?s="+sSol + "&sheet";
+	cBrowser.pushState("highlights", sUrl);
+	onLoadJQuery();
+}
+
 //###############################################################
 //* call backs 
 //###############################################################
 function hilite_callback(poJs){
 	var sInstr, sProduct, sUrl;
 	var oDiv, oTable, oRow, iCount;
+	
+	if (cBrowser.data["sheet"] != null){
+		pr_sheet_callback(poJs);
+		return;
+	}
+	cDebug.write("no sheet");
 	
 	oDiv = $("#solhigh");
 	oDiv.empty();
@@ -117,16 +159,55 @@ function tag_callback(paJS){
 
 //***************************************************************
 function load_thumbs_callback(poJS){
-	var oDiv = $("#" + poJS.p);
-	oDiv.empty();
-	var aUrls = poJS.u;
+	var i, oDiv, oA, aUrls;
 	
-	if (aUrls.length == 0)
-		oDiv.html("no thumbnails found");
-	else{
-		var i;
-		for (i=0 ; i< aUrls.length; i++)
-			oDiv.append($("<IMG>").attr({"src":aUrls[i],"class":"polaroid"}));
+	aUrls = poJS.u;
+	if (cBrowser.data["sheet"] == null){
+		var oDiv = $("#" + poJS.p);
+		oDiv.empty();
+		
+		if (aUrls.length == 0)
+			oDiv.html("no thumbnails found");
+		else
+			for (i=0 ; i< aUrls.length; i++)
+				oDiv.append($("<IMG>").attr({"src":aUrls[i],"class":"polaroid"}));
+	}else{
+		oDiv = $("#solhigh");
+		for (i=0 ; i< aUrls.length; i++){
+			sUrl= "detail.html?s=" + poJS.s + "&i=" + poJS.i + "&p=" + poJS.p ;
+			oA = $("<A>").attr({href:sUrl,target:"detail"});
+			oA.append($("<IMG>").attr({"src":aUrls[i],"class":"polaroid"}));
+			oDiv.append(oA);
+		}
 	}
+	
+}
+
+//###############################################################
+//# PRIVATES
+//###############################################################
+function pr_sheet_callback(poJs){
+	var sInstr, sProduct, sUrl;
+	var oDiv, oTable, oRow, iCount;
+	
+	
+	cDebug.write("showing sheet");
+	oDiv = $("#solhigh");
+	oDiv.empty();
+	iCount = 0;
+	
+	for (sInstr in poJs){
+		iCount ++;
+		
+		//build the table
+		aProducts = poJs[sInstr];
+		for (sProduct in aProducts)
+			load_highlights(current_sol, sInstr, sProduct);
+	}
+	
+	if (iCount ==0)
+		set_error_status("no highlights found");
+	else
+		set_status("ok");
 }
 

@@ -98,7 +98,9 @@ class cCuriosityPdsIndexer{
 					cObjStore::put_file( self::OBJDATA_TOP_FOLDER."/$sSol/$sInstr", $sFilename, $aExisting);				
 				}else
 					cObjStore::put_file( self::OBJDATA_TOP_FOLDER."/$sSol/$sInstr", $sFilename, $aInstrData);				
-		}
+	
+				usleep(1000); // be nice to the server let someone else have a go
+			}
 	}
 }
 ?>

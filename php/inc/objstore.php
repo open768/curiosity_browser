@@ -35,7 +35,7 @@ class cObjStore{
 	static function get_file( $psFolder, $psFile){
 		$aData = null;
 
-		cDebug::write("looking for file:$psFile in folder:$psFolder");
+		//cDebug::write("looking for file:$psFile in folder:$psFolder");
 		$sFolder = self::pr_get_folder_path( $psFolder);
 		if (!is_dir($sFolder)){
 			cDebug::write("no objstore data at all in folder: $psFolder");
@@ -43,7 +43,7 @@ class cObjStore{
 		}
 		
 		$sFile = "$sFolder/$psFile";
-		cDebug::write("File: $sFile");
+		//cDebug::write("File: $sFile");
 		if (file_exists($sFile))
 			$aData = cGzip::readObj($sFile);
 		

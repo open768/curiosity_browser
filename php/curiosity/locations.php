@@ -34,6 +34,7 @@ class cCuriosityLocations{
 		
 		// get the XML file
 		cCachedHttp::$CACHE_EXPIRY=self::LOCATIONS_CACHE;
+		cHttp::$show_progress = true;
 		$oXML = cHttp::getXML(self::LOCATIONS_XML);
 		
 		// create the data structure of SOLs versus locations
@@ -181,6 +182,7 @@ class cCuriosityLocations{
 			$aBounds = self::pr__GetBoundingBox($aItems);
 			$aBoundIndex[$sKey] = $aBounds;
 			cObjStore::put_file( $psFolder, strval($sKey), $aItems);		
+			usleep(1000); // be nice to the server sleep for a 1/1000s
 		}
 		cObjStore::put_file( $psFolder, self::BOUNDS_INDEX_FILE, $aBoundIndex);		
 	}

@@ -14,6 +14,7 @@ class cHttp{
 	const LARGE_URL_DIR = "[cache]/[Largeurls]";
 	public static $progress_len = 0;
 	public static $progress_count = 0;
+	public static $show_progress = false;
 	
 	//*****************************************************************************
 	public static function getXML($psURL){
@@ -41,9 +42,17 @@ class cHttp{
 		curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($oCurl, CURLOPT_BINARYTRANSFER, 1); 
 		
+		if (self::$show_progress)
+			curl_setopt($oCurl, CURLOPT_PROGRESSFUNCTION, '__progress_callback');
+			
 		if (CURL_USE_PROXY){
 			curl_setopt($oCurl, CURLOPT_PROXY, CURL_PROXY);
 			curl_setopt($oCurl, CURLOPT_PROXYPORT, CURL_PROXYPORT );
+		}
+		
+		if (self::$show_progress){
+			curl_setopt($oCurl, CURLOPT_NOPROGRESS, false); // needed to make progress function work
+			self::$show_progress = false;
 		}
 		
 		$response = curl_exec($oCurl);
@@ -66,13 +75,21 @@ class cHttp{
 		curl_setopt($oCurl, CURLOPT_URL, $psUrl);
 		curl_setopt($oCurl, CURLOPT_FAILONERROR, 1);
 		curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1);
+
+		if (self::$show_progress)
+			curl_setopt($oCurl, CURLOPT_PROGRESSFUNCTION, '__progress_callback');
 		
-		//TBD request using gzip compression to save bandwidth
-		//curl_setopt($curl, CURLOPT_ENCODING, 'gzip'); 
+		//use gzip compression to save bandwidth
+		curl_setopt($oCurl, CURLOPT_ENCODING, 'gzip'); 
 		
 		if (CURL_USE_PROXY){
 			curl_setopt($oCurl, CURLOPT_PROXY, CURL_PROXY);
 			curl_setopt($oCurl, CURLOPT_PROXYPORT, CURL_PROXYPORT );
+		}
+
+		if (self::$show_progress){
+			curl_setopt($oCurl, CURLOPT_NOPROGRESS, false); // needed to make progress function work
+			self::$show_progress = false;
 		}
 		
 		$response = curl_exec($oCurl);
@@ -88,7 +105,7 @@ class cHttp{
 	}
 	
 	//*****************************************************************************
-	public static function fetch_to_file($psUrl, $psPath, $pbOverwrite=false, $pbShowProgress=false, $piTimeOut=60){
+	public static function fetch_to_file($psUrl, $psPath, $pbOverwrite=false, $piTimeOut=60){
 		//check whether the file exists
 		if (!$pbOverwrite &&file_exists($psPath)){
 			cDebug::write("file exists $psPath");
@@ -105,13 +122,17 @@ class cHttp{
 		curl_setopt($oCurl, CURLOPT_URL, $psUrl);
 		curl_setopt($oCurl, CURLOPT_FAILONERROR, 1);
 		curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 0);
-		curl_setopt($oCurl, CURLOPT_PROGRESSFUNCTION, '__progress_callback');
+		if (self::$show_progress)
+			curl_setopt($oCurl, CURLOPT_PROGRESSFUNCTION, '__progress_callback');
+			
 		if (CURL_USE_PROXY){
 			curl_setopt($oCurl, CURLOPT_PROXY, CURL_PROXY);
 			curl_setopt($oCurl, CURLOPT_PROXYPORT, CURL_PROXYPORT );
 		}
-		if ($pbShowProgress)
+		if (self::$show_progress){
 			curl_setopt($oCurl, CURLOPT_NOPROGRESS, false); // needed to make progress function work
+			self::$show_progress = false;
+		}
 
 		curl_setopt($oCurl, CURLOPT_FILE, $fHandle);
 		$iErr = 0;
@@ -152,7 +173,8 @@ class cHttp{
 		}
 		
 		$sPath = self::large_url_path($psFilename);
-		return self::fetch_to_file($psUrl, $sPath, $pbOverwrite, true,600);
+		self::$show_progress = true;
+		return self::fetch_to_file($psUrl, $sPath, $pbOverwrite, 600);
 	}
 }
 

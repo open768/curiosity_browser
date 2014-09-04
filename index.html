@@ -25,21 +25,24 @@
 				<ul>
 					<li><a href="#tabs-1" class="subtitle">Sol</a></li>
 					<li><a href="#tabs-2" class="subtitle">Tags</a></li>
-					<li><a href="#tabs-3" class="subtitle">Info</a></li>
+					<li><a href="#tabs-3" class="subtitle">All</a></li>
 			   </ul>
 				<div class="gold" id="tabs-1">
 					<div class="subtitle">Sol: <span id="this_sol">???</span></div>
-					<SELECT id="sol_list" size="10" class="sols">
-						<option>loading...
+					<nobr><select id="sol_summary"></select>
+					<SELECT id="sol_list">
+						<option>Loading...
 					</SELECT>
+					</nobr>
 					<table border="0" width="100%"><tr>
 						<td align="left"><button class="solnav" title="previous Sol ([)" type="button" onclick="onClickPreviousSol();">&lt;--</button></td>
 						<td align="right"><button class="solnav" title="next Sol (])" type="button" onclick="onClickNextSol();">--&gt;</button></td>
 					</tr></table>
 					<!-- ************************************** -->
 					<div class="subtitle">Instruments:</div>
-					<div class="instruments" id="instruments">
-					</div>
+					<select name="instruments" id="instruments">
+						<option>Choose a SOL...</option>
+					</select>
 					<div class="subtitle" id="instr_load"><i>loading...</i></div>
 					<!-- ************************************** -->
 					<div class="subtitle">Sol Information:</div>				
@@ -69,6 +72,7 @@
 			<div class="gold">
 				<button onclick="window.open('about.html', 'about');">About </button>
 				<input type="textbox" id="search_text" maxlength="30" size="30"><button onclick="onClickSearch()" title="Search for Product">Search</button>
+				<span class="subtitle"> &nbsp;&nbsp;&nbsp;&nbsp; Status: </span><span ID="status" class="status">Loading...</span>
 			</div>
 			<div class="gold">
 				<span id="nav1">
@@ -79,15 +83,20 @@
 				</span>
 			</div>
 			<div class="gold" id="images">
-				<span class="subtitle">select a SOL and an instrument - the images will appear here</span><p>
 				This browser works best with <a href="http://ie.microsoft.com">Internet Explorer 11</a> or <a href="http://chrome.google.com">Google Chrome</a>
 				<H2>Lets Get Started</H2>
 				Welcome to the Curiosity Browser, the place to have a 2-way social interaction about the great images being beamed back to Earth from NASA's Curiosity Rover. 
 				<p>
-				To get started select a <span class="subtitle">SOL</span> from the left hand list, or type it in the box above. SOL represents the number of days that  Curiosity had been or Mars. Next  select from the <span class="subtitle">instruments</span> shown for that SOL to see the amazing images.
+				To get started 
+				<ul>
+				<li>select a <span class="subtitle">SOL</span> from the left hand list, or type it in the box above. (SOL represents the number of days that  Curiosity had been or Mars.) 
+				<li>Next  select from the <span class="subtitle">instruments</span> shown for that SOL to see the amazing images.
+				<li>Or Click <span class="subtitle">All</span> to see which sols are interesting
+				</ul>
 				<p>
 				The next steps are up to you - browse the great images and you too might discover and  <span class="subtitle">tag</span> or <span class="subtitle">highlight</span> it so that anyone else can see what you are seeing. You might find a fascinating golological rock, an intruiging rock, evidence of water flows. In fact you might be the one who discovers the next great scientific discovery of Mars. Imagine that, your name up there in lights in the the halls of Science as being the one who discovered it. Go on.. its over to you then :-) 
 				<p>
+				<h2>Dislaimer</h2>
 				<span class="subtitle">This web site is not affiliated with JPL or NASA.</span>
 			</div>
 			<div class="gold" id="nav2">
@@ -95,9 +104,6 @@
 				<span ID="current2">??</span>
 				<button class="pagenav" title="Next page (n)" onclick="onClickNextImage();">&gt;</button>
 				max <span ID="max2">??</span><br><br>
-			</div>
-			<div class="gold">
-				<span class="subtitle"> Status: </span><span ID="status" class="status">Loading...</span>
 			</div>
 		</td>
 	</tr></table>
