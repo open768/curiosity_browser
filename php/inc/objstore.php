@@ -23,6 +23,9 @@ class cObjStore{
 	//# PUBLIC
 	//#####################################################################
 	static function kill_file( $psFolder, $psFile){
+		$num_args = func_num_args();
+		if ($num_args != 2) cDebug::error("kill_file: incorrect number of arguments - expected 2 got $num_args ");
+
 		$folder = self::pr_get_folder_path( $psFolder);
 		$file = "$folder/$psFile";
 		if (file_exists($file)){
@@ -34,7 +37,10 @@ class cObjStore{
 	//********************************************************************
 	static function get_file( $psFolder, $psFile){
 		$aData = null;
-
+		
+		$num_args = func_num_args();
+		if ($num_args != 2) cDebug::error("get_file: incorrect number of arguments - expected 2 got $num_args ");
+		
 		//cDebug::write("looking for file:$psFile in folder:$psFolder");
 		$sFolder = self::pr_get_folder_path( $psFolder);
 		if (!is_dir($sFolder)){
@@ -53,6 +59,9 @@ class cObjStore{
 	//********************************************************************
 	static function put_file( $psFolder, $psFile, $poData){
 			
+		$num_args = func_num_args();
+		if ($num_args != 3) cDebug::error("put_file: incorrect number of arguments - expected 3 got $num_args ");
+		
 		//check that the folder exists
 		$folder = self::pr_get_folder_path( $psFolder);
 		if (!file_exists($folder)){
