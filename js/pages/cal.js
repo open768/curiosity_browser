@@ -31,11 +31,19 @@ function onClick(){
 
 function onClickNext(){
 	var iSol = parseInt(current_sol) +1;
+	cBrowser.pushState("Detail", cBrowser.pageUrl() +"?s=" + iSol);
 	get_calendar_data(iSol);
 }
 function onClickPrevious(){
 	var iSol = parseInt(current_sol) -1;
+	cBrowser.pushState("Detail", cBrowser.pageUrl() +"?s=" + iSol);
 	get_calendar_data(iSol);
+}
+
+function onClickRefresh(){
+	sUrl = "php/rest/instruments.php?s=" + current_sol + "&r=true";
+	set_status("refreshing data");
+	cHttp.fetch_json(sUrl, onLoadJQuery);
 }
 
 
