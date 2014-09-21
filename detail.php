@@ -1,6 +1,10 @@
 <?php
 	require_once("php/inc/header.php");
 	cHeader::redirect_if_referred();
+	if ( cHeader::is_facebook()){
+		cHeader::make_fb_detail_tags();
+		exit;
+	}
 ?>
 <html>
 <head>
