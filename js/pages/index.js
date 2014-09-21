@@ -81,19 +81,19 @@ function onloadJQuery(){
 //# Event Handlers
 //###############################################################
 function onClickSolGiga(){
-	window.open("solgigas.html?s=" + current_sol, "solgigas");
+	window.open("solgigas.php?s=" + current_sol, "solgigas");
 }
 function onClickSolTag(){
-	window.open("soltags.html?s=" + current_sol, "soltag");
+	window.open("soltags.php?s=" + current_sol, "soltag");
 }
 function onClickSolHighs(){
-	window.open("solhigh.html?s=" + current_sol, "solhigh");
+	window.open("solhigh.php?s=" + current_sol, "solhigh");
 }
 function onClickSolThumbs(){
-	window.open("solthumb.html?s=" + current_sol + "&i=" + current_instrument, "solthumb");
+	window.open("solthumb.php?s=" + current_sol + "&i=" + current_instrument, "solthumb");
 }
 function onClickSolSite(){
-	window.open("site.html?sol=" + current_sol , "site");
+	window.open("site.php?sol=" + current_sol , "site");
 }
 
 
@@ -135,7 +135,7 @@ function OnChangeInstrument(poEvent){
 function onClickCalendar(){
 	var sURL;
 	
-	sURL = "cal.html?s=" + current_sol ;
+	sURL = "cal.php?s=" + current_sol ;
 	window.open(sURL, "calendar");
 }
 
@@ -459,7 +459,7 @@ function search_callback(poJS){
 		set_status("not a valid search");
 	else{
 		set_status("got search callback");
-		sUrl = "detail.html?s=" + poJS.s + "&i=" + poJS.d.instrument + "&p=" + poJS.d.itemName;
+		sUrl = "detail.php?s=" + poJS.s + "&i=" + poJS.d.instrument + "&p=" + poJS.d.itemName;
 		document.location.href = sUrl;
 	}
 }
@@ -571,7 +571,7 @@ function load_images_callback(paJS){
 			
 			// get the img details
 			oItem = paJS.images[iIndex];
-			sImgURL = "detail.html?s="+ current_sol + "&i=" + current_instrument + "&p=" + oItem.p;
+			sImgURL = "detail.php?s="+ current_sol + "&i=" + current_instrument + "&p=" + oItem.p;
 			
 			//build up the div
 			oDiv = $("<DIV>");
@@ -629,7 +629,7 @@ function tag_callback(paJS){
 	sHTML = "";
 	for (i=0; i<paJS.d.length; i++){
 		sTag = paJS.d[i];
-		sHTML += "<a target='tags' href='tag.html?t=" + sTag + "'>#" + sTag + "</a> ";
+		sHTML += "<a target='tags' href='tag.php?t=" + sTag + "'>#" + sTag + "</a> ";
 	}
 	oDiv.html( sHTML);
 	

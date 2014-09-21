@@ -1,37 +1,40 @@
 <html>
 <head>
 	<LINK href="css/css.css" rel="stylesheet" type="text/css">
-	<title>Site - Curiosity Browser</title>
+	<title>Sol Highlights - Curiosity Browser </title>
 	<script src="js/inc/secret.js"></script>
 	<script src="js/inc/common.js"></script>
 	<script src="js/inc/auth.js"></script>
-	<script src="js/pages/site.js"></script>
+	<script src="js/pages/solhigh.js"></script>
+	<script src="js/inc/tagging.js"></script>
 	<script src="js/jquery/jquery.js"></script>
 	<script src="js/jquery/jquery-ui.js"></script>
 	<script src="js/inc/analytics.js"></script>
 	<script src="js/inc/facebook.js"></script>
-	<script src="js/inc/googleearth.js"></script>
-	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-	<script type="text/javascript">
-		google.load("earth", "1");
-	</script>
 </head>
 <body onload="$(onLoadJQuery);">
-	<DIV class="title">Site <span id="siteid"></span></DIV>
+	<DIV class="title">Highlights for sol:<span id="sol">sol??</span></DIV>
 <p>
 	<div class="gold">
-		<button onclick="window.open('allsites.html','allsites');">All Sites</button>
-		<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
+		<button onclick="onClickPrevious_sol()" title="previous sol">&lt;&lt;&lt;</button>
+		<button onclick="onClickSol();">sol <span id="solbutton">???</span></button>
+		<button onclick="window.open('allsolhighs.php','allhighs');">All Sols</button>
+		<button onclick="onClickNext_sol()" title="next sol">&gt;&gt;&gt;</button>
+
+		&nbsp;&nbsp;&nbsp;<button id="detail" onClick="onClickDetails()">Details</button>
+		<button id="sheet" onClick="onClickNoDetails()">No Details</button>
+	
+		&nbsp;&nbsp;&nbsp;<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
 	</div>
-	<div class="gold"  id="site">
+	<div class="gold"  id="solhigh">
 		Loading...
-	</div>
-	<div class="gold"  id="geplugin">
-		<div id="map" style="height: 400px; width: 600px;"></div>
 	</div>
 	<P>
 	
 	<!-- *************** footer *********************** -->
+	<p class="credits">
+		Data courtesy MSSS/MSL/NASA/JPL-Caltech.<br>
+	</p>
 	<div class="github">
 		<table border="0" width="100%"><tr>
 			<td width="50"><a href="http://www.chickenkatsu.co.uk" target="chicken"><img src="images/chicken_icon.png"></a></td>

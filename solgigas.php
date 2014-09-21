@@ -1,25 +1,24 @@
 <html>
 <head>
 	<LINK href="css/css.css" rel="stylesheet" type="text/css">
-	<title>sol Tags - Curiosity Browser</title>
+	<title>sol Gigapans - Curiosity Browser</title>
 	<script src="js/inc/secret.js"></script>
 	<script src="js/inc/common.js"></script>
 	<script src="js/inc/auth.js"></script>
-	<script src="js/pages/soltag.js"></script>
-	<script src="js/inc/tagging.js"></script>
+	<script src="js/pages/solgigas.js"></script>
 	<script src="js/jquery/jquery.js"></script>
 	<script src="js/jquery/jquery-ui.js"></script>
 	<script src="js/inc/analytics.js"></script>
 	<script src="js/inc/facebook.js"></script>
 </head>
 <body onload="$(onLoadJQuery);">
-	<DIV class="title">Tags for sol:<span id="sol">??</span></DIV>
+	<DIV class="title">Gigapans for sol:<span id="sol">??</span></DIV>
 <p>
 	<div class="gold">
-		<button onclick="window.open('allsoltags.html','alltags');">All Sols</button>
+		<button onclick="window.open('allgigas.php','allgigas');">All Gigapans</button>
 		<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
 	</div>
-	<div class="gold"  id="soltag">
+	<div class="gold"  id="solgiga">
 		Loading...
 	</div>
 	<P>
@@ -27,6 +26,7 @@
 	<!-- *************** footer *********************** -->
 	<p class="credits">
 		Data courtesy MSSS/MSL/NASA/JPL-Caltech.<br>
+		Gigapans courtesy Neville Thompson http://www.gigapan.com/profiles/pencilnev.<br>
 	</p>
 	<div class="github">
 		<table border="0" width="100%"><tr>

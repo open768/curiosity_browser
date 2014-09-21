@@ -74,14 +74,14 @@ function onClickNext_sol(){
 }
 
 function onClickSol(){
-	window.open("index.html?s=" +current_sol, "index");
+	window.open("index.php?s=" +current_sol, "index");
 }
 
 function onClickDetails(){
 	var sUrl, sSol;
 	
 	sSol = parseInt(cBrowser.data["s"]);
-	sUrl = "solhigh.html?s="+sSol;
+	sUrl = "solhigh.php?s="+sSol;
 	cBrowser.pushState("highlights", sUrl);
 	onLoadJQuery();
 }
@@ -90,7 +90,7 @@ function onClickNoDetails(){
 	var sUrl, sSol;
 	
 	sSol = parseInt(cBrowser.data["s"]);
-	sUrl = "solhigh.html?s="+sSol + "&sheet";
+	sUrl = "solhigh.php?s="+sSol + "&sheet";
 	cBrowser.pushState("highlights", sUrl);
 	onLoadJQuery();
 }
@@ -123,7 +123,7 @@ function hilite_callback(poJs){
 		for (sProduct in aProducts){
 			oRow = $("<TR>");
 			oTable.append(oRow);
-			sUrl= "detail.html?s=" + current_sol + "&i=" + sInstr + "&p=" + sProduct ;
+			sUrl= "detail.php?s=" + current_sol + "&i=" + sInstr + "&p=" + sProduct ;
 			oRow.append("<td width=200><a target='detail' href='" + sUrl + "'>" + sProduct + "</a><p><div class='soltags' id='T"+sProduct+"'>Loading Tags..<div></td>");
 			oRow.append("<td align=left><a target='detail' href='" + sUrl + "'><div id='"+sProduct+"'><font class='subtitle'>Loading images</font></div></a></td>");
 			
@@ -152,7 +152,7 @@ function tag_callback(paJS){
 	sHTML = "";
 	for (i=0; i<paJS.d.length; i++){
 		sTag = paJS.d[i];
-		sHTML += "<a target='tags' href='tag.html?t=" + sTag + "'>#" + sTag + "</a> ";
+		sHTML += "<a target='tags' href='tag.php?t=" + sTag + "'>#" + sTag + "</a> ";
 	}
 	oDiv.html( sHTML);
 }
@@ -174,7 +174,7 @@ function load_thumbs_callback(poJS){
 	}else{
 		oDiv = $("#solhigh");
 		for (i=0 ; i< aUrls.length; i++){
-			sUrl= "detail.html?s=" + poJS.s + "&i=" + poJS.i + "&p=" + poJS.p ;
+			sUrl= "detail.php?s=" + poJS.s + "&i=" + poJS.i + "&p=" + poJS.p ;
 			oA = $("<A>").attr({href:sUrl,target:"detail"});
 			oA.append($("<IMG>").attr({"src":aUrls[i],"class":"polaroid"}));
 			oDiv.append(oA);

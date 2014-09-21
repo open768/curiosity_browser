@@ -25,7 +25,7 @@ var oColours = {};
 function onClick(){
 	var sInstr = event.target.attributes.i.value;
 	var sProduct = event.target.attributes.p.value;
-	var sURL = "detail.html?s=" + current_sol +"&i=" + sInstr + "&p=" +sProduct;
+	var sURL = "detail.php?s=" + current_sol +"&i=" + sInstr + "&p=" +sProduct;
 	window.open(sURL, "detail");
 }
 

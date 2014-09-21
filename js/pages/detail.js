@@ -67,7 +67,7 @@ function onClickPrevious(){
 function onClickCal(){
 	var sURL;
 	
-	sURL = "cal.html?s=" + goItem.s + "&t=" + goItem.d.du;
+	sURL = "cal.php?s=" + goItem.s + "&t=" + goItem.d.du;
 	window.open(sURL, "calendar");
 }
 
@@ -79,7 +79,7 @@ function onClickMap(){
 
 //***************************************************************
 function onClickSol(){
-	var sURL="index.html?s="+ goItem.s + "&i=" + goItem.i;
+	var sURL="index.php?s="+ goItem.s + "&i=" + goItem.i;
 	window.open(sURL, "index");
 }
 
@@ -102,7 +102,7 @@ function onClickMSLRaw(){
 
 //***************************************************************
 function onClickPDS(){
-	var sURL = "pds.html?s="+ goItem.s + "&i=" + goItem.i +"&p=" + goItem.p +"&t=" + escape(goItem.d.du);
+	var sURL = "pds.php?s="+ goItem.s + "&i=" + goItem.i +"&p=" + goItem.p +"&t=" + escape(goItem.d.du);
 	window.open(sURL, "pds");
 }
 
@@ -234,7 +234,7 @@ function tag_callback(paJS){
 		sHTML = "";
 		for (i=0; i<paJS.d.length; i++){
 			sTag = paJS.d[i];
-			sHTML += "<a target='tags' href='tag.html?t=" + sTag + "'>#" + sTag + "</a> ";
+			sHTML += "<a target='tags' href='tag.php?t=" + sTag + "'>#" + sTag + "</a> ";
 		}
 	}
 	$("#tags").html( sHTML);

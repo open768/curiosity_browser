@@ -17,7 +17,7 @@ var current_sol = null;
 //# event handlers
 //###############################################################
 function onClickAllSols(){
-	window.open("allsoltags.html", "allsoltags");
+	window.open("allsoltags.php", "allsoltags");
 }
 
 //###############################################################
@@ -29,7 +29,7 @@ function onLoadJQuery(){
 	
 	//update sol number
 	sSol = cBrowser.data["s"];
-	$("#sol").html("<a target='title' href='index.html?s=" +sSol+"'>" + sSol + "</a>");
+	$("#sol").html("<a target='title' href='index.php?s=" +sSol+"'>" + sSol + "</a>");
 	current_sol = sSol;
 	
 	//load tags
@@ -57,8 +57,8 @@ function load_soltag_callback(poJs){
 			oItem = aTags[i];
 			sProduct = oItem.p;
 			sTag = oItem.t;
-			sTagUrl = "<a target='tag' href='tag.html?t=" + sTag + "'>" + sTag + "</a>";
-			sProductURL = "<a target='detail' href='detail.html?s=" + current_sol + "&i=" + sInstr + "&p=" + sProduct + "'>" + sProduct + "</a>";
+			sTagUrl = "<a target='tag' href='tag.php?t=" + sTag + "'>" + sTag + "</a>";
+			sProductURL = "<a target='detail' href='detail.php?s=" + current_sol + "&i=" + sInstr + "&p=" + sProduct + "'>" + sProduct + "</a>";
 			oDiv.append( sTagUrl + " in " + sProductURL + "<br>")
 		}
 	}

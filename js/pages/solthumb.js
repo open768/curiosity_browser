@@ -28,7 +28,7 @@ function onLoadJQuery(){
 	//update sol number
 	sSol = cBrowser.data["s"];
 	sInstr = cBrowser.data["i"];
-	$("#sol").html("<a target='title' href='index.html?s=" +sSol+"'>" + sSol + "</a>");
+	$("#sol").html("<a target='title' href='index.php?s=" +sSol+"'>" + sSol + "</a>");
 	current_sol = sSol;
 	
 	//load thumbs
@@ -52,7 +52,7 @@ function load_thumbs_callback(poJS){
 	else{
 		for (i=0; i< aData.length; i++){
 			oItem = aData[i];
-			oDiv.append("<a target='detail' href='detail.html?s=" + poJS.s + "&i=" + poJS.i +"&p=" +oItem.p +"'><img border='0' src='" +oItem.i + "'></a> ");
+			oDiv.append("<a target='detail' href='detail.php?s=" + poJS.s + "&i=" + poJS.i +"&p=" +oItem.p +"'><img border='0' src='" +oItem.i + "'></a> ");
 		}
 	}
 	

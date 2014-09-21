@@ -100,7 +100,7 @@ function render_sites(){
 		// make the placemark
 		fLat = (oBounds.lat1 + oBounds.lat2)/2;
 		fLong = (oBounds.long1 + oBounds.long2)/2;
-		sLink = '<a href="site.html?o=site&site=' +i + '">click here</a>';
+		sLink = '<a href="site.php?o=site&site=' +i + '">click here</a>';
 		oPlace = cGoogleEarth.makePlacemark(fLat, fLong, "site: "+i, "To see more details " + sLink);
 		
 		oBounds.place = oPlace;

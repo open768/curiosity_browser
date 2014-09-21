@@ -49,7 +49,7 @@ function load_product_callback(poJS){
 	}
 	
 	//display details of the product
-	sUrl = "detail.html?s=" + poJS.s + "&i=" + poJS.i + "&p=" + poJS.p;
+	sUrl = "detail.php?s=" + poJS.s + "&i=" + poJS.i + "&p=" + poJS.p;
 	sId = "i" + poJS.p;
 	oImgDiv = $("<DIV>").attr({"id":sId});
 	oImgDiv.css({position: 'relative'});

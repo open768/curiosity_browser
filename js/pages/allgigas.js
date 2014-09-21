@@ -40,7 +40,7 @@ function giga_callback(poJs){
 function sols_callback(paJS){
 	var sHTML, i, iCount, sSol;
 	
-	sHTML = "<form target='solgigsa' method='GET' action='solgigas.html'><center><table cellpadding=5>";
+	sHTML = "<form target='solgigsa' method='GET' action='solgigas.php'><center><table cellpadding=5>";
 	iCount =0;
 	for (i = 0; i < paJS.length; i++){
 		if (iCount == 0) sHTML += "<tr>";
@@ -49,7 +49,7 @@ function sols_callback(paJS){
 		if (oSolIndex[sSol])
 			sHTML += "<button name='s' value='"+sSol+"'>"+sSol+"</button>";
 		else
-			sHTML += "<a target='index' href='index.html?s=" + sSol+"'>"+sSol+"</a>";
+			sHTML += "<a target='index' href='index.php?s=" + sSol+"'>"+sSol+"</a>";
 
 		sHTML += "</TD>"
 			

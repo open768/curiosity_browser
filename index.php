@@ -60,17 +60,17 @@
 					<div id="tags">Loading...</div>
 				</div>
 				<div class="gold" id="tabs-3">
-					<button onclick="window.open('allsoltags.html','alltags');">All Tags</button>
-					<button onclick="window.open('allsolhighs.html','allhighs');">All Highlights</button>
-					<button onclick="window.open('allgigas.html','allgigas');">All Gigapans</button>
-					<button onclick="window.open('allsites.html','allsites');">All Sites</button>
+					<button onclick="window.open('allsoltags.php','alltags');">All Tags</button>
+					<button onclick="window.open('allsolhighs.php','allhighs');">All Highlights</button>
+					<button onclick="window.open('allgigas.php','allgigas');">All Gigapans</button>
+					<button onclick="window.open('allsites.php','allsites');">All Sites</button>
 					<button title="Where is curiosity now?" onclick="window.open('http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/', 'whereami');">Where is Curiosity</button>
 				</div>
 			</div>
 		</td>
 		<td valign="top">
 			<div class="gold">
-				<button onclick="window.open('about.html', 'about');">About </button>
+				<button onclick="window.open('about.php', 'about');">About </button>
 				<input type="textbox" id="search_text" maxlength="30" size="30"><button onclick="onClickSearch()" title="Search for Product">Search</button>
 				<span class="subtitle"> &nbsp;&nbsp;&nbsp;&nbsp; Status: </span><span ID="status" class="status">Loading...</span>
 			</div>
