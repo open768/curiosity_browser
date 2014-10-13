@@ -53,8 +53,11 @@ function load_product_callback(poJS){
 	sId = "i" + poJS.p;
 	oImgDiv = $("<DIV>").attr({"id":sId});
 	oImgDiv.css({position: 'relative'});
+	if (SINGLE_WINDOW)
+		oA = $("<A>").attr({href:sUrl});
+	else
+		oA = $("<A>").attr({href:sUrl, target:"detail"});
 	
-	oA = $("<A>").attr({href:sUrl, target:"detail"});
 	oImg = $("<IMG>").attr({"src": poJS.d.i});
 	oImg.on("load", function (){cImgHilite.getHighlights(poJS.s,poJS.i,poJS.p, highlight_callback);});
 	oA.append(oImg);

@@ -23,7 +23,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	
 	if (! $sSol || !$sInstr) cDebug::error("wrong parameters");
 	
-	cDebug::write("getting sol $sSol data");
+	cDebug::write("getting sol $sSol thumbnails data");
 	$aData = cCuriosity::getThumbnails($sSol, $sInstr);
 	
 	cCommon::write_json($aData);

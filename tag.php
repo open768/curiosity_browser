@@ -25,6 +25,7 @@
 		</td>
 		<td valign="top">
 			<div class="gold">
+				<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
 				Status: <span class="status" id="status">	loading...</span>
 			</div>
 			<div class="gold" >

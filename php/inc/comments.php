@@ -2,6 +2,7 @@
 require_once("$root/php/inc/objstore.php");
 class cComments{
 	const COMMENT_FILENAME = "[comment].txt";
+	const STRIP_HTML = false;
 	
 	//********************************************************************
 	static function get( $psSol, $psInstrument, $psProduct){
@@ -13,7 +14,7 @@ class cComments{
 	//********************************************************************
 	static function set( $psSol, $psInstrument, $psProduct, $psComment, $psUser){
 		$sFolder = "$psSol/$psInstrument/$psProduct";
-		$psComment = strip_tags($psComment);
+		if (self::STRIP_HTML) $psComment = strip_tags($psComment);
 		cDebug::write("comment: $psComment");
 
 		$aData = ["c"=>$psComment, "u"=>$psUser];

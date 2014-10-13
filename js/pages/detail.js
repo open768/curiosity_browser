@@ -2,7 +2,7 @@
 Copyright (C) Chicken Katsu 2014 
 
 This code is protected by copyright under the terms of the 
-Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License
+Creative Commons Attribution-Ncercial-NoDerivatives 4.0 International License
 http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 
 For licenses that allow for commercial use please contact cluck@chickenkatsu.co.uk
@@ -35,7 +35,7 @@ function onClickNext(){
 //***************************************************************
 function onClickComment(){
 	cAuth.forceLogin();
-	var sText = $("#Commentsbox").val();
+	var sText = $("#Commentsbox").sceditor('instance').val(); //gets the bbcode - MUST BE PARSED AT SERVER
 	cComments.set(goItem.s,goItem.i,goItem.p, sText, get_comments_callback);
 }
 
@@ -68,7 +68,7 @@ function onClickCal(){
 	var sURL;
 	
 	sURL = "cal.php?s=" + goItem.s + "&t=" + goItem.d.du;
-	window.open(sURL, "calendar");
+	cBrowser.openWindow(sURL, "calendar");
 }
 
 //***************************************************************
@@ -80,7 +80,13 @@ function onClickMap(){
 //***************************************************************
 function onClickSol(){
 	var sURL="index.php?s="+ goItem.s + "&i=" + goItem.i;
-	window.open(sURL, "index");
+	cBrowser.openWindow(sURL, "index");
+}
+
+//***************************************************************
+function onClickThumbnails(){
+	var sURL="solthumb.php?s="+ goItem.s + "&i=" + goItem.i;
+	cBrowser.openWindow(sURL, "solthumb");
 }
 
 //***************************************************************
@@ -103,7 +109,7 @@ function onClickMSLRaw(){
 //***************************************************************
 function onClickPDS(){
 	var sURL = "pds.php?s="+ goItem.s + "&i=" + goItem.i +"&p=" + goItem.p +"&t=" + escape(goItem.d.du);
-	window.open(sURL, "pds");
+	cBrowser.openWindow(sURL, "pds");
 }
 
 //***************************************************************
@@ -125,7 +131,7 @@ function onClickAddTag(){
 
 //***************************************************************
 function onClickPixlr(){
-	pixlr.edit({image:goItem.d.i, service:'editor', exit:document.location});
+	pixlr.edit({image:goItem.d.i, service:'editor', exit:document.location, referer:'mars browser', redirect:false});
 }
 
 function onKeyPress(poEvent){
@@ -139,6 +145,24 @@ function onKeyPress(poEvent){
 	
 }
 
+
+//###############################################################
+//# Utility functions 
+//###############################################################
+function onLoadJQuery(){
+	$("#Commentsbox").sceditor({
+		plugins: 'bbcode',
+		style: "./js/sceditor/minified/jquery.sceditor.default.min.css",
+		toolbarExclude: "print,code,email,source,maximize",
+		height:100,
+		resizeEnabled: false
+	});
+	
+	//get user data
+	set_status("loading user data...");
+	cAuth.getUser(authCallback);
+}
+
 function onInputFocus(){
 	$(window).unbind("keypress");
 }
@@ -147,28 +171,6 @@ function onInputDefocus(){
 	$(window).keypress(onKeyPress);
 }
 
-//###############################################################
-//# Utility functions 
-//###############################################################
-function onLoadJQuery(){
-	//set up event handler on screen elements
-	$(":input").each(function(index,oObj){
-		if ($(oObj).attr("type")==="text"){
-			$(oObj).focus(onInputFocus);
-			$(oObj).blur(onInputDefocus);
-		}
-	});
-	$("textarea").each(function(index,oObj){
-		$(oObj).focus(onInputFocus);
-		$(oObj).blur(onInputDefocus);
-	});
-	$(window).keypress(onKeyPress);
-	
-	
-	//get user data
-	set_status("loading user data...");
-	cAuth.getUser(authCallback);
-}
 
 //***************************************************************
 function authCallback(psUser){
@@ -234,7 +236,9 @@ function tag_callback(paJS){
 		sHTML = "";
 		for (i=0; i<paJS.d.length; i++){
 			sTag = paJS.d[i];
-			sHTML += "<a target='tags' href='tag.php?t=" + sTag + "'>#" + sTag + "</a> ";
+			
+			var sTarget = ( SINGLE_WINDOW ? "" : "target='tags'");
+			sHTML += "<a " + sTarget + " href='tag.php?t=" + sTag + "'>#" + sTag + "</a> ";
 		}
 	}
 	$("#tags").html( sHTML);

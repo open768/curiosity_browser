@@ -16,7 +16,8 @@
 	<DIV class="title">Tags for sol:<span id="sol">??</span></DIV>
 <p>
 	<div class="gold">
-		<button onclick="window.open('allsoltags.php','alltags');">All Sols</button>
+		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
+		<button onclick="cBrowser.openWindow('allsoltags.php','alltags');">All Sols</button>
 		<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
 	</div>
 	<div class="gold"  id="soltag">

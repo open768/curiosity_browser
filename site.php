@@ -20,7 +20,8 @@
 	<DIV class="title">Site <span id="siteid"></span></DIV>
 <p>
 	<div class="gold">
-		<button onclick="window.open('allsites.php','allsites');">All Sites</button>
+		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
+		<button onclick="cBrowser.openWindow('allsites.php','allsites');">All Sites</button>
 		<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
 	</div>
 	<div class="gold"  id="site">

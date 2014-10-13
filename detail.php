@@ -8,9 +8,10 @@
 ?>
 <html>
 <head>
-	<LINK href="css/css.css" rel="stylesheet" type="text/css">
-	<LINK href="css/drag.css" rel="stylesheet" type="text/css">
-	<LINK href="css/jquery/jquery-ui.css" rel="stylesheet" type="text/css">
+	<LINK href="./css/css.css" rel="stylesheet" type="text/css">
+	<LINK href="./css/drag.css" rel="stylesheet" type="text/css">
+	<LINK href="./css/jquery/jquery-ui.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="./js/sceditor/minified/themes/default.min.css" type="text/css" media="all" />
 	<title>Detail: Curiosity Browser</title>
 	<script src="js/inc/secret.js"></script>
 	<script src="js/pixlr/pixlr.js"></script>
@@ -24,13 +25,16 @@
 	<script src="js/jquery/jquery-ui.js"></script>
 	<script src="js/inc/analytics.js"></script>
 	<script src="js/inc/facebook.js"></script>
+	<script src="./js/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
 </head>
 <body onload="$(onLoadJQuery);">
 	<DIV class="title">Curiosity Detail</DIV>
 	<DIV class="gold">
+		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
 		<button id="sol" title="Choose Sol" onclick="onClickSol();">loading...</button>
 		<button id="instrument" title="Choose Instrument" onclick="onClickInstr();">loading</button>
 		<button id="date_utc" title="Show SOL Calendar" onclick="onClickCal();">loading...</button>
+		<button title="Show thumbnails" onclick="onClickThumbnails();">Thumbnails</button>
 		image <span id="img_index">??</span> of <span id="max_images">??</span>
 		<button title="Map at curiositybrowser.com" id="maplink" onclick="onClickMap()">Map</button>
 		<button title="Original Nasa image" id="nasalink" onclick="onClickNASA()">Original</button>
@@ -53,17 +57,17 @@
 			<td></td>
 			<td valign="bottom">
 				<nobr>
-				<button title="previous product(P)" id="ltimebut_top" class="topnavbut" title="previous in timeline" onclick="onClickPreviousTime();" style="width:100"><img src="images/back.png"></button
-				><button title="previous (p)" id="lbut_top" class="topnavbut" onclick="onClickPrevious();" style="width:300">&lt;</button
-				><button title="next(n)" id="rbut_top" class="topnavbut" onclick="onClickNext();" style="width:300">&gt;</button
-				><button title="next product(N)" id="rtimebut_top" class="topnavbut" title="next in timeline" onclick="onClickNextTime();" style="width:100"><img src="images/forward.png"></button>
+				<button title="previous product" id="ltimebut_top" class="topnavbut" title="previous in timeline" onclick="onClickPreviousTime();" style="width:100"><img src="images/back.png"></button
+				><button title="previous" id="lbut_top" class="topnavbut" onclick="onClickPrevious();" style="width:300">&lt;</button
+				><button title="next" id="rbut_top" class="topnavbut" onclick="onClickNext();" style="width:300">&gt;</button
+				><button title="next product" id="rtimebut_top" class="topnavbut" title="next in timeline" onclick="onClickNextTime();" style="width:100"><img src="images/forward.png"></button>
 				</nobr>
 			</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td align="right">
-				<button title="previous (p)" id="lbut" onclick="onClickPrevious();" style="height:600" class="lnavbut">&lt;</button>
+				<button title="previous" id="lbut" onclick="onClickPrevious();" style="height:600" class="lnavbut">&lt;</button>
 			</td>
 			<td align="middle">
 				<div id="container" class="container">
@@ -81,26 +85,27 @@
 				
 			</td>
 			<td align="left">
-				<button id="rbut" title="next(n)" onclick="onClickNext();" style="height:600" class="rnavbut">&gt;</button>
+				<button id="rbut" title="next" onclick="onClickNext();" style="height:600" class="rnavbut">&gt;</button>
 			</td>
 		</tr>
 		<tr>
 			<td></td>
 			<td valign="top">
-				<button title="previous product(P)" id="ltimebut_bot" class="topnavbut" title="previous in timeline" onclick="onClickPreviousTime();" style="width:100"><img src="images/back.png"></button
-				><button title="previous (p)" id="lbut_bot" class="topnavbut" onclick="onClickPrevious();" style="width:300">&lt;</button
-				><button title="next(n)" id="rbut_bot" class="topnavbut" onclick="onClickNext();" style="width:300">&gt;</button
-				><button title="next product(N)" id="rtimebut_bot" class="topnavbut" title="next in timeline" onclick="onClickNextTime();" style="width:100"><img src="images/forward.png"></button>
+				<button title="previous product" id="ltimebut_bot" class="topnavbut" title="previous in timeline" onclick="onClickPreviousTime();" style="width:100"><img src="images/back.png"></button
+				><button title="previous" id="lbut_bot" class="topnavbut" onclick="onClickPrevious();" style="width:300">&lt;</button
+				><button title="next" id="rbut_bot" class="topnavbut" onclick="onClickNext();" style="width:300">&gt;</button
+				><button title="next product" id="rtimebut_bot" class="topnavbut" title="next in timeline" onclick="onClickNextTime();" style="width:100"><img src="images/forward.png"></button>
 			</td>
 			<td></td>
 		</tr>
 	</table>
 	<!-- end image container -->
 	<p>
-	<div class="gold">
+	<div class="gold" id="#commentContainer">
 		<div ID="comments" class="comments">loading comments data...</div>
 		<p>
-		<textarea rows="3" cols="120" id="Commentsbox" placeholder="go on share your thoughts with everyone"></textarea><button onclick="onClickComment()" title="submit comment">comment</button>
+		<textarea rows="5" cols="120" id="Commentsbox" placeholder="go on share your thoughts with everyone"></textarea>
+		<button onclick="onClickComment()" title="submit comment">comment</button>
 	</div>
 	<div class="gold" ID="msldata">
 		loading MSL data

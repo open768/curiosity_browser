@@ -15,6 +15,7 @@
 	<DIV class="title">Curiosity calendar for SOL: <span id="sol">???</span></DIV>
 
 	<DIV class="gold">
+		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
 		<button title="force refresh cache" id="solrefresh" onclick="onClickRefresh()">Refresh Data</button>
 		<button onclick="onClickPrevious()" title="previous Sol">&lt;&lt; Previous</button>
 		Status: <span ID="status" class="status">Loading...</span>

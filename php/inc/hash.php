@@ -20,7 +20,8 @@ class cHash{
 	const FOREVER = -1;
 	public static $CACHE_EXPIRY =  2592000 ;  //(1 month in seconds)
 	public static $show_filenames = false;
-	
+	public static $show_hashes = false;
+	public static $show_cache_hit = false;
 	
 	//************************************************************************
 	public static function hash($psUrl){
@@ -50,7 +51,7 @@ class cHash{
 	public static function exists($psHash){
 		$sFile = self::getPath($psHash);
 		$bExists = file_exists($sFile);
-		cDebug::write("hash: $bExists - $psHash");
+		if (self::$show_hashes) cDebug::write("hash: $bExists - $psHash");
 		
 		// check the expiry date on the file - if its too old zap it
 		if ($bExists && (self::$CACHE_EXPIRY <> self::FOREVER)){
@@ -99,11 +100,11 @@ class cHash{
 	public static function get_obj( $psHash){
 		$oResponse = null;
 		if (self::exists($psHash)){
-			cDebug::write("exists in cache");
-			$sFile = cHash::getPath($psHash);
+			if (self::$show_cache_hit) cDebug::write("exists in cache");
+			$sFile = self::getPath($psHash);
 			$oResponse = cGzip::readObj($sFile);
 		}else
-			cDebug::write("doesnt exist in cache");
+			if (self::$show_cache_hit) cDebug::write("doesnt exist in cache");
 		
 		return $oResponse;
 	}

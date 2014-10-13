@@ -15,7 +15,8 @@
 	<DIV class="title">Gigapans for sol:<span id="sol">??</span></DIV>
 <p>
 	<div class="gold">
-		<button onclick="window.open('allgigas.php','allgigas');">All Gigapans</button>
+		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
+		<button onclick="cBrowser.openWindow('allgigas.php','allgigas');">All Gigapans</button>
 		<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
 	</div>
 	<div class="gold"  id="solgiga">

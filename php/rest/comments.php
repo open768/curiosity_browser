@@ -17,6 +17,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("$root/php/inc/comments.php");
 	require_once("$root/php/static/static.php");
 	require_once("$root/php/inc/common.php");
+	require_once("$root/php/sbbcode/SBBCodeParser.php");
 	
 	cDebug::check_GET_or_POST();
 
@@ -39,7 +40,14 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			$sSol = $_GET["s"];
 			$sInstrument= $_GET["i"];
 			$sProduct= $_GET["p"];
-			$sComment= utf8_encode($_GET["v"]);
+			$sBBcode = $_GET['v'];
+
+			cDebug::write("input was $sBBcode");
+			$parser = new  SBBCodeParser\Node_Container_Document();
+			$parser->parse($sBBcode);
+			$sHTML = $parser->get_html();
+			$sComment= utf8_encode($sHTML);
+			
 			$aResult = cComments::set($sSol, $sInstrument, $sProduct, $sComment, $sUser);
 			break;
 		default:

@@ -18,6 +18,7 @@
 </head>
 <body onload="$(onLoadJQuery);">
 	<div class="gold">
+		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
 		<font class="subtitle">Site:</font> <span id="sites"> loading...</span>
 		<font class="subtitle">HiRise:</font><span id="hirise"> loading...</span>
 		

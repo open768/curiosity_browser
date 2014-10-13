@@ -58,7 +58,7 @@ function onClickParsePDS(){
 	
 	sUrl = "php/rest/pds.php?a=p&debug&u=" + escape(gsPdsUrl);
 	
-	window.open(sUrl, "parsePDS");
+	cBrowser.openWindow(sUrl, "parsePDS");
 }
 
 //***************************************************************

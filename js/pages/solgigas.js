@@ -23,7 +23,8 @@ function onLoadJQuery(){
 	
 	//update sol number
 	sSol = cBrowser.data["s"];
-	$("#sol").html("<a target='title' href='index.php?s=" +sSol+"'>" + sSol + "</a>");
+	var sTarget = ( SINGLE_WINDOW ? "" : "target='index'");
+	$("#sol").html("<a " + sTarget + " href='index.php?s=" +sSol+"'>" + sSol + "</a>");
 	current_sol = sSol;
 	
 	//load tags
@@ -50,8 +51,8 @@ function load_giga_callback(paJs){
 		aItem = paJs[i];
 		sGigaID = aItem.I;
 		sUrl = "http://www.gigapan.com/gigapans/" + sGigaID;
-		oDiv.append( "<a href='"+sUrl+"'><img src='http://static.gigapan.org/gigapans0/"+sGigaID+"/images/"+sGigaID+"-800x279.jpg'></a><br>");
-		oDiv.append( "<a href='"+sUrl+"'>" + aItem.D +"</a><hr>");
+		oDiv.append( "<a target='giga' href='"+sUrl+"'><img src='http://static.gigapan.org/gigapans0/"+sGigaID+"/images/"+sGigaID+"-800x279.jpg'></a><br>");
+		oDiv.append( "<a target='giga' href='"+sUrl+"'>" + aItem.D +"</a><hr>");
 	}
 	
 	set_status("ok");

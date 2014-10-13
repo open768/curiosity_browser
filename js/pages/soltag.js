@@ -17,7 +17,7 @@ var current_sol = null;
 //# event handlers
 //###############################################################
 function onClickAllSols(){
-	window.open("allsoltags.php", "allsoltags");
+	cBrowser.openWindow("allsoltags.php", "allsoltags");
 }
 
 //###############################################################
@@ -29,7 +29,9 @@ function onLoadJQuery(){
 	
 	//update sol number
 	sSol = cBrowser.data["s"];
-	$("#sol").html("<a target='title' href='index.php?s=" +sSol+"'>" + sSol + "</a>");
+	
+	var sTarget = ( SINGLE_WINDOW ? "" : "target='index'");
+	$("#sol").html("<a " + sTarget + " href='index.php?s=" +sSol+"'>" + sSol + "</a>");
 	current_sol = sSol;
 	
 	//load tags
@@ -53,12 +55,14 @@ function load_soltag_callback(poJs){
 		oDiv.append("<h2>"+sInstr +"</h2>");
 		aTags = poJs[sInstr];
 
+		var sTagTarget = ( SINGLE_WINDOW ? "" : "target='tag'");
+		var sDetailTarget = ( SINGLE_WINDOW ? "" : "target='detail'");
 		for (i=0; i< aTags.length; i++){
 			oItem = aTags[i];
 			sProduct = oItem.p;
 			sTag = oItem.t;
-			sTagUrl = "<a target='tag' href='tag.php?t=" + sTag + "'>" + sTag + "</a>";
-			sProductURL = "<a target='detail' href='detail.php?s=" + current_sol + "&i=" + sInstr + "&p=" + sProduct + "'>" + sProduct + "</a>";
+			sTagUrl = "<a " + sTagTarget + " href='tag.php?t=" + sTag + "'>" + sTag + "</a>";
+			sProductURL = "<a " + sDetailTarget + " href='detail.php?s=" + current_sol + "&i=" + sInstr + "&p=" + sProduct + "'>" + sProduct + "</a>";
 			oDiv.append( sTagUrl + " in " + sProductURL + "<br>")
 		}
 	}

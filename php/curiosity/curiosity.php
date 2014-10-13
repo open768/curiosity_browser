@@ -21,6 +21,7 @@ class cCuriosity{
 	const SOL_URL = "http://mars.jpl.nasa.gov/msl-raw-images/image/images_sol";
 	const FEED_URL = "http://mars.jpl.nasa.gov/msl-raw-images/image/image_manifest.json";
 	const SOL_CACHE = 604800;	//1 week
+	const ALL_INSTRUMENTS = "All";
 	const MANIFEST_CACHE = 3600;	//1 hour
 
 	private static $Instruments, $instrument_map;
@@ -55,47 +56,77 @@ class cCuriosity{
 	
 	//*****************************************************************************
 	public static function getThumbnails($psSol, $psInstrument){
-		
 		//get the thumbnails and the non thumbnails
-		$oThumbs = self::getSolData($psSol, $psInstrument, true);
-		$aTData = $oThumbs->data;
+		if ($psInstrument == self::ALL_INSTRUMENTS){
+			$oThumbs = self::getAllSolThumbs($psSol);
+			return self::pr_match_thumbs($psSol, null, $oThumbs);
+		}else{
+			$oThumbs = self::getSolThumbs($psSol, $psInstrument);
+			return self::pr_match_thumbs($psSol, $psInstrument, $oThumbs);
+		}
+	}
+		
+	
+	private static function pr_match_thumbs($psSol, $psInstrument, $poThumbs){
+		$aTData = $poThumbs->data;
 		$iTCount = count($aTData);
 		if ($iTCount == 0){
 			cDebug::write("no thumbnails found");
 		}else{
-			// read the img files
+			// read the img files for the products
 			cDebug::write("Found $iTCount thumbnails: ");
-			$oImg = self::getSolData($psSol, $psInstrument, false);
+			$oImg = self::getSolData($psSol, $psInstrument);
 			$aIData = $oImg->data;
 			$iICount = count($aIData);
 			
-			// index by the product ID
+			// create a list of product Ids
 			$aIProducts = [];
-			foreach ($aIData as $oIItem)
-				$aIProducts[$oIItem["p"]] = 1;
+			foreach ($aIData as $oIItem){
+				$sProduct = $oIItem["p"];
+				$aIProducts[$sProduct] = 1;
+			}
 			$aIProductKeys = array_keys($aIProducts);
+			cDebug::write("product IDs found:");
+			cDebug::vardump($aIProductKeys);
 			
-			//try to match them up or delete
+			//try to match up thumbmnails to full products or delete
 			for ($i=$iTCount-1; $i>=0 ;$i--){
 				$aTItem = $aTData[$i];
 				$sTProduct = $aTItem["p"];
+				
+				//should really check the type of product for the next bit - but ho-hum heres a *BODGE*
 				$sIProduct = str_replace("I1_D", "E1_D", $sTProduct);
+
 				if (array_key_exists($sIProduct, $aIProducts)){
+					cDebug::write("product found for $sIProduct");
 					$aTItem["p"] = $sIProduct;
 					$aTData[$i] = $aTItem;
+					continue;
+				}
+				
+				$sRegex = str_replace("EDR_T", "EDR_.", $sTProduct);
+				$aKeys = array_keys($aIProducts);
+				$aMatches = preg_grep("/".$sRegex."/", $aKeys);
+				if ( $aMatches ){
+					$sMatch = array_values($aMatches)[0];;
+					$aTItem["p"] = $sMatch;
+					$aTData[$i] = $aTItem;
+					continue;
+				}
+				
+				//if all else fails: NB this'll only work for mastcam or mahli - otherwise you get a big fat exception
+				cDebug::write("product not found for $sIProduct");
+				$aParts = cCuriosityPDS::explode_productID($sTProduct);
+				$sPartial = sprintf( "/%04d%s%06d%03d/", $aParts["sol"],	$aParts["instrument"] , $aParts["seqid"] ,$aParts["seq line"], $aParts["CDPID"]);
+				$aMatches = preg_grep($sPartial,$aIProductKeys);
+				if (count($aMatches) > 0 ){
+					$aValues = array_values($aMatches);
+					cDebug::write("thumbnail $sTProduct matches ".$aValues[0]);
+					$aTItem["p"] = $aValues[0];
+					$aTData[$i] = $aTItem;
 				}else{
-					$aParts = cCuriosityPDS::explode_productID($sTProduct);
-					$sPartial = sprintf( "/%04d%s%06d%03d/", $aParts["sol"],	$aParts["instrument"] , $aParts["seqid"] ,$aParts["seq line"], $aParts["CDPID"]);
-					$aMatches = preg_grep($sPartial,$aIProductKeys);
-					if (count($aMatches) > 0 ){
-						$aValues = array_values($aMatches);
-						cDebug::write("thumbnail $sTProduct matches ".$aValues[0]);
-						$aTItem["p"] = $aValues[0];
-						$aTData[$i] = $aTItem;
-					}else{
-						cDebug::write("Thumbnail didnt match $sPartial");
-						unset($aTData[$i]);
-					}
+					cDebug::write("Thumbnail didnt match $sPartial");
+					unset($aTData[$i]);
 				}
 			}
 			
@@ -107,10 +138,10 @@ class cCuriosity{
 			//TBD
 			//store the final version of the data			
 			$aValues = array_values($aTData);
-			$oThumbs->data = $aValues;
+			$poThumbs->data = $aValues;
 		}
 		
-		return ["s"=>$psSol, "i"=>$psInstrument, "d"=>$oThumbs];
+		return ["s"=>$psSol, "i"=>$psInstrument, "d"=>$poThumbs];
 	}
 	
 	//*****************************************************************************
@@ -128,7 +159,7 @@ class cCuriosity{
 	//*****************************************************************************
 	public static function getAllSolData($psSol){
 		$sUrl=self::SOL_URL."${psSol}.json";
-		cDebug::write("Getting sol data from: ".$sUrl);
+		cDebug::write("Getting all sol data from: ".$sUrl);
 		cCachedHttp::$CACHE_EXPIRY=self::SOL_CACHE;
 		return cCachedHttp::getCachedJson($sUrl);
 	}
@@ -141,7 +172,17 @@ class cCuriosity{
 	}
 	
 	//*****************************************************************************
-	public static function getSolData($psSol, $psInstrument, $pbThumbs=false){
+	public static function getAllSolThumbs($psSol){
+		return self::getSolData($psSol, null,true);
+	}
+	
+	//*****************************************************************************
+	public static function getSolThumbs($psSol, $psInstrument){
+		return self::getSolData($psSol, $psInstrument,true);
+	}
+	
+	//*****************************************************************************
+	public static function getSolData($psSol, $psInstrument=null, $pbThumbs=false){
 		$oJson = self::getAllSolData($psSol);
 		$oInstrument = new cInstrument($psInstrument);
 		
@@ -150,7 +191,7 @@ class cCuriosity{
 		//---build a list of data
 		foreach ($aImages as $oItem){
 			$sInstrument = $oItem->instrument;
-			if ($sInstrument === $psInstrument)
+			if (( !$psInstrument) || ($sInstrument === $psInstrument))
 				$oInstrument->add($oItem, $pbThumbs);
 		}
 		return $oInstrument;

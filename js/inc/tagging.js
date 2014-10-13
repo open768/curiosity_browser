@@ -50,7 +50,9 @@ var cTagging = {
 			iCount = poData[sKey];
 			iSize = this.minFont + iCount * fsRatio;
 			iWeight = 100 + Math.round(iCount * fwRatio);
-			sHTML += "<a target='tags' style='font-size:" + iSize + "px;font-weight:" + iWeight + "' href='tag.html?t=" + sKey  + "'>" + sKey +"</a> ";
+			
+			var sTarget = ( SINGLE_WINDOW ? "" : "target='tags'");
+			sHTML += "<a " + sTarget + " style='font-size:" + iSize + "px;font-weight:" + iWeight + "' href='tag.php?t=" + sKey  + "'>" + sKey +"</a> ";
 		}
 		$("#"+psElement).html(sHTML);
 	}

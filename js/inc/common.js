@@ -12,6 +12,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 var DEBUG_ON = true;
 var STATUS_ID = "status";
+var SINGLE_WINDOW =true;
 
 //###############################################################
 //# HTTP
@@ -144,7 +145,17 @@ cBrowser = {
 			window.history.pushState("", psTitle, psUrl);
 			this.init();
 		}
+	},
+	
+	//***************************************************************
+	openWindow:function(psUrl, psWindow){
+		if (SINGLE_WINDOW)
+			document.location.href = psUrl;
+		else
+			window.open(psUrl, psWindow);
 	}
+	
+//	this.isMobile = function(a) {(/android|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|meego.+mobile|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(a))}(navigator.userAgent||navigator.vendor||window.opera);
 }
 cBrowser.init();
 

@@ -4,6 +4,7 @@
 	<title>About the Curiosity Browser </title>
 </head>
 <body>
+	<script src="js/inc/common.js"></script>
 	<script src="js/inc/secret.js"></script>
 	<script src="js/jquery/jquery.js"></script>
 	<script src="js/jquery/jquery-ui.js"></script>
@@ -13,6 +14,8 @@
 	<DIV class="title">About the Curiosity Browser</DIV>
 <p>
 	<div class="gold" >
+		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
+		<p>
 		The curiosity browser makes MSL curiosity data more accessible to citizen scientists by providing sticky social features to tag, 
 		highlight and comment on images. The browser can also be regarded as an example of using the power of crowds to classify space images. 
 		<p>
@@ -41,7 +44,8 @@
 			<li>Neville Thompson - for making amazing gigapans
 			<li>NASA PDS operator - nasaview
 			<li>Jennifer Buz - informal names used by MSL 
-			<li>Sunil Vanmullem - thats me folks
+			<li><a href="http://restlesseye.com/" target="tristam">Tristam Sparks</a> - bringing Graphic design to the site
+			<li><a href="http://www.chickenkatsu.co.uk/" target='sunil'>Sunil Vanmullem</a> - thats me folks - coder, owner, creator
 		</ul>
 		<p>
 		<span class="subtitle">This web site is not affiliated with JPL or NASA.</span>
@@ -52,6 +56,9 @@
 			<li>PHP: http://php.net/
 			<li>JQuery: http://jquery.org/
 			<li>are you a human: http://ayah.com/
+			<li>Jssor: http://www.jssor.com/
+			<li>Sciedit: http://www.sceditor.com/
+			<li>sbbcode: https://github.com/samclarke/SBBCodeParser
 		</ul>
 		<p>
 		

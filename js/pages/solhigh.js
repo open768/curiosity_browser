@@ -74,7 +74,7 @@ function onClickNext_sol(){
 }
 
 function onClickSol(){
-	window.open("index.php?s=" +current_sol, "index");
+	cBrowser.openWindow("index.php?s=" +current_sol, "index");
 }
 
 function onClickDetails(){
@@ -124,8 +124,10 @@ function hilite_callback(poJs){
 			oRow = $("<TR>");
 			oTable.append(oRow);
 			sUrl= "detail.php?s=" + current_sol + "&i=" + sInstr + "&p=" + sProduct ;
-			oRow.append("<td width=200><a target='detail' href='" + sUrl + "'>" + sProduct + "</a><p><div class='soltags' id='T"+sProduct+"'>Loading Tags..<div></td>");
-			oRow.append("<td align=left><a target='detail' href='" + sUrl + "'><div id='"+sProduct+"'><font class='subtitle'>Loading images</font></div></a></td>");
+			
+			var sTarget = ( SINGLE_WINDOW ? "" : "target='detail'");
+			oRow.append("<td width=200><a " + sTarget + " href='" + sUrl + "'>" + sProduct + "</a><p><div class='soltags' id='T"+sProduct+"'>Loading Tags..<div></td>");
+			oRow.append("<td align=left><a " + sTarget + " href='" + sUrl + "'><div id='"+sProduct+"'><font class='subtitle'>Loading images</font></div></a></td>");
 			
 			load_highlights(current_sol, sInstr, sProduct);
 			cTagging.getTags(current_sol,sInstr,sProduct, tag_callback);
@@ -150,9 +152,11 @@ function tag_callback(paJS){
 
 	//put in the tags
 	sHTML = "";
+	var sTarget = ( SINGLE_WINDOW ? "" : "target='tags'");
 	for (i=0; i<paJS.d.length; i++){
 		sTag = paJS.d[i];
-		sHTML += "<a target='tags' href='tag.php?t=" + sTag + "'>#" + sTag + "</a> ";
+		
+		sHTML += "<a " + sTarget + " href='tag.php?t=" + sTag + "'>#" + sTag + "</a> ";
 	}
 	oDiv.html( sHTML);
 }
@@ -175,7 +179,10 @@ function load_thumbs_callback(poJS){
 		oDiv = $("#solhigh");
 		for (i=0 ; i< aUrls.length; i++){
 			sUrl= "detail.php?s=" + poJS.s + "&i=" + poJS.i + "&p=" + poJS.p ;
-			oA = $("<A>").attr({href:sUrl,target:"detail"});
+			if (SINGLE_WINDOW)
+				oA = $("<A>").attr({href:sUrl});
+			else
+				oA = $("<A>").attr({href:sUrl,target:"detail"});
 			oA.append($("<IMG>").attr({"src":aUrls[i],"class":"polaroid"}));
 			oDiv.append(oA);
 		}

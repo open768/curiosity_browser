@@ -16,6 +16,7 @@
 	<DIV class="title">Tagged Sols</DIV>
 <p>
 	<div class="gold">
+		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
 		<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
 	</div>
 	<div class="gold"  id="soltag">

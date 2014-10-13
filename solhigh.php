@@ -16,9 +16,10 @@
 	<DIV class="title">Highlights for sol:<span id="sol">sol??</span></DIV>
 <p>
 	<div class="gold">
+		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
 		<button onclick="onClickPrevious_sol()" title="previous sol">&lt;&lt;&lt;</button>
 		<button onclick="onClickSol();">sol <span id="solbutton">???</span></button>
-		<button onclick="window.open('allsolhighs.php','allhighs');">All Sols</button>
+		<button onclick="cBrowser.openWindow('allsolhighs.php','allhighs');">All Sols</button>
 		<button onclick="onClickNext_sol()" title="next sol">&gt;&gt;&gt;</button>
 
 		&nbsp;&nbsp;&nbsp;<button id="detail" onClick="onClickDetails()">Details</button>

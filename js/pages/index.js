@@ -62,6 +62,7 @@ function onloadJQuery(){
 	$("#solrefresh").attr('disabled', "disabled");
 	$("#solthumbs").attr('disabled', "disabled");
 	$("#solsite").attr('disabled', "disabled");
+	$("#allsolthumbs").attr('disabled', "disabled");
 	
 	//go and load stuff
 	set_status("loading static data...");
@@ -81,19 +82,24 @@ function onloadJQuery(){
 //# Event Handlers
 //###############################################################
 function onClickSolGiga(){
-	window.open("solgigas.php?s=" + current_sol, "solgigas");
+	cBrowser.openWindow("solgigas.php?s=" + current_sol, "solgigas");
 }
 function onClickSolTag(){
-	window.open("soltags.php?s=" + current_sol, "soltag");
+	cBrowser.openWindow("soltags.php?s=" + current_sol, "soltag");
 }
 function onClickSolHighs(){
-	window.open("solhigh.php?s=" + current_sol, "solhigh");
+	cBrowser.openWindow("solhigh.php?s=" + current_sol, "solhigh");
 }
 function onClickSolThumbs(){
-	window.open("solthumb.php?s=" + current_sol + "&i=" + current_instrument, "solthumb");
+	cBrowser.openWindow("solthumb.php?s=" + current_sol + "&i=" + current_instrument, "solthumb");
 }
+
+function onClickAllSolThumbs(){
+	cBrowser.openWindow("solthumb.php?s=" + current_sol + "&i=All", "solthumb");
+}
+
 function onClickSolSite(){
-	window.open("site.php?sol=" + current_sol , "site");
+	cBrowser.openWindow("site.php?sol=" + current_sol , "site");
 }
 
 
@@ -136,7 +142,7 @@ function onClickCalendar(){
 	var sURL;
 	
 	sURL = "cal.php?s=" + current_sol ;
-	window.open(sURL, "calendar");
+	cBrowser.openWindow(sURL, "calendar");
 }
 
 //***************************************************************
@@ -324,6 +330,7 @@ function set_sol(psSol){
 	$("#solsite").removeAttr('disabled');
 	$("#solsite").removeAttr('disabled');
 	$("#solthumbs").attr('disabled', "disabled");
+	$("#allsolthumbs").removeAttr('disabled');
 
 	get_sol_instruments(current_sol,false);
 	get_sol_tag_count(current_sol);
@@ -368,6 +375,11 @@ function reload_data(){
 		get_image_data(current_sol, current_instrument,1,HOW_MANY_IMAGES);
 	else
 		get_image_data(current_sol, current_instrument,current_image_index,current_image_index+HOW_MANY_IMAGES-1);
+		
+	//go and get the thumbnails
+	sUrl = "php/rest/solthumbs.php?s=" + current_sol + "&i=" + current_instrument;
+	set_status("fetching thumbnails");
+	cHttp.fetch_json(sUrl, load_thumbs_callback);
 }
 
 //###############################################################
@@ -580,7 +592,11 @@ function load_images_callback(paJS){
 			oImgDiv = $("<DIV>").attr({id:oItem.p});
 			oImgDiv.css({position: 'relative'});
 
-			oA= $("<A>").attr({target:"detail", href:sImgURL});
+			if (SINGLE_WINDOW)
+				oA= $("<A>").attr({href:sImgURL});
+			else
+				oA= $("<A>").attr({target:"detail", href:sImgURL});
+				
 			oImg = $("<IMG>").attr({src:oItem.i}); 
 			
 			oA.append(oImg);
@@ -629,7 +645,8 @@ function tag_callback(paJS){
 	sHTML = "";
 	for (i=0; i<paJS.d.length; i++){
 		sTag = paJS.d[i];
-		sHTML += "<a target='tags' href='tag.php?t=" + sTag + "'>#" + sTag + "</a> ";
+		var sTarget = ( SINGLE_WINDOW ? "" : "target='tags'");
+		sHTML += "<a " + sTarget +" href='tag.php?t=" + sTag + "'>#" + sTag + "</a> ";
 	}
 	oDiv.html( sHTML);
 	
@@ -676,4 +693,45 @@ function highlight_callback(paJS){
 		iLeft = parseInt(aItem.l);
 		oRedBox.css({position: 'absolute',	top: iTop,	left: iLeft})
 	}
+}
+
+
+//********************************************************************
+function load_thumbs_callback(poJS){
+	var oTopDiv, oJssorDiv, oSlidesDiv, oImg, i, oItem, aData, oOptions;
+	
+	oTopDiv = $("#thumbs");
+	oTopDiv.empty();
+	
+	aData = poJS.d.data;
+	if (aData.Length == 0){
+		oDiv.append("<p class='subtitle'>Sorry no thumbnails found</p>");
+		return;
+	}
+
+	return; //TBD
+	
+	//populate the div with a fresh hidden div
+	oSlidesDiv = $("<DIV>").attr({id:"slides", style:"overflow: hidden"});
+	oJssorDiv = $("<DIV>").attr({id:"jssor", style:"overflow: hidden"}); 
+	oJssorDiv.append(oSlidesDiv);
+	oTopDiv.append(oJssorDiv);
+	oJssorDiv.hide();
+	
+	//add images to display
+	for (i=0; i< aData.length; i++){
+		oItem = aData[i];
+		oImg = $("<img>").attr({u:"image", src:oItem.i, p:oItem.p});
+		oSlidesDiv.append($("<div>").append(oImg));
+	}
+	
+	//initialise jssor on the new div
+	oOptions= {
+		$AutoPlay: false 
+	};
+	var jssor_slider1 = new $JssorSlider$("jssor", oOptions);
+
+	
+	//reveal the completed div
+	oJssorDiv.show();
 }

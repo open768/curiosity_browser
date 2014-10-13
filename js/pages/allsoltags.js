@@ -40,16 +40,20 @@ function topsol_callback(poJs){
 function sols_callback(paJS){
 	var sHTML, i, iCount, sSol;
 	
-	sHTML = "<form target='soltag' method='GET' action='soltag.php'><center><table cellpadding=5>";
+	var sTarget = ( SINGLE_WINDOW ? "" : "target='soltag'");
+	sHTML = "<form " + sTarget + " method='GET' action='soltag.php'><center><table cellpadding=5>";
 	iCount =0;
 	for (i = 0; i < paJS.length; i++){
 		if (iCount == 0) sHTML += "<tr>";
 		sSol = paJS[i].sol.toString();
 		sHTML += "<TD align=middle>"
+
 		if (oSolIndex[sSol])
 			sHTML += "<button name='s' value='"+sSol+"'>"+sSol+"</button>";
-		else
-			sHTML += "<a target='index' href='index.php?s=" + sSol+"'>"+sSol+"</a>";
+		else{
+			var sTarget = ( SINGLE_WINDOW ? "" : "target='index'");
+			sHTML += "<a " + sTarget + " href='index.php?s=" + sSol+"'>"+sSol+"</a>";
+		}
 
 		sHTML += "</TD>"
 			

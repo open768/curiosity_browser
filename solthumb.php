@@ -15,8 +15,11 @@
 	<DIV class="title">Thumbnails for sol:<span id="sol">??</span></DIV>
 <p>
 	<div class="gold">
-		<select id="instrument_selector"><option>loading...</select>
-		<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
+		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
+		<button onclick="onClickPrevious()" title="previous Sol">&lt;&lt; Previous</button>
+		<select id="instruments"><option>loading...</select>
+		<button onclick="onClickNext()" title="Next Sol">Next &gt;&gt;</button>
+		<button onclick="onClickRefresh()" title="Refresh Data">Refresh</button>
 	</div>
 	<div class="gold"  id="solthumb">
 		Loading...
@@ -36,6 +39,7 @@
 				<div class="fb-like" data-href="https://www.facebook.com/mars.features" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
 			</td>
 		</tr></table>
+		<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
 	</div>
 </body>
 </html>

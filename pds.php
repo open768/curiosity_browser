@@ -15,6 +15,7 @@
 	<DIV class="title">Curiosity PDS Detail</DIV>
 
 	<DIV class="gold">
+		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
 		<button id="EDR" title="jump to PDS EDR" onclick="onClickEDRLBL();">EDR LBL</button>
 		<button id="EDR" title="jump to PDS EDR" onclick="onClickEDRDAT();">EDR DAT</button>
 		<button id="RDR" title="jump to PDS RDR" onclick="onClickRDRLBL();">RDR LBL</button>

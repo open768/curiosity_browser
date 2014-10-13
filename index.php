@@ -3,17 +3,22 @@
 	<LINK href="css/css.css" rel="stylesheet" type="text/css">
 	<LINK href="css/drag.css" rel="stylesheet" type="text/css">
 	<link href="css/jquery/jquery-ui.css" rel="stylesheet" >
+	<link href="css/jsssor/jsssor.css" rel="stylesheet" >
 	<title>Curiosity Browser</title>
-	<script src="js/inc/secret.js"></script>
-	<script src="js/inc/common.js"></script>
-	<script src="js/inc/auth.js"></script>
-	<script src="js/pages/index.js"></script>
-	<script src="js/inc/tagging.js"></script>
-	<script src="js/inc/imghilite.js"></script>
-	<script src="js/jquery/jquery.js"></script>
-	<script src="js/jquery/jquery-ui.js"></script>
-	<script src="js/inc/analytics.js"></script>
-	<script src="js/inc/facebook.js"></script>
+	<script type="text/javascript" src="js/inc/secret.js"></script>
+	<script type="text/javascript" src="js/inc/common.js"></script>
+	<script type="text/javascript" src="js/inc/auth.js"></script>
+	<script type="text/javascript" src="js/pages/index.js"></script>
+	<script type="text/javascript" src="js/inc/tagging.js"></script>
+	<script type="text/javascript" src="js/inc/imghilite.js"></script>
+	<script type="text/javascript" src="js/jquery/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery/jquery-ui.js"></script>
+	<script type="text/javascript" src="js/inc/analytics.js"></script>
+	<script type="text/javascript" src="js/inc/facebook.js"></script>
+    <script type="text/javascript" src="js/jssor/jssor.core.js"></script>
+    <script type="text/javascript" src="js/jssor/jssor.utils.js"></script>
+    <script type="text/javascript" src="js/jssor/jssor.slider.mini.js"></script>
+	
 </head>
 <body onload="$(onloadJQuery);">
 	<font class="title">Curiosity Browser</font>
@@ -53,24 +58,25 @@
 					<button title="MSL curiosity notebook MAP" id="solmap" onclick="onClickMslNotebookMap();">Map</button>
 					<button title="Calendar" id="solcalendar" onclick="onClickCalendar()">Calendar</button>
 					<button title="force refresh cache" id="solrefresh" onclick="onClickRefresh()">Refresh Data</button>
-					<button title="thumbnails for sol" id="solthumbs" onclick="onClickSolThumbs()">Thumbnails</button>
+					<button title="thumbnails for instrument sol" id="solthumbs" onclick="onClickSolThumbs()">Thumbnails</button>
+					<button title="All thumbnails for sol" id="allsolthumbs" onclick="onClickAllSolThumbs()">All Thumbnails</button>
 					<button title="site details for sol" id="solsite" onclick="onClickSolSite()">Site</button>
 				</div>
 				<div class="gold" id="tabs-2">
 					<div id="tags">Loading...</div>
 				</div>
 				<div class="gold" id="tabs-3">
-					<button onclick="window.open('allsoltags.php','alltags');">All Tags</button>
-					<button onclick="window.open('allsolhighs.php','allhighs');">All Highlights</button>
-					<button onclick="window.open('allgigas.php','allgigas');">All Gigapans</button>
-					<button onclick="window.open('allsites.php','allsites');">All Sites</button>
+					<button onclick="cBrowser.openWindow('allsoltags.php','alltags');">All Tags</button>
+					<button onclick="cBrowser.openWindow('allsolhighs.php','allhighs');">All Highlights</button>
+					<button onclick="cBrowser.openWindow('allgigas.php','allgigas');">All Gigapans</button>
+					<button onclick="cBrowser.openWindow('allsites.php','allsites');">All Sites</button>
 					<button title="Where is curiosity now?" onclick="window.open('http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/', 'whereami');">Where is Curiosity</button>
 				</div>
 			</div>
 		</td>
 		<td valign="top">
 			<div class="gold">
-				<button onclick="window.open('about.php', 'about');">About </button>
+				<button onclick="cBrowser.openWindow('about.php', 'about');">About </button>
 				<input type="textbox" id="search_text" maxlength="30" size="30"><button onclick="onClickSearch()" title="Search for Product">Search</button>
 				<span class="subtitle"> &nbsp;&nbsp;&nbsp;&nbsp; Status: </span><span ID="status" class="status">Loading...</span>
 			</div>
@@ -81,6 +87,9 @@
 					<button class="pagenav" id="next" title="Next page (n)" onclick="onClickNextImage();">&gt;</button>
 					max <span ID="max">??</span>
 				</span>
+			</div>
+			<div class="gold" id="thumbs">
+				select a sol and instrument to display thumbnails
 			</div>
 			<div class="gold" id="images">
 				This browser works best with <a href="http://ie.microsoft.com">Internet Explorer 11</a> or <a href="http://chrome.google.com">Google Chrome</a>
