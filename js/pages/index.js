@@ -63,6 +63,7 @@ function onloadJQuery(){
 	$("#solthumbs").attr('disabled', "disabled");
 	$("#solsite").attr('disabled', "disabled");
 	$("#allsolthumbs").attr('disabled', "disabled");
+	$("#search_text").keypress(onSearchKeypress);
 	
 	//go and load stuff
 	set_status("loading static data...");
@@ -85,7 +86,7 @@ function onClickSolGiga(){
 	cBrowser.openWindow("solgigas.php?s=" + current_sol, "solgigas");
 }
 function onClickSolTag(){
-	cBrowser.openWindow("soltags.php?s=" + current_sol, "soltag");
+	cBrowser.openWindow("soltag.php?s=" + current_sol, "soltag");
 }
 function onClickSolHighs(){
 	cBrowser.openWindow("solhigh.php?s=" + current_sol, "solhigh");
@@ -93,13 +94,15 @@ function onClickSolHighs(){
 function onClickSolThumbs(){
 	cBrowser.openWindow("solthumb.php?s=" + current_sol + "&i=" + current_instrument, "solthumb");
 }
-
 function onClickAllSolThumbs(){
 	cBrowser.openWindow("solthumb.php?s=" + current_sol + "&i=All", "solthumb");
 }
-
 function onClickSolSite(){
 	cBrowser.openWindow("site.php?sol=" + current_sol , "site");
+}
+
+function onSearchKeypress(e){
+    if(e.which == 13) onClickSearch();
 }
 
 

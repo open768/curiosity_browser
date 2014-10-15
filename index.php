@@ -51,7 +51,7 @@
 					<div class="subtitle" id="instr_load"><i>loading...</i></div>
 					<!-- ************************************** -->
 					<div class="subtitle">Sol Information:</div>				
-					<button title="Tags for selected Sol" id="soltag" onclick="onClickSolTags();">Tags</button>
+					<button title="Tags for selected Sol" id="soltag" onclick="onClickSolTag();">Tags</button>
 					<button title="Highlights for selected Sol" id="solhigh" onclick="onClickSolHighs();">Highlights</button>
 					<button title="Gigapans for selected Sol" id="solgiga" onclick="onClickSolGiga();">Gigapans</button>
 					<button title="MSL curiosity notebook" id="solnotebook" onclick="onClickMslNotebook();">MSL Notebook</button>

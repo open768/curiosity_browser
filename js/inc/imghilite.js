@@ -7,11 +7,13 @@ var cImgHilite = {
 	numberID:"#number",
 	imgTarget:null,
 	ID:0,
+	currentBox:null,
 	
 	//**************************************************
 	rejectBox:function(poButton){
 		var oBox = poButton.parentNode.parentNode;
 		$("#"+oBox.id).remove();
+		this.currentBox  = null;
 	},
 		
 	//**************************************************
@@ -21,29 +23,36 @@ var cImgHilite = {
 	},
 	
 	//**************************************************
-	makeBox:function(piX, piY){
+	makeBox:function(piX, piY, bDraggable){
 		var oClone;
 		var oContainer = $(this.containerID);
 		
-		//make a unique ID
-		var sID = "box"+this.ID;
-		this.ID++;
-		
-		//create a clone of the template and add to container
-		var oTemplate = $(this.templateID);
-		if (oTemplate.length == 0) throw new Error("no template found");
-		oClone = oTemplate.clone(true);
-		oClone[0].id = sID
-		oClone.appendTo(oContainer);
-		
-		//find the offset of the image
-		var oImg = $(this.imgTarget);
-		if (oImg.length==0) throw new Error ("Oops cant find image");
-				
-		//add it to the container and make it visible and draggable
-		var oBox, iX, iY;
-		oBox = $("#"+sID);
-		oBox.show();		//has to be shown otherwise the maths goes scewy as width/height isnt set
+		if (bDraggable && this.currentBox)
+			oBox = this.currentBox;
+		else{
+			//make a unique ID
+			var sID = "box"+this.ID;
+			this.ID++;
+			
+			//create a clone of the template and add to container
+			var oTemplate = $(this.templateID);
+			if (oTemplate.length == 0) throw new Error("no template found");
+			oClone = oTemplate.clone(true);
+			oClone[0].id = sID
+			oClone.appendTo(oContainer);
+			
+			//find the offset of the image
+			var oImg = $(this.imgTarget);
+			if (oImg.length==0) throw new Error ("Oops cant find image");
+					
+			//add it to the container and make it visible and draggable
+			var oBox, iX, iY;
+			oBox = $("#"+sID);
+			oBox.show();		//has to be shown otherwise the maths goes scewy as width/height isnt set
+			
+			//save it
+			if (bDraggable) this.currentBox = oBox;
+		}
 		
 		//position relative to the image
 		var oParent = oContainer.parent()[0];
@@ -65,7 +74,7 @@ var cImgHilite = {
 		var oBox, oControls, oNumber;
 
 		//make and position the box
-		oBox = this.makeBox(100,100);
+		oBox = this.makeBox(100,100,false);
 		oBox.css({position: 'absolute',	top: psTop,	left: psLeft})
 		
 		//disable dragging and make it blue
@@ -93,6 +102,7 @@ var cImgHilite = {
 	save_highlight:function(psSol,psInstr, psProduct, psID, pfnCallback){
 		var oBox = $(psID);
 		sUrl = this.url+"?o=add&s=" + psSol + "&i=" + psInstr + "&p=" + psProduct +"&t=" + oBox.css("top") + "&l=" + oBox.css("left");
+		 this.currentBox  = null;
 		cHttp.fetch_json(sUrl, pfnCallback);
 	},
 	

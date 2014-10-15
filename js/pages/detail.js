@@ -377,7 +377,7 @@ function onSaveHighCallback(poEvent){
 //***************************************************************
 function OnImageClick(poEvent){
 	cAuth.forceLogin();
-	cImgHilite.makeBox(poEvent.pageX, poEvent.pageY);
+	cImgHilite.makeBox(poEvent.pageX, poEvent.pageY,true);
 }
 
 //**************************************************
