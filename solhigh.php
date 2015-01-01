@@ -1,4 +1,11 @@
-<html>
+<?php
+	require_once("php/inc/header.php");
+	cHeader::redirect_if_referred();
+	if ( cHeader::is_facebook()){
+		cHeader::make_fb_sol_high_tags();
+		exit;
+	}
+?><html>
 <head>
 	<LINK href="css/css.css" rel="stylesheet" type="text/css">
 	<title>Sol Highlights - Curiosity Browser </title>
@@ -9,10 +16,13 @@
 	<script src="js/inc/tagging.js"></script>
 	<script src="js/jquery/jquery.js"></script>
 	<script src="js/jquery/jquery-ui.js"></script>
-	<script src="js/inc/analytics.js"></script>
 	<script src="js/inc/facebook.js"></script>
 </head>
 <body onload="$(onLoadJQuery);">
+	<?php 
+		require_once "php/inc/secret.php";
+		include_once("analytics-fragment.php") 
+	?>
 	<DIV class="title">Highlights for sol:<span id="sol">sol??</span></DIV>
 <p>
 	<div class="gold">

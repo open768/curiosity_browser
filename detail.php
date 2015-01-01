@@ -23,11 +23,14 @@
 	<script src="js/inc/imghilite.js"></script>
 	<script src="js/jquery/jquery.js"></script>
 	<script src="js/jquery/jquery-ui.js"></script>
-	<script src="js/inc/analytics.js"></script>
 	<script src="js/inc/facebook.js"></script>
 	<script src="./js/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
 </head>
 <body onload="$(onLoadJQuery);">
+	<?php 
+		require_once "php/inc/secret.php";
+		include_once("analytics-fragment.php") 
+	?>
 	<DIV class="title">Curiosity Detail</DIV>
 	<DIV class="gold">
 		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
@@ -41,6 +44,7 @@
 		<button title="MSL curiosity Raw images" id="mslrawlink" onclick="onClickMSLRaw()">MSL Raw Image</button>
 		<button title="released PDS product" id="pds_product" onclick="onClickPDS()">PDS Product</button>
 		<button title="Edit Image with Pixlr" id="pixlr" onclick="onClickPixlr()">Edit Image</button>
+		<button title="Search related with google" id="google" onclick="onClickGoogle()">Google</button>
 
 		<div class="ui-widget">
 			<span class="subtitle">Tags:</span> 

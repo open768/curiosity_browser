@@ -8,8 +8,10 @@ require_once("$root/php/curiosity/curiosity.php");
 class cImageHighlight{
 	const INDEX_SUFFIX = "Highlite";
 	const IMGHIGH_FILENAME = "[imgbox].txt";
+	const HIGH_COUNT_FILENAME = "[hcount].txt";
 	const THUMBS_FILENAME = "[thumbs].txt";
 	const THUMBS_FOLDER = "images/highs/";
+	const MOSAIC_FILENAME = "himosaic.jpg";
 	const CROP_WIDTH = 120;
 	const CROP_HEIGHT = 120;
 	const THUMB_QUALITY = 90;
@@ -81,7 +83,7 @@ class cImageHighlight{
 				$sKey = $psProduct . $oItem["t"] . $oItem["l"];
 
 				//figure out where stuff should go 
-				$sRelative = self::THUMBS_FOLDER."$psSol/$psInstrument/$psProduct/$i.jpg";
+				$sThumbfile = self::THUMBS_FOLDER."$psSol/$psInstrument/$psProduct/$i.jpg";
 				$sReal = "$root/$sRelative";
 				
 
@@ -91,6 +93,7 @@ class cImageHighlight{
 					if (file_exists($sReal))continue;	
 				}
 
+				//---------------split this out---------------------
 				//if you got here something wasnt there - regenerate the thumbnail
 				cDebug::write("creating thumbnail ");
 				if (! $oMSLImg) $oMSLImg = self::pr_get_image($psSol, $psInstrument, $psProduct);
@@ -104,10 +107,10 @@ class cImageHighlight{
 				if ($iY < 0) $iY=0;
 
 				//perform the crop
-				self::pr_perform_crop($oMSLImg, $iX, $iY, $psSol, $psInstrument, $psProduct, $sRelative);
+				self::pr_perform_crop($oMSLImg, $iX, $iY, $psSol, $psInstrument, $psProduct, $sThumbfile);
 				
 				//update the structure
-				$aThumbs[$sKey] = $sRelative;
+				$aThumbs[$sKey] = $sThumbfile;
 				$bUpdated = true;
 			}
 		
@@ -127,6 +130,63 @@ class cImageHighlight{
 		$aData = ["s"=>$psSol, "i"=>$psInstrument, "p"=>$psProduct, "u"=>array_values($aThumbs)];
 		return $aData;
 	}
+	
+	//**********************************************************************
+	static function get_sol_highlighted_products( $psSol)	{
+		return 	cIndexes::get_sol_data( $psSol, self::INDEX_SUFFIX);
+	}
+	
+	//**********************************************************************
+	static function get_stored_sol_high_count($psSol){
+		$iCount = cObjStore::get_file( "$psSol", self::HIGH_COUNT_FILENAME);
+		if ($iCount == null) $iCount = 0;
+		return $iCount;
+	}
+	
+	//**********************************************************************
+	static function get_sol_high_mosaic( $psSol)	{
+		$oData = [];
+		$iTotal = 0;
+		
+		cDebug::write("getting highlight mosaic for $psSol");
+		
+		//------------------------------------------------------------------
+		//first get the count of how many highlights - build structure
+		$aInstrumentData = self::get_sol_highlighted_products($psSol);
+		if ($aInstrumentData == null){
+			cDebug::write("no highlights for sol $psSol");
+			return null;
+		}
+		
+		//if there is a file there will be at least one highlight
+		foreach ($aInstrumentData as $sInstrument=>$aProducts){
+			$oData[$sInstrument] = [];
+			foreach ($aProducts as $sProduct=>$iCount){
+				$oData[$sInstrument][$sProduct] = $iCount;
+				$iTotal += $iCount;
+			}
+		}	
+		cDebug::write("there are $iTotal highlights in total");
+		
+		//------------------------------------------------------------------
+		//does the count match what is stored - in that case the mosaic is allready
+		$iSolCount = self::get_stored_sol_high_count($psSol);
+		if ($iSolCount == $iTotal){
+			//return the existing mosaic
+			die ("WORK IN PROGRESS to return mosaic");
+		}
+		else{
+			cDebug::write("but only $iSolCount were previously known");
+			//regenerate the mosaic
+			die ("WORK IN PROGRESS to regenerate the mosaic");
+		}		
+		
+		//now get the tumbs
+		
+		return $oData;
+	}
+	
+
 	
 	//######################################################################
 	//# UPDATE functions

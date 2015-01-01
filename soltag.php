@@ -9,10 +9,13 @@
 	<script src="js/inc/tagging.js"></script>
 	<script src="js/jquery/jquery.js"></script>
 	<script src="js/jquery/jquery-ui.js"></script>
-	<script src="js/inc/analytics.js"></script>
 	<script src="js/inc/facebook.js"></script>
 </head>
 <body onload="$(onLoadJQuery);">
+	<?php 
+		require_once "php/inc/secret.php";
+		include_once("analytics-fragment.php") 
+	?>
 	<DIV class="title">Tags for sol:<span id="sol">??</span></DIV>
 <p>
 	<div class="gold">

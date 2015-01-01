@@ -13,7 +13,6 @@
 	<script type="text/javascript" src="js/inc/imghilite.js"></script>
 	<script type="text/javascript" src="js/jquery/jquery.js"></script>
 	<script type="text/javascript" src="js/jquery/jquery-ui.js"></script>
-	<script type="text/javascript" src="js/inc/analytics.js"></script>
 	<script type="text/javascript" src="js/inc/facebook.js"></script>
     <script type="text/javascript" src="js/jssor/jssor.core.js"></script>
     <script type="text/javascript" src="js/jssor/jssor.utils.js"></script>
@@ -21,6 +20,10 @@
 	
 </head>
 <body onload="$(onloadJQuery);">
+	<?php 
+		require_once "php/inc/secret.php";
+		include_once("analytics-fragment.php") 
+	?>
 	<font class="title">Curiosity Browser</font>
 	<p>
 	
@@ -42,6 +45,7 @@
 					<table border="0" width="100%"><tr>
 						<td align="left"><button class="solnav" title="previous Sol ([)" type="button" onclick="onClickPreviousSol();">&lt;--</button></td>
 						<td align="right"><button class="solnav" title="next Sol (])" type="button" onclick="onClickNextSol();">--&gt;</button></td>
+					
 					</tr></table>
 					<!-- ************************************** -->
 					<div class="subtitle">Instruments:</div>
@@ -78,7 +82,9 @@
 			<div class="gold">
 				<button onclick="cBrowser.openWindow('about.php', 'about');">About </button>
 				<input type="textbox" id="search_text" maxlength="30" size="30"><button onclick="onClickSearch()" title="Search for Product">Search</button>
-				<span class="subtitle"> &nbsp;&nbsp;&nbsp;&nbsp; Status: </span><span ID="status" class="status">Loading...</span>
+				<input id="chkThumbs" type="checkbox">Show Thumbnails
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<span class="subtitle"> Status: </span><span ID="status" class="status">Loading...</span>
 			</div>
 			<div class="gold">
 				<span id="nav1">
@@ -88,10 +94,10 @@
 					max <span ID="max">??</span>
 				</span>
 			</div>
+			<div class="gold" id="images">
 			<div class="gold" id="thumbs">
 				select a sol and instrument to display thumbnails
 			</div>
-			<div class="gold" id="images">
 				This browser works best with <a href="http://ie.microsoft.com">Internet Explorer 11</a> or <a href="http://chrome.google.com">Google Chrome</a>
 				<H2>Lets Get Started</H2>
 				Welcome to the Curiosity Browser, the place to have a 2-way social interaction about the great images being beamed back to Earth from NASA's Curiosity Rover. 

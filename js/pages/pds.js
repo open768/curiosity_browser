@@ -52,6 +52,18 @@ function onClickEDRDAT(){
 	window.open(sUrl, "EDR");
 }
 
+function onClickDetail(){
+	var sSol, sInstr, sProduct, sUrl;
+	
+	sInstr = cBrowser.data[INSTR_QUERYSTRING];
+	sProduct = cBrowser.data[PRODUCT_QUERYSTRING];
+	sSol = cBrowser.data[SOL_QUERYSTRING];
+	
+	sUrl = "detail.php?s=" + sSol + "&i=" + sInstr + "&p=" + sProduct;
+	cBrowser.openWindow(sUrl, "detail");
+
+}
+
 //***************************************************************
 function onClickParsePDS(){
 	if (!has_pds_url()) return;

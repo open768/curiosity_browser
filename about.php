@@ -4,11 +4,14 @@
 	<title>About the Curiosity Browser </title>
 </head>
 <body>
+	<?php 
+		require_once "php/inc/secret.php";
+		include_once("analytics-fragment.php") 
+	?>
 	<script src="js/inc/common.js"></script>
 	<script src="js/inc/secret.js"></script>
 	<script src="js/jquery/jquery.js"></script>
 	<script src="js/jquery/jquery-ui.js"></script>
-	<script src="js/inc/analytics.js"></script>
 	<script src="js/inc/facebook.js"></script>
 	
 	<DIV class="title">About the Curiosity Browser</DIV>
@@ -85,6 +88,7 @@
 			<li><a href="http://www.unmannedspaceflight.com/index.php?showforum=59"> planetary society forums for MSL</a>
 			<li><a href="http://en.wikipedia.org/wiki/Mars_Science_Laboratory">Wikipaedia</a>
 			<li><a href="https://en.wikipedia.org/wiki/List_of_rocks_on_Mars#2012_.E2.80.93_Curiosity_rover_.28Mars_Science_Laboratory.29">List of rocks and areas</a>
+			<li><a href="http://www.reddit.com/r/curiosityrover">Reddit feed</a>
 		</ul>
 		<p>
 		

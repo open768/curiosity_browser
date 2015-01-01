@@ -85,7 +85,7 @@ function onClickSol(){
 
 //***************************************************************
 function onClickThumbnails(){
-	var sURL="solthumb.php?s="+ goItem.s + "&i=" + goItem.i;
+	var sURL="index.php?s="+ goItem.s + "&i=" + goItem.i + "&t=1";
 	cBrowser.openWindow(sURL, "solthumb");
 }
 
@@ -134,6 +134,7 @@ function onClickPixlr(){
 	pixlr.edit({image:goItem.d.i, service:'editor', exit:document.location, referer:'mars browser', redirect:false});
 }
 
+//***************************************************************
 function onKeyPress(poEvent){
 	var sChar = String.fromCharCode(poEvent.which);
 	switch(sChar){
@@ -143,6 +144,12 @@ function onKeyPress(poEvent){
 		case "P": onClickPreviousTime();break;
 	}
 	
+}
+
+//***************************************************************
+function onClickGoogle(){
+	var sURL = "https://www.google.com/#q=%22" + goItem.p + "%22";
+	window.open(sURL, "map");
 }
 
 
@@ -157,6 +164,17 @@ function onLoadJQuery(){
 		height:100,
 		resizeEnabled: false
 	});
+	
+	//catch key presses but not on text inputs
+	$(window).keypress(onKeyPress);
+	$(":input").each(function(index,oObj){
+		if ($(oObj).attr("type")==="text"){
+			$(oObj).focus(onInputFocus);
+			$(oObj).blur(onInputDefocus);
+		}
+	});
+	$('#Commentsbox').sceditor('instance').blur(onInputDefocus);
+	$('#Commentsbox').sceditor('instance').focus(onInputFocus);
 	
 	//get user data
 	set_status("loading user data...");

@@ -8,10 +8,13 @@
 	<script src="js/pages/allgigas.js"></script>
 	<script src="js/jquery/jquery.js"></script>
 	<script src="js/jquery/jquery-ui.js"></script>
-	<script src="js/inc/analytics.js"></script>
 	<script src="js/inc/facebook.js"></script>
 </head>
 <body onload="$(onLoadJQuery);">
+	<?php 
+		require_once "php/inc/secret.php";
+		include_once("analytics-fragment.php") 
+	?>
 	<DIV class="title">All Gigagpans</DIV>
 <p>
 	<div class="gold">

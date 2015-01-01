@@ -19,9 +19,9 @@ $sMessage = cAuth::check();
 	<title>Login Required</title>
 </head>
 <body>
+	<?php include_once("analytics-fragment.php") ?>
 	<script src="js/inc/common.js"></script>
 	<script src="js/inc/secret.js"></script>
-	<script src="js/inc/analytics.js"></script>
 	<script src="js/jquery/jquery.js"></script>
 	<script src="js/jquery/jquery-ui.js"></script>
 <DIV class="title">Login Needed</DIV>

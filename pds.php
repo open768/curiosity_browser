@@ -8,14 +8,18 @@
 	<script src="js/inc/common.js"></script>
 	<script src="js/jquery/jquery.js"></script>
 	<script src="js/jquery/jquery-ui.js"></script>
-	<script src="js/inc/analytics.js"></script>
 	<script src="js/inc/facebook.js"></script>
 </head>
 <body onload="$(onLoadJQuery);">
+	<?php 
+		require_once "php/inc/secret.php";
+		include_once("analytics-fragment.php") 
+	?>
 	<DIV class="title">Curiosity PDS Detail</DIV>
 
 	<DIV class="gold">
 		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
+		<button onclick="onClickDetail()">Back to Detail</button>
 		<button id="EDR" title="jump to PDS EDR" onclick="onClickEDRLBL();">EDR LBL</button>
 		<button id="EDR" title="jump to PDS EDR" onclick="onClickEDRDAT();">EDR DAT</button>
 		<button id="RDR" title="jump to PDS RDR" onclick="onClickRDRLBL();">RDR LBL</button>

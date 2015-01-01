@@ -8,7 +8,6 @@
 	<script src="js/pages/site.js"></script>
 	<script src="js/jquery/jquery.js"></script>
 	<script src="js/jquery/jquery-ui.js"></script>
-	<script src="js/inc/analytics.js"></script>
 	<script src="js/inc/facebook.js"></script>
 	<script src="js/inc/googleearth.js"></script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -17,6 +16,10 @@
 	</script>
 </head>
 <body onload="$(onLoadJQuery);">
+	<?php 
+		require_once "php/inc/secret.php";
+		include_once("analytics-fragment.php") 
+	?>
 	<DIV class="title">Site <span id="siteid"></span></DIV>
 <p>
 	<div class="gold">

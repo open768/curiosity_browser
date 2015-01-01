@@ -37,24 +37,18 @@ class cAuth{
 	//**********************************************************
 	public static function check(){
 		global $_SESSION, $_POST, $_GET;
-		//allready set the session
+		//allready logged in redirect to the correct page
 		$sUser = self::get_user();
 		if ($sUser){
 			header("location:".$_SESSION['url']);
 			die;
 		}
 
-		//got a form
-		if (isset($_POST["user"] )){
+		//got a response from FB
+		if (isset($_GET["code"] )){
 			//----
-			$sUser = $_POST["user"];
-			if ($sUser === "") return "err how about a username?";
-			
-			//---
-			$oAyah = new AYAH();
-			$score = $oAyah->scoreResult();
-			
-			if (! $score ) return "try the human game again please";
+			return "yep logged in";
+			//get the username from facebook 
 			
 			//--- everything is ok
 			$_SESSION["user"] = $_POST["user"];
@@ -64,26 +58,5 @@ class cAuth{
 		//none of the above
 		$_SESSION['url'] = $_GET["l"];
 	}
-	
-	//**********************************************************
-	public static function show_form(){
-		cDebug::write("loadig AYAH");
-		$oAyah = new AYAH();
-		cDebug::write("done loadig AYAH");
-		?>
-		We pardon the interruption but we need a name to continue.
-		<p>
-		<form method="POST">
-			<input name="user" type="text" size="10">
-			<p>
-			<?=$oAyah->getPublisherHTML();?>
-			<p>
-			<input type="submit">
-		</form>
-		<?php
-	}
-	
-	
-
 }
 ?>

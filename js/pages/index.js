@@ -20,13 +20,15 @@ var MAX_ID="max";
 var MAX_ID2="max2";
 var CURRENT_ID = "current";
 var CURRENT_ID2 = "current2";
-var IMAGE_ID="images";
+var IMAGE_CONTAINER_ID="images";
 var SOL_ID = "this_sol";
 var SOL_QUERYSTRING = "s";
 var INSTR_QUERYSTRING = "i";
+var THUMB_QUERYSTRING = "t";
 var MAXIMAGES_QUERYSTRING = "m";
 var IMAGE_QUERYSTRING = "b";
 var SOL_DIVISIONS=50;
+var THUMB_SIZE=144;
 
 var RADIO_BACK_COLOUR = "gold";
 var BODY_COLOUR = "LemonChiffon";
@@ -38,6 +40,8 @@ var current_instrument = null;
 var max_images = -1;
 var reload_after_instr = false;
 var reset_image_number = true;
+var sAllInstruments = "All";
+var sCheckThumbs = "chkThumbs";
 
 //###############################################################
 //* JQUERY
@@ -47,8 +51,10 @@ function onloadJQuery(){
 	//set up the onchange handler for sols
 	$("#"+SOLS_LIST).change( OnChangeSolList);
 	$("#"+SOL_SUMMARY).change( OnChangeSolSummaryList);
-	
 	$("#"+INSTRUMENT_LIST).change(OnChangeInstrument)
+	if (cBrowser.data[THUMB_QUERYSTRING])
+		$("#"+sCheckThumbs).prop('checked', true);
+	$("#"+sCheckThumbs).change(onChangeThumbs);
 	
 	//hide things
 	$("#nav1").hide();
@@ -95,7 +101,8 @@ function onClickSolThumbs(){
 	cBrowser.openWindow("solthumb.php?s=" + current_sol + "&i=" + current_instrument, "solthumb");
 }
 function onClickAllSolThumbs(){
-	cBrowser.openWindow("solthumb.php?s=" + current_sol + "&i=All", "solthumb");
+	current_instrument = null;
+	reload_data();
 }
 function onClickSolSite(){
 	cBrowser.openWindow("site.php?sol=" + current_sol , "site");
@@ -111,6 +118,7 @@ function onSearchKeypress(e){
 function onClickSearch(){
 	var sText = $("#search_text").val();
 	if (sText == "") return;
+	current_instrument = null;
 	
 	if (!isNaN(sText))
 		mark_sol(sText);
@@ -141,11 +149,16 @@ function OnChangeInstrument(poEvent){
 }
 
 //***************************************************************
+function onChangeThumbs(poEvent){
+	reload_data();
+}
+
+//***************************************************************
 function onClickCalendar(){
-	var sURL;
+	var sUrl;
 	
-	sURL = "cal.php?s=" + current_sol ;
-	cBrowser.openWindow(sURL, "calendar");
+	sUrl = "cal.php?s=" + current_sol ;
+	cBrowser.openWindow(sUrl, "calendar");
 }
 
 //***************************************************************
@@ -188,12 +201,13 @@ function onClickPreviousSol(){
 	}
 
 	oPrev = oItem.prev('option')
+	if (oPrev.attr("disabled")=="disabled")
+		oPrev = oPrev.prev('option');
+		
 	if (oPrev.length>0){
 		oPrev.attr('selected', 'selected');
 		set_sol(oPrev.val());
 	}
-	
-	//find value of previous
 }
 
 //***************************************************************
@@ -206,6 +220,9 @@ function onClickNextSol(){
 	}
 	
 	oNext = oItem.next('option')
+	if (oNext.attr("disabled")=="disabled")
+		oNext = oNext.next('option');
+		
 	if (oNext.length>0){
 		oNext.attr('selected', 'selected');
 		set_sol(oNext.val());
@@ -216,18 +233,18 @@ function onClickNextSol(){
 
 //***************************************************************
 function onClickMslNotebook(){
-	var sURL;
+	var sUrl;
 	
-	sURL = "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx?tab=solsumm&sol=" + current_sol;
-	window.open(sURL, "date");
+	sUrl = "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx?tab=solsumm&sol=" + current_sol;
+	window.open(sUrl, "date");
 }
 
 //***************************************************************
 function onClickMslNotebookMap(){
-	var sURL;
+	var sUrl;
 	
-	sURL = "https://an.rsl.wustl.edu/msl/mslbrowser/tab.aspx?t=mp&i=A&it=MT&ii=SOL," + current_sol;
-	window.open(sURL, "map");
+	sUrl = "https://an.rsl.wustl.edu/msl/mslbrowser/tab.aspx?t=mp&i=A&it=MT&ii=SOL," + current_sol;
+	window.open(sUrl, "map");
 }
 
 //***************************************************************
@@ -314,13 +331,17 @@ function mark_sol(psSol){
 function set_sol(psSol){
 
 	cDebug.write("setting sol: " + psSol);
-	$("#"+IMAGE_ID).html("<span class='subtitle'>to see images for sol " + psSol + " - select an instrument</span>");
+	$("#"+IMAGE_CONTAINER_ID).html("<span class='subtitle'>to see images for sol " + psSol + " - select an instrument</span>");
 	current_sol = psSol;
 	$("#"+SOL_ID).html(current_sol);
+	
 	// update the content in the address bar
 	sUrl = cBrowser.pageUrl() +"?s=" + psSol ;
-	if (cBrowser.data[INSTR_QUERYSTRING] ) 
-		sUrl += "&" + INSTR_QUERYSTRING + "=" + cBrowser.data[INSTR_QUERYSTRING];
+	if (current_instrument ) 
+		sUrl += "&" + INSTR_QUERYSTRING + "=" + current_instrument;
+	if (cBrowser.data[THUMB_QUERYSTRING])
+		sUrl += "&" + THUMB_QUERYSTRING + "=1";
+	
 	cBrowser.pushState("Detail", sUrl);
 	
 	$("#nav1").hide();
@@ -335,7 +356,7 @@ function set_sol(psSol){
 	$("#solthumbs").attr('disabled', "disabled");
 	$("#allsolthumbs").removeAttr('disabled');
 
-	get_sol_instruments(current_sol,false);
+	get_sol_instruments(current_sol,false);	//this reloads the data
 	get_sol_tag_count(current_sol);
 	get_sol_hilite_count(current_sol);
 	
@@ -358,13 +379,12 @@ function OKToReload(){
 		set_error_status("NO Sol Selected...");
 		return false;
 	}
-		
-	if (!current_instrument){
-		set_error_status("Now select an instrument")
-		return false;
-	}
 	
 	return true;
+}
+
+function is_thumbs_checked(){
+	return $("#"+sCheckThumbs).is(':checked');
 }
 
 //***************************************************************
@@ -373,21 +393,30 @@ function reload_data(){
 	
 	if (!OKToReload()) return;
 
-	//go ahead and get the data starting at position 0
-	if (reset_image_number)
-		get_image_data(current_sol, current_instrument,1,HOW_MANY_IMAGES);
-	else
-		get_image_data(current_sol, current_instrument,current_image_index,current_image_index+HOW_MANY_IMAGES-1);
-		
-	//go and get the thumbnails
-	sUrl = "php/rest/solthumbs.php?s=" + current_sol + "&i=" + current_instrument;
-	set_status("fetching thumbnails");
-	cHttp.fetch_json(sUrl, load_thumbs_callback);
+	if (!current_instrument)
+		get_sol_thumbs(current_sol, sAllInstruments);
+	else if (is_thumbs_checked())
+		get_sol_thumbs(current_sol, current_instrument);
+	else{
+		//go ahead and get the data starting at position 0
+		if (reset_image_number)
+			get_image_data(current_sol, current_instrument,1,HOW_MANY_IMAGES);
+		else
+			get_image_data(current_sol, current_instrument,current_image_index,current_image_index+HOW_MANY_IMAGES-1);		
+	}
 }
 
 //###############################################################
 //* GETTERS
 //###############################################################
+function get_sol_thumbs(psSol, psInstrument){
+	var sUrl;
+	
+	sUrl = "php/rest/solthumbs.php?s=" + psSol + "&i=" + psInstrument;
+	cHttp.fetch_json(sUrl, load_thumbs_callback);
+}
+
+//***************************************************************
 function get_sol_instruments(psSol, pbRefresh){
 	set_status("getting instruments for sol" + psSol);
 
@@ -407,11 +436,16 @@ function get_image_data( piSol, psInstr, piStart, piEnd){
 	var sUrl;
 	
 	// update the content in the address bar
-	sUrl = cBrowser.pageUrl() +"?s=" + current_sol + "&i=" + current_instrument +"&b=" + piStart;
+	sUrl = cBrowser.pageUrl() +"?s=" + current_sol 
+	if (current_instrument)
+		sUrl +="&i=" + current_instrument +"&b=" + piStart;
+	if (cBrowser.data[THUMB_QUERYSTRING])
+		sUrl += "&" + THUMB_QUERYSTRING +"=1";
+		
 	cBrowser.pushState("Detail", sUrl);
 	
 	//clear out the image data
-	$("#"+IMAGE_ID).html("<p class='subtitle'>loading images");
+	$("#"+IMAGE_CONTAINER_ID).html("<p class='subtitle'>loading images");
 	
 	// load the image data
 	loading=true;
@@ -487,7 +521,7 @@ function tagnames_callback(poJs){
 
 //***************************************************************
 function load_sols_callback(paJS){
-	var iIndex, oSol, oList, oSumList, oOption, iSol, iLastRange, iRange, iDivision, iDivision2;
+	var iIndex, oSol, oList, oSumList, oOption, iSol, iLastRange, iRange, iDivision, iDivision2, iLastSol;
 
 	cDebug.write("got sols callback");
 	
@@ -497,6 +531,7 @@ function load_sols_callback(paJS){
 	oSumList = $("#"+SOL_SUMMARY);
 	oSumList.empty();
 	iLastRange = -1;
+	iLastSol = parseInt(paJS[paJS.length-1].sol);
 	
 	for (iIndex = 0; iIndex < paJS.length; iIndex++){
 		oSol = paJS[iIndex];
@@ -504,12 +539,10 @@ function load_sols_callback(paJS){
 		iRange = Math.floor(iSol/SOL_DIVISIONS);
 		
 		if (iRange != iLastRange){
-			iDivision = iRange * SOL_DIVISIONS;
-			iDivision2 = iDivision + SOL_DIVISIONS -1;
-			oOption = $("<option>").attr({value:iSol}).html("" + iDivision + " to " + iDivision2);
+			oOption = $("<option>").attr({value:iSol}).html(oSol.sol + " to ...");
 			oSumList.append(oOption);
 			
-			oOption = $("<option>").attr({value:"NaN",disabled:"disabled"}).html("-- " + iDivision + " --");
+			oOption = $("<option>").attr({value:"NaN",disabled:"disabled"}).html("-- " + oSol.sol + " --");
 			oList.append(oOption);
 			iLastRange = iRange;
 		}
@@ -522,6 +555,29 @@ function load_sols_callback(paJS){
 	if (cBrowser.data[SOL_QUERYSTRING] ) 
 		mark_sol(cBrowser.data[SOL_QUERYSTRING]);
 	
+}
+
+//***************************************************************
+function load_thumbs_callback(poJS){
+	var oDiv, i, oItem, aData;
+	
+	set_status("loading thumbnails");
+
+	oDiv = $("#"+ IMAGE_CONTAINER_ID);
+	oDiv.empty();
+	
+	aData = poJS.d.data;
+	if (aData.Length == 0)
+		oDiv.append("<p class='subtitle'>Sorry no thumbnails found</p>");
+	else{
+		var sTarget = ( SINGLE_WINDOW ? "" : "target='detail'");
+		for (i=0; i< aData.length; i++){
+			oItem = aData[i];
+			oDiv.append("<a " + sTarget + " href='detail.php?s=" + poJS.s + "&i=" + oItem.data.instrument +"&p=" +oItem.p +"'><img border='0' height='"+ THUMB_SIZE +"' src='" +oItem.i + "'></a> ");
+		}
+	}
+	
+	set_status("done thumbnails");
 }
 
 //***************************************************************
@@ -558,11 +614,11 @@ function load_images_callback(paJS){
 		current_image_index = -1;
 	
 	//clear out the image div
-	$("#"+IMAGE_ID).empty();
+	$("#"+IMAGE_CONTAINER_ID).empty();
 		
 	//build the html to put into the div
 	if (paJS.max == 0)
-		$("#"+IMAGE_ID).html("No instrument data found");
+		$("#"+IMAGE_CONTAINER_ID).html("No instrument data found");
 	else{
 		//enable thumbnails
 		$("#solthumbs").removeAttr('disabled');
@@ -580,7 +636,7 @@ function load_images_callback(paJS){
 		$("#"+CURRENT_ID2).html(current_image_index);
 		
 		sHTML = "";
-		var oOuterDiv = $("#"+IMAGE_ID);
+		var oOuterDiv = $("#"+IMAGE_CONTAINER_ID);
 		for (iIndex = 0; iIndex < paJS.images.length; iIndex++){
 			var oDiv, oImgDiv, oA, oImg;
 			
@@ -670,10 +726,7 @@ function get_sol_instruments_callback(paJS){
 		oSelect.find('option[value=\"'+ sInstr + '\"]').removeAttr('disabled');
 	}
 	
-	if 	(current_instrument || reload_after_instr){
-		reload_after_instr = false;
-		reload_data();
-	}
+	reload_data();
 	set_status("ready");
 }
 
@@ -698,43 +751,3 @@ function highlight_callback(paJS){
 	}
 }
 
-
-//********************************************************************
-function load_thumbs_callback(poJS){
-	var oTopDiv, oJssorDiv, oSlidesDiv, oImg, i, oItem, aData, oOptions;
-	
-	oTopDiv = $("#thumbs");
-	oTopDiv.empty();
-	
-	aData = poJS.d.data;
-	if (aData.Length == 0){
-		oDiv.append("<p class='subtitle'>Sorry no thumbnails found</p>");
-		return;
-	}
-
-	return; //TBD
-	
-	//populate the div with a fresh hidden div
-	oSlidesDiv = $("<DIV>").attr({id:"slides", style:"overflow: hidden"});
-	oJssorDiv = $("<DIV>").attr({id:"jssor", style:"overflow: hidden"}); 
-	oJssorDiv.append(oSlidesDiv);
-	oTopDiv.append(oJssorDiv);
-	oJssorDiv.hide();
-	
-	//add images to display
-	for (i=0; i< aData.length; i++){
-		oItem = aData[i];
-		oImg = $("<img>").attr({u:"image", src:oItem.i, p:oItem.p});
-		oSlidesDiv.append($("<div>").append(oImg));
-	}
-	
-	//initialise jssor on the new div
-	oOptions= {
-		$AutoPlay: false 
-	};
-	var jssor_slider1 = new $JssorSlider$("jssor", oOptions);
-
-	
-	//reveal the completed div
-	oJssorDiv.show();
-}

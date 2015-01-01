@@ -116,7 +116,12 @@ class cCuriosity{
 				
 				//if all else fails: NB this'll only work for mastcam or mahli - otherwise you get a big fat exception
 				cDebug::write("product not found for $sIProduct");
+				try{
 				$aParts = cCuriosityPDS::explode_productID($sTProduct);
+				}
+				catch (Exception $e){					continue;				}
+				
+				
 				$sPartial = sprintf( "/%04d%s%06d%03d/", $aParts["sol"],	$aParts["instrument"] , $aParts["seqid"] ,$aParts["seq line"], $aParts["CDPID"]);
 				$aMatches = preg_grep($sPartial,$aIProductKeys);
 				if (count($aMatches) > 0 ){

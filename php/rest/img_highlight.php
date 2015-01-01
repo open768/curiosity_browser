@@ -53,11 +53,15 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			$oResult = cIndexes::get_solcount( $sSol, cImageHighlight::INDEX_SUFFIX);
 			break;
 		case "topsolindex":
+			
+			//unfortunately cant display count of highlights as i've hard coded 1 as the index value, 
+			//regardless of how many highlights --OOPS - needs a change to the underlying lack of data model.
+			//update when going to sql lite
 			$oResult = cIndexes::get_top_sol_data( cImageHighlight::INDEX_SUFFIX);
+			
 			break;
 		case "soldata":
-			$sSol = $_GET["s"];
-			$oResult = cIndexes::get_sol_data( $sSol, cImageHighlight::INDEX_SUFFIX);
+			$oResult = cImageHighlight::get_sol_highlighted_products( $_GET["s"]);
 			break;
 		default:
 			cDebug::error("unsupported operation");
