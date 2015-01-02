@@ -47,7 +47,7 @@ var sCheckThumbs = "chkThumbs";
 //* JQUERY
 //###############################################################
 function onloadJQuery(){	
-	$("#tabs").tabs();
+	$("#tabs").tabs().show();
 	//set up the onchange handler for sols
 	$("#"+SOLS_LIST).change( OnChangeSolList);
 	$("#"+SOL_SUMMARY).change( OnChangeSolSummaryList);

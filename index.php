@@ -29,8 +29,8 @@
 	
 	<table width="100%"><tr>
 		<td class="leftcolumn" valign="top">
-			<div id="tabs">
-				<ul>
+			<div id="tabs" style="display:none">
+				<ul >
 					<li><a href="#tabs-1" class="subtitle">Sol</a></li>
 					<li><a href="#tabs-2" class="subtitle">Tags</a></li>
 					<li><a href="#tabs-3" class="subtitle">All</a></li>

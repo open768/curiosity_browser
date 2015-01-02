@@ -1,8 +1,9 @@
 <?php
 	require_once("php/inc/header.php");
+	require_once("php/inc/facebook.php");
 	cHeader::redirect_if_referred();
-	if ( cHeader::is_facebook()){
-		cHeader::make_fb_detail_tags();
+	if ( cFacebook::is_facebook()){
+		cFacebook::make_fb_detail_tags();
 		exit;
 	}
 ?>
