@@ -39,6 +39,7 @@
 		<button id="instrument" title="Choose Instrument" onclick="onClickInstr();">loading</button>
 		<button id="date_utc" title="Show SOL Calendar" onclick="onClickCal();">loading...</button>
 		<button title="Show thumbnails" onclick="onClickThumbnails();">Thumbnails</button>
+		<button id="highlights" title="Highlights" onclick="onClickHighlights();">Highlights</button>
 		image <span id="img_index">??</span> of <span id="max_images">??</span>
 		<button title="Map at curiositybrowser.com" id="maplink" onclick="onClickMap()">Map</button>
 		<button title="Original Nasa image" id="nasalink" onclick="onClickNASA()">Original</button>

@@ -90,6 +90,12 @@ function onClickThumbnails(){
 }
 
 //***************************************************************
+function onClickHighlights(){
+	var sURL="solhigh.php?sheet&s=" + goItem.s;
+	cBrowser.openWindow(sURL, "solthumb");
+}
+
+//***************************************************************
 function onClickInstr(){
 	onClickSol();
 }
