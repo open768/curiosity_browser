@@ -1,9 +1,5 @@
 <?php
-$root=realpath("./");
-require_once("$root/php/curiosity/curiosity.php");
-require_once("$root/php/inc/pichighlight.php");
 require_once("$root/php/inc/debug.php");
-require_once("$root/php/inc/common.php");
 
 class cHeader{
 	//*******************************************************************
@@ -22,6 +18,19 @@ class cHeader{
 				exit;
 			}
 		}
+	}
+	
+	//*******************************************************************
+	public static function is_localhost(){
+		$aList = array(
+			'127.0.0.1',
+			'::1'
+		);
+
+		$sServer = $_SERVER['REMOTE_ADDR'];
+		$bLocal = in_array($sServer, $aList);
+		cDebug::write("Server: '$sServer', local: $bLocal");
+		return $bLocal;
 	}
 }
 ?>

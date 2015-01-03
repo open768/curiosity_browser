@@ -42,6 +42,7 @@ var reload_after_instr = false;
 var reset_image_number = true;
 var sAllInstruments = "All";
 var sCheckThumbs = "chkThumbs";
+var last_sol = -1;
 
 //###############################################################
 //* JQUERY
@@ -67,6 +68,10 @@ function onloadJQuery(){
 	$("#solcalendar").attr('disabled', "disabled");
 	$("#solrefresh").attr('disabled', "disabled");
 	$("#solthumbs").attr('disabled', "disabled");
+	$("#solsite").attr('disabled', "disabled");
+	$("#solprev").attr('disabled', "disabled");
+	$("#solnext").attr('disabled', "disabled");
+	$("#sollatest").attr('disabled', "disabled");
 	$("#solsite").attr('disabled', "disabled");
 	$("#allsolthumbs").attr('disabled', "disabled");
 	$("#search_text").keypress(onSearchKeypress);
@@ -94,6 +99,10 @@ function onClickSolGiga(){
 function onClickSolTag(){
 	cBrowser.openWindow("soltag.php?s=" + current_sol, "soltag");
 }
+function onClickLatestSol(){
+	cDebug.write("setting latest sol: ");
+	set_sol(last_sol);
+}
 function onClickSolHighs(){
 	cBrowser.openWindow("solhigh.php?s=" + current_sol, "solhigh");
 }
@@ -111,6 +120,7 @@ function onClickSolSite(){
 function onSearchKeypress(e){
     if(e.which == 13) onClickSearch();
 }
+
 
 
 
@@ -350,6 +360,8 @@ function set_sol(psSol){
 	$("#solnotebook").removeAttr('disabled');
 	$("#solmap").removeAttr('disabled');
 	$("#solcalendar").removeAttr('disabled');
+	$("#solnext").removeAttr('disabled');
+	$("#solprev").removeAttr('disabled');
 	$("#solrefresh").removeAttr('disabled');
 	$("#solsite").removeAttr('disabled');
 	$("#solsite").removeAttr('disabled');
@@ -521,7 +533,7 @@ function tagnames_callback(poJs){
 
 //***************************************************************
 function load_sols_callback(paJS){
-	var iIndex, oSol, oList, oSumList, oOption, iSol, iLastRange, iRange, iDivision, iDivision2, iLastSol;
+	var iIndex, oSol, oList, oSumList, oOption, iSol, iLastRange, iRange, iDivision, iDivision2;
 
 	cDebug.write("got sols callback");
 	
@@ -531,7 +543,8 @@ function load_sols_callback(paJS){
 	oSumList = $("#"+SOL_SUMMARY);
 	oSumList.empty();
 	iLastRange = -1;
-	iLastSol = parseInt(paJS[paJS.length-1].sol);
+	last_sol = parseInt(paJS[paJS.length-1].sol);
+	
 	
 	for (iIndex = 0; iIndex < paJS.length; iIndex++){
 		oSol = paJS[iIndex];
@@ -550,6 +563,9 @@ function load_sols_callback(paJS){
 		oOption = $("<option>").attr({value:oSol.sol}).html(oSol.sol);
 		oList.append(oOption);
 	}
+	
+	//enable latest button
+	$("#sollatest").removeAttr('disabled');
 	
 	// mark the sol
 	if (cBrowser.data[SOL_QUERYSTRING] ) 

@@ -1,4 +1,5 @@
 <?php
+	$root=realpath("./");
 	require_once("php/inc/header.php");
 	require_once("php/inc/facebook.php");
 	cHeader::redirect_if_referred();

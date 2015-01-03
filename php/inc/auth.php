@@ -10,6 +10,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
+require_once "$root/php/inc/header.php";
 
 class cAuth{
 	public static $user;
@@ -35,15 +36,46 @@ class cAuth{
 	}
 	
 	//**********************************************************
+	private static function pr_set_user($psUser){
+		$_SESSION["user"] = $psUser;
+	}
+	
+	//**********************************************************
 	public static function check(){
 		global $_SESSION, $_POST, $_GET;
+		
+		if (session_status() == PHP_SESSION_NONE) session_start();
+		
+		//force the user on localhost
+		if (cHeader::is_localhost())
+			if (isset($_GET["forceuser"])){
+				cDebug::write("forcing user: ".$_GET["forceuser"]);
+				self::pr_set_user( $_GET["forceuser"]);
+			}
+			
 		//allready set the session
 		$sUser = self::get_user();
 		if ($sUser){
+			cDebug::write("redirecting: ".$_SESSION['url']);
 			header("location:".$_SESSION['url']);
 			die;
 		}
 
+		//on localhost? set up to test the login #TBD#
+		if (cHeader::is_localhost()){
+			cDebug::write("this is localhost");
+			if (! isset( $_GET["testlogin"])){
+				self::pr_set_user( "localhost");
+				header("location:".$_SESSION['url']);
+				die;
+			}
+		}
+		if ($sUser){
+			cDebug::write("redirecting: ".$_SESSION['url']);
+			header("location:".$_SESSION['url']);
+			die;
+		}
+		
 		//got a form
 		if (isset($_POST["user"] )){
 			//----
@@ -57,7 +89,7 @@ class cAuth{
 			if (! $score ) return "try the human game again please";
 			
 			//--- everything is ok
-			$_SESSION["user"] = $_POST["user"];
+			self::pr_set_user( $_POST["user"]);
 			header("location:".$_SESSION["url"]);
 			die;
 		}

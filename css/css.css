@@ -1,17 +1,12 @@
 body
 {
-	background-color:LemonChiffon;
+	background-color:white;
 	font:15px arial,sans-serif;
 }
 
 .github {
-	background-color: #FFFFCC ;
+	background-color: #E5E5E5 ;
     padding: 5px;
-    border: 1px solid #e86005;
-    border-bottom: 2px solid #e86005;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
 }
 	
 .rnavbut{
@@ -35,7 +30,7 @@ body
 
 .leftcolumn{
 	width: 230px;
-	background-color: cornsilk;
+	background-color: white;
 	vertical-align:top;
 }
 
@@ -64,7 +59,7 @@ body
 {
 	width: 80%;
 	padding: 3px;
-	border:1px solid gold;
+	border:1px solid #999999;
 }
 
 .polaroid
@@ -76,9 +71,10 @@ body
 
 .gold
 {
-	border-radius: 10px;
+	border-radius: 3px;
 	padding: 10px;
-	border: 3px solid gold;
+	border: 1px solid #999999;
+	margin-bottom: 3px;
 }
 
 .soltags
@@ -123,10 +119,9 @@ body
 .title
 {
 	font-family: 'Helvetica Neue',Helvetica, sans-serif;
-	color: #e86005;
+	color: black;
 	font-weight:bold;
-	font-size: 50px;
-	text-shadow:0px 0px 0 rgb(208,72,-19),1px 1px 0 rgb(193,57,-34),2px 2px 0 rgb(179,43,-48),3px 3px 0 rgb(164,28,-63),4px 4px 0 rgb(150,14,-77),5px 5px 0 rgb(135,-1,-92), 6px 6px 0 rgb(121,-15,-106),7px 7px 6px rgba(0,0,0,0.6),7px 7px 1px rgba(0,0,0,0.5),0px 0px 6px rgba(0,0,0,.2);
+	font-size: 18px;
 }
 
 .credits

@@ -43,9 +43,9 @@
 					</SELECT>
 					</nobr>
 					<table border="0" width="100%"><tr>
-						<td align="left"><button class="solnav" title="previous Sol ([)" type="button" onclick="onClickPreviousSol();">&lt;--</button></td>
-						<td align="right"><button class="solnav" title="next Sol (])" type="button" onclick="onClickNextSol();">--&gt;</button></td>
-					
+						<td align="left"><button id="solprev" class="solnav" title="previous Sol ([)" onclick="onClickPreviousSol();">&lt;--</button></td>
+						<td align="middle"><button id="sollatest" title="Latest Sol" class="" onclick="onClickLatestSol();">latest</button></td>
+						<td align="right"><button id="solnext" class="solnav" title="next Sol (])" onclick="onClickNextSol();">--&gt;</button></td>
 					</tr></table>
 					<!-- ************************************** -->
 					<div class="subtitle">Instruments:</div>

@@ -1,16 +1,18 @@
 <?php
-
-require_once "php/inc/debug.php";
-require_once "php/inc/secret.php";
-require_once "php/static/static.php";
-require_once "php/inc/auth.php";
-require_once "php/ayah/ayah.php";
+$root=realpath("./");
+require_once "$root/php/inc/debug.php";
+require_once "$root/php/inc/secret.php";
+require_once "$root/php/static/static.php";
+require_once "$root/php/inc/auth.php";
+require_once "$root/php/ayah/ayah.php";
 
 cDebug::check_GET_or_POST();
 
-//***** check if logged in
+//***** redirect if logged in
 session_start();
 $sMessage = cAuth::check();
+
+//not logged in - display the login form
 ?>
 
 <html>
