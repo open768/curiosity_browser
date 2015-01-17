@@ -22,7 +22,7 @@ class cObjStore{
 	//#####################################################################
 	//# PUBLIC
 	//#####################################################################
-	static function kill_file( $psFolder, $psFile){
+	public static function kill_file( $psFolder, $psFile){
 		$num_args = func_num_args();
 		if ($num_args != 2) cDebug::error("kill_file: incorrect number of arguments - expected 2 got $num_args ");
 
@@ -35,7 +35,8 @@ class cObjStore{
 	}
 	
 	//********************************************************************
-	static function get_file( $psFolder, $psFile){
+	//TODO migrate to using hash.php
+	public static function get_file( $psFolder, $psFile){
 		$aData = null;
 		
 		$num_args = func_num_args();
@@ -57,7 +58,7 @@ class cObjStore{
 	}
 	
 	//********************************************************************
-	static function put_file( $psFolder, $psFile, $poData){
+	public static function put_file( $psFolder, $psFile, $poData){
 			
 		$num_args = func_num_args();
 		if ($num_args != 3) cDebug::error("put_file: incorrect number of arguments - expected 3 got $num_args ");

@@ -1,21 +1,18 @@
 <html>
 <head>
-	<LINK href="css/css.css" rel="stylesheet" type="text/css">
+	<?php include("php/fragments/header.php"); ?>
 	<title>About the Curiosity Browser </title>
 </head>
 <body>
 	<?php 
+		$root=realpath(".");
 		require_once "php/inc/secret.php";
-		include_once("analytics-fragment.php") 
+		include("php/fragments/analytics.php");
+		include("php/fragments/facebook.php");
+		$sTitle = "About me";
+		include("php/fragments/title.php");
 	?>
 	<script src="js/inc/common.js"></script>
-	<script src="js/inc/secret.js"></script>
-	<script src="js/jquery/jquery.js"></script>
-	<script src="js/jquery/jquery-ui.js"></script>
-	<script src="js/inc/facebook.js"></script>
-	
-	<DIV class="title">About the Curiosity Browser</DIV>
-<p>
 	<div class="gold" >
 		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
 		<p>
@@ -106,18 +103,6 @@
 	</div>
 
 	<!-- footer -->
-	<p class="credits">
-		Data courtesy MSSS/MSL/NASA/JPL-Caltech.<br> Other data is credited on specific pages on this site
-	</p>
-	<div class="github">
-		<table border="0" width="100%"><tr>
-			<td width="50"><a href="http://www.chickenkatsu.co.uk" target="chicken"><img src="images/chicken_icon.png"></a></td>
-			<td>
-				We're on <img src="images/github_logo.png"> <a href="https://github.com/open768/curiosity_browser">https://github.com/open768/curiosity_browser</a>
-				<p>
-				<div class="fb-like" data-href="https://www.facebook.com/mars.features" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
-			</td>
-		</tr></table>
-	</div>
+	<?php 	include("php/fragments/github.php") 	?>
 </body>
 </html>

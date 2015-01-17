@@ -14,7 +14,16 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 class cDebug{
 	public static $DEBUGGING=false;
+	public static $EXTRA_DEBUGGING=false;
 	
+	public static function extra_debug($poThing){
+		if (self::$EXTRA_DEBUGGING){
+			$sDate = date('d-m-Y H:i:s');
+			echo "<p><font color=red><code>** $sDate: $poThing</code></font><p>";
+			ob_flush();
+			flush();
+		}
+	}
 	public static function write($poThing){
 		if (self::$DEBUGGING){
 			$sDate = date('d-m-Y H:i:s');

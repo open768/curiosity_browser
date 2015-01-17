@@ -18,8 +18,8 @@ var oSolIndex = null;
 //###############################################################
 //# Utility functions 
 //###############################################################
-
-function onLoadJQuery(){
+bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_GIGAS);
+function onLoadJQuery_GIGAS(){
 	set_status("fetching gigapans");
 	cHttp.fetch_json("php/rest/gigapans.php?&o=all", giga_callback);
 }

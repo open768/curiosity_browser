@@ -35,7 +35,12 @@ class cImageHighlight{
 		$sImageUrl = $oInstrumentData["d"]["i"];
 		
 		//get the  image
-		cDebug::write("fetching image from $sImageUrl");
+		if (!$sImageUrl){
+			cDebug::write("no image found");
+			return null;
+		}
+
+		cDebug::write("fetching image from '$sImageUrl'");
 		//$oMSLImg = imagecreatefromjpeg($sImageUrl);
 		$oMSLImg = cHttp::fetch_image($sImageUrl);
 		return $oMSLImg;
@@ -191,7 +196,11 @@ class cImageHighlight{
 		foreach ($paData as $sInstr=>$aInstrData){
 			cDebug::write("processing thumbs for $sInstr");
 			foreach ($aInstrData as $sProd=>$sProdData){
-				$aData = self::get_thumbs($psSol, $sInstr, $sProd);
+				try{
+					$aData = self::get_thumbs($psSol, $sInstr, $sProd);
+				}catch (Exception $e) {
+					continue;
+				}
 				foreach ($aData["u"] as $sPath)
 					$aImgList[] = $sPath;
 			}
@@ -222,6 +231,8 @@ class cImageHighlight{
 		for ($i=0; $i<$iCount; $i++){
 			//load the original image
 			$sThumbFilename = $root."/".$aImgList[$i];
+			if (!file_exists($sThumbFilename)) continue;
+			
 			$oThumbImg = imagecreatefromjpeg($sThumbFilename);
 
 			//copy it into the mosaic
@@ -270,6 +281,14 @@ class cImageHighlight{
 			//write out the count 
 			self::pr_put_mosaic_count($psSol, $iCount);
 		}		
+
+		//------------------------------------------------------------------
+		$sMosaicFile=self::MOSAIC_FOLDER."/$psSol.jpg";
+		if (!file_exists("$root/$sMosaicFile")){
+			cDebug::write("regenerating missing mosaic file");
+			$sMosaic = self::pr_generate_mosaic($psSol,$oData);
+		}
+
 		
 		return self::MOSAIC_FOLDER."/$psSol.jpg";
 	}

@@ -92,7 +92,7 @@ function onClickNotebook(){
 //###############################################################
 //# Utility functions 
 //###############################################################
-function onLoadJQuery(){
+function onLoadJQuery_PDS(){
 	set_status("loading pds data...");
 	var sURL = 	
 		"php/rest/pds.php?a=s&s="+ cBrowser.data[SOL_QUERYSTRING] + 
@@ -101,7 +101,7 @@ function onLoadJQuery(){
 		"&t=" + cBrowser.data[TIMESTAMP_QUERYSTRING];
 	cHttp.fetch_json(sURL, get_pds_callback);
 }
-
+bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_PDS);
 
 function has_pds_url(){
 	if (!gsPdsUrl)

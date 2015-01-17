@@ -32,5 +32,17 @@ class cHeader{
 		cDebug::write("Server: '$sServer', local: $bLocal");
 		return $bLocal;
 	}
+	
+	//*******************************************************************
+	public static function get($psKey){
+		if (isset( $_GET[$psKey]))
+			return ($_GET[$psKey]);
+			
+		if (isset( $_POST[$psKey]))
+			return ($_POST[$psKey]);
+			
+		cDebug::write("key:$psKey not found in GET or POST");
+		return null;
+	}
 }
 ?>

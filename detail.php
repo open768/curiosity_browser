@@ -1,39 +1,34 @@
 <?php
 	$root=realpath("./");
-	require_once("php/inc/header.php");
-	require_once("php/inc/facebook.php");
+	require_once("$root/php/inc/header.php");
+	require_once("$root/php/inc/facebook.php");
 	cHeader::redirect_if_referred();
 	if ( cFacebook::is_facebook()){
-		cFacebook::make_fb_detail_tags();
+		cFacebookTags::make_fb_detail_tags();
 		exit;
 	}
 ?>
 <html>
 <head>
-	<LINK href="./css/css.css" rel="stylesheet" type="text/css">
+	<?php include("php/fragments/header.php"); ?>
 	<LINK href="./css/drag.css" rel="stylesheet" type="text/css">
-	<LINK href="./css/jquery/jquery-ui.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="./js/sceditor/minified/themes/default.min.css" type="text/css" media="all" />
 	<title>Detail: Curiosity Browser</title>
-	<script src="js/inc/secret.js"></script>
 	<script src="js/pixlr/pixlr.js"></script>
-	<script src="js/pages/detail.js"></script>
-	<script src="js/inc/auth.js"></script>
-	<script src="js/inc/common.js"></script>
 	<script src="js/inc/tagging.js"></script>
 	<script src="js/inc/comments.js"></script>
 	<script src="js/inc/imghilite.js"></script>
-	<script src="js/jquery/jquery.js"></script>
-	<script src="js/jquery/jquery-ui.js"></script>
-	<script src="js/inc/facebook.js"></script>
 	<script src="./js/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
+	<script src="js/pages/detail.js"></script>
 </head>
-<body onload="$(onLoadJQuery);">
+<body onload="$(cJQueryObj.onBodyLoad);">
 	<?php 
 		require_once "php/inc/secret.php";
-		include_once("analytics-fragment.php") 
+		include("php/fragments/analytics.php");
+		include("php/fragments/facebook.php");
+		$sTitle = "Product Detail";
+		include("php/fragments/title.php");
 	?>
-	<DIV class="title">Curiosity Detail</DIV>
 	<DIV class="gold">
 		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
 		<button id="sol" title="Choose Sol" onclick="onClickSol();">loading...</button>
@@ -52,7 +47,7 @@
 		<div class="ui-widget">
 			<span class="subtitle">Tags:</span> 
 			<span ID="tags">Loading...</span> 
-			<input type="text" size="20" maxlength="20" id="tagtext"><button onclick="onClickAddTag();">Add</button>
+			<input type="text" size="20" maxlength="20" id="tagtext"><button id="submittag" onclick="onClickAddTag();">Add</button>
 		</div>
 	</div>
 	<DIV class="gold">
@@ -112,7 +107,7 @@
 		<div ID="comments" class="comments">loading comments data...</div>
 		<p>
 		<textarea rows="5" cols="120" id="Commentsbox" placeholder="go on share your thoughts with everyone"></textarea>
-		<button onclick="onClickComment()" title="submit comment">comment</button>
+		<button id="btnComment" onclick="onClickComment()" title="submit comment">comment</button>
 	</div>
 	<div class="gold" ID="msldata">
 		loading MSL data
@@ -122,19 +117,9 @@
 	<iframe id="label" width="1000" height="500">Label Loading...</iframe>
 	<P>
 	<!-- footer -->
-	<p class="credits">
-		Data courtesy MSSS/MSL/NASA/JPL-Caltech.<br>
-		link to curiosityrover.com courtesy of Joe Knapp
-	</p>
-	<div class="github">
-		<table border="0" width="100%"><tr>
-			<td width="50"><a href="http://www.chickenkatsu.co.uk" target="chicken"><img src="images/chicken_icon.png"></a></td>
-			<td>
-				We're on <img src="images/github_logo.png"> <a href="https://github.com/open768/curiosity_browser">https://github.com/open768/curiosity_browser</a>
-				<p>
-				<div class="fb-like" data-href="https://www.facebook.com/mars.features" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
-			</td>
-		</tr></table>
-	</div>
+	<?php 	
+		$sExtraCredits="link to curiosityrover.com courtesy of Joe Knapp";
+		include("php/fragments/github.php") 	
+	?>
 </body>
 </html>

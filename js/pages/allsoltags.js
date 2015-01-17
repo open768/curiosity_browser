@@ -18,11 +18,11 @@ var oSolIndex = null;
 //###############################################################
 //# Utility functions 
 //###############################################################
-
-function onLoadJQuery(){
+function onLoadJQuery_TAGS(){
 	set_status("fetching tags");
 	cHttp.fetch_json("php/rest/tag.php?&o=topsolindex", topsol_callback);
 }
+bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_TAGS);
 
 //###############################################################
 //* call backs 

@@ -12,23 +12,49 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 var DEBUG_ON = true;
 
+//requires Jquery cookie from https://github.com/carhartl/jquery-cookie
+
 var cAuth = {
 	user:null,
-	
 	//**********************************************************
-	forceLogin:function(){
-		if (!this.user){
-			location.href = "login.php?l="+ escape(document.URL);
-			cDebug.error("forcing login");
+	getFBUser:function ( poFBResponse ){
+		if (this.user){
+			cDebug.write("previously authenticated");
+			bean.fire(cAuth, "onGetFBUser",[sUser]);
+			return
 		}
+			
+		var sUser = $.cookie("user");
+		if (sUser){
+			cDebug.write("user is cached: " + sUser);
+			this.setUser(sUser);
+			bean.fire(cAuth, "onGetFBUser",[sUser]);
+			return;
+		}
+		
+		cDebug.write("getting Facebook user details for user " + poFBResponse.userID);
+		cDebug.write("Access token: " + poFBResponse.accessToken);
+		var oData = {
+			o:"getuser",
+			user: poFBResponse.userID,
+			token: poFBResponse.accessToken
+		}
+		cHttp.post("php/rest/facebook.php", oData, cAuth.FBCallback);
 	},
 	
 	//**********************************************************
-	getUser:function ( pfnCallback ){
-		cHttp.fetch_json("php/rest/auth.php?o=getuser", pfnCallback);
+	FBCallback:function(psData){
+		var sUser;
+		cDebug.write("Auth got response from FB");
+		sUser = $.parseJSON(psData);
+		cDebug.write(sUser);
+		cAuth.setUser(sUser);
+		bean.fire(cAuth, "onGetFBUser",[sUser]);
 	},
 	
 	//**********************************************************
-	gotoLogin:function (psReturnUrl){
+	setUser:function (psUser){
+		this.user = psUser;
+		$.cookie("user",psUser);
 	}
 }

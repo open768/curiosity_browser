@@ -47,7 +47,8 @@ var last_sol = -1;
 //###############################################################
 //* JQUERY
 //###############################################################
-function onloadJQuery(){	
+bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_INDEX);
+function onLoadJQuery_INDEX(){	
 	$("#tabs").tabs().show();
 	//set up the onchange handler for sols
 	$("#"+SOLS_LIST).change( OnChangeSolList);
@@ -81,7 +82,7 @@ function onloadJQuery(){
 	if (cBrowser.data[MAXIMAGES_QUERYSTRING] )
 		HOW_MANY_IMAGES = parseInt(cBrowser.data[MAXIMAGES_QUERYSTRING]);
 	if (cBrowser.data[IMAGE_QUERYSTRING] ){
-		current_image_index = cBrowser.data[IMAGE_QUERYSTRING];
+		current_image_index = parseInt(cBrowser.data[IMAGE_QUERYSTRING]);
 		reset_image_number = false;
 	}
 		

@@ -11,8 +11,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 //uses google earth plugin information from https://developers.google.com/earth/documentation/index
 **************************************************************************/
-
-
 var DEBUG_ON = true;
 var COLUMNS = 12;
 var sOperation = null;
@@ -24,8 +22,8 @@ var sBound = null;
 //###############################################################
 //# Utility functions 
 //###############################################################
-
-function onLoadJQuery(){
+bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_SITES);
+function onLoadJQuery_SITES(){
 	set_status("initialising google earth");
 	cGoogleEarth.callback = onGoogleEarthLoaded;
 	cGoogleEarth.init("map");

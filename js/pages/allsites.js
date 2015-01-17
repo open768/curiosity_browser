@@ -25,8 +25,8 @@ var oSelectedHiRise=null;
 //###############################################################
 //# Utility functions 
 //###############################################################
-
-function onLoadJQuery(){
+bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_SITES);
+function onLoadJQuery_SITES(){
 	set_status("initialising Google Earth");
 	cGoogleEarth.callback = onGoogleEarthLoaded;
 	cGoogleEarth.init("map");

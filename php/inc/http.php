@@ -28,6 +28,7 @@ class cHttp{
 
 	//*****************************************************************************
 	public static function getJson($psURL){
+		cDebug::extra_debug("getting Json");
 		$response = self::fetch_url($psURL);
 		$oResponse = json_decode($response);
 		
@@ -71,6 +72,7 @@ class cHttp{
 	
 	//*****************************************************************************
 	public static function fetch_url($psUrl){
+		cDebug::extra_debug("curl fetching url: $psUrl");
 		$oCurl = curl_init();	
 		curl_setopt($oCurl, CURLOPT_URL, $psUrl);
 		curl_setopt($oCurl, CURLOPT_FAILONERROR, 1);
@@ -80,7 +82,8 @@ class cHttp{
 			curl_setopt($oCurl, CURLOPT_PROGRESSFUNCTION, '__progress_callback');
 		
 		//use gzip compression to save bandwidth
-		curl_setopt($oCurl, CURLOPT_ENCODING, 'gzip'); 
+		curl_setopt($oCurl, CURLOPT_HTTPHEADER, array('Accept-Encoding: gzip,deflate'));
+		curl_setopt($oCurl, CURLOPT_ENCODING, ''); 		//decode automatically
 		
 		if (CURL_USE_PROXY){
 			curl_setopt($oCurl, CURLOPT_PROXY, CURL_PROXY);
@@ -98,9 +101,10 @@ class cHttp{
 			print curl_error($oCurl)."<p>";
 			curl_close($oCurl);
 			throw new Exception("ERROR URL was: $psUrl <p>");
-		}else
+		}else{
+			cDebug::extra_debug("no error reported by Curl");
 			curl_close($oCurl);
-			
+		}
 		return  $response;
 	}
 	
@@ -125,6 +129,10 @@ class cHttp{
 		if (self::$show_progress)
 			curl_setopt($oCurl, CURLOPT_PROGRESSFUNCTION, '__progress_callback');
 			
+		//use gzip compression to save bandwidth
+		curl_setopt($oCurl, CURLOPT_HTTPHEADER, array('Accept-Encoding: gzip,deflate'));
+		curl_setopt($oCurl, CURLOPT_ENCODING, ''); 		//decode automatically
+		
 		if (CURL_USE_PROXY){
 			curl_setopt($oCurl, CURLOPT_PROXY, CURL_PROXY);
 			curl_setopt($oCurl, CURLOPT_PROXYPORT, CURL_PROXYPORT );
@@ -178,7 +186,7 @@ class cHttp{
 	}
 }
 
-function __progress_callback($resource, $dl_size, $dl, $ul_size, $ul){
+function __progress_callback($resource, $dl_size, $dl, $ul_size){
 	
 	cHttp::$progress_count++;
 	if (cHttp::$progress_count < 20) return;

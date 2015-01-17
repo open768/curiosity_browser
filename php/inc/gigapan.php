@@ -42,7 +42,10 @@
 			
 			//get the json data
 			$sUrl = sprintf(self::USER_EXPR , $piPage, $psUser);
+			cDebug::write("getting $sUrl");
 			$oJson = cCachedHttp::getCachedJson($sUrl);
+			if (!$oJson) cDebug::error("nothing returned at all - check PHP config");
+			
 			
 			//extract the name and the gigagpan IDs
 			$aItems = $oJson->items;

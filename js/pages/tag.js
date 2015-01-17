@@ -15,8 +15,8 @@ var DEBUG_ON = true;
 //###############################################################
 //# Utility functions 
 //###############################################################
-
-function onLoadJQuery(){
+bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_TAG);
+function onLoadJQuery_TAG(){
 	var sTag = cBrowser.data["t"];
 	$("#tagname").html(sTag);
 	cTagging.getTagDetails(sTag, tagdetails_callback);

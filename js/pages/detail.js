@@ -34,7 +34,6 @@ function onClickNext(){
 
 //***************************************************************
 function onClickComment(){
-	cAuth.forceLogin();
 	var sText = $("#Commentsbox").sceditor('instance').val(); //gets the bbcode - MUST BE PARSED AT SERVER
 	cComments.set(goItem.s,goItem.i,goItem.p, sText, get_comments_callback);
 }
@@ -122,8 +121,6 @@ function onClickPDS(){
 function onClickAddTag(){
 	var sKey, sTag;
 
-	cAuth.forceLogin();
-	
 	//check something was entered
 	sTag = $("#tagtext").val();
 	if (sTag === ""){
@@ -158,11 +155,13 @@ function onClickGoogle(){
 	window.open(sURL, "map");
 }
 
+//***************************************************************
+function onFacebookUser(){
+	cDebug.write("detail.js got Facebook user");
+	$("#tagtext").removeAttr('disabled');
+	$("#submittag").removeAttr('disabled');
+	$("#btnComment").removeAttr('disabled');
 
-//###############################################################
-//# Utility functions 
-//###############################################################
-function onLoadJQuery(){
 	$("#Commentsbox").sceditor({
 		plugins: 'bbcode',
 		style: "./js/sceditor/minified/jquery.sceditor.default.min.css",
@@ -170,6 +169,23 @@ function onLoadJQuery(){
 		height:100,
 		resizeEnabled: false
 	});
+	$('#Commentsbox').sceditor('instance').blur(onInputDefocus);
+	$('#Commentsbox').sceditor('instance').focus(onInputFocus);
+};
+
+//###############################################################
+//# Utility functions 
+//###############################################################
+bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_DETAIL);
+bean.on(cFacebook, "gotUser", onFacebookUser);
+
+function onLoadJQuery_DETAIL(){
+	
+	//disable edit controls
+	$("#tagtext").attr('disabled', "disabled");
+	$("#submittag").attr('disabled', "disabled");
+	$("#Commentsbox").attr('disabled', "disabled");
+	$("#btnComment").attr('disabled', "disabled");
 	
 	//catch key presses but not on text inputs
 	$(window).keypress(onKeyPress);
@@ -179,13 +195,13 @@ function onLoadJQuery(){
 			$(oObj).blur(onInputDefocus);
 		}
 	});
-	$('#Commentsbox').sceditor('instance').blur(onInputDefocus);
-	$('#Commentsbox').sceditor('instance').focus(onInputFocus);
 	
 	//get user data
 	set_status("loading user data...");
-	cAuth.getUser(authCallback);
+	get_product_data( cBrowser.data[SOL_QUERYSTRING], cBrowser.data[INSTR_QUERYSTRING], cBrowser.data[PRODUCT_QUERYSTRING]);
+	cTagging.getTagNames(alltagnames_callback);
 }
+
 
 function onInputFocus(){
 	$(window).unbind("keypress");
@@ -193,15 +209,6 @@ function onInputFocus(){
 
 function onInputDefocus(){
 	$(window).keypress(onKeyPress);
-}
-
-
-//***************************************************************
-function authCallback(psUser){
-	cAuth.user = psUser;
-	if (cAuth.user) set_status("welcome " + cAuth.user);
-	get_product_data( cBrowser.data[SOL_QUERYSTRING], cBrowser.data[INSTR_QUERYSTRING], cBrowser.data[PRODUCT_QUERYSTRING]);
-	cTagging.getTagNames(alltagnames_callback);
 }
 
 //***************************************************************
@@ -400,8 +407,10 @@ function onSaveHighCallback(poEvent){
 
 //***************************************************************
 function OnImageClick(poEvent){
-	cAuth.forceLogin();
-	cImgHilite.makeBox(poEvent.pageX, poEvent.pageY,true);
+	if (cAuth.user)
+		cImgHilite.makeBox(poEvent.pageX, poEvent.pageY,true);
+	else
+		alert("log in to highlight");
 }
 
 //**************************************************

@@ -46,14 +46,17 @@ class cCachedHttp{
 		$oResponse = null;
 		
 		if (cHash::exists($sHash)){
+			cDebug::extra_debug("cached");
 			$oResponse = cHash::get_obj($sHash);
 		}else{
+			cDebug::extra_debug("not cached");
 			if ($pbJson)
 				$oResponse = cHttp::getJson($psURL);
 			else
 				$oResponse = cHttp::fetch_url($psURL);
 				
-			cHash::put_obj($sHash, $oResponse, true);
+			if ($oResponse) 
+				cHash::put_obj($sHash, $oResponse, true);
 		}
 		
 		return $oResponse;

@@ -18,8 +18,8 @@ var oSolIndex = null;
 //###############################################################
 //# Utility functions 
 //###############################################################
-
-function onLoadJQuery(){
+bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_HIGHS);
+function onLoadJQuery_HIGHS(){
 	set_status("fetching Highlights");
 	cHttp.fetch_json("php/rest/img_highlight.php?&o=topsolindex", topsol_callback);
 }

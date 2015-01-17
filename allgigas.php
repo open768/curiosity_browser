@@ -1,22 +1,18 @@
 <html>
 <head>
-	<LINK href="css/css.css" rel="stylesheet" type="text/css">
+	<?php include("php/fragments/header.php"); ?>
 	<title>All Gigapans - Curiosity Browser</title>
-	<script src="js/inc/secret.js"></script>
-	<script src="js/inc/common.js"></script>
-	<script src="js/inc/auth.js"></script>
 	<script src="js/pages/allgigas.js"></script>
-	<script src="js/jquery/jquery.js"></script>
-	<script src="js/jquery/jquery-ui.js"></script>
-	<script src="js/inc/facebook.js"></script>
 </head>
-<body onload="$(onLoadJQuery);">
+<body onload="$(cJQueryObj.onBodyLoad);">
 	<?php 
+		$root=realpath(".");
 		require_once "php/inc/secret.php";
-		include_once("analytics-fragment.php") 
+		include("php/fragments/analytics.php");
+		include("php/fragments/facebook.php");
+		$sTitle = "All Gigapans";
+		include("php/fragments/title.php");
 	?>
-	<DIV class="title">All Gigagpans</DIV>
-<p>
 	<div class="gold">
 			<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
 	<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
@@ -27,18 +23,9 @@
 	<P>
 	
 	<!-- *************** footer *********************** -->
-	<p class="credits">
-		Data courtesy Neville Thompson http://www.gigapan.com/profiles/pencilnev.<br>
-	</p>
-	<div class="github">
-		<table border="0" width="100%"><tr>
-			<td width="50"><a href="http://www.chickenkatsu.co.uk" target="chicken"><img src="images/chicken_icon.png"></a></td>
-			<td>
-				We're on <img src="images/github_logo.png"> <a href="https://github.com/open768/curiosity_browser">https://github.com/open768/curiosity_browser</a>
-				<p>
-				<div class="fb-like" data-href="https://www.facebook.com/mars.features" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
-			</td>
-		</tr></table>
-	</div>
+	<?php 
+		$sExtraCredits="Data courtesy Neville Thompson http://www.gigapan.com/profiles/pencilnev";
+		include("php/fragments/github.php") 
+	?>
 </body>
 </html>

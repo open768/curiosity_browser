@@ -17,22 +17,45 @@ var SINGLE_WINDOW =true;
 //###############################################################
 //# HTTP
 //###############################################################
+function cHttpFailer(){
+	this.url = null;
+	this.fail = function( jqxhr, textStatus, error ){
+		set_error_status("call failed: check console" );
+		cDebug.write("ERROR: " + textStatus + "," + error + " : " + this.url);		
+	}
+}
+
 var cHttp = {
 	fetch_json:function(psUrl, pfnCallBack){	
+		var oFailer;
 		//if the url doesnt contain http
 		if (psUrl.search("http:") == -1)
 			cDebug.write(cBrowser.baseUrl() + psUrl);
 		else
 			cDebug.write(psUrl);
-		$.getJSON(psUrl, pfnCallBack).fail(this.fail);
+		oFailer = new cHttpFailer;
+		oFailer.url = psUrl;
+		$.getJSON(psUrl, pfnCallBack).fail(oFailer.fail);
 	},
 	
-	fail:function( jqxhr, textStatus, error ){
-		set_error_status("Json call failed: see javascript console");
-		cDebug.write("ERROR: " + textStatus + "," + error);		
+	//***************************************************************
+	post:function(psUrl, poData, pfnCallBack){
+		if (psUrl.search("http:") == -1)
+			cDebug.write(cBrowser.baseUrl() + psUrl);
+		else
+			cDebug.write(psUrl);
+		oFailer = new cHttpFailer;
+		oFailer.url = psUrl;
+		
+		//- - - - - callback to json_decode_result
+		var fnInternalCallback = function(poData){
+			cDebug.write("chttp post got callback");
+			pfnCallBack(poData);
+		}
+		
+		//- - - - - make the call
+		$.post(psUrl, poData, fnInternalCallback).fail(oFailer.fail);
 	}
-	
-	
 }
 
 //###############################################################
@@ -158,6 +181,13 @@ cBrowser = {
 //	this.isMobile = function(a) {(/android|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|meego.+mobile|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(a))}(navigator.userAgent||navigator.vendor||window.opera);
 }
 cBrowser.init();
+
+cJQueryObj = {
+	onBodyLoad:function(){
+		cDebug.write("firing OnJqueryLoad event");
+		bean.fire(cJQueryObj,"OnJqueryLoad");
+	}
+}
 
 //###############################################################
 //# MISC

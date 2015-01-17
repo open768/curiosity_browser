@@ -1,31 +1,21 @@
 <html>
 <head>
-	<LINK href="css/css.css" rel="stylesheet" type="text/css">
-	<LINK href="css/drag.css" rel="stylesheet" type="text/css">
-	<link href="css/jquery/jquery-ui.css" rel="stylesheet" >
-	<link href="css/jsssor/jsssor.css" rel="stylesheet" >
 	<title>Curiosity Browser</title>
-	<script type="text/javascript" src="js/inc/secret.js"></script>
-	<script type="text/javascript" src="js/inc/common.js"></script>
-	<script type="text/javascript" src="js/inc/auth.js"></script>
+	<?php include("php/fragments/header.php"); ?>
+	<LINK href="./css/drag.css" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="js/pages/index.js"></script>
 	<script type="text/javascript" src="js/inc/tagging.js"></script>
 	<script type="text/javascript" src="js/inc/imghilite.js"></script>
-	<script type="text/javascript" src="js/jquery/jquery.js"></script>
-	<script type="text/javascript" src="js/jquery/jquery-ui.js"></script>
-	<script type="text/javascript" src="js/inc/facebook.js"></script>
-    <script type="text/javascript" src="js/jssor/jssor.core.js"></script>
-    <script type="text/javascript" src="js/jssor/jssor.utils.js"></script>
-    <script type="text/javascript" src="js/jssor/jssor.slider.mini.js"></script>
-	
 </head>
-<body onload="$(onloadJQuery);">
+<body onload="$(cJQueryObj.onBodyLoad);">
 	<?php 
 		require_once "php/inc/secret.php";
-		include_once("analytics-fragment.php") 
+		require_once "php/inc/header.php";
+		include("php/fragments/analytics.php");
+		include("php/fragments/facebook.php");
+		$sTitle = "Home";
+		include("php/fragments/title.php");
 	?>
-	<font class="title">Curiosity Browser</font>
-	<p>
 	
 	<table width="100%"><tr>
 		<td class="leftcolumn" valign="top">
@@ -111,6 +101,11 @@
 				<p>
 				The next steps are up to you - browse the great images and you too might discover and  <span class="subtitle">tag</span> or <span class="subtitle">highlight</span> it so that anyone else can see what you are seeing. You might find a fascinating golological rock, an intruiging rock, evidence of water flows. In fact you might be the one who discovers the next great scientific discovery of Mars. Imagine that, your name up there in lights in the the halls of Science as being the one who discovered it. Go on.. its over to you then :-) 
 				<p>
+				<div class="cookie">
+				We are using cookies to give you the best experience on our site. Cookies are files stored in your browser and are used by most websites to help personalise your web experience.
+				By continuing to use our website without changing the settings, you are agreeing to our use of cookies.
+				</div>
+
 				<h2>Dislaimer</h2>
 				<span class="subtitle">This web site is not affiliated with JPL or NASA.</span>
 			</div>
@@ -124,15 +119,6 @@
 	</tr></table>
 	
 	<!-- footer -->
-	<p class="credits">Data courtesy MSSS/MSL/NASA/JPL-Caltech.</p>
-	<div class="github">
-		<table border="0" width="100%"><tr>
-			<td width="50"><a href="http://www.chickenkatsu.co.uk" target="chicken"><img src="images/chicken_icon.png"></a></td>
-			<td>
-				We're on <img src="images/github_logo.png"> <a href="https://github.com/open768/curiosity_browser">https://github.com/open768/curiosity_browser</a>
-				<div class="fb-like" data-href="https://www.facebook.com/mars.features" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
-			</td>
-		</tr></table>
-	</div>
+	<?php include("php/fragments/github.php") ?>
 </body>
 </html>

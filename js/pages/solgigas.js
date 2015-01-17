@@ -17,8 +17,8 @@ var current_sol = null;
 //###############################################################
 //# Utility functions 
 //###############################################################
-
-function onLoadJQuery(){
+bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_SOLGIG);
+function onLoadJQuery_SOLGIG(){
 	var sUrl, sSol;
 	
 	//update sol number

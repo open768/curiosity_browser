@@ -10,6 +10,10 @@ http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 For licenses that allow for commercial use please contact cluck@chickenkatsu.co.uk
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
+//
+// ** TBA allow instances of Hash to set their own folders. **
+// ** Currently this is set to cache folders **
+//
 **************************************************************************/
 
 require_once("$root/php/inc/debug.php");
@@ -24,9 +28,9 @@ class cHash{
 	public static $show_cache_hit = false;
 	
 	//************************************************************************
-	public static function hash($psUrl){
+	public static function hash($psAnything){
 		//unique md5 - impossible that the reverse hash is the same as hash
-		return  md5($psUrl).md5(strrev($psUrl));
+		return  md5($psAnything).md5(strrev($psAnything));
 	}
 	
 	//************************************************************************
@@ -107,5 +111,17 @@ class cHash{
 			if (self::$show_cache_hit) cDebug::write("doesnt exist in cache");
 		
 		return $oResponse;
+	}
+	
+	//************************************************************************
+	public static function get($psAnything){
+		$sHash = self::hash($psAnything);
+		return self::get_obj($sHash);
+	}
+	
+	//************************************************************************
+	public static function put($psAnything, $poObj, $pbOverwrite=false){
+		$sHash = self::hash($psAnything);
+		return self::put_obj($sHash, $poObj, $pbOverwrite);
 	}
 }
