@@ -11,7 +11,7 @@
 			<a href="https://github.com/open768/curiosity_browser">https://github.com/open768/curiosity_browser</a>
 		</td>
 		<td style="vertical-align:middle;text-align:right">
-			<span class="fb-like" data-href="https://www.facebook.com/mars.features" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></span>
+			<span id="fb.like" class="fb-like" data-href="<?=$_SERVER['REQUEST_URI']?>" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></span>
 		</td>
 	</tr></table>
 </div>

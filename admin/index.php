@@ -11,6 +11,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 	$root=realpath("../");
+	require_once("$root/php/inc/header.php");
+	require_once("$root/php/inc/auth.php");
 	require_once("$root/php/inc/debug.php");
 	require_once("$root/php/inc/tags.php");
 	require_once("$root/php/inc/pichighlight.php");
@@ -22,7 +24,14 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("$root/php/inc/pencilnev.php");
 	
 	
+	cHeader::start_session();
+	$sUser = cAuth::get_user();
+	if (!$sUser)					cDebug::error("You are not logged in <a href='../'>Login here</a> and try again");
+	if (!cAuth::is_role("admin"))	cDebug::error("must be an admin user ");
 	cDebug::check_GET_or_POST();
+	
+	
+	//***************************************************
 	ini_set("max_execution_time", 60);
 	ini_set("max_input_time", 60);
 	set_time_limit(600);
@@ -97,11 +106,26 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			break;
 
 		//------------------------------------------------------
+		case "deleteSolHighlights":
+			if (! array_key_exists( "s", $_GET)){
+				?>
+				<form method="get">
+					<Input type="hidden" name="o" value="<?=$sOperation?>">
+					<Input type="hidden" name="debug" value="1">
+					Sol: <Input type="input" name="s"><br>
+					<input type="submit"></input>
+				</form>
+				<?php
+				exit();
+			}
+			cDebug::write ("not implemented");
+			break;
+			
 		case "killTag":
 			if (! array_key_exists( "t", $_GET)){
 				?>
 				<form method="get">
-					<Input type="hidden" name="o" value="killTag">
+					<Input type="hidden" name="o" value="<?=$sOperation?>">
 					<Input type="hidden" name="debug" value="1">
 					<Input type="input" name="t"><br>
 					<input type="submit"></input>
@@ -114,7 +138,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 		//------------------------------------------------------
 		case "killSession":
-			session_start();
 			cDebug::write("ok");
 			session_destroy();
 			break;
@@ -174,7 +197,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 					<Input type="radio" name="o" value="rebuildHiliteSolIndex">rebuild hilite indices<br>
 					<Input type="radio" name="o" value="reindexTags">reindex Tags - needed after deletion<br>
 					<Input type="radio" name="o" value="reindexHilite">reindex image highlights <br>
-					<Input type="radio" name="o" value="killHighlight">delete highlights<br>
+					<Input type="radio" name="o" value="killHighlight">erase particular highlight<br>
+					<Input type="radio" name="o" value="deleteSolHighlights">Delete Sol highlight image files<br>
 					<Input type="radio" name="o" value="killSession">kill the session<br>
 					<Input type="hidden" name="debug" value="1">
 					<input type="submit"></input>

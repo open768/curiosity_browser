@@ -44,5 +44,12 @@ class cHeader{
 		cDebug::write("key:$psKey not found in GET or POST");
 		return null;
 	}
+	
+	//*******************************************************************
+	public static function start_session(){
+		if (session_status() == PHP_SESSION_NONE) 	
+			if (!headers_sent())	//this is vitally important - any header work must preceed any html being sent
+				session_start();
+	}
 }
 ?>

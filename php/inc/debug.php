@@ -16,6 +16,18 @@ class cDebug{
 	public static $DEBUGGING=false;
 	public static $EXTRA_DEBUGGING=false;
 	
+	
+	public static function on($pbExtraDebugging = false){
+		self::$DEBUGGING=true;
+		self::$EXTRA_DEBUGGING = $pbExtraDebugging;
+		self::write("Debugging on");
+	}
+	public static function off(){
+		self::write("Debugging off");
+		self::$DEBUGGING=false;
+		self::$EXTRA_DEBUGGING = false;
+	}
+	
 	public static function extra_debug($poThing){
 		if (self::$EXTRA_DEBUGGING){
 			$sDate = date('d-m-Y H:i:s');

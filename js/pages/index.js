@@ -42,7 +42,6 @@ var reload_after_instr = false;
 var reset_image_number = true;
 var sAllInstruments = "All";
 var sCheckThumbs = "chkThumbs";
-var last_sol = -1;
 
 //###############################################################
 //* JQUERY
@@ -68,7 +67,6 @@ function onLoadJQuery_INDEX(){
 	$("#solmap").attr('disabled', "disabled");
 	$("#solcalendar").attr('disabled', "disabled");
 	$("#solrefresh").attr('disabled', "disabled");
-	$("#solthumbs").attr('disabled', "disabled");
 	$("#solsite").attr('disabled', "disabled");
 	$("#solprev").attr('disabled', "disabled");
 	$("#solnext").attr('disabled', "disabled");
@@ -102,13 +100,11 @@ function onClickSolTag(){
 }
 function onClickLatestSol(){
 	cDebug.write("setting latest sol: ");
-	set_sol(last_sol);
+	$( "#sol_list :last" ).attr('selected', 'selected').change();
+
 }
 function onClickSolHighs(){
-	cBrowser.openWindow("solhigh.php?s=" + current_sol, "solhigh");
-}
-function onClickSolThumbs(){
-	cBrowser.openWindow("solthumb.php?s=" + current_sol + "&i=" + current_instrument, "solthumb");
+	cBrowser.openWindow("solhigh.php?sheet&s=" + current_sol, "solhigh");
 }
 function onClickAllSolThumbs(){
 	current_instrument = null;
@@ -161,6 +157,14 @@ function OnChangeInstrument(poEvent){
 
 //***************************************************************
 function onChangeThumbs(poEvent){
+	
+	var sURL = 
+		cBrowser.pageUrl() + 
+			"?s=" +  current_sol + 
+			(current_instrument?"&i=" + current_instrument:"") +
+			(is_thumbs_checked()? "&" +THUMB_QUERYSTRING + "=1":"");
+			
+	cBrowser.pushState("Index", sURL);
 	reload_data();
 }
 
@@ -168,7 +172,7 @@ function onChangeThumbs(poEvent){
 function onClickCalendar(){
 	var sUrl;
 	
-	sUrl = "cal.php?s=" + current_sol ;
+	sUrl = "cal.php?s=" + current_sol;
 	cBrowser.openWindow(sUrl, "calendar");
 }
 
@@ -217,7 +221,7 @@ function onClickPreviousSol(){
 		
 	if (oPrev.length>0){
 		oPrev.attr('selected', 'selected');
-		set_sol(oPrev.val());
+		oPrev.change();
 	}
 }
 
@@ -236,7 +240,7 @@ function onClickNextSol(){
 		
 	if (oNext.length>0){
 		oNext.attr('selected', 'selected');
-		set_sol(oNext.val());
+		oNext.change();
 	}
 
 	return false;
@@ -353,7 +357,7 @@ function set_sol(psSol){
 	if (cBrowser.data[THUMB_QUERYSTRING])
 		sUrl += "&" + THUMB_QUERYSTRING + "=1";
 	
-	cBrowser.pushState("Detail", sUrl);
+	cBrowser.pushState("Index", sUrl);
 	
 	$("#nav1").hide();
 	$("#nav2").hide();
@@ -366,7 +370,6 @@ function set_sol(psSol){
 	$("#solrefresh").removeAttr('disabled');
 	$("#solsite").removeAttr('disabled');
 	$("#solsite").removeAttr('disabled');
-	$("#solthumbs").attr('disabled', "disabled");
 	$("#allsolthumbs").removeAttr('disabled');
 
 	get_sol_instruments(current_sol,false);	//this reloads the data
@@ -455,7 +458,7 @@ function get_image_data( piSol, psInstr, piStart, piEnd){
 	if (cBrowser.data[THUMB_QUERYSTRING])
 		sUrl += "&" + THUMB_QUERYSTRING +"=1";
 		
-	cBrowser.pushState("Detail", sUrl);
+	cBrowser.pushState("Index", sUrl);
 	
 	//clear out the image data
 	$("#"+IMAGE_CONTAINER_ID).html("<p class='subtitle'>loading images");
@@ -544,7 +547,6 @@ function load_sols_callback(paJS){
 	oSumList = $("#"+SOL_SUMMARY);
 	oSumList.empty();
 	iLastRange = -1;
-	last_sol = parseInt(paJS[paJS.length-1].sol);
 	
 	
 	for (iIndex = 0; iIndex < paJS.length; iIndex++){
@@ -576,7 +578,7 @@ function load_sols_callback(paJS){
 
 //***************************************************************
 function load_thumbs_callback(poJS){
-	var oDiv, i, oItem, aData;
+	var oDiv, i, oItem, aData, sURL;
 	
 	set_status("loading thumbnails");
 
@@ -587,10 +589,13 @@ function load_thumbs_callback(poJS){
 	if (aData.Length == 0)
 		oDiv.append("<p class='subtitle'>Sorry no thumbnails found</p>");
 	else{
-		var sTarget = ( SINGLE_WINDOW ? "" : "target='detail'");
+		var sTarget = ( SINGLE_WINDOW ? "" : "detail");
 		for (i=0; i< aData.length; i++){
 			oItem = aData[i];
-			oDiv.append("<a " + sTarget + " href='detail.php?s=" + poJS.s + "&i=" + oItem.data.instrument +"&p=" +oItem.p +"'><img border='0' height='"+ THUMB_SIZE +"' src='" +oItem.i + "'></a> ");
+			oImg = $("<IMG>").attr({title:oItem.p,border:0,height:THUMB_SIZE,src:oItem.i,class:"polaroid-frame"});
+			sURL = "detail.php?s=" + poJS.s + "&i=" + oItem.data.instrument +"&p=" +oItem.p;
+			oA = $("<A>").attr({href:sURL,target:sTarget}).append(oImg);
+			oDiv.append(oA);
 		}
 	}
 	

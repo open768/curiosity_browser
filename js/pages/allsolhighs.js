@@ -42,7 +42,7 @@ function sols_callback(paJS){
 	
 	var sTarget = ( SINGLE_WINDOW ? "" : "target='solhigh'");
 	sHTML = "<form method='get' " + sTarget + " action='solhigh.php'><center><table cellpadding=5>";
-	
+	sHTML += "<input type=hidden name='sheet' value='1'>";
 	iCount =0;
 	for (i = 0; i < paJS.length; i++){
 		if (iCount == 0) sHTML += "<tr>";

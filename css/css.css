@@ -102,6 +102,14 @@ body
 	border:5px solid white;
 	box-shadow:inset 0px 0px 7px 0px rgba(0, 0, 0, 1),0px 0px 7px 0px rgba(0, 0, 0, 1);
 	margin-right: 5px;
+	width:100px;height:100px
+}
+
+.polaroid-frame
+{
+	border:5px solid white;
+	box-shadow:inset 0px 0px 7px 0px rgba(0, 0, 0, 1),0px 0px 7px 0px rgba(0, 0, 0, 1);
+	margin-right: 5px;
 }
 
 .gold
@@ -181,3 +189,10 @@ font-size: 12px;
 	font-size: 10px;
 }
  
+.redbox {
+	width: 120px;
+    height: 120px;
+    position: absolute;
+    border: 3px solid red;
+	z-index: 3;
+}

@@ -45,8 +45,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	$sOperation = cHeader::get("o");
 	switch($sOperation){
 		case "getuser":
-			if (session_status() == PHP_SESSION_NONE) session_start();
-			
+			cHeader::start_session();
 			$sUser = cFacebook::getStoredUser($sUserID);
 			
 			//finally get user details from facebook

@@ -60,6 +60,8 @@ class cFacebookTags{
 //###########################################################################
 class cFacebook{
 	const FB_USER_FOLDER = "[facebook]";
+	const FB_SESS_USER = "fbuser";
+	const FB_SESS_USERID = "fbuserid";
 	
 	//*******************************************************************
 	public static function is_facebook(){
@@ -75,18 +77,33 @@ class cFacebook{
 	private static function pr_setSessionUser($poGraphObject){
 		$sFirstName = $poGraphObject->getProperty("first_name");
 		$sLastName = $poGraphObject->getProperty("last_name");
+		$sID = $poGraphObject->getProperty("id");
 		$sUser = "$sFirstName $sLastName";
-		$_SESSION["fbuser"] = $sUser;
+		$_SESSION[self::FB_SESS_USER] = $sUser;
+		$_SESSION[self::FB_SESS_USERID] = $sID;
 		return $sUser;
 	}
 	
 	//*******************************************************************
 	public static function getSessionUser(){
 		//get the user from the session
-		if (isset($_SESSION["fbuser"]))			
-			return $_SESSION["fbuser"];
-		else
+		if (isset($_SESSION[self::FB_SESS_USER]))			
+			return $_SESSION[self::FB_SESS_USER];
+		else{
+			cDebug::write("no facebook session user");
 			return null;
+		}
+	}
+	
+	//*******************************************************************
+	public static function getSessionUserID(){
+		//get the user from the session
+		if (isset($_SESSION[self::FB_SESS_USERID]))			
+			return $_SESSION[self::FB_SESS_USERID];
+		else{
+			cDebug::write("no facebook session userid");
+			return null;
+		}
 	}
 	
 	//*******************************************************************

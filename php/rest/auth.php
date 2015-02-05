@@ -14,6 +14,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	$root=realpath("../..");
 	require_once("$root/php/inc/debug.php");
 	require_once("$root/php/inc/auth.php");
+	require_once("$root/php/inc/header.php");
 	require_once("$root/php/inc/common.php");
 	
 	cDebug::check_GET_or_POST();
@@ -23,7 +24,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	
 	switch($sOperation){
 		case "getuser":
-			session_start();
+			cHeader::start_session();
 			$sUser = cAuth::get_user();
 			cDebug::write("user : $sUser");
 			break;

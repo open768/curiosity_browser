@@ -18,6 +18,8 @@ var PRODUCT_QUERYSTRING = "p";
 
 var goItem = null;
 var gaTags = null;
+var giNum = null;
+
 
 //###############################################################
 //# Event Handlers
@@ -78,7 +80,7 @@ function onClickMap(){
 
 //***************************************************************
 function onClickSol(){
-	var sURL="index.php?s="+ goItem.s + "&i=" + goItem.i;
+	var sURL="index.php?s="+ goItem.s + "&i=" + goItem.i + "&b=" + giNum;
 	cBrowser.openWindow(sURL, "index");
 }
 
@@ -309,7 +311,9 @@ function load_detail_callback(paJS){
 	}
 	
 	//update image index details
-	$("#img_index").html( paJS.item);
+	giNum = paJS.item;
+	$("#img_index").html( giNum);
+	
 	$("#max_images").html( paJS.max);
 	$("#sol").html( goItem.s);
 	$("#instrument").html( goItem.i);

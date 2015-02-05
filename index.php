@@ -1,7 +1,18 @@
+<?php
+	$root = realpath(".");
+	require_once "php/inc/secret.php";
+	require_once "php/inc/header.php";
+	require_once "php/inc/auth.php";
+	cHeader::start_session();	//must be done before writing any HTML
+	$sUser = cAuth::get_user();
+	$bIsAdmin = false;
+	if ($sUser) $bIsAdmin = cAuth::is_role("admin");
+?>
 <html>
 <head>
+	<?php 	include("php/fragments/header.php");  ?>
+
 	<title>Curiosity Browser</title>
-	<?php include("php/fragments/header.php"); ?>
 	<LINK href="./css/drag.css" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="js/pages/index.js"></script>
 	<script type="text/javascript" src="js/inc/tagging.js"></script>
@@ -9,8 +20,6 @@
 </head>
 <body onload="$(cJQueryObj.onBodyLoad);">
 	<?php 
-		require_once "php/inc/secret.php";
-		require_once "php/inc/header.php";
 		include("php/fragments/analytics.php");
 		include("php/fragments/facebook.php");
 		$sTitle = "Home";
@@ -52,9 +61,15 @@
 					<button title="MSL curiosity notebook MAP" id="solmap" onclick="onClickMslNotebookMap();">Map</button>
 					<button title="Calendar" id="solcalendar" onclick="onClickCalendar()">Calendar</button>
 					<button title="force refresh cache" id="solrefresh" onclick="onClickRefresh()">Refresh Data</button>
-					<button title="thumbnails for instrument sol" id="solthumbs" onclick="onClickSolThumbs()">Thumbnails</button>
 					<button title="All thumbnails for sol" id="allsolthumbs" onclick="onClickAllSolThumbs()">All Thumbnails</button>
 					<button title="site details for sol" id="solsite" onclick="onClickSolSite()">Site</button>
+					<hr>
+					<div class="subtitle">Admin</div>				
+					<?php if ($bIsAdmin){?>
+						<button title="Admin Functions" id="admin" onclick="cBrowser.openWindow('admin/', 'admin');"()">Admin functions</button>
+					<?php }else{ ?>
+						not an Admin.
+					<?php }?>
 				</div>
 				<div class="gold" id="tabs-2">
 					<div id="tags">Loading...</div>

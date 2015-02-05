@@ -13,6 +13,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 var DEBUG_ON = true;
 var current_sol = null;
+var update_url = false;
 //###############################################################
 //# Utility functions 
 //###############################################################
@@ -46,10 +47,14 @@ function load_sol_data(piSol){
 
 	current_sol = piSol;
 	
+	
 	//load tags
 	sUrl = "php/rest/img_highlight.php?s=" + piSol + "&o=soldata";
 	set_status("fetching highlights");
-	cHttp.fetch_json(sUrl, hilite_callback);
+	if (cBrowser.data["sheet"] != null)
+		cHttp.fetch_json(sUrl, sheet_callback);
+	else
+		cHttp.fetch_json(sUrl, hilite_callback);
 }
 
 
@@ -65,11 +70,13 @@ function load_highlights(psSol, psInstr, psProduct){
 //###############################################################
 function onClickPrevious_sol(){
 	var iSol = current_sol -1;
+	update_url = true;
 	load_sol_data(iSol);
 }
 
 function onClickNext_sol(){
 	var iSol = current_sol +1;
+	update_url = true;
 	load_sol_data(iSol);
 }
 
@@ -78,19 +85,19 @@ function onClickSol(){
 }
 
 function onClickDetails(){
-	var sUrl, sSol;
+	var sUrl, iSol;
 	
-	sSol = parseInt(cBrowser.data["s"]);
-	sUrl = "solhigh.php?s="+sSol;
+	iSol = parseInt(cBrowser.data["s"]);
+	sUrl = "solhigh.php?s="+iSol;
 	cBrowser.pushState("highlights", sUrl);
 	onLoadJQuery();
 }
 
 function onClickNoDetails(){
-	var sUrl, sSol;
+	var sUrl, iSol;
 	
-	sSol = parseInt(cBrowser.data["s"]);
-	sUrl = "solhigh.php?s="+sSol + "&sheet";
+	iSol = parseInt(cBrowser.data["s"]);
+	sUrl = "solhigh.php?s="+iSol + "&sheet";
 	cBrowser.pushState("highlights", sUrl);
 	onLoadJQuery();
 }
@@ -102,15 +109,15 @@ function hilite_callback(poJs){
 	var sInstr, sProduct, sUrl;
 	var oDiv, oTable, oRow, iCount;
 	
-	if (cBrowser.data["sheet"] != null){
-		pr_sheet_callback(poJs);
-		return;
-	}
-	cDebug.write("no sheet");
-	
 	oDiv = $("#solhigh");
 	oDiv.empty();
 	iCount = 0;
+	
+	if 	(update_url){
+		sUrl = "solhigh.php?s=" + current_sol;
+		cBrowser.pushState("highlights", sUrl);
+		update_url = false;
+	}
 	
 	for (sInstr in poJs){
 		iCount ++;
@@ -132,6 +139,38 @@ function hilite_callback(poJs){
 			load_highlights(current_sol, sInstr, sProduct);
 			cTagging.getTags(current_sol,sInstr,sProduct, tag_callback);
 		}
+	}
+	
+	if (iCount ==0)
+		set_error_status("no highlights found");
+	else
+		set_status("ok");
+}
+
+//***************************************************************
+function sheet_callback(poJs){
+	var sInstr, sProduct, sUrl;
+	var oDiv, oTable, oRow, iCount;
+	
+	if 	(update_url){
+		sUrl = "solhigh.php?sheet&s=" + current_sol;
+		cBrowser.pushState("highlights", sUrl);
+		update_url = false;
+	}
+
+	
+	cDebug.write("showing sheet");
+	oDiv = $("#solhigh");
+	oDiv.empty();
+	iCount = 0;
+	
+	for (sInstr in poJs){
+		iCount ++;
+		
+		//build the table
+		aProducts = poJs[sInstr];
+		for (sProduct in aProducts)
+			load_highlights(current_sol, sInstr, sProduct);
 	}
 	
 	if (iCount ==0)
@@ -188,33 +227,5 @@ function load_thumbs_callback(poJS){
 		}
 	}
 	
-}
-
-//###############################################################
-//# PRIVATES
-//###############################################################
-function pr_sheet_callback(poJs){
-	var sInstr, sProduct, sUrl;
-	var oDiv, oTable, oRow, iCount;
-	
-	
-	cDebug.write("showing sheet");
-	oDiv = $("#solhigh");
-	oDiv.empty();
-	iCount = 0;
-	
-	for (sInstr in poJs){
-		iCount ++;
-		
-		//build the table
-		aProducts = poJs[sInstr];
-		for (sProduct in aProducts)
-			load_highlights(current_sol, sInstr, sProduct);
-	}
-	
-	if (iCount ==0)
-		set_error_status("no highlights found");
-	else
-		set_status("ok");
 }
 
