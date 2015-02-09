@@ -1,8 +1,10 @@
 <?php
 	$root = realpath(".");
-	require_once "php/inc/secret.php";
-	require_once "php/inc/header.php";
-	require_once "php/inc/auth.php";
+	$phpinc = realpath("../phpinc");
+	
+	require_once "$phpinc/ckinc/secret.php";
+	require_once "$phpinc/ckinc/header.php";
+	require_once "$phpinc/ckinc/auth.php";
 	cHeader::start_session();	//must be done before writing any HTML
 	$sUser = cAuth::get_user();
 	$bIsAdmin = false;

@@ -1,7 +1,7 @@
 <?php
 	if (!isset($root))	$root=realpath(".");
-	require_once "$root/php/inc/secret.php";
-	require_once "$root/php/inc/header.php";
+	require_once "$phpinc/ckinc/secret.php";
+	require_once "$phpinc/ckinc/header.php";
 ?>
 <LINK href="css/css.css" rel="stylesheet" type="text/css">
 <LINK href="css/jquery/jquery-ui.css" rel="stylesheet" type="text/css">

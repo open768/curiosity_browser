@@ -11,11 +11,11 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-require_once("$root/php/inc/objstore.php");
-require_once("$root/php/inc/indexes.php");
+require_once("$phpinc/ckinc/objstore.php");
+require_once("$phpinc/ckinc/indexes.php");
 require_once("$root/php/static/static.php");
-require_once("$root/php/inc/gz.php");
-require_once("$root/php/pds/pdsreader.php");
+require_once("$phpinc/ckinc/gz.php");
+require_once("$phpinc/pds/pdsreader.php");
 require_once("$root/php/curiosity/pds.php");
 
 

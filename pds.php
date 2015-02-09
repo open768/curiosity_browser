@@ -7,7 +7,8 @@
 <body onload="$(cJQueryObj.onBodyLoad);">
 	<?php 
 		$root=realpath(".");
-		require_once "php/inc/secret.php";
+		$phpinc = realpath("../phpinc");
+		require_once "$phpinc/ckinc/secret.php";
 		include("php/fragments/analytics.php") 
 		include("php/fragments/facebook.php");
 		$sTitle = "PDS details";

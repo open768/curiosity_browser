@@ -12,12 +12,14 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 	$root=realpath("../..");
-	require_once("$root/php/inc/debug.php");
-	require_once("$root/php/inc/auth.php");
-	require_once("$root/php/inc/comments.php");
+	$phpinc=realpath("../../../phpinc");
+	
+	require_once("$phpinc/ckinc/debug.php");
+	require_once("$phpinc/ckinc/auth.php");
+	require_once("$phpinc/ckinc/comments.php");
 	require_once("$root/php/static/static.php");
-	require_once("$root/php/inc/common.php");
-	require_once("$root/php/sbbcode/SBBCodeParser.php");
+	require_once("$phpinc/ckinc/common.php");
+	require_once("$phpinc/sbbcode/SBBCodeParser.php");
 	
 	cDebug::check_GET_or_POST();
 

@@ -1,5 +1,5 @@
 <?php
-	require_once("$root/php/inc/header.php");
+	require_once("$phpinc/ckinc/header.php");
 	$FBAPPID= (cHeader::is_localhost()?cSecret::FB_DEV_APP:cSecret::FB_APP);
 ?>
 

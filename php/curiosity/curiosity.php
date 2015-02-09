@@ -11,13 +11,19 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-require_once("$root/php/inc/cached_http.php");
+require_once("$phpinc/ckinc/cached_http.php");
 require_once("$root/php/curiosity/instrument.php");
 require_once("$root/php/curiosity/pds.php");
 
 
 //##########################################################################
-class cCuriosity{
+interface iMission{
+	static function getAllSolData($psSol);
+	static function getSolList();
+	static function search_product($psSearch);
+}
+
+class cCuriosity implements iMission{
 	const SOL_URL = "http://mars.jpl.nasa.gov/msl-raw-images/image/images_sol";
 	const FEED_URL = "http://mars.jpl.nasa.gov/msl-raw-images/image/image_manifest.json";
 	const SOL_CACHE = 604800;	//1 week
@@ -203,7 +209,7 @@ class cCuriosity{
 	}
 	
 	//*****************************************************************************
-	public static function getManifest(){
+	private static function pr_getManifest(){
 		cDebug::write("Getting sol manifest from: ".self::FEED_URL);
 		cCachedHttp::$CACHE_EXPIRY=self::MANIFEST_CACHE;
 		return cCachedHttp::getCachedJson(self::FEED_URL);
@@ -212,7 +218,7 @@ class cCuriosity{
 	//*****************************************************************************
 	public static function getSolList(){
 		//get the manifest
-		$oManifest = self::getManifest();
+		$oManifest = self::pr_getManifest();
 		$aSols = $oManifest->sols;
 		$aData = [];
 		

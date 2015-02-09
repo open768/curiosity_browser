@@ -12,10 +12,12 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 	$root=realpath("../..");
+	$phpinc=realpath("../../../phpinc");
+	
 	require_once("$root/php/curiosity/pds.php");
-	require_once("$root/php/pds/pdsreader.php");
-	require_once("$root/php/inc/debug.php");
-	require_once("$root/php/inc/common.php");
+	require_once("$phpinc/pds/pdsreader.php");
+	require_once("$phpinc/ckinc/debug.php");
+	require_once("$phpinc/ckinc/common.php");
 	
 	cDebug::check_GET_or_POST();
 

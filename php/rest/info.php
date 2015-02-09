@@ -1,6 +1,8 @@
 <?php
 	$root=realpath("../..");
-	require_once("$root/php/inc/debug.php");
+	$phpinc=realpath("../../../phpinc");
+	
+	require_once("$phpinc/ckinc/debug.php");
 	
 	phpinfo();
 	cDebug::check_GET_or_POST();

@@ -1,7 +1,8 @@
 <?php
 	$root=realpath(".");
-	require_once("php/inc/header.php");
-	require_once("php/inc/facebook.php");
+	$phpinc = realpath("../phpinc");
+	require_once("$phpinc/ckinc/header.php");
+	require_once("$phpinc/ckinc/facebook.php");
 	cHeader::redirect_if_referred();
 	if ( cFacebook::is_facebook()){
 		cFacebookTags::make_fb_sol_high_tags();
@@ -16,7 +17,7 @@
 </head>
 <body onload="$(cJQueryObj.onBodyLoad);">
 	<?php 
-		require_once "php/inc/secret.php";
+		require_once "$phpinc/ckinc/secret.php";
 		include("php/fragments/analytics.php");
 		include("php/fragments/facebook.php");
 		$sTitle = "Highlights for sol:<span id='sol'>??</span>";

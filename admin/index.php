@@ -11,17 +11,19 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 	$root=realpath("../");
-	require_once("$root/php/inc/header.php");
-	require_once("$root/php/inc/auth.php");
-	require_once("$root/php/inc/debug.php");
-	require_once("$root/php/inc/tags.php");
-	require_once("$root/php/inc/pichighlight.php");
+	$phpinc = realpath("../../phpinc");
+
+	require_once("$phpinc/ckinc/header.php");
+	require_once("$phpinc/ckinc/auth.php");
+	require_once("$phpinc/ckinc/debug.php");
+	require_once("$phpinc/ckinc/tags.php");
+	require_once("$phpinc/ckinc/pichighlight.php");
 	require_once("$root/php/static/static.php");
 	require_once("$root/php/curiosity/pdsindexer.php");
 	require_once("$root/php/curiosity/locations.php");
-	require_once("$root/php/inc/cached_http.php");
-	require_once("$root/php/inc/gigapan.php");
-	require_once("$root/php/inc/pencilnev.php");
+	require_once("$phpinc/ckinc/cached_http.php");
+	require_once("$phpinc/ckinc/gigapan.php");
+	require_once("$phpinc/ckinc/pencilnev.php");
 	
 	
 	cHeader::start_session();
