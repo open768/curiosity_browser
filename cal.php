@@ -1,13 +1,15 @@
 <html>
 <head>
-	<?php include("php/fragments/header.php"); ?>
+	<?php 
+		$root=realpath(".");
+		$phpinc = realpath("../phpinc");
+		include("php/fragments/header.php"); 
+	?>
 	<title>calendar - Curiosity Browser</title>
 	<script src="js/pages/cal.js"></script>
 </head>
 <body onload="$(cJQueryObj.onBodyLoad);">
 	<?php 
-		$root=realpath(".");
-		$phpinc = realpath("../phpinc");
 		require_once "$phpinc/ckinc/secret.php";
 		include("php/fragments/analytics.php");
 		include("php/fragments/facebook.php");

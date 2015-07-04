@@ -21,8 +21,12 @@ interface iMission{
 	static function getAllSolData($psSol);
 	static function getSolList();
 	static function search_product($psSearch);
+	static function getThumbnails($psSol, $psInstrument);
+	static function getSolInstrumentList($piSol);
+	static function getProductDetails($psSol, $psInstrument, $psProduct);
 }
 
+//##########################################################################
 class cCuriosity implements iMission{
 	const SOL_URL = "http://mars.jpl.nasa.gov/msl-raw-images/image/images_sol";
 	const FEED_URL = "http://mars.jpl.nasa.gov/msl-raw-images/image/image_manifest.json";

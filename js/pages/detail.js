@@ -291,6 +291,7 @@ function load_detail_callback(paJS){
 	
 	//update the title
 	document.title = "detail: s:" + goItem.s + " i:" + goItem.i + " p:" + goItem.p + " (Curiosity Browser)";
+	$("#toptitle").html(goItem.p);
 	
 	//update the address bar
 	sURL = cBrowser.pageUrl() +"?s=" + goItem.s + "&i=" + goItem.i + "&p=" + goItem.p;

@@ -3,6 +3,7 @@
 	require_once "$phpinc/ckinc/secret.php";
 	require_once "$phpinc/ckinc/header.php";
 ?>
+<link rel="icon" href="images/dude.ico" type="image/x-icon" />
 <LINK href="css/css.css" rel="stylesheet" type="text/css">
 <LINK href="css/jquery/jquery-ui.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="js/jquery/jquery.js"></script>

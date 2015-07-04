@@ -1,7 +1,7 @@
 <?php
 	$root=realpath(".");
 	$phpinc = realpath("../phpinc");
-	require_once("$phpinc/ckinc/header.php");
+	include("php/fragments/header.php"); 
 	require_once("$phpinc/ckinc/facebook.php");
 	cHeader::redirect_if_referred();
 	if ( cFacebook::is_facebook()){

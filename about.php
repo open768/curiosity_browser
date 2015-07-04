@@ -1,12 +1,14 @@
 <html>
 <head>
-	<?php include("php/fragments/header.php"); ?>
+	<?php 
+		$root=realpath(".");
+		$phpinc = realpath("../phpinc");
+		include("php/fragments/header.php"); 
+	?>
 	<title>About the Curiosity Browser </title>
 </head>
 <body>
 	<?php 
-		$root=realpath(".");
-		$phpinc = realpath("../phpinc");
 		require_once "$phpinc/ckinc/secret.php";
 		include("php/fragments/analytics.php");
 		include("php/fragments/facebook.php");
@@ -17,8 +19,18 @@
 	<div class="gold" >
 		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
 		<p>
-		The curiosity browser makes MSL curiosity data more accessible to citizen scientists by providing sticky social features to tag, 
-		highlight and comment on images. The browser can also be regarded as an example of using the power of crowds to classify space images. 
+		<table border="0" width="100%"><tr>
+			<td valign=middle>
+				<img src="images/rover.png" height="120">
+			</td>
+			<td>
+				The curiosity browser makes MSL curiosity data more accessible to citizen scientists by providing sticky social features to tag, 
+				highlight and comment on images. The browser can also be regarded as an example of using the power of crowds to classify space images. 
+			</td>
+			<td align="right">
+				<img src="images/dude.png" height="120">
+			</td>
+		</tr></table>
 		<p>
 		<h2>Sources of information:</h2>
 		<ul>

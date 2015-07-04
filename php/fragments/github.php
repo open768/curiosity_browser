@@ -1,4 +1,4 @@
-<p class="credits">Data courtesy MSSS/MSL/NASA/JPL-Caltech.</p>
+<p class="credits">Data courtesy MSSS/MSL/NASA/JPL-Caltech. Please note <a href="index.php#disclaim">site disclaimer</a></p>
 <?php if (isset($sExtraCredits)){?>
 <p class="credits"><?=$sExtraCredits?>.</p>
 <?php }?>
