@@ -4,21 +4,34 @@ body
 	font:15px arial,sans-serif;
 }
 
+button{
+	border-radius: 12px; 
+    background: white url(mars_images/greyportal.png) left no-repeat;
+	background-size: contain;
+	padding-left: 25px;
+}
+button:hover{
+	border-radius: 12px; 
+    background: papayawhip url(mars_images/colourportal.png) left no-repeat;
+	background-size: contain;
+	padding-left: 25px;
+}
+
 .FBloginButton{
 	display: inline-block;
-
+	
     background: #627aac url(images/facebook_small.png) left no-repeat;
-
+	
     border-top: 1px solid #29447e;
     border-right: 1px solid #29447e;
     border-bottom: 1px solid #1a356e;
     border-left: none;
-
+	
     height: 22px;
-
+	
     padding-right: 7px;
     padding-left: 29px;
-
+	
     font-weight: bold;
     font-size: 11px;
     color: white;
@@ -37,7 +50,7 @@ body
     padding: 5px;
 	resize: horizontal;
 }
-	
+
 .rnavbut{
 	margin: 0;
 	margin-left:0;
@@ -169,16 +182,16 @@ body
 
 .credits
 {
-font-family: 'Helvetica Neue',Helvetica, sans-serif;
-line-height: 1em;
-color: #e86005;
-font-size: 10px;
-text-shadow:1px 1px 0 rgb(107,-29,-120);
+	font-family: 'Helvetica Neue',Helvetica, sans-serif;
+	line-height: 1em;
+	color: #e86005;
+	font-size: 10px;
+	text-shadow:1px 1px 0 rgb(107,-29,-120);
 }
 
 .instruments{
-font-family: 'Helvetica Neue',Helvetica, sans-serif;
-font-size: 12px;
+	font-family: 'Helvetica Neue',Helvetica, sans-serif;
+	font-size: 12px;
 }
 
 .greybox{
@@ -188,7 +201,7 @@ font-size: 12px;
     background: #f0f0f0;
 	font-size: 10px;
 }
- 
+
 .redbox {
 	width: 120px;
     height: 120px;
