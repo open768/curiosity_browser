@@ -17,7 +17,7 @@
 	?>
 	<script src="js/inc/common.js"></script>
 	<div class="gold" >
-		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
+		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
 		<p>
 		<table border="0" width="100%"><tr>
 			<td valign=middle>

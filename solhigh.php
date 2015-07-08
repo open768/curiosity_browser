@@ -24,14 +24,14 @@
 		include("php/fragments/title.php");
 	?>
 	<div class="gold">
-		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
-		<button onclick="onClickPrevious_sol()" title="previous sol">&lt;&lt;&lt;</button>
-		<button onclick="onClickSol();">sol <span id="solbutton">???</span></button>
-		<button onclick="cBrowser.openWindow('allsolhighs.php','allhighs');">All Sols</button>
-		<button onclick="onClickNext_sol()" title="next sol">&gt;&gt;&gt;</button>
+		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
+		<button class="leftbutton" onclick="onClickPrevious_sol()" title="previous sol">&lt;&lt;&lt;</button>
+		<button class="roundbutton" onclick="onClickSol();">sol <span id="solbutton">???</span></button>
+		<button class="leftbutton" onclick="cBrowser.openWindow('allsolhighs.php','allhighs');">All Sols</button>
+		<button class="rightbutton" onclick="onClickNext_sol()" title="next sol">&gt;&gt;&gt;</button>
 
-		&nbsp;&nbsp;&nbsp;<button id="detail" onClick="onClickDetails()">Details</button>
-		<button id="sheet" onClick="onClickNoDetails()">No Details</button>
+		&nbsp;&nbsp;&nbsp;<button class="leftbutton" id="detail" onClick="onClickDetails()">Details</button>
+		<button class="leftbutton" id="sheet" onClick="onClickNoDetails()">No Details</button>
 	
 		&nbsp;&nbsp;&nbsp;<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
 	</div>

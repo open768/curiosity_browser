@@ -19,7 +19,7 @@
 		include("php/fragments/title.php");
 	?>
 	<div class="gold">
-		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
+		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
 		<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
 	</div>
 	<div class="gold"  id="solhighs">

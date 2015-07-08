@@ -47,9 +47,10 @@
 							<option>Loading...</option>
 						</SELECT>
 						<table border="0" width="100%"><tr>
-							<td align="left"><button id="solprev" class="solnav" title="previous Sol ([)" onclick="onClickPreviousSol();">&lt;--</button></td>
-							<td align="middle"><button id="sollatest" title="Latest Sol" class="" onclick="onClickLatestSol();">latest</button></td>
-							<td align="right"><button id="solnext" class="solnav" title="next Sol (])" onclick="onClickNextSol();">--&gt;</button></td>
+							<td align="left"><button id="solprev" class="solnav leftbutton" title="previous Sol ([)" onclick="onClickPreviousSol();">&lt;--</button></td>
+							<td align="middle"><button id="sollatest" class="roundbutton" title="Latest Sol" onclick="onClickLatestSol();">latest</button>
+							</td>
+							<td align="right"><button id="solnext" class="solnav rightbutton" title="next Sol (])" onclick="onClickNextSol();">--&gt;</button></td>
 						</tr></table>
 						<!-- ************************************** -->
 						<div class="subtitle">Instruments:</div>
@@ -59,15 +60,15 @@
 						<div class="subtitle" id="instr_load"><i>loading...</i></div>
 						<!-- ************************************** -->
 						<div class="subtitle">Sol Information:</div>				
-						<button title="Tags for selected Sol" id="soltag" onclick="onClickSolTag();">Tags</button>
-						<button title="Highlights for selected Sol" id="solhigh" onclick="onClickSolHighs();">Highlights</button>
-						<button title="Gigapans for selected Sol" id="solgiga" onclick="onClickSolGiga();">Gigapans</button>
-						<button title="MSL curiosity notebook" id="solnotebook" onclick="onClickMslNotebook();">MSL Notebook</button>
-						<button title="MSL curiosity notebook MAP" id="solmap" onclick="onClickMslNotebookMap();">Map</button>
-						<button title="Calendar" id="solcalendar" onclick="onClickCalendar()">Calendar</button>
-						<button title="force refresh cache" id="solrefresh" onclick="onClickRefresh()">Refresh Data</button>
-						<button title="All thumbnails for sol" id="allsolthumbs" onclick="onClickAllSolThumbs()">All Thumbnails</button>
-						<button title="site details for sol" id="solsite" onclick="onClickSolSite()">Site</button>
+						<button title="Tags for selected Sol" class="leftbutton" id="soltag" onclick="onClickSolTag();">Tags</button>
+						<button title="Highlights for selected Sol" class="leftbutton" id="solhigh" onclick="onClickSolHighs();">Highlights</button>
+						<button title="Gigapans for selected Sol" class="leftbutton" id="solgiga" onclick="onClickSolGiga();">Gigapans</button>
+						<button title="MSL curiosity notebook" class="leftbutton" id="solnotebook" onclick="onClickMslNotebook();">MSL Notebook</button>
+						<button title="MSL curiosity notebook MAP" id="solmap" class="leftbutton" onclick="onClickMslNotebookMap();">Map</button>
+						<button title="Calendar" id="solcalendar" class="leftbutton" onclick="onClickCalendar()">Calendar</button>
+						<button title="force refresh cache" id="solrefresh" class="leftbutton" onclick="onClickRefresh()">Refresh Data</button>
+						<button title="All thumbnails for sol" id="allsolthumbs" class="leftbutton" onclick="onClickAllSolThumbs()">All Thumbnails</button>
+						<button title="site details for sol" id="solsite" class="leftbutton" onclick="onClickSolSite()">Site</button>
 						<hr/>
 						<?php if ($bIsAdmin){?>
 							<div class="subtitle">Admin</div>				
@@ -80,26 +81,26 @@
 						<div id="tags">Loading...</div>
 					</div>
 					<div class="gold" id="tabs-3">
-						<button onclick="cBrowser.openWindow('allsoltags.php','alltags');">All Tags</button>
-						<button onclick="cBrowser.openWindow('allsolhighs.php','allhighs');">All Highlights</button>
-						<button onclick="cBrowser.openWindow('allgigas.php','allgigas');">All Gigapans</button>
-						<button onclick="cBrowser.openWindow('allsites.php','allsites');">All Sites</button>
-						<button title="Where is curiosity now?" onclick="window.open('http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/', 'whereami');">Where is Curiosity</button>
+						<button class="leftbutton" onclick="cBrowser.openWindow('allsoltags.php','alltags');">All Tags</button>
+						<button class="leftbutton" onclick="cBrowser.openWindow('allsolhighs.php','allhighs');">All Highlights</button>
+						<button class="leftbutton" onclick="cBrowser.openWindow('allgigas.php','allgigas');">All Gigapans</button>
+						<button class="leftbutton" onclick="cBrowser.openWindow('allsites.php','allsites');">All Sites</button>
+						<button class="leftbutton" title="Where is curiosity now?" onclick="window.open('http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/', 'whereami');">Where is Curiosity</button>
 					</div>
 				</div>
 			</td>
 			<td id="right-column" valign="top">
 				<div class="gold" id="header-pane" >
-					<button onclick="cBrowser.openWindow('about.php', 'about');">About </button>
-					<input type="textbox" id="search_text" maxlength="30" size="30"><button onclick="onClickSearch()" title="Search for Product">Search</button>
+					<button class="homebutton" onclick="cBrowser.openWindow('about.php', 'about');">About </button>
+					<input type="textbox" id="search_text" maxlength="30" size="30"><button class="rightbutton" onclick="onClickSearch()" title="Search for Product">Search</button>
 					<input id="chkThumbs" type="checkbox">Show Thumbnails
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<span class="subtitle"> Status: </span><span ID="status" class="status">Loading...</span>
 				</div>
 				<div class="gold" id="nav1" style="display:none">
-					<button class="pagenav" id="previous" title="Previous page (p)" onclick="onClickPreviousImage();">&lt;</button>
+					<button class="pagenav leftbutton" id="previous" title="Previous page (p)" onclick="onClickPreviousImage();">&lt;</button>
 					<span ID="current">??</span>
-					<button class="pagenav" id="next" title="Next page (n)" onclick="onClickNextImage();">&gt;</button>
+					<button class="pagenav rightbutton" id="next" title="Next page (n)" onclick="onClickNextImage();">&gt;</button>
 					max <span ID="max">??</span>
 				</div>
 				<div class="gold" id="images">

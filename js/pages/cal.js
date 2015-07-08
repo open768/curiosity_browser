@@ -128,7 +128,7 @@ function load_cal_callback(paJS){
 							}
 
 							
-							sHTML += "<button class='calbutton' style='" + sStyle + "' i='" + oItem.i + "'p='" + oItem.p + "' onclick='onClick();' title='" + oItem.i + "'>&nbsp;</button>";
+							sHTML += "<button class='calbutton roundbutton' style='" + sStyle + "' i='" + oItem.i + "'p='" + oItem.p + "' onclick='onClick();' title='" + oItem.i + "'>&nbsp;</button>";
 						}
 					}
 				sHTML += "</td>";

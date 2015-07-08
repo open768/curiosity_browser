@@ -4,18 +4,69 @@ body
 	font:15px arial,sans-serif;
 }
 
-button{
-	border-radius: 12px; 
+.roundbutton{
+	height: 30px;
+	border-radius: 15px; 
+	padding:5px;
+    background: white;
+}
+.roundbutton:hover{
+	height: 30px;
+	border-radius: 15px; 
+	padding:5px;
+    background: papayawhip;
+}
+	
+.homebutton{
+    background: white url(mars_images/greydude.png) left no-repeat;
+	background-size: contain;
+	padding:5px;
+	padding-left: 30px;
+	height: 30px;
+	border-radius: 15px; 
+}
+.homebutton:hover{
+    background: papayawhip url(mars_images/smalldude.png) left no-repeat;
+	background-size: contain;
+	padding:5px;
+	padding-left: 30px;
+	height: 30px;
+	border-radius: 15px; 
+}
+.leftbutton{
     background: white url(mars_images/greyportal.png) left no-repeat;
 	background-size: contain;
-	padding-left: 25px;
+	padding:5px;
+	padding-left: 30px;
+	height: 30px;
+	border-radius: 15px; 
 }
-button:hover{
-	border-radius: 12px; 
+.leftbutton:hover{
     background: papayawhip url(mars_images/colourportal.png) left no-repeat;
 	background-size: contain;
-	padding-left: 25px;
+	padding:5px;
+	padding-left: 30px;
+	height: 30px;
+	border-radius: 15px; 
 }
+.rightbutton{
+    background: white url(mars_images/greyportal.png) right no-repeat;
+	background-size: contain;
+	padding:5px;
+	padding-right: 30px;
+	height: 30px;
+	border-radius: 15px; 
+}
+.rightbutton:hover{
+    background: papayawhip url(mars_images/colourportal.png) right no-repeat;
+	background-size: contain;
+	padding:5px;
+	padding-right: 30px;
+	height: 30px;
+	border-radius: 15px; 
+}
+
+
 
 .FBloginButton{
 	display: inline-block;

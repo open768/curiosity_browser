@@ -17,14 +17,14 @@
 		include("php/fragments/title.php");
 	?>
 	<DIV class="gold">
-		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
-		<button onclick="onClickDetail()">Back to Detail</button>
-		<button id="EDR" title="jump to PDS EDR" onclick="onClickEDRLBL();">EDR LBL</button>
-		<button id="EDR" title="jump to PDS EDR" onclick="onClickEDRDAT();">EDR DAT</button>
-		<button id="RDR" title="jump to PDS RDR" onclick="onClickRDRLBL();">RDR LBL</button>
-		<button id="RDR" title="jump to PDS RDR" onclick="onClickRDRIMG();">RDR IMG</button>
-		<button title="MSL curiosity Notebook" id="notelink" onclick="onClickNotebook()">MSL NoteBook</button>
-		<button id="ParsePDS" title="parse product PDS" onclick="onClickParsePDS();">Debug - Parse PDS</button><br>
+		<button class="leftbutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
+		<button class="leftbutton" onclick="onClickDetail()">Back to Detail</button>
+		<button class="leftbutton" id="EDR" title="jump to PDS EDR" onclick="onClickEDRLBL();">EDR LBL</button>
+		<button class="leftbutton" id="EDR" title="jump to PDS EDR" onclick="onClickEDRDAT();">EDR DAT</button>
+		<button class="leftbutton" id="RDR" title="jump to PDS RDR" onclick="onClickRDRLBL();">RDR LBL</button>
+		<button class="leftbutton" id="RDR" title="jump to PDS RDR" onclick="onClickRDRIMG();">RDR IMG</button>
+		<button class="leftbutton" title="MSL curiosity Notebook" id="notelink" onclick="onClickNotebook()">MSL NoteBook</button>
+		<button class="leftbutton" id="ParsePDS" title="parse product PDS" onclick="onClickParsePDS();">Debug - Parse PDS</button><br>
 		<ul>
 			<li>To understand PDS format  see: <a target="NASA" href="http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0002/DOCUMENT/MSL_MMM_EDR_RDR_DPSIS.PDF"
 			>Software Interface Specification</a>

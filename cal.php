@@ -17,11 +17,11 @@
 		include("php/fragments/title.php");
 	?>
 	<DIV class="gold">
-		<button onclick="cBrowser.openWindow('index.php','index')">Home</button>
-		<button title="force refresh cache" id="solrefresh" onclick="onClickRefresh()">Refresh Data</button>
-		<button onclick="onClickPrevious()" title="previous Sol">&lt;&lt; Previous</button>
+		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
+		<button class="leftbutton"title="force refresh cache" id="solrefresh" onclick="onClickRefresh()">Refresh Data</button>
+		<button class="leftbutton" onclick="onClickPrevious()" title="previous Sol">&lt;&lt; Previous</button>
 		Status: <span ID="status" class="status">Loading...</span>
-		<button onclick="onClickNext()" title="Next Sol">Next &gt;&gt;</button>
+		<button class="rightbutton" onclick="onClickNext()" title="Next Sol">Next &gt;&gt;</button>
 	</div>
 	<DIV class="gold" id="colours">
 		loading colours
