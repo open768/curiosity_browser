@@ -16,7 +16,8 @@ var DEBUG_ON = true;
 //# Utility functions 
 //###############################################################
 bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_TAG);
-function onLoadJQuery_TAG(){
+function onLoadJQuery_TAG()
+{
 	var sTag = cBrowser.data["t"];
 	$("#tagname").html(sTag);
 	cTagging.getTagDetails(sTag, tagdetails_callback);
@@ -27,7 +28,7 @@ function onLoadJQuery_TAG(){
 function get_product_data( psSol, psInstr, psProd){
 	var sURL;
 	
-	loading=true;
+	loading = true;
 	sURL = "php/rest/detail.php?s=" + psSol + "&i=" + psInstr +"&p=" + psProd;
 	set_status("fetching data for "+ psProd);
 	cHttp.fetch_json(sURL, load_product_callback);
@@ -42,7 +43,7 @@ function load_product_callback(poJS){
 	oDiv = $("#"+poJS.p);
 	oDiv.empty();
 	
-	oData = poJS.d
+	oData = poJS.d;
 	if (oData == null){
 		oDiv.html("<span class=subtitle>no image found</span>");
 		return;
@@ -95,9 +96,7 @@ function tagnames_callback(poJs){
 
 //***************************************************************
 function tagdetails_callback(paJs){
-	var sHTML, i, sItem, aParts;
-	var sSol, sInstr, sProd;
-	var oList, oLi, sUrl;
+	var i, sItem, aParts, sSol, sInstr, sProd, oList, oLi, sUrl;
 	
 	set_status("got tag names");
 	

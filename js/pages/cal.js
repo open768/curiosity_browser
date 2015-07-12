@@ -72,7 +72,8 @@ function get_calendar_data( psSol){
 //* call backs 
 //###############################################################
 function load_cal_callback(paJS){
-	var sSol, aDates, aHeadings, aTimes, i,j,k, sDKey, sTKey, sHTML, aItems, oItem, sID, sColour, sStyle;
+	var sSol, aDates, aHeadings, aTimes, i,j,k, sDKey, sTKey, sHTML, aItems, oItem, sID, sColour, sStyle, oDiv;
+	var oOuterSpan, oInnerSpan;
 	var aInstr, oInstr;
 	
 	set_status("received data...");
@@ -82,13 +83,16 @@ function load_cal_callback(paJS){
 	aInstr = paJS.instr;
 	
 	//display the colours and build the colour array
-	sHTML = "";
+	oDiv = $("#colours").empty();
 	for (i=0 ; i<aInstr.length; i++){
 		oInstr = aInstr[i];
-		sHTML += "<span class='greybox'>" + oInstr.name + " <span  style='background-color:" + oInstr.colour + "'>&nbsp;&nbsp;&nbsp;</span></span> ";
+		oInnerSpan = $("<span>").attr({style:"background-color:" + oInstr.colour}).append("&nbsp;&nbsp;&nbsp;");
+		oOuterSpan = $("<span>").attr({class:'greybox'}).append(oInstr.name).append("&nbsp;");
+		oOuterSpan.append(oInnerSpan);
+		oDiv.append(oOuterSpan);
+		oDiv.append("&nbsp;");
 		oColours[oInstr.abbr] = oInstr.colour;
 	}
-	$("#colours").html(sHTML);
 	
 	
 	// get the headings
@@ -104,41 +108,58 @@ function load_cal_callback(paJS){
 				aTimes.push(sTKey);
 	aTimes.sort();
 	
-	//build the html
-	sHTML = "<table class='cal'>";
-		sHTML += "<tr><td></td>";
-			for (i=0; i<aHeadings.length; i++)
-				sHTML += "<TH class='caldate'>UTC:" + aHeadings[i] +"</TH>";
-		sHTML += "</tr>";
+	//build the table
+	var oTable, oRow, oCell, oButton;
+	$("#calendar").empty();
+	
+	oTable = $("<table>").attr({class:"cal"});
+	//--the header row of the table
+	oRow = $("<TR>");
+	oRow.append($("<TD>"));
+	for (i=0; i<aHeadings.length; i++){
+		oCell = $("<TH>").attr({class:"caldate"}).append("UTC:" + aHeadings[i] );
+		oRow.append(oCell);
+	}
+	oTable.append(oRow);
+	
+	//render the table
 		for (i=0; i<aTimes.length; i++){
 			sTKey = aTimes[i];
-			sHTML += "<tr><TH class='caltime'>" + aTimes[i] +"</TH>";
+			oRow = $("<TR>").attr({class:"caltime"});
+			oCell = $("<TH>").append(aTimes[i]);
+			oRow.append(oCell);
+			
 			for (j=0; j<aHeadings.length; j++){
 				sDKey = aHeadings[j];
-				sHTML += "<td>" ;
-					if (aDates[sDKey].hasOwnProperty(sTKey)){
-						aItems = aDates[sDKey][sTKey];
-						for (k=0; k<aItems.length; k++){
-							oItem = aItems[k];
-							sColour = oColours[oItem.i];
-							sStyle = "background-color:" + sColour;
-							if (oItem.d === current_date){
-								cDebug.write("found a match");
-								sStyle += ";border:4px double black" 
-							}
-
-							
-							sHTML += "<button class='calbutton roundbutton' style='" + sStyle + "' i='" + oItem.i + "'p='" + oItem.p + "' onclick='onClick();' title='" + oItem.i + "'>&nbsp;</button>";
+				oCell = $("<td>");
+				if (aDates[sDKey].hasOwnProperty(sTKey)){
+					aItems = aDates[sDKey][sTKey];
+					for (k=0; k<aItems.length; k++){
+						oItem = aItems[k];
+						sColour = oColours[oItem.i];
+						sStyle = "background-color:" + sColour;
+						if (oItem.d === current_date){
+							cDebug.write("found a match");
+							sStyle += ";border:4px double black" 
 						}
+
+						oButton = $("<button>").attr({
+								class:"calbutton roundbutton",style:sStyle,
+								i:oItem.i,p:oItem.p,
+								title:oItem.p 
+						}).append("&nbsp;");
+						oButton.click(onClick);
+						
+						oCell.append(oButton);
 					}
-				sHTML += "</td>";
+				}
+				oRow.append(oCell);
 			}
-			sHTML += "</tr>";
+			oTable.append(oRow);
 		}
-				
-	sHTML += "</table>";
 	
-	$("#calendar").html(sHTML);
+	//render the table
+	$("#calendar").append(oTable);
 	
 	//we're done
 	set_status("OK");
