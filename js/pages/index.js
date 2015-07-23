@@ -585,6 +585,9 @@ function load_thumbs_callback(poJS){
 	
 	set_status("loading thumbnails");
 
+	cImgQueue.clear();
+	bean.off(cImgQueue);
+	
 	$("#nav1").hide();
 	$("#nav2").hide();
 	oDiv = $("#"+ IMAGE_CONTAINER_ID);
@@ -598,16 +601,18 @@ function load_thumbs_callback(poJS){
 		for (i=0; i< aData.length; i++){
 			oItem = aData[i];
 			
-			oImg = $("<IMG>").attr({title:oItem.p,border:0,height:THUMB_SIZE,src:oItem.i,id:oItem.p,class:"polaroid-frame"});
+			oImg = $("<IMG>").attr({title:oItem.p,border:0,height:THUMB_SIZE,src:oItem.i,class:"polaroid-frame"});
 			
 			sURL = "detail.php?s=" + poJS.s + "&i=" + oItem.data.instrument +"&p=" +oItem.p;
-			oA = $("<A>").attr({href:sURL,target:sTarget}).append(oImg);
+			oA = $("<A>").attr({href:sURL,target:sTarget,id:oItem.p,}).append(oImg);
 			oDiv.append(oA);
 			
 			// add to the image thumbnail queue
-			cImgQueue.add(oItem.p);
+			cImgQueue.add(poJS.s,oItem.data.instrument,oItem.p);
 		}
+		
 		//start the image thumbnail queue
+		bean.on(cImgQueue, "thumbnail", thumbnail_callback);
 		cImgQueue.start();
 	}
 	
@@ -785,15 +790,14 @@ function highlight_callback(paJS){
 	}
 }
 
+// ***************************************************************
+function thumbnail_callback(poJS){
+	var oParent, oImg;
 
-//###############################################################
-// CImgQueue
-//###############################################################
-var cImgQueue = {
-	add:function(psProduct){
-		cDebug.write("adding Product to thumbnail queue: " + psProduct);
-	},
-	start:function(){
-		cDebug.write("starting image queue");
-	}
+	cDebug.write("callback " + poJS.p);
+	
+	oParent = $("#" + poJS.p);
+	oImg = $("<IMG>").attr({title:poJS.p,border:0,height:THUMB_SIZE,src:poJS.u,class:"polaroid-frame"});
+	oParent.empty();
+	oParent.append(oImg);
 }

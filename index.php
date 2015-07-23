@@ -20,11 +20,13 @@
 		<script type="text/javascript" src="js/pages/index.js"></script>
 		<script type="text/javascript" src="js/inc/tagging.js"></script>
 		<script type="text/javascript" src="js/inc/imghilite.js"></script>
+		<script type="text/javascript" src="js/inc/queue.js"></script>
+		<script type="text/javascript" src="js/inc/imgqueue.js"></script>
 		<script type="text/javascript" src="js/inc/tabs.js"></script>
 		
 		<meta property="og:title" content="Curiosity Browser - Interact with Science" />
 		<meta property="og:image" content="http://www.mars-browser.co.uk/curiosity/images/rover.png" />
-		<meta property="og:description" content="The place to have a 2-way social interaction about the great images being beamed back to Earth from NASA's Curiosity Rover. Image Data courtesy MSSS/MSL/NASA/JPL-Caltech." />
+		<meta property="og:description" content="Be part of the greatest exploration team ever. Discover great finds in the amazing images from NASA's Curiosity Rover and share your discoveries with the world." />
 	</head>
 	<body onload="$(cJQueryObj.onBodyLoad);">
 		<?php 

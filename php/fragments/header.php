@@ -5,9 +5,9 @@
 ?>
 <link rel="icon" href="images/dude.ico" type="image/x-icon" />
 <LINK href="css/css.css" rel="stylesheet" type="text/css">
-<LINK href="css/jquery/jquery-ui.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="js/jquery/jquery.js"></script>
 <script type="text/javascript" src="js/jquery/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="js/bean/bean.js"></script>
 <script type="text/javascript" src="js/inc/secret.js"></script>
 <script type="text/javascript" src="js/inc/common.js"></script>

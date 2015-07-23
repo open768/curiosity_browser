@@ -12,19 +12,10 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 require_once("$phpinc/ckinc/cached_http.php");
+require_once("$phpinc/ckinc/mission.php");
 require_once("$root/php/curiosity/instrument.php");
 require_once("$root/php/curiosity/pds.php");
 
-
-//##########################################################################
-interface iMission{
-	static function getAllSolData($psSol);
-	static function getSolList();
-	static function search_product($psSearch);
-	static function getThumbnails($psSol, $psInstrument);
-	static function getSolInstrumentList($piSol);
-	static function getProductDetails($psSol, $psInstrument, $psProduct);
-}
 
 //##########################################################################
 class cCuriosity implements iMission{
@@ -33,6 +24,9 @@ class cCuriosity implements iMission{
 	const SOL_CACHE = 604800;	//1 week
 	const ALL_INSTRUMENTS = "All";
 	const MANIFEST_CACHE = 3600;	//1 hour
+	const LOCAL_THUMB_FOLDER = "images/thumbs";
+	const THUMBNAIL_QUALITY = 90;
+	const THUMBNAIL_HEIGHT = 120;
 
 	private static $Instruments, $instrument_map;
 	
@@ -265,6 +259,46 @@ class cCuriosity implements iMission{
 					array_push($aResults, $oItem->instrument);
 		
 		return $aResults;
+	}
+
+	//*****************************************************************************
+	public static function getLocalThumbnail($psSol, $psInstrument, $psProduct){
+		global $root;
+		$sRelative = self::LOCAL_THUMB_FOLDER."/$psSol/$psInstrument/$psProduct.jpg";
+		$sPath = "$root/$sRelative";
+		
+		if (!file_exists($sPath)){
+			$oDetails = self::getProductDetails($psSol, $psInstrument, $psProduct);
+			$sImgUrl = $oDetails["d"]["i"];
+			
+			//----------------------------------------------------------------------
+			cDebug::write("fetching $sImgUrl");
+			$oMSLImg = cHttp::fetch_image($sImgUrl);	
+			cDebug::write("got image");
+			cDebug::write("<img src='$sImgUrl'>");
+			$iWidth = imagesx($oMSLImg);
+			$iHeight = imagesy($oMSLImg);
+			$iNewWidth = $iWidth * self::THUMBNAIL_HEIGHT / $iHeight;
+
+			//----------------------------------------------------------------------
+			cDebug::write("new Width is $iNewWidth .. resizing");
+			$oThumb = imagecreatetruecolor($iNewWidth, self::THUMBNAIL_HEIGHT);
+			imagecopyresampled($oThumb, $oMSLImg, 0, 0, 0, 0, $iNewWidth, self::THUMBNAIL_HEIGHT, $iWidth, $iHeight);		
+			$sFolder = dirname($sPath);
+			if (!file_exists($sFolder)){
+				cDebug::write("creating folder: $sFolder");
+				mkdir($sFolder, 0755, true); //folder needs to readable by apache
+			}
+			imagejpeg($oThumb, $sPath, self::THUMBNAIL_QUALITY );
+			
+			//----------------------------------------------------------------------
+			imagedestroy($oMSLImg);
+			imagedestroy($oThumb);
+		}
+		
+		cDebug::write("<img src='../../$sRelative'>");
+		$oDetails = [ "s"=>$psSol, "i"=>$psInstrument, "p"=>$psProduct, "u"=>$sRelative];
+		return $oDetails;
 	}
 
 	//*****************************************************************************
