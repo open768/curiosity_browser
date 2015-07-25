@@ -268,32 +268,37 @@ class cCuriosity implements iMission{
 		$sPath = "$root/$sRelative";
 		
 		if (!file_exists($sPath)){
+			
 			$oDetails = self::getProductDetails($psSol, $psInstrument, $psProduct);
-			$sImgUrl = $oDetails["d"]["i"];
-			
-			//----------------------------------------------------------------------
-			cDebug::write("fetching $sImgUrl");
-			$oMSLImg = cHttp::fetch_image($sImgUrl);	
-			cDebug::write("got image");
-			cDebug::write("<img src='$sImgUrl'>");
-			$iWidth = imagesx($oMSLImg);
-			$iHeight = imagesy($oMSLImg);
-			$iNewWidth = $iWidth * self::THUMBNAIL_HEIGHT / $iHeight;
+			if ($oDetails["d"]){
+				$sImgUrl = $oDetails["d"]["i"];
+				
+				//----------------------------------------------------------------------
+				cDebug::write("fetching $sImgUrl");
+				$oMSLImg = cHttp::fetch_image($sImgUrl);	
+				cDebug::write("got image");
+				cDebug::write("<img src='$sImgUrl'>");
+				$iWidth = imagesx($oMSLImg);
+				$iHeight = imagesy($oMSLImg);
+				$iNewWidth = $iWidth * self::THUMBNAIL_HEIGHT / $iHeight;
 
-			//----------------------------------------------------------------------
-			cDebug::write("new Width is $iNewWidth .. resizing");
-			$oThumb = imagecreatetruecolor($iNewWidth, self::THUMBNAIL_HEIGHT);
-			imagecopyresampled($oThumb, $oMSLImg, 0, 0, 0, 0, $iNewWidth, self::THUMBNAIL_HEIGHT, $iWidth, $iHeight);		
-			$sFolder = dirname($sPath);
-			if (!file_exists($sFolder)){
-				cDebug::write("creating folder: $sFolder");
-				mkdir($sFolder, 0755, true); //folder needs to readable by apache
+				//----------------------------------------------------------------------
+				cDebug::write("new Width is $iNewWidth .. resizing");
+				$oThumb = imagecreatetruecolor($iNewWidth, self::THUMBNAIL_HEIGHT);
+				imagecopyresampled($oThumb, $oMSLImg, 0, 0, 0, 0, $iNewWidth, self::THUMBNAIL_HEIGHT, $iWidth, $iHeight);		
+				$sFolder = dirname($sPath);
+				if (!file_exists($sFolder)){
+					cDebug::write("creating folder: $sFolder");
+					mkdir($sFolder, 0755, true); //folder needs to readable by apache
+				}
+				imagejpeg($oThumb, $sPath, self::THUMBNAIL_QUALITY );
+				
+				//----------------------------------------------------------------------
+				imagedestroy($oMSLImg);
+				imagedestroy($oThumb);
 			}
-			imagejpeg($oThumb, $sPath, self::THUMBNAIL_QUALITY );
-			
-			//----------------------------------------------------------------------
-			imagedestroy($oMSLImg);
-			imagedestroy($oThumb);
+			else
+				$sRelative = null; //no image found
 		}
 		
 		cDebug::write("<img src='../../$sRelative'>");

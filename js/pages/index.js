@@ -32,6 +32,7 @@ var THUMB_SIZE=144;
 
 var RADIO_BACK_COLOUR = "gold";
 var BODY_COLOUR = "LemonChiffon";
+var MISSING_THUMBNAIL_IMAGE = "images/missing.jpg";
 
 var HOW_MANY_IMAGES = 5;
 var current_image_index = 0;
@@ -602,6 +603,7 @@ function load_thumbs_callback(poJS){
 			oItem = aData[i];
 			
 			oImg = $("<IMG>").attr({title:oItem.p,border:0,height:THUMB_SIZE,src:oItem.i,class:"polaroid-frame"});
+			//TODO show a placeholder image in a different SPAN that is hidden when proper image loads
 			
 			sURL = "detail.php?s=" + poJS.s + "&i=" + oItem.data.instrument +"&p=" +oItem.p;
 			oA = $("<A>").attr({href:sURL,target:sTarget,id:oItem.p,}).append(oImg);
@@ -795,9 +797,9 @@ function thumbnail_callback(poJS){
 	var oParent, oImg;
 
 	cDebug.write("callback " + poJS.p);
-	
 	oParent = $("#" + poJS.p);
-	oImg = $("<IMG>").attr({title:poJS.p,border:0,height:THUMB_SIZE,src:poJS.u,class:"polaroid-frame"});
-	oParent.empty();
-	oParent.append(oImg);
+	if (!poJS.u) poJS.u = MISSING_THUMBNAIL_IMAGE;
+
+	oImg = $("<IMG>").attr({title:poJS.p,src:poJS.u,class:"polaroid-frame"});
+	oParent.empty().append(oImg);
 }

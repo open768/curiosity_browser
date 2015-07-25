@@ -377,8 +377,8 @@ function OnImageLoaded(){
 	
 	iHeight= $(event.target).height();
 	iImgW = $(event.target).width();
-	iButW = $("#ltimebut_top").width();
-	iWidth= iImgW/2 - iButW - 28 ;
+	iButW = $("#ltimebut_top").innerWidth();
+	iWidth= iImgW/2 - iButW ;
 	
 	//make the buttons the right size
 	cDebug.write("setting button sizes");
@@ -389,10 +389,10 @@ function OnImageLoaded(){
 	
 	$("#rbut").height(iHeight);
 	$("#lbut").height(iHeight);
-	$("#rbut_top").width(iWidth);
-	$("#lbut_top").width(iWidth);
-	$("#rbut_bot").width(iWidth);
-	$("#lbut_bot").width(iWidth);
+	$("#rbut_top").innerWidth(iWidth);
+	$("#lbut_top").innerWidth(iWidth);
+	$("#rbut_bot").innerWidth(iWidth);
+	$("#lbut_bot").innerWidth(iWidth);
 	
 	//make the image clickable
 	$(event.target).click(OnImageClick);
