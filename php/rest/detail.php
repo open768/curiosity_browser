@@ -13,6 +13,9 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 	$root=realpath("../..");
 	$phpinc=realpath("../../../phpinc");
+	require_once("$phpinc/ckinc/session.php");
+	cSession::set_folder();
+	session_start();
 	
 	require_once("$root/php/curiosity/curiosity.php");
 	require_once("$phpinc/ckinc/debug.php");

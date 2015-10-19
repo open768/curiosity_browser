@@ -1,8 +1,13 @@
+<?php	
+	$root=realpath(".");
+	$phpinc = realpath("../phpinc");
+	require_once "$phpinc/ckinc/session.php";
+	cSession::set_folder();
+	session_start();
+?>
 <html>
 <head>
 	<?php 
-		$root=realpath(".");
-		$phpinc = realpath("../phpinc");
 		include("php/fragments/header.php"); 
 	?>
 	<title>sol Tags - Curiosity Browser</title>

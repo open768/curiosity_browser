@@ -1,6 +1,10 @@
-<?php
+<?php	
 	$root=realpath(".");
 	$phpinc = realpath("../phpinc");
+	require_once "$phpinc/ckinc/session.php";
+	cSession::set_folder();
+	session_start();
+
 	include("php/fragments/header.php"); 
 	require_once("$phpinc/ckinc/facebook.php");
 	cHeader::redirect_if_referred();

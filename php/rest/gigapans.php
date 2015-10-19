@@ -1,6 +1,9 @@
 <?php
 	$root=realpath("../..");
 	$phpinc=realpath("../../../phpinc");
+	require_once("$phpinc/ckinc/session.php");
+	cSession::set_folder();
+	session_start();
 	
 	require_once("$phpinc/ckinc/debug.php");
 	require_once("$root/php/static/static.php");

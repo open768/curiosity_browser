@@ -1,5 +1,4 @@
 <?php
-	if (!isset($root))	$root=realpath(".");
 	require_once "$phpinc/ckinc/secret.php";
 	require_once "$phpinc/ckinc/header.php";
 ?>
