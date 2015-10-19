@@ -21,29 +21,31 @@ var cAuth = {
 	user:null,
 	//**********************************************************
 	getFBUser:function ( poFBResponse ){
-		if (this.user){
-			cDebug.write("previously authenticated");
-			bean.fire(cAuth, "onGetFBUser",[sUser]);
-			return
-		}
-			
-		//check the cookie
-		var sUser = $.cookie(AUTH_USER_COOKIE);
-		var iDate = $.cookie(AUTH_DATE_COOKIE);
-		if (sUser && iDate){
-			//-- check the validity of the cookie
-			var dNow = new Date();
-			var iNow = dNow.getTime();
-			if ((iNow - iDate) > AUTH_COOKIE_TIMEOUT){
-				cDebug.write("user is cached: " + sUser);
-				this.setUser(sUser);
+		if (cFacebook.ServerUser !== ""){
+			if (this.user){
+				cDebug.write("previously authenticated");
 				bean.fire(cAuth, "onGetFBUser",[sUser]);
-				return;
-			}else
-				cDebug.write("expired login cookie: " );
+				return
+			}
+				
+			//check the cookie
+			var sUser = $.cookie(AUTH_USER_COOKIE);
+			var iDate = $.cookie(AUTH_DATE_COOKIE);
+			if (sUser && iDate){
+				//-- check the validity of the cookie
+				var dNow = new Date();
+				var iNow = dNow.getTime();
+				if ((iNow - iDate) > AUTH_COOKIE_TIMEOUT){
+					cDebug.write("user is cached: " + sUser);
+					this.setUser(sUser);
+					bean.fire(cAuth, "onGetFBUser",[sUser]);
+					return;
+				}else
+					cDebug.write("expired login cookie: " );
+			}
 		}
 		
-		// no cookie 
+		// no cookie or no server user
 		cDebug.write("getting Facebook user details for user " + poFBResponse.userID);
 		cDebug.write("Access token: " + poFBResponse.accessToken);
 		var oData = {
