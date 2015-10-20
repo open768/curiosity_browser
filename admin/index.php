@@ -12,6 +12,9 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 	$root=realpath("../");
 	$phpinc = realpath("../../phpinc");
+	require_once "$phpinc/ckinc/session.php";
+	cSession::set_folder();
+	session_start();
 
 	require_once("$phpinc/ckinc/header.php");
 	require_once("$phpinc/ckinc/auth.php");
@@ -25,8 +28,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("$phpinc/ckinc/gigapan.php");
 	require_once("$phpinc/ckinc/pencilnev.php");
 	
-	
 
+	$sUser = cAuth::must_get_user(); 
 	if (!$sUser)					cDebug::error("You are not logged in <a href='../'>Login here</a> and try again");
 	if (!cAuth::is_role("admin"))	cDebug::error("must be an admin user ");
 	cDebug::check_GET_or_POST();
