@@ -307,34 +307,61 @@ class cCuriosity implements iMission{
 	}
 
 	//*****************************************************************************
-	public static function getProductDetails($psSol, $psInstrument, $psProduct){
-		
-		//check if the instrument might be an abbreviation
-		$sInstr = cInstrument::getInstrumentName($psInstrument);
-		
-		//get the data
-		$oInstrumentData = self::getSolData($psSol, $sInstr);
-		$aImages=$oInstrumentData->data;
+	private static function pr__GetInstrumentImageDetails( $paInstrumentImages, $psProduct){
 		$oDetails =null;
-		
+
 		cDebug::write("looking for $psProduct");
-		$iCount = count($aImages);
+		$iCount = count($paInstrumentImages);
 		for ($i=0; $i<$iCount ; $i++){
-			$aItem = $aImages[$i];
+			$aItem = $paInstrumentImages[$i];
 			if ($aItem["p"] === $psProduct){
 				$oDetails = $aItem;
 				cDebug::write("found $psProduct");
 				break;
 			}
 		}
+		//if nothing found
+
+		if ($oDetails == null )	
+			return null;
+		else
+			return 	["d"=>$oDetails, "max"=>$iCount, "item"=>$i+1];
+	}
+	
+	//*****************************************************************************
+	public static function getProductDetails($psSol, $psInstrument, $psProduct){
 		
-		//raise an exception if nothing found
-		if (!$oDetails){
+		//check if the instrument might be an abbreviation
+		$sInstr = cInstrument::getInstrumentName($psInstrument);
+		$aOutput = ["s"=>$psSol, "i"=>$sInstr, "p"=>$psProduct, "d"=>null, "max"=>null, "item"=>null, "migrate"=>null];
+;
+		//get the data
+		$oInstrumentData = self::getSolData($psSol, $sInstr);
+		$aInstrumentImages=$oInstrumentData->data;
+		$oDetails = self::pr__GetInstrumentImageDetails($aInstrumentImages, $psProduct);
+		
+		
+		//if nothing found look for similar products
+		if ($oDetails === null){
 			cDebug::write("Nothing found!! for $psProduct");
+			$oPDSData = cCuriosityPDS::search_pds($psSol, $psInstrument, $psProduct);
+			if ($oPDSData == null){
+				cDebug::write("drawn a complete blank!");
+			}else{
+				cDebug::vardump($oPDSData );
+				$aOutput["migrate"] = $oPDSData["p"];
+				//start the migration
+			}
+		}else{
+			$aOutput["d"] = $oDetails["d"];
+			$aOutput["max"] = $oDetails["max"];
+			$aOutput["item"] = $oDetails["item"];
 		}
+
+		
 			
 		//return the result
-		return [ "s"=>$psSol, "i"=>$sInstr, "p"=>$psProduct, "d"=>$oDetails, "max"=>$iCount, "item"=>$i+1];
+		return $aOutput;
 	}
 }
 ?>

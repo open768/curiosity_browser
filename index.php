@@ -110,10 +110,10 @@
 						max <span ID="max">??</span>
 					</div>
 					<div class="gold" id="images">
-						<div id=intro>
+						<div id="intro" style="display:none">
 							<H2>Lets Get Started</H2>
 							<table border="0" width="100%"><tr>
-								<td valign=middle>
+								<td valign="middle">
 									<img src="images/rover.png" height="90">
 								</td>
 								<td>

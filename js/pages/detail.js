@@ -9,7 +9,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
-
 var DEBUG_ON = true;
 var loading = true;
 var SOL_QUERYSTRING = "s";
@@ -289,6 +288,17 @@ function load_detail_callback(paJS){
 	//rely upon what came back rather than the query string
 	goItem = paJS;
 	
+	//check whether there was any data
+	oData = goItem.d;
+	if (oData === null){
+		if (goItem.migrate !== null){
+			sUrl = "migrate.php?s=" + goItem.s + "&i=" + goItem.i + "&pfrom=" + goItem.p + "&pto=" + goItem.migrate;
+			cBrowser.openWindow(sUrl, "migrate");
+		}else
+			cBrowser.openWindow("error.php?m=product " + goItem.p + " was not found", "error");
+		return;
+	}
+	
 	//update the title
 	document.title = "detail: s:" + goItem.s + " i:" + goItem.i + " p:" + goItem.p + " (Curiosity Browser)";
 	$("#toptitle").html(goItem.p);
@@ -297,12 +307,6 @@ function load_detail_callback(paJS){
 	sURL = cBrowser.pageUrl() +"?s=" + goItem.s + "&i=" + goItem.i + "&p=" + goItem.p;
 	cBrowser.pushState("Detail", sURL);
 	
-	//check whether there was any data
-	oData = paJS.d
-	if (oData == null){
-		set_status("EMPTY DATA RESPONSE - <font color=red><b>ERROR?</b></font>");
-		return;
-	}
 
 	//tags 
 	if (!paJS.tags)

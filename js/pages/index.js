@@ -49,9 +49,15 @@ var sCheckThumbs = "chkThumbs";
 //###############################################################
 bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_INDEX);
 function onLoadJQuery_INDEX(){	
+
+	//show the intro blurb if nothing on the querystring
+	if (document.location.search.length == 0)
+		$("#intro").show();
+	
 	//load the tabs and show the first one
 	instrumentTabs();
 	$("#sol-tab").show();
+	
 	
 	//set up the onchange handler for sols
 	$("#"+SOLS_LIST).change( OnChangeSolList);

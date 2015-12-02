@@ -199,8 +199,7 @@ function set_error_status(psStatus){
 //***************************************************************
 function set_status(psStatus){
 	var oElement;
-	oElement = document.getElementById(STATUS_ID);
-	if (oElement) oElement.innerHTML= psStatus;
+	$("#"+STATUS_ID).html(psStatus);
 	cDebug.write("status: " + psStatus);
 }
 

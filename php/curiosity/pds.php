@@ -29,7 +29,7 @@ class cCuriosityPDS{
 	const max_released = 449;
 	const LBL_CACHE = 12628000; //a long time
 	
-	const SHORT_REGEX = "/^(\d{4})(\D{2})(\d{4})(\d{3})(\d{3})(\D)(\d)_(\D{4})/";
+	const SHORT_REGEX = "/^(\d{4})(\D{2})(\d{4})(\d{3})(\d{3})(\D)(\d{1})_(\D{4})/";
 	const PICNO_REGEX = "/^(\d{4})(\D{2})(\d{6})(\d{3})(\d{2})(\d{5})(\D)(\d{2})_(\D{4})/";
 	const PICNO_FORMAT = "%04d%s%06d%03d%02d%05d%s%02d_%s";
 	const PICNO_REGEX_FORMAT = "/%04d%s%06d%03d\d{7}.*%s/";
@@ -101,11 +101,9 @@ class cCuriosityPDS{
 		//seq_line and CPD_ID may be zero
 		//BROKEN!!!
 
-	
 		$aExploded = self::explode_productID($psProduct);
 		cDebug::vardump($aExploded);
 
-		
 		cDebug::write($aExploded["product type"]);
 		$sRegex = sprintf(	self::PICNO_REGEX_FORMAT, 
 			$aExploded["sol"],
@@ -123,7 +121,7 @@ class cCuriosityPDS{
 	//**********************************************************************
 	public static function get_pds_productID($psProduct){
 		//split the MSL product apart	
-		if (get_product_type($psProduct) == self::PRODUCT_TYPE_PICNO){
+		if (self::get_product_type($psProduct) == self::PRODUCT_TYPE_PICNO){
 			cDebug::write("product is allread a PICNO");
 			$sPDSProduct = $psProduct;
 		}else{
@@ -192,11 +190,13 @@ class cCuriosityPDS{
 				if ( preg_match($sPDSRegex, $sKey)){
 					cDebug::write("got a match with $sKey");
 					$oMatch=$oData;
+					$oMatch["p"] = $sKey;
 					break;
 				}
 			}elseif ($sKey == $psProduct){
 				cDebug::write("found matching product $sKey");
 				$oMatch=$oData;
+				$oMatch["p"] = $psProduct;
 				break;
 			}
 		}
