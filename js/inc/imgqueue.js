@@ -1,17 +1,26 @@
 
 //###############################################################
 // CImgQueue
+// A simple generic class to manage the batch processing of images. 
+//The specific processing is handled in the "thumbnail" event
 //###############################################################
 var MAX_IMGQ_TRANSFERS=10;
 
 var cImgQueue = {
 	aBacklog:[],
 	aTransfers:new cQueue(),
+	bStopping:false,
 	
 	//***************************************************************
 	clear:function(){
 		cDebug.write("clearing image queue");
 		this.aBacklog = [];
+		this.bStopping = false;
+	},
+	
+	//***************************************************************
+	stop: function(){
+		this.bStopping = true;
 	},
 	
 	//***************************************************************
@@ -23,6 +32,8 @@ var cImgQueue = {
 	start:function(){
 		var oItem, iLen;
 		
+		if (this.bStopping) exit();
+				
 		if (this.aTransfers.length() >= MAX_IMGQ_TRANSFERS)
 			cDebug.write("too many items being transferred");
 		else if (this.aBacklog.length == 0)
@@ -31,6 +42,7 @@ var cImgQueue = {
 			oItem = this.aBacklog.pop();
 			this.aTransfers.push(oItem.p,null);
 			cDebug.write("getting thumbnail for "+oItem.p);
+			bean.fire(this,"starting", oItem.p);
 			sUrl = "php/rest/solthumb.php?s=" + oItem.s + "&i=" + oItem.i + "&p=" + oItem.p;
 			cHttp.fetch_json(sUrl, cImgQueue_callback);
 			this.start();
@@ -39,6 +51,7 @@ var cImgQueue = {
 	
 	//***************************************************************
 	process_response:function(poJson){
+		if (this.bStopping) exit();
 		cDebug.write("processing response");
 		this.aTransfers.remove(poJson.p);
 		bean.fire(this,"thumbnail", poJson);

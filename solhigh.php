@@ -34,10 +34,12 @@
 		<button class="leftbutton" onclick="cBrowser.openWindow('allsolhighs.php','allhighs');">All Sols</button>
 		<button class="rightbutton" onclick="onClickNext_sol()" title="next sol">&gt;&gt;&gt;</button>
 
-		&nbsp;&nbsp;&nbsp;<button class="leftbutton" id="detail" onClick="onClickDetails()">Details</button>
+		&nbsp;&nbsp;&nbsp;
+		<button class="leftbutton" id="detail" onClick="onClickDetails()">Details</button>
 		<button class="leftbutton" id="sheet" onClick="onClickNoDetails()">No Details</button>
-	
-		&nbsp;&nbsp;&nbsp;<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
+		<button class="leftbutton" id="mosaic" onClick="onClickMosaic()">Mosaic</button>
+		&nbsp;&nbsp;&nbsp;
+		<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
 	</div>
 	<div class="gold"  id="solhigh">
 		Loading...

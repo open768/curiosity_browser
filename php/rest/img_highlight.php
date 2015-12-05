@@ -53,10 +53,12 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			$sProduct= $_GET["p"];
 			$oResult = cImageHighlight::get_thumbs( $sSol, $sInstrument, $sProduct);
 			break;
+			
 		case "solcount":
 			$sSol = $_GET["s"];
 			$oResult = cIndexes::get_solcount( $sSol, cImageHighlight::INDEX_SUFFIX);
 			break;
+			
 		case "topsolindex":
 			
 			//unfortunately cant display count of highlights as i've hard coded 1 as the index value, 
@@ -65,9 +67,20 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			$oResult = cIndexes::get_top_sol_data( cImageHighlight::INDEX_SUFFIX);
 			
 			break;
+			
 		case "soldata":
 			$oResult = cImageHighlight::get_sol_highlighted_products( $_GET["s"]);
 			break;
+			
+		case "mosaic":
+			$sSol = $_GET["s"];
+			$sURL = cImageHighlight::get_sol_high_mosaic($sSol);
+			$oResult = [
+				"s" => $sSol,
+				"u" => $sURL
+			];	
+			break;
+			
 		default:
 			cDebug::error("unsupported operation");
 			break;

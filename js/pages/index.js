@@ -63,7 +63,7 @@ function onLoadJQuery_INDEX(){
 	$("#"+SOLS_LIST).change( OnChangeSolList);
 	$("#"+SOL_SUMMARY).change( OnChangeSolSummaryList);
 	$("#"+INSTRUMENT_LIST).change(OnChangeInstrument)
-	if (cBrowser.data[THUMB_QUERYSTRING])
+	if (cBrowser.data[THUMB_QUERYSTRING] != null)
 		$("#"+sCheckThumbs).prop('checked', true);
 	$("#"+sCheckThumbs).change(onChangeThumbs);
 	
@@ -356,7 +356,7 @@ function mark_sol(psSol){
 function set_sol(psSol){
 
 	cDebug.write("setting sol: " + psSol);
-	$("#"+IMAGE_CONTAINER_ID).html("<span class='subtitle'>to see images for sol " + psSol + " - select an instrument</span>");
+	$("#"+IMAGE_CONTAINER_ID).html("<span class='subtitle'>loading...</span>");
 	current_sol = psSol;
 	$("#"+SOL_ID).html(current_sol);
 	
@@ -609,10 +609,12 @@ function load_thumbs_callback(poJS){
 			oItem = aData[i];
 			
 			oImg = $("<IMG>").attr({title:oItem.p,border:0,height:THUMB_SIZE,src:oItem.i,class:"polaroid-frame"});
+			oImg.css("border-color","aliceblue"); 
+			
 			//TODO show a placeholder image in a different SPAN that is hidden when proper image loads
 			
 			sURL = "detail.php?s=" + poJS.s + "&i=" + oItem.data.instrument +"&p=" +oItem.p;
-			oA = $("<A>").attr({href:sURL,target:sTarget,id:oItem.p,}).append(oImg);
+			oA = $("<A>").attr({href:sURL,target:sTarget,id:oItem.p}).append(oImg);
 			oDiv.append(oA);
 			
 			// add to the image thumbnail queue
@@ -620,7 +622,8 @@ function load_thumbs_callback(poJS){
 		}
 		
 		//start the image thumbnail queue
-		bean.on(cImgQueue, "thumbnail", thumbnail_callback);
+		bean.on(cImgQueue, "thumbnail", imgq_thumbnail_callback);
+		bean.on(cImgQueue, "starting", imgq_starting_callback);
 		cImgQueue.start();
 	}
 	
@@ -799,13 +802,22 @@ function highlight_callback(paJS){
 }
 
 // ***************************************************************
-function thumbnail_callback(poJS){
+function imgq_starting_callback(psProduct){
+	var oParent, oImg;
+	oParent = $("#" + psProduct);		//an A tag, not a span
+	oImg = oParent.children().first();
+	oImg.css("border-color","blanchedalmond"); 
+}
+
+// ***************************************************************
+function imgq_thumbnail_callback(poJS){
 	var oParent, oImg;
 
 	cDebug.write("callback " + poJS.p);
-	oParent = $("#" + poJS.p);
+	oParent = $("#" + poJS.p);		//an A tag, not a span
 	if (!poJS.u) poJS.u = MISSING_THUMBNAIL_IMAGE;
 
 	oImg = $("<IMG>").attr({title:poJS.p,src:poJS.u,class:"polaroid-frame"});
+	oImg.css("border-color","white"); 
 	oParent.empty().append(oImg);
 }

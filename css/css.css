@@ -211,7 +211,7 @@ body
 
 .polaroid-frame
 {
-	border:5px solid white;
+	border:5px solid whitesmoke;
 	box-shadow:inset 0px 0px 7px 0px rgba(0, 0, 0, 1),0px 0px 7px 0px rgba(0, 0, 0, 1);
 	margin-right: 5px;
 	min-width:120px;

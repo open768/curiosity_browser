@@ -10,57 +10,51 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-
-var DEBUG_ON = true;
-var current_sol = null;
-var update_url = false;
+var MOSAIC_QUERYSTRING = "mos";
+var SHEET_QUERYSTRING = "sheet";
+var SOL_QUERYSTRING = "s";
+var gs_current_sol = null;
+var gs_update_url = false;
 //###############################################################
 //# Utility functions 
 //###############################################################
-bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_SOLHI);
-function onLoadJQuery_SOLHI(){
+bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery);
+function onLoadJQuery(){
 	var sUrl, iSol;
 	
+	//change status of checkbox
+	if (cBrowser.data[MOSAIC_QUERYSTRING] != null )	$("#chkMosaic").prop('checked', true);
+
 	//update sol number
-	iSol = parseInt(cBrowser.data["s"]);
+	iSol = parseInt(cBrowser.data[SOL_QUERYSTRING]);
 	load_sol_data(iSol);
-	
-	//change visibility of buttons
-	pr_set_button_visibility();
-	
 }
 
-function pr_set_button_visibility(){
-	if (cBrowser.data["sheet"] == null){
-		$("#detail").attr({disabled:"disabled"});
-		$("#sheet").removeAttr('disabled');
-	}else{
-		$("#sheet").attr({disabled:"disabled"});
-		$("#detail").removeAttr('disabled');
-	}
-}
-
-
+//********************************************************************
 function load_sol_data(piSol){
 	$("#sol").html(piSol);
 	$("#solbutton").html(piSol);
 
-	current_sol = piSol;
-	
+	gs_current_sol = piSol;
 	
 	//load tags
-	sUrl = "php/rest/img_highlight.php?s=" + piSol + "&o=soldata";
 	set_status("fetching highlights");
-	if (cBrowser.data["sheet"] != null)
+	if (cBrowser.data[MOSAIC_QUERYSTRING] != null){
+		sUrl = "php/rest/img_highlight.php?"+ SOL_QUERYSTRING + "=" + piSol + "&o=mosaic";
+		cHttp.fetch_json(sUrl, mosaic_callback);
+	}
+	else if (cBrowser.data[SHEET_QUERYSTRING] != null){
+		sUrl = "php/rest/img_highlight.php?"+ SOL_QUERYSTRING + "="+ piSol + "&o=soldata";
 		cHttp.fetch_json(sUrl, sheet_callback);
-	else
+	}else{
+		sUrl = "php/rest/img_highlight.php?"+ SOL_QUERYSTRING + "="+ piSol + "&o=soldata";
 		cHttp.fetch_json(sUrl, hilite_callback);
+	}
 }
-
 
 //***************************************************************
 function load_highlights(psSol, psInstr, psProduct){
-	sUrl = "php/rest/img_highlight.php?s=" + psSol + "&i=" + psInstr + "&p=" + psProduct + "&o=thumbs";
+	sUrl = "php/rest/img_highlight.php?"+ SOL_QUERYSTRING + "="+ psSol + "&i=" + psInstr + "&p=" + psProduct + "&o=thumbs";
 	set_status("fetching images");
 	cHttp.fetch_json(sUrl, load_thumbs_callback);
 }
@@ -69,36 +63,50 @@ function load_highlights(psSol, psInstr, psProduct){
 //# events
 //###############################################################
 function onClickPrevious_sol(){
-	var iSol = current_sol -1;
-	update_url = true;
+	var iSol = gs_current_sol -1;
+	gs_update_url = true;
 	load_sol_data(iSol);
 }
 
 function onClickNext_sol(){
-	var iSol = current_sol +1;
-	update_url = true;
+	var iSol = gs_current_sol +1;
+	gs_update_url = true;
 	load_sol_data(iSol);
 }
 
 function onClickSol(){
-	cBrowser.openWindow("index.php?s=" +current_sol, "index");
+	cBrowser.openWindow("index.php?"+ SOL_QUERYSTRING + "=" + gs_current_sol, "index");
 }
 
 function onClickDetails(){
-	var sUrl, iSol;
+	var sUrl;
 	
-	iSol = parseInt(cBrowser.data["s"]);
-	sUrl = "solhigh.php?s="+iSol;
+	if ((cBrowser.data[SHEET_QUERYSTRING] == null) &&( cBrowser.data[MOSAIC_QUERYSTRING] == null)) return;
+	
+	sUrl = "solhigh.php?"+ SOL_QUERYSTRING + "=" +cBrowser.data[SOL_QUERYSTRING];
 	cBrowser.pushState("highlights", sUrl);
+	set_status("loading..");
 	onLoadJQuery();
 }
 
 function onClickNoDetails(){
-	var sUrl, iSol;
+	var sUrl;
 	
-	iSol = parseInt(cBrowser.data["s"]);
-	sUrl = "solhigh.php?s="+iSol + "&sheet";
+	if (cBrowser.data[SHEET_QUERYSTRING] != null) return;
+	
+	sUrl = "solhigh.php?"+ SOL_QUERYSTRING + "=" +cBrowser.data[SOL_QUERYSTRING] + "&" + SHEET_QUERYSTRING;
 	cBrowser.pushState("highlights", sUrl);
+	set_status("loading..");
+	onLoadJQuery();
+}
+
+function onClickMosaic(){
+	var sUrl;
+	
+	if (cBrowser.data[MOSAIC_QUERYSTRING] != null) return;
+	sUrl = "solhigh.php?"+ SOL_QUERYSTRING+ "=" +cBrowser.data[SOL_QUERYSTRING] + "&" + MOSAIC_QUERYSTRING;
+	cBrowser.pushState("highlights", sUrl);
+	set_status("loading..");
 	onLoadJQuery();
 }
 
@@ -113,12 +121,13 @@ function hilite_callback(poJs){
 	oDiv.empty();
 	iCount = 0;
 	
-	if 	(update_url){
-		sUrl = "solhigh.php?s=" + current_sol;
+	if 	(gs_update_url){
+		sUrl = "solhigh.php?"+ SOL_QUERYSTRING + "=" + gs_current_sol;
 		cBrowser.pushState("highlights", sUrl);
-		update_url = false;
+		gs_update_url = false;
 	}
 	
+	set_status("loading..");
 	for (sInstr in poJs){
 		iCount ++;
 		oDiv.append("<h3>" + sInstr + "</h3>")
@@ -130,21 +139,17 @@ function hilite_callback(poJs){
 		for (sProduct in aProducts){
 			oRow = $("<TR>");
 			oTable.append(oRow);
-			sUrl= "detail.php?s=" + current_sol + "&i=" + sInstr + "&p=" + sProduct ;
+			sUrl= "detail.php?"+ SOL_QUERYSTRING + "=" + gs_current_sol + "&i=" + sInstr + "&p=" + sProduct ;
 			
-			var sTarget = ( SINGLE_WINDOW ? "" : "target='detail'");
-			oRow.append("<td width=200><a " + sTarget + " href='" + sUrl + "'>" + sProduct + "</a><p><div class='soltags' id='T"+sProduct+"'>Loading Tags..<div></td>");
-			oRow.append("<td align=left><a " + sTarget + " href='" + sUrl + "'><div id='"+sProduct+"'><font class='subtitle'>Loading images</font></div></a></td>");
+			oRow.append("<td width=200><a  href='" + sUrl + "'>" + sProduct + "</a><p><div class='soltags' id='T"+sProduct+"'>Loading Tags..<div></td>");
+			oRow.append("<td align=left><a  href='" + sUrl + "'><div id='"+sProduct+"'><font class='subtitle'>Loading images</font></div></a></td>");
 			
-			load_highlights(current_sol, sInstr, sProduct);
-			cTagging.getTags(current_sol,sInstr,sProduct, tag_callback);
+			load_highlights(gs_current_sol, sInstr, sProduct);
+			cTagging.getTags(gs_current_sol,sInstr,sProduct, tag_callback);
 		}
 	}
 	
-	if (iCount ==0)
-		set_error_status("no highlights found");
-	else
-		set_status("ok");
+	if (iCount ==0)		set_error_status("no highlights found");
 }
 
 //***************************************************************
@@ -152,10 +157,10 @@ function sheet_callback(poJs){
 	var sInstr, sProduct, sUrl;
 	var oDiv, oTable, oRow, iCount;
 	
-	if 	(update_url){
-		sUrl = "solhigh.php?sheet&s=" + current_sol;
+	if 	(gs_update_url){
+		sUrl = "solhigh.php?sheet&"+ SOL_QUERYSTRING+ "=" + gs_current_sol;
 		cBrowser.pushState("highlights", sUrl);
-		update_url = false;
+		gs_update_url = false;
 	}
 
 	
@@ -170,7 +175,7 @@ function sheet_callback(poJs){
 		//build the table
 		aProducts = poJs[sInstr];
 		for (sProduct in aProducts)
-			load_highlights(current_sol, sInstr, sProduct);
+			load_highlights(gs_current_sol, sInstr, sProduct);
 	}
 	
 	if (iCount ==0)
@@ -180,8 +185,24 @@ function sheet_callback(poJs){
 }
 
 //***************************************************************
+function mosaic_callback(poJs){
+	var oDiv, oImg;
+	
+	oDiv = $("#solhigh");
+	oDiv.empty();
+	
+	if (poJs.u == null){
+		oDiv.append("No highlights found");
+	}else{
+		oImg = $("<IMG>").attr({"src":poJs.u});
+		oDiv.append(oImg);
+	}
+	set_status("ok");
+}
+	
+//***************************************************************
 function tag_callback(paJS){
-	var oDiv, sHTML, sTag, i;
+	var oDiv, sHTML, oA, sTag, i;
 
 	//clear out the div
 	oDiv = $("#T" + paJS.p);
@@ -191,18 +212,17 @@ function tag_callback(paJS){
 
 	//put in the tags
 	sHTML = "";
-	var sTarget = ( SINGLE_WINDOW ? "" : "target='tags'");
 	for (i=0; i<paJS.d.length; i++){
 		sTag = paJS.d[i];
 		
-		sHTML += "<a " + sTarget + " href='tag.php?t=" + sTag + "'>#" + sTag + "</a> ";
+		oA = $("<A>").attr({"href":"tag.php?t=" + sTag }).append("#"+sTag);
+		oDiv.append(oA).append(" ");
 	}
-	oDiv.html( sHTML);
 }
 
 //***************************************************************
 function load_thumbs_callback(poJS){
-	var i, oDiv, oA, aUrls;
+	var i, oDiv, oA, oImg, aUrls;
 	
 	aUrls = poJS.u;
 	if (cBrowser.data["sheet"] == null){
@@ -212,18 +232,17 @@ function load_thumbs_callback(poJS){
 		if (aUrls.length == 0)
 			oDiv.html("no thumbnails found");
 		else
-			for (i=0 ; i< aUrls.length; i++)
-				oDiv.append($("<IMG>").attr({"src":aUrls[i],"class":"polaroid"}));
+			for (i=0 ; i< aUrls.length; i++){
+				oImg = $("<IMG>").attr({"src":aUrls[i],"class":"polaroid"});
+				oDiv.append(oImg);
+			}
 	}else{
 		oDiv = $("#solhigh");
 		for (i=0 ; i< aUrls.length; i++){
-			sUrl= "detail.php?s=" + poJS.s + "&i=" + poJS.i + "&p=" + poJS.p ;
-			if (SINGLE_WINDOW)
-				oA = $("<A>").attr({href:sUrl});
-			else
-				oA = $("<A>").attr({href:sUrl,target:"detail"});
-			oA.append($("<IMG>").attr({"src":aUrls[i],"class":"polaroid"}));
-			oDiv.append(oA);
+			sUrl= "detail.php?"+ SOL_QUERYSTRING + "=" + poJS.s + "&i=" + poJS.i + "&p=" + poJS.p ;
+			oA = $("<A>").attr({href:sUrl});
+			oImg = $("<IMG>").attr({"src":aUrls[i],"class":"polaroid"});
+			oDiv.append(oA.append(oImg));
 		}
 	}
 	
