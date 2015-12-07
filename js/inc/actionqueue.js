@@ -20,6 +20,7 @@ function cActionQueue(){
 	//***************************************************************
 	this.stop = function(){
 		this.bStopping = true;
+		this.aBacklog=[];
 	};
 	
 	//***************************************************************
@@ -32,13 +33,15 @@ function cActionQueue(){
 		var oItem, iLen;
 		var oParent = this;
 		
-		function pfnCallback(poJson){
+		if (this.bStopping) exit();
+
+		//-------------- set up the closure
+		function pfnHttpCallback(poJson){
 			cDebug.write("actionqueue callback " + poJson.p);
 			oParent.process_response(poJson);
 		}
-		
-		if (this.bStopping) exit();
 				
+		//------------ queue logic
 		if (this.aTransfers.length() >= this.MAX_IMGQ_TRANSFERS)
 			cDebug.write("too many items being transferred");
 		else if (this.aBacklog.length == 0)
@@ -48,7 +51,7 @@ function cActionQueue(){
 			this.aTransfers.push(oItem.p,null);
 			cDebug.write("performing action for "+oItem.p);
 			bean.fire(this,"starting", oItem.p);
-			cHttp.fetch_json(oItem.u, pfnCallback);
+			cHttp.fetch_json(oItem.u, pfnHttpCallback); 
 			this.start();
 		}
 	};

@@ -14,49 +14,6 @@ var DEBUG_ON = true;
 var STATUS_ID = "status";
 var SINGLE_WINDOW =true;
 
-//###############################################################
-//# HTTP
-//###############################################################
-function cHttpFailer(){
-	this.url = null;
-	this.fail = function( jqxhr, textStatus, error ){
-		set_error_status("call failed: check console" );
-		cDebug.write("ERROR: " + textStatus + "," + error + " : " + this.url);		
-	}
-}
-
-var cHttp = {
-	fetch_json:function(psUrl, pfnCallBack){	
-		var oFailer;
-		//if the url doesnt contain http
-		if (psUrl.search("http:") == -1)
-			cDebug.write(cBrowser.baseUrl() + psUrl);
-		else
-			cDebug.write(psUrl);
-		oFailer = new cHttpFailer;
-		oFailer.url = psUrl;
-		$.getJSON(psUrl, pfnCallBack).fail(oFailer.fail);
-	},
-	
-	//***************************************************************
-	post:function(psUrl, poData, pfnCallBack){
-		if (psUrl.search("http:") == -1)
-			cDebug.write(cBrowser.baseUrl() + psUrl);
-		else
-			cDebug.write(psUrl);
-		oFailer = new cHttpFailer;
-		oFailer.url = psUrl;
-		
-		//- - - - - callback to json_decode_result
-		var fnInternalCallback = function(poData){
-			cDebug.write("chttp post got callback");
-			pfnCallBack(poData);
-		}
-		
-		//- - - - - make the call
-		$.post(psUrl, poData, fnInternalCallback).fail(oFailer.fail);
-	}
-}
 
 //###############################################################
 //# STRINGS

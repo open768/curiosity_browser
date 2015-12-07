@@ -10,5 +10,6 @@
 <script type="text/javascript" src="js/bean/bean.js"></script>
 <script type="text/javascript" src="js/inc/secret.js"></script>
 <script type="text/javascript" src="js/inc/common.js"></script>
+<script type="text/javascript" src="js/inc/http.js"></script>
 <script type="text/javascript" src="js/inc/auth.js"></script>
 <script type="text/javascript" src="js/inc/facebook.js"></script>
