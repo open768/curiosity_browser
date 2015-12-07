@@ -43,6 +43,7 @@ var reload_after_instr = false;
 var reset_image_number = true;
 var sAllInstruments = "All";
 var sCheckThumbs = "chkThumbs";
+var oQueue = new cActionQueue();
 
 //###############################################################
 //* JQUERY
@@ -588,12 +589,12 @@ function load_sols_callback(paJS){
 
 //***************************************************************
 function load_thumbs_callback(poJS){
-	var oDiv, i, oItem, aData, sURL, sID;
+	var oDiv, i, sInstr, oItem, aData, sURL, sQUrl, sID;
 	
 	set_status("loading thumbnails");
 
-	cImgQueue.clear();
-	bean.off(cImgQueue);
+	oQueue.clear();
+	bean.off(oQueue);
 	
 	$("#nav1").hide();
 	$("#nav2").hide();
@@ -607,24 +608,26 @@ function load_thumbs_callback(poJS){
 		var sTarget = ( SINGLE_WINDOW ? "" : "detail");
 		for (i=0; i< aData.length; i++){
 			oItem = aData[i];
+			sInstr = oItem.data.instrument;
 			
 			oImg = $("<IMG>").attr({title:oItem.p,border:0,height:THUMB_SIZE,src:oItem.i,class:"polaroid-frame"});
 			oImg.css("border-color","aliceblue"); 
 			
 			//TODO show a placeholder image in a different SPAN that is hidden when proper image loads
 			
-			sURL = "detail.php?s=" + poJS.s + "&i=" + oItem.data.instrument +"&p=" +oItem.p;
+			sURL = "detail.php?s=" + poJS.s + "&i=" + sInstr +"&p=" +oItem.p;
 			oA = $("<A>").attr({href:sURL,target:sTarget,id:oItem.p}).append(oImg);
 			oDiv.append(oA);
 			
 			// add to the image thumbnail queue
-			cImgQueue.add(poJS.s,oItem.data.instrument,oItem.p);
+			sQUrl = "php/rest/solthumb.php?s=" + poJS.s + "&i=" + sInstr + "&p=" + oItem.p;
+			oQueue.add(poJS.s,sInstr,oItem.p, sQUrl);
 		}
 		
 		//start the image thumbnail queue
-		bean.on(cImgQueue, "thumbnail", imgq_thumbnail_callback);
-		bean.on(cImgQueue, "starting", imgq_starting_callback);
-		cImgQueue.start();
+		bean.on(oQueue, "response", imgq_thumbnail_callback);
+		bean.on(oQueue, "starting", imgq_starting_callback);
+		oQueue.start();
 	}
 	
 	set_status("done thumbnails");

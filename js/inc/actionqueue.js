@@ -1,66 +1,65 @@
 
 //###############################################################
-// CImgQueue
-// A simple generic class to manage the batch processing of images. 
-//The specific processing is handled in the "thumbnail" event
+// CActionQueue
+// A simple generic class to manage the batch processing of stuff
 //###############################################################
-var MAX_IMGQ_TRANSFERS=10;
 
-var cImgQueue = {
-	aBacklog:[],
-	aTransfers:new cQueue(),
-	bStopping:false,
+function cActionQueue(){
+	this.aBacklog=[];
+	this.aTransfers = new cQueue();
+	this.bStopping=false;
+	this.MAX_IMGQ_TRANSFERS=10;
 	
 	//***************************************************************
-	clear:function(){
+	this.clear = function(){
 		cDebug.write("clearing image queue");
 		this.aBacklog = [];
 		this.bStopping = false;
-	},
+	};
 	
 	//***************************************************************
-	stop: function(){
+	this.stop = function(){
 		this.bStopping = true;
-	},
+	};
 	
 	//***************************************************************
-	add:function(psSol, psInstr, psProduct){
-		this.aBacklog.push({s:psSol,i:psInstr,p:psProduct});
-	},
+	this.add = function(psSol, psInstr, psProduct, psActionUrl){
+		this.aBacklog.push({s:psSol,i:psInstr,p:psProduct, u:psActionUrl});
+	};
 
 	//***************************************************************
-	start:function(){
+	this.start = function(){
 		var oItem, iLen;
+		var oParent = this;
+		
+		function pfnCallback(poJson){
+			cDebug.write("actionqueue callback " + poJson.p);
+			oParent.process_response(poJson);
+		}
 		
 		if (this.bStopping) exit();
 				
-		if (this.aTransfers.length() >= MAX_IMGQ_TRANSFERS)
+		if (this.aTransfers.length() >= this.MAX_IMGQ_TRANSFERS)
 			cDebug.write("too many items being transferred");
 		else if (this.aBacklog.length == 0)
 			cDebug.write("no items in queue");
 		else{
 			oItem = this.aBacklog.pop();
 			this.aTransfers.push(oItem.p,null);
-			cDebug.write("getting thumbnail for "+oItem.p);
+			cDebug.write("performing action for "+oItem.p);
 			bean.fire(this,"starting", oItem.p);
-			sUrl = "php/rest/solthumb.php?s=" + oItem.s + "&i=" + oItem.i + "&p=" + oItem.p;
-			cHttp.fetch_json(sUrl, cImgQueue_callback);
+			cHttp.fetch_json(oItem.u, pfnCallback);
 			this.start();
 		}
-	},
+	};
 	
 	//***************************************************************
-	process_response:function(poJson){
+	this.process_response = function(poJson){
 		if (this.bStopping) exit();
 		cDebug.write("processing response");
 		this.aTransfers.remove(poJson.p);
-		bean.fire(this,"thumbnail", poJson);
+		bean.fire(this,"response", poJson);
 		this.start();
-	}
-}
-
-function cImgQueue_callback(poJson){
-	cDebug.write("in imgqueue callback " + poJson.p);
-	cImgQueue.process_response(poJson);
+	};
 }
 
