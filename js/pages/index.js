@@ -613,13 +613,30 @@ function load_sols_callback(paJS){
 
 //***************************************************************
 function load_thumbs_callback(poJS){
-	var oDiv, i, sInstr, oItem, aData, sURL, sQUrl, sID;
+	var oDiv, i, aData, sURL;
 	
-	set_status("loading thumbnails");
-
+	// set up the processing queue for better thumbnails
 	oQueue= new cActionQueue();
 	bean.off(oQueue);
+	bean.on(oQueue, "response", imgq_thumbnail_callback);
+	bean.on(oQueue, "starting", imgq_starting_callback);
 	
+	// closure function to start fetching better thumbnails
+	function onThumbLoad(){
+		var sQUrl, sSol, sInstr, sProd;
+		var oImg = $(this);
+		
+		sSol = oImg.attr("sol");
+		sInstr = oImg.attr("instr");
+		sProd = oImg.attr("prod");
+		
+		sQUrl = "php/rest/solthumb.php?s=" + sSol + "&i=" + sInstr + "&p=" + sProd;
+		oQueue.add(sSol, sInstr, sProd, sQUrl);
+		oQueue.start();
+	}
+	
+	// ok load the thumbnails
+	set_status("loading thumbnails");
 	$("#nav1").hide();
 	$("#nav2").hide();
 	oDiv = $("#"+ IMAGE_CONTAINER_ID);
@@ -631,30 +648,21 @@ function load_thumbs_callback(poJS){
 	else{
 		var sTarget = ( SINGLE_WINDOW ? "" : "detail");
 		for (i=0; i< aData.length; i++){
+			var sProduct, oItem, sInstr;
+			
 			oItem = aData[i];
 			sInstr = oItem.data.instrument;
-			
-			oImg = $("<IMG>").attr({title:oItem.p,border:0,height:THUMB_SIZE,src:oItem.i,class:"polaroid-frame"});
+			sProduct = oItem.p;
+
+			oImg = $("<IMG>").attr({title:oItem.p,border:0,height:THUMB_SIZE,src:oItem.i,class:"polaroid-frame",sol:poJS.s,instr:sInstr,prod:sProduct});
 			oImg.css("border-color","aliceblue"); 
+			oImg.load( onThumbLoad );
 			
-			//TODO show a placeholder image in a different SPAN that is hidden when proper image loads
-			
-			sURL = "detail.php?s=" + poJS.s + "&i=" + sInstr +"&p=" +oItem.p;
-			oA = $("<A>").attr({href:sURL,target:sTarget,id:oItem.p}).append(oImg);
+			sURL = "detail.php?s=" + poJS.s + "&i=" + sInstr +"&p=" +sProduct;
+			oA = $("<A>").attr({href:sURL,target:sTarget,id:sProduct}).append(oImg);
 			oDiv.append(oA);
-			
-			// add to the image thumbnail queue
-			sQUrl = "php/rest/solthumb.php?s=" + poJS.s + "&i=" + sInstr + "&p=" + oItem.p;
-			oQueue.add(poJS.s,sInstr,oItem.p, sQUrl);
 		}
-		
-		//start the image thumbnail queue
-		bean.on(oQueue, "response", imgq_thumbnail_callback);
-		bean.on(oQueue, "starting", imgq_starting_callback);
-		oQueue.start();
 	}
-	
-	set_status("done thumbnails");
 }
 
 //***************************************************************
@@ -840,12 +848,13 @@ function imgq_starting_callback(psProduct){
 function imgq_thumbnail_callback(poJS){
 	var oParent, oImg;
 
-	cDebug.write("callback " + poJS.p);
 	oParent = $("#" + poJS.p);		//an A tag, not a span
 	if (!poJS.u) poJS.u = MISSING_THUMBNAIL_IMAGE;
 
 	oImg = $("<IMG>").attr({title:poJS.p,src:poJS.u,class:"polaroid-frame"});
 	oImg.css("border-color","white"); 
+	
+	// *BUG* images temporarily show as white placeholders when they are switched over
 	oParent.empty().append(oImg);
 	oImg.hide();
 	oImg.show();
