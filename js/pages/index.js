@@ -631,7 +631,7 @@ function load_thumbs_callback(poJS){
 		sProd = oImg.attr("prod");
 		
 		sQUrl = "php/rest/solthumb.php?s=" + sSol + "&i=" + sInstr + "&p=" + sProd;
-		oQueue.add(sSol, sInstr, sProd, sQUrl);
+		oQueue.add(sProd, sQUrl);
 		oQueue.start();
 	}
 	

@@ -22,6 +22,8 @@ function cHttpFailer(){
 	}
 }
 
+//###############################################################
+//###############################################################
 var cHttp = {
 	//TODO make this OO not a singleton
 	
@@ -46,13 +48,39 @@ var cHttp = {
 		oFailer = new cHttpFailer;
 		oFailer.url = psUrl;
 		
-		//- - - - - callback to json_decode_result
-		var fnInternalCallback = function(poData){
-			cDebug.write("chttp post got callback");
-			pfnCallBack(poData);
+		//- - - - - make the call
+		$.post(psUrl, poData, pfnCallBack).fail(oFailer.fail);
+	}
+}
+
+//###############################################################
+//###############################################################
+function cHttp2(){
+	this.url = null;
+	this.data = null;
+	this.json = null;
+		
+	//**************************************************************
+	this.fetch_json = function(psUrl, poData){
+		var oParent = this;
+		
+		function  prfn__httpCallback(poJson){
+			oParent.json = poJson;
+			bean.fire(oParent,"result", oParent); //notify subscriber 
 		}
 		
-		//- - - - - make the call
-		$.post(psUrl, poData, fnInternalCallback).fail(oFailer.fail);
-	}
+		this.url = psUrl;
+		this.data = poData;
+		cHttp.fetch_json(psUrl, prfn__httpCallback);
+	};
+	
+	//**************************************************************
+	this.post = function(psUrl, poData){
+		var oParent = this;
+		function  prfn__httpCallback(poResponse){
+			bean.fire(oParent,"result", {u:oParent.url, d:poResponse}); //notify subscriber 
+		}
+		this.url = psUrl;
+		cHttp.post(psUrl, prfn__httpCallback);
+	};
 }

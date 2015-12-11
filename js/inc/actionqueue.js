@@ -8,7 +8,7 @@ function cActionQueue(){
 	this.aBacklog=[];
 	this.aTransfers = new cQueue();
 	this.bStopping=false;
-	this.MAX_IMGQ_TRANSFERS=10;
+	this.MAX_TRANSFERS=10;
 	
 	//***************************************************************
 	this.clear = function(){
@@ -24,44 +24,45 @@ function cActionQueue(){
 	};
 	
 	//***************************************************************
-	this.add = function(psSol, psInstr, psProduct, psActionUrl){
-		this.aBacklog.push({s:psSol,i:psInstr,p:psProduct, u:psActionUrl});
+	this.add = function(psName, psActionUrl){
+		this.aBacklog.push({n:psName, u:psActionUrl});
 	};
 
 	//***************************************************************
 	this.start = function(){
-		var oItem, iLen;
+		var oItem, iLen, oHttp;
 		var oParent = this;
 		
-		if (this.bStopping) exit();
+		if (this.bStopping) return;
 
 		//-------------- set up the closure
-		function pfnHttpCallback(poJson){
-			cDebug.write("actionqueue callback " + poJson.p);
-			oParent.process_response(poJson);
+		function pfnHttpCallback(poHttp){
+			if (oParent.bStopping) return;
+			oParent.process_response(poHttp);
 		}
 				
 		//------------ queue logic
-		if (this.aTransfers.length() >= this.MAX_IMGQ_TRANSFERS)
-			cDebug.write("too many items being transferred");
-		else if (this.aBacklog.length == 0)
-			cDebug.write("no items in queue");
-		else{
-			oItem = this.aBacklog.pop();
-			this.aTransfers.push(oItem.p,null);
-			cDebug.write("performing action for "+oItem.p);
-			bean.fire(this,"starting", oItem.p);
-			cHttp.fetch_json(oItem.u, pfnHttpCallback); 
-			this.start();
+		if (this.aTransfers.length() >= this.MAX_TRANSFERS)
+			cDebug.write("Queue full ...");
+		else if (this.aBacklog.length > 0){
+			oItem = this.aBacklog.pop(); //Take item off backlog
+			this.aTransfers.push(oItem.n,null); //put onto transfer list
+			
+			bean.fire(this,"starting", oItem.n); //notify subscriber 
+			
+			oHttp = new cHttp2();
+			bean.on(oHttp, "result", pfnHttpCallback);
+			oHttp.fetch_json(oItem.u, oItem.n ); //start transfer
+			
+			this.start();			//continue the processing of the queue
 		}
 	};
 	
 	//***************************************************************
-	this.process_response = function(poJson){
+	this.process_response = function(poHttp){
 		if (this.bStopping) exit();
-		cDebug.write("processing response");
-		this.aTransfers.remove(poJson.p);
-		bean.fire(this,"response", poJson);
+		this.aTransfers.remove(poHttp.data);
+		bean.fire(this,"response", poHttp.json);
 		this.start();
 	};
 }
