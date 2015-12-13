@@ -39,10 +39,10 @@ var THUMB_FINAL_COLOR="white";
 var MISSING_THUMBNAIL_IMAGE = "images/missing.jpg";
 
 var HOW_MANY_IMAGES = 5;
-var current_image_index = 0;
+var gi_current_img_idx = 0;
 var current_sol = null;
 var current_instrument = null;
-var max_images = -1;
+var gi_max_images = -1;
 var reload_after_instr = false;
 var reset_image_number = true;
 var sAllInstruments = "All";
@@ -95,7 +95,7 @@ function onLoadJQuery_INDEX(){
 	if (cBrowser.data[MAXIMAGES_QUERYSTRING] )
 		HOW_MANY_IMAGES = parseInt(cBrowser.data[MAXIMAGES_QUERYSTRING]);
 	if (cBrowser.data[IMAGE_QUERYSTRING] ){
-		current_image_index = parseInt(cBrowser.data[IMAGE_QUERYSTRING]);
+		gi_current_img_idx = parseInt(cBrowser.data[IMAGE_QUERYSTRING]);
 		reset_image_number = false;
 	}
 		
@@ -207,8 +207,8 @@ function onClickNextImage(){
 	
 	stop_queue();
 	if (!OKToReload()) return;
-	iNext = current_image_index + HOW_MANY_IMAGES;
-	if (iNext > max_images) 
+	iNext = gi_current_img_idx + HOW_MANY_IMAGES;
+	if (iNext > gi_max_images) 
 		onClickNextSol();
 	else
 	//go ahead and get the data 
@@ -221,10 +221,10 @@ function onClickPreviousImage(){
 	
 	stop_queue();
 	if (!OKToReload()) return;
-	iPrevious = current_image_index - HOW_MANY_IMAGES;
+	iPrevious = gi_current_img_idx - HOW_MANY_IMAGES;
 	
 	if (iPrevious <= 0 ) {
-		if (current_image_index >1)
+		if (gi_current_img_idx >1)
 			iPrevious =1;
 		else
 			onClickPreviousSol();
@@ -463,7 +463,7 @@ function reload_data(){
 		if (reset_image_number)
 			get_image_data(current_sol, current_instrument,1,HOW_MANY_IMAGES);
 		else
-			get_image_data(current_sol, current_instrument,current_image_index,current_image_index+HOW_MANY_IMAGES-1);		
+			get_image_data(current_sol, current_instrument,gi_current_img_idx,gi_current_img_idx+HOW_MANY_IMAGES-1);		
 	}
 }
 
@@ -474,7 +474,7 @@ function get_sol_thumbs(psSol, psInstrument){
 	var sUrl;
 	
 	sUrl = "php/rest/solthumbs.php?s=" + psSol + "&i=" + psInstrument;
-	cHttp.fetch_json(sUrl, load_thumbs_callback);
+	cHttp.fetch_json(sUrl, load_basicthumbs_callback);
 }
 
 //***************************************************************
@@ -544,6 +544,7 @@ function gigapans_callback(paJS){
 	$("#solgiga").removeAttr('disabled');
 }
 
+//***************************************************************
 function solhighcount_callback(piJS){
 	//RETURNS ALL THE TAGS
 	if (piJS > 0)
@@ -582,7 +583,7 @@ function tagnames_callback(poJs){
 
 //***************************************************************
 function load_sols_callback(paJS){
-	var iIndex, oSol, oList, oSumList, oOption, iSol, iLastRange, iRange, iDivision, iDivision2;
+	var i, oSol, oList, oSumList, oOption, iSol, iLastRange, iRange ;
 
 	cDebug.write("got sols callback");
 	
@@ -594,8 +595,8 @@ function load_sols_callback(paJS){
 	iLastRange = -1;
 	
 	
-	for (iIndex = 0; iIndex < paJS.length; iIndex++){
-		oSol = paJS[iIndex];
+	for (i = 0; i < paJS.length; i++){
+		oSol = paJS[i];
 		iSol = parseInt(oSol.sol);
 		iRange = Math.floor(iSol/SOL_DIVISIONS);
 		
@@ -622,17 +623,17 @@ function load_sols_callback(paJS){
 }
 
 //***************************************************************
-function load_thumbs_callback(poJS){
+function load_basicthumbs_callback(poJS){
 	var oDiv, i, aData, sURL;
 	
 	// set up the processing queue for better thumbnails
 	goQueue= new cActionQueue();
 	bean.off(goQueue);
-	bean.on(goQueue, "response", imgq_thumbnail_callback);
-	bean.on(goQueue, "starting", imgq_starting_callback);
+	bean.on(goQueue, "response", actq_thumbnail_callback);
+	bean.on(goQueue, "starting", actq_starting_callback);
 	
 	// closure function to start fetching better thumbnails
-	function onThumbLoad(){
+	function onBasicThumbLoaded(){
 		var sQUrl, sSol, sInstr, sProd;
 		var oImg = $(this);
 		
@@ -665,7 +666,7 @@ function load_thumbs_callback(poJS){
 
 			oImg = $("<IMG>").attr({title:oItem.p,border:0,height:THUMB_SIZE,src:oItem.i,class:"polaroid-frame",sol:poJS.s,instr:sInstr,prod:sProduct});
 			oImg.css("border-color",THUMB_ORIG_COLOR); 
-			oImg.load( onThumbLoad );
+			oImg.load( onBasicThumbLoaded );
 			
 			oA = $("<A>").attr({id:sProduct,sol:poJS.s, instr:sInstr});
 			oA.click(onThumbClick);
@@ -677,7 +678,7 @@ function load_thumbs_callback(poJS){
 
 //***************************************************************
 function load_instruments_callback(paJS){
-	var iIndex, oInstr, oList, sID;
+	var i, oInstr, oList, sID;
 	
 	$("#instr_load").hide();
 	oList = $("#"+INSTRUMENT_LIST);
@@ -685,8 +686,8 @@ function load_instruments_callback(paJS){
 	
 	oList.append( $("<option>").attr({value:"",disabled:"disabled"}).html("Select an Instrument..."));
 	
-	for (iIndex = 0; iIndex < paJS.length; iIndex++){
-		oInstr = paJS[iIndex];
+	for (i = 0; i < paJS.length; i++){
+		oInstr = paJS[i];
 		sID= INSTRUMENT_LIST + oInstr.name;
 		oList.append( $("<option>").attr({value:oInstr.name,disabled:"disabled",ID:sID}).html(oInstr.caption));
 	}
@@ -701,12 +702,12 @@ function load_instruments_callback(paJS){
 
 //***************************************************************
 function load_fullimages_callback(paJS){
-	var oDiv, sHTML, iIndex, oItem;
+	var oDiv, iIndex, oItem, oOuterDiv;
 	
-	max_images = 0;
+	gi_max_images = 0;
 	
 	if (reset_image_number)
-		current_image_index = -1;
+		gi_current_img_idx = -1;
 	
 	//clear out the image div
 	$("#"+IMAGE_CONTAINER_ID).empty();
@@ -722,16 +723,15 @@ function load_fullimages_callback(paJS){
 		document.title = "Index - s:" + current_sol + " i:" + current_instrument + "(curiosity browser)";
 		
 		// update the maximum display
-		max_images = parseInt(paJS.max);
-		$("#"+MAX_ID).html(max_images);
-		$("#"+MAX_ID2).html(max_images);
+		gi_max_images = parseInt(paJS.max);
+		$("#"+MAX_ID).html(gi_max_images);
+		$("#"+MAX_ID2).html(gi_max_images);
 		
-		current_image_index = parseInt(paJS.start);
-		$("#"+CURRENT_ID).html(current_image_index);
-		$("#"+CURRENT_ID2).html(current_image_index);
+		gi_current_img_idx = parseInt(paJS.start);
+		$("#"+CURRENT_ID).html(gi_current_img_idx);
+		$("#"+CURRENT_ID2).html(gi_current_img_idx);
 		
-		sHTML = "";
-		var oOuterDiv = $("#"+IMAGE_CONTAINER_ID);
+		oOuterDiv = $("#"+IMAGE_CONTAINER_ID);
 		for (iIndex = 0; iIndex < paJS.images.length; iIndex++){
 			var oDiv, oImgDiv, oA, oImg;
 			
@@ -754,11 +754,12 @@ function load_fullimages_callback(paJS){
 			
 			//add the lot to the new div
 			oDiv.append(oImgDiv);
-			oDiv.append($("<SPAN>").attr({class:"subtitle"}).html("Date:"));
-			oDiv.append(" " +oItem.du +" ");
-			oDiv.append($("<SPAN>").attr({class:"subtitle"}).html("Product:"));
-			oDiv.append(" " +oItem.p );
-			oDiv.append(" <span class='subtitle'>Tags:</span><span id='T"+oItem.p+"' class='soltags'>Loading ...</span>");
+			oDiv.append($("<SPAN>").attr({class:"subtitle"}).html("Date: "));
+			oDiv.append(oItem.du);
+			oDiv.append($("<SPAN>").attr({class:"subtitle"}).html(" Product: "));
+			oDiv.append(oItem.p );
+			oDiv.append($("<SPAN>").attr({class:"subtitle"}).html(" Tags: "));
+			oDiv.append($("<SPAN>").attr({class:"soltags",id:"T"+oItem.p}).html("Loading ..."));
 			oDiv.append("<HR>");
 			
 			//add new div to uber div
@@ -781,7 +782,7 @@ function load_fullimages_callback(paJS){
 
 // ***************************************************************
 function tag_callback(paJS){
-	var oDiv, sHTML, sTag, i;
+	var oDiv, oA, sTag, i;
 	
 	oDiv = $("#T" + paJS.p);
 	oDiv.empty();
@@ -792,27 +793,25 @@ function tag_callback(paJS){
 	}
 
 	//put in the tags
-	sHTML = "";
 	for (i=0; i<paJS.d.length; i++){
 		sTag = paJS.d[i];
-		sHTML += "<a href='tag.php?t=" + sTag + "'>#" + sTag + "</a> ";
+		oA = $("<A>").attr({href:"tag.php?t=" + sTag}).html(sTag);
+		oDiv.append(oA).append(" ");
 	}
-	oDiv.html( sHTML);
-	
 }
 
 // ***************************************************************
 function get_sol_instruments_callback(paJS){
-	var instr_idx, sInstr, oSelect;
+	var i, sInstr, oSelect;
 
 	set_status("got instruments");
 	$("#instr_load").hide();
 	oSelect = $("#" + INSTRUMENT_LIST);
 	
 	//mark the instruments remaining
-	for ( instr_idx = 0; instr_idx<paJS.length; instr_idx++){
+	for ( i = 0; i<paJS.length; i++){
 		
-		sInstr = paJS[instr_idx];
+		sInstr = paJS[i];
 		oSelect.find('option[value=\"'+ sInstr + '\"]').removeAttr('disabled');
 	}
 	
@@ -822,7 +821,7 @@ function get_sol_instruments_callback(paJS){
 
 // ***************************************************************
 function highlight_callback(paJS){
-	var i, oDiv, oImg, oRedBox, iLeft, iTop, iPos;
+	var i, oDiv, oRedBox, iLeft, iTop;
 	
 	if (!paJS.d) return;
 	oDiv = $("#"+paJS.p);
@@ -842,7 +841,7 @@ function highlight_callback(paJS){
 }
 
 // ***************************************************************
-function imgq_starting_callback(psProduct){
+function actq_starting_callback(psProduct){
 	var oParent, oImg;
 	oParent = $("#" + psProduct);		//an A tag, not a span
 	oImg = oParent.children().first();
@@ -850,7 +849,7 @@ function imgq_starting_callback(psProduct){
 }
 
 // ***************************************************************
-function imgq_thumbnail_callback(poJS){
+function actq_thumbnail_callback(poJS){
 	var oParent, oImg;
 
 	oParent = $("#" + poJS.p);		//an A tag, not a span
