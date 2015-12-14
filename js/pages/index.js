@@ -29,6 +29,9 @@ var MAXIMAGES_QUERYSTRING = "m";
 var IMAGE_QUERYSTRING = "b";
 var SOL_DIVISIONS=50;
 var THUMB_SIZE=144;
+var SOL_ATTR = "sa";
+var INSTRUMENT_ATTR = "ia";
+var PRODUCT_ATTR = "pa";
 
 var RADIO_BACK_COLOUR = "gold";
 var BODY_COLOUR = "LemonChiffon";
@@ -307,7 +310,7 @@ function onClickRefresh(){
 function onThumbClick(){
 	goQueue.stop();
 	oA = $(this);
-	sURL = "detail.php?s=" + oA.attr("sol") + "&i=" + oA.attr("instr") +"&p=" + oA.attr("id");
+	sURL = "detail.php?s=" + oA.data(SOL_ATTR) + "&i=" + oA.data(INSTRUMENT_ATTR) +"&p=" + oA.data(PRODUCT_ATTR);
 	cBrowser.openWindow(sURL, "detail");
 }
 
@@ -623,28 +626,29 @@ function load_sols_callback(paJS){
 }
 
 //***************************************************************
+function onBasicThumbLoaded(){
+	var sQUrl, sSol, sInstr, sProd;
+	var oImg = $(this);
+	oImg.off("load"); //remove the load event so it doesnt fire again
+	
+	sSol = oImg.data(SOL_ATTR);
+	sInstr = oImg.data(INSTRUMENT_ATTR);
+	sProd = oImg.data(PRODUCT_ATTR);
+	
+	sQUrl = "php/rest/solthumb.php?s=" + sSol + "&i=" + sInstr + "&p=" + sProd;
+	goQueue.add(sProd, sQUrl);
+	goQueue.start();
+}
+	
+//***************************************************************
 function load_basicthumbs_callback(poJS){
-	var oDiv, i, aData, sURL;
+	var oDiv, i, aData, sURL, oItem;
 	
 	// set up the processing queue for better thumbnails
 	goQueue= new cActionQueue();
 	bean.off(goQueue);
 	bean.on(goQueue, "response", actq_thumbnail_callback);
 	bean.on(goQueue, "starting", actq_starting_callback);
-	
-	// closure function to start fetching better thumbnails
-	function onBasicThumbLoaded(){
-		var sQUrl, sSol, sInstr, sProd;
-		var oImg = $(this);
-		
-		sSol = oImg.attr("sol");
-		sInstr = oImg.attr("instr");
-		sProd = oImg.attr("prod");
-		
-		sQUrl = "php/rest/solthumb.php?s=" + sSol + "&i=" + sInstr + "&p=" + sProd;
-		goQueue.add(sProd, sQUrl);
-		goQueue.start();
-	}
 	
 	// ok load the thumbnails
 	set_status("loading thumbnails");
@@ -658,20 +662,19 @@ function load_basicthumbs_callback(poJS){
 		oDiv.append("<p class='subtitle'>Sorry no thumbnails found</p>");
 	else{
 		for (i=0; i< aData.length; i++){
-			var sProduct, oItem, sInstr;
 			
 			oItem = aData[i];
-			sInstr = oItem.data.instrument;
-			sProduct = oItem.p;
 
-			oImg = $("<IMG>").attr({title:oItem.p,border:0,height:THUMB_SIZE,src:oItem.i,class:"polaroid-frame",sol:poJS.s,instr:sInstr,prod:sProduct});
+
+			oImg = $("<IMG>").attr({title:oItem.p,border:0,height:THUMB_SIZE,src:oItem.i,class:"polaroid-frame",id:oItem.p});
 			oImg.css("border-color",THUMB_ORIG_COLOR); 
+			oImg.data(SOL_ATTR,poJS.s);
+			oImg.data(INSTRUMENT_ATTR,oItem.data.instrument);
+			oImg.data(PRODUCT_ATTR,oItem.p);
 			oImg.load( onBasicThumbLoaded );
+			oImg.click(onThumbClick);
 			
-			oA = $("<A>").attr({id:sProduct,sol:poJS.s, instr:sInstr});
-			oA.click(onThumbClick);
-			oA.append(oImg);
-			oDiv.append(oA);
+			oDiv.append(oImg);
 		}
 	}
 }
@@ -698,6 +701,21 @@ function load_instruments_callback(paJS){
 	if (cBrowser.data[INSTR_QUERYSTRING] ) 
 		set_instrument(cBrowser.data[INSTR_QUERYSTRING]);
 
+}
+
+//***************************************************************
+function on_loaded_fullimage(){
+	
+	//get the image and tag highlights
+	var oImg = $(this);
+	
+	var sSol = oImg.data(SOL_ATTR);
+	var sInstr = oImg.data(INSTRUMENT_ATTR);
+	var sProd = oImg.data(PRODUCT_ATTR);
+	
+	
+	cImgHilite.getHighlights(sSol,sInstr,sProd, highlight_callback);
+	cTagging.getTags(sSol,sInstr,sProd, tag_callback);
 }
 
 //***************************************************************
@@ -747,7 +765,11 @@ function load_fullimages_callback(paJS){
 			oImgDiv.css({position: 'relative'});
 
 			oA= $("<A>").attr({href:sImgURL});
-			oImg = $("<IMG>").attr({src:oItem.i}); 
+			oImg = $("<IMG>").attr({src:oItem.i});
+			oImg.data(SOL_ATTR,current_sol);
+			oImg.data(INSTRUMENT_ATTR,current_instrument);
+			oImg.data(PRODUCT_ATTR,oItem.p); 
+			oImg.load( on_loaded_fullimage);
 			
 			oA.append(oImg);
 			oImgDiv.append(oA);	
@@ -765,9 +787,6 @@ function load_fullimages_callback(paJS){
 			//add new div to uber div
 			oOuterDiv.append(oDiv);
 			
-			//get the image and tag highlights
-			cImgHilite.getHighlights(current_sol,current_instrument,oItem.p, highlight_callback);
-			cTagging.getTags(current_sol,current_instrument,oItem.p, tag_callback);
 			
 			//unhide the navigation controls
 			$("#nav1").show();
@@ -842,24 +861,19 @@ function highlight_callback(paJS){
 
 // ***************************************************************
 function actq_starting_callback(psProduct){
-	var oParent, oImg;
-	oParent = $("#" + psProduct);		//an A tag, not a span
-	oImg = oParent.children().first();
+	var oImg;
+	oImg = $("#" + psProduct);
 	oImg.css("border-color",THUMB_WORKING_COLOR); 
 }
 
 // ***************************************************************
 function actq_thumbnail_callback(poJS){
-	var oParent, oImg;
+	var oImg;
 
-	oParent = $("#" + poJS.p);		//an A tag, not a span
 	if (!poJS.u) poJS.u = MISSING_THUMBNAIL_IMAGE;
-
-	oImg = $("<IMG>").attr({title:poJS.p,src:poJS.u,class:"polaroid-frame"});
-	oImg.css("border-color",THUMB_FINAL_COLOR); 
 	
-	// *BUG* images temporarily show as white placeholders when they are switched over
-	oParent.empty().append(oImg);
-	oImg.hide();
-	oImg.show();
+	oImg = $("#" + poJS.p);	
+
+	oImg.attr("src",poJS.u);
+	oImg.css("border-color",THUMB_FINAL_COLOR); 
 }
