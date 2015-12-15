@@ -12,6 +12,10 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 
 var DEBUG_ON = true;
+var SOL_ATTR = "sa";
+var INSTRUMENT_ATTR = "ia";
+var PRODUCT_ATTR = "pa";
+
 //###############################################################
 //# Utility functions 
 //###############################################################
@@ -26,53 +30,64 @@ function onLoadJQuery_TAG()
 
 //***************************************************************
 function get_product_data( psSol, psInstr, psProd){
-	var sURL;
+	var sURL, oHttp;
 	
 	loading = true;
 	sURL = "php/rest/detail.php?s=" + psSol + "&i=" + psInstr +"&p=" + psProd;
 	set_status("fetching data for "+ psProd);
-	cHttp.fetch_json(sURL, load_product_callback);
+
+	oHttp = new cHttp2();
+	bean.on(oHttp,"result",onGetProductResult);
+	oHttp.fetch_json(sURL, null);
+
 }
 
 //###############################################################
 //* call backs 
 //###############################################################
-function load_product_callback(poJS){
-	var oData, sUrl, oDiv, oImg, oImgDiv, oA, sId;
+function onImageLoad(){
+	var oImg = $(this);
+	var sSol = oImg.data(SOL_ATTR);
+	var sInstr = oImg.data(INSTRUMENT_ATTR);
+	var sProd = oImg.data(PRODUCT_ATTR);
+
+	cImgHilite.getHighlights(sSol,sInstr,sProd, highlight_callback);
+}
+
+//***************************************************************
+function onGetProductResult(poHttp){
+	var oJson, oDiv, oImg;
+	var sProd, sSol, sInstr, sImgUrl, sID;
 	
-	oDiv = $("#"+poJS.p);
+	oJson = poHttp.json;
+	sID = oJson.p;
+	
+	//--- get the DIV ready
+	oDiv = $("#"+sID);
 	oDiv.empty();
-	
-	oData = poJS.d;
+	oData = poHttp.json.d;
 	if (oData == null){
 		oDiv.html("<span class=subtitle>no image found</span>");
 		return;
 	}
 	
-	//display details of the product
-	sUrl = "detail.php?s=" + poJS.s + "&i=" + poJS.i + "&p=" + poJS.p;
-	sId = "i" + poJS.p;
-	oImgDiv = $("<DIV>").attr({"id":sId});
-	oImgDiv.css({position: 'relative'});
-	if (SINGLE_WINDOW)
-		oA = $("<A>").attr({href:sUrl});
-	else
-		oA = $("<A>").attr({href:sUrl, target:"detail"});
+	//display Image
+	oImg = $("<IMG>").attr({"src": oJson.d.i});
+	oImg.data(SOL_ATTR,oJson.s);
+	oImg.data(INSTRUMENT_ATTR,oJson.i);
+	oImg.data(PRODUCT_ATTR,oJson.p);
+	oImg.load(onImageLoad);
 	
-	oImg = $("<IMG>").attr({"src": poJS.d.i});
-	oImg.on("load", function (){cImgHilite.getHighlights(poJS.s,poJS.i,poJS.p, highlight_callback);});
-	oA.append(oImg);
-	oImgDiv.append(oA);
-	oDiv.append(oImgDiv);
+	oDiv.append(oImg);
 }
 
 //***************************************************************
+// broken :-(
 function highlight_callback(paJS){
-	var i, sID, oDiv, oRedBox, iLeft, iTop, iPos, oParentLoc;
+	var i, oDiv, oRedBox, iLeft, iTop, iPos, oParentLoc;
 	
 	if (!paJS.d) return;
-	sID = "i" + paJS.p;
-	oDiv = $("#"+sID);
+	oDiv = $("#"+paJS.p);
 	
 	for (i=0; i<paJS.d.length; i++){
 		aItem = paJS.d[i];
@@ -96,7 +111,7 @@ function tagnames_callback(poJs){
 
 //***************************************************************
 function tagdetails_callback(paJs){
-	var i, sItem, aParts, sSol, sInstr, sProd, oList, oLi, sUrl;
+	var i, sItem, aParts, sSol, sInstr, sProd, oList, oLi, oDiv;
 	
 	set_status("got tag names");
 	
@@ -117,9 +132,11 @@ function tagdetails_callback(paJs){
 		sProd = aParts[2];
 		
 		
+		oDiv = $("<div>").attr({"id": sProd}).css({position: 'relative'});
+		
 		oLi = $("<LI>");
 		oLi.append(sSol + ", " + sInstr + ", " + sProd );
-		oLi.append($("<div>").attr({"id": sProd}).append("Loading image..."));
+		oLi.append(oDiv).append("Loading image...");
 		oList.append(oLi);
 
 		//load images async

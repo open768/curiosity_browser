@@ -307,12 +307,14 @@ function onClickRefresh(){
 	get_sol_instruments(current_sol,true);
 }
 
-function onThumbClick(){
-	goQueue.stop();
-	oA = $(this);
-	sURL = "detail.php?s=" + oA.data(SOL_ATTR) + "&i=" + oA.data(INSTRUMENT_ATTR) +"&p=" + oA.data(PRODUCT_ATTR);
+//***************************************************************
+function onImageClick(){
+	if (goQueue) goQueue.stop();
+	var oImg = $(this);
+	sURL = "detail.php?s=" + oImg.data(SOL_ATTR) + "&i=" + oImg.data(INSTRUMENT_ATTR) +"&p=" + oImg.data(PRODUCT_ATTR);
 	cBrowser.openWindow(sURL, "detail");
 }
+
 
 //###############################################################
 //# keypress functions 
@@ -672,7 +674,7 @@ function load_basicthumbs_callback(poJS){
 			oImg.data(INSTRUMENT_ATTR,oItem.data.instrument);
 			oImg.data(PRODUCT_ATTR,oItem.p);
 			oImg.load( onBasicThumbLoaded );
-			oImg.click(onThumbClick);
+			oImg.click(onImageClick);
 			
 			oDiv.append(oImg);
 		}
@@ -764,15 +766,14 @@ function load_fullimages_callback(paJS){
 			oImgDiv = $("<DIV>").attr({id:oItem.p});
 			oImgDiv.css({position: 'relative'});
 
-			oA= $("<A>").attr({href:sImgURL});
 			oImg = $("<IMG>").attr({src:oItem.i});
 			oImg.data(SOL_ATTR,current_sol);
 			oImg.data(INSTRUMENT_ATTR,current_instrument);
 			oImg.data(PRODUCT_ATTR,oItem.p); 
 			oImg.load( on_loaded_fullimage);
+			oImg.click(onImageClick);
 			
-			oA.append(oImg);
-			oImgDiv.append(oA);	
+			oImgDiv.append(oImg);	
 			
 			//add the lot to the new div
 			oDiv.append(oImgDiv);
