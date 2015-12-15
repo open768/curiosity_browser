@@ -11,9 +11,11 @@
 		include("php/fragments/header.php"); 
 	?>
 	<title>Tags: Curiosity Browser</title>
-	<script src="js/pages/tag.js"></script>
-	<script src="js/inc/tagging.js"></script>
-	<script src="js/inc/imghilite.js"></script>
+	<script type="text/javascript" src="js/pages/tag.js"></script>
+	<script type="text/javascript" src="js/inc/tagging.js"></script>
+	<script type="text/javascript" src="js/inc/imghilite.js"></script>
+	<script type="text/javascript" src="js/inc/queue.js"></script>
+	<script type="text/javascript" src="js/inc/actionqueue.js"></script>
 </head>
 <body onload="$(cJQueryObj.onBodyLoad);">
 	<?php 

@@ -25,6 +25,7 @@ function cActionQueue(){
 	
 	//***************************************************************
 	this.add = function(psName, psActionUrl){
+		if (this.bStopping) return;
 		this.aBacklog.push({n:psName, u:psActionUrl});
 	};
 

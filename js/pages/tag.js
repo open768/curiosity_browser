@@ -15,6 +15,8 @@ var DEBUG_ON = true;
 var SOL_ATTR = "sa";
 var INSTRUMENT_ATTR = "ia";
 var PRODUCT_ATTR = "pa";
+var goQueue = null;
+var MAX_TRANSFERS = 5;
 
 //###############################################################
 //# Utility functions 
@@ -23,6 +25,15 @@ bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_TAG);
 function onLoadJQuery_TAG()
 {
 	var sTag = cBrowser.data["t"];
+	
+	//restart the queue
+	if (goQueue) goQueue.stop();
+	goQueue= new cActionQueue();
+	goQueue.MAX_TRANSFERS = MAX_TRANSFERS; 
+	
+	bean.on(goQueue, "response", onQueueResponse);
+
+	//get the data for the page
 	$("#tagname").html(sTag);
 	cTagging.getTagDetails(sTag, tagdetails_callback);
 	cTagging.getTagNames(tagnames_callback);
@@ -30,59 +41,68 @@ function onLoadJQuery_TAG()
 
 //***************************************************************
 function get_product_data( psSol, psInstr, psProd){
-	var sURL, oHttp;
+	var sURL;
 	
 	loading = true;
 	sURL = "php/rest/detail.php?s=" + psSol + "&i=" + psInstr +"&p=" + psProd;
 	set_status("fetching data for "+ psProd);
-
-	oHttp = new cHttp2();
-	bean.on(oHttp,"result",onGetProductResult);
-	oHttp.fetch_json(sURL, null);
-
+	goQueue.add(psProd, sURL);
+	goQueue.start();
 }
 
 //###############################################################
 //* call backs 
 //###############################################################
-function onImageLoad(){
-	var oImg = $(this);
-	var sSol = oImg.data(SOL_ATTR);
-	var sInstr = oImg.data(INSTRUMENT_ATTR);
-	var sProd = oImg.data(PRODUCT_ATTR);
-
-	cImgHilite.getHighlights(sSol,sInstr,sProd, highlight_callback);
-}
-
-//***************************************************************
-function onGetProductResult(poHttp){
-	var oJson, oDiv, oImg;
+function onQueueResponse(poJson){
+	var  oDiv, oImg;
 	var sProd, sSol, sInstr, sImgUrl, sID;
 	
-	oJson = poHttp.json;
-	sID = oJson.p;
+	sID = poJson.p;
 	
 	//--- get the DIV ready
 	oDiv = $("#"+sID);
 	oDiv.empty();
-	oData = poHttp.json.d;
+	oData = poJson.d;
 	if (oData == null){
 		oDiv.html("<span class=subtitle>no image found</span>");
 		return;
 	}
 	
 	//display Image
-	oImg = $("<IMG>").attr({"src": oJson.d.i});
-	oImg.data(SOL_ATTR,oJson.s);
-	oImg.data(INSTRUMENT_ATTR,oJson.i);
-	oImg.data(PRODUCT_ATTR,oJson.p);
+	oImg = $("<IMG>").attr({"src": poJson.d.i});
+	oImg.data(SOL_ATTR,poJson.s);
+	oImg.data(INSTRUMENT_ATTR,poJson.i);
+	oImg.data(PRODUCT_ATTR,poJson.p);
 	oImg.load(onImageLoad);
 	
 	oDiv.append(oImg);
 }
 
 //***************************************************************
-// broken :-(
+function onImageLoad(){
+	var oImg = $(this);
+	var sSol = oImg.data(SOL_ATTR);
+	var sInstr = oImg.data(INSTRUMENT_ATTR);
+	var sProd = oImg.data(PRODUCT_ATTR);
+	oImg.click(onImageClick);
+
+	cImgHilite.getHighlights(sSol,sInstr,sProd, highlight_callback);
+}
+
+//***************************************************************
+function onImageClick(){
+	if (goQueue) goQueue.stop();
+	
+	var oImg = $(this);
+	var sSol = oImg.data(SOL_ATTR);
+	var sInstr = oImg.data(INSTRUMENT_ATTR);
+	var sProd = oImg.data(PRODUCT_ATTR);
+	
+	sUrl = "detail.php?s=" + sSol + "&i=" + sInstr + "&p=" + sProd;
+	cBrowser.openWindow(sUrl, "detail");
+}
+
+//***************************************************************
 function highlight_callback(paJS){
 	var i, oDiv, oRedBox, iLeft, iTop, iPos, oParentLoc;
 	
