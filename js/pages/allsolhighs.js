@@ -13,7 +13,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 var DEBUG_ON = true;
 var COLUMNS = 18;
-var oSolIndex = null;
+var goSolIndex = null;
 
 //###############################################################
 //# Utility functions 
@@ -21,39 +21,41 @@ var oSolIndex = null;
 bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_HIGHS);
 function onLoadJQuery_HIGHS(){
 	set_status("fetching Highlights");
-	cHttp.fetch_json("php/rest/img_highlight.php?&o=topsolindex", topsol_callback);
+	var oHttp = new cHttp2();
+	bean.on(oHttp, "result", onHighlightsResponse);
+	oHttp.fetch_json("php/rest/img_highlight.php?&o=topsolindex");
 }
 
 //###############################################################
 //* call backs 
 //###############################################################
-function topsol_callback(poJs){
-	oSolIndex = poJs;
-	if (oSolIndex==null)
+function onHighlightsResponse(poHttp){
+	goSolIndex = poHttp.json;
+	if (goSolIndex==null)
 		set_error_status("No Highlights found");
 	else{
 		set_status("fetching sols");
-		cHttp.fetch_json("php/rest/sols.php", sols_callback);
+		var oHttp = new cHttp2();
+		bean.on(oHttp, "result", onSolsResponse);
+		oHttp.fetch_json("php/rest/sols.php");
 	}
 }
 
-function sols_callback(paJS){
+function onSolsResponse(poHttp){
 	var sHTML, i, iCount, sSol;
+	var aData = poHttp.json;
 	
-	var sTarget = ( SINGLE_WINDOW ? "" : "target='solhigh'");
-	sHTML = "<form method='get' " + sTarget + " action='solhigh.php'><center><table cellpadding=5>";
+	sHTML = "<form method='get' action='solhigh.php'><center><table cellpadding=5>";
 	sHTML += "<input type=hidden name='sheet' value='1'>";
 	iCount =0;
-	for (i = 0; i < paJS.length; i++){
+	for (i = 0; i < aData.length; i++){
 		if (iCount == 0) sHTML += "<tr>";
-		sSol = paJS[i].sol.toString();
+		sSol = aData[i].sol.toString();
 		sHTML += "<TD align='middle'>"
-		if (oSolIndex[sSol])
+		if (goSolIndex[sSol])
 			sHTML += "<button name='s' value='"+sSol+"'>"+sSol+"</button>";
-		else{
-			var sTarget = ( SINGLE_WINDOW ? "" : "target='index'");
-			sHTML += "<a " + sTarget + " href='index.php?s=" + sSol+"'>"+sSol+"</a>";
-		}
+		else
+			sHTML += "<a href='index.php?s=" + sSol+"'>"+sSol+"</a>";
 		sHTML += "</TD>"
 			
 		iCount++;

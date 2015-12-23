@@ -13,7 +13,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 var DEBUG_ON = true;
 var COLUMNS = 12;
-var oSolIndex = null;
+var goSolIndex = null;
 
 //###############################################################
 //# Utility functions 
@@ -21,38 +21,41 @@ var oSolIndex = null;
 bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_GIGAS);
 function onLoadJQuery_GIGAS(){
 	set_status("fetching gigapans");
-	cHttp.fetch_json("php/rest/gigapans.php?&o=all", giga_callback);
+
+	var oHttp = new cHttp2();
+	bean.on(oHttp, "result", onHttpGigaResponse);
+	oHttp.fetch_json("php/rest/gigapans.php?&o=all");
 }
 
 //###############################################################
 //* call backs 
 //###############################################################
-function giga_callback(poJs){
-	oSolIndex = poJs;
-	if (oSolIndex == null)
+function onHttpGigaResponse(poHttp){
+	goSolIndex = poHttp.json;
+	if (goSolIndex == null)
 		set_error_status("No gigapans found");
 	else{
 		set_status("fetching sols");
-		cHttp.fetch_json("php/rest/sols.php", sols_callback);
+		var oHttp = new cHttp2();
+		bean.on(oHttp, "result", onHttpSolsResponse);
+		oHttp.fetch_json("php/rest/sols.php");
 	}
 }
 
-function sols_callback(paJS){
+function onHttpSolsResponse(poHttp){
 	var sHTML, i, iCount, sSol;
-	var sTarget = ( SINGLE_WINDOW ? "" : "target='solgigsa'");
-	sHTML = "<form " + sTarget + " method='GET' action='solgigas.php'><center><table cellpadding=5>";
+	var aSols = poHttp.json;
+	sHTML = "<form method='GET' action='solgigas.php'><center><table cellpadding=5>";
 	iCount =0;
-	for (i = 0; i < paJS.length; i++){
+	for (i = 0; i < aSols.length; i++){
 		if (iCount == 0) sHTML += "<tr>";
-		sSol = paJS[i].sol.toString();
+		sSol = aSols[i].sol.toString();
 		sHTML += "<TD align=middle>"
-		if (oSolIndex[sSol])
+		if (goSolIndex[sSol])
 			sHTML += "<button name='s' value='"+sSol+"'>"+sSol+"</button>";
 		else{
-			var sTarget = ( SINGLE_WINDOW ? "" : "target='index'");
-			sHTML += "<a " + sTarget + " href='index.php?s=" + sSol+"'>"+sSol+"</a>";
+			sHTML += "<a href='index.php?s=" + sSol+"'>"+sSol+"</a>";
 		}
-
 		sHTML += "</TD>"
 			
 		iCount++;

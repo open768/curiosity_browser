@@ -215,7 +215,7 @@ function onClickNextImage(){
 		onClickNextSol();
 	else
 	//go ahead and get the data 
-		get_image_data(current_sol, current_instrument,iNext,iNext+HOW_MANY_IMAGES);
+	get_image_data(current_sol, current_instrument,iNext,iNext+HOW_MANY_IMAGES);
 }
 
 //***************************************************************
@@ -606,15 +606,15 @@ function load_sols_callback(paJS){
 		iRange = Math.floor(iSol/SOL_DIVISIONS);
 		
 		if (iRange != iLastRange){
-			oOption = $("<option>").attr({value:iSol}).html(oSol.sol + " to ...");
+			oOption = $("<option>",{value:iSol}).html(oSol.sol + " to ...");
 			oSumList.append(oOption);
 			
-			oOption = $("<option>").attr({value:"NaN",disabled:"disabled"}).html("-- " + oSol.sol + " --");
+			oOption = $("<option>",{value:"NaN",disabled:"disabled"}).html("-- " + oSol.sol + " --");
 			oList.append(oOption);
 			iLastRange = iRange;
 		}
 
-		oOption = $("<option>").attr({value:oSol.sol}).html(oSol.sol);
+		oOption = $("<option>",{value:oSol.sol}).html(oSol.sol);
 		oList.append(oOption);
 	}
 	
@@ -668,7 +668,7 @@ function load_basicthumbs_callback(poJS){
 			oItem = aData[i];
 
 
-			oImg = $("<IMG>").attr({title:oItem.p,border:0,height:THUMB_SIZE,src:oItem.i,class:"polaroid-frame",id:oItem.p});
+			oImg = $("<IMG>",{title:oItem.p,border:0,height:THUMB_SIZE,src:oItem.i,class:"polaroid-frame",id:oItem.p});
 			oImg.css("border-color",THUMB_ORIG_COLOR); 
 			oImg.data(SOL_ATTR,poJS.s);
 			oImg.data(INSTRUMENT_ATTR,oItem.data.instrument);
@@ -689,12 +689,12 @@ function load_instruments_callback(paJS){
 	oList = $("#"+INSTRUMENT_LIST);
 	oList.empty();
 	
-	oList.append( $("<option>").attr({value:"",disabled:"disabled"}).html("Select an Instrument..."));
+	oList.append( $("<option>",{value:"",disabled:"disabled"}).html("Select an Instrument..."));
 	
 	for (i = 0; i < paJS.length; i++){
 		oInstr = paJS[i];
 		sID= INSTRUMENT_LIST + oInstr.name;
-		oList.append( $("<option>").attr({value:oInstr.name,disabled:"disabled",ID:sID}).html(oInstr.caption));
+		oList.append( $("<option>",{value:oInstr.name,disabled:"disabled",ID:sID}).html(oInstr.caption));
 	}
 	loading=false;
 	set_status("ready");
@@ -763,10 +763,10 @@ function load_fullimages_callback(paJS){
 			oDiv = $("<DIV>");
 			
 			//build up the image div
-			oImgDiv = $("<DIV>").attr({id:oItem.p});
+			oImgDiv = $("<DIV>",{id:oItem.p});
 			oImgDiv.css({position: 'relative'});
 
-			oImg = $("<IMG>").attr({src:oItem.i});
+			oImg = $("<IMG>",{src:oItem.i});
 			oImg.data(SOL_ATTR,current_sol);
 			oImg.data(INSTRUMENT_ATTR,current_instrument);
 			oImg.data(PRODUCT_ATTR,oItem.p); 
@@ -777,12 +777,12 @@ function load_fullimages_callback(paJS){
 			
 			//add the lot to the new div
 			oDiv.append(oImgDiv);
-			oDiv.append($("<SPAN>").attr({class:"subtitle"}).html("Date: "));
+			oDiv.append($("<SPAN>",{class:"subtitle"}).html("Date: "));
 			oDiv.append(oItem.du);
-			oDiv.append($("<SPAN>").attr({class:"subtitle"}).html(" Product: "));
+			oDiv.append($("<SPAN>",{class:"subtitle"}).html(" Product: "));
 			oDiv.append(oItem.p );
-			oDiv.append($("<SPAN>").attr({class:"subtitle"}).html(" Tags: "));
-			oDiv.append($("<SPAN>").attr({class:"soltags",id:"T"+oItem.p}).html("Loading ..."));
+			oDiv.append($("<SPAN>",{class:"subtitle"}).html(" Tags: "));
+			oDiv.append($("<SPAN>",{class:"soltags",id:"T"+oItem.p}).html("Loading ..."));
 			oDiv.append("<HR>");
 			
 			//add new div to uber div
@@ -815,7 +815,7 @@ function tag_callback(paJS){
 	//put in the tags
 	for (i=0; i<paJS.d.length; i++){
 		sTag = paJS.d[i];
-		oA = $("<A>").attr({href:"tag.php?t=" + sTag}).html(sTag);
+		oA = $("<A>",{href:"tag.php?t=" + sTag}).html(sTag);
 		oDiv.append(oA).append(" ");
 	}
 }
@@ -850,7 +850,7 @@ function highlight_callback(paJS){
 		aItem = paJS.d[i];
 		
 		//create a redbox and display it
-		oRedBox = $("<DIV>").attr({class:"redbox"});
+		oRedBox = $("<DIV>",{class:"redbox"});
 		oDiv.append(oRedBox);
 		
 		//place it relative to the parent location

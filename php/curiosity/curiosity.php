@@ -169,15 +169,17 @@ class cCuriosity implements iMission{
 	public static function getAllSolData($psSol){
 		$sUrl=self::SOL_URL."${psSol}.json";
 		cDebug::write("Getting all sol data from: ".$sUrl);
-		cCachedHttp::$CACHE_EXPIRY=self::SOL_CACHE;
-		return cCachedHttp::getCachedJson($sUrl);
+		$oCache = new cCachedHttp();
+		$oCache->CACHE_EXPIRY=self::SOL_CACHE;
+		return $oCache->getCachedJson($sUrl);
 	}
 	
 	//*****************************************************************************
 	public static function clearSolDataCache($psSol){
 		cDebug::write("clearing sol cache : ".$psSol);
+		$oCache = new cCachedHttp();
 		$sUrl=self::SOL_URL."${psSol}.json";
-		cCachedHttp::deleteCachedURL($sUrl);
+		$oCache->deleteCachedURL($sUrl);
 	}
 	
 	//*****************************************************************************
@@ -209,8 +211,9 @@ class cCuriosity implements iMission{
 	//*****************************************************************************
 	private static function pr_getManifest(){
 		cDebug::write("Getting sol manifest from: ".self::FEED_URL);
-		cCachedHttp::$CACHE_EXPIRY=self::MANIFEST_CACHE;
-		return cCachedHttp::getCachedJson(self::FEED_URL);
+		$oCache = new cCachedHttp();
+		$oCache->CACHE_EXPIRY=self::MANIFEST_CACHE;
+		return $oCache->getCachedJson(self::FEED_URL);
 	}
 	
 	//*****************************************************************************
@@ -275,7 +278,8 @@ class cCuriosity implements iMission{
 				
 				//----------------------------------------------------------------------
 				cDebug::write("fetching $sImgUrl");
-				$oMSLImg = cHttp::fetch_image($sImgUrl);	
+				$oHttp = new cHttp();
+				$oMSLImg = $oHttp->fetch_image($sImgUrl);	
 				cDebug::write("got image");
 				cDebug::write("<img src='$sImgUrl'>");
 				$iWidth = imagesx($oMSLImg);

@@ -33,9 +33,9 @@ class cCuriosityLocations{
 		$iCount = 0;
 		
 		// get the XML file
-		cCachedHttp::$CACHE_EXPIRY=self::LOCATIONS_CACHE;
-		cHttp::$show_progress = true;
-		$oXML = cHttp::getXML(self::LOCATIONS_XML);
+		$oCache = new cCachedHttp();
+		$oCache->$show_progress = true;
+		$oXML = $oCache->getXML(self::LOCATIONS_XML);
 		
 		// create the data structure of SOLs versus locations
 		$aDrives = [];

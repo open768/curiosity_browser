@@ -30,29 +30,39 @@ function onLoadJQuery_SOLGIG(){
 	//load tags
 	sUrl = "php/rest/gigapans.php?s=" + sSol + "&o=sol";
 	set_status("fetching gigapans");
-	cHttp.fetch_json(sUrl, load_giga_callback);
+	
+	var oHttp = new cHttp2();
+	bean.on(oHttp, "result", onHttpGigaResponse);
+	oHttp.fetch_json(sUrl);
 }
 
 //###############################################################
 //* call backs 
 //###############################################################
-function load_giga_callback(paJs){
+function onHttpGigaResponse(poHttp){
 	var i, aItem, oDiv;
+	var aData = poHttp.json;
 	
 	oDiv = $("#solgiga");
 	oDiv.empty();
 	
-	if (paJs == null){
+	if (aData == null){
 		set_error_status("no gigapans found");
 		return;
 	}
 	
-	for (i=0; i< paJs.length; i++){
-		aItem = paJs[i];
+	for (i=0; i< aData.length; i++){
+		aItem = aData[i];
 		sGigaID = aItem.I;
-		sUrl = "http://www.gigapan.com/gigapans/" + sGigaID;
-		oDiv.append( "<a target='giga' href='"+sUrl+"'><img src='http://static.gigapan.org/gigapans0/"+sGigaID+"/images/"+sGigaID+"-800x279.jpg'></a><br>");
-		oDiv.append( "<a target='giga' href='"+sUrl+"'>" + aItem.D +"</a><hr>");
+		sIUrl = "http://static.gigapan.org/gigapans0/"+sGigaID+"/images/"+sGigaID+"-800x279.jpg";
+		sGUrl = "http://www.gigapan.com/gigapans/" + sGigaID;
+		oA = $("<a>",{target:'giga',href:sGUrl});
+		oImg = $("<img>", {src:sIUrl});
+		oA.append(oImg);
+		oDiv.append( oA);
+		oDiv.append("<br>");
+		oA = $("<a>",{target:'giga',href:sGUrl});
+		oDiv.append( oA.append(aItem.D));
 	}
 	
 	set_status("ok");

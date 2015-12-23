@@ -147,8 +147,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			break;
 		//------------------------------------------------------
 		case "killCache":
-			cCachedHttp::clearCache();
-			cDebug::write("ok");
+			//cCachedHttp::clearCache();
+			cDebug::error("not implemented");
 			break;
 			
 		//------------------------------------------------------
