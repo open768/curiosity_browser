@@ -8,7 +8,7 @@
 	require_once("$phpinc/ckinc/debug.php");
 	require_once("$root/php/static/static.php");
 	require_once("$phpinc/ckinc/common.php");
-	require_once("$root/php/curiosity/locations.php");
+	require_once("$phpinc/curiosity/locations.php");
 	
 	cDebug::check_GET_or_POST();
 
