@@ -37,6 +37,7 @@ var RADIO_BACK_COLOUR = "gold";
 var BODY_COLOUR = "LemonChiffon";
 var THUMB_ORIG_COLOR="aliceblue";
 var THUMB_WORKING_COLOR="blanchedalmond";
+var THUMB_ERROR_COLOR="#ffe5ff";
 var THUMB_FINAL_COLOR="white";
 
 var MISSING_THUMBNAIL_IMAGE = "images/missing.jpg";
@@ -651,6 +652,7 @@ function load_basicthumbs_callback(poJS){
 	bean.off(goQueue);
 	bean.on(goQueue, "response", actq_thumbnail_callback);
 	bean.on(goQueue, "starting", actq_starting_callback);
+	bean.on(goQueue, "error", actq_error_callback);
 	
 	// ok load the thumbnails
 	set_status("loading thumbnails");
@@ -877,4 +879,11 @@ function actq_thumbnail_callback(poJS){
 
 	oImg.attr("src",poJS.u);
 	oImg.css("border-color",THUMB_FINAL_COLOR); 
+}
+
+// ***************************************************************
+function actq_error_callback(poHttp){
+	oImg = $("#" + poHttp.data);
+	oImg.css("border-color",THUMB_ERROR_COLOR); 
+	cDebug.write("ERROR: " + poHttp.errorStatus + " - " + poHttp.error);		
 }
