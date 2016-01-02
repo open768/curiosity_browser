@@ -1,6 +1,7 @@
 <?php	
 	$root=realpath(".");
 	$phpinc = realpath("../phpinc");
+	$jsinc = "../jsinc";
 	require_once "$phpinc/ckinc/session.php";
 	cSession::set_folder();
 	session_start();
@@ -19,11 +20,11 @@
 	<LINK href="./css/drag.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="./js/sceditor/minified/themes/default.min.css" type="text/css" media="all" />
 	<title>Detail: Curiosity Browser</title>
-	<script src="js/pixlr/pixlr.js"></script>
-	<script src="js/inc/tagging.js"></script>
-	<script src="js/inc/comments.js"></script>
-	<script src="js/inc/imghilite.js"></script>
-	<script src="./js/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
+	<script src="<?=$jsinc?>/pixlr/pixlr.js"></script>
+	<script src="<?=$jsinc?>/ck-inc/tagging.js"></script>
+	<script src="<?=$jsinc?>/ck-inc/comments.js"></script>
+	<script src="<?=$jsinc?>/ck-inc/imghilite.js"></script>
+	<script src="<?=$jsinc?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
 	<script src="js/pages/detail.js"></script>
 </head>
 <body onload="$(cJQueryObj.onBodyLoad);">

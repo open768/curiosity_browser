@@ -1,6 +1,7 @@
 <?php	
 	$root=realpath(".");
 	$phpinc = realpath("../phpinc");
+	$jsinc = "../jsinc";
 	require_once "$phpinc/ckinc/session.php";
 	cSession::set_folder();
 	session_start();
@@ -12,7 +13,7 @@
 	?>
 	<title>sol Tags - Curiosity Browser</title>
 	<script src="js/pages/soltag.js"></script>
-	<script src="js/inc/tagging.js"></script>
+	<script src="<?=jsinc?>/ck-inc/tagging.js"></script>
 </head>
 <body onload="$(cJQueryObj.onBodyLoad);">
 	<?php 

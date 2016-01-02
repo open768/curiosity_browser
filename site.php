@@ -1,6 +1,7 @@
 <?php	
 	$root=realpath(".");
 	$phpinc = realpath("../phpinc");
+	$jsinc = "../jsinc";
 	require_once "$phpinc/ckinc/session.php";
 	cSession::set_folder();
 	session_start();
@@ -12,7 +13,7 @@
 	?>
 	<title>Site - Curiosity Browser</title>
 	<script src="js/pages/site.js"></script>
-	<script src="js/inc/googleearth.js"></script>
+	<script src="<?=$jsinc?>/ck-inc/googleearth.js"></script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript">
 		google.load("earth", "1");

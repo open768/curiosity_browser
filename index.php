@@ -1,6 +1,7 @@
 <?php	
 	$root=realpath(".");
 	$phpinc = realpath("../phpinc");
+	$jsinc = "../jsinc";
 	require_once "$phpinc/ckinc/session.php";
 	cSession::set_folder();
 	session_start();
@@ -19,11 +20,11 @@
 		<title>Curiosity Browser</title>
 		<LINK href="css/drag.css" rel="stylesheet" type="text/css">
 		<LINK href="css/tabs.css" rel="stylesheet" type="text/css">
-		<script type="text/javascript" src="js/inc/tagging.js"></script>
-		<script type="text/javascript" src="js/inc/imghilite.js"></script>
-		<script type="text/javascript" src="js/inc/queue.js"></script>
-		<script type="text/javascript" src="js/inc/actionqueue.js"></script>
-		<script type="text/javascript" src="js/inc/tabs.js"></script>
+		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/tagging.js"></script>
+		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/imghilite.js"></script>
+		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/queue.js"></script>
+		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/actionqueue.js"></script>
+		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/tabs.js"></script>
 		<script type="text/javascript" src="js/pages/index.js"></script>
 		
 		<meta property="og:title" content="Curiosity Browser - Interact with Science" />

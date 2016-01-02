@@ -1,6 +1,7 @@
 <?php	
 	$root=realpath(".");
 	$phpinc = realpath("../phpinc");
+	$jsinc = "../jsinc";
 	require_once "$phpinc/ckinc/session.php";
 	cSession::set_folder();
 	session_start();
@@ -20,7 +21,7 @@
 		$sTitle = "Errrrrror";
 		include("php/fragments/title.php");
 	?>
-	<script src="js/inc/common.js"></script>
+	<script src="<?=$jsinc?>/ck-inc/common.js"></script>
 	<div class="gold" >
 		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
 		<p>

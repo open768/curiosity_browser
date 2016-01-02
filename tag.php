@@ -1,6 +1,7 @@
 <?php	
 	$root=realpath(".");
 	$phpinc = realpath("../phpinc");
+	$jsinc = "../jsinc";
 	require_once "$phpinc/ckinc/session.php";
 	cSession::set_folder();
 	session_start();
@@ -12,10 +13,10 @@
 	?>
 	<title>Tags: Curiosity Browser</title>
 	<script type="text/javascript" src="js/pages/tag.js"></script>
-	<script type="text/javascript" src="js/inc/tagging.js"></script>
-	<script type="text/javascript" src="js/inc/imghilite.js"></script>
-	<script type="text/javascript" src="js/inc/queue.js"></script>
-	<script type="text/javascript" src="js/inc/actionqueue.js"></script>
+	<script type="text/javascript" src="<?=jsinc?>/ck-inc/tagging.js"></script>
+	<script type="text/javascript" src="<?=jsinc?>/ck-inc/imghilite.js"></script>
+	<script type="text/javascript" src="<?=jsinc?>/ck-inc/queue.js"></script>
+	<script type="text/javascript" src="<?=jsinc?>/ck-inc/actionqueue.js"></script>
 </head>
 <body onload="$(cJQueryObj.onBodyLoad);">
 	<?php 
