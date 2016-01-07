@@ -20,7 +20,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("$phpinc/ckinc/debug.php");
 	require_once("$phpinc/ckinc/auth.php");
 	require_once("$phpinc/ckinc/comments.php");
-	require_once("$root/php/static/static.php");
+	require_once("$phpinc/curiosity/static.php");
 	require_once("$phpinc/ckinc/common.php");
 	require_once("$phpinc/sbbcode/SBBCodeParser.php");
 	

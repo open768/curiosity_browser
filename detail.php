@@ -18,7 +18,7 @@
 <head>
 	<?php include("php/fragments/header.php"); ?>
 	<LINK href="./css/drag.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="./js/sceditor/minified/themes/default.min.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="<?=$jsinc?>/sceditor/minified/themes/default.min.css" type="text/css" media="all" />
 	<title>Detail: Curiosity Browser</title>
 	<script src="<?=$jsinc?>/pixlr/pixlr.js"></script>
 	<script src="<?=$jsinc?>/ck-inc/tagging.js"></script>

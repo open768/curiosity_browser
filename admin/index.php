@@ -21,9 +21,9 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("$phpinc/ckinc/debug.php");
 	require_once("$phpinc/ckinc/tags.php");
 	require_once("$phpinc/ckinc/pichighlight.php");
-	require_once("$root/php/static/static.php");
-	require_once("$root/php/curiosity/pdsindexer.php");
-	require_once("$root/php/curiosity/locations.php");
+	require_once("$phpinc/curiosity/static.php");
+	require_once("$phpinc/curiosity/pdsindexer.php");
+	require_once("$phpinc/curiosity/locations.php");
 	require_once("$phpinc/ckinc/cached_http.php");
 	require_once("$phpinc/ckinc/gigapan.php");
 	require_once("$phpinc/ckinc/pencilnev.php");
@@ -74,6 +74,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		case "parsePDS":
 			if (! array_key_exists( "v", $_GET)){
 				?>
+				volume example MSLMST_0010
 				<form method="get">
 					<Input type="hidden" name="o" value="<?=$sOperation?>">
 					<Input type="hidden" name="debug" value="1">

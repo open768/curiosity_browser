@@ -58,12 +58,11 @@
 			<li><a href="https://twitter.com/hrwgc">Chris Herwig</a> - for inspiring me to write the curiosity browser.
 			<li>Thomas C Stein - MSL notebook, Spice and being nice. 
 			<li>Joe Knapp -  maps
-			<li>Karen Boggs - PDS
-			<li>Subhasis Bandyopadhyay - UI reviewer
+			<li>Karen Boggs - for help with the PDS
+			<li>Emily S Law (PDS operator)- for helping get the NASA curiosity json feed fixed.
 			<li>Neville Thompson - for making amazing gigapans
-			<li>NASA PDS operator - nasaview
-			<li>Jennifer Buz - informal names used by MSL 
-			<li><a href="http://restlesseye.com/" target="tristam">Tristam Sparks</a> - bringing Graphic design to the site
+			<li>NASA PDS operator - help with getting nasaview fixed.
+			<li>Jennifer Buz - for help with informal names used by MSL 
 			<li><a href="http://www.chickenkatsu.co.uk/" target='sunil'>Sunil Vanmullem</a> - thats me folks - coder, owner, creator
 		</ul>
 		<p>

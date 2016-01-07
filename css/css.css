@@ -283,6 +283,12 @@ body
 	font-size: 10px;
 	text-shadow:1px 1px 0 rgb(107,-29,-120);
 }
+.warning
+{
+    background: red;
+	color: white;
+    outline: 1px solid yellow;
+}
 .big_error
 {
 	font-family: 'Helvetica Neue',Helvetica, sans-serif;

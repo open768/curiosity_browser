@@ -43,7 +43,7 @@ function onClickPrevious(){
 function onClickRefresh(){
 	sUrl = "php/rest/instruments.php?s=" + current_sol + "&r=true";
 	set_status("refreshing data");
-	cHttp.fetch_json(sUrl, onLoadJQuery);
+	cHttp.fetch_json(sUrl, onLoadJQuery_CAL);
 }
 
 
