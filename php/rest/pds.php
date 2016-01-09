@@ -36,6 +36,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	
 		//-------------------
 		try{
+			//TODO look for the input product 
 			$oData = cCuriosityPDS::search_pds($sSol, $sInstr, $sProduct);
 		}catch (Exception $e){
 			cDebug::write("search failed");

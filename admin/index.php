@@ -67,8 +67,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			cCuriosityPdsIndexer::index_everything();
 			break;
 			
-		case "killPDS":
-			cDebug::write("use phpshell to delete PDS files");
+		case "killPDSIndex":
+			cPDS::kill_index_files();
 			break;
 			
 		case "parsePDS":
@@ -192,7 +192,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 					<Input type="radio" name="o" value="backup">backup objdata<br>
 					<Input type="radio" name="o" value="parsePDS">parse PDS files<br>
 					<Input type="radio" name="o" value="parseAllPDS">parse ALL PDS files<br>
-					<Input type="radio" name="o" value="killPDS">Kill ALL PDS files<br>
+					<Input type="radio" name="o" value="killPDSIndex">Kill ALL PDS index files<br>
 					<Input type="radio" name="o" value="killCache">clear cache<br>
 					<Input type="radio" name="o" value="killTag">remove tag<br>
 					<Input type="radio" name="o" value="mergeTags">merge a tag<br>
