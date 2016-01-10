@@ -30,13 +30,11 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		$sSol = $_GET["s"];
 		$sInstr = $_GET["i"];
 		$sProduct = $_GET["p"];
-		$sUTC = $_GET["t"];
 		if (!$sSol || !$sInstr || !$sProduct) cDebug::error("missing parameters!");
 	
 	
 		//-------------------
 		try{
-			//TODO look for the input product 
 			$oData = cCuriosityPDS::search_pds($sSol, $sInstr, $sProduct);
 		}catch (Exception $e){
 			cDebug::write("search failed");

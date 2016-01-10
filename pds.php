@@ -25,12 +25,8 @@
 	<DIV class="gold">
 		<button class="leftbutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
 		<button class="leftbutton" onclick="onClickDetail()">Back to Detail</button>
-		<button class="leftbutton" id="EDR" title="jump to PDS EDR" onclick="onClickEDRLBL();">EDR LBL</button>
-		<button class="leftbutton" id="EDR" title="jump to PDS EDR" onclick="onClickEDRDAT();">EDR DAT</button>
-		<button class="leftbutton" id="RDR" title="jump to PDS RDR" onclick="onClickRDRLBL();">RDR LBL</button>
-		<button class="leftbutton" id="RDR" title="jump to PDS RDR" onclick="onClickRDRIMG();">RDR IMG</button>
+		<button class="leftbutton" id="EDR" title="jump to PDS EDR Label" onclick="onClickEDRLBL();">EDR LBL</button>
 		<button class="leftbutton" title="MSL curiosity Notebook" id="notelink" onclick="onClickNotebook()">MSL NoteBook</button>
-		<button class="leftbutton" id="ParsePDS" title="parse product PDS" onclick="onClickParsePDS();">Debug - Parse PDS</button><br>
 		<ul>
 			<li>To understand PDS format  see: <a target="NASA" href="http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0002/DOCUMENT/MSL_MMM_EDR_RDR_DPSIS.PDF"
 			>Software Interface Specification</a>
@@ -49,9 +45,12 @@
 		<span class="subtitle">Status:</span> <span ID="status" class="status">Loading...</span>
 	</div>
 	<DIV class="gold">
-		<IFRAME id="PDS_FRAME" width=100% height=80%>
+		<IFRAME id="PDS_FRAME" width="100%" height="500">
 			lOADING pds DATA...
 		</IFRAME>
+	</div>
+	<DIV class="gold" ID="PDS_Images">
+			lOAdING pds Images...
 	</div>
 	<!-- footer -->
 	<?php include("php/fragments/github.php") ?>

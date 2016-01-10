@@ -17,39 +17,17 @@ var INSTR_QUERYSTRING = "i";
 var PRODUCT_QUERYSTRING = "p";
 var TIMESTAMP_QUERYSTRING = "t";
 
-var gsPdsUrl = null;
+var goPds = null;
 
 //###############################################################
 //# Event Handlers
 //###############################################################
 
 //***************************************************************
-function onClickRDRLBL(){
-	var sRDRUrl;
-	if (!has_pds_url()) return;
-
-	sRDRUrl = gsPdsUrl.replace("EDR", "RDR").replace("XXXX","DRXX");
-	window.open(sRDRUrl, "RDR");
-}
-
-function onClickRDRIMG(){
-	var sRDRUrl;
-	if (!has_pds_url()) return;
-
-	sRDRUrl = gsPdsUrl.replace("EDR", "RDR").replace("XXXX","DRXX").replace(".LBL",".IMG");
-	window.open(sRDRUrl, "RDR");
-}
 
 function onClickEDRLBL(){
 	if (!has_pds_url()) return;
-	window.open(gsPdsUrl, "EDR");
-}
-
-function onClickEDRDAT(){
-	var sUrl;
-	if (!has_pds_url()) return;
-	sUrl = gsPdsUrl.replace(".LBL", ".DAT");
-	window.open(sUrl, "EDR");
+	window.open(goPds.u, "EDR");
 }
 
 function onClickDetail(){
@@ -65,27 +43,10 @@ function onClickDetail(){
 }
 
 //***************************************************************
-function onClickParsePDS(){
-	if (!has_pds_url()) return;
-	
-	sUrl = "php/rest/pds.php?a=p&debug&u=" + escape(gsPdsUrl);
-	
-	cBrowser.openWindow(sUrl, "parsePDS");
-}
-
-//***************************************************************
 function onClickNotebook(){
-	var aSplit,sProduct;
-	
 	if (!has_pds_url()) return;
-	
-	aSplit = gsPdsUrl.split("/");
-	sProduct = aSplit[ aSplit.length -1];
-	aSplit = sProduct.split(".");
-	sProduct = aSplit[0];
-	
-	var sURL = "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx?tab=solsumm&p=" + sProduct;
-	window.open(sURL, "notebook");
+	cDebug.write(goPds.notebook);
+	window.open(goPds.notebook, "notebook");
 }
 
 
@@ -97,16 +58,15 @@ function onLoadJQuery_PDS(){
 	var sURL = 	
 		"php/rest/pds.php?a=s&s="+ cBrowser.data[SOL_QUERYSTRING] + 
 		"&i=" + cBrowser.data[INSTR_QUERYSTRING] +
-		"&p=" + cBrowser.data[PRODUCT_QUERYSTRING] +
-		"&t=" + cBrowser.data[TIMESTAMP_QUERYSTRING];
+		"&p=" + cBrowser.data[PRODUCT_QUERYSTRING];
 	cHttp.fetch_json(sURL, get_pds_callback);
 }
 bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_PDS);
 
 function has_pds_url(){
-	if (!gsPdsUrl)
+	if (!goPds)
 		set_error_status("Whoa no PDS link found yet");
-	return gsPdsUrl;
+	return goPds;
 }
 
 //###############################################################
@@ -117,8 +77,14 @@ function get_pds_callback(poJS){
 		set_error_status("no PDS data found");
 	else{
 		set_status("PDS data found: OK");
-		gsPdsUrl = poJS.u;
-		$("#PDS_FRAME").attr("src",poJS.u);
+		goPds = poJS;
+		
+		$("#PDS_FRAME").attr("src",goPds.u);
+		
+		$("#PDS_Images").empty();
+		$("#PDS_Images").append($("<a>",{href:goPds.rdr}).append(goPds.rdr));
+		$("#PDS_Images").append("<BR>");
+		$("#PDS_Images").append($("<IMG>",{src:goPds.rdr}));
 	}
 }
 
