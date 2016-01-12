@@ -82,7 +82,7 @@ function get_pds_callback(poJS){
 		$("#PDS_FRAME").attr("src",goPds.u);
 		
 		$("#PDS_Images").empty();
-		$("#PDS_Images").append($("<a>",{href:goPds.rdr}).append(goPds.rdr));
+		$("#PDS_Images").append($("<a>",{href:goPds.rdr,target:"pds"}).append(goPds.rdr));
 		$("#PDS_Images").append("<BR>");
 		$("#PDS_Images").append($("<IMG>",{src:goPds.rdr}));
 	}

@@ -74,6 +74,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			
 		case "parsePDS":
 			if (! array_key_exists( "v", $_GET)){
+				$aCats = cCuriosityPDS::catalogs();
 				?>
 				<a target="PDS" href="http://pds-imaging.jpl.nasa.gov/volumes/msl.html">Curiosity PDS released volumes</a>
 				<p>
@@ -81,16 +82,10 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 					<Input type="hidden" name="o" value="<?=$sOperation?>">
 					<Input type="hidden" name="debug" value="1">
 					volume: <select name="v">
-							  <option>MSLMST_0001</option>
-							  <option>MSLMST_0002</option>
-							  <option>MSLMST_0003</option>
-							  <option>MSLMST_0004</option>
-							  <option>MSLMST_0005</option>
-							  <option>MSLMST_0006</option>
-							  <option>MSLMST_0007</option>
-							  <option>MSLMST_0008</option>
-							  <option>MSLMST_0009</option>
-							  <option>MSLMST_0010</option>
+							<?php
+								foreach ($aCats as $sCat)
+									echo "<option>$sCat</option>";
+							?>
 							</select>
 					Index: <Input type="input" name="i" value="EDRINDEX">
 					<input type="submit">

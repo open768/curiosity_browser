@@ -34,10 +34,16 @@
 			<li>you will need <a target="NASA" href="http://pds-imaging.jpl.nasa.gov/data/msl/MSLMST_0002/SOFTWARE/SRC/">DAT2IMG</a> 
 			to extract IMG files from the DAT files. <a href="https://drive.google.com/file/d/0B0mcRo6MJ9NhSjlJWUIxLTVLWTg/edit?usp=sharing">[Download for windows7]</a>
 			<li>on MSWindows you might like to use bash from cygwin to run dat2zip.
-			<li>the XXXX and DRXXX and DRCX are processing codes. (see the SIS for details on what the letters mean)
-			<ul>
-			<li>The EDR is always named XXXX as it is the unprocessed original from the spacecraft. 
-			<li>the RDR will contain processed files eg DRCL, DRCX,DRLX, DRXX 
+			<li>the characters after the "_" such as XXXX and DRCX etc are processing codes. 
+				<ul>
+				<li>
+				D=Decompressed,
+				R=Radiometrically calibrated, 
+				C=Color corrected or contrast stretched,
+				L=Linearized,
+				X=Fill character
+				<li>The EDR is always named XXXX as it is the unprocessed original from the spacecraft. 
+				<li>the RDR will contain processed files eg DRCL, DRCX,DRLX, DRXX 
 			</ul>
 		</ul>
 	</div>
