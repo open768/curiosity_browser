@@ -403,9 +403,10 @@ function set_sol(psSol){
 	
 	// update the content in the address bar
 	sUrl = cBrowser.pageUrl() +"?s=" + psSol ;
+
 	if (current_instrument ) 
 		sUrl += "&" + INSTR_QUERYSTRING + "=" + current_instrument;
-	if (cBrowser.data[THUMB_QUERYSTRING])
+	if (cBrowser.data[THUMB_QUERYSTRING] || (!current_instrument))
 		sUrl += "&" + THUMB_QUERYSTRING + "=1";
 	
 	cBrowser.pushState("Index", sUrl);
@@ -460,11 +461,12 @@ function reload_data(){
 	
 	if (!OKToReload()) return;
 
-	if (!current_instrument)
-		get_sol_thumbs(current_sol, sAllInstruments);
-	else if (is_thumbs_checked())
-		get_sol_thumbs(current_sol, current_instrument);
-	else{
+	if (is_thumbs_checked()){
+		if (current_instrument)
+			get_sol_thumbs(current_sol, current_instrument);
+		else	
+			get_sol_thumbs(current_sol, sAllInstruments);
+	}else{
 		//go ahead and get the data starting at position 0
 		if (reset_image_number)
 			get_image_data(current_sol, current_instrument,1,HOW_MANY_IMAGES);
