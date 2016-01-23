@@ -17,6 +17,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	cSession::set_folder();
 	session_start();
 	
+	require_once("$phpinc/curiosity/static.php");
 	require_once("$phpinc/curiosity/curiosity.php");
 	require_once("$phpinc/ckinc/debug.php");
 	require_once("$phpinc/ckinc/common.php");

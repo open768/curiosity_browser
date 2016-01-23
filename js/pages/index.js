@@ -310,7 +310,7 @@ function onClickRefresh(){
 
 //***************************************************************
 function onImageClick(){
-	if (goQueue) goQueue.stop();
+	stop_queue();
 	var oImg = $(this);
 	sURL = "detail.php?s=" + oImg.data(SOL_ATTR) + "&i=" + oImg.data(INSTRUMENT_ATTR) +"&p=" + oImg.data(PRODUCT_ATTR);
 	cBrowser.openWindow(sURL, "detail");
@@ -406,7 +406,12 @@ function set_sol(psSol){
 
 	if (current_instrument ) 
 		sUrl += "&" + INSTR_QUERYSTRING + "=" + current_instrument;
-	if (cBrowser.data[THUMB_QUERYSTRING] || (!current_instrument))
+	else if (!is_thumbs_checked()){
+		$("#"+sCheckThumbs).prop('checked', true);
+		cBrowser.data[THUMB_QUERYSTRING] = "1";
+	}
+	
+	if (cBrowser.data[THUMB_QUERYSTRING])
 		sUrl += "&" + THUMB_QUERYSTRING + "=1";
 	
 	cBrowser.pushState("Index", sUrl);
@@ -506,8 +511,8 @@ function get_image_data( piSol, psInstr, piStart, piEnd){
 	
 	// update the content in the address bar
 	sUrl = cBrowser.pageUrl() +"?s=" + current_sol 
-	if (current_instrument)
-		sUrl +="&i=" + current_instrument +"&b=" + piStart;
+	if (psInstr)
+		sUrl +="&i=" + psInstr +"&b=" + piStart;
 	if (cBrowser.data[THUMB_QUERYSTRING])
 		sUrl += "&" + THUMB_QUERYSTRING +"=1";
 		
@@ -868,6 +873,7 @@ function highlight_callback(paJS){
 function actq_starting_callback(psProduct){
 	var oImg;
 	oImg = $("#" + psProduct);
+	cDebug.write("doing: "+psProduct);
 	oImg.css("border-color",THUMB_WORKING_COLOR); 
 }
 
@@ -878,7 +884,7 @@ function actq_thumbnail_callback(poJS){
 	if (!poJS.u) poJS.u = MISSING_THUMBNAIL_IMAGE;
 	
 	oImg = $("#" + poJS.p);	
-
+	cDebug.write("got: "+poJS.p);
 	oImg.attr("src",poJS.u);
 	oImg.css("border-color",THUMB_FINAL_COLOR); 
 }

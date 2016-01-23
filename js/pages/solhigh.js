@@ -81,8 +81,9 @@ function load_highlight_thumbs(psSol, psInstr, psProduct){
 	goQueue.start();
 	
 	//get tags 
-	if (!cBrowser.data[SHEET_QUERYSTRING] && !cBrowser.data[MOSAIC_QUERYSTRING])
-		cTagging.getTags(psSol,psInstr,psProduct, tag_callback);
+	if (cBrowser.data[SHEET_QUERYSTRING] !== null) return;
+	if (cBrowser.data[MOSAIC_QUERYSTRING] !== null) return;
+	cTagging.getTags(psSol,psInstr,psProduct, tag_callback);
 }
 
 //###############################################################

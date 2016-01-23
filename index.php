@@ -119,11 +119,12 @@
 									<img src="images/rover.png" height="90">
 								</td>
 								<td>
-									Welcome to the Curiosity Browser, the place to have a 2-way social interaction about the great images being beamed back to Earth from NASA's Curiosity Rover. 
-									<p/>
-									My name is AISH and I'll be your guide on this site. I'm an Autonomous Artificial Intelligence Scientific Hologram that can be sent to any spacecraft. 
-									I'm autonomous. That means that I can make my own decisions when I am out of contact with Earth. My Mission objectives are set by a scientist on Earth at a Ground Station.
-									You can usually find me working on the Chemcam instrument in the Curiosity Rover. I'm the guy in the the round window.
+									Welcome to the Curiosity Browser, the place to find and share great images being beamed back to Earth from NASA's Mars Science Lab. 
+									<p>
+									You might find a fascinating golological rock, an intruiging rock, evidence of water flows. 
+									In fact you might be the one who discovers the next great scientific discovery of Mars. 
+									<p>
+									 Let everyone know about your discoveries by sharing. The next steps are up to you.
 								</td>
 								<td align="right">
 									<img src="images/dude.png" height="90">
@@ -136,9 +137,7 @@
 								<li>Next  select from the <span class="subtitle">instruments</span> shown for that SOL to see the amazing images.</li>
 								<li>Or Click <span class="subtitle">All</span> to see which sols are interesting</li>
 							</ul>
-							<p/>
-							The next steps are up to you - browse the great images and you too might discover and  <span class="subtitle">tag</span> or <span class="subtitle">highlight</span> it so that anyone else can see what you are seeing. You might find a fascinating golological rock, an intruiging rock, evidence of water flows. In fact you might be the one who discovers the next great scientific discovery of Mars. Imagine that, your name up there in lights in the the halls of Science as being the one who discovered it. Go on.. its over to you then :-) 
-							<p/>
+							<p>
 						</div>
 						<div class="cookie" id="cookies">
 							We are using cookies to give you the best experience on our site. Cookies are files stored in your browser and are used by most websites to help personalise your web experience.
