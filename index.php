@@ -101,8 +101,7 @@
 					<div class="gold" id="header-pane" >
 						<button class="homebutton" onclick="cBrowser.openWindow('about.php', 'about');">About </button>
 						<input type="textbox" id="search_text" maxlength="30" size="30"><button class="rightbutton" onclick="onClickSearch()" title="Search for Product">Search</button>
-						<input id="chkThumbs" type="checkbox">Show Thumbnails
-						&nbsp;&nbsp;&nbsp;&nbsp;
+						<input id="chkThumbs" type="checkbox">Show Thumbnails&nbsp;&nbsp;&nbsp;&nbsp;
 						<span class="subtitle"> Status: </span><span ID="status" class="status">Loading...</span>
 					</div>
 					<div class="gold" id="nav1" style="display:none">

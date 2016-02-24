@@ -115,6 +115,7 @@
 		<textarea rows="5" cols="120" id="Commentsbox" placeholder="go on share your thoughts with everyone"></textarea>
 		<button class="leftbutton" id="btnComment" onclick="onClickComment()" title="submit comment">comment</button>
 	</div>
+
 	<div class="gold" ID="msldata">
 		loading MSL data
 	</div>

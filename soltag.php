@@ -13,7 +13,7 @@
 	?>
 	<title>sol Tags - Curiosity Browser</title>
 	<script src="js/pages/soltag.js"></script>
-	<script src="<?=jsinc?>/ck-inc/tagging.js"></script>
+	<script src="<?=$jsinc?>/ck-inc/tagging.js"></script>
 </head>
 <body onload="$(cJQueryObj.onBodyLoad);">
 	<?php 

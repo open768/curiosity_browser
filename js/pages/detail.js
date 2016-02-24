@@ -165,7 +165,7 @@ function onFacebookUser(){
 
 	$("#Commentsbox").sceditor({
 		plugins: 'bbcode',
-		style: "./js/sceditor/minified/jquery.sceditor.default.min.css",
+		style: "../jsinc/sceditor/minified/jquery.sceditor.default.min.css",
 		toolbarExclude: "print,code,email,source,maximize",
 		height:100,
 		resizeEnabled: false

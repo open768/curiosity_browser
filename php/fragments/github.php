@@ -1,10 +1,9 @@
 <p class="credits">Data courtesy MSSS/MSL/NASA/JPL-Caltech.<br/>Please note <a href="index.php#disclaim">site disclaimer</a></p>
-
-
 <?php if (isset($sExtraCredits)){?>
-<p class="credits"><?=$sExtraCredits?>.</p>
+	<p class="credits"><?=$sExtraCredits?>.</p>
 <?php }?>
 
+<p>
 <div class="github">
 	<table width="100%"><tr>
 		<td style="vertical-align:middle;text-align:left">

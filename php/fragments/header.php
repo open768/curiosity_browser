@@ -13,3 +13,4 @@
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/http.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/auth.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/facebook.js"></script>
+<meta property="fb:app_id" content="<?=(cHeader::is_localhost()?cSecret::FB_DEV_APP:cSecret::FB_APP)?>" />

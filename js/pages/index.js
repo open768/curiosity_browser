@@ -44,8 +44,8 @@ var MISSING_THUMBNAIL_IMAGE = "images/missing.jpg";
 
 var HOW_MANY_IMAGES = 5;
 var gi_current_img_idx = 0;
-var current_sol = null;
-var current_instrument = null;
+var gi_current_sol = null;
+var gs_current_instrument = null;
 var gi_max_images = -1;
 var reload_after_instr = false;
 var reset_image_number = true;
@@ -113,11 +113,11 @@ function onLoadJQuery_INDEX(){
 //###############################################################
 function onClickSolGiga(){
 	stop_queue();
-	cBrowser.openWindow("solgigas.php?s=" + current_sol, "solgigas");
+	cBrowser.openWindow("solgigas.php?s=" + gi_current_sol, "solgigas");
 }
 function onClickSolTag(){
 	stop_queue();
-	cBrowser.openWindow("soltag.php?s=" + current_sol, "soltag");
+	cBrowser.openWindow("soltag.php?s=" + gi_current_sol, "soltag");
 }
 function onClickLatestSol(){
 	stop_queue();
@@ -127,16 +127,16 @@ function onClickLatestSol(){
 }
 function onClickSolHighs(){
 	stop_queue();
-	cBrowser.openWindow("solhigh.php?sheet&s=" + current_sol, "solhigh");
+	cBrowser.openWindow("solhigh.php?sheet&s=" + gi_current_sol, "solhigh");
 }
 function onClickAllSolThumbs(){
 	stop_queue();
-	current_instrument = null;
+	gs_current_instrument = null;
 	reload_data();
 }
 function onClickSolSite(){
 	stop_queue();
-	cBrowser.openWindow("site.php?sol=" + current_sol , "site");
+	cBrowser.openWindow("site.php?sol=" + gi_current_sol , "site");
 }
 
 function onSearchKeypress(e){
@@ -149,10 +149,10 @@ function onClickSearch(){
 	stop_queue();
 	var sText = $("#search_text").val();
 	if (sText == "") return;
-	current_instrument = null;
+	gs_current_instrument = null;
 	
 	if (!isNaN(sText))
-		mark_sol(sText);
+		select_sol(sText);		//numeric search is a sol
 	else{
 		sUrl="php/rest/search.php?s=" + sText;
 		cHttp.fetch_json(sUrl, search_callback);
@@ -162,7 +162,7 @@ function onClickSearch(){
 //***************************************************************
 function OnChangeSolSummaryList(poEvent){
 	stop_queue();
-	mark_sol(poEvent.target.value);
+	select_sol(poEvent.target.value);
 }
 
 //***************************************************************
@@ -185,14 +185,7 @@ function OnChangeInstrument(poEvent){
 //***************************************************************
 function onChangeThumbs(poEvent){
 	
-	var sURL = 
-		cBrowser.pageUrl() + 
-			"?s=" +  current_sol + 
-			(current_instrument?"&i=" + current_instrument:"") +
-			(is_thumbs_checked()? "&" +THUMB_QUERYSTRING + "=1":"");
-			
 	stop_queue();
-	cBrowser.pushState("Index", sURL);
 	reload_data();
 }
 
@@ -201,7 +194,7 @@ function onClickCalendar(){
 	var sUrl;
 	
 	stop_queue();
-	sUrl = "cal.php?s=" + current_sol;
+	sUrl = "cal.php?s=" + gi_current_sol;
 	cBrowser.openWindow(sUrl, "calendar");
 }
 
@@ -216,7 +209,7 @@ function onClickNextImage(){
 		onClickNextSol();
 	else
 	//go ahead and get the data 
-	get_image_data(current_sol, current_instrument,iNext,iNext+HOW_MANY_IMAGES);
+	get_image_data(gi_current_sol, gs_current_instrument,iNext,iNext+HOW_MANY_IMAGES);
 }
 
 //***************************************************************
@@ -234,7 +227,7 @@ function onClickPreviousImage(){
 			onClickPreviousSol();
 	}else
 		//go ahead and get the data 
-		get_image_data(current_sol, current_instrument,iPrevious,iPrevious+HOW_MANY_IMAGES-1);
+		get_image_data(gi_current_sol, gs_current_instrument,iPrevious,iPrevious+HOW_MANY_IMAGES-1);
 }
 
 //***************************************************************
@@ -284,7 +277,7 @@ function onClickMslNotebook(){
 	var sUrl;
 	
 	stop_queue();
-	sUrl = "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx?tab=solsumm&sol=" + current_sol;
+	sUrl = "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx?tab=solsumm&sol=" + gi_current_sol;
 	window.open(sUrl, "date");
 }
 
@@ -293,19 +286,19 @@ function onClickMslNotebookMap(){
 	var sUrl;
 	
 	stop_queue();
-	sUrl = "https://an.rsl.wustl.edu/msl/mslbrowser/tab.aspx?t=mp&i=A&it=MT&ii=SOL," + current_sol;
+	sUrl = "https://an.rsl.wustl.edu/msl/mslbrowser/tab.aspx?t=mp&i=A&it=MT&ii=SOL," + gi_current_sol;
 	window.open(sUrl, "map");
 }
 
 //***************************************************************
 function onClickRefresh(){
 	stop_queue();
-	if (!current_sol){ 	
+	if (!gi_current_sol){ 	
 		set_error_status("NO Sol Selected...");
 		return false;
 	}
 	
-	get_sol_instruments(current_sol,true);
+	get_sol_instruments(gi_current_sol,true);
 }
 
 //***************************************************************
@@ -375,12 +368,13 @@ function set_instrument(psInstr){
 //***************************************************************
 function do_set_instrument(psInstr){
 	cDebug.write("setting instrument: " + psInstr);
-	current_instrument = psInstr;
+	gs_current_instrument = psInstr;
+	$("#chkThumbs").removeAttr('disabled');
 	reload_data();
 }
 
 //***************************************************************
-function mark_sol(psSol){
+function select_sol(psSol){
 	var oOption;
 	
 	oOption = $("#"+SOLS_LIST + " option[value="+psSol+"]");
@@ -398,14 +392,14 @@ function set_sol(psSol){
 
 	cDebug.write("setting sol: " + psSol);
 	$("#"+IMAGE_CONTAINER_ID).html("<span class='subtitle'>loading...</span>");
-	current_sol = psSol;
-	$("#"+SOL_ID).html(current_sol);
+	gi_current_sol = psSol;
+	$("#"+SOL_ID).html(gi_current_sol);
 	
 	// update the content in the address bar
 	sUrl = cBrowser.pageUrl() +"?s=" + psSol ;
 
-	if (current_instrument ) 
-		sUrl += "&" + INSTR_QUERYSTRING + "=" + current_instrument;
+	if (gs_current_instrument ) 
+		sUrl += "&" + INSTR_QUERYSTRING + "=" + gs_current_instrument;
 	else if (!is_thumbs_checked()){
 		$("#"+sCheckThumbs).prop('checked', true);
 		cBrowser.data[THUMB_QUERYSTRING] = "1";
@@ -418,6 +412,7 @@ function set_sol(psSol){
 	
 	$("#nav1").hide();
 	$("#nav2").hide();
+	$("#chkThumbs").attr('disabled', "disabled");
 
 	$("#solnotebook").removeAttr('disabled');
 	$("#solmap").removeAttr('disabled');
@@ -429,12 +424,12 @@ function set_sol(psSol){
 	$("#solsite").removeAttr('disabled');
 	$("#allsolthumbs").removeAttr('disabled');
 
-	get_sol_instruments(current_sol,false);	//this reloads the data
-	get_sol_tag_count(current_sol);
-	get_sol_hilite_count(current_sol);
+	get_sol_instruments(gi_current_sol,false);	//this reloads the data
+	get_sol_tag_count(gi_current_sol);
+	get_sol_hilite_count(gi_current_sol);
 	
 	$("#solgiga").attr('disabled', "disabled");
-	get_gigapans(current_sol);
+	get_gigapans(gi_current_sol);
 }
 
 
@@ -448,7 +443,7 @@ function OKToReload(){
 	
 	// TODO Validate that a list item and instrument are selected
 	// otherwise do nothing
-	if (!current_sol){ 	
+	if (!gi_current_sol){ 	
 		set_error_status("NO Sol Selected...");
 		return false;
 	}
@@ -466,17 +461,24 @@ function reload_data(){
 	
 	if (!OKToReload()) return;
 
+	var sURL = 
+		cBrowser.pageUrl() + 
+			"?s=" +  gi_current_sol + 
+			(gs_current_instrument?"&i=" + gs_current_instrument:"") +
+			(is_thumbs_checked()? "&" +THUMB_QUERYSTRING + "=1":"");	
+	cBrowser.pushState("Index", sURL);
+	
 	if (is_thumbs_checked()){
-		if (current_instrument)
-			get_sol_thumbs(current_sol, current_instrument);
+		if (gs_current_instrument)
+			get_sol_thumbs(gi_current_sol, gs_current_instrument);
 		else	
-			get_sol_thumbs(current_sol, sAllInstruments);
+			get_sol_thumbs(gi_current_sol, sAllInstruments);
 	}else{
 		//go ahead and get the data starting at position 0
 		if (reset_image_number)
-			get_image_data(current_sol, current_instrument,1,HOW_MANY_IMAGES);
+			get_image_data(gi_current_sol, gs_current_instrument,1,HOW_MANY_IMAGES);
 		else
-			get_image_data(current_sol, current_instrument,gi_current_img_idx,gi_current_img_idx+HOW_MANY_IMAGES-1);		
+			get_image_data(gi_current_sol, gs_current_instrument,gi_current_img_idx,gi_current_img_idx+HOW_MANY_IMAGES-1);		
 	}
 }
 
@@ -508,15 +510,6 @@ function get_sol_instruments(psSol, pbRefresh){
 //***************************************************************
 function get_image_data( piSol, psInstr, piStart, piEnd){
 	var sUrl;
-	
-	// update the content in the address bar
-	sUrl = cBrowser.pageUrl() +"?s=" + current_sol 
-	if (psInstr)
-		sUrl +="&i=" + psInstr +"&b=" + piStart;
-	if (cBrowser.data[THUMB_QUERYSTRING])
-		sUrl += "&" + THUMB_QUERYSTRING +"=1";
-		
-	cBrowser.pushState("Index", sUrl);
 	
 	//clear out the image data
 	$("#"+IMAGE_CONTAINER_ID).html("<p class='subtitle'>loading images");
@@ -631,7 +624,7 @@ function load_sols_callback(paJS){
 	
 	// mark the sol
 	if (cBrowser.data[SOL_QUERYSTRING] ) 
-		mark_sol(cBrowser.data[SOL_QUERYSTRING]);
+		select_sol(cBrowser.data[SOL_QUERYSTRING]);
 	
 }
 
@@ -749,7 +742,7 @@ function load_fullimages_callback(paJS){
 		$("#solthumbs").removeAttr('disabled');
 		
 		//update title
-		document.title = "Index - s:" + current_sol + " i:" + current_instrument + "(curiosity browser)";
+		document.title = "Index - s:" + gi_current_sol + " i:" + gs_current_instrument + "(curiosity browser)";
 		
 		// update the maximum display
 		gi_max_images = parseInt(paJS.max);
@@ -766,7 +759,7 @@ function load_fullimages_callback(paJS){
 			
 			// get the img details
 			oItem = paJS.images[iIndex];
-			sImgURL = "detail.php?s="+ current_sol + "&i=" + current_instrument + "&p=" + oItem.p;
+			sImgURL = "detail.php?s="+ gi_current_sol + "&i=" + gs_current_instrument + "&p=" + oItem.p;
 			
 			//build up the div
 			oDiv = $("<DIV>");
@@ -776,8 +769,8 @@ function load_fullimages_callback(paJS){
 			oImgDiv.css({position: 'relative'});
 
 			oImg = $("<IMG>",{src:oItem.i});
-			oImg.data(SOL_ATTR,current_sol);
-			oImg.data(INSTRUMENT_ATTR,current_instrument);
+			oImg.data(SOL_ATTR,gi_current_sol);
+			oImg.data(INSTRUMENT_ATTR,gs_current_instrument);
 			oImg.data(PRODUCT_ATTR,oItem.p); 
 			oImg.load( on_loaded_fullimage);
 			oImg.click(onImageClick);
