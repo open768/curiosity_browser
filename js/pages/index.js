@@ -132,6 +132,9 @@ function onClickSolHighs(){
 function onClickAllSolThumbs(){
 	stop_queue();
 	gs_current_instrument = null;
+	$("#"+INSTRUMENT_LIST+" option:first").attr('selected','selected');
+	$("#chkThumbs").prop("checked", true);
+	$("#chkThumbs").attr('disabled', "disabled");
 	reload_data();
 }
 function onClickSolSite(){
@@ -184,7 +187,6 @@ function OnChangeInstrument(poEvent){
 
 //***************************************************************
 function onChangeThumbs(poEvent){
-	
 	stop_queue();
 	reload_data();
 }

@@ -28,6 +28,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	$sInstrument = $_GET["i"];
 	$iStart = $_GET["b"];
 	$iEnd = $_GET["e"];
+	if ($sInstrument === "null") $sInstrument = null;
 	
 	
 	cDebug::write("getting sol $sSol data");
