@@ -1,5 +1,5 @@
 /**************************************************************************
-Copyright (C) Chicken Katsu 2014 
+Copyright (C) Chicken Katsu 2016 www.chickenkatsu.co.uk
 
 This code is protected by copyright under the terms of the 
 Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License
@@ -26,7 +26,7 @@ var SOL_QUERYSTRING = "s";
 var INSTR_QUERYSTRING = "i";
 var THUMB_QUERYSTRING = "t";
 var MAXIMAGES_QUERYSTRING = "m";
-var IMAGE_QUERYSTRING = "b";
+var BEGIN_QUERYSTRING = "b";
 var SOL_DIVISIONS=50;
 var THUMB_SIZE=144;
 var SOL_ATTR = "sa";
@@ -39,6 +39,7 @@ var THUMB_ORIG_COLOR="aliceblue";
 var THUMB_WORKING_COLOR="blanchedalmond";
 var THUMB_ERROR_COLOR="#ffe5ff";
 var THUMB_FINAL_COLOR="white";
+var THUMB_MISSING_COLOR="mistyrose";
 
 var MISSING_THUMBNAIL_IMAGE = "images/missing.jpg";
 
@@ -98,8 +99,8 @@ function onLoadJQuery_INDEX(){
 	set_status("loading static data...");
 	if (cBrowser.data[MAXIMAGES_QUERYSTRING] )
 		HOW_MANY_IMAGES = parseInt(cBrowser.data[MAXIMAGES_QUERYSTRING]);
-	if (cBrowser.data[IMAGE_QUERYSTRING] ){
-		gi_current_img_idx = parseInt(cBrowser.data[IMAGE_QUERYSTRING]);
+	if (cBrowser.data[BEGIN_QUERYSTRING] ){
+		gi_current_img_idx = parseInt(cBrowser.data[BEGIN_QUERYSTRING]);
 		reset_image_number = false;
 	}
 		
@@ -122,6 +123,9 @@ function onClickSolTag(){
 function onClickLatestSol(){
 	stop_queue();
 	cDebug.write("setting latest sol: ");
+	gs_current_instrument = null;
+	gi_current_img_idx = -1;
+	$("#"+INSTRUMENT_LIST+" option:first").attr('selected','selected');
 	$( "#sol_list :last" ).attr('selected', 'selected').change();
 
 }
@@ -132,6 +136,7 @@ function onClickSolHighs(){
 function onClickAllSolThumbs(){
 	stop_queue();
 	gs_current_instrument = null;
+	gi_current_img_idx = -1;
 	$("#"+INSTRUMENT_LIST+" option:first").attr('selected','selected');
 	$("#chkThumbs").prop("checked", true);
 	$("#chkThumbs").attr('disabled', "disabled");
@@ -154,9 +159,10 @@ function onClickSearch(){
 	if (sText == "") return;
 	gs_current_instrument = null;
 	
-	if (!isNaN(sText))
+	if (!isNaN(sText)){
+		$("#"+INSTRUMENT_LIST+" option:first").attr('selected','selected');
 		select_sol(sText);		//numeric search is a sol
-	else{
+	}else{
 		sUrl="php/rest/search.php?s=" + sText;
 		cHttp.fetch_json(sUrl, search_callback);
 	}
@@ -351,6 +357,16 @@ function onInputDefocus(){
 //###############################################################
 //# Utility functions 
 //###############################################################
+function update_url(){
+	sUrl = cBrowser.pageUrl() + 
+			"?s=" +  gi_current_sol + 
+			(gs_current_instrument?"&i=" + gs_current_instrument:"") +
+			(is_thumbs_checked()? "&" +THUMB_QUERYSTRING + "=1":"") +
+			(gi_current_img_idx>1? "&" + BEGIN_QUERYSTRING +"=" + gi_current_img_idx:"");
+	cBrowser.pushState("Index", sUrl);
+}
+
+
 function stop_queue(){
 	if (goQueue){
 		goQueue.stop();
@@ -396,21 +412,11 @@ function set_sol(psSol){
 	$("#"+IMAGE_CONTAINER_ID).html("<span class='subtitle'>loading...</span>");
 	gi_current_sol = psSol;
 	$("#"+SOL_ID).html(gi_current_sol);
-	
-	// update the content in the address bar
-	sUrl = cBrowser.pageUrl() +"?s=" + psSol ;
 
-	if (gs_current_instrument ) 
-		sUrl += "&" + INSTR_QUERYSTRING + "=" + gs_current_instrument;
-	else if (!is_thumbs_checked()){
+	if (!gs_current_instrument  && !is_thumbs_checked()){
 		$("#"+sCheckThumbs).prop('checked', true);
 		cBrowser.data[THUMB_QUERYSTRING] = "1";
 	}
-	
-	if (cBrowser.data[THUMB_QUERYSTRING])
-		sUrl += "&" + THUMB_QUERYSTRING + "=1";
-	
-	cBrowser.pushState("Index", sUrl);
 	
 	$("#nav1").hide();
 	$("#nav2").hide();
@@ -459,16 +465,11 @@ function is_thumbs_checked(){
 
 //***************************************************************
 function reload_data(){
-	var sUrl;
+	var sUrl, sBegin;
 	
 	if (!OKToReload()) return;
 
-	var sURL = 
-		cBrowser.pageUrl() + 
-			"?s=" +  gi_current_sol + 
-			(gs_current_instrument?"&i=" + gs_current_instrument:"") +
-			(is_thumbs_checked()? "&" +THUMB_QUERYSTRING + "=1":"");	
-	cBrowser.pushState("Index", sURL);
+	update_url();
 	
 	if (is_thumbs_checked()){
 		if (gs_current_instrument)
@@ -652,15 +653,16 @@ function load_basicthumbs_callback(poJS){
 	// set up the processing queue for better thumbnails
 	goQueue= new cActionQueue();
 	bean.off(goQueue);
-	bean.on(goQueue, "response", actq_thumbnail_callback);
-	bean.on(goQueue, "starting", actq_starting_callback);
-	bean.on(goQueue, "error", actq_error_callback);
+	bean.on(goQueue, "response", on_better_thumb);
+	bean.on(goQueue, "starting", on_actq_start);
+	bean.on(goQueue, "error", on_actq_error);
 	
 	// ok load the thumbnails
 	set_status("loading thumbnails");
 	$("#nav1").hide();
 	$("#nav2").hide();
 	oDiv = $("#"+ IMAGE_CONTAINER_ID);
+	oDiv.thumbnail_view();
 	oDiv.empty();
 	
 	aData = poJS.d.data;
@@ -731,7 +733,7 @@ function load_fullimages_callback(paJS){
 	gi_max_images = 0;
 	
 	if (reset_image_number)
-		gi_current_img_idx = -1;
+		gi_current_img_idx = null;
 	
 	//clear out the image div
 	$("#"+IMAGE_CONTAINER_ID).empty();
@@ -754,6 +756,7 @@ function load_fullimages_callback(paJS){
 		gi_current_img_idx = parseInt(paJS.start);
 		$("#"+CURRENT_ID).html(gi_current_img_idx);
 		$("#"+CURRENT_ID2).html(gi_current_img_idx);
+		update_url();
 		
 		oOuterDiv = $("#"+IMAGE_CONTAINER_ID);
 		for (iIndex = 0; iIndex < paJS.images.length; iIndex++){
@@ -865,28 +868,31 @@ function highlight_callback(paJS){
 }
 
 // ***************************************************************
-function actq_starting_callback(psProduct){
+function on_actq_start(psProduct){
 	var oImg;
 	oImg = $("#" + psProduct);
-	cDebug.write("doing: "+psProduct);
+	cDebug.write("fetching thumb: "+psProduct);
 	oImg.css("border-color",THUMB_WORKING_COLOR); 
 }
 
 // ***************************************************************
-function actq_thumbnail_callback(poJS){
-	var oImg;
-
-	if (!poJS.u) poJS.u = MISSING_THUMBNAIL_IMAGE;
+function on_better_thumb(poJS){
+	var oImg = $("#" + poJS.p);	
+	if (!poJS.u) {
+		cDebug.write("missing image for: "+poJS.p);
+		oImg.css("border-color",THUMB_MISSING_COLOR); 
+		//poJS.u = MISSING_THUMBNAIL_IMAGE;
+	}else{
+		cDebug.write("got thumbnail: "+poJS.p);
+		oImg.css("border-color",THUMB_FINAL_COLOR); 
+		oImg.attr("src",poJS.u );
+	}
 	
-	oImg = $("#" + poJS.p);	
-	cDebug.write("got: "+poJS.p);
-	oImg.attr("src",poJS.u);
-	oImg.css("border-color",THUMB_FINAL_COLOR); 
 }
 
 // ***************************************************************
-function actq_error_callback(poHttp){
+function on_actq_error(poHttp){
 	oImg = $("#" + poHttp.data);
 	oImg.css("border-color",THUMB_ERROR_COLOR); 
-	cDebug.write("ERROR: " + poHttp.errorStatus + " - " + poHttp.error);		
+	cDebug.write("ERROR: " + poHttp.data + "\n" + poHttp.url + "\n" + poHttp.errorStatus + " - " + poHttp.error);		
 }

@@ -7,7 +7,7 @@
 	session_start();
 	
 	require_once("$phpinc/ckinc/header.php");
-	require_once("$phpinc/ckinc/facebook.php");
+	require_once("$phpinc/curiosity/facebook.php");
 	cHeader::redirect_if_referred();
 	if ( cFacebook::is_facebook()){
 		cFacebookTags::make_fb_detail_tags();

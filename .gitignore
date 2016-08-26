@@ -31,8 +31,10 @@ php/opauth/
 php/phpshell/
 php/sbbcode/
 php/static/
+css/images/
 emoticons/*
 *.7z
 php/rest/session_test.php
 \[objdata\].rar
 *.zip
+*.orig

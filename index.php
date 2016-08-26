@@ -27,6 +27,7 @@
 		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/actionqueue.js"></script>
 		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/tabs.js"></script>
 		<script type="text/javascript" src="js/pages/index.js"></script>
+		<script type="text/javascript" src="js/widgets/thumbnail-view.js"></script>
 		
 		<meta property="og:title" content="Curiosity Browser - Interact with Science" />
 		<meta property="og:image" content="http://www.mars-browser.co.uk/curiosity/images/rover.png" />

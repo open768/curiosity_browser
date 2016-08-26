@@ -40,7 +40,7 @@ function onLoadJQuery_SOLGIG(){
 //* call backs 
 //###############################################################
 function onHttpGigaResponse(poHttp){
-	var i, aItem, oDiv;
+	var i, aItem, oDiv, oNewDiv;
 	var aData = poHttp.json;
 	
 	oDiv = $("#solgiga");
@@ -56,13 +56,20 @@ function onHttpGigaResponse(poHttp){
 		sGigaID = aItem.I;
 		sIUrl = "http://static.gigapan.org/gigapans0/"+sGigaID+"/images/"+sGigaID+"-800x279.jpg";
 		sGUrl = "http://www.gigapan.com/gigapans/" + sGigaID;
+		
+	
+		oNewDiv = $("<DIV>");
 		oA = $("<a>",{target:'giga',href:sGUrl});
 		oImg = $("<img>", {src:sIUrl});
 		oA.append(oImg);
-		oDiv.append( oA);
-		oDiv.append("<br>");
+		oNewDiv.append( oA);
+		oNewDiv.append("<br>");
+		
 		oA = $("<a>",{target:'giga',href:sGUrl});
-		oDiv.append( oA.append(aItem.D));
+		oNewDiv.append( oA.append(aItem.D));
+		
+		oDiv.append(oNewDiv);
+		oDiv.append("<p>");
 	}
 	
 	set_status("ok");
