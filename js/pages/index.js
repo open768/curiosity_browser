@@ -35,11 +35,6 @@ var PRODUCT_ATTR = "pa";
 
 var RADIO_BACK_COLOUR = "gold";
 var BODY_COLOUR = "LemonChiffon";
-var THUMB_ORIG_COLOR="aliceblue";
-var THUMB_WORKING_COLOR="blanchedalmond";
-var THUMB_ERROR_COLOR="#ffe5ff";
-var THUMB_FINAL_COLOR="white";
-var THUMB_MISSING_COLOR="mistyrose";
 
 var MISSING_THUMBNAIL_IMAGE = "images/missing.jpg";
 
@@ -52,7 +47,6 @@ var reload_after_instr = false;
 var reset_image_number = true;
 var sAllInstruments = "All";
 var sCheckThumbs = "chkThumbs";
-var goQueue = null;
 
 //###############################################################
 //* JQUERY
@@ -368,10 +362,8 @@ function update_url(){
 
 
 function stop_queue(){
-	if (goQueue){
-		goQueue.stop();
-		goQueue = null;
-	}
+	oDiv = $("#"+ IMAGE_CONTAINER_ID);
+	oDiv.thumbnailview("stop_queue");
 }
 
 function set_instrument(psInstr){
@@ -486,13 +478,35 @@ function reload_data(){
 }
 
 //###############################################################
+//* EVENTS
+//###############################################################
+function onStatusEvent(poEvent, poData){
+	set_status(poData.text);
+}
+function onBasicThumbnailEvent(poEvent, poData){
+	$("#nav1").hide();
+	$("#nav2").hide();
+}
+
+function onThumbClick(poEvent, poData){
+	sURL = "detail.php?s=" + poData.sol + "&i=" + poData.instr +"&p=" + poData.product;
+	cBrowser.openWindow(sURL, "detail");
+}
+
+//###############################################################
 //* GETTERS
 //###############################################################
 function get_sol_thumbs(psSol, psInstrument){
-	var sUrl;
+	var oWidget;
 	
-	sUrl = "php/rest/solthumbs.php?s=" + psSol + "&i=" + psInstrument;
-	cHttp.fetch_json(sUrl, load_basicthumbs_callback);
+	oDiv = $("#"+ IMAGE_CONTAINER_ID);
+	oWidget = oDiv.thumbnailview({		 // apply widget
+		sol:psSol, 
+		instrument:psInstrument, 
+		onStatus:onStatusEvent,
+		onBasicThumbnail: onBasicThumbnailEvent,
+		onClick: onThumbClick
+	});
 }
 
 //***************************************************************
@@ -629,62 +643,6 @@ function load_sols_callback(paJS){
 	if (cBrowser.data[SOL_QUERYSTRING] ) 
 		select_sol(cBrowser.data[SOL_QUERYSTRING]);
 	
-}
-
-//***************************************************************
-function onBasicThumbLoaded(){
-	var sQUrl, sSol, sInstr, sProd;
-	var oImg = $(this);
-	oImg.off("load"); //remove the load event so it doesnt fire again
-	
-	sSol = oImg.data(SOL_ATTR);
-	sInstr = oImg.data(INSTRUMENT_ATTR);
-	sProd = oImg.data(PRODUCT_ATTR);
-	
-	sQUrl = "php/rest/solthumb.php?s=" + sSol + "&i=" + sInstr + "&p=" + sProd;
-	goQueue.add(sProd, sQUrl);
-	goQueue.start();
-}
-	
-//***************************************************************
-function load_basicthumbs_callback(poJS){
-	var oDiv, i, aData, sURL, oItem;
-	
-	// set up the processing queue for better thumbnails
-	goQueue= new cActionQueue();
-	bean.off(goQueue);
-	bean.on(goQueue, "response", on_better_thumb);
-	bean.on(goQueue, "starting", on_actq_start);
-	bean.on(goQueue, "error", on_actq_error);
-	
-	// ok load the thumbnails
-	set_status("loading thumbnails");
-	$("#nav1").hide();
-	$("#nav2").hide();
-	oDiv = $("#"+ IMAGE_CONTAINER_ID);
-	oDiv.thumbnail_view();
-	oDiv.empty();
-	
-	aData = poJS.d.data;
-	if (aData.Length == 0)
-		oDiv.append("<p class='subtitle'>Sorry no thumbnails found</p>");
-	else{
-		for (i=0; i< aData.length; i++){
-			
-			oItem = aData[i];
-
-
-			oImg = $("<IMG>",{title:oItem.p,border:0,height:THUMB_SIZE,src:oItem.i,class:"polaroid-frame",id:oItem.p});
-			oImg.css("border-color",THUMB_ORIG_COLOR); 
-			oImg.data(SOL_ATTR,poJS.s);
-			oImg.data(INSTRUMENT_ATTR,oItem.data.instrument);
-			oImg.data(PRODUCT_ATTR,oItem.p);
-			oImg.load( onBasicThumbLoaded );
-			oImg.click(onImageClick);
-			
-			oDiv.append(oImg);
-		}
-	}
 }
 
 //***************************************************************
@@ -867,32 +825,3 @@ function highlight_callback(paJS){
 	}
 }
 
-// ***************************************************************
-function on_actq_start(psProduct){
-	var oImg;
-	oImg = $("#" + psProduct);
-	cDebug.write("fetching thumb: "+psProduct);
-	oImg.css("border-color",THUMB_WORKING_COLOR); 
-}
-
-// ***************************************************************
-function on_better_thumb(poJS){
-	var oImg = $("#" + poJS.p);	
-	if (!poJS.u) {
-		cDebug.write("missing image for: "+poJS.p);
-		oImg.css("border-color",THUMB_MISSING_COLOR); 
-		//poJS.u = MISSING_THUMBNAIL_IMAGE;
-	}else{
-		cDebug.write("got thumbnail: "+poJS.p);
-		oImg.css("border-color",THUMB_FINAL_COLOR); 
-		oImg.attr("src",poJS.u );
-	}
-	
-}
-
-// ***************************************************************
-function on_actq_error(poHttp){
-	oImg = $("#" + poHttp.data);
-	oImg.css("border-color",THUMB_ERROR_COLOR); 
-	cDebug.write("ERROR: " + poHttp.data + "\n" + poHttp.url + "\n" + poHttp.errorStatus + " - " + poHttp.error);		
-}
