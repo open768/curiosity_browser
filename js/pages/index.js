@@ -1,4 +1,4 @@
-/**************************************************************************
+/****************************************************************************
 Copyright (C) Chicken Katsu 2016 www.chickenkatsu.co.uk
 
 This code is protected by copyright under the terms of the 
@@ -13,9 +13,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 var DEBUG_ON = true;
 var loading = true;
-var SOLS_LIST = "sol_list";
-var SOL_SUMMARY = "sol_summary";
-var INSTRUMENT_LIST = "instruments";
 var MAX_ID="max";
 var MAX_ID2="max2";
 var CURRENT_ID = "current";
@@ -28,23 +25,13 @@ var THUMB_QUERYSTRING = "t";
 var MAXIMAGES_QUERYSTRING = "m";
 var BEGIN_QUERYSTRING = "b";
 var SOL_DIVISIONS=50;
-var THUMB_SIZE=144;
-var SOL_ATTR = "sa";
-var INSTRUMENT_ATTR = "ia";
-var PRODUCT_ATTR = "pa";
 
 var RADIO_BACK_COLOUR = "gold";
 var BODY_COLOUR = "LemonChiffon";
 
-var MISSING_THUMBNAIL_IMAGE = "images/missing.jpg";
-
-var HOW_MANY_IMAGES = 5;
 var gi_current_img_idx = 0;
 var gi_current_sol = null;
 var gs_current_instrument = null;
-var gi_max_images = -1;
-var reload_after_instr = false;
-var reset_image_number = true;
 var sAllInstruments = "All";
 var sCheckThumbs = "chkThumbs";
 
@@ -61,84 +48,49 @@ function onLoadJQuery_INDEX(){
 	//load the tabs and show the first one
 	instrumentTabs();
 	$("#sol-tab").show();
+
+	//render the sol instrument chooser widget
+	$("#sichooser").solinstrumentChooser({
+		onStatus:onStatusEvent,
+		onSelect:onSelectSolInstrEvent,
+		mission:cMission
+	});
 	
+	//render the solbuttons
+	$("#solButtons").solButtons({
+		onStatus:onStatusEvent,
+		mission:cMission,
+		onClick:stop_queue,
+		onAllSolThumbs:onClickAllSolThumbs
+	});
 	
 	//set up the onchange handler for sols
-	$("#"+SOLS_LIST).change( OnChangeSolList);
-	$("#"+SOL_SUMMARY).change( OnChangeSolSummaryList);
-	$("#"+INSTRUMENT_LIST).change(OnChangeInstrument)
 	if (cBrowser.data[THUMB_QUERYSTRING] != null)
 		$("#"+sCheckThumbs).prop('checked', true);
 	$("#"+sCheckThumbs).change(onChangeThumbs);
 	
 	//hide things
-	$("#nav1").hide();
-	$("#nav2").hide();
-	$("#solgiga").attr('disabled', "disabled");
-	$("#soltag").attr('disabled', "disabled");
-	$("#solhigh").attr('disabled', "disabled");
-	$("#solnotebook").attr('disabled', "disabled");
-	$("#solmap").attr('disabled', "disabled");
-	$("#solcalendar").attr('disabled', "disabled");
-	$("#solrefresh").attr('disabled', "disabled");
-	$("#solsite").attr('disabled', "disabled");
-	$("#solprev").attr('disabled', "disabled");
-	$("#solnext").attr('disabled', "disabled");
-	$("#sollatest").attr('disabled', "disabled");
-	$("#solsite").attr('disabled', "disabled");
-	$("#allsolthumbs").attr('disabled', "disabled");
 	$("#search_text").keypress(onSearchKeypress);
 	
 	//go and load stuff
 	set_status("loading static data...");
-	if (cBrowser.data[MAXIMAGES_QUERYSTRING] )
-		HOW_MANY_IMAGES = parseInt(cBrowser.data[MAXIMAGES_QUERYSTRING]);
 	if (cBrowser.data[BEGIN_QUERYSTRING] ){
 		gi_current_img_idx = parseInt(cBrowser.data[BEGIN_QUERYSTRING]);
-		reset_image_number = false;
 	}
 		
-	cHttp.fetch_json("php/rest/instruments.php", load_instruments_callback);
-	cHttp.fetch_json("php/rest/sols.php", load_sols_callback);
 	cTagging.getTagNames(tagnames_callback);
 }
 
 //###############################################################
 //# Event Handlers
 //###############################################################
-function onClickSolGiga(){
-	stop_queue();
-	cBrowser.openWindow("solgigas.php?s=" + gi_current_sol, "solgigas");
-}
-function onClickSolTag(){
-	stop_queue();
-	cBrowser.openWindow("soltag.php?s=" + gi_current_sol, "soltag");
-}
-function onClickLatestSol(){
-	stop_queue();
-	cDebug.write("setting latest sol: ");
-	gs_current_instrument = null;
-	gi_current_img_idx = -1;
-	$("#"+INSTRUMENT_LIST+" option:first").attr('selected','selected');
-	$( "#sol_list :last" ).attr('selected', 'selected').change();
-
-}
-function onClickSolHighs(){
-	stop_queue();
-	cBrowser.openWindow("solhigh.php?sheet&s=" + gi_current_sol, "solhigh");
-}
 function onClickAllSolThumbs(){
 	stop_queue();
 	gs_current_instrument = null;
 	gi_current_img_idx = -1;
-	$("#"+INSTRUMENT_LIST+" option:first").attr('selected','selected');
 	$("#chkThumbs").prop("checked", true);
 	$("#chkThumbs").attr('disabled', "disabled");
 	reload_data();
-}
-function onClickSolSite(){
-	stop_queue();
-	cBrowser.openWindow("site.php?sol=" + gi_current_sol , "site");
 }
 
 function onSearchKeypress(e){
@@ -154,35 +106,11 @@ function onClickSearch(){
 	gs_current_instrument = null;
 	
 	if (!isNaN(sText)){
-		$("#"+INSTRUMENT_LIST+" option:first").attr('selected','selected');
 		select_sol(sText);		//numeric search is a sol
 	}else{
-		sUrl="php/rest/search.php?s=" + sText;
+		var sUrl=cBrowser.buildUrl("php/rest/search.php", {s:sText});
 		cHttp.fetch_json(sUrl, search_callback);
 	}
-}
-
-//***************************************************************
-function OnChangeSolSummaryList(poEvent){
-	stop_queue();
-	select_sol(poEvent.target.value);
-}
-
-//***************************************************************
-function OnChangeSolList(poEvent){
-	stop_queue();
-	if (loading) return;
-	reset_image_number = true;
-	set_sol(poEvent.target.value);
-}
-
-//***************************************************************
-function OnChangeInstrument(poEvent){
-	stop_queue();
-	cDebug.write("changing instrument: ");
-
-	reset_image_number = true;
-	do_set_instrument(poEvent.target.value);
 }
 
 //***************************************************************
@@ -191,160 +119,13 @@ function onChangeThumbs(poEvent){
 	reload_data();
 }
 
-//***************************************************************
-function onClickCalendar(){
-	var sUrl;
-	
-	stop_queue();
-	sUrl = "cal.php?s=" + gi_current_sol;
-	cBrowser.openWindow(sUrl, "calendar");
-}
+
 
 //***************************************************************
-function onClickNextImage(){
-	var iNext;
-	
+function onImageClick(poEvent, poOptions){
 	stop_queue();
-	if (!OKToReload()) return;
-	iNext = gi_current_img_idx + HOW_MANY_IMAGES;
-	if (iNext > gi_max_images) 
-		onClickNextSol();
-	else
-	//go ahead and get the data 
-	get_image_data(gi_current_sol, gs_current_instrument,iNext,iNext+HOW_MANY_IMAGES);
-}
-
-//***************************************************************
-function onClickPreviousImage(){
-	var iPrevious;
-	
-	stop_queue();
-	if (!OKToReload()) return;
-	iPrevious = gi_current_img_idx - HOW_MANY_IMAGES;
-	
-	if (iPrevious <= 0 ) {
-		if (gi_current_img_idx >1)
-			iPrevious =1;
-		else
-			onClickPreviousSol();
-	}else
-		//go ahead and get the data 
-		get_image_data(gi_current_sol, gs_current_instrument,iPrevious,iPrevious+HOW_MANY_IMAGES-1);
-}
-
-//***************************************************************
-function onClickPreviousSol(){
-	var oItem, oPrev;
-	stop_queue();
-	oItem = $('#sol_list option:selected');
-	if (oItem.length == 0)	{
-		set_error_status("select a Sol");
-		return true;
-	}
-
-	oPrev = oItem.prev('option')
-	if (oPrev.attr("disabled")=="disabled")
-		oPrev = oPrev.prev('option');
-		
-	if (oPrev.length>0){
-		oPrev.attr('selected', 'selected');
-		oPrev.change();
-	}
-}
-
-//***************************************************************
-function onClickNextSol(){	
-	var oItem, oNext;
-	stop_queue();
-	oItem = $('#sol_list option:selected');
-	if (oItem.length == 0)	{
-		set_error_status("select a Sol");
-		return true;
-	}
-	
-	oNext = oItem.next('option')
-	if (oNext.attr("disabled")=="disabled")
-		oNext = oNext.next('option');
-		
-	if (oNext.length>0){
-		oNext.attr('selected', 'selected');
-		oNext.change();
-	}
-
-	return false;
-}
-
-//***************************************************************
-function onClickMslNotebook(){
-	var sUrl;
-	
-	stop_queue();
-	sUrl = "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx?tab=solsumm&sol=" + gi_current_sol;
-	window.open(sUrl, "date");
-}
-
-//***************************************************************
-function onClickMslNotebookMap(){
-	var sUrl;
-	
-	stop_queue();
-	sUrl = "https://an.rsl.wustl.edu/msl/mslbrowser/tab.aspx?t=mp&i=A&it=MT&ii=SOL," + gi_current_sol;
-	window.open(sUrl, "map");
-}
-
-//***************************************************************
-function onClickRefresh(){
-	stop_queue();
-	if (!gi_current_sol){ 	
-		set_error_status("NO Sol Selected...");
-		return false;
-	}
-	
-	get_sol_instruments(gi_current_sol,true);
-}
-
-//***************************************************************
-function onImageClick(){
-	stop_queue();
-	var oImg = $(this);
-	sURL = "detail.php?s=" + oImg.data(SOL_ATTR) + "&i=" + oImg.data(INSTRUMENT_ATTR) +"&p=" + oImg.data(PRODUCT_ATTR);
+	var sURL = cBrowser.buildUrl("detail.php",{s:poOptions.sol,i:poOptions.instrument,p:poOptions.product});
 	cBrowser.openWindow(sURL, "detail");
-}
-
-
-//###############################################################
-//# keypress functions 
-//###############################################################
-function setup_keypress(){
-	if (this.keypress) return;
-	this.keypress=true;
-	
-	//catch key presses but not on text inputs
-	$(window).keypress(onKeyPress);
-	$(":input").each(function(index,oObj){
-		if ($(oObj).attr("type")==="text"){
-			$(oObj).focus(onInputFocus);
-			$(oObj).blur(onInputDefocus);
-		}
-	});
-}
-
-function onKeyPress(poEvent){
-	var sChar = String.fromCharCode(poEvent.which);
-	switch(sChar){
-		case "[": onClickPreviousSol();break;
-		case "]": onClickNextSol();break;
-		case "n": onClickNextImage();break;
-		case "p": onClickPreviousImage();break;
-	}	
-}
-
-function onInputFocus(){
-	$(window).unbind("keypress");
-}
-
-function onInputDefocus(){
-	$(window).keypress(onKeyPress);
 }
 
 
@@ -352,7 +133,7 @@ function onInputDefocus(){
 //# Utility functions 
 //###############################################################
 function update_url(){
-	sUrl = cBrowser.pageUrl() + 
+	var sUrl = cBrowser.pageUrl() + 
 			"?s=" +  gi_current_sol + 
 			(gs_current_instrument?"&i=" + gs_current_instrument:"") +
 			(is_thumbs_checked()? "&" +THUMB_QUERYSTRING + "=1":"") +
@@ -360,95 +141,23 @@ function update_url(){
 	cBrowser.pushState("Index", sUrl);
 }
 
-
 function stop_queue(){
-	oDiv = $("#"+ IMAGE_CONTAINER_ID);
-	oDiv.thumbnailview("stop_queue");
+	var oDiv;
+	try{
+		oDiv = $("#"+ IMAGE_CONTAINER_ID);
+		oDiv.thumbnailview("stop_queue");
+	}
+	catch (e){}
+	window.stop();
 }
 
-function set_instrument(psInstr){
-	//hide the navigation
-	$("#nav1").hide();
-	$("#nav2").hide();
-
-	$("#"+ INSTRUMENT_LIST +" option[value='" + psInstr + "']").attr("selected", true);
-	do_set_instrument(psInstr);
-}
-
-//***************************************************************
-function do_set_instrument(psInstr){
-	cDebug.write("setting instrument: " + psInstr);
-	gs_current_instrument = psInstr;
-	$("#chkThumbs").removeAttr('disabled');
+function onSelectSolInstrEvent( poEvent, poData){
+	cDebug.write("selecting sol:"+poData.sol + " instr:" + poData.instrument);
+	stop_queue();
+	
+	gi_current_sol = poData.sol;
+	gs_current_instrument = poData.instrument;
 	reload_data();
-}
-
-//***************************************************************
-function select_sol(psSol){
-	var oOption;
-	
-	oOption = $("#"+SOLS_LIST + " option[value="+psSol+"]");
-	if ((oOption.length > 0) && (oOption.attr("disabled")!=="disabled")){
-		$("#"+SOLS_LIST + " option[value="+psSol+"]").attr("selected", true);
-		reload_after_instr = true;
-		set_sol(psSol);
-	}else{
-		set_error_status("No such SOL...");
-	}
-}
-
-//***************************************************************
-function set_sol(psSol){
-
-	cDebug.write("setting sol: " + psSol);
-	$("#"+IMAGE_CONTAINER_ID).html("<span class='subtitle'>loading...</span>");
-	gi_current_sol = psSol;
-	$("#"+SOL_ID).html(gi_current_sol);
-
-	if (!gs_current_instrument  && !is_thumbs_checked()){
-		$("#"+sCheckThumbs).prop('checked', true);
-		cBrowser.data[THUMB_QUERYSTRING] = "1";
-	}
-	
-	$("#nav1").hide();
-	$("#nav2").hide();
-	$("#chkThumbs").attr('disabled', "disabled");
-
-	$("#solnotebook").removeAttr('disabled');
-	$("#solmap").removeAttr('disabled');
-	$("#solcalendar").removeAttr('disabled');
-	$("#solnext").removeAttr('disabled');
-	$("#solprev").removeAttr('disabled');
-	$("#solrefresh").removeAttr('disabled');
-	$("#solsite").removeAttr('disabled');
-	$("#solsite").removeAttr('disabled');
-	$("#allsolthumbs").removeAttr('disabled');
-
-	get_sol_instruments(gi_current_sol,false);	//this reloads the data
-	get_sol_tag_count(gi_current_sol);
-	get_sol_hilite_count(gi_current_sol);
-	
-	$("#solgiga").attr('disabled', "disabled");
-	get_gigapans(gi_current_sol);
-}
-
-
-//***************************************************************
-function OKToReload(){
-	//mutex
-	if (loading){
-		set_status("allready loading data");
-		return false;
-	}
-	
-	// TODO Validate that a list item and instrument are selected
-	// otherwise do nothing
-	if (!gi_current_sol){ 	
-		set_error_status("NO Sol Selected...");
-		return false;
-	}
-	
-	return true;
 }
 
 function is_thumbs_checked(){
@@ -457,135 +166,84 @@ function is_thumbs_checked(){
 
 //***************************************************************
 function reload_data(){
-	var sUrl, sBegin;
-	
-	if (!OKToReload()) return;
-
 	update_url();
 	
-	if (is_thumbs_checked()){
-		if (gs_current_instrument)
-			get_sol_thumbs(gi_current_sol, gs_current_instrument);
-		else	
-			get_sol_thumbs(gi_current_sol, sAllInstruments);
-	}else{
-		//go ahead and get the data starting at position 0
-		if (reset_image_number)
-			get_image_data(gi_current_sol, gs_current_instrument,1,HOW_MANY_IMAGES);
+	$("#solButtons").solButtons("set_sol", gi_current_sol);
+	
+	if (gs_current_instrument){
+		if (is_thumbs_checked())
+			show_thumbs(gi_current_sol, gs_current_instrument);
 		else
-			get_image_data(gi_current_sol, gs_current_instrument,gi_current_img_idx,gi_current_img_idx+HOW_MANY_IMAGES-1);		
-	}
+			show_images(gi_current_sol, gs_current_instrument,1);
+	}else
+		show_thumbs(gi_current_sol, sAllInstruments);
 }
 
 //###############################################################
 //* EVENTS
 //###############################################################
-function onStatusEvent(poEvent, poData){
-	set_status(poData.text);
-}
-function onBasicThumbnailEvent(poEvent, poData){
-	$("#nav1").hide();
-	$("#nav2").hide();
+function onStatusEvent(poEvent, paHash){
+	set_status(paHash.text);
 }
 
 function onThumbClick(poEvent, poData){
-	sURL = "detail.php?s=" + poData.sol + "&i=" + poData.instr +"&p=" + poData.product;
+	stop_queue();
+	var sURL = "detail.php?s=" + poData.sol + "&i=" + poData.instr +"&p=" + poData.product;
 	cBrowser.openWindow(sURL, "detail");
+}
+
+function onImagesLoadedEvent(poEvent, piStartImage){
+	//enable thumbnails
+	$("#solthumbs").removeAttr('disabled');	
+	gi_current_img_idx = piStartImage;
+	update_url();
 }
 
 //###############################################################
 //* GETTERS
 //###############################################################
-function get_sol_thumbs(psSol, psInstrument){
-	var oWidget;
+function show_thumbs(psSol, psInstrument){
+	var oWidget, oDiv;
 	
-	oDiv = $("#"+ IMAGE_CONTAINER_ID);
+	
+	var oDiv = $("#"+ IMAGE_CONTAINER_ID);
+	oWidget = oDiv.data("chickenkatsuThumbnailview");
+	if ( oWidget){ oWidget.destroy();}
+	
 	oWidget = oDiv.thumbnailview({		 // apply widget
 		sol:psSol, 
-		instrument:psInstrument, 
+		instrument:psInstrument,
 		onStatus:onStatusEvent,
-		onBasicThumbnail: onBasicThumbnailEvent,
-		onClick: onThumbClick
+		onClick: onThumbClick,
+		mission:cMission
 	});
 }
 
 //***************************************************************
-function get_sol_instruments(psSol, pbRefresh){
-	set_status("getting instruments for sol" + psSol);
-
-	//hide instruments jQUERY 
-	$("#"+ INSTRUMENT_LIST  + " option").each(
-		function (pIndex, pObj){ $(pObj).attr({disabled:"disabled"})}
-	);
-	
-	//get the instruments for this sol
-	$("#instr_load").show();
-	sUrl = "php/rest/instruments.php?s=" + psSol + "&r=" + pbRefresh;
-	cHttp.fetch_json(sUrl, get_sol_instruments_callback);
-}
-
-//***************************************************************
-function get_image_data( piSol, psInstr, piStart, piEnd){
+function show_images( piSol, psInstr, piStartImage){
 	var sUrl;
 	
-	//clear out the image data
-	$("#"+IMAGE_CONTAINER_ID).html("<p class='subtitle'>loading images");
+	var oWidget, oDiv;
 	
-	// load the image data
-	loading=true;
-	sUrl = "php/rest/images.php?s=" + piSol + "&i=" + psInstr +"&b=" + piStart + "&e=" + piEnd;
-	set_status("fetching image data...");
-	cHttp.fetch_json(sUrl, load_fullimages_callback);
+	var oDiv = $("#"+ IMAGE_CONTAINER_ID);
+	oWidget = oDiv.data("chickenkatsuImageview");
+	if ( oWidget){ oWidget.destroy();}
+	
+	oWidget = oDiv.imageview({		 // apply widget
+		sol:piSol, 
+		instrument:psInstr,
+		start: piStartImage,
+		onStatus:onStatusEvent,
+		onLoaded:onImagesLoadedEvent,
+		onClick: onImageClick,
+		mission:cMission
+	});
 }
 
-//***************************************************************
-function get_gigapans(psSol){
-	cHttp.fetch_json("php/rest/gigapans.php?o=sol&s=" + psSol, gigapans_callback);
-}
-
-//***************************************************************
-function get_sol_tag_count(psSol){
-	var sUrl;
-	set_status("fetching tagcount");
-	sUrl = "php/rest/tag.php?s=" + psSol + "&o=solcount";
-	cHttp.fetch_json(sUrl, tagcount_callback);
-}
-
-//***************************************************************
-function get_sol_hilite_count(psSol){
-	var sUrl;
-	set_status("fetching hilite count");
-	sUrl = "php/rest/img_highlight.php?s=" + psSol + "&o=solcount";
-	cHttp.fetch_json(sUrl, solhighcount_callback);
-}
 
 //###############################################################
 //* call backs 
 //###############################################################
-function gigapans_callback(paJS){
-	if (paJS == null) return;
-	$("#solgiga").removeAttr('disabled');
-}
-
-//***************************************************************
-function solhighcount_callback(piJS){
-	//RETURNS ALL THE TAGS
-	if (piJS > 0)
-		$("#solhigh").removeAttr('disabled');
-	else
-		$("#solhigh").attr('disabled', "disabled");
-}
-
-//***************************************************************
-function tagcount_callback(piJS){
-	//RETURNS ALL THE TAGS
-	if (piJS > 0)
-		$("#soltag").removeAttr('disabled');
-	else
-		$("#soltag").attr('disabled', "disabled");
-}
-
-//***************************************************************
 function search_callback(poJS){
 	var sUrl;
 	
@@ -604,224 +262,4 @@ function tagnames_callback(poJs){
 	cTagging.showTagCloud("tags",poJs);
 }
 
-//***************************************************************
-function load_sols_callback(paJS){
-	var i, oSol, oList, oSumList, oOption, iSol, iLastRange, iRange ;
-
-	cDebug.write("got sols callback");
-	
-	
-	oList = $("#"+SOLS_LIST);
-	oList.empty();
-	oSumList = $("#"+SOL_SUMMARY);
-	oSumList.empty();
-	iLastRange = -1;
-	
-	
-	for (i = 0; i < paJS.length; i++){
-		oSol = paJS[i];
-		iSol = parseInt(oSol.sol);
-		iRange = Math.floor(iSol/SOL_DIVISIONS);
-		
-		if (iRange != iLastRange){
-			oOption = $("<option>",{value:iSol}).html(oSol.sol + " to ...");
-			oSumList.append(oOption);
-			
-			oOption = $("<option>",{value:"NaN",disabled:"disabled"}).html("-- " + oSol.sol + " --");
-			oList.append(oOption);
-			iLastRange = iRange;
-		}
-
-		oOption = $("<option>",{value:oSol.sol}).html(oSol.sol);
-		oList.append(oOption);
-	}
-	
-	//enable latest button
-	$("#sollatest").removeAttr('disabled');
-	
-	// mark the sol
-	if (cBrowser.data[SOL_QUERYSTRING] ) 
-		select_sol(cBrowser.data[SOL_QUERYSTRING]);
-	
-}
-
-//***************************************************************
-function load_instruments_callback(paJS){
-	var i, oInstr, oList, sID;
-	
-	$("#instr_load").hide();
-	oList = $("#"+INSTRUMENT_LIST);
-	oList.empty();
-	
-	oList.append( $("<option>",{value:"",disabled:"disabled"}).html("Select an Instrument..."));
-	
-	for (i = 0; i < paJS.length; i++){
-		oInstr = paJS[i];
-		sID= INSTRUMENT_LIST + oInstr.name;
-		oList.append( $("<option>",{value:oInstr.name,disabled:"disabled",ID:sID}).html(oInstr.caption));
-	}
-	loading=false;
-	set_status("ready");
-
-	//click the buttons if stuff was passed in the query string
-	if (cBrowser.data[INSTR_QUERYSTRING] ) 
-		set_instrument(cBrowser.data[INSTR_QUERYSTRING]);
-
-}
-
-//***************************************************************
-function on_loaded_fullimage(){
-	
-	//get the image and tag highlights
-	var oImg = $(this);
-	
-	var sSol = oImg.data(SOL_ATTR);
-	var sInstr = oImg.data(INSTRUMENT_ATTR);
-	var sProd = oImg.data(PRODUCT_ATTR);
-	
-	
-	cImgHilite.getHighlights(sSol,sInstr,sProd, highlight_callback);
-	cTagging.getTags(sSol,sInstr,sProd, tag_callback);
-}
-
-//***************************************************************
-function load_fullimages_callback(paJS){
-	var oDiv, iIndex, oItem, oOuterDiv;
-	
-	gi_max_images = 0;
-	
-	if (reset_image_number)
-		gi_current_img_idx = null;
-	
-	//clear out the image div
-	$("#"+IMAGE_CONTAINER_ID).empty();
-		
-	//build the html to put into the div
-	if (paJS.max == 0)
-		$("#"+IMAGE_CONTAINER_ID).html("No instrument data found");
-	else{
-		//enable thumbnails
-		$("#solthumbs").removeAttr('disabled');
-		
-		//update title
-		document.title = "Index - s:" + gi_current_sol + " i:" + gs_current_instrument + "(curiosity browser)";
-		
-		// update the maximum display
-		gi_max_images = parseInt(paJS.max);
-		$("#"+MAX_ID).html(gi_max_images);
-		$("#"+MAX_ID2).html(gi_max_images);
-		
-		gi_current_img_idx = parseInt(paJS.start);
-		$("#"+CURRENT_ID).html(gi_current_img_idx);
-		$("#"+CURRENT_ID2).html(gi_current_img_idx);
-		update_url();
-		
-		oOuterDiv = $("#"+IMAGE_CONTAINER_ID);
-		for (iIndex = 0; iIndex < paJS.images.length; iIndex++){
-			var oDiv, oImgDiv, oA, oImg;
-			
-			// get the img details
-			oItem = paJS.images[iIndex];
-			sImgURL = "detail.php?s="+ gi_current_sol + "&i=" + gs_current_instrument + "&p=" + oItem.p;
-			
-			//build up the div
-			oDiv = $("<DIV>");
-			
-			//build up the image div
-			oImgDiv = $("<DIV>",{id:oItem.p});
-			oImgDiv.css({position: 'relative'});
-
-			oImg = $("<IMG>",{src:oItem.i});
-			oImg.data(SOL_ATTR,gi_current_sol);
-			oImg.data(INSTRUMENT_ATTR,gs_current_instrument);
-			oImg.data(PRODUCT_ATTR,oItem.p); 
-			oImg.load( on_loaded_fullimage);
-			oImg.click(onImageClick);
-			
-			oImgDiv.append(oImg);	
-			
-			//add the lot to the new div
-			oDiv.append(oImgDiv);
-			oDiv.append($("<SPAN>",{class:"subtitle"}).html("Date: "));
-			oDiv.append(oItem.du);
-			oDiv.append($("<SPAN>",{class:"subtitle"}).html(" Product: "));
-			oDiv.append(oItem.p );
-			oDiv.append($("<SPAN>",{class:"subtitle"}).html(" Tags: "));
-			oDiv.append($("<SPAN>",{class:"soltags",id:"T"+oItem.p}).html("Loading ..."));
-			oDiv.append("<HR>");
-			
-			//add new div to uber div
-			oOuterDiv.append(oDiv);
-			
-			
-			//unhide the navigation controls
-			$("#nav1").show();
-			$("#nav2").show();
-			setup_keypress();
-		}
-	}
-	
-	loading=false;
-	set_status("ready");
-}
-
-// ***************************************************************
-function tag_callback(paJS){
-	var oDiv, oA, sTag, i;
-	
-	oDiv = $("#T" + paJS.p);
-	oDiv.empty();
-	
-	if (paJS.d.length== 0) {
-		oDiv.html( "no Tags");
-		return;
-	}
-
-	//put in the tags
-	for (i=0; i<paJS.d.length; i++){
-		sTag = paJS.d[i];
-		oA = $("<A>",{href:"tag.php?t=" + sTag}).html(sTag);
-		oDiv.append(oA).append(" ");
-	}
-}
-
-// ***************************************************************
-function get_sol_instruments_callback(paJS){
-	var i, sInstr, oSelect;
-
-	set_status("got instruments");
-	$("#instr_load").hide();
-	oSelect = $("#" + INSTRUMENT_LIST);
-	
-	//mark the instruments remaining
-	for ( i = 0; i<paJS.length; i++){
-		
-		sInstr = paJS[i];
-		oSelect.find('option[value=\"'+ sInstr + '\"]').removeAttr('disabled');
-	}
-	
-	reload_data();
-	set_status("ready");
-}
-
-// ***************************************************************
-function highlight_callback(paJS){
-	var i, oDiv, oRedBox, iLeft, iTop;
-	
-	if (!paJS.d) return;
-	oDiv = $("#"+paJS.p);
-	
-	for (i=0; i<paJS.d.length; i++){
-		aItem = paJS.d[i];
-		
-		//create a redbox and display it
-		oRedBox = $("<DIV>",{class:"redbox"});
-		oDiv.append(oRedBox);
-		
-		//place it relative to the parent location
-		iTop = parseInt(aItem.t);
-		iLeft = parseInt(aItem.l);
-		oRedBox.css({position: 'absolute',	top: iTop,	left: iLeft})
-	}
-}
 

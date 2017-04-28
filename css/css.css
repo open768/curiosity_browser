@@ -182,6 +182,9 @@ body
 .solnav{
 	width: 70px;
 }
+.imagenav{
+	width: 100%;
+}
 
 .maintable
 {

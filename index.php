@@ -27,9 +27,14 @@
 		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/actionqueue.js"></script>
 		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/tabs.js"></script>
 		<script type="text/javascript" src="js/pages/index.js"></script>
+		<script type="text/javascript" src="js/widgets/thumbnail.js"></script>
 		<script type="text/javascript" src="js/widgets/thumbnail-view.js"></script>
+		<script type="text/javascript" src="js/widgets/image-view.js"></script>
+		<script type="text/javascript" src="js/widgets/image.js"></script>
+		<script type="text/javascript" src="js/widgets/sichooser.js"></script>
+		<script type="text/javascript" src="js/widgets/solbuttons.js"></script>
 		
-		<meta property="og:title" content="Curiosity Browser - Interact with Science" />
+		<meta property="og:title" content="Curiosity Browser - " />
 		<meta property="og:image" content="http://www.mars-browser.co.uk/curiosity/images/rover.png" />
 		<meta property="og:description" content="Be part of the greatest exploration team ever. Discover great finds in the amazing images from NASA's Curiosity Rover and share your discoveries with the world." />
 	</head>
@@ -51,40 +56,19 @@
 					</ul>
 					<div class="tab">
 						<div class="tab-content" id="sol-tab">
-							<div class="subtitle">Sol: <span id="this_sol">???</span></div>
-							<select id="sol_summary"></select>
-							<SELECT id="sol_list">
-								<option>Loading...</option>
-							</SELECT>
-							<table border="0" width="100%"><tr>
-								<td align="left"><button id="solprev" class="solnav leftarrow" title="previous Sol ([)" onclick="onClickPreviousSol();"></button></td>
-								<td align="middle"><button id="sollatest" class="roundbutton" title="Latest Sol" onclick="onClickLatestSol();">latest</button></td>
-								<td align="right"><button id="solnext" class="solnav rightarrow" title="next Sol (])" onclick="onClickNextSol();"></button></td>
-							</tr></table>
+							<div id="sichooser"></div>
 							<!-- ************************************** -->
-							<div class="subtitle">Instruments:</div>
-							<select name="instruments" id="instruments">
-								<option>Choose a SOL...</option>
-							</select>
-							<div class="subtitle" id="instr_load"><i>loading...</i></div>
-							<!-- ************************************** -->
-							<div class="subtitle">Sol Information:</div>				
-							<button title="Tags for selected Sol" class="leftbutton" id="soltag" onclick="onClickSolTag();">Tags</button>
-							<button title="Highlights for selected Sol" class="leftbutton" id="solhigh" onclick="onClickSolHighs();">Highlights</button>
-							<button title="Gigapans for selected Sol" class="leftbutton" id="solgiga" onclick="onClickSolGiga();">Gigapans</button>
-							<button title="MSL curiosity notebook" class="leftbutton" id="solnotebook" onclick="onClickMslNotebook();">MSL Notebook</button>
-							<button title="MSL curiosity notebook MAP" id="solmap" class="leftbutton" onclick="onClickMslNotebookMap();">Map</button>
-							<button title="Calendar" id="solcalendar" class="leftbutton" onclick="onClickCalendar()">Calendar</button>
-							<button title="force refresh cache" id="solrefresh" class="leftbutton" onclick="onClickRefresh()">Refresh Data</button>
-							<button title="All thumbnails for sol" id="allsolthumbs" class="leftbutton" onclick="onClickAllSolThumbs()">All Thumbnails</button>
-							<button title="site details for sol" id="solsite" class="leftbutton" onclick="onClickSolSite()">Site</button>
-							<hr/>
-							<div class="subtitle">Admin</div>				
-							<?php if ($bIsAdmin){?>
-								<button title="Admin Functions" id="admin" onclick="cBrowser.openWindow('admin/', 'admin');">Admin functions</button>
-							<?php }else{ ?>
-								not an Admin.
-							<?php }?>
+							<div id="solButtons"></div>
+							<div class="ui-widget">
+								<div class="ui-widget-header">Admin</div>				
+								<div class="ui-widget-body">
+									<?php if ($bIsAdmin){?>
+										<button title="Admin Functions" id="admin" onclick="cBrowser.openWindow('admin/', 'admin');">Admin functions</button>
+									<?php }else{ ?>
+										not an Admin.
+									<?php }?>
+								</div>
+							</div>
 						</div>
 						<div class="tab-content" id="tags-tab">
 							<div id="tags">Loading...</div>
@@ -104,12 +88,6 @@
 						<input type="textbox" id="search_text" maxlength="30" size="30"><button class="rightbutton" onclick="onClickSearch()" title="Search for Product">Search</button>
 						<input id="chkThumbs" type="checkbox">Show Thumbnails&nbsp;&nbsp;&nbsp;&nbsp;
 						<span class="subtitle"> Status: </span><span ID="status" class="status">Loading...</span>
-					</div>
-					<div class="gold" id="nav1" style="display:none">
-						<button class="solnav leftarrow" id="previous" title="Previous page (p)" onclick="onClickPreviousImage();"></button>
-						<span ID="current">??</span>
-						<button class="solnav rightarrow" id="next" title="Next page (n)" onclick="onClickNextImage();"></button>
-						max <span ID="max">??</span>
 					</div>
 					<div class="gold" id="images">
 						<div id="intro" style="display:none">
@@ -161,12 +139,6 @@
 								Product information is based solely on material received from suppliers.			
 							</font>
 						</div>
-					</div>
-					<div class="gold" id="nav2" style="display:none">
-						<button class="solnav leftarrow" title="Previous page (p)" onclick="onClickPreviousImage();"></button>
-						<span ID="current2">??</span>
-						<button class="solnav rightarrow" title="Next page (n)" onclick="onClickNextImage();"></button>
-						max <span ID="max2">??</span><br/><br/>
 					</div>
 				</td>
 			</tr></table>
