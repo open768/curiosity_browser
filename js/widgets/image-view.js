@@ -18,7 +18,8 @@ $.widget( "chickenkatsu.imageview",{
 		sol: null,
 		instrument: null,
 		start_image: 0,
-		max_images: -1
+		max_images: -1,
+		keypress_done: false
 	},
 	
 	//#################################################################
@@ -101,7 +102,6 @@ $.widget( "chickenkatsu.imageview",{
 			this.options.max_images = paJS.max;
 			
 			//update title
-			document.title = "Index - s:" + this.options.sol + " i:" + this.options.instrument + "(curiosity browser)";
 			this.options.start_image = parseInt(paJS.start);
 
 			//create the navigation div
@@ -158,7 +158,10 @@ $.widget( "chickenkatsu.imageview",{
 		}
 		
 		//set up keypress
-		this._on( window, {	keypress: function(poEvent){oWidget.onKeypress(poEvent)}});
+		if (!this.options.keypress_done){
+			this._on( window, {	keypress: function(poEvent){oWidget.onKeypress(poEvent)}});
+			this.options.keypress_done = true;
+		}
 
 		this._trigger("onLoaded",null,this.options.start);
 	},

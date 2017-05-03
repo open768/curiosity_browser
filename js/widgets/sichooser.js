@@ -16,7 +16,8 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		SOL_SUMMARY_ID:	"ss",
 		SOL_LIST_ID:	"sl",
 		LATEST_ID:		"la",
-		INSTR_ID:	"i"
+		INSTR_ID:	"i",
+		SOL_DIVISIONS:50
 	},
 
 	//#################################################################
@@ -90,6 +91,16 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 	},
 	
 	//#################################################################
+	//# methods
+	//#################################################################
+	deselectInstrument:function(){
+		var sID = this.element.attr("id");
+		var sListID = sID + this.consts.INSTR_ID;
+		$("#"+sListID+" option:first").prop('selected',true);
+		this.options.instrument = null;
+	},
+
+	//#################################################################
 	//# Privates
 	//#################################################################
 	set_sol:function(psSol){
@@ -155,9 +166,7 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		cDebug.write("setting latest sol: ");
 		
 		//deslect instruments
-		var sListID = sID + this.consts.INSTR_ID;
-		$("#"+sListID+" option:first").prop('selected',true);
-		this.options.instrument = null;
+		this.deselectInstrument();
 		
 		//select the list item
 		var sListID = sID + this.consts.SOL_LIST_ID;
@@ -220,8 +229,10 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		}
 
 		//click the buttons if stuff was passed in the query string
-		if (cBrowser.data[INSTR_QUERYSTRING] ) 
-			set_instrument(cBrowser.data[INSTR_QUERYSTRING]);
+		if (cBrowser.data[INSTR_QUERYSTRING] ) {
+			var sInstr = cBrowser.data[INSTR_QUERYSTRING];
+			oList.find('option[value=\"'+ sInstr + '\"]').attr("selected", true);
+		}
 	},
 	
 	//*****************************************************************
@@ -241,7 +252,7 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		for (i = 0; i < paJS.length; i++){
 			oSol = paJS[i];
 			iSol = parseInt(oSol.sol);
-			iRange = Math.floor(iSol/SOL_DIVISIONS);
+			iRange = Math.floor(iSol/this.consts.SOL_DIVISIONS);
 			
 			if (iRange != iLastRange){
 				oOption = $("<option>",{value:iSol}).html(oSol.sol + " to ...");
