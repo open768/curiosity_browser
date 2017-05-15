@@ -36,6 +36,7 @@ $.widget( "chickenkatsu.instrumentimage",{
 		oOptions.image_div.append(oImg);	
 		
 		//add the lot to the new div
+		oElement.empty();
 		oElement.append(oOptions.image_div);
 		oElement.append($("<SPAN>",{class:"subtitle"}).html("Date: "));
 		oElement.append(oOptions.date);

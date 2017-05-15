@@ -17,6 +17,9 @@
 	<script type="text/javascript" src="<?=$jsinc?>/ck-inc/imghilite.js"></script>
 	<script type="text/javascript" src="<?=$jsinc?>/ck-inc/queue.js"></script>
 	<script type="text/javascript" src="<?=$jsinc?>/ck-inc/actionqueue.js"></script>
+	<script type="text/javascript" src="js/widgets/tag-view.js"></script>
+	<script type="text/javascript" src="js/widgets/image.js"></script>
+	<script type="text/javascript" src="js/widgets/tagcloud.js"></script>
 </head>
 <body onload="$(cJQueryObj.onBodyLoad);">
 	<?php 
@@ -28,19 +31,19 @@
 	?>
 	<table width="100%"><tr>
 		<td class="leftcolumn" valign="top">
-			<div class="gold" id="tags">Loading tags</div>
+			<div class="gold" id="tagcloud">Loading tags</div>
 		</td>
 		<td valign="top">
 			<div class="gold">
 				<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
-				Status: <span class="status" id="status">	loading...</span>
+				Status: <span class="status" id="status">	initialising...</span>
 			</div>
 			<div class="gold" >
 				This Tag was seen in the following:
 				<p>
-				<ul id="tagdata">
-					<li><span class="subtitle">Loading Tag data</span>
-				</ul>
+				<div id="tagdata">
+					<span class="subtitle">initialising...</span>
+				</div>
 			</div>
 		</td>
 	</tr></table>

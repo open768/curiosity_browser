@@ -33,6 +33,7 @@
 		<script type="text/javascript" src="js/widgets/image.js"></script>
 		<script type="text/javascript" src="js/widgets/sichooser.js"></script>
 		<script type="text/javascript" src="js/widgets/solbuttons.js"></script>
+		<script type="text/javascript" src="js/widgets/tagcloud.js"></script>
 		
 		<meta property="og:title" content="Curiosity Browser - " />
 		<meta property="og:image" content="http://www.mars-browser.co.uk/curiosity/images/rover.png" />

@@ -66,7 +66,7 @@ function onLoadJQuery_INDEX(){
 		cOptions.start_image = parseInt(cBrowser.data[BEGIN_QUERYSTRING]);
 	}
 		
-	cTagging.getTagNames(tagnames_callback);
+	$("#tags").tagcloud();
 }
 
 //###############################################################
@@ -117,8 +117,6 @@ function onImageClick(poEvent, poOptions){
 //***************************************************************
 function onSelectSolInstrEvent( poEvent, poData){
 	stop_queue();	
-	// enable the thumbs checkbox
-	
 	//load the data 
 	cOptions.sol = poData.sol;
 	cOptions.instrument = poData.instrument;
@@ -133,7 +131,7 @@ function onStatusEvent(poEvent, paHash){
 //***************************************************************
 function onThumbClickEvent(poEvent, poData){
 	stop_queue();
-	var sURL = "detail.php?s=" + poData.sol + "&i=" + poData.instr +"&p=" + poData.product;
+	var sURL = cBrowser.buildUrl("detail.php",{s:poData.sol,i:poData.instr,p:poData.product});
 	cBrowser.openWindow(sURL, "detail");
 }
 
@@ -254,12 +252,6 @@ function search_callback(poJS){
 		sUrl = "detail.php?s=" + poJS.s + "&i=" + poJS.d.instrument + "&p=" + poJS.d.itemName;
 		document.location.href = sUrl;
 	}
-}
-
-//***************************************************************
-function tagnames_callback(poJs){
-	set_status("got tag names");
-	cTagging.showTagCloud("tags",poJs);
 }
 
 
