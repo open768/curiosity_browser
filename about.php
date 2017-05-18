@@ -27,14 +27,14 @@
 		<p>
 		<table border="0" width="100%"><tr>
 			<td valign=middle>
-				<img src="images/rover.png" height="120">
+				<img src="images/browser/rover.png" height="120">
 			</td>
 			<td>
 				The curiosity browser makes MSL curiosity data more accessible to citizen scientists by providing sticky social features to tag, 
 				highlight and comment on images. The browser can also be regarded as an example of using the power of crowds to classify space images. 
 			</td>
 			<td align="right">
-				<img src="images/dude.png" height="120">
+				<img src="images/browser/dude.png" height="120">
 			</td>
 		</tr></table>
 		<p>

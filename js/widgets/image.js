@@ -1,3 +1,5 @@
+var goImageQueue = new cHttpQueue;
+
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 $.widget( "chickenkatsu.instrumentimage",{
@@ -25,27 +27,73 @@ $.widget( "chickenkatsu.instrumentimage",{
 		if (oOptions.sol == null) $.error("sol is not set");
 		if (oOptions.instrument == null) $.error("instrument is not set");
 		if (oOptions.product == null) $.error("product is not set");
-		if (oOptions.src == null) $.error("src is not set");
+
+		//make sure this is a DIV
+		var sElementName = oElement.get(0).tagName;
+		if (sElementName !== "DIV")
+			$.error("image view needs a DIV. this element is a: " + sElementName);
+		oElement.uniqueId();
+
+		if (oOptions.src == null){
+			this.prv__getDetails();
+		}else
+			this.prv__render();
+	},
+
+	//#################################################################
+	//# Privates
+	//#################################################################`
+	prv__getDetails: function(){
+		var oWidget = this;
+		var oOptions = oWidget.options;
+		var oElement = oWidget.element;
 		
-		//build image
+		oElement.empty();
+		var oInfoDiv = $("<DIV>",{class:"ui-widget-header"}).append("Loading details for: " + oOptions.product);
+		oElement.append(oInfoDiv);
+		oElement.append("<p>");
+		
+		var oItem = new cHttpQueueItem();
+		oItem.url = cBrowser.buildUrl("php/rest/detail.php", {s:oOptions.sol, i:oOptions.instrument, p:oOptions.product});
+		bean.on(oItem, "result", 	function(poHttp){oWidget.onProductDetails(poHttp);}	);				
+		bean.on(oItem, "error", 	function(poHttp){oWidget.onProductError(poHttp);}	);				
+		goImageQueue.add(oItem);
+	},
+
+	// ***************************************************************
+	prv__render:function(){
+		var oWidget = this;
+		var oOptions = oWidget.options;
+		var oElement = oWidget.element;
+		
+		oElement.empty();
+		oElement.addClass("ui-widget");
+		oElement.addClass("ui-corner-all");
+		
+		//build image div
+		
+		var oImgDiv = $("<DIV>",{class:"ui-widget-content"}).css({position: 'relative'});
+		oOptions.image_div = oImgDiv;
 		oImg = $("<IMG>",{src:oOptions.src});
 		oImg.load(		function(){oWidget.onLoadedImage();}							);
 		oImg.click(		function(){oWidget._trigger("onClick", null, oOptions);} 	);
+		oImgDiv.append(oImg);	
 		
-		oOptions.image_div = $("<DIV>").css({position: 'relative'});
-		oOptions.image_div.append(oImg);	
+		//build information div
+		var oInfoDiv = $("<DIV>",{class:"ui-widget-header"});
+		oInfoDiv.append($("<SPAN>",{class:"ui-state-highlight"}).html("Date: "));
+		oInfoDiv.append(oOptions.date);
+		oInfoDiv.append($("<SPAN>",{class:"ui-state-highlight"}).html(" Product: "));
+		oInfoDiv.append(oOptions.product );
+		oInfoDiv.append($("<SPAN>",{class:"ui-state-highlight"}).html(" Tags: "));
+		oOptions.tags_div = $("<SPAN>",{class:"soltags"}).html("Loading ...");
+		oInfoDiv.append(oOptions.tags_div);
 		
 		//add the lot to the new div
 		oElement.empty();
-		oElement.append(oOptions.image_div);
-		oElement.append($("<SPAN>",{class:"subtitle"}).html("Date: "));
-		oElement.append(oOptions.date);
-		oElement.append($("<SPAN>",{class:"subtitle"}).html(" Product: "));
-		oElement.append(oOptions.product );
-		oElement.append($("<SPAN>",{class:"subtitle"}).html(" Tags: "));
-
-		oOptions.tags_div = $("<SPAN>",{class:"soltags"}).html("Loading ...");
-		oElement.append(oOptions.tags_div);
+		oElement.append(oInfoDiv);
+		oElement.append(oImgDiv);
+		oElement.append("<p>");
 	},
 	
 	//#################################################################
@@ -104,9 +152,24 @@ $.widget( "chickenkatsu.instrumentimage",{
 		//put in the tags
 		for (i=0; i<paJS.d.length; i++){
 			sTag = paJS.d[i];
-			oA = $("<A>",{href:"tag.php?t=" + sTag}).html(sTag);
+			var sURL = cBrowser.buildUrl("tag.php",{t:sTag});
+			oA = $("<A>",{href:sURL}).html(sTag);
 			oDiv.append(oA).append(" ");
 		}
+	},
+	
+	// ***************************************************************
+	onProductDetails:function(poHttp){
+		this.options.src = poHttp.json.d.i;
+		this.prv__render();
+	},
+	
+	// ***************************************************************
+	onProductError:function(poHttp){
+		this.options.src = poHttp.json.d.i;
+		
+		var oElement = this.element;
+		oElement.empty();
 	},
 	
 });

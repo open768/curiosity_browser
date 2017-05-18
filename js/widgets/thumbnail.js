@@ -75,7 +75,7 @@ $.widget( "chickenkatsu.thumbnail",{
 		THUMB_FINAL_COLOR: "white",
 		THUMB_MISSING_COLOR: "mistyrose",
 		BETTER_URL:"php/rest/solthumb.php",
-		DEFAULT_THUMBNAIL:"images/chicken_icon.png"
+		DEFAULT_THUMBNAIL:"images/browser/chicken_icon.png"
 	},
 
 	//#################################################################

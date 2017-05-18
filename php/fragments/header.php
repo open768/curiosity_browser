@@ -2,7 +2,7 @@
 	require_once "$phpinc/ckinc/secret.php";
 	require_once "$phpinc/ckinc/header.php";
 ?>
-<link rel="icon" href="images/dude.ico" type="image/x-icon" />
+<link rel="icon" href="images/browser/dude.ico" type="image/x-icon" />
 <LINK href="css/css.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="css/jquery/jquery-ui.css">
 <script type="text/javascript" src="<?=$jsinc?>/jquery/jquery-3.0.0.min.js"></script>
@@ -15,6 +15,7 @@
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/debug.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/common.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/http.js"></script>
+<script type="text/javascript" src="<?=$jsinc?>/ck-inc/httpqueue.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/auth.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/facebook.js"></script>
 <script type="text/javascript" src="js/common.js"></script>

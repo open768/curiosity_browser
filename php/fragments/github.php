@@ -7,7 +7,7 @@
 <div class="github">
 	<table width="100%"><tr>
 		<td style="vertical-align:middle;text-align:left">
-			<a href="http://www.chickenkatsu.co.uk" target="chicken"><img src="images/chicken_icon.png"></a>
+			<a href="http://www.chickenkatsu.co.uk" target="chicken"><img src="images/browser/chicken_icon.png"></a>
 			We're on <img src="images/github_logo.png">
 			<a href="https://github.com/open768/curiosity_browser">https://github.com/open768/curiosity_browser</a>
 		</td>

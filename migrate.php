@@ -27,7 +27,7 @@
 		<p>
 		<table border="0" width="100%"><tr>
 			<td valign=middle>
-				<img src="images/rover.png" height="120">
+				<img src="images/browser/rover.png" height="120">
 			</td>
 			<td>
 				<font class="big_error">Migrating</font><P>
@@ -37,7 +37,7 @@
 				Migrating To: "<?=cHeader::get("pto")?>"
 			</td>
 			<td align="right">
-				<img src="images/dude.png" height="120">
+				<img src="images/browser/dude.png" height="120">
 			</td>
 		</tr></table>
 	</div>

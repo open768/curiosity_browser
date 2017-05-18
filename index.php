@@ -31,7 +31,7 @@
 		<script type="text/javascript" src="js/widgets/thumbnail-view.js"></script>
 		<script type="text/javascript" src="js/widgets/image-view.js"></script>
 		<script type="text/javascript" src="js/widgets/image.js"></script>
-		<script type="text/javascript" src="js/widgets/sichooser.js"></script>
+		<script type="text/javascript" src="js/widgets/solinstrchooser.js"></script>
 		<script type="text/javascript" src="js/widgets/solbuttons.js"></script>
 		<script type="text/javascript" src="js/widgets/tagcloud.js"></script>
 		
@@ -53,13 +53,17 @@
 					<ul class="tabs-menu">
 						<li class="current"><a href="#sol-tab" >Sol</a></li>
 						<li><a href="#tags-tab">Tags</a></li>
-						<li><a href="#all-tab">All</a></li>
 					</ul>
 					<div class="tab">
 						<div class="tab-content" id="sol-tab">
+							<!-- ************************************** -->
+							<p>
 							<div id="sichooser"></div>
 							<!-- ************************************** -->
+							<p>
 							<div id="solButtons"></div>
+							<!-- ************************************** -->
+							<p>
 							<div class="ui-widget">
 								<div class="ui-widget-header">Admin</div>				
 								<div class="ui-widget-body">
@@ -70,20 +74,25 @@
 									<?php }?>
 								</div>
 							</div>
+							<!-- ************************************** -->
+							<p>
+							<div class="ui-widget">
+								<div class="ui-widget-header">All</div>				
+								<div class="ui-widget-body">
+									<button class="leftbutton" onclick="cBrowser.openWindow('allsoltags.php','alltags');">All Tags</button>
+									<button class="leftbutton" onclick="cBrowser.openWindow('allsolhighs.php','allhighs');">All Highlights</button>
+									<button class="leftbutton" onclick="cBrowser.openWindow('allgigas.php','allgigas');">All Gigapans</button>
+									<button class="leftbutton" onclick="cBrowser.openWindow('allsites.php','allsites');">All Sites</button>
+									<button class="leftbutton" title="Where is curiosity now?" onclick="window.open('http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/', 'whereami');">Where is Curiosity</button>
+								</div>
+							</div>
 						</div>
 						<div class="tab-content" id="tags-tab">
 							<div id="tags">Loading...</div>
 						</div>
-						<div class="tab-content" id="all-tab">
-							<button class="leftbutton" onclick="cBrowser.openWindow('allsoltags.php','alltags');">All Tags</button>
-							<button class="leftbutton" onclick="cBrowser.openWindow('allsolhighs.php','allhighs');">All Highlights</button>
-							<button class="leftbutton" onclick="cBrowser.openWindow('allgigas.php','allgigas');">All Gigapans</button>
-							<button class="leftbutton" onclick="cBrowser.openWindow('allsites.php','allsites');">All Sites</button>
-							<button class="leftbutton" title="Where is curiosity now?" onclick="window.open('http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/', 'whereami');">Where is Curiosity</button>
-						</div>
 					</div>
 				</td>
-				<td id="right-column" valign="top">
+				<td id="right-column" valign="top" style="min-width:600px">
 					<div class="gold" id="header-pane" >
 						<button class="homebutton" onclick="cBrowser.openWindow('about.php', 'about');">About </button>
 						<input type="textbox" id="search_text" maxlength="30" size="30"><button class="rightbutton" onclick="onClickSearch()" title="Search for Product">Search</button>
@@ -92,53 +101,41 @@
 					</div>
 					<div class="gold" id="images">
 						<div id="intro" style="display:none">
-							<H2>Lets Get Started</H2>
-							<table border="0" width="100%"><tr>
-								<td valign="middle">
-									<img src="images/rover.png" height="90">
-								</td>
-								<td>
-									Welcome to the Curiosity Browser, the place to find and share great images being beamed back to Earth from NASA's Mars Science Lab. 
-									<p>
-									You might find a fascinating golological rock, an intruiging rock, evidence of water flows. 
-									In fact you might be the one who discovers the next great scientific discovery of Mars. 
-									<p>
-									 Let everyone know about your discoveries by sharing. The next steps are up to you.
-								</td>
-								<td align="right">
-									<img src="images/dude.png" height="90">
-								</td>
-							</tr></table>
-							<p/>
-							To get started 
-							<ul>
-								<li>select a <span class="subtitle">SOL</span> from the left hand list, or type it in the box above. (SOL represents the number of days that  Curiosity had been or Mars.)</li>
-								<li>Next  select from the <span class="subtitle">instruments</span> shown for that SOL to see the amazing images.</li>
-								<li>Or Click <span class="subtitle">All</span> to see which sols are interesting</li>
-							</ul>
+							<H2>Curiosity Browser</H2>
+							<img src="images/browser/dude.png" height="90" align="left" >
+							Welcome to the best place to find great images beamed from Curiosity, NASA's Mars Science Lab on Mars. 
 							<p>
+							You might find a fascinating geological formation, an intruiging rock, evidence of water flows, or something else. 
+							You might even be the one who discovers the next great scientific discovery of Mars. 
+							<p>
+							 And then let everyone know about your discoveries by sharing what you find. 
+							<p/>
+							<b>To get started</b>
+							<ol>
+								<li>select a <span class="subtitle">SOL</span> from the left hand list, or type it in the box above. (SOL represents the number of days that  Curiosity had been or Mars.)</li>
+								<li>Then select from the <span class="subtitle">instruments</span> shown for that SOL to see the amazing images.</li>
+							</ol>
 						</div>
-						<div class="cookie" id="cookies">
+						<P>&nbsp;</P>
+						<P>&nbsp;</P>
+						<P>&nbsp;</P>
+						<P>&nbsp;</P>
+						<P>&nbsp;</P>
+						<P>&nbsp;</P>
+						<div class="cookie">
 							We are using cookies to give you the best experience on our site. Cookies are files stored in your browser and are used by most websites to help personalise your web experience.
 							By continuing to use our website without changing the settings, you are agreeing to our use of cookies.
 						</div>
 						<p/>
-						<div class="cookie" id="disclaimer">
-							<h2><a name="disclaim">Dislaimer</a></h2>
-							<span class="subtitle">This web site is not affiliated with JPL or NASA.</span>
-							<p/><font size=1>
-								Chicken Katsu provides the www.mars-browser.co.uk as a service to the public and other website owners.
-								
-								Chicken Katsu is not responsible for, and expressly disclaims all liability for, damages of any kind arising out of use, reference to, or reliance on any 
+						<div class="disclaim">
+							<div class="subtitle">Dislaimer</div>
+							<ul>
+								<li>Chicken Katsu is not responsible for, and expressly disclaims all liability for, damages of any kind arising out of use, reference to, or reliance on any 
 								information contained within the site. While the information contained within the site is periodically updated, no guarantee is given that the information provided in this website is correct, complete, and up-to-date.
-								
-								Although www.mars-browser.co.uk may publish links providing direct access to other Internet resources, including websites, Chicken Katsu, 
+								<li>Although www.mars-browser.co.uk may contain links providing direct access to other Internet resources, including websites, Chicken Katsu, 
 								as the owner and operator of www.mars-browser.co.uk is not responsible for the accuracy or content of information contained in these sites.
-								
-								Links from www.mars-browser.co.uk to third-party sites do not constitute an endorsement by Chicken Katsu of the parties or their products and services. The appearance on the website of 
-								advertisements and product or service information does not constitute an endorsement by Chicken Katsu, and Chicken Katsu has not investigated the claims made by any advertiser. 
-								Product information is based solely on material received from suppliers.			
-							</font>
+								<li><b>This web site is not affiliated with JPL or NASA.</b>
+							</ul>
 						</div>
 					</div>
 				</td>

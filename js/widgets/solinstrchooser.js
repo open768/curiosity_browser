@@ -76,8 +76,9 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 			oTable.append(oRow);
 		oDiv.append(oTable);
 		oElement.append(oDiv);
+		oElement.append("<P>");
 		
-		// sols part of the widget
+		// inustrument part of the widget
 		oDiv = $("<DIV>", {class:"ui-widget-content"});
 			oObj = $("<DIV>", {class:"ui-widget-header"}).append("Instruments");
 			oElement.append(oObj);

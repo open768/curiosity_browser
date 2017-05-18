@@ -9,7 +9,8 @@ $.widget( "chickenkatsu.tagcloud",{
 	options:{
 		mission: null,
 		maxFont:24,
-		minFont:10
+		minFont:10,
+		minWidth:"200px"
 	},
 	
 	//#################################################################
@@ -19,8 +20,6 @@ $.widget( "chickenkatsu.tagcloud",{
 		var oDiv, oElement, oWidget;
 		
 		oElement = this.element;
-		oElement.uniqueId();
-		oWidget = this;
 		
 		//check for necessary classes
 		if (!bean){		$.error("bean class is missing! check includes");	}
@@ -31,6 +30,10 @@ $.widget( "chickenkatsu.tagcloud",{
 		if (sElementName !== "DIV")
 			$.error("thumbnail view needs a DIV. this element is a: " + sElementName);
 		
+		//initialise
+		oElement.uniqueId();
+		oElement.css("min-width", this.options.minWidth);
+		oWidget = this;
 		
 		//clear out the DIV and put some text in it
 		oElement.empty();
@@ -41,7 +44,7 @@ $.widget( "chickenkatsu.tagcloud",{
 		oElement.append(oDiv);
 
 		//only do something when the div is visible	
-		oDiv.on('inview', 	function(poEvent, pbIsInView){oWidget.onInView(oDiv);}	);
+		oDiv.on('inview', 	function(poEvent, pbIsInView){oWidget.onInView();}	);
 
 	},
 	
@@ -52,10 +55,10 @@ $.widget( "chickenkatsu.tagcloud",{
 		var sKey, iCount, iSize, iWeight, iMax, fsRatio, fwRatio;
 		var oA, sUrl;
 		
-		var oDiv = poHttp.data;
+		var oElement = this.element;
 		var oData = poHttp.json;
 		
-		oDiv.empty();
+		oElement.empty();
 		
 		iMax = 0;
 		for (sKey in oData)
@@ -70,33 +73,35 @@ $.widget( "chickenkatsu.tagcloud",{
 			
 			sUrl = cBrowser.buildUrl("tag.php" , {t:sKey});
 			oA = $("<A>", {href:sUrl}).css("font-size",""+iSize+"px").css("font-weight",iWeight).append(sKey);
-			oDiv.append(oA).append(" ");
+			oElement.append(oA).append(" ");
 		}		
 	},
 	
 	//***************************************************************
 	process_error:function(poHttp){
-		var oDiv = poHttp.data;
-		oDiv.empty();
-		oDiv.html("There was an error getting the tagcloud");
+		var oElement = this.element;
+		oElement.empty();
+		oElement.html("There was an error getting the tagcloud");
 	},
 	
 	
 	//#################################################################
 	//# Events
 	//#################################################################
-	onInView: function(poDiv){
+	onInView: function(){
 		var oWidget = this;
-		poDiv.off('inview');	//turn off the inview listener
+		oElement = this.element;
+		oElement.off('inview');	//turn off the inview listener
 		
-		poDiv.empty()
-		poDiv.append("Loading Tags...");
+		oElement.empty()
+		var oDiv = $("<div>",{class:"ui-widget-header"}).append("Loading Tags...");
+		oElement.append(oDiv);
 		
 		var oHttp = new cHttp2();
 		var sURL =cBrowser.buildUrl("php/rest/tag.php", {o:"all"});
 		bean.on(oHttp, "result", function(poHttp){oWidget.process_response(poHttp);});
 		bean.on(oHttp, "error",  function(poHttp){oWidget.process_error(poHttp);});
-		oHttp.fetch_json(sURL, poDiv);
+		oHttp.fetch_json(sURL);
 	}
 	
 });	

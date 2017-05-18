@@ -65,10 +65,10 @@
 			<td></td>
 			<td valign="bottom">
 				<nobr>
-				<button title="previous product" id="ltimebut_top" class="topnavbut leftbutton" title="previous in timeline" onclick="onClickPreviousTime();" style="width:100"><img src="images/back.png"></button
+				<button title="previous product" id="ltimebut_top" class="topnavbut leftbutton" title="previous in timeline" onclick="onClickPreviousTime();" style="width:100"><img src="images/browser/back.png"></button
 				><button title="previous" id="lbut_top" class="topnavbut leftbutton" onclick="onClickPrevious();" style="width:300">&lt;</button
 				><button title="next" id="rbut_top" class="topnavbut rightbutton" onclick="onClickNext();" style="width:300">&gt;</button
-				><button title="next product" id="rtimebut_top" class="topnavbut rightbutton" title="next in timeline" onclick="onClickNextTime();" style="width:100"><img src="images/forward.png"></button>
+				><button title="next product" id="rtimebut_top" class="topnavbut rightbutton" title="next in timeline" onclick="onClickNextTime();" style="width:100"><img src="images/browser/forward.png"></button>
 				</nobr>
 			</td>
 			<td></td>
@@ -85,8 +85,8 @@
 				<!-- template div is not visible and doesnt have to be contained -->
 				<div id="box_template" class="redbox" style="display:none" highlight="true">
 					<div id="controls">
-						<button class="smallbutton" title="accept" onclick="onClickBoxAccept();"><img src="images/bullet_tick.png"></button
-						><button class="smallbutton" title="cancel" onclick="onClickBoxCancel();"><img src="images/bullet_cross.png"></button>
+						<button class="smallbutton" title="accept" onclick="onClickBoxAccept();"><img src="images/browser/bullet_tick.png"></button
+						><button class="smallbutton" title="cancel" onclick="onClickBoxCancel();"><img src="images/browser/bullet_cross.png"></button>
 					</div>
 					<div id="number" class="lucky8"></div>
 				</div>
@@ -99,10 +99,10 @@
 		<tr>
 			<td></td>
 			<td valign="top">
-				<button title="previous product" id="ltimebut_bot" class="topnavbut leftbutton" title="previous in timeline" onclick="onClickPreviousTime();" style="width:100"><img src="images/back.png"></button
+				<button title="previous product" id="ltimebut_bot" class="topnavbut leftbutton" title="previous in timeline" onclick="onClickPreviousTime();" style="width:100"><img src="images/browser/back.png"></button
 				><button title="previous" id="lbut_bot" class="topnavbut leftbutton" onclick="onClickPrevious();" style="width:300">&lt;</button
 				><button title="next" id="rbut_bot" class="topnavbut rightbutton" onclick="onClickNext();" style="width:300">&gt;</button
-				><button title="next product" id="rtimebut_bot" class="topnavbut rightbutton" title="next in timeline" onclick="onClickNextTime();" style="width:100"><img src="images/forward.png"></button>
+				><button title="next product" id="rtimebut_bot" class="topnavbut rightbutton" title="next in timeline" onclick="onClickNextTime();" style="width:100"><img src="images/browser/forward.png"></button>
 			</td>
 			<td></td>
 		</tr>

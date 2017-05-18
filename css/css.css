@@ -204,6 +204,14 @@ body
 	background-color:#EEEEEE;
 }
 
+.disclaim{
+	border:2px solid blue;
+	border-radius: 10px;
+	padding: 10px;
+	background-color:#EEEEEE;
+	font-size:11px;
+}
+
 .polaroid
 {
 	border:5px solid white;
