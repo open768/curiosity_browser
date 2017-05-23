@@ -10,6 +10,7 @@
 <script type="text/javascript" src="<?=$jsinc?>/jquery/jquery.cookie.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/jquery-inview/jquery.inview.min.js"></script>
+<script type="text/javascript" src="<?=$jsinc?>/jquery-visible/jquery.visible.min.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/bean/bean.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/secret.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/debug.js"></script>

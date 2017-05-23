@@ -71,6 +71,7 @@ $.widget( "chickenkatsu.thumbnailview",{
 			oElement.append("<p class='subtitle'>Sorry no thumbnails found</p>");
 			this._trigger("onStatus", null,{text:"No thumbnails defined"});
 		}else{
+			//#todo# USE THE HTTP QUEUE, NOT THE BETTER THUMBNAIL QUEUE
 			var oQueue = new cBetterThumbnailQueue();
 			oWidget.options.queue = oQueue;
 			for (i=0; i< aData.length; i++){

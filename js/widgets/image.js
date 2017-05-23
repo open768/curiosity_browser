@@ -105,7 +105,8 @@ $.widget( "chickenkatsu.instrumentimage",{
 		
 		cDebug.write("loaded image: " + this.options.src);
 		
-		//get the image and tag highlights TODO add these to a queue that can be stopped
+		//get the image and tag highlights 
+		//#TODO# add these to a queue that can be stopped
 		cImgHilite.getHighlights(
 			oOptions.sol,oOptions.instrument,oOptions.product, 
 			function(paJS){		oWidget.onHighlights(paJS)	}

@@ -77,6 +77,8 @@
 			<li>sbbcode: https://github.com/samclarke/SBBCodeParser
 			<li>camanjs: http://camanjs.com/
 			<li>bean: http://ender.no.de
+			<li>inview: https://github.com/zuk/jquery.inview
+			<li>jquery visible:https://github.com/customd/jquery-visible/
 		</ul>
 		<p>
 		
