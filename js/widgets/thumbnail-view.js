@@ -12,8 +12,7 @@ $.widget( "chickenkatsu.thumbnailview",{
 	options:{
 		ThumbsPerPage: 100,
 		sol: null,
-		instrument: null,
-		queue:null
+		instrument: null
 	},
 	
 	//#################################################################
@@ -45,10 +44,7 @@ $.widget( "chickenkatsu.thumbnailview",{
 	//# methods
 	//#################################################################
 	stop_queue: function(){
-		if (this.options.queue){
-			this.options.queue.stop();
-			this.options.queue = null;
-		}
+		goBetterThumbnailQueue.stop();
 		window.stop();
 	},
 	
@@ -56,7 +52,7 @@ $.widget( "chickenkatsu.thumbnailview",{
 	//# Events
 	//#################################################################
 	onThumbsJS: function(poJS){
-		var i, aData, oItem, oQueue;
+		var i, aData, oItem;
 		var oWidget = this;
 		var oElement = oWidget.element;
 
@@ -71,9 +67,7 @@ $.widget( "chickenkatsu.thumbnailview",{
 			oElement.append("<p class='subtitle'>Sorry no thumbnails found</p>");
 			this._trigger("onStatus", null,{text:"No thumbnails defined"});
 		}else{
-			//#todo# USE THE HTTP QUEUE, NOT THE BETTER THUMBNAIL QUEUE
-			var oQueue = new cBetterThumbnailQueue();
-			oWidget.options.queue = oQueue;
+			goBetterThumbnailQueue.reset();
 			for (i=0; i< aData.length; i++){
 				oItem = aData[i];
 				var oThumbnailWidget = $("<SPAN>").thumbnail({
@@ -81,7 +75,6 @@ $.widget( "chickenkatsu.thumbnailview",{
 					instrument:oItem.data.instrument, 
 					product:oItem.p, 
 					url:oItem.i,
-					queue: oQueue,
 					onStatus:function(poEvent,poData){ oWidget._trigger("onStatus", poEvent, poData)},
 					onClick: function(poEvent, poData){ oWidget._trigger("onClick", poEvent, poData)}
 				});
