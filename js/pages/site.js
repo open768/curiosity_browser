@@ -22,7 +22,6 @@ var sBound = null;
 //###############################################################
 //# Utility functions 
 //###############################################################
-bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_SITES);
 function onLoadJQuery_SITES(){
 	set_status("initialising google earth");
 	cGoogleEarth.callback = onGoogleEarthLoaded;

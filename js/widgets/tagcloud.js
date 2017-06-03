@@ -56,7 +56,7 @@ $.widget( "chickenkatsu.tagcloud",{
 		var oA, sUrl;
 		
 		var oElement = this.element;
-		var oData = poHttp.json;
+		var oData = poHttp.response;
 		
 		oElement.empty();
 		

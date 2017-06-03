@@ -47,8 +47,6 @@ $.widget( "chickenkatsu.thumbnail",{
 		var sSpanID = oWidget.element.attr("id");
 		var sImgID = sSpanID +"i";
 		
-		//cDebug.write("creaing widget: " + oOptions.product + " imgID: " + oWidget.options.img + " span:" +  sSpanID );		
-
 		oImg = 
 			$("<IMG>",{
 				title:oWidget.options.product,
@@ -77,6 +75,8 @@ $.widget( "chickenkatsu.thumbnail",{
 		
 		oImg = this.options.img;
 		if (oImg.visible()){
+			//we dont really want to blast nasa with thousands of thumbnail requests, so add these to a queue.
+			
 			oImg.load(function(){oWidget.onBasicThumbLoaded(); }); 	//when basic thumbnail loaded
 			oImg.attr("src", this.options.url);						//load basic thumbnail
 		}else{
@@ -163,7 +163,7 @@ $.widget( "chickenkatsu.thumbnail",{
 	onBetterThumbResponse: function( poHttp){
 		var oOptions = this.options;
 		var oImg = this.options.img
-		var oData = poHttp.json;
+		var oData = poHttp.response;
 
 		if (!oData.u) {
 			cDebug.write("missing image for: "+oData.p);

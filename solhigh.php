@@ -9,7 +9,7 @@
 	include("php/fragments/header.php"); 
 	require_once("$phpinc/ckinc/facebook.php");
 	cHeader::redirect_if_referred();
-	if ( cFacebook::is_facebook()){
+	if ( cFacebook_ServerSide::is_facebook()){
 		cFacebookTags::make_fb_sol_high_tags();
 		exit;
 	}
@@ -22,7 +22,7 @@
 	<script type="text/javascript" src="<?=$jsinc?>/ck-inc/queue.js"></script>
 	<script type="text/javascript" src="<?=$jsinc?>/ck-inc/actionqueue.js"></script>
 </head>
-<body onload="$(cJQueryObj.onBodyLoad);">
+<body onload="$(onLoadJQuery_SOLHI);">
 	<?php 
 		require_once "$phpinc/ckinc/secret.php";
 		include("php/fragments/analytics.php");

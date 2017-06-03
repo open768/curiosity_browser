@@ -18,7 +18,6 @@ var goSolIndex = null;
 //###############################################################
 //# Utility functions 
 //###############################################################
-bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_HIGHS);
 function onLoadJQuery_HIGHS(){
 	set_status("fetching Highlights");
 	var oHttp = new cHttp2();
@@ -30,7 +29,7 @@ function onLoadJQuery_HIGHS(){
 //* call backs 
 //###############################################################
 function onHighlightsResponse(poHttp){
-	goSolIndex = poHttp.json;
+	goSolIndex = poHttp.response;
 	if (goSolIndex==null)
 		set_error_status("No Highlights found");
 	else{
@@ -43,7 +42,7 @@ function onHighlightsResponse(poHttp){
 
 function onSolsResponse(poHttp){
 	var sHTML, i, iCount, sSol;
-	var aData = poHttp.json;
+	var aData = poHttp.response;
 	
 	sHTML = "<form method='get' action='solhigh.php'><center><table cellpadding=5>";
 	sHTML += "<input type=hidden name='sheet' value='1'>";

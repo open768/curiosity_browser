@@ -23,8 +23,7 @@ var goQueue = null;
 //###############################################################
 //# Utility functions 
 //###############################################################
-bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery);
-function onLoadJQuery(){
+function onLoadJQuery_SOLHI(){
 	var sUrl, iSol;
 	
 	pr_stop_queue();
@@ -164,7 +163,7 @@ function onHiliteResponse(poHttp){
 		cBrowser.pushState("highlights", sUrl);
 		gs_update_url = false;
 	}
-	var aData = poHttp.json;
+	var aData = poHttp.response;
 	goQueue= new cActionQueue();
 	bean.on(goQueue, "response", OnHighlightImageResult);
 
@@ -224,7 +223,7 @@ function onSheetResponse(poHttp){
 	oDiv = $("#solhigh");
 	oDiv.empty();
 	iCount = 0;
-	var aData = poHttp.json;
+	var aData = poHttp.response;
 	
 	for (sInstr in aData){
 		iCount ++;
@@ -247,7 +246,7 @@ function onMosaicResponse(poHttp){
 	
 	oDiv = $("#solhigh");
 	oDiv.empty();
-	var oData = poHttp.json;
+	var oData = poHttp.response;
 	
 	if (oData.u == null){
 		oDiv.append("No highlights found");

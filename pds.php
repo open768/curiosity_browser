@@ -14,7 +14,7 @@
 	<title>PDS details - Curiosity Browser</title>
 	<script src="js/pages/pds.js"></script>
 </head>
-<body onload="$(cJQueryObj.onBodyLoad);">
+<body onload="$(onLoadJQuery_PDS);">
 	<?php 
 		require_once "$phpinc/ckinc/secret.php";
 		include("php/fragments/analytics.php");

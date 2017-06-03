@@ -14,7 +14,7 @@
 	<title>calendar - Curiosity Browser</title>
 	<script src="js/pages/cal.js"></script>
 </head>
-<body onload="$(cJQueryObj.onBodyLoad);">
+<body onload="$(onLoadJQuery_CAL);">
 	<?php 
 		require_once "$phpinc/ckinc/secret.php";
 		include("php/fragments/analytics.php");

@@ -21,7 +21,7 @@
 	<script type="text/javascript" src="js/widgets/image.js"></script>
 	<script type="text/javascript" src="js/widgets/tagcloud.js"></script>
 </head>
-<body onload="$(cJQueryObj.onBodyLoad);">
+<body onload="$(onLoadJQuery_TAG);">
 	<?php 
 		require_once "$phpinc/ckinc/secret.php";
 		include("php/fragments/analytics.php");

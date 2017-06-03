@@ -9,7 +9,7 @@
 	require_once("$phpinc/ckinc/header.php");
 	require_once("$phpinc/curiosity/facebook.php");
 	cHeader::redirect_if_referred();
-	if ( cFacebook::is_facebook()){
+	if ( cFacebook_ServerSide::is_facebook()){
 		cFacebookTags::make_fb_detail_tags();
 		exit;
 	}
@@ -27,7 +27,7 @@
 	<script src="<?=$jsinc?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
 	<script src="js/pages/detail.js"></script>
 </head>
-<body onload="$(cJQueryObj.onBodyLoad);">
+<body onload="$(onLoadJQuery_DETAIL);">
 	<?php 
 		require_once "$phpinc/ckinc/secret.php";
 		include("php/fragments/analytics.php");

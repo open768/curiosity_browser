@@ -7,7 +7,9 @@ $.widget( "chickenkatsu.tagview",{
 	//# Definition
 	//#################################################################
 	consts:{
-		MAX_TRANSFERS:5
+		MAX_TRANSFERS:5,
+		MAX_TO_SHOW: 10,
+		MAX_TO_SHOW_QS: "starttag"
 	},
 	options:{
 		tag: null,
@@ -54,7 +56,7 @@ $.widget( "chickenkatsu.tagview",{
 	//#################################################################
 	onTagUsage:function(poHttp){
 		var i, sItem, aParts, sSol, sInstr, sProd;
-		var aData = poHttp.json;
+		var aData = poHttp.response;
 		var oWidget = this;
 		var oElement = this.element;
 		
@@ -64,9 +66,18 @@ $.widget( "chickenkatsu.tagview",{
 			return;
 		}
 
-		//create image
+		//remove duplicates from list
+		var aList = [];
 		for (i=0 ; i<aData.length; i++){
 			sItem = aData[i];
+			if (aList.indexOf(sItem) == -1)
+				aList.push(sItem)
+		}
+		aList.sort();
+		
+		//create image
+		for (i=0 ; i<aList.length; i++){
+			sItem = aList[i];
 			aParts = sItem.split("/");			
 			cDebug.write("got a detail: " + sItem);
 			

@@ -177,7 +177,6 @@ function onFacebookUser(){
 //###############################################################
 //# Utility functions 
 //###############################################################
-bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_DETAIL);
 bean.on(cFacebook, "gotUser", onFacebookUser);
 
 function onLoadJQuery_DETAIL(){

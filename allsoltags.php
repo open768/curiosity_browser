@@ -16,7 +16,7 @@
 	<script src="js/pages/allsoltags.js"></script>
 	<script src="<?=$jsinc?>/ck-inc/tagging.js"></script>
 </head>
-<body onload="$(cJQueryObj.onBodyLoad);">
+<body onload="$(onLoadJQuery_TAGS);">
 	<?php 
 		require_once "$phpinc/ckinc/secret.php";
 		include("php/fragments/analytics.php");

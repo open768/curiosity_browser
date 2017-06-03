@@ -14,7 +14,7 @@
 	<title>sol Gigapans - Curiosity Browser</title>
 	<script src="js/pages/solgigas.js"></script>
 </head>
-<body onload="$(cJQueryObj.onBodyLoad);">
+<body onload="$(onLoadJQuery_SOLGIG);">
 	<?php 
 		require_once "$phpinc/ckinc/secret.php";
 		include("php/fragments/analytics.php");

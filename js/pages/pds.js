@@ -61,7 +61,6 @@ function onLoadJQuery_PDS(){
 		"&p=" + cBrowser.data[PRODUCT_QUERYSTRING];
 	cHttp.fetch_json(sURL, get_pds_callback);
 }
-bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_PDS);
 
 function has_pds_url(){
 	if (!goPds)

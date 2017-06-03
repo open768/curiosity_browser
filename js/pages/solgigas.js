@@ -17,7 +17,6 @@ var current_sol = null;
 //###############################################################
 //# Utility functions 
 //###############################################################
-bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_SOLGIG);
 function onLoadJQuery_SOLGIG(){
 	var sUrl, sSol;
 	
@@ -41,7 +40,7 @@ function onLoadJQuery_SOLGIG(){
 //###############################################################
 function onHttpGigaResponse(poHttp){
 	var i, aItem, oDiv, oNewDiv;
-	var aData = poHttp.json;
+	var aData = poHttp.response;
 	
 	oDiv = $("#solgiga");
 	oDiv.empty();

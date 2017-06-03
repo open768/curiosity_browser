@@ -161,16 +161,22 @@ $.widget( "chickenkatsu.instrumentimage",{
 	
 	// ***************************************************************
 	onProductDetails:function(poHttp){
-		this.options.src = poHttp.json.d.i;
-		this.prv__render();
+		if (poHttp.response.d){
+			this.options.src = poHttp.response.d.i;
+			this.prv__render();
+		}else
+			this.onProductError(poHttp);
 	},
 	
 	// ***************************************************************
 	onProductError:function(poHttp){
-		this.options.src = poHttp.json.d.i;
-		
 		var oElement = this.element;
+		
 		oElement.empty();
+		var oDiv = $("<DIV>",{class:"ui-state-error"});
+		oDiv.html("There was an error with :" + this.options.product)
+		oElement.append(oDiv);
+		oElement.append("<p>");
 	},
 	
 });

@@ -24,10 +24,10 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 	//# Constructor
 	//#################################################################`
 	_create: function(){
-		var oWidget, oElement, sID, sOID, oObj, oDiv;
+		var oThis, oElement, sID, sOID, oObj, oDiv;
 		
-		oWidget = this;
-		oElement = oWidget.element;
+		oThis = this;
+		oElement = oThis.element;
 		oElement.uniqueId();
 		sID = oElement.attr("id");
 		
@@ -56,20 +56,20 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 			oRow = $("<TR>");
 				oCell = $("<TD>",{align:"left"});
 				oButton = $("<button>", {class:"solnav leftarrow",title:"previous Sol ([)"});
-				oButton.click(	function(){oWidget.onPrevious()}	);
+				oButton.click(	function(){oThis.onPrevious()}	);
 				oCell.append(oButton);
 				oRow.append(oCell);
 				
 				sOID = sID+this.consts.LATEST_ID;
 				oCell = $("<TD>",{align:"middle"});
 				oButton = $("<button>", {class:"roundbutton",title:"latest",disabled:"disabled", id:sOID}).append("latest");
-				oButton.click(	function(){oWidget.onLatest()}	);
+				oButton.click(	function(){oThis.onLatest()}	);
 				oCell.append(oButton);
 				oRow.append(oCell);
 				
 				oCell = $("<TD>",{align:"right"});
 				oButton = $("<button>", {class:"solnav rightarrow",title:"Next Sol (])"});
-				oButton.click(	function(){oWidget.onNext()}	);
+				oButton.click(	function(){oThis.onNext()}	);
 				oCell.append(oButton);
 				oRow.append(oCell);
 		
@@ -78,7 +78,7 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		oElement.append(oDiv);
 		oElement.append("<P>");
 		
-		// inustrument part of the widget
+		// instrument part of the widget
 		oDiv = $("<DIV>", {class:"ui-widget-content"});
 			oObj = $("<DIV>", {class:"ui-widget-header"}).append("Instruments");
 			oElement.append(oObj);
@@ -106,12 +106,17 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 	//#################################################################
 	set_sol:function(psSol){
 		var sID = this.element.attr("id") + this.consts.SOL_LIST_ID ;
-		$("#"+sID + " option[value="+psSol+"]").attr("selected", true).change();
+		var sSelector = "#"+sID + " option[value="+psSol+"]";
+		var oOption = $(sSelector);
+		if (oOption.length == 0)
+			this._trigger("onStatus",null,{data:"no such sol" + psSol});
+		else
+			oOption.attr("selected", true).change();
 	},
 	
 	//*****************************************************************
 	get_sol_instruments:function(psSol){
-		var oWidget = this;
+		var oThis = this;
 		var sListID = this.element.attr("id") + this.consts.INSTR_ID;
 		
 		this._trigger("onStatus",null,{data:"getting instruments for sol" + psSol});
@@ -122,17 +127,20 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		);
 	
 		//get the instruments for this sol
-		sUrl = "php/rest/instruments.php?s=" + psSol + "&r=0";
-		cHttp.fetch_json(sUrl, function(paJS){oWidget.onLoadSolInstruments(paJS)}	);
+		var sURL =cBrowser.buildUrl("php/rest/instruments.php", {s:psSol,r:0});
+		
+		oHttp = new cHttp2();
+		bean.on(oHttp,"result",function(poHttp){oThis.onLoadSolInstruments(poHttp)});
+		oHttp.fetch_json(sURL);
 	},
 
 	//#################################################################
 	//# Privates
 	//#################################################################
 	prLoadLists: function(){
-		var oWidget = this;
-		cHttp.fetch_json("php/rest/instruments.php", function(paJS){oWidget.onLoadInstruments(paJS)});
-		cHttp.fetch_json("php/rest/sols.php", function(paJS){oWidget.onLoadSols(paJS)});
+		var oThis = this;
+		cHttp.fetch_json("php/rest/instruments.php", function(paJS){oThis.onLoadInstruments(paJS)});
+		cHttp.fetch_json("php/rest/sols.php", function(paJS){oThis.onLoadSols(paJS)});
 	},
 	
 	//#################################################################
@@ -197,25 +205,26 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 	},
 	
 	//*****************************************************************
-	onLoadSolInstruments:function(paJS){
-		var i, sInstr, oList;
-		var oWidget = this;
+	onLoadSolInstruments:function(poHttp){
+		var i, sInstr, oList, oJson;
 
+		oJson = poHttp.response;
 		var sID = this.element.attr("id");
 		oList = $("#" + sID + this.consts.INSTR_ID);
 		
 		//mark the instruments remaining
-		for ( i = 0; i<paJS.length; i++){
+		for ( i = 0; i<oJson.length; i++){
 			
-			sInstr = paJS[i];
+			sInstr = oJson[i];
 			oList.find('option[value=\"'+ sInstr + '\"]').removeAttr('disabled');
 		}
-		oList.change(	function(poEvent){oWidget.OnChangeInstrList(poEvent)})
+		
 	},
 	
 	//*****************************************************************
 	onLoadInstruments:function(paJS){
 		var i, oInstr, oList, sID;
+		var oThis = this;
 		
 		var sID = this.element.attr("id");
 		
@@ -234,12 +243,15 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 			var sInstr = cBrowser.data[INSTR_QUERYSTRING];
 			oList.find('option[value=\"'+ sInstr + '\"]').attr("selected", true);
 		}
+
+		//set up change handler
+		oList.change(	function(poEvent){oThis.OnChangeInstrList(poEvent)});
 	},
 	
 	//*****************************************************************
 	onLoadSols:function(paJS){
 		var i, oSol, oList, oSumList, oOption, iSol, iLastRange, iRange ;
-		var oWidget = this;
+		var oThis = this;
 
 		cDebug.write("got sols callback");
 		var sID = this.element.attr("id");
@@ -273,14 +285,14 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		$("#"+sOID).removeAttr('disabled');
 		
 		//set up the change handler
-		oSumList.change( function(poEvent){oWidget.OnChangeSolSummaryList(poEvent)});
-		oList.change(	function(poEvent){oWidget.OnChangeSolList(poEvent)})
+		oSumList.change( function(poEvent){oThis.OnChangeSolSummaryList(poEvent)});
+		oList.change(	function(poEvent){oThis.OnChangeSolList(poEvent)})
 
 		// mark the sol
 		if (cBrowser.data[SOL_QUERYSTRING] ) 
 			this.set_sol(cBrowser.data[SOL_QUERYSTRING]);	
 
-		this._on( window, {	keypress: function(poEvent){oWidget.onKeypress(poEvent)}});
+		this._on( window, {	keypress: function(poEvent){oThis.onKeypress(poEvent)}});
 	},
 	
 	

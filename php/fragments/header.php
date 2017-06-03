@@ -18,6 +18,6 @@
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/http.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/httpqueue.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/auth.js"></script>
-<script type="text/javascript" src="<?=$jsinc?>/ck-inc/facebook.js"></script>
+<script type="text/javascript" src="<?=$jsinc?>/ck-inc/facebook.php"></script>
 <script type="text/javascript" src="js/common.js"></script>
 <meta property="fb:app_id" content="<?=(cHeader::is_localhost()?cSecret::FB_DEV_APP:cSecret::FB_APP)?>" />

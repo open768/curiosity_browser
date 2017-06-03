@@ -23,7 +23,6 @@ function onClickAllSols(){
 //###############################################################
 //# Utility functions 
 //###############################################################
-bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_SOLTAG);
 function onLoadJQuery_SOLTAG(){
 	var sUrl, sSol;
 	

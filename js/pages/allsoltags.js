@@ -25,13 +25,13 @@ function onLoadJQuery_TAGS(){
 	bean.on(oHttp, "result", onTagResponse);
 	oHttp.fetch_json("php/rest/tag.php?&o=topsolindex");
 }
-bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_TAGS);
+
 
 //###############################################################
 //* call backs 
 //###############################################################
 function onTagResponse(poHttp){
-	goSolIndex = poHttp.json;
+	goSolIndex = poHttp.response;
 	if (goSolIndex == null)
 		set_error_status("No Tags found");
 	else{
@@ -44,7 +44,7 @@ function onTagResponse(poHttp){
 
 function onSolsResponse(poHttp){
 	var sHTML, i, iCount, sSol;
-	var aData = poHttp.json;
+	var aData = poHttp.response;
 	sHTML = "<form method='GET' action='soltag.php'><center><table cellpadding=5>";
 	iCount =0;
 	for (i = 0; i < aData.length; i++){

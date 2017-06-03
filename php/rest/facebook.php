@@ -51,12 +51,12 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	$sOperation = cHeader::get("o");
 	switch($sOperation){
 		case "getuser":
-			$sUser = cFacebook::getStoredUser($sUserID);
+			$sUser = cFacebook_ServerSide::getStoredUser($sUserID);
 			
 			//finally get user details from facebook
 			if (!$sUser){
 				cDebug::write("user not known getting  from Facebook");
-				$sUser = cFacebook::getUserIDDetails($sUserID,$sToken );
+				$sUser = cFacebook_ServerSide::getUserIDDetails($sUserID,$sToken );
 			}
 			break;
 		default:

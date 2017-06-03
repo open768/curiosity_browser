@@ -29,7 +29,6 @@ var cOptions = {
 //###############################################################
 //* JQUERY
 //###############################################################
-bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_INDEX);
 function onLoadJQuery_INDEX(){	
 
 	//show the intro blurb if nothing on the querystring
@@ -93,9 +92,9 @@ function onClickSearch(){
 	if (sText == "") return;
 	cOptions.instrument = null;
 	
-	if (!isNaN(sText)){
-		select_sol(sText);		//numeric search is a sol
-	}else{
+	if (!isNaN(sText))
+		$("#sichooser").solinstrumentChooser("set_sol", sText);
+	else{
 		var sUrl=cBrowser.buildUrl("php/rest/search.php", {s:sText});
 		cHttp.fetch_json(sUrl, search_callback);
 	}
@@ -125,7 +124,7 @@ function onSelectSolInstrEvent( poEvent, poData){
 
 //***************************************************************
 function onStatusEvent(poEvent, paHash){
-	set_status(paHash.text);
+	set_status(paHash.data);
 }
 
 //***************************************************************

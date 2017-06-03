@@ -14,7 +14,7 @@
 	<title>All Gigapans - by Neville Thompson</title>
 	<script src="js/pages/allgigas.js"></script>
 </head>
-<body onload="$(cJQueryObj.onBodyLoad);">
+<body onload="$(onLoadJQuery_GIGAS);">
 	<?php 
 		require_once "$phpinc/ckinc/secret.php";
 		include("php/fragments/analytics.php");

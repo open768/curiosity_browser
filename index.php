@@ -39,7 +39,7 @@
 		<meta property="og:image" content="http://www.mars-browser.co.uk/curiosity/images/rover.png" />
 		<meta property="og:description" content="Be part of the greatest exploration team ever. Discover great finds in the amazing images from NASA's Curiosity Rover and share your discoveries with the world." />
 	</head>
-	<body onload="$(cJQueryObj.onBodyLoad);">
+	<body onload="$(onLoadJQuery_INDEX);">
 		<?php 
 			include("php/fragments/analytics.php");
 			include("php/fragments/facebook.php");

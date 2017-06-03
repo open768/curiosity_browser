@@ -18,20 +18,19 @@ var goSolIndex = null;
 //###############################################################
 //# Utility functions 
 //###############################################################
-bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_GIGAS);
 function onLoadJQuery_GIGAS(){
 	set_status("fetching gigapans");
 
 	var oHttp = new cHttp2();
 	bean.on(oHttp, "result", onHttpGigaResponse);
-	oHttp.fetch_json("php/rest/gigapans.php?&o=all");
+	oHttp.fetch_json("php/rest/gigapans.php?o=all");
 }
 
 //###############################################################
 //* call backs 
 //###############################################################
 function onHttpGigaResponse(poHttp){
-	goSolIndex = poHttp.json;
+	goSolIndex = poHttp.response;
 	if (goSolIndex == null)
 		set_error_status("No gigapans found");
 	else{
@@ -44,7 +43,7 @@ function onHttpGigaResponse(poHttp){
 
 function onHttpSolsResponse(poHttp){
 	var sHTML, i, iCount, sSol;
-	var aSols = poHttp.json;
+	var aSols = poHttp.response;
 	sHTML = "<form method='GET' action='solgigas.php'><center><table cellpadding=5>";
 	iCount =0;
 	for (i = 0; i < aSols.length; i++){

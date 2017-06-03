@@ -54,7 +54,6 @@ function onLoadJQuery_CAL(){
 	current_date = cBrowser.data[DATE_QUERYSTRING];
 	get_calendar_data( cBrowser.data[SOL_QUERYSTRING]);
 }
-bean.on(cJQueryObj, "OnJqueryLoad", onLoadJQuery_CAL);
 
 //***************************************************************
 function get_calendar_data( psSol){

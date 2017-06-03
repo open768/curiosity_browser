@@ -12,7 +12,8 @@ $.widget( "chickenkatsu.thumbnailview",{
 	options:{
 		ThumbsPerPage: 100,
 		sol: null,
-		instrument: null
+		instrument: null,
+		onClick:null
 	},
 	
 	//#################################################################
@@ -76,13 +77,20 @@ $.widget( "chickenkatsu.thumbnailview",{
 					product:oItem.p, 
 					url:oItem.i,
 					onStatus:function(poEvent,poData){ oWidget._trigger("onStatus", poEvent, poData)},
-					onClick: function(poEvent, poData){ oWidget._trigger("onClick", poEvent, poData)}
+					onClick: function(poEvent, poData){ oWidget.onThumbClick(poEvent, poData);}
 				});
 				
 				// draw the widget;
 				oElement.append(oThumbnailWidget);
 			}
 		}
+	},
+	
+	//************************************************************************
+	onThumbClick:function(poEvent,poData){
+		this.stop_queue();
+		this._trigger("onClick", poEvent, poData);
 	}
+	
 });	
 
