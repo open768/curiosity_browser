@@ -1,5 +1,5 @@
 //#TODO# use chttpqueue
-var goBetterThumbnailQueue = new cHttpQueue;
+var goBetterThumbQueue = new cHttpQueue;
 
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -33,75 +33,98 @@ $.widget( "chickenkatsu.thumbnail",{
 	//# Constructor
 	//#################################################################`
 	_create: function(){
-		var oImg, oWidget, oElement;
+		var oImg, oThis, oElement;
 		var oOptions = this.options;
 		
+		//check for necessary classes
+		if (!bean){		$.error("bean class is missing! check includes");	}
+		if (!cHttp2){		$.error("http2 class is missing! check includes");	}
+
+		//init
 		if (oOptions.sol == null) $.error("sol is not set");
 		if (oOptions.instrument == null) $.error("instrument is not set");
 		if (oOptions.product == null) $.error("product is not set");
 		if (oOptions.url == null) $.error("url is not set");
 		
-		oWidget = this;
-		oElement = oWidget.element;
-		oWidget.element.uniqueId(); //sets a unique ID on the SPAN.
-		var sSpanID = oWidget.element.attr("id");
+		oThis = this;
+		oElement = oThis.element;
+		oThis.element.uniqueId(); //sets a unique ID on the SPAN.
+		var sSpanID = oThis.element.attr("id");
 		var sImgID = sSpanID +"i";
 		
 		oImg = 
 			$("<IMG>",{
-				title:oWidget.options.product,
+				title:oThis.options.product,
 				border:0,
-				height:oWidget.consts.THUMB_SIZE,
+				height:oThis.consts.THUMB_SIZE,
 				src:this.consts.DEFAULT_THUMBNAIL,
 				ID:sImgID,
 				class:"polaroid-frame"
 				}
 			);
-		oWidget.options.img=oImg;
-		oImg.css("border-color",oWidget.consts.THUMB_ORIG_COLOR); 
+		oImg.click(		function(){oThis.onThumbClick(); }	);
+		oThis.options.img=oImg;
+		oImg.css("border-color",oThis.consts.THUMB_ORIG_COLOR); 
 		
 		//optimise server requests, only display thumbnail if its in viewport
-		oImg.on('inview', 	function(poEvent, pbIsInView){oWidget.onBasicThumbInView(pbIsInView);}	);
+		oImg.on('inview', 	function(poEvent, pbIsInView){oThis.onBasicThumbInView(pbIsInView);}	);
 
-		oWidget.element.append(oImg);
+		oThis.element.append(oImg);
+	},
+	
+	//#################################################################
+	//# methods
+	//#################################################################`
+	stop_queue:function(){
+		goBetterThumbQueue.stop();
+	},
+	
+	reset_queue:function(){
+		goBetterThumbQueue.reset();
 	},
 	
 	//#################################################################
 	//# events
 	//#################################################################`
-	onBasicThumbViewDelay:function(){
-		var oImg, oWidget;
-		oWidget= this;
-		
-		oImg = this.options.img;
-		if (oImg.visible()){
-			//we dont really want to blast nasa with thousands of thumbnail requests, so add these to a queue.
-			
-			oImg.load(function(){oWidget.onBasicThumbLoaded(); }); 	//when basic thumbnail loaded
-			oImg.attr("src", this.options.url);						//load basic thumbnail
-		}else{
-			oImg.on('inview', 	function(poEvent, pbIsInView){oWidget.onBasicThumbInView(pbIsInView);}	);
-		}
-	},
-	
 	//******************************************************************
 	onBasicThumbInView: function(pbIsInView){
-		var oWidget= this;
+		var oThis= this;
 		
+		if (goBetterThumbQueue.stopping) return;
 		if (!pbIsInView) return;
 		
 		oImg = this.options.img;
 		oImg.off('inview');	//turn off the inview listener
 		
 		setTimeout(	
-			function(){	oWidget.onBasicThumbViewDelay()},
+			function(){	oThis.onBasicThumbViewDelay()},
 			this.consts.WAIT_VISIBLE
 		);
 	},
 	
 	//******************************************************************
+	onBasicThumbViewDelay:function(){
+		var oImg, oThis;
+		oThis= this;
+		if (goBetterThumbQueue.stopping) return;
+		
+		oImg = this.options.img;
+		if (oImg.visible()){
+			//we dont really want to blast nasa with thousands of thumbnail requests, so add these to a queue.
+			
+			oImg.load(function(){oThis.onBasicThumbLoaded(); }); 	//when basic thumbnail loaded
+			oImg.attr("src", this.options.url);						//load basic thumbnail
+		}else{
+			//image is not visible - reset the inview trigger
+			oImg.on('inview', 	function(poEvent, pbIsInView){oThis.onBasicThumbInView(pbIsInView);}	);
+		}
+	},
+	
+	
+	//******************************************************************
 	onBetterThumbInView: function(pbIsInView){
-		var oWidget= this;
+		var oThis= this;
+		if (goBetterThumbQueue.stopping) return;
 		
 		if (!pbIsInView) return;
 		
@@ -111,52 +134,48 @@ $.widget( "chickenkatsu.thumbnail",{
 	},
 	
 	//******************************************************************
-	onBetterThumbViewDelay:function(){
-		var sUrl;
-		var oWidget = this;
-		var oOptions = this.options;
-		var oImg = this.options.img
-		var sSpanID = this.element.attr("id");
-		
-		if (oImg.visible()){
-			//cDebug.write("basic thumb loaded: " + oOptions.product + " imgID: " + this.options.img + " span:" +  sSpanID );		
-			var oItem = new cHttpQueueItem();
-			oItem.url = cBrowser.buildUrl(this.consts.BETTER_URL,{s:oOptions.sol,i:oOptions.instrument,p:oOptions.product});
-
-			bean.on(oItem, "result", 	function(poHttp){oWidget.onBetterThumbResponse(poHttp);}	);				
-			bean.on(oItem, "error", 	function(poHttp){oWidget.onBetterThumbError(poHttp);}	);				
-			bean.on(oItem, "start", 	function(){oWidget.onStartBetterThumb();}	);				
-			goBetterThumbnailQueue.add(oItem);
-		}else{
-			oImg.on('inview', 	function(poEvent, pbIsInView){oWidget.onBetterThumbInView(pbIsInView);}	);
-		}
-	},
-	
-	//******************************************************************
 	onBasicThumbLoaded: function(){
-		var oWidget= this;
+		var oThis= this;
 		var oImg = this.options.img
+		if (goBetterThumbQueue.stopping) return;
 		oImg.off("load"); //remove the load event so it doesnt fire again
 		
+		if (goBetterThumbQueue.stopping) return;
 		setTimeout(	
-			function(){	oWidget.onBetterThumbViewDelay()},
+			function(){	oThis.onBetterThumbViewDelay()},
 			this.consts.WAIT_VISIBLE
 		);
 	},
 	
 	//******************************************************************
-	onStartBetterThumb:function(){
-		var oWidget = this;
+	onBetterThumbViewDelay:function(){
+		var sUrl;
+		var oThis = this;
+		var oOptions = this.options;
 		var oImg = this.options.img
-		oImg.click(		function(){oWidget.onThumbClick(); }	);
-		oImg.css("border-color",this.consts.THUMB_WORKING_COLOR); 
+		var sSpanID = this.element.attr("id");
+		
+		if (goBetterThumbQueue.stopping) return;
+		if (oImg.visible()){
+			//cDebug.write("basic thumb loaded: " + oOptions.product + " imgID: " + this.options.img + " span:" +  sSpanID );		
+			var oItem = new cHttpQueueItem();
+			oItem.url = cBrowser.buildUrl(this.consts.BETTER_URL,{s:oOptions.sol,i:oOptions.instrument,p:oOptions.product});
+
+			bean.on(oItem, "result", 	function(poHttp){oThis.onBetterThumbResponse(poHttp);}	);				
+			bean.on(oItem, "error", 	function(poHttp){oThis.onBetterThumbError(poHttp);}	);				
+			bean.on(oItem, "start", 	function(){oThis.onStartBetterThumb();}	);				
+			goBetterThumbQueue.add(oItem);
+		}else{
+			oImg.on('inview', 	function(poEvent, pbIsInView){oThis.onBetterThumbInView(pbIsInView);}	);
+		}
 	},
 	
 	//******************************************************************
-	onBetterThumbError: function( poHttp){
+	onStartBetterThumb:function(){
+		var oThis = this;
 		var oImg = this.options.img
-		oImg.css("border-color",this.consts.THUMB_ERROR_COLOR); 
-		cDebug.write("ERROR: " + poHttp.data + "\n" + poHttp.url + "\n" + poHttp.errorStatus + " - " + poHttp.error);		
+		if (goBetterThumbQueue.stopping) return;
+		oImg.css("border-color",this.consts.THUMB_WORKING_COLOR); 
 	},
 	
 	//******************************************************************
@@ -165,6 +184,7 @@ $.widget( "chickenkatsu.thumbnail",{
 		var oImg = this.options.img
 		var oData = poHttp.response;
 
+		if (goBetterThumbQueue.stopping) return;
 		if (!oData.u) {
 			cDebug.write("missing image for: "+oData.p);
 			oImg.css("border-color",this.consts.THUMB_MISSING_COLOR); 
@@ -178,21 +198,20 @@ $.widget( "chickenkatsu.thumbnail",{
 			);
 		}
 	},
+
+	//******************************************************************
+	onBetterThumbError: function( poHttp){
+		var oImg = this.options.img
+		oImg.css("border-color",this.consts.THUMB_ERROR_COLOR); 
+		cDebug.write("ERROR: " + poHttp.data + "\n" + poHttp.url + "\n" + poHttp.errorStatus + " - " + poHttp.error);		
+	},
+	
 	
 	//******************************************************************
 	onThumbClick: function(){
 		var oOptions = this.options;
-		goBetterThumbnailQueue.stop();		
+		goBetterThumbQueue.stop();		
 		this._trigger("onStatus",null,{text:"clicked: " + oOptions.product});
 		this._trigger ("onClick", null,{sol:oOptions.sol, instr:oOptions.instrument, product:oOptions.product});
-	},
-	
-	stop_queue:function(){
-		goBetterThumbnailQueue.stop();
-	},
-	
-	reset_queue:function(){
-		goBetterThumbnailQueue.reset();
 	}
-	
 });

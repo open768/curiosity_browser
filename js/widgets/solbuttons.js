@@ -28,10 +28,14 @@ $.widget( "chickenkatsu.solButtons",{
 	//# Constructor
 	//#################################################################`
 	_create: function(){
-		var oWidget, oElement, sID, sOID, oButton, oDiv;
+		var oThis, oElement, sID, sOID, oButton, oDiv;
 		
-		oWidget = this;
-		oElement = oWidget.element;
+		//check for necessary classes
+		if (!bean){		$.error("bean class is missing! check includes");	}
+		if (!cHttp2){		$.error("http2 class is missing! check includes");	}
+		
+		oThis = this;
+		oElement = oThis.element;
 		oElement.uniqueId();
 		sID = oElement.attr("id");
 		
@@ -47,55 +51,55 @@ $.widget( "chickenkatsu.solButtons",{
 			//----------------------------------------------------
 			oButton = $("<button>", {title:"Tags",class:"leftbutton",id:sID+this.consts.TAG_ID,disabled:"disabled"});
 			oButton.append("Tags")
-			oButton.click(	function(){ oWidget.onClickTag()}	);
+			oButton.click(	function(){ oThis.onClickTag()}	);
 			oDiv.append(oButton);	
 			
 			//----------------------------------------------------
 			oButton = $("<button>", {title:"Highlights",class:"leftbutton",id:sID+this.consts.HIGH_ID,disabled:"disabled"});
 			oButton.append("Highlights")
-			oButton.click(	function(){ oWidget.onClickHighlights()}	);
+			oButton.click(	function(){ oThis.onClickHighlights()}	);
 			oDiv.append(oButton);	
 			
 			//----------------------------------------------------
 			oButton = $("<button>", {title:"Gigapans",class:"leftbutton",id:sID+this.consts.GIGA_ID,disabled:"disabled"});
 			oButton.append("Gigapans")
-			oButton.click(	function(){ oWidget.onClickGigapans()}	);
+			oButton.click(	function(){ oThis.onClickGigapans()}	);
 			oDiv.append(oButton);	
 			
 			//----------------------------------------------------
 			oButton = $("<button>", {title:"notebook",class:"leftbutton",id:sID+this.consts.NOTEBOOK_ID,disabled:"disabled"});
 			oButton.append("Notebook")
-			oButton.click(	function(){ oWidget.onClickMSLNotebook()}	);
+			oButton.click(	function(){ oThis.onClickMSLNotebook()}	);
 			oDiv.append(oButton);	
 
 			//----------------------------------------------------
 			oButton = $("<button>", {title:"notebook Map",class:"leftbutton",id:sID+this.consts.NOTEBOOKMAP_ID_ID,disabled:"disabled"});
 			oButton.append("Notebook Map")
-			oButton.click(	function(){ oWidget.onClickMSLNotebookMap()}	);
+			oButton.click(	function(){ oThis.onClickMSLNotebookMap()}	);
 			oDiv.append(oButton);	
 
 			//----------------------------------------------------
 			oButton = $("<button>", {title:"Calendar",class:"leftbutton",id:sID+this.consts.CAL_ID,disabled:"disabled"});
 			oButton.append("Calendar")
-			oButton.click(	function(){ oWidget.onClickCalender()}	);
+			oButton.click(	function(){ oThis.onClickCalender()}	);
 			oDiv.append(oButton);	
 
 			//----------------------------------------------------
 			oButton = $("<button>", {title:"Force Refresh Cache",class:"leftbutton",id:sID+this.consts.REFRESH_ID});
 			oButton.append("Refresh")
-			oButton.click(	function(){ oWidget.onClickRefresh()}	);
+			oButton.click(	function(){ oThis.onClickRefresh()}	);
 			oDiv.append(oButton);	
 
 			//----------------------------------------------------
 			oButton = $("<button>", {title:"All thumbnails",class:"leftbutton",id:sID+this.consts.ALLTHUMB_ID,disabled:"disabled"});
 			oButton.append("All Thumbnails")
-			oButton.click(	function(){ oWidget.onClickAllThumbs()}	);
+			oButton.click(	function(){ oThis.onClickAllThumbs()}	);
 			oDiv.append(oButton);	
 
 			//----------------------------------------------------
 			oButton = $("<button>", {title:"Site",class:"leftbutton",id:sID+this.consts.SITE_ID,disabled:"disabled"});
 			oButton.append("Site")
-			oButton.click(	function(){ oWidget.onClickSite()}	);
+			oButton.click(	function(){ oThis.onClickSite()}	);
 			oDiv.append(oButton);	
 
 		oElement.append(oDiv);
@@ -104,7 +108,7 @@ $.widget( "chickenkatsu.solButtons",{
 	//*****************************************************************
 	set_sol:function( psSol){
 
-		var oWidget = this;
+		var oThis = this;
 		
 		//store the sol
 		this.options.sol = psSol;
@@ -122,15 +126,20 @@ $.widget( "chickenkatsu.solButtons",{
 		$("#"+sID+this.consts.SITE_ID).removeAttr("disabled");
 		
 		//fetch tags, highlights and gigapans
-		var sURL = cBrowser.buildUrl("php/rest/gigapans.php",{o:"sol",s:this.options.sol});
-		cHttp.fetch_json(sURL , function(paJS){		oWidget.onFetchedGigapans(paJS)		});
+		var sUrl = cBrowser.buildUrl("php/rest/gigapans.php",{o:"sol",s:this.options.sol});
+		var oHttp = new cHttp2();
+		bean.on(oHttp, "result", function(poHttp){oThis.onFetchedGigapans(poHttp);});
+		oHttp.fetch_json(sUrl);
 
-		var sURL = cBrowser.buildUrl("php/rest/tag.php",{o:"solcount",s:this.options.sol});
-		cHttp.fetch_json(sURL , function(piCount){		oWidget.onFetchedTagCount(piCount)		});
+		var sUrl = cBrowser.buildUrl("php/rest/tag.php",{o:"solcount",s:this.options.sol});
+		var oHttp = new cHttp2();
+		bean.on(oHttp, "result", function(poHttp){oThis.onFetchedTagCount(poHttp);});
+		oHttp.fetch_json(sUrl);
 
-		var sURL = cBrowser.buildUrl("php/rest/img_highlight.php",{o:"solcount",s:this.options.sol});
-		cHttp.fetch_json(sURL , function(piCount){		oWidget.onHiLiteCount(piCount)		});
-
+		var sUrl = cBrowser.buildUrl("php/rest/img_highlight.php",{o:"solcount",s:this.options.sol});
+		var oHttp = new cHttp2();
+		bean.on(oHttp, "result", function(poHttp){oThis.onHiLiteCount(poHttp);});
+		oHttp.fetch_json(sUrl);
 	},
 	
 	//#################################################################
@@ -140,24 +149,24 @@ $.widget( "chickenkatsu.solButtons",{
 	//#################################################################
 	//# Events
 	//#################################################################
-	onHiLiteCount:function(piJS){
-		if (piJS > 0){
+	onHiLiteCount:function(poHttp){
+		if (poHttp.response > 0){
 			var sID = "#" + this.element.attr("id")+this.consts.HIGH_ID;
 			$(sID).removeAttr("disabled");
 		}
 	},
 	
 	//*****************************************************************
-	onFetchedTagCount:function(piJS){
-		if (piJS > 0){
+	onFetchedTagCount:function(poHttp){
+		if (poHttp.response > 0){
 			var sID = "#" + this.element.attr("id")+this.consts.TAG_ID;
 			$(sID).removeAttr("disabled");
 		}
 	},
 	
 	//*****************************************************************
-	onFetchedGigapans:function(paJS){
-		if (paJS){
+	onFetchedGigapans:function(poHttp){
+		if (poHttp.response){
 			var sID = "#" + this.element.attr("id")+this.consts.GIGA_ID;
 			$(sID).removeAttr("disabled");
 		}

@@ -27,9 +27,14 @@ $.widget( "chickenkatsu.imageview",{
 	//#################################################################
 	_create: function(){
 		//check that the element is a div
-		var oWidget = this;
-		var sElementName = this.element.get(0).tagName;
-		
+		var oThis = this;
+
+		//check for necessary classes
+		if (!bean){		$.error("bean class is missing! check includes");	}
+		if (!cHttp2){		$.error("http2 class is missing! check includes");	}
+
+		//init
+		var sElementName = this.element.get(0).tagName;		
 		if (sElementName !== "DIV")
 			$.error("thumbnail view needs a DIV. this element is a: " + sElementName);
 
@@ -37,11 +42,6 @@ $.widget( "chickenkatsu.imageview",{
 		if (this.options.sol == null) $.error("sol is not set");
 		if (this.options.instrument == null) $.error("instrument is not set");
 				
-		//clear out the DIV and put some text in it
-		this.element.empty();
-		this.element.append("Loading Images for sol:" + this.options.sol);
-		if (this.options.instrument) this.element.append(", instr:" + this.options.instrument);
-
 		//start the images load 
 		this._trigger("onStatus",null,{text:"loading Images"});	
 		this._load_images(this.options.start_image);
@@ -51,7 +51,14 @@ $.widget( "chickenkatsu.imageview",{
 	//# Methods
 	//#################################################################
 	_load_images:function(piStartImage){
-		var oWidget = this;
+		var oThis = this;
+
+		//put some info in the widget
+		var oElement = this.element;
+		oElement.empty();
+		oElement.append("Loading Images for sol:" + this.options.sol + " instr:" + this.options.instrument);
+		
+		//load images
 		var sUrl = cBrowser.buildUrl(
 			this.consts.IMAGES_URL,	{
 				s:this.options.sol,
@@ -60,11 +67,9 @@ $.widget( "chickenkatsu.imageview",{
 				e:piStartImage+this.consts.IMAGES_TO_SHOW
 			}
 		);
-		
-		this.element.empty();
-		this.element.append("Loading Images ...");
-		
-		cHttp.fetch_json(sUrl, function(paJS){oWidget.onFullImages(paJS)});
+		var oHttp = new cHttp2();
+		bean.on(oHttp, "result", function(poHttp){oThis.onFullImages(poHttp);});
+		oHttp.fetch_json(sUrl);
 	},
 	
 	
@@ -83,26 +88,26 @@ $.widget( "chickenkatsu.imageview",{
 	},
 	
 	//**************************************************************************************************
-	onFullImages: function( paJS){
-		var oWidget = this;
-		this._trigger("onStatus",null,{text:"showing images"});	
+	onFullImages: function( poHttp){
+		var oThis = this;
 		var oDiv, iIndex, oItem, oOuterDiv;
 		
-		gi_max_images = 0;
+		this._trigger("onStatus",null,{text:"showing images"});	
+		var oJson = poHttp.response;
 		
 		//clear out the image div
 		this.element.empty();
 			
 		//build the html to put into the div
-		if (paJS.max == 0)
+		if (oJson.max == 0)
 			this.element.html("No data found");
 		else{
 			//nothing in this div
 			this.element.empty();
-			this.options.max_images = paJS.max;
+			this.options.max_images = oJson.max;
 			
 			//update title
-			this.options.start_image = parseInt(paJS.start);
+			this.options.start_image = parseInt(oJson.start);
 
 			//create the navigation div
 			var sID = this.element.id;
@@ -113,32 +118,32 @@ $.widget( "chickenkatsu.imageview",{
 					if (this.options.start < this.consts.IMAGES_TO_SHOW) 
 						oButton.attr('disabled', "disabled");
 					else
-						oButton.html("Previous Page").click( function(){		oWidget.onClickPreviousPage();	});
+						oButton.html("Previous Page").click( function(){		oThis.onClickPreviousPage();	});
 					oCell.append(oButton);
 				oRow.append(oCell);
-					oCell = $("<TD>",{width:"10%",id: sID + this.consts.CurrentID,align:"middle"}).html(paJS.start);
+					oCell = $("<TD>",{width:"10%",id: sID + this.consts.CurrentID,align:"middle"}).html(oJson.start);
 				oRow.append(oCell);
 					oCell = $("<TD>",{width:"40%"});
 					oButton = $("<button>", {class:"rightarrow imagenav",title:"Previous Page",id:sID+ this.consts.LeftID} );
-					if (this.options.start >= paJS.max - this.consts.IMAGES_TO_SHOW) 
+					if (this.options.start >= oJson.max - this.consts.IMAGES_TO_SHOW) 
 						oButton.attr('disabled', "disabled");
 					else
-						oButton.html("Next Page").click( function(){		oWidget.onClickNextPage();	});
+						oButton.html("Next Page").click( function(){		oThis.onClickNextPage();	});
 					oCell.append(oButton);
 				oRow.append(oCell);
 					oCell = $("<TD>",{align:"right"});
-					oCell.append(" Max:" + paJS.max);
+					oCell.append(" Max:" + oJson.max);
 				oRow.append(oCell);
 			oNavTable.append(oRow);
 			this.element.append(oNavTable);
 			
 
 			//display the images
-			for (iIndex = 0; iIndex < paJS.images.length; iIndex++){
+			for (iIndex = 0; iIndex < oJson.images.length; iIndex++){
 				var oDiv, oImgDiv, oA, oImg;
 				
 				// get the img details
-				oItem = paJS.images[iIndex];
+				oItem = oJson.images[iIndex];
 				
 				//build up the div
 				oDiv = $("<DIV>").instrumentimage({
@@ -147,8 +152,8 @@ $.widget( "chickenkatsu.imageview",{
 							product:oItem.p,
 							src:oItem.i,
 							date:oItem.du,
-							onClick: function(poEvent,poData){	oWidget._trigger("onClick",poEvent,poData);		},
-							onStatus: function(poEvent,paData){	oWidget._trigger("onStatus",poEvent,paData);	}
+							onClick: function(poEvent,poData){	oThis._trigger("onClick",poEvent,poData);		},
+							onStatus: function(poEvent,paData){	oThis._trigger("onStatus",poEvent,paData);	}
 					});
 				this.element.append(oDiv);
 			}
@@ -159,7 +164,7 @@ $.widget( "chickenkatsu.imageview",{
 		
 		//set up keypress
 		if (!this.options.keypress_done){
-			this._on( window, {	keypress: function(poEvent){oWidget.onKeypress(poEvent)}});
+			this._on( window, {	keypress: function(poEvent){oThis.onKeypress(poEvent)}});
 			this.options.keypress_done = true;
 		}
 

@@ -96,7 +96,9 @@ function onClickSearch(){
 		$("#sichooser").solinstrumentChooser("set_sol", sText);
 	else{
 		var sUrl=cBrowser.buildUrl("php/rest/search.php", {s:sText});
-		cHttp.fetch_json(sUrl, search_callback);
+		var oHttp = new cHttp2();
+		bean.on(oHttp, "result", search_callback);
+		oHttp.fetch_json(sUrl);
 	}
 }
 
@@ -129,9 +131,15 @@ function onStatusEvent(poEvent, paHash){
 
 //***************************************************************
 function onThumbClickEvent(poEvent, poData){
+	
 	stop_queue();
 	var sURL = cBrowser.buildUrl("detail.php",{s:poData.sol,i:poData.instr,p:poData.product});
-	cBrowser.openWindow(sURL, "detail");
+	cDebug.write("loading page " + sURL);
+	$("#"+ IMAGE_CONTAINER_ID).empty().html("redirecting to: "+ sURL);
+	setTimeout(	
+		function(){		cBrowser.openWindow(sURL, "detail");},
+		0
+	);
 }
 
 //***************************************************************
@@ -240,14 +248,15 @@ function show_images( piSol, psInstr, piStartImage){
 //###############################################################
 //* call backs 
 //###############################################################
-function search_callback(poJS){
+function search_callback(poHttp){
 	var sUrl;
 	
-	if (!poJS)
+	var oData = poHttp.response;
+	if (!oData)
 		set_status("not a valid search");
 	else{
 		set_status("got search callback");
-		sUrl = "detail.php?s=" + poJS.s + "&i=" + poJS.d.instrument + "&p=" + poJS.d.itemName;
+		var sUrl = cBrowser.buildUrl("detail.php" , {s:oData.s,i:oData.d.instrument,p:oData.d.itemName});
 		document.location.href = sUrl;
 	}
 }
