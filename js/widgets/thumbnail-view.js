@@ -13,13 +13,20 @@ $.widget( "chickenkatsu.thumbnailview",{
 		ThumbsPerPage: 100,
 		sol: null,
 		instrument: null,
-		onClick:null
+		onClick:null,
+		anyThumbElement:null
 	},
 	
 	//#################################################################
 	//# Constructor
 	//#################################################################
 	_create: function(){
+		var oThis = this;
+		
+		//check for necessary classes
+		if (!bean){		$.error("bean class is missing! check includes");	}
+		if (!cHttp2){		$.error("http2 class is missing! check includes");	}
+		
 		//check that the options are passed correctly
 		if (this.options.sol == null) $.error("sol is not set");
 		this.element.uniqueId();
@@ -37,25 +44,27 @@ $.widget( "chickenkatsu.thumbnailview",{
 		//start the normal thumbnail download
 		this._trigger("onStatus",null,{text:"loading basic thumbnails"});
 		sUrl = cBrowser.buildUrl(this.consts.BASIC_URL,{s:this.options.sol,i:this.options.instrument});
-		var oWidget = this;
-		cHttp.fetch_json(sUrl, function(poJS){oWidget.onThumbsJS(poJS)});
+		var oHttp = new cHttp2();
+		bean.on(oHttp,"result",function(poHttp){oThis.onThumbsJS(poHttp)});
+		oHttp.fetch_json(sUrl);
+		
 	},
 	
 	//#################################################################
 	//# methods
 	//#################################################################
 	stop_queue: function(){
-		goBetterThumbnailQueue.stop();
-		window.stop();
+		if (this.options.anyThumbElement != null)
+			this.options.anyThumbElement.thumbnail("stop_queue");
 	},
 	
 	//#################################################################
 	//# Events
 	//#################################################################
-	onThumbsJS: function(poJS){
+	onThumbsJS: function(poHttp){
 		var i, aData, oItem;
-		var oWidget = this;
-		var oElement = oWidget.element;
+		var oThis = this;
+		var oElement = oThis.element;
 
 		this._trigger("onStatus",null,{text:"got basic thumbnails"});
 		this._trigger("onBasicThumbnail");
@@ -63,22 +72,27 @@ $.widget( "chickenkatsu.thumbnailview",{
 		// ok load the thumbnails
 		oElement.empty();
 		
-		aData = poJS.d.data;
+		aData = poHttp.response.d.data;
 		if (aData.length == 0){
 			oElement.append("<p class='subtitle'>Sorry no thumbnails found</p>");
 			this._trigger("onStatus", null,{text:"No thumbnails defined"});
 		}else{
-			goBetterThumbnailQueue.reset();
+			
+			if (this.options.anyThumbElement)
+			this.options.anyThumbElement.thumbnail("reset_queue");
+				
 			for (i=0; i< aData.length; i++){
 				oItem = aData[i];
 				var oThumbnailWidget = $("<SPAN>").thumbnail({
-					sol:poJS.s, 
+					sol:poHttp.response.s, 
 					instrument:oItem.data.instrument, 
 					product:oItem.p, 
 					url:oItem.i,
-					onStatus:function(poEvent,poData){ oWidget._trigger("onStatus", poEvent, poData)},
-					onClick: function(poEvent, poData){ oWidget.onThumbClick(poEvent, poData);}
+					onStatus:function(poEvent,poData){ oThis._trigger("onStatus", poEvent, poData)},
+					onClick: function(poEvent, poData){ oThis.onThumbClick(poEvent, poData);}
 				});
+				if (this.options.anyThumbElement == null)
+					this.options.anyThumbElement = oThumbnailWidget;
 				
 				// draw the widget;
 				oElement.append(oThumbnailWidget);

@@ -163,7 +163,6 @@ function stop_queue(){
 		oDiv.thumbnailview("stop_queue");
 	}
 	catch (e){}
-	window.stop();
 }
 
 //***************************************************************

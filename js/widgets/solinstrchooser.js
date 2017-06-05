@@ -24,6 +24,16 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 	//# Constructor
 	//#################################################################`
 	_create: function(){
+		
+		//check for necessary classes
+		if (!bean){		$.error("bean class is missing! check includes");	}
+		if (!cHttp2){		$.error("http2 class is missing! check includes");	}
+		
+		this.render();
+		this.prLoadLists();
+	},
+	
+	render:function(){
 		var oThis, oElement, sID, sOID, oObj, oDiv;
 		
 		oThis = this;
@@ -56,20 +66,20 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 			oRow = $("<TR>");
 				oCell = $("<TD>",{align:"left"});
 				oButton = $("<button>", {class:"solnav leftarrow",title:"previous Sol ([)"});
-				oButton.click(	function(){oThis.onPrevious()}	);
+				oButton.click(	function(){oThis.onPreviousSolClick()}	);
 				oCell.append(oButton);
 				oRow.append(oCell);
 				
 				sOID = sID+this.consts.LATEST_ID;
 				oCell = $("<TD>",{align:"middle"});
 				oButton = $("<button>", {class:"roundbutton",title:"latest",disabled:"disabled", id:sOID}).append("latest");
-				oButton.click(	function(){oThis.onLatest()}	);
+				oButton.click(	function(){oThis.onLatestSolClick()}	);
 				oCell.append(oButton);
 				oRow.append(oCell);
 				
 				oCell = $("<TD>",{align:"right"});
 				oButton = $("<button>", {class:"solnav rightarrow",title:"Next Sol (])"});
-				oButton.click(	function(){oThis.onNext()}	);
+				oButton.click(	function(){oThis.onNextSolClick()}	);
 				oCell.append(oButton);
 				oRow.append(oCell);
 		
@@ -86,9 +96,7 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 			oObj = $("<SELECT>", {id:sID+this.consts.INSTR_ID});
 			oObj.append($("<Option>").append("loading..."));
 		oDiv.append(oObj);
-		oElement.append(oDiv);
-		
-		this.prLoadLists();
+		oElement.append(oDiv);		
 	},
 	
 	//#################################################################
@@ -128,8 +136,7 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 	
 		//get the instruments for this sol
 		var sURL =cBrowser.buildUrl("php/rest/instruments.php", {s:psSol,r:0});
-		
-		oHttp = new cHttp2();
+		var oHttp = new cHttp2();
 		bean.on(oHttp,"result",function(poHttp){oThis.onLoadSolInstruments(poHttp)});
 		oHttp.fetch_json(sURL);
 	},
@@ -139,14 +146,20 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 	//#################################################################
 	prLoadLists: function(){
 		var oThis = this;
-		cHttp.fetch_json("php/rest/instruments.php", function(paJS){oThis.onLoadInstruments(paJS)});
-		cHttp.fetch_json("php/rest/sols.php", function(paJS){oThis.onLoadSols(paJS)});
+
+		var oHttp = new cHttp2();
+		bean.on(oHttp,"result",function(poHttp){oThis.onLoadInstruments(poHttp)});
+		oHttp.fetch_json("php/rest/instruments.php");
+
+		var oHttp2 = new cHttp2();
+		bean.on(oHttp2,"result",function(poHttp){oThis.onLoadSols(poHttp)});
+		oHttp2.fetch_json("php/rest/sols.php");
 	},
 	
 	//#################################################################
-	//# Events
+	//# button Events
 	//#################################################################
-	onPrevious:function(){
+	onPreviousSolClick:function(){
 		var sID = this.element.attr("id");
 		
 		var oSelected, oPrev;
@@ -170,7 +183,7 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 	},
 
 	//*****************************************************************
-	onLatest:function(){
+	onLatestSolClick:function(){
 		var sID = this.element.attr("id");
 		cDebug.write("setting latest sol: ");
 		
@@ -183,7 +196,7 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 	},
 
 	//*****************************************************************
-	onNext:function(){
+	onNextSolClick:function(){
 		var oSelected, oNext;
 		var sID = this.element.attr("id");
 		var sListID = sID+this.consts.SOL_LIST_ID;
@@ -205,9 +218,48 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 	},
 	
 	//*****************************************************************
+	onKeypress:function(poEvent){
+		if (poEvent.target.tagName === "INPUT") return;
+		
+		var sChar = String.fromCharCode(poEvent.which);
+		
+		switch(sChar){
+			case "[": this.onPreviousSolClick();break;
+			case "]": this.onNextSolClick();break;
+		}	
+	},
+	
+	
+	//*****************************************************************
+	OnChangeSolList: function(poEvent){
+		this.options.sol = poEvent.target.value;
+		this._trigger("onSelect", null,{sol:this.options.sol, instrument:this.options.instrument});
+		this.get_sol_instruments(poEvent.target.value);
+	},
+	
+	//*****************************************************************
+	OnChangeSolSummaryList: function(poEvent){
+		this.set_sol(poEvent.target.value);
+	},
+	
+	//*****************************************************************
+	OnChangeInstrList: function(poEvent){
+		this.options.instrument = poEvent.target.value;
+		this._trigger("onSelect", null, {sol:this.options.sol, instrument:this.options.instrument});
+	},
+
+	//#################################################################
+	//# data Events
+	//#################################################################
+	onError: function(poHttp){
+		this._trigger("onStatus", null, {data:"error when fetching: " + poHttp.url});		
+	},
+	
 	onLoadSolInstruments:function(poHttp){
 		var i, sInstr, oList, oJson;
 
+		this._trigger("onStatus",null,{data:"got instruments for sol" + this.options.sol});
+		
 		oJson = poHttp.response;
 		var sID = this.element.attr("id");
 		oList = $("#" + sID + this.consts.INSTR_ID);
@@ -222,19 +274,20 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 	},
 	
 	//*****************************************************************
-	onLoadInstruments:function(paJS){
+	onLoadInstruments:function(poHttp){
 		var i, oInstr, oList, sID;
 		var oThis = this;
 		
-		var sID = this.element.attr("id");
-		
+		var aData = poHttp.response;
+
+		var sID = this.element.attr("id");		
 		oList = $("#"+sID + this.consts.INSTR_ID );
 		oList.empty();
 		
 		oList.append( $("<option>",{value:"",disabled:"disabled"}).html("Select an Instrument..."));
 		
-		for (i = 0; i < paJS.length; i++){
-			oInstr = paJS[i];
+		for (i = 0; i < aData.length; i++){
+			oInstr = aData[i];
 			oList.append( $("<option>",{value:oInstr.name,disabled:"disabled"}).html(oInstr.caption));
 		}
 
@@ -249,21 +302,22 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 	},
 	
 	//*****************************************************************
-	onLoadSols:function(paJS){
+	onLoadSols:function(poHttp){
 		var i, oSol, oList, oSumList, oOption, iSol, iLastRange, iRange ;
 		var oThis = this;
 
-		cDebug.write("got sols callback");
-		var sID = this.element.attr("id");
+		var aData = poHttp.response;
 		
+		var sID = this.element.attr("id");
 		oList = $("#"+sID + this.consts.SOL_LIST_ID );
 		oList.empty();
+		
 		oSumList = $("#"+sID + this.consts.SOL_SUMMARY_ID );
 		oSumList.empty();
 		iLastRange = -1;
 		
-		for (i = 0; i < paJS.length; i++){
-			oSol = paJS[i];
+		for (i = 0; i < aData.length; i++){
+			oSol = aData[i];
 			iSol = parseInt(oSol.sol);
 			iRange = Math.floor(iSol/this.consts.SOL_DIVISIONS);
 			
@@ -293,39 +347,6 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 			this.set_sol(cBrowser.data[SOL_QUERYSTRING]);	
 
 		this._on( window, {	keypress: function(poEvent){oThis.onKeypress(poEvent)}});
-	},
-	
-	
-	//#################################################################
-	//# events
-	//#################################################################
-	onKeypress:function(poEvent){
-		if (poEvent.target.tagName === "INPUT") return;
-		
-		var sChar = String.fromCharCode(poEvent.which);
-		
-		switch(sChar){
-			case "[": this.onPrevious();break;
-			case "]": this.onNext();break;
-		}	
-	},
-	
-	
-	//*****************************************************************
-	OnChangeSolList: function(poEvent){
-		this.options.sol = poEvent.target.value;
-		this._trigger("onSelect", null,{sol:this.options.sol, instrument:this.options.instrument});
-		this.get_sol_instruments(poEvent.target.value);
-	},
-	
-	//*****************************************************************
-	OnChangeSolSummaryList: function(poEvent){
-		this.set_sol(poEvent.target.value);
-	},
-	
-	//*****************************************************************
-	OnChangeInstrList: function(poEvent){
-		this.options.instrument = poEvent.target.value;
-		this._trigger("onSelect", null, {sol:this.options.sol, instrument:this.options.instrument});
 	}
+		
 });

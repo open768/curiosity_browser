@@ -20,7 +20,7 @@ $.widget( "chickenkatsu.thumbnail",{
 	consts:{
 		THUMB_SIZE:144,
 		THUMB_ORIG_COLOR: "aliceblue",
-		THUMB_WORKING_COLOR: "blanchedalmond",
+		THUMB_WORKING_COLOR: "mediumorchid",
 		THUMB_ERROR_COLOR: "#ffe5ff",
 		THUMB_FINAL_COLOR: "white",
 		THUMB_MISSING_COLOR: "mistyrose",
@@ -185,6 +185,14 @@ $.widget( "chickenkatsu.thumbnail",{
 		goBetterThumbnailQueue.stop();		
 		this._trigger("onStatus",null,{text:"clicked: " + oOptions.product});
 		this._trigger ("onClick", null,{sol:oOptions.sol, instr:oOptions.instrument, product:oOptions.product});
+	},
+	
+	stop_queue:function(){
+		goBetterThumbnailQueue.stop();
+	},
+	
+	reset_queue:function(){
+		goBetterThumbnailQueue.reset();
 	}
 	
 });
