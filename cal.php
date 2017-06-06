@@ -24,6 +24,7 @@
 	?>
 	<DIV class="gold">
 		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
+		<button class="leftbutton"title="go to SOL" onclick="onClickGotoSol()">Sol <span id="gotoSOL">...</span></button>
 		<button class="leftbutton"title="force refresh cache" id="solrefresh" onclick="onClickRefresh()">Refresh Data</button>
 		<button class="leftbutton" onclick="onClickPrevious()" title="previous Sol">&lt;&lt; Previous</button>
 		Status: <span ID="status" class="status">Loading...</span>

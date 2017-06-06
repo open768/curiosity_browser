@@ -43,11 +43,10 @@ $.widget( "chickenkatsu.thumbnailview",{
 
 		//start the normal thumbnail download
 		this._trigger("onStatus",null,{text:"loading basic thumbnails"});
-		sUrl = cBrowser.buildUrl(this.consts.BASIC_URL,{s:this.options.sol,i:this.options.instrument});
+		var sUrl = cBrowser.buildUrl(this.consts.BASIC_URL,{s:this.options.sol,i:this.options.instrument});
 		var oHttp = new cHttp2();
 		bean.on(oHttp,"result",function(poHttp){oThis.onThumbsJS(poHttp)});
 		oHttp.fetch_json(sUrl);
-		
 	},
 	
 	//#################################################################

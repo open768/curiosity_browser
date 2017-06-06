@@ -25,8 +25,13 @@ var oColours = {};
 function onClick(){
 	var sInstr = event.target.attributes.i.value;
 	var sProduct = event.target.attributes.p.value;
-	var sURL = "detail.php?s=" + current_sol +"&i=" + sInstr + "&p=" +sProduct;
+	var sURL = cBrowser.buildUrl("detail.php",{s:current_sol,i:sInstr,p:sProduct});
 	cBrowser.openWindow(sURL, "detail");
+}
+
+function onClickGotoSol(){
+	var sURL = cBrowser.buildUrl("index.php",{s:current_sol});
+	cBrowser.openWindow(sURL, "index");
 }
 
 function onClickNext(){
@@ -41,9 +46,13 @@ function onClickPrevious(){
 }
 
 function onClickRefresh(){
-	sUrl = "php/rest/instruments.php?s=" + current_sol + "&r=true";
 	set_status("refreshing data");
-	cHttp.fetch_json(sUrl, onLoadJQuery_CAL);
+	
+	var sURL = cBrowser.buildUrl("php/rest/instruments.php",{s:current_sol,r:"true"}); //force a refresh on the server
+	var oHttp = new cHttp2();
+	bean.on(oHttp,"result",onLoadJQuery_CAL);
+	oHttp.fetch_json(sURL);
+
 }
 
 
@@ -57,29 +66,43 @@ function onLoadJQuery_CAL(){
 
 //***************************************************************
 function get_calendar_data( psSol){
-	var sUrl;
+	var sURL;
 	
-	document.getElementById("sol").innerHTML = psSol;
+	$("#sol").html(psSol);
+	$("#gotoSOL").html(psSol);
 	current_sol = psSol;
 	
 	loading=true;
-	sUrl = "php/rest/cal.php?s=" + psSol ;
 	set_status("fetching calendar data for sol:"+ psSol);
-	cHttp.fetch_json(sUrl, load_cal_callback);
+
+	var sURL = cBrowser.buildUrl("php/rest/cal.php",{s:psSol});
+	var oHttp = new cHttp2();
+	oHttp.sol = psSol;
+	bean.on(oHttp,"result",onCalResponse);
+	bean.on(oHttp,"error",onCalError);
+	oHttp.fetch_json(sURL);
 }
 //###############################################################
 //* call backs 
 //###############################################################
-function load_cal_callback(paJS){
+function onCalError(poHttp){
+	set_status("Error getting calendar for sol" + poHttp.sol);
+	$("#colours").empty();
+	$("#calendar").empty();
+	$("#calendar").html("Sorry there was an error");
+}
+
+function onCalResponse(poHttp){
 	var sSol, aDates, aHeadings, aTimes, i,j,k, sDKey, sTKey, sHTML, aItems, oItem, sID, sColour, sStyle, oDiv;
 	var oOuterSpan, oInnerSpan;
 	var aInstr, oInstr;
 	
 	set_status("received data...");
 
-	sSol = paJS.sol;
-	aDates = paJS.cal;
-	aInstr = paJS.instr;
+	var oData = poHttp.response;
+	sSol = oData.sol;
+	aDates = oData.cal;
+	aInstr = oData.instr;
 	
 	//display the colours and build the colour array
 	oDiv = $("#colours").empty();

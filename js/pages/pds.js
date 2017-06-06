@@ -31,14 +31,14 @@ function onClickEDRLBL(){
 }
 
 function onClickDetail(){
-	var sSol, sInstr, sProduct, sUrl;
+	var sSol, sInstr, sProduct, sURL;
 	
 	sInstr = cBrowser.data[INSTR_QUERYSTRING];
 	sProduct = cBrowser.data[PRODUCT_QUERYSTRING];
 	sSol = cBrowser.data[SOL_QUERYSTRING];
 	
-	sUrl = "detail.php?s=" + sSol + "&i=" + sInstr + "&p=" + sProduct;
-	cBrowser.openWindow(sUrl, "detail");
+	sURL = "detail.php?s=" + sSol + "&i=" + sInstr + "&p=" + sProduct;
+	cBrowser.openWindow(sURL, "detail");
 
 }
 
@@ -55,11 +55,14 @@ function onClickNotebook(){
 //###############################################################
 function onLoadJQuery_PDS(){
 	set_status("loading pds data...");
-	var sURL = 	
-		"php/rest/pds.php?a=s&s="+ cBrowser.data[SOL_QUERYSTRING] + 
-		"&i=" + cBrowser.data[INSTR_QUERYSTRING] +
-		"&p=" + cBrowser.data[PRODUCT_QUERYSTRING];
-	cHttp.fetch_json(sURL, get_pds_callback);
+	
+	var sURL = cBrowser.buildUrl(
+		"php/rest/pds.php",
+		{a:"s",s:cBrowser.data[SOL_QUERYSTRING],i:cBrowser.data[INSTR_QUERYSTRING],p:cBrowser.data[PRODUCT_QUERYSTRING]}
+	);
+	var oHttp = new cHttp2();
+	bean.on(oHttp,"result",get_pds_callback);
+	oHttp.fetch_json(sURL);
 }
 
 function has_pds_url(){
@@ -71,12 +74,13 @@ function has_pds_url(){
 //###############################################################
 //* call backs 
 //###############################################################
-function get_pds_callback(poJS){
-	if (poJS==null)
+function get_pds_callback(poHttp){
+	var oData = poHttp.response;
+	if (oData==null)
 		set_error_status("no PDS data found");
 	else{
 		set_status("PDS data found: OK");
-		goPds = poJS;
+		goPds = oData;
 		
 		$("#PDS_FRAME").attr("src",goPds.u);
 		

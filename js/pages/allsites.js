@@ -33,21 +33,25 @@ function onLoadJQuery_SITES(){
 
 function onGoogleEarthLoaded(){
 	set_status("retrieving sites");
-	cHttp.fetch_json("php/rest/sites.php?&o=allSitesBounds", all_sites_callback);
+	var sURL = cBrowser.buildUrl("php/rest/sites.php",{o:"allSitesBounds"});
+	var oHttp = new cHttp2();
+	bean.on(oHttp,"result",all_sites_callback);
+	oHttp.fetch_json(sURL);
 }
 
 //###############################################################
 //* call backs 
 //###############################################################
-function all_sites_callback(paJS){
+function all_sites_callback(poHttp){
 	var oButton, oBounds, fLat, fLong;
 	var oSelect, oOption;
+	var oData = poHttp.response;
 	
 	$("#sites").empty();
-	if (paJS.d == null)
+	if (oData.d == null)
 		set_error_status("No sites found");
 	else{
-		aSites = paJS.d;
+		aSites = oData.d;
 		
 		oSelect = $("<SELECT>");
 		iCount =0;
@@ -110,8 +114,11 @@ function render_sites(){
 	}
 	//get the hirise targets
 	set_status("fetching hirise observations");
-	sURL="../hirise?o=intersect&la1="+oBounds.lat1+"&lo1="+oBounds.long1+"&la2="+oBounds.lat2+"&lo2="+oBounds.long2;
-	cHttp.fetch_json(sURL, hirise_callback);
+
+	var sURL = cBrowser.buildUrl("../hirise",{o:"intersect",la1:oBounds.lat1,lo1:oBounds.long1,la2:oBounds.lat2,lo2:oBounds.long2});
+	var oHttp = new cHttp2();
+	bean.on(oHttp,"result",hirise_callback);
+	oHttp.fetch_json(sURL);
 	
 	//fly to the centre
 	oCentre = {lat:(fAll.lat1 + fAll.lat2)/2, lon:(fAll.long1 + fAll.long2)/2};
@@ -122,15 +129,16 @@ function render_sites(){
 }
 
 //****************************************************************
-function hirise_callback(paData){
+function hirise_callback(poHttp){
 	var oSelect, i, oOption, oItem, oBound;
 	
 	set_status("got hirise data"); 
 	$("#hirise").empty();
+	var oData = poHttp.response;
 	
 	oSelect = $("<SELECT>");
-	for (i = 0; i < paData.length; i++){
-		oItem = paData[i];
+	for (i = 0; i < oData.length; i++){
+		oItem = oData[i];
 		oOption = $("<option>").attr({"value":i});
 		oOption.html(oItem.sID);
 		oSelect.append(oOption);
@@ -149,17 +157,22 @@ function hirise_callback(paData){
 function lookat_callback(){
 	cGoogleEarth.removeListener( "frameend", lookat_callback);
 	set_status("fetching sites");
-	for (i = 0; i < aSites.length; i++)
-		cHttp.fetch_json("php/rest/sites.php?&o=site&site="+i, get_site_callback);
+	for (i = 0; i < aSites.length; i++){
+		var sURL = cBrowser.buildUrl("php/rest/sites.php",{o:"site",site:i}});
+		var oHttp = new cHttp2();
+		bean.on(oHttp,"result",get_site_callback);
+		oHttp.fetch_json(sURL);
+	}
 	set_status("ok");
 }
 
 //****************************************************************
-function get_site_callback(paJS){
+function get_site_callback(poHttp){
 	var i, aItem, aVector, fLat, fLong, aData;
 	
-	if (paJS.d == null)	return;
-	aData = paJS.d ;
+	var oData = poHttp.response;
+	if (oData.d == null)	return;
+	aData = oData.d ;
 	
 	aVector = [];
 	
