@@ -15,7 +15,8 @@ $.widget( "chickenkatsu.thumbnail",{
 		base_id: null,
 		url: null,
 		img :null,
-		loaded_better: false
+		loaded_better: false,
+		mission:null
 	},
 	consts:{
 		THUMB_SIZE:144,
@@ -45,6 +46,7 @@ $.widget( "chickenkatsu.thumbnail",{
 		if (oOptions.instrument == null) $.error("instrument is not set");
 		if (oOptions.product == null) $.error("product is not set");
 		if (oOptions.url == null) $.error("url is not set");
+		if (oOptions.mission == null) $.error("mission is not set");
 		
 		oThis = this;
 		oElement = oThis.element;
@@ -78,11 +80,7 @@ $.widget( "chickenkatsu.thumbnail",{
 	stop_queue:function(){
 		goBetterThumbQueue.stop();
 	},
-	
-	reset_queue:function(){
-		goBetterThumbQueue.reset();
-	},
-	
+		
 	//#################################################################
 	//# events
 	//#################################################################`
@@ -159,7 +157,7 @@ $.widget( "chickenkatsu.thumbnail",{
 		if (oImg.visible()){
 			//cDebug.write("basic thumb loaded: " + oOptions.product + " imgID: " + this.options.img + " span:" +  sSpanID );		
 			var oItem = new cHttpQueueItem();
-			oItem.url = cBrowser.buildUrl(this.consts.BETTER_URL,{s:oOptions.sol,i:oOptions.instrument,p:oOptions.product});
+			oItem.url = cBrowser.buildUrl(this.consts.BETTER_URL,{s:oOptions.sol,i:oOptions.instrument,p:oOptions.product,m:oOptions.mission.name});
 
 			bean.on(oItem, "result", 	function(poHttp){oThis.onBetterThumbResponse(poHttp);}	);				
 			bean.on(oItem, "error", 	function(poHttp){oThis.onBetterThumbError(poHttp);}	);				

@@ -10,7 +10,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 var DEBUG_ON = true;
-var loading = true;
 var SOL_QUERYSTRING = "s";
 var INSTR_QUERYSTRING = "i";
 var PRODUCT_QUERYSTRING = "p";
@@ -23,15 +22,6 @@ var giNum = null;
 //###############################################################
 //# Event Handlers
 //###############################################################
-//***************************************************************
-function onClickNext(){
-	//find the next product
-	var sURL;
-	
-	sURL = "php/rest/next.php?d=n&s=" + goItem.s + "&i=" + goItem.i +"&p=" + goItem.p;
-	set_status("fetching next image details...");
-	cHttp.fetch_json(sURL, next_callback);
-}
 
 //***************************************************************
 function onClickComment(){
@@ -41,26 +31,41 @@ function onClickComment(){
 
 //***************************************************************
 function onClickNextTime(){
-	sURL = "php/rest/nexttime.php?d=n&s=" + goItem.s + "&p=" + goItem.p;
+	var sUrl = cBrowser.buildUrl("php/rest/nexttime.php",{d:"n",s:goItem.s,p:goItem.p});
 	set_status("fetching next image details...");
-	cHttp.fetch_json(sURL, nexttime_callback);
+	var oHttp = new cHttp2();
+	bean.on(oHttp,"result",nexttime_callback);
+	oHttp.fetch_json(sUrl);
 }
 
 //***************************************************************
 function onClickPreviousTime(){
-	sURL = "php/rest/nexttime.php?d=p&s=" + goItem.s + "&p=" + goItem.p;
+	var sUrl = cBrowser.buildUrl("php/rest/nexttime.php",{d:"p",s:goItem.s,p:goItem.p});
 	set_status("fetching previous image details...");
-	cHttp.fetch_json(sURL, nexttime_callback);
+	var oHttp = new cHttp2();
+	bean.on(oHttp,"result",nexttime_callback);
+	oHttp.fetch_json(sUrl);
+}
+
+//***************************************************************
+function onClickNext(){
+	//find the next product
+	var sURL;
+	
+	set_status("fetching next image details...");
+	var sUrl = cBrowser.buildUrl("php/rest/next.php",{d:"n",s:goItem.s,i:goItem.i,p:goItem.p});
+	var oHttp = new cHttp2();
+	bean.on(oHttp,"result",next_callback);
+	oHttp.fetch_json(sUrl);
 }
 
 //***************************************************************
 function onClickPrevious(){
-	//find the previous product
-	var sURL;
-	
-	sURL = "php/rest/next.php?d=p&s=" + goItem.s + "&i=" + goItem.i +"&p=" + goItem.p;
 	set_status("fetching previous image details...");
-	cHttp.fetch_json(sURL, next_callback);
+	var sUrl = cBrowser.buildUrl("php/rest/next.php",{d:"p",s:goItem.s,i:goItem.i,p:goItem.p});
+	var oHttp = new cHttp2();
+	bean.on(oHttp,"result",next_callback);
+	oHttp.fetch_json(sUrl);
 }
 
 //***************************************************************
@@ -213,12 +218,11 @@ function onInputDefocus(){
 
 //***************************************************************
 function get_product_data( psSol, psInstr, psProd){
-	var sURL;
-	
-	loading=true;
-	sURL = "php/rest/detail.php?s=" + psSol + "&i=" + psInstr +"&p=" + psProd;
+	var sUrl = cBrowser.buildUrl("php/rest/detail.php",{s:psSol,i:psInstr,p:psProd,m:cMission.name});
 	set_status("fetching data for "+ psProd);
-	cHttp.fetch_json(sURL, load_detail_callback);
+	var oHttp = new cHttp2();
+	bean.on(oHttp,"result",load_detail_callback);
+	oHttp.fetch_json(sUrl);
 }
 //###############################################################
 //* call backs 
@@ -279,13 +283,13 @@ function tag_callback(paJS){
 }
 
 //***************************************************************
-function load_detail_callback(paJS){
+function load_detail_callback(poHttp){
 
 	var sLink, sURL, oData;
 	set_status("received data...");
 	
 	//rely upon what came back rather than the query string
-	goItem = paJS;
+	goItem = poHttp.response;
 	
 	//check whether there was any data
 	oData = goItem.d;
@@ -308,17 +312,17 @@ function load_detail_callback(paJS){
 	
 
 	//tags 
-	if (!paJS.tags)
+	if (!oData.tags)
 		$("#tags").html( "no Tags - be the first to add one");
 	else{
-		$("#tags").html( paJS.tags);
+		$("#tags").html( oData.tags);
 	}
 	
 	//update image index details
-	giNum = paJS.item;
+	giNum = goItem.item;
 	$("#img_index").html( giNum);
 	
-	$("#max_images").html( paJS.max);
+	$("#max_images").html( goItem.max);
 	$("#sol").html( goItem.s);
 	$("#instrument").html( goItem.i);
 	
@@ -362,16 +366,18 @@ function get_comments_callback(paJson){
 }
 
 //***************************************************************
-function nexttime_callback(poJson){
-	if (!poJson)
+function nexttime_callback(poHttp){
+	var oData = poHttp.response;
+	if (!oData)
 		set_error_status("unable to find");
 	else
-		get_product_data( poJson.s, poJson.d.instrument, poJson.d.itemName);
+		get_product_data( oData.s, oData.d.instrument, oData.d.itemName);
 }
 
 //***************************************************************
-function next_callback(poJson){
-	get_product_data( poJson.s, goItem.i, poJson.d.p);
+function next_callback(poHttp){
+	var oData = poHttp.response;
+	get_product_data( oData.s, goItem.i, oData.d.p);
 }
 
 //***************************************************************

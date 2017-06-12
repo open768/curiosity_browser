@@ -36,23 +36,26 @@ function onLoadJQuery_SOLTAG(){
 	//load tags
 	sUrl = "php/rest/tag.php?s=" + sSol + "&o=sol";
 	set_status("fetching tags");
-	cHttp.fetch_json(sUrl, load_soltag_callback);
+
+	var oHttp = new cHttp2();
+	bean.on(oHttp,"result",load_soltag_callback);
+	oHttp.fetch_json(sUrl);
 }
 
 //###############################################################
 //* call backs 
 //###############################################################
-function load_soltag_callback(poJs){
+function load_soltag_callback(poHttp){
 	var sInstr, aTags,i, sProduct, sTag, oItem, sTagUrl, sProductURL;
 	var oDiv;
 	
 	oDiv = $("#soltag");
 	oDiv.empty();
+	var aData = poHttp.response;
 	
-	
-	for (sInstr in poJs){
+	for (sInstr in aData){
 		oDiv.append("<h2>"+sInstr +"</h2>");
-		aTags = poJs[sInstr];
+		aTags = aData[sInstr];
 
 		var sTagTarget = ( SINGLE_WINDOW ? "" : "target='tag'");
 		var sDetailTarget = ( SINGLE_WINDOW ? "" : "target='detail'");

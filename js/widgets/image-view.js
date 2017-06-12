@@ -32,6 +32,7 @@ $.widget( "chickenkatsu.imageview",{
 		//check for necessary classes
 		if (!bean){		$.error("bean class is missing! check includes");	}
 		if (!cHttp2){		$.error("http2 class is missing! check includes");	}
+		if (!this.element.gSpinner){ 	$.error("gSpinner is missing! check includes");		}
 
 		//init
 		var sElementName = this.element.get(0).tagName;		
@@ -56,7 +57,13 @@ $.widget( "chickenkatsu.imageview",{
 		//put some info in the widget
 		var oElement = this.element;
 		oElement.empty();
-		oElement.append("Loading Images for sol:" + this.options.sol + " instr:" + this.options.instrument);
+		
+		var oDiv = $("<DIV>",{class:".ui-widget-content"});
+		var oLoader = $("<DIV>");
+		oLoader.gSpinner({scale: .25});
+		oDiv.append(oLoader).append("Loading Images for sol:" + this.options.sol + " instr:" + this.options.instrument);
+		oElement.append(oDiv);
+
 		
 		//load images
 		var sUrl = cBrowser.buildUrl(

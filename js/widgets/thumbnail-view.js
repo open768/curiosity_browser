@@ -14,7 +14,7 @@ $.widget( "chickenkatsu.thumbnailview",{
 		sol: null,
 		instrument: null,
 		onClick:null,
-		anyThumbElement:null
+		mission:null
 	},
 	
 	//#################################################################
@@ -22,13 +22,18 @@ $.widget( "chickenkatsu.thumbnailview",{
 	//#################################################################
 	_create: function(){
 		var oThis = this;
+		var oOptions = this.options;
 		
 		//check for necessary classes
-		if (!bean){		$.error("bean class is missing! check includes");	}
-		if (!cHttp2){		$.error("http2 class is missing! check includes");	}
+		if (!bean){				$.error("bean class is missing! check includes");	}
+		if (!cHttp2){			$.error("http2 class is missing! check includes");	}
+		if (!this.element.gSpinner){ 	$.error("gSpinner is missing! check includes");		}
+		if (!this.element.thumbnail){ 	$.error("thumbnail is missing! check includes");		}
+
 		
 		//check that the options are passed correctly
-		if (this.options.sol == null) $.error("sol is not set");
+		if (oOptions.sol == null) $.error("sol is not set");
+		if (oOptions.mission == null) $.error("mission is not set");
 		this.element.uniqueId();
 		
 		//check that the element is a div
@@ -38,12 +43,17 @@ $.widget( "chickenkatsu.thumbnailview",{
 		
 		//clear out the DIV and put some text in it
 		this.element.empty();
-		this.element.append("Loading thumbnails for sol:" + this.options.sol);
-		if (this.options.instrument) this.element.append(", instr:" + this.options.instrument);
+		var oDiv = $("<DIV>",{class:".ui-widget-content"});
+		var oLoader = $("<DIV>");
+		oLoader.gSpinner({scale: .25});
+		oDiv.append(oLoader).append("Loading thumbnails for sol:" + oOptions.sol)
+		this.element.append(oDiv);
+		
+		if (oOptions.instrument) this.element.append(", instr:" + oOptions.instrument);
 
 		//start the normal thumbnail download
 		this._trigger("onStatus",null,{text:"loading basic thumbnails"});
-		var sUrl = cBrowser.buildUrl(this.consts.BASIC_URL,{s:this.options.sol,i:this.options.instrument});
+		var sUrl = cBrowser.buildUrl(this.consts.BASIC_URL,{s:oOptions.sol,i:oOptions.instrument,m:oOptions.mission.name});
 		var oHttp = new cHttp2();
 		bean.on(oHttp,"result",function(poHttp){oThis.onThumbsJS(poHttp)});
 		oHttp.fetch_json(sUrl);
@@ -53,8 +63,7 @@ $.widget( "chickenkatsu.thumbnailview",{
 	//# methods
 	//#################################################################
 	stop_queue: function(){
-		if (this.options.anyThumbElement != null)
-			this.options.anyThumbElement.thumbnail("stop_queue");
+		goBetterThumbQueue.stop();				//have to use a global otherwise cant reset the queue
 	},
 	
 	//#################################################################
@@ -65,6 +74,7 @@ $.widget( "chickenkatsu.thumbnailview",{
 		var oThis = this;
 		var oElement = oThis.element;
 
+		cDebug.write("got basic thumbnails");
 		this._trigger("onStatus",null,{text:"got basic thumbnails"});
 		this._trigger("onBasicThumbnail");
 		
@@ -73,12 +83,14 @@ $.widget( "chickenkatsu.thumbnailview",{
 		
 		aData = poHttp.response.d.data;
 		if (aData.length == 0){
-			oElement.append("<p class='subtitle'>Sorry no thumbnails found</p>");
-			this._trigger("onStatus", null,{text:"No thumbnails defined"});
+			var oDiv = $("<DIV>",{class:"ui-state-error"});
+			oDiv.append("Sorry no thumbnails found");
+			oElement.append(oDiv);
+			this._trigger("onStatus", null,{text:"No thumbnails found"});
+			cDebug.write("no got basic thumbnails");
 		}else{
 			
-			if (this.options.anyThumbElement)
-			this.options.anyThumbElement.thumbnail("reset_queue");
+			goBetterThumbQueue.reset();				//have to use a global otherwise cant reset the queue
 				
 			for (i=0; i< aData.length; i++){
 				oItem = aData[i];
@@ -87,11 +99,10 @@ $.widget( "chickenkatsu.thumbnailview",{
 					instrument:oItem.data.instrument, 
 					product:oItem.p, 
 					url:oItem.i,
+					mission:this.options.mission,
 					onStatus:function(poEvent,poData){ oThis._trigger("onStatus", poEvent, poData)},
 					onClick: function(poEvent, poData){ oThis.onThumbClick(poEvent, poData);}
 				});
-				if (this.options.anyThumbElement == null)
-					this.options.anyThumbElement = oThumbnailWidget;
 				
 				// draw the widget;
 				oElement.append(oThumbnailWidget);
