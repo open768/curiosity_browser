@@ -14,7 +14,8 @@ $.widget( "chickenkatsu.tagview",{
 	options:{
 		tag: null,
 		queue:null,
-		onStatus:null
+		onStatus:null, 
+		mission: null
 	},
 	
 	//#################################################################
@@ -26,9 +27,10 @@ $.widget( "chickenkatsu.tagview",{
 		var oElement = this.element;
 		
 		//check for necessary classes
-		if (!bean){		$.error("bean class is missing! check includes");	}
-		if (!cHttp2){		$.error("http2 class is missing! check includes");	}
-		if (!cActionQueue){		$.error("cActionQueue class is missing! check includes");	}
+		if (!bean)		$.error("bean class is missing! check includes");	
+		if (!cHttp2)		$.error("http2 class is missing! check includes");	
+		if (!cActionQueue)		$.error("cActionQueue class is missing! check includes");	
+		if (this.options.mission == null) $.error("mission is not set");
 
 		//make sure this is a DIV
 		var sElementName = oElement.get(0).tagName;
@@ -41,10 +43,14 @@ $.widget( "chickenkatsu.tagview",{
 		if (sTag == null) $.error("tag is not set");
 						
 		//clear out the DIV and put some text in it
-		oElement.html("Loading Images for tag: " + sTag);
+		oElement.empty();
+		oDiv = $("<DIV>",{class:"ui-widget-body"}).width("100%").append("Loading Images for tag: " + sTag);
+		var oLoader = $("<SPAN>").gSpinner({scale: .25});
+		oDiv.append(oLoader);
+		oElement.append(oDiv);
 		
 		var oHttp = new cHttp2();
-		var sURL =cBrowser.buildUrl("php/rest/tag.php", {t:sTag,o:"detail"});
+		var sURL =cBrowser.buildUrl("php/rest/tag.php", {t:sTag,o:"detail",m:this.options.mission.name});
 		
 		bean.on(oHttp, "result", function(poHttp){oWidget.onTagUsage(poHttp);});
 		bean.on(oHttp, "error",  function(poHttp){oWidget.onError(poHttp);});
@@ -86,6 +92,7 @@ $.widget( "chickenkatsu.tagview",{
 					sol:aParts[0],
 					instrument:aParts[1],
 					product:aParts[2],
+					mission:this.options.mission,
 					onClick: function(poEvent,poData){	oWidget.onClick(poEvent,poData);		},
 					onStatus: function(poEvent,paData){	oWidget._trigger("onStatus",poEvent,paData);	}
 			});

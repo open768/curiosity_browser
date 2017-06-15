@@ -19,7 +19,8 @@ $.widget( "chickenkatsu.imageview",{
 		instrument: null,
 		start_image: 0,
 		max_images: -1,
-		keypress_done: false
+		keypress_done: false,
+		mission:null
 	},
 	
 	//#################################################################
@@ -42,6 +43,7 @@ $.widget( "chickenkatsu.imageview",{
 		//check that the options are passed correctly
 		if (this.options.sol == null) $.error("sol is not set");
 		if (this.options.instrument == null) $.error("instrument is not set");
+		if (this.options.mission == null) $.error("mission is not set");
 				
 		//start the images load 
 		this._trigger("onStatus",null,{text:"loading Images"});	
@@ -157,6 +159,7 @@ $.widget( "chickenkatsu.imageview",{
 							sol:this.options.sol,
 							instrument:this.options.instrument,
 							product:oItem.p,
+							mission:this.options.mission,
 							src:oItem.i,
 							date:oItem.du,
 							onClick: function(poEvent,poData){	oThis._trigger("onClick",poEvent,poData);		},

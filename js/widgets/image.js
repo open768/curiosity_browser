@@ -13,7 +13,8 @@ $.widget( "chickenkatsu.instrumentimage",{
 		src: null,
 		date:null,
 		image_div:null,
-		tags_div:null
+		tags_div:null,
+		mission:null
 	},
 
 	//#################################################################
@@ -27,6 +28,7 @@ $.widget( "chickenkatsu.instrumentimage",{
 		if (oOptions.sol == null) $.error("sol is not set");
 		if (oOptions.instrument == null) $.error("instrument is not set");
 		if (oOptions.product == null) $.error("product is not set");
+		if (oOptions.mission == null) $.error("mission is not set");
 
 		//make sure this is a DIV
 		var sElementName = oElement.get(0).tagName;

@@ -9,7 +9,8 @@ $.widget( "chickenkatsu.solButtons",{
 		sol: null,
 		onStatus: null,
 		onClick:null,
-		onAllSolThumbs:null
+		onAllSolThumbs:null,
+		mission:null
 	},
 	
 	consts:{
@@ -33,6 +34,7 @@ $.widget( "chickenkatsu.solButtons",{
 		//check for necessary classes
 		if (!bean){		$.error("bean class is missing! check includes");	}
 		if (!cHttp2){		$.error("http2 class is missing! check includes");	}
+		if (this.options.mission == null) $.error("mission is not set");
 		
 		oThis = this;
 		oElement = oThis.element;

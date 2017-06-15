@@ -20,11 +20,12 @@ function onLoadJQuery_TAG()
 	
 	//get the data for the page
 	$("#tagname").html(sTag);
-	$("#tagcloud").tagcloud();
+	$("#tagcloud").tagcloud({mission:cMission});
 	$("#tagdata").tagview({
 		tag:sTag,
 		onClick: onImageClick,
 		onStatus:onStatusEvent,
+		mission:cMission
 	});
 }
 

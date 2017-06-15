@@ -65,7 +65,7 @@ function onLoadJQuery_INDEX(){
 		cOptions.start_image = parseInt(cBrowser.data[BEGIN_QUERYSTRING]);
 	}
 		
-	$("#tags").tagcloud();
+	$("#tags").tagcloud({mission:cMission});
 }
 
 //###############################################################

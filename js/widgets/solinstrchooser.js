@@ -9,7 +9,8 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		sol: null,
 		instrument: null,
 		onSelect: null,
-		onStatus: null
+		onStatus: null,
+		mission:null
 	},
 	consts:{
 		THIS_SOL_ID:	"ts",
@@ -28,7 +29,8 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		//check for necessary classes
 		if (!bean){		$.error("bean class is missing! check includes");	}
 		if (!cHttp2){		$.error("http2 class is missing! check includes");	}
-		
+		if (this.options.mission == null) $.error("mission is not set");
+
 		this.render();
 		this.prLoadLists();
 	},
@@ -149,11 +151,13 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 
 		var oHttp = new cHttp2();
 		bean.on(oHttp,"result",function(poHttp){oThis.onLoadInstruments(poHttp)});
-		oHttp.fetch_json("php/rest/instruments.php");
+		var sURL =cBrowser.buildUrl("php/rest/instruments.php", {m:this.options.mission.name});
+		oHttp.fetch_json(sURL);
 
 		var oHttp2 = new cHttp2();
 		bean.on(oHttp2,"result",function(poHttp){oThis.onLoadSols(poHttp)});
-		oHttp2.fetch_json("php/rest/sols.php");
+		var sURL =cBrowser.buildUrl("php/rest/sols.php", {m:this.options.mission.name});
+		oHttp2.fetch_json(sURL);
 	},
 	
 	//#################################################################

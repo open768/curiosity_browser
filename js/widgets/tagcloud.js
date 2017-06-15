@@ -10,7 +10,7 @@ $.widget( "chickenkatsu.tagcloud",{
 		mission: null,
 		maxFont:24,
 		minFont:10,
-		minWidth:"200px"
+		minWidth:"200px",
 	},
 	
 	//#################################################################
@@ -24,6 +24,8 @@ $.widget( "chickenkatsu.tagcloud",{
 		//check for necessary classes
 		if (!bean){		$.error("bean class is missing! check includes");	}
 		if (!cHttp2){		$.error("http2 class is missing! check includes");	}
+		if (this.options.mission == null) $.error("mission is not set");
+		if (!oElement.gSpinner){ 	$.error("gSpinner is missing! check includes");		}
 		
 		//check that the element is a div
 		var sElementName = oElement.get(0).tagName;
@@ -94,11 +96,15 @@ $.widget( "chickenkatsu.tagcloud",{
 		oElement.off('inview');	//turn off the inview listener
 		
 		oElement.empty()
-		var oDiv = $("<div>",{class:"ui-widget-header"}).append("Loading Tags...");
+		
+		var oLoader = $("<DIV>");
+		oLoader.gSpinner({scale: .25});
+
+		var oDiv = $("<div>",{class:"ui-widget-header"}).append("Loading Tags...").append(oLoader);
 		oElement.append(oDiv);
 		
 		var oHttp = new cHttp2();
-		var sURL =cBrowser.buildUrl("php/rest/tag.php", {o:"all"});
+		var sURL =cBrowser.buildUrl("php/rest/tag.php", {o:"all",m:this.options.mission.name});
 		bean.on(oHttp, "result", function(poHttp){oWidget.process_response(poHttp);});
 		bean.on(oHttp, "error",  function(poHttp){oWidget.process_error(poHttp);});
 		oHttp.fetch_json(sURL);
