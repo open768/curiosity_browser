@@ -32,28 +32,47 @@ function onLoadJQuery_SITES(){
 function onGoogleEarthLoaded(){
 	bPluginLoaded = true;
 	$("#site").empty();
-	cHttp.fetch_json("php/rest/sites.php?&o=allSitesBounds", all_sites_callback);
+	
+	var sURL =cBrowser.buildUrl("php/rest/sites.php",{o:"allSitesBounds"});
+	var oHttp = new cHttp2();
+	bean.on(oHttp, "result", all_sites_callback);
+	oHttp.fetch_json(sURL);
+	
 }
 	
 function do_op( psOper, psValue){
 	set_status("fetching " + psOper + " :" + psValue);
 	$("#siteid").html(psOper +": "+psValue);
-	cHttp.fetch_json("php/rest/sites.php?&o=" + psOper + "&" + psOper + "="+psValue, traverse_callback);
-	cHttp.fetch_json("php/rest/sites.php?&o=siteBounds&" + psOper + "=" + psValue, bounds_callback);
+
+	var oQueryData = {};
+	oQueryData["o"] = psOper;
+	oQueryData[psOper] = psValue;
+	var sURL =cBrowser.buildUrl("php/rest/sites.php",oQueryData);
+	var oHttp = new cHttp2();
+	bean.on(oHttp, "result", traverse_callback);
+	oHttp.fetch_json(sURL);
+	
+	var oQueryData = {};
+	oQueryData["o"] = "siteBounds";
+	oQueryData[psOper] = psValue;
+	var sURL =cBrowser.buildUrl("php/rest/sites.php",oQueryData);
+	var oHttp = new cHttp2();
+	bean.on(oHttp, "result", bounds_callback);
+	oHttp.fetch_json(sURL);	
 }
 
 
 //###############################################################
 //* call backs 
 //###############################################################
-function all_sites_callback(paJS){
+function all_sites_callback(poHttp){
 	var oButton, oBounds, fLat, fLong;
 	
 	$("#sites").empty();
-	if (paJS.d == null)
+	if (poHttp.response.d == null)
 		set_error_status("No sites found");
 	else{
-		aSites = paJS.d;
+		aSites = poHttp.response.d;
 		iCount =0;
 		for (i = 0; i < aSites.length; i++){
 			// create button to interact with site
@@ -76,13 +95,13 @@ function all_sites_callback(paJS){
 }
 
 //***********************************************************************
-function bounds_callback(poJS){
+function bounds_callback(poHttp){
 	var oCentre, oSite;
 	
-	if (poJS.d == null)
+	if (poHttp.response.d == null)
 		set_error_status("No site bounds found");
 	else{
-		oSite = poJS.d;
+		oSite = poHttp.response.d;
 		set_status("site bounds found");
 		oCentre = {lat:(oSite.lat1 + oSite.lat2)/2, lon:(oSite.long1 + oSite.long2)/2};
 		cGoogleEarth.flyTo( oCentre.lat, oCentre.lon , 300.0);
@@ -90,16 +109,16 @@ function bounds_callback(poJS){
 }
 
 //***********************************************************************
-function traverse_callback(poJS){
+function traverse_callback(poHttp){
 	var i, aItem, aItems, sHTML, iDrive, iStart, iEnd, iSite, fLat, fLon;
 	var aVector = [];
 	
-	if (poJS.d == null){
+	if (poHttp.response.d == null){
 		set_error_status("No site data found");
 		return;
 	}
 	
-	aItems = poJS.d;
+	aItems = poHttp.response.d;
 	
 	set_status("making vector");
 	for (i=0; i< aItems.length; i++){

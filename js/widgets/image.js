@@ -10,25 +10,30 @@ $.widget( "chickenkatsu.instrumentimage",{
 		sol: null,
 		instrument: null,
 		product: null,
-		src: null,
+		src: null,				//used when multiple images are requested for the same sol. reduced network bandwidth in this case
 		date:null,
 		image_div:null,
 		tags_div:null,
 		mission:null
+	},
+	consts:{
+		WAIT_VISIBLE:1000,
+		WAIT_IMAGE: "images/browser/chicken_icon.png",
 	},
 
 	//#################################################################
 	//# Constructor
 	//#################################################################`
 	_create: function(){
-		var oWidget = this;
-		var oOptions = oWidget.options;
-		var oElement = oWidget.element;
+		var oThis = this;
+		var oOptions = oThis.options;
+		var oElement = oThis.element;
 		
 		if (oOptions.sol == null) $.error("sol is not set");
 		if (oOptions.instrument == null) $.error("instrument is not set");
 		if (oOptions.product == null) $.error("product is not set");
 		if (oOptions.mission == null) $.error("mission is not set");
+		if (!$.event.special.inview){		$.error("inview class is missing! check includes");	}
 
 		//make sure this is a DIV
 		var sElementName = oElement.get(0).tagName;
@@ -36,19 +41,52 @@ $.widget( "chickenkatsu.instrumentimage",{
 			$.error("image view needs a DIV. this element is a: " + sElementName);
 		oElement.uniqueId();
 
+		oElement.empty();
+		var oInfoDiv = $("<DIV>",{class:"ui-widget-header"});
+		var oWaitImg = $("<IMG>",{src:this.consts.WAIT_IMAGE});
+		oInfoDiv.append(oWaitImg);
+		oInfoDiv.append(" One Moment please: " + oOptions.product);
+		oElement.on('inview', 	function(poEvent, pbIsInView){oThis.onVisible(pbIsInView);}	);
+		oElement.append(oInfoDiv);
+		
+		oElement.append("<p>");
+	},
+	
+	// ***************************************************************
+	onVisible: function(pbIsInView){
+		if (pbIsInView){
+			var oThis = this;
+			var oElement = oThis.element;
+			oElement.off('inview');
+			setTimeout(	
+				function(){	oThis.onVisibleDelay()},
+				this.consts.WAIT_VISIBLE
+			);
+		}
+	},
+
+	// ***************************************************************
+	onVisibleDelay: function(){
+		var oElement = this.element;
+		if (!this.visible){
+			var oThis = this;
+			oElement.on('inview', 	function(poEvent, pbIsInView){oThis.onVisible(pbIsInView);}	);
+		}
+		
+		var oOptions = oThis.options;
 		if (oOptions.src == null){
 			this.prv__getDetails();
 		}else
 			this.prv__render();
 	},
-
+	
 	//#################################################################
 	//# Privates
 	//#################################################################`
 	prv__getDetails: function(){
-		var oWidget = this;
-		var oOptions = oWidget.options;
-		var oElement = oWidget.element;
+		var oThis = this;
+		var oOptions = oThis.options;
+		var oElement = oThis.element;
 		
 		oElement.empty();
 		var oInfoDiv = $("<DIV>",{class:"ui-widget-header"}).append("Loading details for: " + oOptions.product);
@@ -57,16 +95,16 @@ $.widget( "chickenkatsu.instrumentimage",{
 		
 		var oItem = new cHttpQueueItem();
 		oItem.url = cBrowser.buildUrl("php/rest/detail.php", {s:oOptions.sol, i:oOptions.instrument, p:oOptions.product});
-		bean.on(oItem, "result", 	function(poHttp){oWidget.onProductDetails(poHttp);}	);				
-		bean.on(oItem, "error", 	function(poHttp){oWidget.onProductError(poHttp);}	);				
+		bean.on(oItem, "result", 	function(poHttp){oThis.onProductDetails(poHttp);}	);				
+		bean.on(oItem, "error", 	function(poHttp){oThis.onProductError(poHttp);}	);				
 		goImageQueue.add(oItem);
 	},
 
 	// ***************************************************************
 	prv__render:function(){
-		var oWidget = this;
-		var oOptions = oWidget.options;
-		var oElement = oWidget.element;
+		var oThis = this;
+		var oOptions = oThis.options;
+		var oElement = oThis.element;
 		
 		oElement.empty();
 		oElement.addClass("ui-widget");
@@ -77,8 +115,8 @@ $.widget( "chickenkatsu.instrumentimage",{
 		var oImgDiv = $("<DIV>",{class:"ui-widget-content"}).css({position: 'relative'});
 		oOptions.image_div = oImgDiv;
 		oImg = $("<IMG>",{src:oOptions.src});
-		oImg.load(		function(){oWidget.onLoadedImage();}							);
-		oImg.click(		function(){oWidget._trigger("onClick", null, oOptions);} 	);
+		oImg.load(		function(){oThis.onLoadedImage();}							);
+		oImg.click(		function(){oThis._trigger("onClick", null, oOptions);} 	);
 		oImgDiv.append(oImg);	
 		
 		//build information div
@@ -103,7 +141,7 @@ $.widget( "chickenkatsu.instrumentimage",{
 	//#################################################################`
 	onLoadedImage: function(){
 		var oOptions = this.options;
-		var oWidget = this;
+		var oThis = this;
 		
 		cDebug.write("loaded image: " + this.options.src);
 		
@@ -111,11 +149,11 @@ $.widget( "chickenkatsu.instrumentimage",{
 		//#TODO# add these to a queue that can be stopped
 		cImgHilite.getHighlights(
 			oOptions.sol,oOptions.instrument,oOptions.product, 
-			function(paJS){		oWidget.onHighlights(paJS)	}
+			function(paJS){		oThis.onHighlights(paJS)	}
 		);
 		cTagging.getTags(
 			oOptions.sol,oOptions.instrument,oOptions.product, 
-			function(paJS){		oWidget.onTags(paJS)	}
+			function(paJS){		oThis.onTags(paJS)	}
 		);
 	},
 	

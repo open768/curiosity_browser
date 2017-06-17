@@ -37,9 +37,13 @@ $.widget( "chickenkatsu.thumbnail",{
 		var oImg, oThis, oElement;
 		var oOptions = this.options;
 		
+		oThis = this;
+		oElement = oThis.element;
+		
 		//check for necessary classes
 		if (!bean){		$.error("bean class is missing! check includes");	}
 		if (!cHttp2){		$.error("http2 class is missing! check includes");	}
+		if (!$.event.special.inview){		$.error("inview class is missing! check includes");	}
 
 		//init
 		if (oOptions.sol == null) $.error("sol is not set");
@@ -48,8 +52,6 @@ $.widget( "chickenkatsu.thumbnail",{
 		if (oOptions.url == null) $.error("url is not set");
 		if (oOptions.mission == null) $.error("mission is not set");
 		
-		oThis = this;
-		oElement = oThis.element;
 		oThis.element.uniqueId(); //sets a unique ID on the SPAN.
 		var sSpanID = oThis.element.attr("id");
 		var sImgID = sSpanID +"i";
