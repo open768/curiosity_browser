@@ -13,6 +13,13 @@
 	$sUser = cAuth::get_user();
 	$bIsAdmin = false;
 	if ($sUser) $bIsAdmin = cAuth::is_role("admin");
+	
+	if (!cHeader::is_localhost()){
+		if ( strpos($_SERVER["HTTP_HOST"],'www') === false){
+			$newURL = "http://www.".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
+			cHeader::redirect($newURL);
+		}
+	}
 ?>
 <html>
 	<head>
