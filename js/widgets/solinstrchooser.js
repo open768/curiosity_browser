@@ -8,6 +8,7 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 	options:{
 		sol: null,
 		instrument: null,
+		previous_instrument:null,
 		onSelect: null,
 		onStatus: null,
 		mission:null
@@ -237,7 +238,17 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 	//*****************************************************************
 	OnChangeSolList: function(poEvent){
 		this.options.sol = poEvent.target.value;
-		this._trigger("onSelect", null,{sol:this.options.sol, instrument:this.options.instrument});
+		if (this.options.instrument){
+			this.options.previous_instrument = this.options.instrument;
+			this.deselectInstrument();
+		}else
+			this._trigger("onSelect", null,{sol:this.options.sol, instrument:this.options.instrument});
+		
+		//update the caption on the Sol Chooser
+		var sID = this.element.attr("id")+ this.consts.THIS_SOL_ID;
+		$("#"+sID).html(this.options.sol);
+		
+		//next step in workflow
 		this.get_sol_instruments(poEvent.target.value);
 	},
 	
@@ -273,6 +284,15 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 			
 			sInstr = oJson[i];
 			oList.find('option[value=\"'+ sInstr + '\"]').removeAttr('disabled');
+		}
+		
+		//select the instrument previously selected
+		if (this.options.previous_instrument){
+			var oItem = oList.find('option[value=\"'+ this.options.previous_instrument + '\"]');
+			if (oItem.length >0){
+				oList.val(this.options.previous_instrument);
+				oList.change();
+			}
 		}
 		
 	},
