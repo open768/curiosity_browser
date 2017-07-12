@@ -19,14 +19,16 @@ $.widget( "chickenkatsu.thumbnail",{
 		mission:null
 	},
 	consts:{
-		THUMB_SIZE:144,
-		THUMB_ORIG_COLOR: "lemonchiffon",
-		THUMB_WAITING_COLOUR: "black",
-		THUMB_INVISIBLE_COLOUR: "green",
-		THUMB_WORKING_COLOR: "lightsalmon",
-		THUMB_ERROR_COLOR: "mistyrose",
-		THUMB_FINAL_COLOR: "white",
-		THUMB_MISSING_COLOR: "mistyrose",
+		SIZE:144,
+		DEFAULT_STYLE: "polaroid",
+		STYLES:{
+			ORIG: "thumb-orig",
+			WAITING: "thumb-wait",
+			WORKING: "thumb-work",
+			ERROR: "thumb-error",
+			FINAL: "thumb-final",
+			MISSING: "thumb-missing"
+		},
 		BETTER_URL:"php/rest/solthumb.php",
 		DEFAULT_THUMBNAIL:"images/browser/chicken_icon.png",
 		WAIT_VISIBLE:2000
@@ -54,28 +56,28 @@ $.widget( "chickenkatsu.thumbnail",{
 		if (oOptions.url == null) $.error("url is not set");
 		if (oOptions.mission == null) $.error("mission is not set");
 		
-		this.element.uniqueId(); //sets a unique ID on the SPAN.
-		var sSpanID = this.element.attr("id");
-		var sImgID = sSpanID +"i";
+		oElement.uniqueId(); //sets a unique ID on the SPAN.
+		var sImgID = oElement.attr("id") +"i";
+		
+		oElement.attr("class",this.consts.DEFAULT_STYLE);
 		
 		oImg = 
 			$("<IMG>",{
 				title:this.options.product,
 				border:0,
-				height:this.consts.THUMB_SIZE,
+				height:this.consts.SIZE,
 				src:this.consts.DEFAULT_THUMBNAIL,
-				ID:sImgID,
-				class:"polaroid-frame"
+				ID:sImgID
 				}
 			);
 		oImg.click(		function(){oThis.onThumbClick(); }	);
 		this.options.img=sImgID;
-		oImg.css("border-color",this.consts.THUMB_ORIG_COLOR); 
+		this.pr__set_style(this.consts.STYLES.ORIG); 
 		
 		//optimise server requests, only display thumbnail if its in viewport
 		oImg.on('inview', 	function(poEvent, pbIsInView){oThis.onPlaceholderInView(pbIsInView);}	);
 
-		this.element.append(oImg);
+		oElement.append(oImg);
 	},
 	
 	//#################################################################
@@ -84,6 +86,11 @@ $.widget( "chickenkatsu.thumbnail",{
 	stop_queue:function(){
 		goBetterThumbQueue.stop();
 	},
+	
+	//******************************************************************
+	pr__set_style:function(psStyle){
+		this.element.attr("class",this.consts.DEFAULT_STYLE + " " + psStyle); 
+	},
 		
 	//#################################################################
 	//# events
@@ -91,13 +98,14 @@ $.widget( "chickenkatsu.thumbnail",{
 	//******************************************************************
 	onPlaceholderInView: function(pbIsInView){
 		var oThis= this;
+		var oElement = this.element;
 		
 		if (goBetterThumbQueue.stopping) return;
 		if (!pbIsInView) return;
 		
 		oImg = $("#"+this.options.img);
 		oImg.off('inview');	//turn off the inview listener
-		oImg.css("border-color",oThis.consts.THUMB_WAITING_COLOUR); 
+		this.pr__set_style(oThis.consts.STYLES.WAITING); 
 		
 		setTimeout(	
 			function(){	oThis.onPlaceholderDelay()},
@@ -108,6 +116,7 @@ $.widget( "chickenkatsu.thumbnail",{
 	//******************************************************************
 	onPlaceholderDelay:function(){
 		var oImg, oThis;
+		var oElement = this.element;
 		oThis= this;
 		if (goBetterThumbQueue.stopping) return;
 		
@@ -119,7 +128,6 @@ $.widget( "chickenkatsu.thumbnail",{
 		}else{
 			//image is not visible - reset the inview trigger
 			cDebug.write("placeholder not visible  "+this.options.product);
-			oImg.css("border-color",oThis.consts.THUMB_INVISIBLE_COLOUR); 
 			oImg.on('inview', 	function(poEvent, pbIsInView){oThis.onPlaceholderInView(pbIsInView);}	);
 		}
 	},
@@ -129,11 +137,13 @@ $.widget( "chickenkatsu.thumbnail",{
 	onBasicThumbLoaded: function(){
 		var oThis= this;
 		var oImg = $("#"+this.options.img);
+		var oElement = this.element;
+
 		if (goBetterThumbQueue.stopping) return;
 		oImg.off("load"); //remove the load event so it doesnt fire again
 		
 		if (goBetterThumbQueue.stopping) return;
-		oImg.css("border-color",oThis.consts.THUMB_WAITING_COLOUR); 
+		this.pr__set_style(oThis.consts.STYLES.WAITING); 
 		setTimeout(	
 			function(){	oThis.onBasicThumbViewDelay()},
 			this.consts.WAIT_VISIBLE
@@ -146,11 +156,11 @@ $.widget( "chickenkatsu.thumbnail",{
 		var oThis = this;
 		var oOptions = this.options;
 		var oImg = $("#"+this.options.img);
-		var sSpanID = this.element.attr("id");
-		
+		var oElement = this.element;
+
 		if (goBetterThumbQueue.stopping) return;
 		if (oImg.visible()){
-			oImg.css("border-color",oThis.consts.THUMB_WAITING_COLOUR); 
+			this.pr__set_style(oThis.consts.STYLES.WAITING); 
 			var oItem = new cHttpQueueItem();
 			oItem.url = cBrowser.buildUrl(this.consts.BETTER_URL,{s:oOptions.sol,i:oOptions.instrument,p:oOptions.product,m:oOptions.mission.name});
 
@@ -162,7 +172,6 @@ $.widget( "chickenkatsu.thumbnail",{
 			goBetterThumbQueue.add(oItem);
 		}else{
 			cDebug.write("Basic thumb not in view: "+oData.p);
-			oImg.css("border-color",oThis.consts.THUMB_INVISIBLE_COLOUR); 
 			oImg.on('inview', 	function(poEvent, pbIsInView){oThis.onBasicThumbInView(pbIsInView);}	);
 		}
 	},
@@ -181,12 +190,12 @@ $.widget( "chickenkatsu.thumbnail",{
 	
 	//******************************************************************
 	onBetterThumbStarting:function(){
-		var oThis = this;
-		var oImg = $("#"+this.options.img);
+		var oElement = this.element;
+
 		if (goBetterThumbQueue.stopping) return;
 		
 		// ** TBD ** at this stage is the div is not visible stop the request
-		oImg.css("border-color",this.consts.THUMB_WORKING_COLOR); 
+		this.pr__set_style(this.consts.STYLES.WORKING); 
 	},
 	
 	//******************************************************************
@@ -194,14 +203,15 @@ $.widget( "chickenkatsu.thumbnail",{
 		var oOptions = this.options;
 		var oImg = $("#"+this.options.img);
 		var oData = poHttp.response;
+		var oElement = this.element;
 
 		if (goBetterThumbQueue.stopping) return;
 		if (!oData.u) {
 			cDebug.write("missing image for: "+oData.p);
-			oImg.css("border-color",this.consts.THUMB_MISSING_COLOR); 
+			this.pr__set_style(this.consts.STYLES.MISSING); 
 		}else{
 			cDebug.write("got better thumbnail: "+oData.p);
-			oImg.css("border-color",this.consts.THUMB_FINAL_COLOR); 
+			this.pr__set_style(this.consts.STYLES.FINAL); 
 			//update the displayed image - on a Timer to be in a different non-blocking thread
 			setTimeout(	
 				function(){		oImg.attr("src", cBrowser.buildUrl(oData.u,{r:Math.random()}))	},
@@ -212,8 +222,9 @@ $.widget( "chickenkatsu.thumbnail",{
 
 	//******************************************************************
 	onBetterThumbError: function( poHttp){
-		var oImg = $("#"+this.options.img);
-		oImg.css("border-color",this.consts.THUMB_ERROR_COLOR); 
+		var oElement = this.element;
+
+		this.pr__set_style(this.consts.STYLES.ERROR); 
 		cDebug.write("ERROR: " + poHttp.data + "\n" + poHttp.url + "\n" + poHttp.errorStatus + " - " + poHttp.error);		
 	},
 	

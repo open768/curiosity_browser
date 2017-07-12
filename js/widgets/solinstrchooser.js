@@ -19,7 +19,9 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		SOL_LIST_ID:	"sl",
 		LATEST_ID:		"la",
 		INSTR_ID:	"i",
-		SOL_DIVISIONS:50
+		SOL_DIVISIONS:50,
+		SOL_QUERYSTRING:"s",
+		INSTR_QUERYSTRING:"i"
 	},
 
 	//#################################################################
@@ -121,8 +123,10 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		var oOption = $(sSelector);
 		if (oOption.length == 0)
 			this._trigger("onStatus",null,{data:"no such sol" + psSol});
-		else
-			oOption.attr("selected", true).change();
+		else{
+			oOption.attr("selected", true);		//select the options
+			oOption.change();					//kick the OnChangeSolList change handler
+		}
 	},
 	
 	//*****************************************************************
@@ -270,6 +274,7 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		this._trigger("onStatus", null, {data:"error when fetching: " + poHttp.url});		
 	},
 	
+	//*****************************************************************
 	onLoadSolInstruments:function(poHttp){
 		var i, sInstr, oList, oJson;
 
@@ -316,8 +321,8 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		}
 
 		//click the buttons if stuff was passed in the query string
-		if (cBrowser.data[INSTR_QUERYSTRING] ) {
-			var sInstr = cBrowser.data[INSTR_QUERYSTRING];
+		if (cBrowser.data[this.consts.INSTR_QUERYSTRING] ) {
+			var sInstr = cBrowser.data[this.consts.INSTR_QUERYSTRING];
 			oList.find('option[value=\"'+ sInstr + '\"]').attr("selected", true);
 		}
 
@@ -366,9 +371,11 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		oSumList.change( function(poEvent){oThis.OnChangeSolSummaryList(poEvent)});
 		oList.change(	function(poEvent){oThis.OnChangeSolList(poEvent)})
 
-		// mark the sol
-		if (cBrowser.data[SOL_QUERYSTRING] ) 
-			this.set_sol(cBrowser.data[SOL_QUERYSTRING]);	
+		// select the sol and instrument if there on the querystring
+		if (cBrowser.data[this.consts.INSTR_QUERYSTRING] ) 
+			this.options.instrument = cBrowser.data[this.consts.INSTR_QUERYSTRING];	
+		if (cBrowser.data[this.consts.SOL_QUERYSTRING] ) 
+			this.set_sol(cBrowser.data[this.consts.SOL_QUERYSTRING]);	
 
 		this._on( window, {	keypress: function(poEvent){oThis.onKeypress(poEvent)}});
 	}
