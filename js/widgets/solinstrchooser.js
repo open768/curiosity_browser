@@ -17,6 +17,7 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		THIS_SOL_ID:	"ts",
 		SOL_SUMMARY_ID:	"ss",
 		SOL_LIST_ID:	"sl",
+		MISSIONS_ID:	"mi",
 		LATEST_ID:		"la",
 		INSTR_ID:	"i",
 		SOL_DIVISIONS:50,
@@ -48,6 +49,17 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		
 		oElement.empty();
 		oElement.addClass("ui-widget");
+		
+		// Missions  part of the widget
+		oDiv = $("<DIV>", {class:"ui-widget-content"});
+			oObj = $("<DIV>", {class:"ui-widget-header"});
+				oObj.append("Missions: ");
+			oDiv.append(oObj);
+			oObj = $("<SELECT>", {id:sID+this.consts.MISSIONS_ID});
+				oObj.append(  $("<Option>",{selected:true,value:"MSL"}).append("Mars Science Lab (Curiosity)")  );
+			oDiv.append(oObj);
+		oElement.append(oDiv);
+		oElement.append("<P>");
 		
 		// sols part of the widget
 		oDiv = $("<DIV>", {class:"ui-widget-content"});

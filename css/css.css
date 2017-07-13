@@ -233,7 +233,27 @@ body
 		lemonchiffon 20px
 	);	
 }
-.thumb-wait
+.thumb-wait1
+{
+	background: repeating-linear-gradient(
+		45deg,
+		white,
+		white 5px,
+		darkgray 5px,
+		darkgray 10px
+	);	
+}
+.thumb-wait2
+{
+	background: repeating-linear-gradient(
+		45deg,
+		white,
+		white 7px,
+		silver 7px,
+		silver 15px
+	);	
+}
+.thumb-wait3
 {
 	background: repeating-linear-gradient(
 		45deg,

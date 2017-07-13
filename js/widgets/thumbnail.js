@@ -23,7 +23,9 @@ $.widget( "chickenkatsu.thumbnail",{
 		DEFAULT_STYLE: "polaroid",
 		STYLES:{
 			ORIG: "thumb-orig",
-			WAITING: "thumb-wait",
+			WAITING1: "thumb-wait",
+			WAITING2: "thumb-wait2",
+			WAITING3: "thumb-wait3",
 			WORKING: "thumb-work",
 			ERROR: "thumb-error",
 			FINAL: "thumb-final",
@@ -75,9 +77,8 @@ $.widget( "chickenkatsu.thumbnail",{
 		this.pr__set_style(this.consts.STYLES.ORIG); 
 		
 		//optimise server requests, only display thumbnail if its in viewport
-		oImg.on('inview', 	function(poEvent, pbIsInView){oThis.onPlaceholderInView(pbIsInView);}	);
-
 		oElement.append(oImg);
+		oElement.on('inview', 	function(poEvent, pbIsInView){oThis.onPlaceholderInView(pbIsInView);}	);
 	},
 	
 	//#################################################################
@@ -98,14 +99,12 @@ $.widget( "chickenkatsu.thumbnail",{
 	//******************************************************************
 	onPlaceholderInView: function(pbIsInView){
 		var oThis= this;
-		var oElement = this.element;
 		
 		if (goBetterThumbQueue.stopping) return;
 		if (!pbIsInView) return;
 		
-		oImg = $("#"+this.options.img);
-		oImg.off('inview');	//turn off the inview listener
-		this.pr__set_style(oThis.consts.STYLES.WAITING); 
+		this.element.off('inview');	//turn off the inview listener
+		this.pr__set_style(oThis.consts.STYLES.WAITING1); 
 		
 		setTimeout(	
 			function(){	oThis.onPlaceholderDelay()},
@@ -120,15 +119,15 @@ $.widget( "chickenkatsu.thumbnail",{
 		oThis= this;
 		if (goBetterThumbQueue.stopping) return;
 		
-		oImg = $("#"+this.options.img);
-		if (oImg.visible()){
+		if (oElement.visible()){
 			//load the basic thumbnail
+			oImg = $("#"+this.options.img);
 			oImg.load(function(){oThis.onBasicThumbLoaded(); }); 	//do something when thumbnail loaded
 			oImg.attr("src", this.options.url);						//load basic thumbnail
 		}else{
 			//image is not visible - reset the inview trigger
 			cDebug.write("placeholder not visible  "+this.options.product);
-			oImg.on('inview', 	function(poEvent, pbIsInView){oThis.onPlaceholderInView(pbIsInView);}	);
+			oElement.on('inview', 	function(poEvent, pbIsInView){oThis.onPlaceholderInView(pbIsInView);}	);
 		}
 	},
 	
@@ -143,7 +142,7 @@ $.widget( "chickenkatsu.thumbnail",{
 		oImg.off("load"); //remove the load event so it doesnt fire again
 		
 		if (goBetterThumbQueue.stopping) return;
-		this.pr__set_style(oThis.consts.STYLES.WAITING); 
+		this.pr__set_style(oThis.consts.STYLES.WAITING2); 
 		setTimeout(	
 			function(){	oThis.onBasicThumbViewDelay()},
 			this.consts.WAIT_VISIBLE
@@ -160,7 +159,7 @@ $.widget( "chickenkatsu.thumbnail",{
 
 		if (goBetterThumbQueue.stopping) return;
 		if (oImg.visible()){
-			this.pr__set_style(oThis.consts.STYLES.WAITING); 
+			this.pr__set_style(oThis.consts.STYLES.WAITING3); 
 			var oItem = new cHttpQueueItem();
 			oItem.url = cBrowser.buildUrl(this.consts.BETTER_URL,{s:oOptions.sol,i:oOptions.instrument,p:oOptions.product,m:oOptions.mission.name});
 
@@ -172,7 +171,7 @@ $.widget( "chickenkatsu.thumbnail",{
 			goBetterThumbQueue.add(oItem);
 		}else{
 			cDebug.write("Basic thumb not in view: "+oData.p);
-			oImg.on('inview', 	function(poEvent, pbIsInView){oThis.onBasicThumbInView(pbIsInView);}	);
+			oElement.on('inview', 	function(poEvent, pbIsInView){oThis.onBasicThumbInView(pbIsInView);}	);
 		}
 	},
 	
@@ -184,7 +183,7 @@ $.widget( "chickenkatsu.thumbnail",{
 		if (!pbIsInView) return;
 		
 		var oImg = $("#"+this.options.img);
-		oImg.off('inview');	//turn off the inview listener
+		this.element.off('inview');	//turn off the inview listener
 		this.onBasicThumbLoaded()  //go back to 
 	},
 	

@@ -81,18 +81,6 @@
 									<?php }?>
 								</div>
 							</div>
-							<!-- ************************************** -->
-							<p>
-							<div class="ui-widget">
-								<div class="ui-widget-header">All</div>				
-								<div class="ui-widget-body">
-									<button class="leftbutton" onclick="cBrowser.openWindow('allsoltags.php','alltags');">All Tags</button>
-									<button class="leftbutton" onclick="cBrowser.openWindow('allsolhighs.php','allhighs');">All Highlights</button>
-									<button class="leftbutton" onclick="cBrowser.openWindow('allgigas.php','allgigas');">All Gigapans</button>
-									<button class="leftbutton" onclick="cBrowser.openWindow('allsites.php','allsites');">All Sites</button>
-									<button class="leftbutton" title="Where is curiosity now?" onclick="window.open('http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/', 'whereami');">Where is Curiosity</button>
-								</div>
-							</div>
 						</div>
 						<div class="tab-content" id="tags-tab">
 							<div id="tags">Loading...</div>

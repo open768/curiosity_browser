@@ -42,69 +42,111 @@ $.widget( "chickenkatsu.solButtons",{
 		sID = oElement.attr("id");
 		
 		oElement.empty();
-		oElement.addClass("ui-widget");
 		
-		// header part
-		oDiv = $("<DIV>", {class:"ui-widget-header"});
-			oDiv.append("Sol Information:");
+		//******************** buttons for sol *********************************************
+		oDiv = $("<DIV>", {class:"ui-widget"});
+				var oObj;
+			oObj = $("<DIV>", {class:"ui-widget-header"});
+				oObj.append("Sol Information:");
+			oDiv.append(oObj);
+			
+			oObj = $("<DIV>", {class:"ui-widget-body"});
+				//----------------------------------------------------
+				oButton = $("<button>", {title:"Tags",class:"leftbutton",id:sID+this.consts.TAG_ID,disabled:"disabled"});
+				oButton.append("Tags")
+				oButton.click(	function(){ oThis.onClickTag()}	);
+				oObj.append(oButton);	
+				
+				//----------------------------------------------------
+				oButton = $("<button>", {title:"Highlights",class:"leftbutton",id:sID+this.consts.HIGH_ID,disabled:"disabled"});
+				oButton.append("Highlights")
+				oButton.click(	function(){ oThis.onClickHighlights()}	);
+				oObj.append(oButton);	
+				
+				//----------------------------------------------------
+				oButton = $("<button>", {title:"Gigapans",class:"leftbutton",id:sID+this.consts.GIGA_ID,disabled:"disabled"});
+				oButton.append("Gigapans")
+				oButton.click(	function(){ oThis.onClickGigapans()}	);
+				oObj.append(oButton);	
+				
+				//----------------------------------------------------
+				oButton = $("<button>", {title:"notebook",class:"leftbutton",id:sID+this.consts.NOTEBOOK_ID,disabled:"disabled"});
+				oButton.append("Notebook")
+				oButton.click(	function(){ oThis.onClickMSLNotebook()}	);
+				oObj.append(oButton);	
+
+				//----------------------------------------------------
+				oButton = $("<button>", {title:"notebook Map",class:"leftbutton",id:sID+this.consts.NOTEBOOKMAP_ID_ID,disabled:"disabled"});
+				oButton.append("Notebook Map")
+				oButton.click(	function(){ oThis.onClickMSLNotebookMap()}	);
+				oObj.append(oButton);	
+
+				//----------------------------------------------------
+				oButton = $("<button>", {title:"Calendar",class:"leftbutton",id:sID+this.consts.CAL_ID,disabled:"disabled"});
+				oButton.append("Calendar")
+				oButton.click(	function(){ oThis.onClickCalender()}	);
+				oObj.append(oButton);	
+
+				//----------------------------------------------------
+				oButton = $("<button>", {title:"Force Refresh Cache",class:"leftbutton",id:sID+this.consts.REFRESH_ID});
+				oButton.append("Refresh")
+				oButton.click(	function(){ oThis.onClickRefresh()}	);
+				oObj.append(oButton);	
+
+				//----------------------------------------------------
+				oButton = $("<button>", {title:"All thumbnails",class:"leftbutton",id:sID+this.consts.ALLTHUMB_ID,disabled:"disabled"});
+				oButton.append("All Thumbnails")
+				oButton.click(	function(){ oThis.onClickAllThumbs()}	);
+				oObj.append(oButton);	
+
+				//----------------------------------------------------
+				oButton = $("<button>", {title:"Site",class:"leftbutton",id:sID+this.consts.SITE_ID,disabled:"disabled"});
+				oButton.append("Site")
+				oButton.click(	function(){ oThis.onClickSite()}	);
+				oObj.append(oButton);	
+			oDiv.append(oObj);
 		oElement.append(oDiv);
+		oElement.append("<P>");
 		
-		oDiv = $("<DIV>", {class:"ui-widget-body"});
-			//----------------------------------------------------
-			oButton = $("<button>", {title:"Tags",class:"leftbutton",id:sID+this.consts.TAG_ID,disabled:"disabled"});
-			oButton.append("Tags")
-			oButton.click(	function(){ oThis.onClickTag()}	);
-			oDiv.append(oButton);	
+		//******************** buttons for all sols *********************************************
+		oDiv = $("<DIV>", {class:"ui-widget"});
+			oObj = $("<DIV>", {class:"ui-widget-header"});
+				oObj.append("All Sols:");
+			oDiv.append(oObj);
 			
-			//----------------------------------------------------
-			oButton = $("<button>", {title:"Highlights",class:"leftbutton",id:sID+this.consts.HIGH_ID,disabled:"disabled"});
-			oButton.append("Highlights")
-			oButton.click(	function(){ oThis.onClickHighlights()}	);
-			oDiv.append(oButton);	
+			oObj = $("<DIV>", {class:"ui-widget-body"});
+				//----------------------------------------------------
+				oButton = $("<button>", {title:"All Tags",class:"leftbutton"} );
+				oButton.append("All Tags")
+				oButton.click(	function(){ cBrowser.openWindow('allsoltags.php','alltags')}	);
+				oObj.append(oButton);
 			
-			//----------------------------------------------------
-			oButton = $("<button>", {title:"Gigapans",class:"leftbutton",id:sID+this.consts.GIGA_ID,disabled:"disabled"});
-			oButton.append("Gigapans")
-			oButton.click(	function(){ oThis.onClickGigapans()}	);
-			oDiv.append(oButton);	
+				//----------------------------------------------------
+				oButton = $("<button>", {title:"All Highlights",class:"leftbutton"} );
+				oButton.append("All Highlights")
+				oButton.click(	function(){ cBrowser.openWindow('allsolhighs.php','allhighs')}	);
+				oObj.append(oButton);
 			
-			//----------------------------------------------------
-			oButton = $("<button>", {title:"notebook",class:"leftbutton",id:sID+this.consts.NOTEBOOK_ID,disabled:"disabled"});
-			oButton.append("Notebook")
-			oButton.click(	function(){ oThis.onClickMSLNotebook()}	);
-			oDiv.append(oButton);	
-
-			//----------------------------------------------------
-			oButton = $("<button>", {title:"notebook Map",class:"leftbutton",id:sID+this.consts.NOTEBOOKMAP_ID_ID,disabled:"disabled"});
-			oButton.append("Notebook Map")
-			oButton.click(	function(){ oThis.onClickMSLNotebookMap()}	);
-			oDiv.append(oButton);	
-
-			//----------------------------------------------------
-			oButton = $("<button>", {title:"Calendar",class:"leftbutton",id:sID+this.consts.CAL_ID,disabled:"disabled"});
-			oButton.append("Calendar")
-			oButton.click(	function(){ oThis.onClickCalender()}	);
-			oDiv.append(oButton);	
-
-			//----------------------------------------------------
-			oButton = $("<button>", {title:"Force Refresh Cache",class:"leftbutton",id:sID+this.consts.REFRESH_ID});
-			oButton.append("Refresh")
-			oButton.click(	function(){ oThis.onClickRefresh()}	);
-			oDiv.append(oButton);	
-
-			//----------------------------------------------------
-			oButton = $("<button>", {title:"All thumbnails",class:"leftbutton",id:sID+this.consts.ALLTHUMB_ID,disabled:"disabled"});
-			oButton.append("All Thumbnails")
-			oButton.click(	function(){ oThis.onClickAllThumbs()}	);
-			oDiv.append(oButton);	
-
-			//----------------------------------------------------
-			oButton = $("<button>", {title:"Site",class:"leftbutton",id:sID+this.consts.SITE_ID,disabled:"disabled"});
-			oButton.append("Site")
-			oButton.click(	function(){ oThis.onClickSite()}	);
-			oDiv.append(oButton);	
-
+				//----------------------------------------------------
+				oButton = $("<button>", {title:"All Gigapans",class:"leftbutton"} );
+				oButton.append("All Gigapans")
+				oButton.click(	function(){ cBrowser.openWindow('allgigas.php','allgigas')}	);
+				oObj.append(oButton);
+			
+				//----------------------------------------------------
+				oButton = $("<button>", {title:"All Sites",class:"leftbutton"} );
+				oButton.append("All Sites")
+				oButton.click(	function(){ cBrowser.openWindow('allsites.php','allsites')}	);
+				oObj.append(oButton);
+			
+				//----------------------------------------------------
+				oButton = $("<button>", {title:"Where is curiosity now?",class:"leftbutton"} );
+				oButton.append("Where is curiosity now?")
+				oButton.click(	function(){ window.open('http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/', 'whereami')}	);
+				oObj.append(oButton);
+			oDiv.append(oObj);
 		oElement.append(oDiv);
+		oElement.append("<P>");
 	},
 	
 	//*****************************************************************
