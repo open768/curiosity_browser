@@ -391,3 +391,18 @@ body
     border: 3px solid red;
 	z-index: 3;
 }
+
+.solbutton{
+	width:35px;
+	height:20px;	
+	text-align:center;
+}
+
+.solbuttonDiv{
+	width:35px;
+	height:20px;
+	text-align: center;
+    padding: 2px;
+    margin: 2px;
+	display:inline-flex;
+}
