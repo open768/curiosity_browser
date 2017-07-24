@@ -115,6 +115,12 @@ $.widget( "chickenkatsu.solButtons",{
 			oDiv.append(oObj);
 			
 			oObj = $("<DIV>", {class:"ui-widget-body"});
+
+				oButton = $("<button>", {title:"about",class:"homebutton"} );
+				oButton.append("About")
+				oButton.click(	function(){ cBrowser.openWindow('about.php', 'about');}	);
+				oObj.append(oButton);
+
 				//----------------------------------------------------
 				oButton = $("<button>", {title:"All Tags",class:"leftbutton"} );
 				oButton.append("All Tags")
@@ -141,7 +147,7 @@ $.widget( "chickenkatsu.solButtons",{
 			
 				//----------------------------------------------------
 				oButton = $("<button>", {title:"Where is curiosity now?",class:"leftbutton"} );
-				oButton.append("Where is curiosity now?")
+				oButton.append("curiosity?")
 				oButton.click(	function(){ window.open('http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/', 'whereami')}	);
 				oObj.append(oButton);
 			oDiv.append(oObj);

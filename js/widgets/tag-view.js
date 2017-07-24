@@ -31,6 +31,7 @@ $.widget( "chickenkatsu.tagview",{
 		if (!cHttp2)		$.error("http2 class is missing! check includes");	
 		if (!cActionQueue)		$.error("cActionQueue class is missing! check includes");	
 		if (this.options.mission == null) $.error("mission is not set");
+		if (!oElement.gSpinner)	$.error("gspinner class is missing! check includes");	
 
 		//make sure this is a DIV
 		var sElementName = oElement.get(0).tagName;

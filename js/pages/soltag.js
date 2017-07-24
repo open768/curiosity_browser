@@ -29,12 +29,12 @@ function onLoadJQuery_SOLTAG(){
 	//update sol number
 	sSol = cBrowser.data["s"];
 	
-	var sTarget = ( SINGLE_WINDOW ? "" : "target='index'");
-	$("#sol").html("<a " + sTarget + " href='index.php?s=" +sSol+"'>" + sSol + "</a>");
+	sUrl = cBrowser.buildUrl("index.php",{s:sSol});
+	$("#sol").html("<a href='"+sUrl+"'>" + sSol + "</a>");
 	current_sol = sSol;
 	
 	//load tags
-	sUrl = "php/rest/tag.php?s=" + sSol + "&o=sol";
+	sUrl = cBrowser.buildUrl("php/rest/tag.php",{s:sSol,o:"sol"});
 	set_status("fetching tags");
 
 	var oHttp = new cHttp2();
@@ -53,18 +53,22 @@ function load_soltag_callback(poHttp){
 	oDiv.empty();
 	var aData = poHttp.response;
 	
+	if (aData == null){
+		oDiv.append("No Tags Found");
+		return;
+	}
+	
+	
 	for (sInstr in aData){
 		oDiv.append("<h2>"+sInstr +"</h2>");
 		aTags = aData[sInstr];
 
-		var sTagTarget = ( SINGLE_WINDOW ? "" : "target='tag'");
-		var sDetailTarget = ( SINGLE_WINDOW ? "" : "target='detail'");
 		for (i=0; i< aTags.length; i++){
 			oItem = aTags[i];
 			sProduct = oItem.p;
 			sTag = oItem.t;
-			sTagUrl = "<a " + sTagTarget + " href='tag.php?t=" + sTag + "'>" + sTag + "</a>";
-			sProductURL = "<a " + sDetailTarget + " href='detail.php?s=" + current_sol + "&i=" + sInstr + "&p=" + sProduct + "'>" + sProduct + "</a>";
+			sTagUrl = "<a href='tag.php?t=" + sTag + "'>" + sTag + "</a>";
+			sProductURL = "<a href='detail.php?s=" + current_sol + "&i=" + sInstr + "&p=" + sProduct + "'>" + sProduct + "</a>";
 			oDiv.append( sTagUrl + " in " + sProductURL + "<br>")
 		}
 	}

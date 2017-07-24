@@ -79,17 +79,17 @@ $.widget( "chickenkatsu.soltags",{
 		var oOptions = this.options;
 		var oElement = this.element;
 		var aData = poHttp.response;
-		var sSol;
+		var sSol,i;
 		
 		oElement.empty();
-		for (var i = 0; i < aData.length; i++){
-			var oDiv = $("<DIV>",{class:"solbuttonDiv"});
+		for (i = 0; i < aData.length; i++){
 			sSol = aData[i].sol.toString();
+			var oDiv = $("<DIV>",{class:"solbuttonDiv"});
 			
 			if (oOptions.aSolsWithTags[sSol]){
-				var oButton = $("<button>",{class:"solbutton"}).append(sSol);
+				var oButton = $("<button>",{class:"solbutton",sol:sSol}).append(sSol);
+				oButton.click( 	function(poEvent){oThis.onButtonClick(poEvent);} 	);
 				oDiv.append(oButton);
-				oButton.click( 	function(){oThis.onButtonClick(sSol)} 	);
 			}else{
 				var sUrl = cBrowser.buildUrl("index.php", {s:sSol});
 				var oA = $("<a>", {href:sUrl}).append(sSol);
@@ -101,8 +101,11 @@ $.widget( "chickenkatsu.soltags",{
 		
 	},
 	
-	onButtonClick:function(psSol){
-		var sUrl = cBrowser.buildUrl("soltag.php",{s:psSol});
+	//**************************************************************
+	onButtonClick:function(poEvent){
+		var oButton = $(poEvent.target);
+		var sSol = oButton.attr("sol");
+		var sUrl = cBrowser.buildUrl("soltag.php",{s:sSol});
 		cBrowser.openWindow(sUrl, "soltag");
 	}
 		
