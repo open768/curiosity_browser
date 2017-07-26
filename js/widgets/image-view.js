@@ -166,6 +166,7 @@ $.widget( "chickenkatsu.imageview",{
 							onStatus: function(poEvent,paData){	oThis._trigger("onStatus",poEvent,paData);	}
 					});
 				this.element.append(oDiv);
+				this.element.append("<P>");
 			}
 			
 			//add the navigation controls again (have to clone)

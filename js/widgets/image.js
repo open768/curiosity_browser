@@ -47,7 +47,7 @@ $.widget( "chickenkatsu.instrumentimage",{
 
 		//put a please wait notice up
 		oElement.empty();
-		oElement.addClass("ui-widget");
+		oElement.addClass("ui-widget-content");
 		
 		var oDiv = $("<DIV>",{class:"ui-widget-header"});
 		oDiv.append("Loading....");
@@ -62,7 +62,6 @@ $.widget( "chickenkatsu.instrumentimage",{
 		
 		//wait for the element to come into view before rendering
 		oWaitImg.on('inview', 	function(poEvent, pbIsInView){oThis.onPlaceholderVisible(pbIsInView);}	);
-		oElement.append("<p>");
 	},
 	
 	// ***************************************************************
@@ -112,6 +111,7 @@ $.widget( "chickenkatsu.instrumentimage",{
 		
 		//put up a loading... 
 		oElement.empty();
+		oElement.addClass("ui-widget-content");
 		var oDiv = $("<DIV>",{class:"ui-widget-header"}).append("Loading details for: " + oOptions.product);
 		oElement.append(oDiv);
 		
@@ -119,7 +119,6 @@ $.widget( "chickenkatsu.instrumentimage",{
 		var oLoader = $("<DIV>").gSpinner({scale: .25});
 		oDiv.append(oLoader).append("Loading :" +oOptions.product);
 		oElement.append(oDiv);
-		oElement.append("<p>");
 		
 		//load the data
 		var oItem = new cHttpQueueItem();
@@ -136,16 +135,8 @@ $.widget( "chickenkatsu.instrumentimage",{
 		var oElement = oThis.element;
 		
 		oElement.empty();
-		oElement.addClass("ui-widget");
-		oElement.addClass("ui-corner-all");
+		oElement.addClass("ui-widget-content");
 		
-		//build image div
-		var oImgDiv = $("<DIV>",{class:"ui-widget-content"}).css({position: 'relative'});
-		oOptions.image_div = oImgDiv;
-		oImg = $("<IMG>",{src:oOptions.src});
-		oImg.load(		function(){oThis.onLoadedImage();}							);
-		oImg.click(		function(){oThis._trigger("onClick", null, oOptions);} 	);
-		oImgDiv.append(oImg);	
 		
 		//build information div
 		var oInfoDiv = $("<DIV>",{class:"ui-widget-header"});
@@ -157,11 +148,17 @@ $.widget( "chickenkatsu.instrumentimage",{
 		oOptions.tags_div = $("<SPAN>",{class:"soltags"}).html("Loading ...");
 		oInfoDiv.append(oOptions.tags_div);
 		
+		//build image div
+		var oImgDiv = $("<DIV>",{class:"ui-widget-body"}).css({position: 'relative'});
+		oOptions.image_div = oImgDiv;
+		oImg = $("<IMG>",{src:oOptions.src});
+		oImg.load(		function(){oThis.onLoadedImage();}							);
+		oImg.click(		function(){oThis._trigger("onClick", null, oOptions);} 	);
+		oImgDiv.append(oImg);	
+
 		//add the lot to the element
-		oElement.empty();
 		oElement.append(oInfoDiv);
 		oElement.append(oImgDiv);
-		oElement.append("<p>");
 	},
 	
 	//#################################################################

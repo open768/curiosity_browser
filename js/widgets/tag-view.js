@@ -98,6 +98,7 @@ $.widget( "chickenkatsu.tagview",{
 					onStatus: function(poEvent,paData){	oWidget._trigger("onStatus",poEvent,paData);	}
 			});
 			oElement.append(oDiv);
+			oElement.append("<P>");
 		}
 	},
 	

@@ -44,7 +44,7 @@ $.widget( "chickenkatsu.solButtons",{
 		oElement.empty();
 		
 		//******************** buttons for sol *********************************************
-		oDiv = $("<DIV>", {class:"ui-widget"});
+		oDiv = $("<DIV>", {class:"ui-widget-content"});
 				var oObj;
 			oObj = $("<DIV>", {class:"ui-widget-header"});
 				oObj.append("Sol Information:");
@@ -106,21 +106,14 @@ $.widget( "chickenkatsu.solButtons",{
 				oObj.append(oButton);	
 			oDiv.append(oObj);
 		oElement.append(oDiv);
-		oElement.append("<P>");
 		
 		//******************** buttons for all sols *********************************************
-		oDiv = $("<DIV>", {class:"ui-widget"});
+		oDiv = $("<DIV>", {class:"ui-widget-content"});
 			oObj = $("<DIV>", {class:"ui-widget-header"});
 				oObj.append("All Sols:");
 			oDiv.append(oObj);
 			
 			oObj = $("<DIV>", {class:"ui-widget-body"});
-
-				oButton = $("<button>", {title:"about",class:"homebutton"} );
-				oButton.append("About")
-				oButton.click(	function(){ cBrowser.openWindow('about.php', 'about');}	);
-				oObj.append(oButton);
-
 				//----------------------------------------------------
 				oButton = $("<button>", {title:"All Tags",class:"leftbutton"} );
 				oButton.append("All Tags")
@@ -145,14 +138,29 @@ $.widget( "chickenkatsu.solButtons",{
 				oButton.click(	function(){ cBrowser.openWindow('allsites.php','allsites')}	);
 				oObj.append(oButton);
 			
+			oDiv.append(oObj);
+		oElement.append(oDiv);
+		
+		//******************** buttons for all sols *********************************************
+		oDiv = $("<DIV>", {class:"ui-widget-content"});
+			oObj = $("<DIV>", {class:"ui-widget-header"});
+				oObj.append("Information:");
+			oDiv.append(oObj);
+			
+			oObj = $("<DIV>", {class:"ui-widget-body"});
+
+				oButton = $("<button>", {title:"about",class:"homebutton"} );
+				oButton.append("About")
+				oButton.click(	function(){ cBrowser.openWindow('about.php', 'about');}	);
+				oObj.append(oButton);
+
 				//----------------------------------------------------
 				oButton = $("<button>", {title:"Where is curiosity now?",class:"leftbutton"} );
 				oButton.append("curiosity?")
 				oButton.click(	function(){ window.open('http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/', 'whereami')}	);
 				oObj.append(oButton);
 			oDiv.append(oObj);
-		oElement.append(oDiv);
-		oElement.append("<P>");
+		oElement.append(oDiv);		
 	},
 	
 	//*****************************************************************

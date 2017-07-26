@@ -59,7 +59,6 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 				oObj.append(  $("<Option>",{selected:true,value:"MSL"}).append("Mars Science Lab (Curiosity)")  );
 			oDiv.append(oObj);
 		oElement.append(oDiv);
-		oElement.append("<P>");
 		
 		// sols part of the widget
 		oDiv = $("<DIV>", {class:"ui-widget-content"});
@@ -103,7 +102,6 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 			oTable.append(oRow);
 		oDiv.append(oTable);
 		oElement.append(oDiv);
-		oElement.append("<P>");
 		
 		// instrument part of the widget
 		oDiv = $("<DIV>", {class:"ui-widget-content"});
