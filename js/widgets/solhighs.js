@@ -2,13 +2,13 @@
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //% Definition
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-$.widget( "chickenkatsu.soltags",{
+$.widget( "chickenkatsu.solhighs",{
 	//#################################################################
 	//# Definition
 	//#################################################################
 	options:{
 		mission:null,
-		aSolsWithTags: null
+		aSolWithHighs: null
 	},
 	
 	//#################################################################
@@ -38,12 +38,12 @@ $.widget( "chickenkatsu.soltags",{
 		
 		var oLoader = $("<DIV>");
 		oLoader.gSpinner({scale: .25});
-		oElement.append(oLoader).append("Loading sol tags:")
+		oElement.append(oLoader).append("Loading sol highlights:")
 		
 		//get the sols with Tags
 		var oHttp = new cHttp2();
-		bean.on(oHttp, "result", 	function(poHttp){oThis.onTagResponse(poHttp);}	);				
-		var sUrl=cBrowser.buildUrl("php/rest/tag.php", {o:"topsolindex"});
+		bean.on(oHttp, "result", 	function(poHttp){oThis.onHighlightsResponse(poHttp);}	);				
+		var sUrl=cBrowser.buildUrl("php/rest/img_highlight.php", {o:"topsolindex"});
 		oHttp.fetch_json(sUrl);
 	},
 	
@@ -51,17 +51,17 @@ $.widget( "chickenkatsu.soltags",{
 	//#################################################################
 	//# Events
 	//#################################################################
-	onTagResponse: function(poHttp){
+	onHighlightsResponse: function(poHttp){
 		var oThis = this;
 		var oOptions = this.options;
 		var oElement = this.element;
 		
-		oOptions.aSolsWithTags = poHttp.response;
+		oOptions.aSolWithHighs = poHttp.response;
 		
-		if (oOptions.aSolsWithTags == null){
+		if (oOptions.aSolWithHighs == null){
 			oElement.empty();
 			oElement.attr("class", ".ui-state-error");
-			oElement.append("No Tag information found");
+			oElement.append("No highlights found");
 		}else{
 			oElement.append("<br>");
 			oElement.append("loading Sols...");
@@ -85,7 +85,7 @@ $.widget( "chickenkatsu.soltags",{
 			sSol = aData[i].sol.toString();
 			var oDiv = $("<DIV>",{class:"solbuttonDiv"});
 			
-			if (oOptions.aSolsWithTags[sSol]){
+			if (oOptions.aSolWithHighs[sSol]){
 				var oButton = $("<button>",{class:"solbutton",sol:sSol}).append(sSol);
 				oButton.click( 	function(poEvent){oThis.onButtonClick(poEvent);} 	);
 				oDiv.append(oButton);
@@ -104,8 +104,8 @@ $.widget( "chickenkatsu.soltags",{
 	onButtonClick:function(poEvent){
 		var oButton = $(poEvent.target);
 		var sSol = oButton.attr("sol");
-		var sUrl = cBrowser.buildUrl("soltag.php",{s:sSol});
-		cBrowser.openWindow(sUrl, "soltag");
+		var sUrl = cBrowser.buildUrl("solhigh.php",{s:sSol});
+		cBrowser.openWindow(sUrl, "solhigh");
 	}
 		
 });	

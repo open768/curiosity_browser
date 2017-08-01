@@ -12,6 +12,7 @@
 		include("php/fragments/header.php"); 
 	?>
 	<title>All Gigapans - by Neville Thompson</title>
+	<script src="js/widgets/solgigas.js"></script>
 	<script src="js/pages/allgigas.js"></script>
 </head>
 <body onload="$(onLoadJQuery_GIGAS);">
