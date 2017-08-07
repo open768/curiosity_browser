@@ -161,7 +161,7 @@ $.widget( "chickenkatsu.thumbnail",{
 		if (oImg.visible()){
 			this.pr__set_style(oThis.consts.STYLES.WAITING3); 
 			var oItem = new cHttpQueueItem();
-			oItem.url = cBrowser.buildUrl(this.consts.BETTER_URL,{s:oOptions.sol,i:oOptions.instrument,p:oOptions.product,m:oOptions.mission.name});
+			oItem.url = cBrowser.buildUrl(this.consts.BETTER_URL,{s:oOptions.sol,i:oOptions.instrument,p:oOptions.product,m:oOptions.mission.ID});
 
 			bean.on(oItem, "result", 	function(poHttp){oThis.onBetterThumbResponse(poHttp);}	);				
 			bean.on(oItem, "error", 	function(poHttp){oThis.onBetterThumbError(poHttp);}	);				

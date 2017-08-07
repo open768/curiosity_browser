@@ -15,7 +15,6 @@
 	<script src="<?=$jsinc?>/ck-inc/secret.js"></script>
 	<script src="js/pages/allsoltags.js"></script>
 	<script src="js/widgets/soltags.js"></script>
-	<script src="<?=$jsinc?>/ck-inc/tagging.js"></script>
 </head>
 <body onload="$(onLoadJQuery_TAGS);">
 	<?php 

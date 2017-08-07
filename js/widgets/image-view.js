@@ -41,13 +41,14 @@ $.widget( "chickenkatsu.imageview",{
 			$.error("thumbnail view needs a DIV. this element is a: " + sElementName);
 
 		//check that the options are passed correctly
-		if (this.options.sol == null) $.error("sol is not set");
-		if (this.options.instrument == null) $.error("instrument is not set");
-		if (this.options.mission == null) $.error("mission is not set");
+		var oOptions = this.options;
+		if (oOptions.sol == null) $.error("sol is not set");
+		if (oOptions.instrument == null) $.error("instrument is not set");
+		if (oOptions.mission == null) $.error("mission is not set");
 				
 		//start the images load 
 		this._trigger("onStatus",null,{text:"loading Images"});	
-		this._load_images(this.options.start_image);
+		this._load_images(oOptions.start_image);
 	},
 	
 	//#################################################################
@@ -55,6 +56,7 @@ $.widget( "chickenkatsu.imageview",{
 	//#################################################################
 	_load_images:function(piStartImage){
 		var oThis = this;
+		var oOptions = this.options;
 
 		//put some info in the widget
 		var oElement = this.element;
@@ -63,17 +65,18 @@ $.widget( "chickenkatsu.imageview",{
 		var oDiv = $("<DIV>",{class:".ui-widget-content"});
 		var oLoader = $("<DIV>");
 		oLoader.gSpinner({scale: .25});
-		oDiv.append(oLoader).append("Loading Images for sol:" + this.options.sol + " instr:" + this.options.instrument);
+		oDiv.append(oLoader).append("Loading Images for sol:" + oOptions.sol + " instr:" + oOptions.instrument);
 		oElement.append(oDiv);
 
 		
 		//load images
 		var sUrl = cBrowser.buildUrl(
 			this.consts.IMAGES_URL,	{
-				s:this.options.sol,
-				i:this.options.instrument,
+				s:oOptions.sol,
+				i:oOptions.instrument,
 				b:piStartImage, 
-				e:piStartImage+this.consts.IMAGES_TO_SHOW
+				e:piStartImage+this.consts.IMAGES_TO_SHOW,
+				m:oOptions.mission.ID
 			}
 		);
 		var oHttp = new cHttp2();
@@ -103,6 +106,7 @@ $.widget( "chickenkatsu.imageview",{
 		
 		this._trigger("onStatus",null,{text:"showing images"});	
 		var oJson = poHttp.response;
+		var oOptions = this.options;
 		
 		//clear out the image div
 		this.element.empty();
@@ -113,10 +117,10 @@ $.widget( "chickenkatsu.imageview",{
 		else{
 			//nothing in this div
 			this.element.empty();
-			this.options.max_images = oJson.max;
+			oOptions.max_images = oJson.max;
 			
 			//update title
-			this.options.start_image = parseInt(oJson.start);
+			oOptions.start_image = parseInt(oJson.start);
 
 			//create the navigation div
 			var sID = this.element.id;
@@ -124,7 +128,7 @@ $.widget( "chickenkatsu.imageview",{
 				var oRow = $("<TR>");
 					var oCell = $("<TD>",{width:"40%"});
 					var oButton = $("<button>", {class:"leftarrow imagenav",title:"Previous Page",id:sID+ this.consts.LeftID} );
-					if (this.options.start < this.consts.IMAGES_TO_SHOW) 
+					if (oOptions.start < this.consts.IMAGES_TO_SHOW) 
 						oButton.attr('disabled', "disabled");
 					else
 						oButton.html("Previous Page").click( function(){		oThis.onClickPreviousPage();	});
@@ -134,7 +138,7 @@ $.widget( "chickenkatsu.imageview",{
 				oRow.append(oCell);
 					oCell = $("<TD>",{width:"40%"});
 					oButton = $("<button>", {class:"rightarrow imagenav",title:"Previous Page",id:sID+ this.consts.LeftID} );
-					if (this.options.start >= oJson.max - this.consts.IMAGES_TO_SHOW) 
+					if (oOptions.start >= oJson.max - this.consts.IMAGES_TO_SHOW) 
 						oButton.attr('disabled', "disabled");
 					else
 						oButton.html("Next Page").click( function(){		oThis.onClickNextPage();	});
@@ -156,10 +160,10 @@ $.widget( "chickenkatsu.imageview",{
 				
 				//build up the div
 				oDiv = $("<DIV>").instrumentimage({
-							sol:this.options.sol,
-							instrument:this.options.instrument,
+							sol:oOptions.sol,
+							instrument:oOptions.instrument,
 							product:oItem.p,
-							mission:this.options.mission,
+							mission:oOptions.mission,
 							src:oItem.i,
 							date:oItem.du,
 							onClick: function(poEvent,poData){	oThis._trigger("onClick",poEvent,poData);		},
@@ -174,24 +178,26 @@ $.widget( "chickenkatsu.imageview",{
 		}
 		
 		//set up keypress
-		if (!this.options.keypress_done){
+		if (!oOptions.keypress_done){
 			this._on( window, {	keypress: function(poEvent){oThis.onKeypress(poEvent)}});
-			this.options.keypress_done = true;
+			oOptions.keypress_done = true;
 		}
 
-		this._trigger("onLoaded",null,this.options.start);
+		this._trigger("onLoaded",null,oOptions.start);
 	},
 	
 	//**************************************************************************************************
 	onClickPreviousPage: function(){
-		if (this.options.start_image < this.consts.IMAGES_TO_SHOW) return;
-		this._load_images( this.options.start_image - this.consts.IMAGES_TO_SHOW);
+		var oOptions = this.options;
+		if (oOptions.start_image < this.consts.IMAGES_TO_SHOW) return;
+		this._load_images( oOptions.start_image - this.consts.IMAGES_TO_SHOW);
 	},
 
 	//**************************************************************************************************
 	onClickNextPage: function(){
-		if (this.options.start_image >= this.options.max_images - this.consts.IMAGES_TO_SHOW) return;
-		this._load_images( this.options.start_image + this.consts.IMAGES_TO_SHOW);
+		var oOptions = this.options;
+		if (oOptions.start_image >= oOptions.max_images - this.consts.IMAGES_TO_SHOW) return;
+		this._load_images( oOptions.start_image + this.consts.IMAGES_TO_SHOW);
 	}
 	
 });	

@@ -115,6 +115,8 @@
 			<li><a href="http://www.nasa.gov/socialmedia/#.U8jsjPldWAg">Engage with NASA on Social Media</a>
 			<li><a href="http://saganet.org/events/talk-to-an-astrobiologist-dr-james-kasting">Saganet - talk to an astrobiologist</a>
 			<li><a href="http://hirise.lpl.arizona.edu/">HiRISE - High Resolution Imaging Space Experiment</a>
+			<li><a href="http://redplanet.asu.edu/">short summaries of published scientific literature on Mars, written so you can understand what they mean. If don’t have the time to plow through journals and papers to find new results, they’ll do it for you.</a>
+			<li><a href="https://www.zooniverse.org/projects?discipline=astronomy">The Zooniverse is the world’s largest and most popular platform for people-powered research - including mars research</a>
 		</ul>
 		<p>
 		

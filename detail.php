@@ -21,9 +21,7 @@
 	<link rel="stylesheet" href="<?=$jsinc?>/sceditor/minified/themes/default.min.css" type="text/css" media="all" />
 	<title>Detail: Curiosity Browser</title>
 	<script src="<?=$jsinc?>/pixlr/pixlr.js"></script>
-	<script src="<?=$jsinc?>/ck-inc/tagging.js"></script>
 	<script src="<?=$jsinc?>/ck-inc/comments.js"></script>
-	<script src="<?=$jsinc?>/ck-inc/imghilite.js"></script>
 	<script src="<?=$jsinc?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
 	<script src="js/pages/detail.js"></script>
 </head>

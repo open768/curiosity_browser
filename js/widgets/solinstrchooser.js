@@ -152,7 +152,7 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		);
 	
 		//get the instruments for this sol
-		var sURL =cBrowser.buildUrl("php/rest/instruments.php", {s:psSol,r:0});
+		var sURL =cBrowser.buildUrl("php/rest/instruments.php", {s:psSol,r:0,m:this.options.mission.ID});
 		var oHttp = new cHttp2();
 		bean.on(oHttp,"result",function(poHttp){oThis.onLoadSolInstruments(poHttp)});
 		oHttp.fetch_json(sURL);
@@ -166,12 +166,12 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 
 		var oHttp = new cHttp2();
 		bean.on(oHttp,"result",function(poHttp){oThis.onLoadInstruments(poHttp)});
-		var sURL =cBrowser.buildUrl("php/rest/instruments.php", {m:this.options.mission.name});
+		var sURL =cBrowser.buildUrl("php/rest/instruments.php", {m:this.options.mission.ID});
 		oHttp.fetch_json(sURL);
 
 		var oHttp2 = new cHttp2();
 		bean.on(oHttp2,"result",function(poHttp){oThis.onLoadSols(poHttp)});
-		var sURL =cBrowser.buildUrl("php/rest/sols.php", {m:this.options.mission.name});
+		var sURL =cBrowser.buildUrl("php/rest/sols.php", {m:this.options.mission.ID});
 		oHttp2.fetch_json(sURL);
 	},
 	

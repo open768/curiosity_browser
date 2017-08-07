@@ -28,8 +28,6 @@
 		<title>Curiosity Browser</title>
 		<LINK href="css/drag.css" rel="stylesheet" type="text/css">
 		<LINK href="css/tabs.css" rel="stylesheet" type="text/css">
-		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/tagging.js"></script>
-		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/imghilite.js"></script>
 		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/queue.js"></script>
 		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/actionqueue.js"></script>
 		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/tabs.js"></script>

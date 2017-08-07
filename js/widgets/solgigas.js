@@ -43,7 +43,7 @@ $.widget( "chickenkatsu.solgigas",{
 		//get the sols with Tags
 		var oHttp = new cHttp2();
 		bean.on(oHttp, "result", 	function(poHttp){oThis.onGigapansResponse(poHttp);}	);				
-		var sUrl=cBrowser.buildUrl("php/rest/gigapans.php", {o:"all"});
+		var sUrl=cBrowser.buildUrl("php/rest/gigapans.php", {o:"all",m:oOptions.mission.ID});
 		oHttp.fetch_json(sUrl);
 	},
 	
@@ -66,9 +66,10 @@ $.widget( "chickenkatsu.solgigas",{
 			oElement.append("<br>");
 			oElement.append("loading Sols...");
 			
+			var sURL = cBrowser.buildUrl("php/rest/sols.php", {m:oOptions.mission.ID});
 			var oHttp = new cHttp2();
 			bean.on(oHttp, "result", function(poHttp){ oThis.onSolsResponse(poHttp)} 	);
-			oHttp.fetch_json("php/rest/sols.php");
+			oHttp.fetch_json(sURL);
 		}
 	},
 	

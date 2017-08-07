@@ -1,3 +1,0 @@
-var cMission = {
-	name:"curiosity"
-};

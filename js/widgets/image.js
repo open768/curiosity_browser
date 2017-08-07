@@ -122,7 +122,7 @@ $.widget( "chickenkatsu.instrumentimage",{
 		
 		//load the data
 		var oItem = new cHttpQueueItem();
-		oItem.url = cBrowser.buildUrl("php/rest/detail.php", {s:oOptions.sol, i:oOptions.instrument, p:oOptions.product});
+		oItem.url = cBrowser.buildUrl("php/rest/detail.php", {s:oOptions.sol, i:oOptions.instrument, p:oOptions.product,m:oOptions.mission.ID});
 		bean.on(oItem, "result", 	function(poHttp){oThis.onProductDetails(poHttp);}	);				
 		bean.on(oItem, "error", 	function(poHttp){oThis.onProductError(poHttp);}	);				
 		goImageQueue.add(oItem);

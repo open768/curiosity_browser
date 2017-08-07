@@ -169,7 +169,8 @@ $.widget( "chickenkatsu.solButtons",{
 		var oThis = this;
 		
 		//store the sol
-		this.options.sol = psSol;
+		var oOptions = this.options;
+		oOptions.sol = psSol;
 		
 		//disable all buttons in this widget;
 		this.element.children("button").each( function(){ $(this).attr("disabled","disabled");})
@@ -184,17 +185,17 @@ $.widget( "chickenkatsu.solButtons",{
 		$("#"+sID+this.consts.SITE_ID).removeAttr("disabled");
 		
 		//fetch tags, highlights and gigapans
-		var sUrl = cBrowser.buildUrl("php/rest/gigapans.php",{o:"sol",s:this.options.sol});
+		var sUrl = cBrowser.buildUrl("php/rest/gigapans.php",{o:"sol",s:this.options.sol,m:oOptions.mission.ID});
 		var oHttp = new cHttp2();
 		bean.on(oHttp, "result", function(poHttp){oThis.onFetchedGigapans(poHttp);});
 		oHttp.fetch_json(sUrl);
 
-		var sUrl = cBrowser.buildUrl("php/rest/tag.php",{o:"solcount",s:this.options.sol});
+		var sUrl = cBrowser.buildUrl("php/rest/tag.php",{o:"solcount",s:this.options.sol,m:oOptions.mission.ID});
 		var oHttp = new cHttp2();
 		bean.on(oHttp, "result", function(poHttp){oThis.onFetchedTagCount(poHttp);});
 		oHttp.fetch_json(sUrl);
 
-		var sUrl = cBrowser.buildUrl("php/rest/img_highlight.php",{o:"solcount",s:this.options.sol});
+		var sUrl = cBrowser.buildUrl("php/rest/img_highlight.php",{o:"solcount",s:this.options.sol,m:oOptions.mission.ID});
 		var oHttp = new cHttp2();
 		bean.on(oHttp, "result", function(poHttp){oThis.onHiLiteCount(poHttp);});
 		oHttp.fetch_json(sUrl);
