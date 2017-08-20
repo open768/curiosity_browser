@@ -17,7 +17,7 @@ var DEBUG_ON = true;
 //# Utility functions 
 //###############################################################
 function onLoadJQuery_HIGHS(){
-	$("#solhighs").solhighs({
+	$("#solhighs").solhighgrid({
 		mission:cMission
 	});
 }

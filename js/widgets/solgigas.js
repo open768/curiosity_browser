@@ -66,10 +66,10 @@ $.widget( "chickenkatsu.solgigas",{
 			oElement.append("<br>");
 			oElement.append("loading Sols...");
 			
-			var sURL = cBrowser.buildUrl("php/rest/sols.php", {m:oOptions.mission.ID});
+			var sUrl = cBrowser.buildUrl("php/rest/sols.php", {m:oOptions.mission.ID});
 			var oHttp = new cHttp2();
 			bean.on(oHttp, "result", function(poHttp){ oThis.onSolsResponse(poHttp)} 	);
-			oHttp.fetch_json(sURL);
+			oHttp.fetch_json(sUrl);
 		}
 	},
 	

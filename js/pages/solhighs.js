@@ -10,9 +10,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-var MOSAIC_QUERYSTRING = "mos";
-var SHEET_QUERYSTRING = "sheet";
-var SOL_QUERYSTRING = "s";
 var gs_current_sol = null;
 var gs_update_url = false;
 var SOL_ATTR = "sa";
@@ -20,19 +17,28 @@ var INSTRUMENT_ATTR = "ia";
 var PRODUCT_ATTR = "pa";
 var goQueue = null;
 
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//% TODO this page is to be widgetised
+//% this page is KAPUT
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 //###############################################################
 //# Utility functions 
 //###############################################################
 function onLoadJQuery_SOLHI(){
+	$("#solhighs").solhighlights({
+		sol:,
+		mission:cMission
+	});
 	var sUrl, iSol;
 	
 	pr_stop_queue();
 	
 	//change status of checkbox
-	if (cBrowser.data[MOSAIC_QUERYSTRING] != null )	$("#chkMosaic").prop('checked', true);
+	if (cBrowser.data[cSpaceBrowser.MOSAIC_QUERYSTRING] != null )	$("#chkMosaic").prop('checked', true);
 
 	//update sol number
-	iSol = parseInt(cBrowser.data[SOL_QUERYSTRING]);
+	iSol = parseInt(cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]);
 	load_sol_data(iSol);
 }
 
@@ -54,17 +60,29 @@ function load_sol_data(piSol){
 	
 	//load tags
 	set_status("fetching highlights");
-	if (cBrowser.data[MOSAIC_QUERYSTRING] != null){
-		sUrl = "php/rest/img_highlight.php?"+ SOL_QUERYSTRING + "=" + piSol + "&o=mosaic";
+	if (cBrowser.data[cSpaceBrowser.MOSAIC_QUERYSTRING] != null){
+		var oParams = {};
+		oParams[cSpaceBrowser.SOL_QUERYSTRING ] = piSol;
+		oParams[cSpaceBrowser.OUTPUT_QUERYSTRING ] = "mosaic";
+		sUrl = cBrowser.buildUrl("php/rest/img_highlight.php", oParams);
+		
 		bean.on(oHttp, "result", onMosaicResponse);
 		oHttp.fetch_json(sUrl);
 	}
-	else if (cBrowser.data[SHEET_QUERYSTRING] != null){
-		sUrl = "php/rest/img_highlight.php?"+ SOL_QUERYSTRING + "="+ piSol + "&o=soldata";
+	else if (cBrowser.data[cSpaceBrowser.SHEET_QUERYSTRING] != null){
+		var oParams = {};
+		oParams[cSpaceBrowser.SOL_QUERYSTRING ] = piSol;
+		oParams[cSpaceBrowser.OUTPUT_QUERYSTRING ] = "soldata";
+		sUrl = cBrowser.buildUrl("php/rest/img_highlight.php", oParams);
+
 		bean.on(oHttp, "result", onSheetResponse);
 		oHttp.fetch_json(sUrl);
 	}else{
-		sUrl = "php/rest/img_highlight.php?"+ SOL_QUERYSTRING + "="+ piSol + "&o=soldata";
+		var oParams = {};
+		oParams[cSpaceBrowser.SOL_QUERYSTRING ] = piSol;
+		oParams[cSpaceBrowser.OUTPUT_QUERYSTRING ] = "soldata";
+		sUrl = cBrowser.buildUrl("php/rest/img_highlight.php", oParams);
+
 		bean.on(oHttp, "result", onHiliteResponse);
 		oHttp.fetch_json(sUrl);
 	}
@@ -74,7 +92,13 @@ function load_sol_data(piSol){
 function load_highlight_thumbs(psSol, psInstr, psProduct){
 	
 	//get the thumbnail images
-	var sUrl = "php/rest/img_highlight.php?"+ SOL_QUERYSTRING + "="+ psSol + "&i=" + psInstr + "&p=" + psProduct + "&o=thumbs";
+	var oParams = {};
+	oParams[cSpaceBrowser.SOL_QUERYSTRING] = psSol;
+	oParams[cSpaceBrowser.INSTR_QUERYSTRING] = psInstr;
+	oParams[cSpaceBrowser.PRODUCT_QUERYSTRING] = psProduct;
+	oParams[cSpaceBrowser.OUTPUT_QUERYSTRING] = "thumbs";
+	var sUrl = cBrowser.buildUrl("php/rest/img_highlight.php", oParams);
+	
 	set_status("fetching images");
 	goQueue.add(psProduct, sUrl);
 	goQueue.start();
@@ -106,17 +130,22 @@ function onClickNext_sol(){
 //***************************************************************
 function onClickSol(){
 	pr_stop_queue();
-	cBrowser.openWindow("index.php?"+ SOL_QUERYSTRING + "=" + gs_current_sol, "index");
+	var oParams = {};
+	oParams[cSpaceBrowser.SOL_QUERYSTRING] = gs_current_sol;
+	var sUrl = cBrowser.buildUrl("index.php", oParams);
+	cBrowser.openWindow(sUrl, "index");
 }
 
 //***************************************************************
 function onClickDetails(){
 	var sUrl;
 	
-	if ((cBrowser.data[SHEET_QUERYSTRING] == null) &&( cBrowser.data[MOSAIC_QUERYSTRING] == null)) return;
+	if ((cBrowser.data[cSpaceBrowser.SHEET_QUERYSTRING] == null) &&( cBrowser.data[cSpaceBrowser.MOSAIC_QUERYSTRING] == null)) return;
 	
 	pr_stop_queue();
-	sUrl = "solhigh.php?"+ SOL_QUERYSTRING + "=" +cBrowser.data[SOL_QUERYSTRING];
+	var oParams = {};
+	oParams[cSpaceBrowser.SOL_QUERYSTRING] = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING];
+	var sUrl = cBrowser.buildUrl("solhigh.php", oParams);
 	cBrowser.pushState("highlights", sUrl);
 	set_status("loading..");
 	onLoadJQuery();
@@ -126,10 +155,13 @@ function onClickDetails(){
 function onClickNoDetails(){
 	var sUrl;
 	
-	if (cBrowser.data[SHEET_QUERYSTRING] != null) return;
+	if (cBrowser.data[cSpaceBrowser.SHEET_QUERYSTRING] != null) return;
 	pr_stop_queue();
 	
-	sUrl = "solhigh.php?"+ SOL_QUERYSTRING + "=" +cBrowser.data[SOL_QUERYSTRING] + "&" + SHEET_QUERYSTRING;
+	var oParams = {};
+	oParams[cSpaceBrowser.SOL_QUERYSTRING] = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING];
+	oParams[cSpaceBrowser.SHEET_QUERYSTRING] = 1;
+	var sUrl = cBrowser.buildUrl("solhigh.php", oParams);
 	cBrowser.pushState("highlights", sUrl);
 	set_status("loading..");
 	onLoadJQuery();
@@ -139,9 +171,12 @@ function onClickNoDetails(){
 function onClickMosaic(){
 	var sUrl;
 	
-	if (cBrowser.data[MOSAIC_QUERYSTRING] != null) return;
+	if (cBrowser.data[cSpaceBrowser.MOSAIC_QUERYSTRING] != null) return;
 	pr_stop_queue();
-	sUrl = "solhigh.php?"+ SOL_QUERYSTRING+ "=" +cBrowser.data[SOL_QUERYSTRING] + "&" + MOSAIC_QUERYSTRING;
+	var oParams = {};
+	oParams[cSpaceBrowser.SOL_QUERYSTRING] = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING];
+	oParams[cSpaceBrowser.MOSAIC_QUERYSTRING] = 1;
+	var sUrl = cBrowser.buildUrl("solhigh.php", oParams);
 	cBrowser.pushState("highlights", sUrl);
 	set_status("loading..");
 	onLoadJQuery();
@@ -159,7 +194,9 @@ function onHiliteResponse(poHttp){
 	iCount = 0;
 	
 	if 	(gs_update_url){
-		sUrl = "solhigh.php?"+ SOL_QUERYSTRING + "=" + gs_current_sol;
+		var oParams = {};
+		oParams[cSpaceBrowser.SOL_QUERYSTRING] = gs_current_sol;
+		var sUrl = cBrowser.buildUrl("solhigh.php", oParams);
 		cBrowser.pushState("highlights", sUrl);
 		gs_update_url = false;
 	}
@@ -181,7 +218,11 @@ function onHiliteResponse(poHttp){
 			oRow = $("<TR>");
 			oTable.append(oRow);
 			
-			sUrl= "detail.php?"+ SOL_QUERYSTRING + "=" + gs_current_sol + "&i=" + sInstr + "&p=" + sProduct ;
+			var oParams = {};
+			oParams[cSpaceBrowser.SOL_QUERYSTRING] = gs_current_sol;
+			oParams[cSpaceBrowser.INSTR_QUERYSTRING] = sInstr;
+			oParams[cSpaceBrowser.PRODUCT_QUERYSTRING] = sProduct;
+			var sUrl = cBrowser.buildUrl("detail.php", oParams);
 			
 			oCol = $("<td>").attr({width:200});
 			oRow.append(oCol)
@@ -210,7 +251,10 @@ function onSheetResponse(poHttp){
 	var oDiv, oTable, oRow, iCount;
 	
 	if 	(gs_update_url){
-		sUrl = "solhigh.php?sheet&"+ SOL_QUERYSTRING+ "=" + gs_current_sol;
+		var oParams = {};
+		oParams[cSpaceBrowser.SOL_QUERYSTRING] = gs_current_sol;
+		oParams[cSpaceBrowser.SHEET_QUERYSTRING] = 1;
+		var sUrl = cBrowser.buildUrl("solhigh.php", oParams);
 		cBrowser.pushState("highlights", sUrl);
 		gs_update_url = false;
 	}
@@ -307,8 +351,13 @@ function OnHighlightImageResult(paData){
 //***************************************************************
 function onThumbClick(){
 	var oImg = $(this);
-	sURL = "detail.php?s=" + oImg.data(SOL_ATTR) + "&i=" + oImg.data(INSTRUMENT_ATTR) +"&p=" + oImg.data(PRODUCT_ATTR);
-	cBrowser.openWindow(sURL, "detail");
+	
+	var oParams = {};
+	oParams[cSpaceBrowser.SOL_QUERYSTRING] = oImg.data(SOL_ATTR);
+	oParams[cSpaceBrowser.SOL_QUERYSTRING] = oImg.data(INSTRUMENT_ATTR);
+	oParams[cSpaceBrowser.SOL_QUERYSTRING] = oImg.data(PRODUCT_ATTR);
+	var sUrl = cBrowser.buildUrl("detail.php", oParams);
+	cBrowser.openWindow(sUrl, "detail");
 }
 
 

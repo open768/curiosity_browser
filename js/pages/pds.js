@@ -12,10 +12,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 var DEBUG_ON = true;
 var loading = true;
-var SOL_QUERYSTRING = "s";
-var INSTR_QUERYSTRING = "i";
-var PRODUCT_QUERYSTRING = "p";
-var TIMESTAMP_QUERYSTRING = "t";
 
 var goPds = null;
 
@@ -31,14 +27,14 @@ function onClickEDRLBL(){
 }
 
 function onClickDetail(){
-	var sSol, sInstr, sProduct, sURL;
+	var sSol, sInstr, sProduct, sUrl;
 	
-	sInstr = cBrowser.data[INSTR_QUERYSTRING];
-	sProduct = cBrowser.data[PRODUCT_QUERYSTRING];
-	sSol = cBrowser.data[SOL_QUERYSTRING];
+	sInstr = cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING];
+	sProduct = cBrowser.data[cSpaceBrowser.PRODUCT_QUERYSTRING];
+	sSol = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING];
 	
-	sURL = "detail.php?s=" + sSol + "&i=" + sInstr + "&p=" + sProduct;
-	cBrowser.openWindow(sURL, "detail");
+	var sUrl = cBrowser.buildUrl(	"detail.php",	{s:sSol,i:sInstr,p:sProduct}	);
+	cBrowser.openWindow(sUrl, "detail");
 
 }
 
@@ -56,13 +52,18 @@ function onClickNotebook(){
 function onLoadJQuery_PDS(){
 	set_status("loading pds data...");
 	
-	var sURL = cBrowser.buildUrl(
+	var sUrl = cBrowser.buildUrl(
 		"php/rest/pds.php",
-		{a:"s",s:cBrowser.data[SOL_QUERYSTRING],i:cBrowser.data[INSTR_QUERYSTRING],p:cBrowser.data[PRODUCT_QUERYSTRING]}
+		{
+			a:"s",
+			s:cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING],
+			i:cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING],
+			p:cBrowser.data[cSpaceBrowser.PRODUCT_QUERYSTRING]
+		}
 	);
 	var oHttp = new cHttp2();
 	bean.on(oHttp,"result",get_pds_callback);
-	oHttp.fetch_json(sURL);
+	oHttp.fetch_json(sUrl);
 }
 
 function has_pds_url(){

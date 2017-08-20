@@ -51,11 +51,11 @@ $.widget( "chickenkatsu.tagview",{
 		oElement.append(oDiv);
 		
 		var oHttp = new cHttp2();
-		var sURL =cBrowser.buildUrl("php/rest/tag.php", {t:sTag,o:"detail",m:this.options.mission.ID});
+		var sUrl =cBrowser.buildUrl("php/rest/tag.php", {t:sTag,o:"detail",m:this.options.mission.ID});
 		
 		bean.on(oHttp, "result", function(poHttp){oWidget.onTagUsage(poHttp);});
 		bean.on(oHttp, "error",  function(poHttp){oWidget.onError(poHttp);});
-		oHttp.fetch_json(sURL, oElement);
+		oHttp.fetch_json(sUrl, oElement);
 	},
 	
 	//#################################################################

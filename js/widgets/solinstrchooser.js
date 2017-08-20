@@ -20,9 +20,7 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		MISSIONS_ID:	"mi",
 		LATEST_ID:		"la",
 		INSTR_ID:	"i",
-		SOL_DIVISIONS:50,
-		SOL_QUERYSTRING:"s",
-		INSTR_QUERYSTRING:"i"
+		SOL_DIVISIONS:50
 	},
 
 	//#################################################################
@@ -152,10 +150,10 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		);
 	
 		//get the instruments for this sol
-		var sURL =cBrowser.buildUrl("php/rest/instruments.php", {s:psSol,r:0,m:this.options.mission.ID});
+		var sUrl =cBrowser.buildUrl("php/rest/instruments.php", {s:psSol,r:0,m:this.options.mission.ID});
 		var oHttp = new cHttp2();
 		bean.on(oHttp,"result",function(poHttp){oThis.onLoadSolInstruments(poHttp)});
-		oHttp.fetch_json(sURL);
+		oHttp.fetch_json(sUrl);
 	},
 
 	//#################################################################
@@ -166,13 +164,13 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 
 		var oHttp = new cHttp2();
 		bean.on(oHttp,"result",function(poHttp){oThis.onLoadInstruments(poHttp)});
-		var sURL =cBrowser.buildUrl("php/rest/instruments.php", {m:this.options.mission.ID});
-		oHttp.fetch_json(sURL);
+		var sUrl =cBrowser.buildUrl("php/rest/instruments.php", {m:this.options.mission.ID});
+		oHttp.fetch_json(sUrl);
 
 		var oHttp2 = new cHttp2();
 		bean.on(oHttp2,"result",function(poHttp){oThis.onLoadSols(poHttp)});
-		var sURL =cBrowser.buildUrl("php/rest/sols.php", {m:this.options.mission.ID});
-		oHttp2.fetch_json(sURL);
+		var sUrl =cBrowser.buildUrl("php/rest/sols.php", {m:this.options.mission.ID});
+		oHttp2.fetch_json(sUrl);
 	},
 	
 	//#################################################################
@@ -331,8 +329,8 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		}
 
 		//click the buttons if stuff was passed in the query string
-		if (cBrowser.data[this.consts.INSTR_QUERYSTRING] ) {
-			var sInstr = cBrowser.data[this.consts.INSTR_QUERYSTRING];
+		if (cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING] ) {
+			var sInstr = cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING];
 			oList.find('option[value=\"'+ sInstr + '\"]').attr("selected", true);
 		}
 
@@ -382,10 +380,10 @@ $.widget( "chickenkatsu.solinstrumentChooser",{
 		oList.change(	function(poEvent){oThis.OnChangeSolList(poEvent)})
 
 		// select the sol and instrument if there on the querystring
-		if (cBrowser.data[this.consts.INSTR_QUERYSTRING] ) 
-			this.options.instrument = cBrowser.data[this.consts.INSTR_QUERYSTRING];	
-		if (cBrowser.data[this.consts.SOL_QUERYSTRING] ) 
-			this.set_sol(cBrowser.data[this.consts.SOL_QUERYSTRING]);	
+		if (cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING] ) 
+			this.options.instrument = cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING];	
+		if (cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING] ) 
+			this.set_sol(cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]);	
 
 		this._on( window, {	keypress: function(poEvent){oThis.onKeypress(poEvent)}});
 	}

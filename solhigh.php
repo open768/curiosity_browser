@@ -17,9 +17,7 @@
 <head>
 	<?php include("php/fragments/header.php"); ?>
 	<title>Sol Highlights - Curiosity Browser </title>
-	<script type="text/javascript" src="js/pages/solhigh.js"></script>
-	<script type="text/javascript" src="<?=$jsinc?>/ck-inc/queue.js"></script>
-	<script type="text/javascript" src="<?=$jsinc?>/ck-inc/actionqueue.js"></script>
+	<script type="text/javascript" src="js/pages/solhighs.js"></script>
 </head>
 <body onload="$(onLoadJQuery_SOLHI);">
 	<?php 

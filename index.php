@@ -115,6 +115,12 @@
 						<P>&nbsp;</P>
 						<P>&nbsp;</P>
 						<div class="cookie">
+							<b>An Appeal from the webmaster:</b> Have you got skills in PHP, Javascript or web design, or would love a project to help develop these skills?<br>
+							We <b>desperately</b> need your help in developing this platform so it becomes the leading place to interact with space science images.<br>
+							Please join us at <a href="https://github.com/open768/curiosity_browser">Github</a> or  <a href="https://www.facebook.com/mars.features/">Facebook</a>.
+						</div>
+						<p/>
+						<div class="cookie">
 							We are using cookies to give you the best experience on our site. Cookies are files stored in your browser and are used by most websites to help personalise your web experience.
 							By continuing to use our website without changing the settings, you are agreeing to our use of cookies.
 						</div>

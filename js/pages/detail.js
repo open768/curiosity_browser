@@ -10,9 +10,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 var DEBUG_ON = true;
-var SOL_QUERYSTRING = "s";
-var INSTR_QUERYSTRING = "i";
-var PRODUCT_QUERYSTRING = "p";
 
 var goItem = null;
 var gaTags = null;
@@ -50,7 +47,7 @@ function onClickPreviousTime(){
 //***************************************************************
 function onClickNext(){
 	//find the next product
-	var sURL;
+	var sUrl;
 	
 	set_status("fetching next image details...");
 	var sUrl = cBrowser.buildUrl("php/rest/next.php",{d:"n",s:goItem.s,i:goItem.i,p:goItem.p});
@@ -70,34 +67,34 @@ function onClickPrevious(){
 
 //***************************************************************
 function onClickCal(){
-	var sURL;
+	var sUrl;
 	
-	sURL = "cal.php?s=" + goItem.s + "&t=" + goItem.d.du;
-	cBrowser.openWindow(sURL, "calendar");
+	sUrl = "cal.php?s=" + goItem.s + "&t=" + goItem.d.du;
+	cBrowser.openWindow(sUrl, "calendar");
 }
 
 //***************************************************************
 function onClickMap(){
-	var sURL = "http://curiosityrover.com/imgpoint.php?name=" + goItem.p;
-	window.open(sURL, "map");
+	var sUrl = "http://curiosityrover.com/imgpoint.php?name=" + goItem.p;
+	window.open(sUrl, "map");
 }
 
 //***************************************************************
 function onClickSol(){
-	var sURL="index.php?s="+ goItem.s + "&i=" + goItem.i + "&b=" + giNum;
-	cBrowser.openWindow(sURL, "index");
+	var sUrl="index.php?s="+ goItem.s + "&i=" + goItem.i + "&b=" + giNum;
+	cBrowser.openWindow(sUrl, "index");
 }
 
 //***************************************************************
 function onClickThumbnails(){
-	var sURL="index.php?s="+ goItem.s + "&i=" + goItem.i + "&t=1";
-	cBrowser.openWindow(sURL, "solthumb");
+	var sUrl="index.php?s="+ goItem.s + "&i=" + goItem.i + "&t=1";
+	cBrowser.openWindow(sUrl, "solthumb");
 }
 
 //***************************************************************
 function onClickHighlights(){
-	var sURL="solhigh.php?sheet&s=" + goItem.s;
-	cBrowser.openWindow(sURL, "solthumb");
+	var sUrl="solhigh.php?sheet&s=" + goItem.s;
+	cBrowser.openWindow(sUrl, "solthumb");
 }
 
 //***************************************************************
@@ -113,14 +110,14 @@ function onClickNASA(){
 
 //***************************************************************
 function onClickMSLRaw(){
-	var sURL = "http://mars.nasa.gov/msl/multimedia/raw/?rawid=" + goItem.p + "&s=" + goItem.s;
-	window.open(sURL, "mslraw");
+	var sUrl = "http://mars.nasa.gov/msl/multimedia/raw/?rawid=" + goItem.p + "&s=" + goItem.s;
+	window.open(sUrl, "mslraw");
 }
 
 //***************************************************************
 function onClickPDS(){
-	var sURL = "pds.php?s="+ goItem.s + "&i=" + goItem.i +"&p=" + goItem.p +"&t=" + escape(goItem.d.du);
-	cBrowser.openWindow(sURL, "pds");
+	var sUrl = "pds.php?s="+ goItem.s + "&i=" + goItem.i +"&p=" + goItem.p +"&t=" + escape(goItem.d.du);
+	cBrowser.openWindow(sUrl, "pds");
 }
 
 //***************************************************************
@@ -157,8 +154,8 @@ function onKeyPress(poEvent){
 
 //***************************************************************
 function onClickGoogle(){
-	var sURL = "https://www.google.com/#q=%22" + goItem.p + "%22";
-	window.open(sURL, "map");
+	var sUrl = "https://www.google.com/#q=%22" + goItem.p + "%22";
+	window.open(sUrl, "map");
 }
 
 //***************************************************************
@@ -203,7 +200,10 @@ function onLoadJQuery_DETAIL(){
 	
 	//get user data
 	set_status("loading user data...");
-	get_product_data( cBrowser.data[SOL_QUERYSTRING], cBrowser.data[INSTR_QUERYSTRING], cBrowser.data[PRODUCT_QUERYSTRING]);
+	get_product_data( 
+		cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING], 
+		cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING], 
+		cBrowser.data[cSpaceBrowser.PRODUCT_QUERYSTRING]);
 	cTagging.getTagNames(alltagnames_callback);
 }
 
@@ -285,7 +285,7 @@ function tag_callback(paJS){
 //***************************************************************
 function load_detail_callback(poHttp){
 
-	var sLink, sURL, oData;
+	var sLink, sUrl, oData;
 	set_status("received data...");
 	
 	//rely upon what came back rather than the query string
@@ -307,8 +307,8 @@ function load_detail_callback(poHttp){
 	$("#toptitle").html(goItem.p);
 	
 	//update the address bar
-	sURL = cBrowser.pageUrl() +"?s=" + goItem.s + "&i=" + goItem.i + "&p=" + goItem.p;
-	cBrowser.pushState("Detail", sURL);
+	sUrl = cBrowser.pageUrl() +"?s=" + goItem.s + "&i=" + goItem.i + "&p=" + goItem.p;
+	cBrowser.pushState("Detail", sUrl);
 	
 
 	//tags 

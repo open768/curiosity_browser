@@ -13,7 +13,7 @@
 	?>
 	<title>All Highlights - Curiosity Browser</title>
 	<script src="<?=$jsinc?>/ck-inc/secret.js"></script>
-	<script src="js/widgets/solhighs.js"></script>
+	<script src="js/widgets/solhighgrid.js"></script>
 	<script src="js/pages/allsolhighs.js"></script>
 </head>
 <body onload="$(onLoadJQuery_HIGHS);">

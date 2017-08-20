@@ -12,8 +12,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 var DEBUG_ON = true;
 var loading = true;
-var SOL_QUERYSTRING = "s";
-var DATE_QUERYSTRING = "t";
 
 var current_sol = null;
 var current_date = null;
@@ -25,13 +23,13 @@ var oColours = {};
 function onClick(){
 	var sInstr = event.target.attributes.i.value;
 	var sProduct = event.target.attributes.p.value;
-	var sURL = cBrowser.buildUrl("detail.php",{s:current_sol,i:sInstr,p:sProduct});
-	cBrowser.openWindow(sURL, "detail");
+	var sUrl = cBrowser.buildUrl("detail.php",{s:current_sol,i:sInstr,p:sProduct});
+	cBrowser.openWindow(sUrl, "detail");
 }
 
 function onClickGotoSol(){
-	var sURL = cBrowser.buildUrl("index.php",{s:current_sol});
-	cBrowser.openWindow(sURL, "index");
+	var sUrl = cBrowser.buildUrl("index.php",{s:current_sol});
+	cBrowser.openWindow(sUrl, "index");
 }
 
 function onClickNext(){
@@ -48,10 +46,10 @@ function onClickPrevious(){
 function onClickRefresh(){
 	set_status("refreshing data");
 	
-	var sURL = cBrowser.buildUrl("php/rest/instruments.php",{s:current_sol,r:"true"}); //force a refresh on the server
+	var sUrl = cBrowser.buildUrl("php/rest/instruments.php",{s:current_sol,r:"true"}); //force a refresh on the server
 	var oHttp = new cHttp2();
 	bean.on(oHttp,"result",onLoadJQuery_CAL);
-	oHttp.fetch_json(sURL);
+	oHttp.fetch_json(sUrl);
 
 }
 
@@ -60,13 +58,13 @@ function onClickRefresh(){
 //# Utility functions 
 //###############################################################
 function onLoadJQuery_CAL(){
-	current_date = cBrowser.data[DATE_QUERYSTRING];
-	get_calendar_data( cBrowser.data[SOL_QUERYSTRING]);
+	current_date = cBrowser.data[cSpaceBrowser.DATE_QUERYSTRING];
+	get_calendar_data( cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]);
 }
 
 //***************************************************************
 function get_calendar_data( psSol){
-	var sURL;
+	var sUrl;
 	
 	$("#sol").html(psSol);
 	$("#gotoSOL").html(psSol);
@@ -75,12 +73,12 @@ function get_calendar_data( psSol){
 	loading=true;
 	set_status("fetching calendar data for sol:"+ psSol);
 
-	var sURL = cBrowser.buildUrl("php/rest/cal.php",{s:psSol});
+	var sUrl = cBrowser.buildUrl("php/rest/cal.php",{s:psSol});
 	var oHttp = new cHttp2();
 	oHttp.sol = psSol;
 	bean.on(oHttp,"result",onCalResponse);
 	bean.on(oHttp,"error",onCalError);
-	oHttp.fetch_json(sURL);
+	oHttp.fetch_json(sUrl);
 }
 //###############################################################
 //* call backs 

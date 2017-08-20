@@ -36,8 +36,8 @@ function onStatusEvent(poEvent, paHash){
 
 //***************************************************************
 function onImageClick(poEvent, poOptions){
-	var sURL = cBrowser.buildUrl("detail.php",{s:poOptions.sol,i:poOptions.instrument,p:poOptions.product});
-	cBrowser.openWindow(sURL, "detail");
+	var sUrl = cBrowser.buildUrl("detail.php",{s:poOptions.sol,i:poOptions.instrument,p:poOptions.product});
+	cBrowser.openWindow(sUrl, "detail");
 }
 
 

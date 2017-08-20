@@ -218,8 +218,8 @@ $.widget( "chickenkatsu.instrumentimage",{
 		//put in the tags
 		for (i=0; i<paJS.d.length; i++){
 			sTag = paJS.d[i];
-			var sURL = cBrowser.buildUrl("tag.php",{t:sTag});
-			oA = $("<A>",{href:sURL}).html(sTag);
+			var sUrl = cBrowser.buildUrl("tag.php",{t:sTag});
+			oA = $("<A>",{href:sUrl}).html(sTag);
 			oDiv.append(oA).append(" ");
 		}
 	},

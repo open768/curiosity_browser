@@ -33,10 +33,10 @@ function onLoadJQuery_SITES(){
 
 function onGoogleEarthLoaded(){
 	set_status("retrieving sites");
-	var sURL = cBrowser.buildUrl("php/rest/sites.php",{o:"allSitesBounds"});
+	var sUrl = cBrowser.buildUrl("php/rest/sites.php",{o:"allSitesBounds"});
 	var oHttp = new cHttp2();
 	bean.on(oHttp,"result",all_sites_callback);
-	oHttp.fetch_json(sURL);
+	oHttp.fetch_json(sUrl);
 }
 
 //###############################################################
@@ -115,10 +115,10 @@ function render_sites(){
 	//get the hirise targets
 	set_status("fetching hirise observations");
 
-	var sURL = cBrowser.buildUrl("../hirise",{o:"intersect",la1:oBounds.lat1,lo1:oBounds.long1,la2:oBounds.lat2,lo2:oBounds.long2});
+	var sUrl = cBrowser.buildUrl("../hirise",{o:"intersect",la1:oBounds.lat1,lo1:oBounds.long1,la2:oBounds.lat2,lo2:oBounds.long2});
 	var oHttp = new cHttp2();
 	bean.on(oHttp,"result",hirise_callback);
-	oHttp.fetch_json(sURL);
+	oHttp.fetch_json(sUrl);
 	
 	//fly to the centre
 	oCentre = {lat:(fAll.lat1 + fAll.lat2)/2, lon:(fAll.long1 + fAll.long2)/2};
@@ -158,10 +158,10 @@ function lookat_callback(){
 	cGoogleEarth.removeListener( "frameend", lookat_callback);
 	set_status("fetching sites");
 	for (i = 0; i < aSites.length; i++){
-		var sURL = cBrowser.buildUrl("php/rest/sites.php",{o:"site",site:i}});
+		var sUrl = cBrowser.buildUrl("php/rest/sites.php",{o:"site",site:i}});
 		var oHttp = new cHttp2();
 		bean.on(oHttp,"result",get_site_callback);
-		oHttp.fetch_json(sURL);
+		oHttp.fetch_json(sUrl);
 	}
 	set_status("ok");
 }

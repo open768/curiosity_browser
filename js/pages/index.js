@@ -13,11 +13,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 var DEBUG_ON = true;
 var IMAGE_CONTAINER_ID="images";
-var SOL_QUERYSTRING = "s";
-var INSTR_QUERYSTRING = "i";
-var THUMB_QUERYSTRING = "t";
-var BEGIN_QUERYSTRING = "b";
-var ALL_INSTRUMENTS="All";
 var CHKTHUMBS_ID="chkThumbs";
 
 var cOptions = {
@@ -61,8 +56,8 @@ function onLoadJQuery_INDEX(){
 	$("#search_text").keypress(onSearchKeypress);
 	
 	//go and load stuff
-	if (cBrowser.data[BEGIN_QUERYSTRING] ){
-		cOptions.start_image = parseInt(cBrowser.data[BEGIN_QUERYSTRING]);
+	if (cBrowser.data[cSpaceBrowser.BEGIN_QUERYSTRING] ){
+		cOptions.start_image = parseInt(cBrowser.data[cSpaceBrowser.BEGIN_QUERYSTRING]);
 	}
 		
 	$("#tags").tagcloud({mission:cMission});
@@ -111,8 +106,8 @@ function onCheckThumbsEvent(poEvent){
 //***************************************************************
 function onImageClick(poEvent, poOptions){
 	stop_queue();
-	var sURL = cBrowser.buildUrl("detail.php",{s:poOptions.sol,i:poOptions.instrument,p:poOptions.product});
-	cBrowser.openWindow(sURL, "detail");
+	var sUrl = cBrowser.buildUrl("detail.php",{s:poOptions.sol,i:poOptions.instrument,p:poOptions.product});
+	cBrowser.openWindow(sUrl, "detail");
 }
 
 //***************************************************************
@@ -133,11 +128,11 @@ function onStatusEvent(poEvent, paHash){
 function onThumbClickEvent(poEvent, poData){
 	
 	stop_queue();
-	var sURL = cBrowser.buildUrl("detail.php",{s:poData.sol,i:poData.instr,p:poData.product});
-	cDebug.write("loading page " + sURL);
-	$("#"+ IMAGE_CONTAINER_ID).empty().html("redirecting to: "+ sURL);
+	var sUrl = cBrowser.buildUrl("detail.php",{s:poData.sol,i:poData.instr,p:poData.product});
+	cDebug.write("loading page " + sUrl);
+	$("#"+ IMAGE_CONTAINER_ID).empty().html("redirecting to: "+ sUrl);
 	setTimeout(	
-		function(){		cBrowser.openWindow(sURL, "detail");},
+		function(){		cBrowser.openWindow(sUrl, "detail");},
 		0
 	);
 }
@@ -155,10 +150,10 @@ function onImagesLoadedEvent(poEvent, piStartImage){
 //###############################################################
 function update_url(){
 	var oParams = {}
-	oParams["s"] = cOptions.sol;
-	if (cOptions.instrument)	oParams["i"] = cOptions.instrument;
-	if (is_thumbs_checked())	oParams[THUMB_QUERYSTRING] = "1";
-	if (cOptions.start_image)		oParams[BEGIN_QUERYSTRING] =cOptions.start_image;
+	oParams[cSpaceBrowser.SOL_QUERYSTRING] = cOptions.sol;
+	if (cOptions.instrument)	oParams[cSpaceBrowser.INSTR_QUERYSTRING] = cOptions.instrument;
+	if (is_thumbs_checked())	oParams[cSpaceBrowser.THUMB_QUERYSTRING] = "1";
+	if (cOptions.start_image)		oParams[cSpaceBrowser.BEGIN_QUERYSTRING] =cOptions.start_image;
 	var sUrl = cBrowser.buildUrl(cBrowser.pageUrl() , oParams);
 	cBrowser.pushState("Index", sUrl);
 }
@@ -190,7 +185,7 @@ function load_data(){
 	if (cOptions.instrument){
 		oChkThumb.removeAttr("disabled");
 		oChkThumb.off("change");
-		if (cBrowser.data[THUMB_QUERYSTRING] ){
+		if (cBrowser.data[cSpaceBrowser.THUMB_QUERYSTRING] ){
 			oChkThumb.prop('checked', true);
 			show_thumbs(cOptions.sol, cOptions.instrument);
 		}else
@@ -198,7 +193,7 @@ function load_data(){
 		oChkThumb.on("change",onCheckThumbsEvent);
 	}else{
 		oChkThumb.attr('disabled', "disabled");
-		show_thumbs(cOptions.sol, ALL_INSTRUMENTS);
+		show_thumbs(cOptions.sol, cSpaceBrowser.ALL_INSTRUMENTS);
 	}
 }
 
