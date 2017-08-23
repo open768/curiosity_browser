@@ -90,7 +90,7 @@ function onClickSearch(){
 	if (!isNaN(sText))
 		$("#sichooser").solinstrumentChooser("set_sol", sText);
 	else{
-		var sUrl=cBrowser.buildUrl("php/rest/search.php", {s:sText});
+		var sUrl=cBrowser.buildUrl("php/rest/search.php", {s:sText,m:cMission.ID});
 		var oHttp = new cHttp2();
 		bean.on(oHttp, "result", search_callback);
 		oHttp.fetch_json(sUrl);

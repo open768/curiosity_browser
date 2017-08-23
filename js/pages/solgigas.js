@@ -22,12 +22,13 @@ function onLoadJQuery_SOLGIG(){
 	
 	//update sol number
 	sSol = cBrowser.data["s"];
-	var sTarget = ( SINGLE_WINDOW ? "" : "target='index'");
-	$("#sol").html("<a " + sTarget + " href='index.php?s=" +sSol+"'>" + sSol + "</a>");
+	sUrl = cBrowser.buildUrl("index.php",{s:sSol});
+	var oA = $("<A>",{href:sUrl}).append(sSol);
+	$("#sol").empty().append(oA);
 	current_sol = sSol;
 	
 	//load tags
-	sUrl = "php/rest/gigapans.php?s=" + sSol + "&o=sol";
+	sUrl = cBrowser.buildUrl("php/rest/gigapans.php",{s:sSol,o:"sol",m:cMission.ID});
 	set_status("fetching gigapans");
 	
 	var oHttp = new cHttp2();

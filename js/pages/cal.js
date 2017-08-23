@@ -46,7 +46,7 @@ function onClickPrevious(){
 function onClickRefresh(){
 	set_status("refreshing data");
 	
-	var sUrl = cBrowser.buildUrl("php/rest/instruments.php",{s:current_sol,r:"true"}); //force a refresh on the server
+	var sUrl = cBrowser.buildUrl("php/rest/instruments.php",{s:current_sol,r:"true",m:cMission.ID}); //force a refresh on the server
 	var oHttp = new cHttp2();
 	bean.on(oHttp,"result",onLoadJQuery_CAL);
 	oHttp.fetch_json(sUrl);
@@ -73,7 +73,7 @@ function get_calendar_data( psSol){
 	loading=true;
 	set_status("fetching calendar data for sol:"+ psSol);
 
-	var sUrl = cBrowser.buildUrl("php/rest/cal.php",{s:psSol});
+	var sUrl = cBrowser.buildUrl("php/rest/cal.php",{s:psSol,m:cMission.ID});
 	var oHttp = new cHttp2();
 	oHttp.sol = psSol;
 	bean.on(oHttp,"result",onCalResponse);

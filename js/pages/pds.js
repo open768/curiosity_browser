@@ -58,7 +58,8 @@ function onLoadJQuery_PDS(){
 			a:"s",
 			s:cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING],
 			i:cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING],
-			p:cBrowser.data[cSpaceBrowser.PRODUCT_QUERYSTRING]
+			p:cBrowser.data[cSpaceBrowser.PRODUCT_QUERYSTRING],
+			m:cMission.ID
 		}
 	);
 	var oHttp = new cHttp2();

@@ -33,7 +33,7 @@ function onGoogleEarthLoaded(){
 	bPluginLoaded = true;
 	$("#site").empty();
 	
-	var sUrl =cBrowser.buildUrl("php/rest/sites.php",{o:"allSitesBounds"});
+	var sUrl =cBrowser.buildUrl("php/rest/sites.php",{o:"allSitesBounds",m:cMission.ID});
 	var oHttp = new cHttp2();
 	bean.on(oHttp, "result", all_sites_callback);
 	oHttp.fetch_json(sUrl);
@@ -45,16 +45,18 @@ function do_op( psOper, psValue){
 	$("#siteid").html(psOper +": "+psValue);
 
 	var oQueryData = {};
-	oQueryData["o"] = psOper;
+	oQueryData[cSpaceBrowser.OUTPUT_QUERYSTRING] = psOper;
 	oQueryData[psOper] = psValue;
+	oQueryData[cSpaceBrowser.MISSION_QUERYSTRING] = cMission.ID;
 	var sUrl =cBrowser.buildUrl("php/rest/sites.php",oQueryData);
 	var oHttp = new cHttp2();
 	bean.on(oHttp, "result", traverse_callback);
 	oHttp.fetch_json(sUrl);
 	
 	var oQueryData = {};
-	oQueryData["o"] = "siteBounds";
+	oQueryData[cSpaceBrowser.OUTPUT_QUERYSTRING] = "siteBounds";
 	oQueryData[psOper] = psValue;
+	oQueryData[cSpaceBrowser.MISSION_QUERYSTRING] = cMission.ID;
 	var sUrl =cBrowser.buildUrl("php/rest/sites.php",oQueryData);
 	var oHttp = new cHttp2();
 	bean.on(oHttp, "result", bounds_callback);

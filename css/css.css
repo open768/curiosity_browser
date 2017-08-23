@@ -416,3 +416,18 @@ body
     margin: 2px;
 	display:inline-flex;
 }
+.highlight_product{
+	display: inline-block;
+	min-height: 100px;
+	width: 300px;
+    background: floralwhite;
+	vertical-align:top;
+}
+
+.highlight_body{
+	display: inline-flex;
+	min-height: 100px;
+	width:calc(100% - 300px);
+    background: cornsilk;
+	vertical-align:top;
+}
