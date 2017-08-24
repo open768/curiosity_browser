@@ -206,8 +206,8 @@ function show_thumbs(psSol, psInstrument){
 	
 	
 	var oDiv = $("#"+ IMAGE_CONTAINER_ID);
-	oWidget = oDiv.data("chickenkatsuThumbnailview");
-	if ( oWidget){ oWidget.destroy();}
+	oWidget = oDiv.data("ckThumbnailview");
+	if ( oWidget){ oWidget.destroy();} //capitalise the first letter of the widget
 	
 	oWidget = oDiv.thumbnailview({		 // apply widget
 		sol:psSol, 
@@ -225,7 +225,7 @@ function show_images( piSol, psInstr, piStartImage){
 	var oWidget, oDiv;
 	
 	var oDiv = $("#"+ IMAGE_CONTAINER_ID);
-	oWidget = oDiv.data("chickenkatsuImageview");
+	oWidget = oDiv.data("ckImageview");
 	if ( oWidget){ oWidget.destroy();}
 	
 	oWidget = oDiv.imageview({		 // apply widget

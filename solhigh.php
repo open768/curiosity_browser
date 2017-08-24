@@ -36,9 +36,7 @@
 		<button class="rightbutton" onclick="onClickNext_sol()" title="next sol">&gt;&gt;&gt;</button>
 
 		&nbsp;&nbsp;&nbsp;
-		<button class="leftbutton" id="detail" onClick="onClickDetails()">Details</button>
-		<button class="leftbutton" id="sheet" onClick="onClickNoDetails()">No Details</button>
-		<button class="leftbutton" id="mosaic" onClick="onClickMosaic()">Mosaic</button>
+		<input id="chkMosaic" type="checkbox">Mosaic
 		&nbsp;&nbsp;&nbsp;
 		<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
 	</div>

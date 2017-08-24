@@ -3,7 +3,7 @@ var goHighlightQueue = new cHttpQueue;
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //% Definition
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-$.widget( "chickenkatsu.solhighlights",{
+$.widget( "ck.solhighlights",{
 	//#################################################################
 	//# Definition
 	//#################################################################
@@ -42,7 +42,7 @@ $.widget( "chickenkatsu.solhighlights",{
 		var oLoader = $("<DIV>");
 		oLoader.gSpinner({scale: .25});
 		oElement.append(oLoader)
-		oElement.append("Please wait, loading....")
+		oElement.append("taming velociraptors ....")
 		
 		//ok get the data
 		var goHighlightQueue = new cHttpQueue;
@@ -127,7 +127,7 @@ $.widget( "chickenkatsu.solhighlights",{
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //% Definition
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-$.widget( "chickenkatsu.instrhighlight",{
+$.widget( "ck.instrhighlight",{
 	//#################################################################
 	//# Definition
 	//#################################################################
@@ -203,7 +203,7 @@ $.widget( "chickenkatsu.instrhighlight",{
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //% Definition
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-$.widget( "chickenkatsu.prodhighlight",{
+$.widget( "ck.prodhighlight",{
 	//#################################################################
 	//# Definition
 	//#################################################################

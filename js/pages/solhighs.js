@@ -11,11 +11,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 var gs_current_sol = null;
-var gs_update_url = false;
-var SOL_ATTR = "sa";
-var INSTRUMENT_ATTR = "ia";
-var PRODUCT_ATTR = "pa";
-var goQueue = null;
+var gb_mosaic = false;
+
 
 //###############################################################
 //# Utility functions 
@@ -29,17 +26,18 @@ function onLoadJQuery_SOLHI(){
 
 	//change status of checkbox
 	if (cBrowser.data[cSpaceBrowser.MOSAIC_QUERYSTRING] != null )	$("#chkMosaic").prop('checked', true);	
-	$("#sol").html(gs_current_sol);
-	$("#solbutton").html(gs_current_sol);
+	$("#chkMosaic").on("change",onCheckMosaic);
 	
+	set_browser_url();
 	load_widget();
 }
 
 //***************************************************************
 function load_widget(){
 	var oDiv = $("#solhigh");
-	oWidget = oDiv.data("chickenkatsusolhighlights");
-	if ( oWidget){ oWidget.destroy();}
+	oWidget = oDiv.data("ckSolhighlights");	//capitalise the first letter of the widget
+	if ( oWidget)	oWidget.destroy();
+
 	
 	$("#solhigh").solhighlights({
 		sol:gs_current_sol,
@@ -54,18 +52,37 @@ function onStatusEvent(poEvent, poData){
 	set_status(poData.text);
 }
 
+function set_browser_url(){
+	$("#sol").html(gs_current_sol);
+	$("#solbutton").html(gs_current_sol);
+	var oParams = {};
+
+	oParams[cSpaceBrowser.SOL_QUERYSTRING]= gs_current_sol;
+	if (gb_mosaic)	oParams[cSpaceBrowser.MOSAIC_QUERYSTRING]= 1;
+	
+	var sUrl = cBrowser.buildUrl(cBrowser.pageUrl() , oParams);
+	cBrowser.pushState("solhigh", sUrl);	
+}
 
 //###############################################################
 //# events
 //###############################################################
+function onCheckMosaic(){
+	gb_mosaic = $("#chkMosaic")[0].checked;
+	set_browser_url();
+	load_widget();
+}
+
 function onClickPrevious_sol(){
 	gs_current_sol --;
+	set_browser_url();
 	load_widget();
 }
 
 //***************************************************************
 function onClickNext_sol(){
 	gs_current_sol ++;
+	set_browser_url();
 	load_widget();
 }
 
