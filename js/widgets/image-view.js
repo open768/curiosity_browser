@@ -128,7 +128,7 @@ $.widget( "ck.imageview",{
 				var oRow = $("<TR>");
 					var oCell = $("<TD>",{width:"40%"});
 					var oButton = $("<button>", {class:"leftarrow imagenav",title:"Previous Page",id:sID+ this.consts.LeftID} );
-					if (oOptions.start < this.consts.IMAGES_TO_SHOW) 
+					if (oOptions.start_image < this.consts.IMAGES_TO_SHOW) 
 						oButton.attr('disabled', "disabled");
 					else
 						oButton.html("Previous Page").click( function(){		oThis.onClickPreviousPage();	});
@@ -138,7 +138,7 @@ $.widget( "ck.imageview",{
 				oRow.append(oCell);
 					oCell = $("<TD>",{width:"40%"});
 					oButton = $("<button>", {class:"rightarrow imagenav",title:"Previous Page",id:sID+ this.consts.LeftID} );
-					if (oOptions.start >= oJson.max - this.consts.IMAGES_TO_SHOW) 
+					if (oOptions.start_image >= oJson.max - this.consts.IMAGES_TO_SHOW) 
 						oButton.attr('disabled', "disabled");
 					else
 						oButton.html("Next Page").click( function(){		oThis.onClickNextPage();	});
@@ -183,7 +183,7 @@ $.widget( "ck.imageview",{
 			oOptions.keypress_done = true;
 		}
 
-		this._trigger("onLoaded",null,oOptions.start);
+		this._trigger("onLoaded",null,oOptions.start_image);
 	},
 	
 	//**************************************************************************************************

@@ -233,7 +233,7 @@ function show_images( piSol, psInstr, piStartImage){
 	oWidget = oDiv.imageview({		 // apply widget
 		sol:piSol, 
 		instrument:psInstr,
-		start: piStartImage,
+		start_image: piStartImage,
 		onStatus:onStatusEvent,
 		onLoaded:onImagesLoadedEvent,
 		onClick: onImageClick,
