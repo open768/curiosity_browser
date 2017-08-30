@@ -16,7 +16,7 @@ var IMAGE_CONTAINER_ID="images";
 var CHKTHUMBS_ID="chkThumbs";
 
 var cOptions = {
-	start_image:0,
+	start_image:1,
 	sol:null,
 	instrument:null
 };
@@ -34,7 +34,13 @@ function onLoadJQuery_INDEX(){
 	instrumentTabs();
 	$("#sol-tab").show();
 
+	//remember the start_image if its there
+	if (cBrowser.data[cSpaceBrowser.BEGIN_QUERYSTRING] ){
+		cOptions.start_image = parseInt(cBrowser.data[cSpaceBrowser.BEGIN_QUERYSTRING]);
+	}
+	
 	//render the sol instrument chooser widget
+	//this widget will kick off the image display thru onSelectSolInstrEvent
 	$("#sichooser").solinstrumentChooser({
 		onStatus:onStatusEvent,
 		onSelect:onSelectSolInstrEvent,
@@ -55,11 +61,7 @@ function onLoadJQuery_INDEX(){
 	//set up keypress monitor
 	$("#search_text").keypress(onSearchKeypress);
 	
-	//go and load stuff
-	if (cBrowser.data[cSpaceBrowser.BEGIN_QUERYSTRING] ){
-		cOptions.start_image = parseInt(cBrowser.data[cSpaceBrowser.BEGIN_QUERYSTRING]);
-	}
-		
+	// load tagcloud
 	$("#tags").tagcloud({mission:cMission});
 }
 
@@ -189,7 +191,7 @@ function load_data(){
 			oChkThumb.prop('checked', true);
 			show_thumbs(cOptions.sol, cOptions.instrument);
 		}else
-			show_images(cOptions.sol, cOptions.instrument,1);
+			show_images(cOptions.sol, cOptions.instrument, cOptions.start_image);
 		oChkThumb.on("change",onCheckThumbsEvent);
 	}else{
 		oChkThumb.attr('disabled', "disabled");
