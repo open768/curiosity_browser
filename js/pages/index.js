@@ -14,6 +14,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 var DEBUG_ON = true;
 var IMAGE_CONTAINER_ID="images";
 var CHKTHUMBS_ID="chkThumbs";
+var keep_start_image = true;
 
 var cOptions = {
 	start_image:1,
@@ -118,6 +119,8 @@ function onSelectSolInstrEvent( poEvent, poData){
 	//load the data 
 	cOptions.sol = poData.sol;
 	cOptions.instrument = poData.instrument;
+	if (!keep_start_image)		cOptions.start_image = 1
+	keep_start_image = false;
 	load_data();
 }
 
