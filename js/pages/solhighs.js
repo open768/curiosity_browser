@@ -88,7 +88,6 @@ function onClickNext_sol(){
 
 //***************************************************************
 function onClickSol(){
-	pr_stop_queue();
 	var oParams = {};
 	oParams[cSpaceBrowser.SOL_QUERYSTRING] = gs_current_sol;
 	var sUrl = cBrowser.buildUrl("index.php", oParams);

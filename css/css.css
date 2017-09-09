@@ -392,6 +392,7 @@ body
     padding: 5px;
     background: #f0f0f0;
 	font-size: 10px;
+	display: inline-flex;
 }
 
 .redbox {

@@ -33,14 +33,13 @@ function onClickGotoSol(){
 }
 
 function onClickNext(){
-	var iSol = parseInt(current_sol) +1;
-	cBrowser.pushState("Detail", cBrowser.pageUrl() +"?s=" + iSol);
-	get_calendar_data(iSol);
+	current_sol = parseInt(current_sol) +1;
+	load_widget();
 }
+
 function onClickPrevious(){
-	var iSol = parseInt(current_sol) -1;
-	cBrowser.pushState("Detail", cBrowser.pageUrl() +"?s=" + iSol);
-	get_calendar_data(iSol);
+	current_sol = parseInt(current_sol) -1;
+	load_widget();
 }
 
 function onClickRefresh(){
@@ -53,135 +52,29 @@ function onClickRefresh(){
 
 }
 
+function onLoadedCal( poEvent, psSol){
+	current_sol = psSol;
+	$("#gotoSOL").html(psSol);
+	$("#sol").html(psSol);
+	cBrowser.pushState( cBrowser.buildUrl(cBrowser.pageUrl(),{s:current_sol}));
+}
 
 //###############################################################
 //# Utility functions 
 //###############################################################
 function onLoadJQuery_CAL(){
-	current_date = cBrowser.data[cSpaceBrowser.DATE_QUERYSTRING];
-	get_calendar_data( cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]);
+	current_sol = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING];
+	load_widget();
 }
 
-//***************************************************************
-function get_calendar_data( psSol){
-	var sUrl;
-	
-	$("#sol").html(psSol);
-	$("#gotoSOL").html(psSol);
-	current_sol = psSol;
-	
-	loading=true;
-	set_status("fetching calendar data for sol:"+ psSol);
-
-	var sUrl = cBrowser.buildUrl("php/rest/cal.php",{s:psSol,m:cMission.ID});
-	var oHttp = new cHttp2();
-	oHttp.sol = psSol;
-	bean.on(oHttp,"result",onCalResponse);
-	bean.on(oHttp,"error",onCalError);
-	oHttp.fetch_json(sUrl);
-}
-//###############################################################
-//* call backs 
-//###############################################################
-function onCalError(poHttp){
-	set_status("Error getting calendar for sol" + poHttp.sol);
-	$("#colours").empty();
-	$("#calendar").empty();
-	$("#calendar").html("Sorry there was an error");
-}
-
-function onCalResponse(poHttp){
-	var sSol, aDates, aHeadings, aTimes, i,j,k, sDKey, sTKey, sHTML, aItems, oItem, sID, sColour, sStyle, oDiv;
-	var oOuterSpan, oInnerSpan;
-	var aInstr, oInstr;
-	
-	set_status("received data...");
-
-	var oData = poHttp.response;
-	sSol = oData.sol;
-	aDates = oData.cal;
-	aInstr = oData.instr;
-	
-	//display the colours and build the colour array
-	oDiv = $("#colours").empty();
-	for (i=0 ; i<aInstr.length; i++){
-		oInstr = aInstr[i];
-		oInnerSpan = $("<span>").attr({style:"background-color:" + oInstr.colour}).append("&nbsp;&nbsp;&nbsp;");
-		oOuterSpan = $("<span>").attr({class:'greybox'}).append(oInstr.name).append("&nbsp;");
-		oOuterSpan.append(oInnerSpan);
-		oDiv.append(oOuterSpan);
-		oDiv.append("&nbsp;");
-		oColours[oInstr.abbr] = oInstr.colour;
-	}
-	
-	
-	// get the headings
-	aHeadings=Array();
-	for (sDKey in aDates)
-		aHeadings.push(sDKey);
-	
-	//get and sort the times
-	aTimes = Array();
-	for (sDKey in aDates)
-		for (sTKey in aDates[sDKey])
-			if (aTimes.indexOf(sTKey) == -1)
-				aTimes.push(sTKey);
-	aTimes.sort();
-	
-	//build the table
-	var oTable, oRow, oCell, oButton;
-	$("#calendar").empty();
-	
-	oTable = $("<table>").attr({class:"cal"});
-	//--the header row of the table
-	oRow = $("<TR>");
-	oRow.append($("<TD>"));
-	for (i=0; i<aHeadings.length; i++){
-		oCell = $("<TH>").attr({class:"caldate"}).append("UTC:" + aHeadings[i] );
-		oRow.append(oCell);
-	}
-	oTable.append(oRow);
-	
-	//render the table
-		for (i=0; i<aTimes.length; i++){
-			sTKey = aTimes[i];
-			oRow = $("<TR>").attr({class:"caltime"});
-			oCell = $("<TH>").append(aTimes[i]);
-			oRow.append(oCell);
-			
-			for (j=0; j<aHeadings.length; j++){
-				sDKey = aHeadings[j];
-				oCell = $("<td>");
-				if (aDates[sDKey].hasOwnProperty(sTKey)){
-					aItems = aDates[sDKey][sTKey];
-					for (k=0; k<aItems.length; k++){
-						oItem = aItems[k];
-						sColour = oColours[oItem.i];
-						sStyle = "background-color:" + sColour;
-						if (oItem.d === current_date){
-							cDebug.write("found a match");
-							sStyle += ";border:4px double black" 
-						}
-
-						oButton = $("<button>").attr({
-								class:"calbutton roundbutton",style:sStyle,
-								i:oItem.i,p:oItem.p,
-								title:oItem.p 
-						}).append("&nbsp;");
-						oButton.click(onClick);
-						
-						oCell.append(oButton);
-					}
-				}
-				oRow.append(oCell);
-			}
-			oTable.append(oRow);
-		}
-	
-	//render the table
-	$("#calendar").append(oTable);
-	
-	//we're done
-	set_status("OK");
+function load_widget(){
+	var oDiv = $("#calendar");
+	oWidget = oDiv.data("ckSolcalendar");	//capitalise the first letter of the widget
+	if ( oWidget)	oWidget.destroy();
+	$("#calendar").solcalendar({
+		mission: cMission,
+		sol: current_sol,
+		onLoadedCal: onLoadedCal
+	});
 }
 

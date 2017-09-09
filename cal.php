@@ -13,6 +13,7 @@
 	?>
 	<title>calendar - Curiosity Browser</title>
 	<script src="js/pages/cal.js"></script>
+	<script src="js/widgets/solcal.js"></script>
 </head>
 <body onload="$(onLoadJQuery_CAL);">
 	<?php 
@@ -30,12 +31,7 @@
 		Status: <span ID="status" class="status">Loading...</span>
 		<button class="rightbutton" onclick="onClickNext()" title="Next Sol">Next &gt;&gt;</button>
 	</div>
-	<DIV class="gold" id="colours">
-		loading colours
-	</div>
-	<DIV class="gold" ID="calendar">
-		Calendar Loading
-	</div>
+	<DIV ID="calendar">Loading...</div>
 	
 	<!-- footer -->
 	<?php 	
