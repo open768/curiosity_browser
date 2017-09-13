@@ -13,6 +13,7 @@
 	?>
 	<title>sol Gigapans - Curiosity Browser</title>
 	<script src="js/pages/solgigas.js"></script>
+	<script src="js/widgets/solgigas.js"></script>
 </head>
 <body onload="$(onLoadJQuery_SOLGIG);">
 	<?php 

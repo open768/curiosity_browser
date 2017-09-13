@@ -17,7 +17,7 @@ var DEBUG_ON = true;
 //# Utility functions 
 //###############################################################
 function onLoadJQuery_GIGAS(){
-	$("#solgiga").solgigas({
+	$("#solgiga").allsolgigas({
 		mission:cMission
 	});
 }

@@ -2,13 +2,13 @@
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //% Definition
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-$.widget( "ck.solgigas",{
+$.widget( "ck.allsolgigas",{
 	//#################################################################
 	//# Definition
 	//#################################################################
 	options:{
 		mission:null,
-		sol:null
+		aSolWithGigas: null
 	},
 	
 	//#################################################################
@@ -26,7 +26,6 @@ $.widget( "ck.solgigas",{
 
 		//check that the options are passed correctly
 		if (oOptions.mission == null) $.error("mission is not set");
-		if (oOptions.sol == null) $.error("sol is not set");
 		oElement.uniqueId();
 		
 		//check that the element is a div
@@ -39,12 +38,12 @@ $.widget( "ck.solgigas",{
 		
 		var oLoader = $("<DIV>");
 		oLoader.gSpinner({scale: .25});
-		oElement.append(oLoader).append("Loading sol gigas:")
+		oElement.append(oLoader).append("Loading sol Gigapans:")
 		
 		//get the sols with Tags
 		var oHttp = new cHttp2();
-		bean.on(oHttp, "result", 	function(poHttp){oThis.onGigaResponse(poHttp);}	);				
-		sUrl = cBrowser.buildUrl("php/rest/gigapans.php",{s:oOptions.sol,o:"sol",m:cMission.ID});
+		bean.on(oHttp, "result", 	function(poHttp){oThis.onGigapansResponse(poHttp);}	);				
+		var sUrl=cBrowser.buildUrl("php/rest/gigapans.php", {o:"all",m:oOptions.mission.ID});
 		oHttp.fetch_json(sUrl);
 	},
 	
@@ -52,47 +51,63 @@ $.widget( "ck.solgigas",{
 	//#################################################################
 	//# Events
 	//#################################################################
-	onGigaResponse: function(poHttp){
+	onGigapansResponse: function(poHttp){
+		var oThis = this;
+		var oOptions = this.options;
+		var oElement = this.element;
+		
+		oOptions.aSolWithGigas = poHttp.response;
+		
+		if (oOptions.aSolWithGigas == null){
+			oElement.empty();
+			oElement.attr("class", ".ui-state-error");
+			oElement.append("No gigapans found");
+		}else{
+			oElement.append("<br>");
+			oElement.append("loading Sols...");
+			
+			var sUrl = cBrowser.buildUrl("php/rest/sols.php", {m:oOptions.mission.ID});
+			var oHttp = new cHttp2();
+			bean.on(oHttp, "result", function(poHttp){ oThis.onSolsResponse(poHttp)} 	);
+			oHttp.fetch_json(sUrl);
+		}
+	},
+	
+	//**************************************************************
+	onSolsResponse:function(poHttp){
 		var oThis = this;
 		var oOptions = this.options;
 		var oElement = this.element;
 		var aData = poHttp.response;
+		var sSol,i;
 		
-		//--------------------------------------------------------------
 		oElement.empty();
-		if (aData == null){
-			var oDiv = $("<DIV>",{class:"ui-state-error"});
-			oDiv.append("Sorry no data was found");
-			oElement.append(oDiv);
-			return;
-		}
+		for (i = 0; i < aData.length; i++){
+			sSol = aData[i].sol.toString();
+			var oDiv = $("<DIV>",{class:"solbuttonDiv"});
+			
+			if (oOptions.aSolWithGigas[sSol]){
+				var oButton = $("<button>",{class:"solbutton",sol:sSol}).append(sSol);
+				oButton.click( 	function(poEvent){oThis.onButtonClick(poEvent);} 	);
+				oDiv.append(oButton);
+			}else{
+				var sUrl = cBrowser.buildUrl("index.php", {s:sSol});
+				var oA = $("<a>", {href:sUrl}).append(sSol);
+				oDiv.append(oA);
+			}
 
-		//--------------------------------------------------------------
-		for (var i=0; i< aData.length; i++){
-			aItem = aData[i];
-			sGigaID = aItem.I;
-			sIUrl = "http://static.gigapan.org/gigapans0/"+sGigaID+"/images/"+sGigaID+"-800x279.jpg";
-			sGUrl = "http://www.gigapan.com/gigapans/" + sGigaID;
-			
-		
-			var oNewDiv = $("<DIV>",{class:"ui-widget-header"});
-			oA = $("<a>",{target:'giga',href:sGUrl});
-			oA.append(aItem.D);
-			oNewDiv.append(oA);
-			oElement.append(oNewDiv);
-			
-			var oNewDiv = $("<DIV>",{class:"ui-widget-body"});
-			var oA = $("<a>",{target:'giga',href:sGUrl});
-			var oImg = $("<img>", {src:sIUrl});
-			oA.append(oImg);
-			oNewDiv.append( oA);
-			oNewDiv.append("<br>");
-			
-			oElement.append(oNewDiv);
-			oElement.append("<p>");
+			oElement.append(oDiv);
 		}
-	}
+		
+	},
 	
+	//**************************************************************
+	onButtonClick:function(poEvent){
+		var oButton = $(poEvent.target);
+		var sSol = oButton.attr("sol");
+		var sUrl = cBrowser.buildUrl("solgigas.php",{s:sSol});
+		cBrowser.openWindow(sUrl, "solgigas");
+	}
 		
 });	
 

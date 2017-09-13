@@ -22,56 +22,9 @@ function onLoadJQuery_SOLGIG(){
 	
 	//update sol number
 	sSol = cBrowser.data["s"];
-	sUrl = cBrowser.buildUrl("index.php",{s:sSol});
-	var oA = $("<A>",{href:sUrl}).append(sSol);
-	$("#sol").empty().append(oA);
-	current_sol = sSol;
+	$("#solgiga").solgigas({
+		sol:sSol,
+		mission:cMission
+	});
 	
-	//load tags
-	sUrl = cBrowser.buildUrl("php/rest/gigapans.php",{s:sSol,o:"sol",m:cMission.ID});
-	set_status("fetching gigapans");
-	
-	var oHttp = new cHttp2();
-	bean.on(oHttp, "result", onHttpGigaResponse);
-	oHttp.fetch_json(sUrl);
 }
-
-//###############################################################
-//* call backs 
-//###############################################################
-function onHttpGigaResponse(poHttp){
-	var i, aItem, oDiv, oNewDiv;
-	var aData = poHttp.response;
-	
-	oDiv = $("#solgiga");
-	oDiv.empty();
-	
-	if (aData == null){
-		set_error_status("no gigapans found");
-		return;
-	}
-	
-	for (i=0; i< aData.length; i++){
-		aItem = aData[i];
-		sGigaID = aItem.I;
-		sIUrl = "http://static.gigapan.org/gigapans0/"+sGigaID+"/images/"+sGigaID+"-800x279.jpg";
-		sGUrl = "http://www.gigapan.com/gigapans/" + sGigaID;
-		
-	
-		oNewDiv = $("<DIV>");
-		oA = $("<a>",{target:'giga',href:sGUrl});
-		oImg = $("<img>", {src:sIUrl});
-		oA.append(oImg);
-		oNewDiv.append( oA);
-		oNewDiv.append("<br>");
-		
-		oA = $("<a>",{target:'giga',href:sGUrl});
-		oNewDiv.append( oA.append(aItem.D));
-		
-		oDiv.append(oNewDiv);
-		oDiv.append("<p>");
-	}
-	
-	set_status("ok");
-}
-
