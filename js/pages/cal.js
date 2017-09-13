@@ -20,13 +20,6 @@ var oColours = {};
 //###############################################################
 //# Event Handlers
 //###############################################################
-function onClick(){
-	var sInstr = event.target.attributes.i.value;
-	var sProduct = event.target.attributes.p.value;
-	var sUrl = cBrowser.buildUrl("detail.php",{s:current_sol,i:sInstr,p:sProduct});
-	cBrowser.openWindow(sUrl, "detail");
-}
-
 function onClickGotoSol(){
 	var sUrl = cBrowser.buildUrl("index.php",{s:current_sol});
 	cBrowser.openWindow(sUrl, "index");
@@ -56,7 +49,13 @@ function onLoadedCal( poEvent, psSol){
 	current_sol = psSol;
 	$("#gotoSOL").html(psSol);
 	$("#sol").html(psSol);
-	cBrowser.pushState( cBrowser.buildUrl(cBrowser.pageUrl(),{s:current_sol}));
+	var sURL = cBrowser.buildUrl(cBrowser.pageUrl(),{s:current_sol});
+	cBrowser.pushState( "calendar", sURL);
+}
+
+function onClickCal( poEvent, poData){
+	var sUrl = cBrowser.buildUrl("detail.php",poData);
+	cBrowser.openWindow(sUrl, "detail");
 }
 
 //###############################################################
@@ -74,7 +73,8 @@ function load_widget(){
 	$("#calendar").solcalendar({
 		mission: cMission,
 		sol: current_sol,
-		onLoadedCal: onLoadedCal
+		onLoadedCal: onLoadedCal,
+		onClick: onClickCal
 	});
 }
 

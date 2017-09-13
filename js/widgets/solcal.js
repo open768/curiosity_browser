@@ -9,7 +9,8 @@ $.widget( "ck.solcalendar",{
 	options:{
 		mission: null,
 		sol: null,
-		onLoadedCal: null
+		onLoadedCal: null,
+		onClick: null
 	},
 	
 	//#################################################################
@@ -26,6 +27,7 @@ $.widget( "ck.solcalendar",{
 		if (!cHttp2)		$.error("http2 class is missing! check includes");	
 		if (oOptions.mission == null) $.error("mission is not set");
 		if (oOptions.sol == null) $.error("sol is not set");
+		if (oOptions.onClick == null) $.error("onClick is not set");
 		if (!oElement.gSpinner)	$.error("gspinner class is missing! check includes");	
 
 		//make sure this is a DIV
@@ -191,9 +193,9 @@ $.widget( "ck.solcalendar",{
 	//#################################################################
 	onButtonClick: function(poButton){
 		var oOptions = this.options;
+		var oItem = $(poButton);
 		
-		var sUrl = cBrowser.buildUrl("detail.php",{s:oOptions.sol,i:poButton.i,p:poButton.p,m:oOptions.mission.ID});
-		cBrowser.openWindow(sUrl, "detail");
+		this._trigger("onClick", null, {s:oOptions.sol,i:oItem.attr("i"),p:oItem.attr("p"),m:oOptions.mission.ID});
 	},
 	
 	//***************************************************************
