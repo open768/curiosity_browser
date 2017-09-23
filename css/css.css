@@ -420,15 +420,17 @@ body
 .highlight_product{
 	display: inline-block;
 	min-height: 100px;
-	width: 300px;
+	min-width: 200px;
     background: floralwhite;
 	vertical-align:top;
+	text-align:right;
+    padding-right: 5px;
 }
 
 .highlight_body{
 	display: inline-flex;
 	min-height: 100px;
-	width:calc(100% - 300px);
+	min-width: 100px;
     background: cornsilk;
 	vertical-align:top;
 }

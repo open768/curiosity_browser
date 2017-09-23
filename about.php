@@ -106,6 +106,7 @@
 			<li><a href="http://en.wikipedia.org/wiki/Mars_Science_Laboratory">Wikipaedia</a>
 			<li><a href="https://en.wikipedia.org/wiki/List_of_rocks_on_Mars#2012_.E2.80.93_Curiosity_rover_.28Mars_Science_Laboratory.29">List of rocks and areas</a>
 			<li><a href="http://www.reddit.com/r/curiosityrover">Reddit feed</a>
+			<li><a href="https://marstrek.jpl.nasa.gov/">Maps of Mars</a>
 		</ul>
 		<p>
 		

@@ -138,6 +138,12 @@ $.widget( "ck.instrhighlight",{
 		products: null,
 		onClick:null
 	},
+	consts:{
+		WAIT_VISIBLE:750,
+		HIGHLIGHT_URL:"php/rest/img_highlight.php",
+		STAGE1_MSG: "Sqeeezing Limes...",
+		STAGE2_MSG: "Caltching Dodos... "
+	},
 	
 	//#################################################################
 	//# Constructor
@@ -153,6 +159,11 @@ $.widget( "ck.instrhighlight",{
 		if (oOptions.instr == null) $.error("instr is not set");
 		if (oOptions.products == null) $.error("products not set");
 		oElement.uniqueId();
+
+		//check that necessary libraries are included
+		if (!oElement.visible){ 	$.error("visible is missing! check includes");		}
+		if (!$.event.special.inview){		$.error("inview class is missing! check includes");	}
+		if (!oElement.gSpinner){ 	$.error("gSpinner is missing! check includes");		}
 		
 		//check that the element is a div
 		var sElementName = oElement.get(0).tagName;
@@ -161,9 +172,11 @@ $.widget( "ck.instrhighlight",{
 		
 		//clear out the DIV and get it ready for content
 		this.initialise();
-		//fill the body with widgets for the products
 	},
 	
+	//*******************************************************************
+	//*
+	//*******************************************************************
 	initialise:function (){
 		var oOptions = this.options;
 		var oElement = this.element;
@@ -183,181 +196,112 @@ $.widget( "ck.instrhighlight",{
 		
 		//get the list of products
 		for (sProduct in oOptions.products){
-			var oDiv = $("<DIV>").prodhighlight({
-				sol:oOptions.sol, 
-				instr:oOptions.instr, 
-				product:sProduct, 
-				mission:oOptions.mission,
-				onClick: function(poEvent,poData){	oThis._trigger("onClick",null,poData)	}
-			});
-			oBody.append(oDiv);
-			oBody.append("<br>");
+			//dont do anything if the queue is stopping
+			if (goHighlightQueue.stopping) return;
+			
+			// Add the product header
+			var oSpan = $("<SPAN>",{class:"highlight_product"});
+			oSpan.uniqueId();
+			oSpan.append(sProduct);
+			oBody.append(oSpan);
+			
+			// add a Placeholder
+			var oHighlights = $("<SPAN>",{class:"highlight_body"});
+			oHighlights.append(this.consts.STAGE1_MSG);
+			oHighlights.attr({"Product":sProduct});
+			oBody.append(oHighlights);
+			
+			//wait for placeholder to become visible
+			oHighlights.on('inview', function(poEvent, pbIsInView){oThis.onInView(poEvent.target,pbIsInView);}	);
 		}
-		
-	}
-		
-});	
-
-
-
-//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//% Definition
-//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-$.widget( "ck.prodhighlight",{
-	//#################################################################
-	//# Definition
-	//#################################################################
-	options:{
-		mission:null,
-		sol: null,
-		instr: null,
-		product: null,
-		bodyID:null,
-		onClick:null
 	},
-	consts:{
-		WAIT_VISIBLE:750,
-		HIGHLIGHT_URL:"php/rest/img_highlight.php"
-	},
-	//#################################################################
-	//# Constructor
-	//#################################################################
-	_create: function(){
+	
+	//*******************************************************************
+	onInView: function(oTarget,pbIsInView){
 		var oThis = this;
-		var oOptions = this.options;
-		var oElement = this.element;
-		
-		//check for necessary classes
-		if (!bean){				$.error("bean class is missing! check includes");	}
-		if (!cHttp2){			$.error("http2 class is missing! check includes");	}
-		if (!oElement.gSpinner){ 	$.error("gSpinner is missing! check includes");		}
-		if (!oElement.visible){ 	$.error("visible is missing! check includes");		}
-		if (!$.event.special.inview){		$.error("inview class is missing! check includes");	}
-
-		//check that the options are passed correctly
-		if (oOptions.mission == null) $.error("mission is not set");
-		if (oOptions.sol == null) $.error("sol is not set");
-		if (oOptions.instr == null) $.error("instr is not set");
-		if (oOptions.product == null) $.error("product not set");
-		oElement.uniqueId();
-		oOptions.bodyID = oElement.attr("id") + "BODY";
-		
-		
-		//check that the element is a div
-		var sElementName = oElement.get(0).tagName;
-		if (sElementName !== "DIV")
-			$.error("needs a DIV. this element is a: " + sElementName);
-		
 		//dont do anything if the queue is stopping
 		if (goHighlightQueue.stopping) return;
-		
-		//wait for element to become visible
-		oElement.empty();
-		var oDiv = $("<DIV>",{class:"highlight_product"});
-		oDiv.append("Squeezing limes...");
-		oElement.append(oDiv);
-		oElement.on('inview', 	function(poEvent, pbIsInView){oThis.onInView(pbIsInView);}	);
-		
-		this.initialise();
-	},
-
-	//*******************************************************************
-	//*
-	//*******************************************************************
-	onInView:function(pbIsInView){
-		var oThis = this;
-		var oOptions = this.options;
-		var oElement = this.element;
-		
-		//dont do anything if the queue is stopping
-		if (goHighlightQueue.stopping) return;
-
 		if (!pbIsInView) return;
-		oElement.off("inview");
 		
+		//turn off the inview listener
+		var oSpan = $(oTarget);
+		oSpan.off("inview");
+		
+		//wait for object to remain visible
 		setTimeout(	
-			function(){	oThis.initialise()},
+			function(){	oThis.onTimer(oSpan)},
 			this.consts.WAIT_VISIBLE
 		);
 	},
 	
 	//*******************************************************************
-	initialise:function (){
-		var oOptions = this.options;
-		var oElement = this.element;
+	onTimer: function(poSpan){
 		var oThis = this;
 		
 		//dont do anything if the queue is stopping
 		if (goHighlightQueue.stopping) return;
 		
-		if (!oElement.visible()){
-			oElement.on('inview', 	function(poEvent, pbIsInView){oThis.onInView(pbIsInView);}	);
+		if (!poSpan.visible()){
+			poSpan.on('inview', 	function(poEvent, pbIsInView){oThis.onInView(pbIsInView);}	);
 			return;
 		}
 		
-		//get ready to load the data
-		oElement.empty();
-		var oSpan = $("<SPAN>",{class:"highlight_product"});
-		oSpan.append(oOptions.product);
-		oElement.append(oSpan);
-		
-		oSpan = $("<SPAN>",{id:oOptions.bodyID,class:"highlight_body"});
+		//show a spinner
+		poSpan.empty();
 		var oLoader =  $("<DIV>");
 		oLoader.gSpinner({scale: .25});
-		oSpan.append(oLoader).append( "Catching Dodos... this may take a while");
-		oElement.append(oSpan);
+		poSpan.append(oLoader).append( this.consts.STAGE2_MSG);
 		
-		//add products to the http queue
-		this.load_highlights();
+		//load the highlight information
+		this.load_highlights(poSpan);
 	},
 	
 	//*******************************************************************
-	load_highlights: function(){
+	load_highlights: function(poSpan){
 		var oOptions = this.options;
 		var oThis = this;
 		
 		var oParams = {};
 		oParams[cSpaceBrowser.SOL_QUERYSTRING] = oOptions.sol;
 		oParams[cSpaceBrowser.INSTR_QUERYSTRING] = oOptions.instr;
-		oParams[cSpaceBrowser.PRODUCT_QUERYSTRING] = oOptions.product;
+		oParams[cSpaceBrowser.PRODUCT_QUERYSTRING] = poSpan.attr("product");
 		oParams[cSpaceBrowser.OUTPUT_QUERYSTRING] = "thumbs";
 		oParams[cSpaceBrowser.MISSION_QUERYSTRING] = oOptions.mission.ID;
 		var sUrl = cBrowser.buildUrl(this.consts.HIGHLIGHT_URL, oParams);
 		
 		var oItem = new cHttpQueueItem();
 		oItem.url = sUrl;
-		bean.on(oItem, "result", 	function(poHttp){oThis.onHighlightResponse(poHttp);}	);				
-		bean.on(oItem, "error", 	function(poHttp){oThis.onHighlightError(poHttp);}	);				
+		oItem.element = poSpan;
+		bean.on(oItem, "result", 	function(poHttp){oThis.onHighlightResponse(oItem, poHttp);}	);				
+		bean.on(oItem, "error", 	function(poHttp){oThis.onHighlightError(oItem, poHttp);}	);				
 		goHighlightQueue.add(oItem);
 	},
 	
 	//*******************************************************************
-	onHighlightError: function(poHttp){
-		var oOptions = this.options;
-		
-		var oBody = $("#"+oOptions.bodyID);
-		oBody.empty();
+	onHighlightError: function(poItem, poHttp){
+		var oSpan = poItem.element;		
+		oSpan.empty();
 		var oDiv = $("<DIV>",{class:"ui-state-error"});
 		oDiv.append("Unable to fetch highlights");
-		oBody.append(oDiv);
+		oSpan.append(oDiv);
 	},	
-	
 	//*******************************************************************
-	onHighlightResponse: function(poHttp){
-		var oOptions = this.options;
-		var oBody = $("#"+oOptions.bodyID);
+	onHighlightResponse: function(poItem, poHttp){
+		var oSpan = poItem.element;
+		oSpan.empty();
+
 		var aUrls = poHttp.response.u;
 		
-		oBody.empty();
-
 		if (aUrls.length == 0){
 			oError = $("<DIV>",{class:"ui-state-error"});
 			oError.append("no thumbnails found");
-			oBody.append(oError);
+			oSpan.append(oError);
 		}else{
 			var i;
 			var oThis = this;
+			var oOptions = this.options;
 			
+			//add allthe found highlights
 			for (i=0 ; i< aUrls.length; i++){
 				oImg = $("<IMG>").attr({"src":aUrls[i],"class":"polaroid"});
 				oImg.click( 
@@ -365,12 +309,14 @@ $.widget( "ck.prodhighlight",{
 						goHighlightQueue.stop();
 						oThis._trigger(
 							"onClick",null,
-							{s:oOptions.sol,i:oOptions.instr,p:oOptions.product}
+							{s:oOptions.sol,i:oOptions.instr,p:oSpan.attr("product")}
 						);
 					});
-				oBody.append(oImg);
+				oSpan.after(oImg);
 			}
+			
+			//and remove the placeholder span
+			oSpan.remove();
 		}
-	},
+	}
 });	
-
