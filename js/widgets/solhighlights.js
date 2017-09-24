@@ -303,7 +303,7 @@ $.widget( "ck.instrhighlight",{
 			
 			//add allthe found highlights
 			for (i=0 ; i< aUrls.length; i++){
-				oImg = $("<IMG>").attr({"src":aUrls[i],"class":"polaroid"});
+				oImg = $("<IMG>").attr({"src":aUrls[i],"class":"highlight_body"});
 				oImg.click( 
 					function(){		
 						goHighlightQueue.stop();

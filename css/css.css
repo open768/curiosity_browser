@@ -418,19 +418,25 @@ body
 	display:inline-flex;
 }
 .highlight_product{
-	display: inline-block;
-	min-height: 100px;
-	min-width: 200px;
+	display: inline-flex;
+	height: 40px;
+	min-width: 100px;
     background: floralwhite;
-	vertical-align:top;
+	vertical-align:bottom;
 	text-align:right;
     padding-right: 5px;
+    margin-bottom: 100px;
 }
 
 .highlight_body{
 	display: inline-flex;
-	min-height: 100px;
-	min-width: 100px;
-    background: cornsilk;
+	min-height: 120px;
+	min-width: 120px;
+    background: oldlace;
 	vertical-align:top;
+    margin-top: 20px;
+	margin-right: 5px;
+	
+	border:2px solid white;
+	box-shadow:inset 0px 0px 7px 0px rgba(0, 0, 0, 1),0px 0px 7px 0px rgba(0, 0, 0, 1);
 }
