@@ -50,7 +50,8 @@ $.widget( "ck.thumbnail",{
 		if (!bean){		$.error("bean class is missing! check includes");	}
 		if (!cHttp2){		$.error("http2 class is missing! check includes");	}
 		if (!$.event.special.inview){		$.error("inview class is missing! check includes");	}
-
+		if (!oElement.visible ) 			$.error("visible class is missing! check includes");	
+		
 		//init
 		if (oOptions.sol == null) $.error("sol is not set");
 		if (oOptions.instrument == null) $.error("instrument is not set");
