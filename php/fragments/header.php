@@ -4,15 +4,14 @@
 ?>
 <link rel="icon" href="images/browser/dude.ico" type="image/x-icon" />
 <LINK href="css/css.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="css/jquery/jquery-ui.css">
+<link rel="stylesheet" href="<?=$jsinc?>/jquery-ui/jquery-ui.min.css">
 <link rel="stylesheet" href="<?=$jsinc?>/jquery-spinner/css/gspinner.min.css">
-<script type="text/javascript" src="<?=$jsinc?>/jquery/jquery-3.0.0.min.js"></script>
-<script type="text/javascript" src="<?=$jsinc?>/jquery/jquery-migrate-3.0.0.min.js"></script>
-<script type="text/javascript" src="<?=$jsinc?>/jquery/jquery.cookie.js"></script>
+<script type="text/javascript" src="<?=$jsinc?>/jquery/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/jquery-inview/jquery.inview.min.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/jquery-visible/jquery.visible.min.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/jquery-spinner/g-spinner.min.js"></script>
+<script type="text/javascript" src="<?=$jsinc?>/jquery-cookie/jquery.cookie.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/bean/bean.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/secret.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/debug.js"></script>

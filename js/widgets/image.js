@@ -152,7 +152,7 @@ $.widget( "ck.instrumentimage",{
 		var oImgDiv = $("<DIV>",{class:"ui-widget-body"}).css({position: 'relative'});
 		oOptions.image_div = oImgDiv;
 		oImg = $("<IMG>",{src:oOptions.src});
-		oImg.load(		function(){oThis.onLoadedImage();}							);
+		oImg.on ("load",	function(){oThis.onLoadedImage();}		);
 		oImg.click(		function(){oThis._trigger("onClick", null, oOptions);} 	);
 		oImgDiv.append(oImg);	
 

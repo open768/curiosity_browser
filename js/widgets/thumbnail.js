@@ -123,7 +123,7 @@ $.widget( "ck.thumbnail",{
 		if (oElement.visible()){
 			//load the basic thumbnail
 			oImg = $("#"+this.options.img);
-			oImg.load(function(){oThis.onBasicThumbLoaded(); }); 	//do something when thumbnail loaded
+			oImg.on("load", function(){oThis.onBasicThumbLoaded(); }); 	//do something when thumbnail loaded
 			oImg.attr("src", this.options.url);						//load basic thumbnail
 		}else{
 			//image is not visible - reset the inview trigger
