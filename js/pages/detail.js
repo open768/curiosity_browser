@@ -204,7 +204,7 @@ function onLoadJQuery_DETAIL(){
 		cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING], 
 		cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING], 
 		cBrowser.data[cSpaceBrowser.PRODUCT_QUERYSTRING]);
-	cTagging.getTagNames(alltagnames_callback);
+	cTagging.getTags(alltagnames_callback);
 }
 
 
@@ -329,7 +329,7 @@ function load_detail_callback(poHttp){
 	//populate the remaining fields
 	$("#date_utc").html( goItem.d.du);
 	//$("#date_lmst").html( goItem.d.dm);
-	$("#msldata").html( "<pre>" + cDebug.dump(oData.data,1) + "</pre>");
+	$("#msldata").html( "<pre>" + cDebug.vardump(oData.data,1) + "</pre>");
 	
 	//add the image 
 	$("#image").empty();
