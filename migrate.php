@@ -1,10 +1,7 @@
 <?php	
 	$root=realpath(".");
 	$phpinc = realpath("../phpinc");
-	$jsinc = "../jsinc";
-	require_once "$phpinc/ckinc/session.php";
-	cSession::set_folder();
-	session_start();
+	require_once "$root/php/common.php";
 ?>
 <html>
 <head>

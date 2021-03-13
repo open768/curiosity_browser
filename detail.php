@@ -1,13 +1,10 @@
 <?php	
 	$root=realpath(".");
-	$phpinc = realpath("../phpinc");
 	$jsinc = "../jsinc";
-	require_once "$phpinc/ckinc/session.php";
-	cSession::set_folder();
-	session_start();
+	require_once "$root/php/common.php";
 	
 	require_once("$phpinc/ckinc/header.php");
-	require_once("$phpinc/curiosity/facebook.php");
+	require_once("$spaceinc/curiosity/facebook.php");
 	cHeader::redirect_if_referred();
 	if ( cFacebook_ServerSide::is_facebook()){
 		cFacebookTags::make_fb_detail_tags();

@@ -12,18 +12,11 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 	$root=realpath("../..");
-	$phpinc=realpath("../../../phpinc");
-	require_once("$phpinc/ckinc/session.php");
-	cSession::set_folder();
-	session_start();
+	require_once "$root/php/common.php";
 	
-	require_once("$phpinc/curiosity/curiositypds.php");
-	require_once("$phpinc/pds/pdsreader.php");
-	require_once("$phpinc/ckinc/debug.php");
-	require_once("$phpinc/ckinc/common.php");
-	require_once("$phpinc/curiosity/static.php");
+	require_once("$spaceinc/curiosity/curiositypds.php");
+	require_once("$spaceinc/pds/pdsreader.php");
 	
-	cDebug::check_GET_or_POST();
 
 	switch($_GET["a"]){
 	case "s":

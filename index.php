@@ -1,13 +1,8 @@
 <?php	
 	$root=realpath(".");
-	$phpinc = realpath("../phpinc");
+	require_once "$root/php/common.php";
 	$jsinc = "../jsinc";
-	require_once("$phpinc/curiosity/static.php");
-	require_once "$phpinc/ckinc/session.php";
-	cSession::set_folder();
-	session_start();
 	
-	require_once "$phpinc/ckinc/secret.php";
 	require_once "$phpinc/ckinc/header.php";
 	require_once "$phpinc/ckinc/auth.php";
 	$sUser = cAuth::get_user();

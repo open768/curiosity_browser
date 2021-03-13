@@ -1,17 +1,8 @@
 <?php
 	$root=realpath("../..");
-	$phpinc=realpath("../../../phpinc");
-	require_once("$phpinc/ckinc/session.php");
-	cSession::set_folder();
-	session_start();
-	
-	require_once("$phpinc/ckinc/debug.php");
-	require_once("$phpinc/curiosity/static.php");
-	require_once("$phpinc/ckinc/common.php");
+	require_once("$root/php/common.php");
 	require_once("$phpinc/ckinc/pencilnev.php");
 	
-	cDebug::check_GET_or_POST();
-
 	$aData = null;
 	switch ( $_GET["o"]){
 		case "sol":
