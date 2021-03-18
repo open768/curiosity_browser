@@ -42,14 +42,14 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		//create array of dates, hours and 15 mins
 		$aSplit = explode("T", $sDateTime);
 		$sDate = $aSplit[0];
-		if (! array_key_exists($sDate, $aData["cal"]))
+		if (! isset($aData["cal"][$sDate]))
 			$aData["cal"][$sDate] = [];
 		
 		$aSplit= explode(":", $aSplit[1]);
 		$min=floor($aSplit[1]/TIMESLOT) * TIMESLOT;
 		$sTimeKey = $aSplit[0].":".$min;
 		
-		if (! array_key_exists($sTimeKey, $aData["cal"][$sDate]))
+		if (! isset($aData["cal"][$sDate][$sTimeKey]))
 			$aData["cal"][$sDate][$sTimeKey] = [];
 		
 		array_push( $aData["cal"][$sDate][$sTimeKey], ["i"=>$sInstrAbbr, "d"=>$sDateTime, "p"=>$oItem->itemName]);

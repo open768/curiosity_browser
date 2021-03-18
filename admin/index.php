@@ -70,7 +70,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			break;
 			
 		case "parsePDS":
-			if (! array_key_exists( "v", $_GET)){
+			if (! isset( $_GET["v"])){
 				$aCats = cCuriosityPDS::catalogs();
 				?>
 				<a target="PDS" href="http://pds-imaging.jpl.nasa.gov/volumes/msl.html">Curiosity PDS released volumes</a>
@@ -98,7 +98,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 		//------------------------------------------------------
 		case "killHighlight":
-			if (! array_key_exists( "p", $_GET)){
+			if (! isset( $_GET["p"])){
 				?>
 				<form method="get">
 					<Input type="hidden" name="o" value="<?=$sOperation?>">
@@ -117,7 +117,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 		//------------------------------------------------------
 		case "deleteSolHighlights":
-			if (! array_key_exists( "s", $_GET)){
+			if (! isset( $_GET["s"])){
 				?>
 				<form method="get">
 					<Input type="hidden" name="o" value="<?=$sOperation?>">
@@ -132,7 +132,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			break;
 			
 		case "killTag":
-			if (! array_key_exists( "t", $_GET)){
+			if (! isset( $_GET["t"])){
 				?>
 				<form method="get">
 					<Input type="hidden" name="o" value="<?=$sOperation?>">
