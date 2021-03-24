@@ -39,3 +39,4 @@ php/rest/session_test.php
 *.zip
 *.orig
 php/phpinfo.php
+*.db
