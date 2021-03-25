@@ -14,7 +14,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	$root=realpath("../..");
 	require_once("$root/php/common.php");
 	require_once("$phpinc/ckinc/pichighlight.php");
-	require_once("$phpinc/ckinc/tags.php");
+	require_once("$spaceinc/misc/tags.php");
 	
 
 	
