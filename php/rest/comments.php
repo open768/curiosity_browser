@@ -13,7 +13,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 	$root=realpath("../..");
 	require_once("$root/php/common.php");
-	require_once("$phpinc/ckinc/comments.php");
+	require_once("$spaceinc/misc/comments.php");
 	require_once("$phpinc/sbbcode/SBBCodeParser.php");
 	
 

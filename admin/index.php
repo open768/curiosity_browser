@@ -17,13 +17,13 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("$phpinc/ckinc/auth.php");
 	require_once("$phpinc/ckinc/debug.php");
 	require_once("$spaceinc/misc/tags.php");
-	require_once("$phpinc/ckinc/pichighlight.php");
+	require_once("$spaceinc/misc/pichighlight.php");
 	require_once("$spaceinc/curiosity/static.php");
 	require_once("$spaceinc/curiosity/pdsindexer.php");
 	require_once("$spaceinc/curiosity/locations.php");
 	require_once("$phpinc/ckinc/cached_http.php");
-	require_once("$phpinc/ckinc/gigapan.php");
-	require_once("$phpinc/ckinc/pencilnev.php");
+	require_once("$spaceinc/curiosity/gigapan.php");
+	require_once("$spaceinc/misc/pencilnev.php");
 	
 
 	cDebug::check_GET_or_POST();

@@ -1,7 +1,7 @@
 <?php
 	$root=realpath("../..");
 	require_once("$root/php/common.php");
-	require_once("$phpinc/ckinc/pencilnev.php");
+	require_once("$spaceinc/misc/pencilnev.php");
 	
 	$aData = null;
 	switch ( $_GET["o"]){

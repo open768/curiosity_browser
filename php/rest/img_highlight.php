@@ -13,8 +13,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 	$root=realpath("../..");
 	require_once("$root/php/common.php");
-	require_once("$phpinc/ckinc/pichighlight.php");
-	require_once("$phpinc/ckinc/indexes.php");
+	require_once("$spaceinc/misc/pichighlight.php");
+	require_once("$spaceinc/misc/indexes.php");
 	require_once("$phpinc/ckinc/common.php");
 	
 	cDebug::check_GET_or_POST();
