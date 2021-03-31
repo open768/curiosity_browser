@@ -329,7 +329,8 @@ function load_detail_callback(poHttp){
 	//populate the remaining fields
 	$("#date_utc").html( goItem.d.du);
 	//$("#date_lmst").html( goItem.d.dm);
-	$("#msldata").html( "<pre>" + cDebug.vardump(oData.data,1) + "</pre>");
+	var sDump = cDebug.getvardump(oData.data,1);
+	$("#msldata").html( $("<pre>").append(sDump));
 	
 	//add the image 
 	$("#image").empty();

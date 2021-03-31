@@ -115,9 +115,11 @@
 		loading MSL data
 	</div>
 	<p>
-	<h2>Product Page</h2>
+	<!-- <h2>Product Page</h2>
 	<iframe id="label" width="1000" height="500">Label Loading...</iframe>
 	<P>
+	-->
+	
 	<!-- footer -->
 	<?php 	
 		$sExtraCredits="link to curiosityrover.com courtesy of Joe Knapp";

@@ -22,7 +22,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("$spaceinc/curiosity/pdsindexer.php");
 	require_once("$spaceinc/curiosity/locations.php");
 	require_once("$phpinc/ckinc/cached_http.php");
-	require_once("$spaceinc/curiosity/gigapan.php");
+	require_once("$spaceinc/misc/gigapan.php");
 	require_once("$spaceinc/misc/pencilnev.php");
 	
 
