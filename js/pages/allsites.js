@@ -158,7 +158,7 @@ function lookat_callback(){
 	cGoogleEarth.removeListener( "frameend", lookat_callback);
 	set_status("fetching sites");
 	for (i = 0; i < aSites.length; i++){
-		var sUrl = cBrowser.buildUrl("php/rest/sites.php",{o:"site",site:i,m:cMission.ID}});
+		var sUrl = cBrowser.buildUrl("php/rest/sites.php",{o:"site",site:i,m:cMission.ID});
 		var oHttp = new cHttp2();
 		bean.on(oHttp,"result",get_site_callback);
 		oHttp.fetch_json(sUrl);
