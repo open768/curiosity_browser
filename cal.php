@@ -14,9 +14,6 @@
 </head>
 <body onload="$(onLoadJQuery_CAL);">
 	<?php 
-		require_once "$phpinc/ckinc/secret.php";
-		include("php/fragments/analytics.php");
-		include("php/fragments/facebook.php");
 		$sTitle = "Curiosity calendar for SOL: <span id='sol'>???</span>";
 		include("php/fragments/title.php");
 	?>

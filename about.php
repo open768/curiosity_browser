@@ -12,8 +12,6 @@
 </head>
 <body>
 	<?php 
-		include("php/fragments/analytics.php");
-		include("php/fragments/facebook.php");
 		$sTitle = "About me";
 		include("php/fragments/title.php");
 	?>

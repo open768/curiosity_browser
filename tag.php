@@ -19,9 +19,6 @@
 </head>
 <body onload="$(onLoadJQuery_TAG);">
 	<?php 
-		require_once "$phpinc/ckinc/secret.php";
-		include("php/fragments/analytics.php");
-		include("php/fragments/facebook.php");
 		$sTitle = "Instances of Tag <span id='tagname'>tag goes here</span>";
 		include("php/fragments/title.php");
 	?>

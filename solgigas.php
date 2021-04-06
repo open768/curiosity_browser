@@ -14,9 +14,6 @@
 </head>
 <body onload="$(onLoadJQuery_SOLGIG);">
 	<?php 
-		require_once "$phpinc/ckinc/secret.php";
-		include("php/fragments/analytics.php");
-		include("php/fragments/facebook.php");
 		$sTitle = "Gigapans for sol:<span id=\"sol\">??</span>";
 		include("php/fragments/title.php");
 	?>

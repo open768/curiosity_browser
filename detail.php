@@ -24,9 +24,6 @@
 </head>
 <body onload="$(onLoadJQuery_DETAIL);">
 	<?php 
-		require_once "$phpinc/ckinc/secret.php";
-		include("php/fragments/analytics.php");
-		include("php/fragments/facebook.php");
 		$sTitle = "Product Detail";
 		include("php/fragments/title.php");
 	?>

@@ -12,9 +12,6 @@
 </head>
 <body>
 	<?php 
-		require_once "$phpinc/ckinc/secret.php";
-		include("php/fragments/analytics.php");
-		include("php/fragments/facebook.php");
 		$sTitle = "Migrate";
 		include("php/fragments/title.php");
 	?>

@@ -13,9 +13,6 @@
 </head>
 <body onload="$(onLoadJQuery_SOLTAG);">
 	<?php 
-		require_once "$phpinc/ckinc/secret.php";
-		include("php/fragments/analytics.php"); 
-		include("php/fragments/facebook.php");
 		$sTitle = "Tags for sol:<span id='sol'>??</span>";
 		include("php/fragments/title.php");
 	?>

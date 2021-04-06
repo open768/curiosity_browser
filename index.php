@@ -33,8 +33,6 @@
 	</head>
 	<body onload="$(onLoadJQuery_INDEX);">
 		<?php 
-			include("php/fragments/analytics.php");
-			include("php/fragments/facebook.php");
 			$sTitle = "Home";
 			include("php/fragments/title.php");
 		?>

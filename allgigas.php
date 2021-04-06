@@ -14,9 +14,6 @@
 </head>
 <body onload="$(onLoadJQuery_GIGAS);">
 	<?php 
-		require_once "$phpinc/ckinc/secret.php";
-		include("php/fragments/analytics.php");
-		include("php/fragments/facebook.php");
 		$sTitle = "All Gigapans - by Neville Thompson";
 		include("php/fragments/title.php");
 	?>

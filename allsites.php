@@ -18,9 +18,6 @@
 </head>
 <body onload="$(onLoadJQuery_SITES);">
 	<?php 
-		require_once "$phpinc/ckinc/secret.php";
-		include("php/fragments/analytics.php");
-		include("php/fragments/facebook.php");
 		$sTitle = "Sites";
 		include("php/fragments/title.php");
 	?>
@@ -32,7 +29,7 @@
 		<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span> 	
 	</div>
 	<div class="gold">
-		<span id="map"></span>
+		<span id="map">This page used the google earth plugin which is no longer supported by google</span>
 	</div>
 	<P>
 	

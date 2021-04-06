@@ -15,9 +15,6 @@
 </head>
 <body onload="$(onLoadJQuery_HIGHS);">
 	<?php 
-		require_once "$phpinc/ckinc/secret.php";
-		include("php/fragments/analytics.php");
-		include("php/fragments/facebook.php");
 		$sTitle = "Sols with Highlights";
 		include("php/fragments/title.php");
 	?>

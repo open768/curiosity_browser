@@ -15,9 +15,6 @@
 </head>
 <body onload="$(onLoadJQuery_TAGS);">
 	<?php 
-		require_once "$phpinc/ckinc/secret.php";
-		include("php/fragments/analytics.php");
-		include("php/fragments/facebook.php");
 		$sTitle = "Tagged Sols";
 		include("php/fragments/title.php");
 	?>

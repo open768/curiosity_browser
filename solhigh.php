@@ -19,9 +19,6 @@
 </head>
 <body onload="$(onLoadJQuery_SOLHI);">
 	<?php 
-		require_once "$phpinc/ckinc/secret.php";
-		include("php/fragments/analytics.php");
-		include("php/fragments/facebook.php");
 		$sTitle = "Highlights for sol:<span id='sol'>??</span>";
 		include("php/fragments/title.php");
 	?>

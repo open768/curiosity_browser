@@ -1,17 +1,12 @@
 <?php
-	$phpinc = realpath("$root/../phpinc");
-	$spaceinc = realpath("$root/../spaceinc");
-	
 	//start the session first ask questions later
-	require_once "$phpinc/ckinc/session.php";
-	cSession::set_folder();
-	session_start();
+	$phpinc = realpath("$root/../phpinc");
+	require_once "$phpinc/ckinc/header.php";
 	
 	//includes
 	require_once "$phpinc/ckinc/secret.php";
 	require_once "$phpinc/ckinc/common.php";
 	require_once "$phpinc/ckinc/auth.php" ;
-	require_once "$phpinc/ckinc/header.php";
 	require_once "$spaceinc/curiosity/curiosity.php" ;
 	require_once "$spaceinc/curiosity/static.php" ;
 	
