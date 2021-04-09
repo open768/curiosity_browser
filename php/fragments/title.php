@@ -8,10 +8,14 @@
 			<span style="align:left"><font class="title">Curiosity Browser: <span id="toptitle"><?=$sTitle?></span><?=(cHeader::is_localhost()?" - <font color='red'>DEVELOPMENT</font>":"")?></font></span>
 		</td>
 		<td style="vertical-align:middle;text-align:right">
-			<fb:login-button 
+			<span style="display: inline-block; width: 300px;" id="username">One Moment please...</span>
+			<span style="display: inline-block; width: 100px;"><fb:login-button 
 			  scope="public_profile,email"
-			  onlogin="OnFBCheckLoginState();">
+			  onlogin="OnFBCheckLoginState();"
+			  auto_logout_link="true"
+			>
 			</fb:login-button>
+			</span>
 		</td>
 	</tr></table>
 </div>
