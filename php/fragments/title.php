@@ -1,6 +1,6 @@
+<div id='fb-root'></div>
 <?php
-	include("php/fragments/analytics.php");
-	include("php/fragments/facebook.php");
+	include("php/fragments/google.php");
 ?>
 <div class="titlebar">
 	<table width="100%"><tr>
@@ -11,10 +11,9 @@
 			<span style="display: inline-block; width: 300px;" id="username">One Moment please...</span>
 			<span style="display: inline-block; width: 100px;"><fb:login-button 
 			  scope="public_profile,email"
-			  onlogin="OnFBCheckLoginState();"
+			  onlogin="cFacebook.checkLoginStatus();"
 			  auto_logout_link="true"
-			>
-			</fb:login-button>
+			/>
 			</span>
 		</td>
 	</tr></table>

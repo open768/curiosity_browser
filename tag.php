@@ -10,7 +10,6 @@
 	?>
 	<title>Tags: Curiosity Browser</title>
 	<script type="text/javascript" src="js/pages/tag.js"></script>
-	<script type="text/javascript" src="<?=$jsinc?>/ck-inc/imghilite.js"></script>
 	<script type="text/javascript" src="<?=$jsinc?>/ck-inc/queue.js"></script>
 	<script type="text/javascript" src="<?=$jsinc?>/ck-inc/actionqueue.js"></script>
 	<script type="text/javascript" src="js/widgets/tag-view.js"></script>

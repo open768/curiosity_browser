@@ -1,7 +1,7 @@
 <?php
 	//start the session first ask questions later
-	$phpinc = realpath("$root/../phpinc");
-	require_once "$phpinc/ckinc/header.php";
+	$phpinc = realpath("$root/../phpinc");		//have to set phpinc here- even though it will get overwritten by header.php
+	require_once "$phpinc/ckinc/header.php";	//this starts the session
 	
 	//includes
 	require_once "$phpinc/ckinc/secret.php";
