@@ -5,27 +5,27 @@
 <!-- meta tags -->
 <meta property="fb:app_id" content="<?=(cHeader::is_localhost()?cSecret::FB_DEV_APP:cSecret::FB_APP)?>" />
 
-<!-- analytics -->
-<?php	include("php/fragments/appd.php");?>
-
-<!-- google analytics tag included by php/fragments/title.php -->
-<!-- CSS -->
-<link rel="icon" href="images/browser/dude.ico" type="image/x-icon" />
-<LINK href="css/css.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="<?=$jsinc?>/jquery-ui/jquery-ui.min.css">
-<link rel="stylesheet" href="<?=$jsinc?>/jquery-spinner/css/gspinner.min.css">
-
-
 <!-- common ckinc -->
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/debug.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/bean/bean.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/secret.js"></script>
 
 <!-- analytics -->
-<script type="text/javascript" src="<?=$jsinc?>/ck-inc/facebook.php"></script>
+<?php	
+	include("$root/$jsinc/ck-inc/facebook.php");
+	include("php/fragments/appd.php");
+	//google analytics tag included by php/fragments/title.php
+?>
 <script type="text/javascript">
 	cFacebook.statusID = "#username";
 </script>
+
+<!-- CSS -->
+<link rel="icon" href="images/browser/dude.ico" type="image/x-icon" />
+<LINK href="css/css.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="<?=$jsinc?>/jquery-ui/jquery-ui.min.css">
+<link rel="stylesheet" href="<?=$jsinc?>/jquery-spinner/css/gspinner.min.css">
+
 
 <!-- jquery -->
 <script type="text/javascript" src="<?=$jsinc?>/jquery/jquery-3.2.1.min.js"></script>

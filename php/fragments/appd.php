@@ -1,7 +1,7 @@
 <script charset="UTF-8" type="text/javascript">
 window["adrum-start-time"] = new Date().getTime();
 (function(config){
-    config.appKey = "AD-AAB-ABD-JXD";
+    config.appKey = "<?=cSecret::APPD_KEY?>";
     config.adrumExtUrlHttp = "http://cdn.appdynamics.com";
     config.adrumExtUrlHttps = "https://cdn.appdynamics.com";
     config.beaconUrlHttp = "http://pdx-col.eum-appdynamics.com";

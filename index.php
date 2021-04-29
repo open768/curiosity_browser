@@ -6,7 +6,6 @@
 	$sUser = cAuth::get_user();
 	$bIsAdmin = false;
 	if ($sUser) $bIsAdmin = cAuth::is_role("admin");
-	
 ?>
 <html>
 	<head>
