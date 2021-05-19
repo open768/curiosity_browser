@@ -22,6 +22,8 @@
 	
 	//includes
 	require_once "$phpinc/ckinc/secret.php";
+	require_once "$spaceinc/curiosity/secret.php" ;
+
 	require_once "$phpinc/ckinc/common.php";
 	require_once "$phpinc/ckinc/auth.php" ;
 	require_once "$spaceinc/curiosity/curiosity.php" ;

@@ -1,9 +1,10 @@
 <?php
 	require_once "$phpinc/ckinc/secret.php";
 	require_once "$phpinc/ckinc/header.php";
+	require_once "$phpinc/ckinc/facebook.php";
 ?>
 <!-- meta tags -->
-<meta property="fb:app_id" content="<?=(cHeader::is_localhost()?cSecret::FB_DEV_APP:cSecret::FB_APP)?>" />
+<meta property="fb:app_id" content="<?=cFacebook_ServerSide::getAppID()["I"]?>" />
 
 <!-- common ckinc -->
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/debug.js"></script>
