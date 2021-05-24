@@ -45,6 +45,10 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	switch($sOperation){
 		case "getuser":
 			$sUser = cFacebook_ServerSide::getStoredUser($sUserID);
+			if (trim($sUser) == ""){
+				cDebug::write("unknown user");
+				$sUser = null;
+			}
 			
 			//finally get user details from facebook
 			if (!$sUser){
