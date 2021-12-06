@@ -11,7 +11,7 @@
 	if ($_SERVER["REQUEST_SCHEME"] !== "https"){
 		cDebug::extra_debug("request scheme is not https");
 		$https_port = "";
-		if (cHeader::is_localhost())$https_port = ":8443";
+		if (cDebug::is_localhost())$https_port = ":8443";
 		
 		$newURL="https://".$_SERVER["SERVER_NAME"].$https_port.$_SERVER["REQUEST_URI"];
 		cHeader::redirect($newURL);
