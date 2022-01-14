@@ -20,7 +20,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("$phpinc/ckinc/facebook.php");
 	
 	//load facebook classes
-	require_once("$phpinc/facebook/autoload.php");
+	require_once("$phpinc/extra/facebook/autoload.php");
 	use Facebook\FacebookSession;
 	use Facebook\FacebookRequest;
 	use Facebook\GraphUser;	

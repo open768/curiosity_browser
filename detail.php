@@ -1,6 +1,8 @@
 <?php	
 	$root=realpath(".");
 	$jsinc = "../jsinc";
+	$jsExtra = "$jsinc/extra";
+
 	require_once "$root/php/common.php";
 	
 	require_once("$phpinc/ckinc/header.php");
@@ -17,9 +19,9 @@
 	<LINK href="./css/drag.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="<?=$jsinc?>/sceditor/minified/themes/default.min.css" type="text/css" media="all" />
 	<title>Detail: Curiosity Browser</title>
-	<script src="<?=$jsinc?>/pixlr/pixlr.js"></script>
+	<script src="<?=$jsExtra?>/pixlr/pixlr.js"></script>
 	<script src="<?=$jsinc?>/ck-inc/comments.js"></script>
-	<script src="<?=$jsinc?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
+	<script src="<?=$jsExtra?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
 	<script src="js/pages/detail.js"></script>
 </head>
 <body onload="$(onLoadJQuery_DETAIL);">

@@ -2,13 +2,13 @@
 	require_once "$phpinc/ckinc/secret.php";
 	require_once "$phpinc/ckinc/header.php";
 	require_once "$phpinc/ckinc/facebook.php";
+	$jsExtra = "$jsinc/extra";
 ?>
 <!-- meta tags -->
 <meta property="fb:app_id" content="<?=cFacebook_ServerSide::getAppID()["I"]?>" />
-
 <!-- common ckinc -->
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/debug.js"></script>
-<script type="text/javascript" src="<?=$jsinc?>/bean/bean.js"></script>
+<script type="text/javascript" src="<?=$jsExtra?>/bean/bean.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/secret.js"></script>
 
 <!-- analytics -->
@@ -24,17 +24,17 @@
 <!-- CSS -->
 <link rel="icon" href="images/browser/dude.ico" type="image/x-icon" />
 <LINK href="css/css.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="<?=$jsinc?>/jquery-ui/jquery-ui.min.css">
-<link rel="stylesheet" href="<?=$jsinc?>/jquery-spinner/css/gspinner.min.css">
+<link rel="stylesheet" href="<?=$jsExtra?>/jquery-ui/jquery-ui.min.css">
+<link rel="stylesheet" href="<?=$jsExtra?>/jquery-spinner/css/gspinner.min.css">
 
 
 <!-- jquery -->
-<script type="text/javascript" src="<?=$jsinc?>/jquery/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="<?=$jsinc?>/jquery-ui/jquery-ui.min.js"></script>
-<script type="text/javascript" src="<?=$jsinc?>/jquery-inview/jquery.inview.min.js"></script>
-<script type="text/javascript" src="<?=$jsinc?>/jquery-visible/jquery.visible.min.js"></script>
-<script type="text/javascript" src="<?=$jsinc?>/jquery-spinner/g-spinner.min.js"></script>
-<script type="text/javascript" src="<?=$jsinc?>/jquery-cookie/jquery.cookie.js"></script>
+<script type="text/javascript" src="<?=$jsExtra?>/jquery/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="<?=$jsExtra?>/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="<?=$jsExtra?>/jquery-inview/jquery.inview.min.js"></script>
+<script type="text/javascript" src="<?=$jsExtra?>/jquery-visible/jquery.visible.min.js"></script>
+<script type="text/javascript" src="<?=$jsExtra?>/jquery-spinner/g-spinner.min.js"></script>
+<script type="text/javascript" src="<?=$jsExtra?>/jquery-cookie/jquery.cookie.js"></script>
 
 <!-- everything else -->
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/common.js"></script>
