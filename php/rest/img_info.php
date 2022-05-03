@@ -11,8 +11,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-	$root=realpath("../..");
-	require_once("$root/php/common.php");
+	$home = "../..";
+	require_once("$home/php/common.php");
 	require_once("$spaceinc/misc/pichighlight.php");
 	require_once("$spaceinc/misc/tags.php");
 	

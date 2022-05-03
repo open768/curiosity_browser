@@ -1,7 +1,6 @@
 <?php	
-	$root=realpath(".");
-	$jsinc = "../jsinc";
-	require_once "$root/php/common.php";
+	$home = ".";
+	require_once "$home/php/common.php";
 ?>
 <html>
 <head>
@@ -10,7 +9,7 @@
 	?>
 	<title>All Highlights - Curiosity Browser</title>
 	<script src="<?=$jsinc?>/ck-inc/secret.js"></script>
-	<script src="js/widgets/solhighgrid.js"></script>
+	<script src="<?=$widgets?>/solhighgrid.js"></script>
 	<script src="js/pages/allsolhighs.js"></script>
 </head>
 <body onload="$(onLoadJQuery_HIGHS);">

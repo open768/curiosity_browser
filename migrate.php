@@ -1,7 +1,6 @@
 <?php	
-	$root=realpath(".");
-	$phpinc = realpath("../phpinc");
-	require_once "$root/php/common.php";
+	$home=".";
+	require_once "$home/php/common.php";
 ?>
 <html>
 <head>

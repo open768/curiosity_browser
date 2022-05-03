@@ -1,7 +1,6 @@
 <?php	
-	$root=realpath(".");
-	$jsinc = "../jsinc";
-	require_once "$root/php/common.php";
+	$home=".";
+	require_once "$home/php/common.php";
 ?>
 <html>
 <head>
@@ -12,9 +11,9 @@
 	<script type="text/javascript" src="js/pages/tag.js"></script>
 	<script type="text/javascript" src="<?=$jsinc?>/ck-inc/queue.js"></script>
 	<script type="text/javascript" src="<?=$jsinc?>/ck-inc/actionqueue.js"></script>
-	<script type="text/javascript" src="js/widgets/tag-view.js"></script>
-	<script type="text/javascript" src="js/widgets/image.js"></script>
-	<script type="text/javascript" src="js/widgets/tagcloud.js"></script>
+	<script type="text/javascript" src="<?=$widgets?>/tag-view.js"></script>
+	<script type="text/javascript" src="<?=$widgets?>/image.js"></script>
+	<script type="text/javascript" src="<?=$widgets?>/tagcloud.js"></script>
 </head>
 <body onload="$(onLoadJQuery_TAG);">
 	<?php 

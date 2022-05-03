@@ -1,7 +1,6 @@
 <?php	
-	$root=realpath(".");
-	$jsinc = "../jsinc";
-	require_once "$root/php/common.php";
+	$home=".";
+	require_once "$home/php/common.php";
 ?>
 <html>
 <head>
@@ -10,7 +9,7 @@
 	?>
 	<title>sol Gigapans - Curiosity Browser</title>
 	<script src="js/pages/solgigas.js"></script>
-	<script src="js/widgets/solgigas.js"></script>
+	<script src="<?=$widgets?>/solgigas.js"></script>
 </head>
 <body onload="$(onLoadJQuery_SOLGIG);">
 	<?php 

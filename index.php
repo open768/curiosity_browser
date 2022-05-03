@@ -1,7 +1,6 @@
 <?php	
-	$root=realpath(".");
-	require_once "$root/php/common.php";
-	$jsinc = "../jsinc";
+	$home = ".";
+	require_once "$home/php/common.php";
 	
 	$sUser = cAuth::get_user();
 	$bIsAdmin = false;
@@ -18,13 +17,13 @@
 		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/actionqueue.js"></script>
 		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/tabs.js"></script>
 		<script type="text/javascript" src="js/pages/index.js"></script>
-		<script type="text/javascript" src="js/widgets/thumbnail.js"></script>
-		<script type="text/javascript" src="js/widgets/thumbnail-view.js"></script>
-		<script type="text/javascript" src="js/widgets/image-view.js"></script>
-		<script type="text/javascript" src="js/widgets/image.js"></script>
-		<script type="text/javascript" src="js/widgets/solinstrchooser.js"></script>
-		<script type="text/javascript" src="js/widgets/solbuttons.js"></script>
-		<script type="text/javascript" src="js/widgets/tagcloud.js"></script>
+		<script type="text/javascript" src="<?=$widgets?>/thumbnail.js"></script>
+		<script type="text/javascript" src="<?=$widgets?>/thumbnail-view.js"></script>
+		<script type="text/javascript" src="<?=$widgets?>/image-view.js"></script>
+		<script type="text/javascript" src="<?=$widgets?>/image.js"></script>
+		<script type="text/javascript" src="<?=$widgets?>/solinstrchooser.js"></script>
+		<script type="text/javascript" src="<?=$widgets?>/solbuttons.js"></script>
+		<script type="text/javascript" src="<?=$widgets?>/tagcloud.js"></script>
 		
 		<meta property="og:title" content="Curiosity Browser - " />
 		<meta property="og:image" content="http://www.mars-browser.co.uk/curiosity/images/rover.png" />

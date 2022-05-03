@@ -1,7 +1,6 @@
 <?php	
-	$root=realpath(".");
-	$jsinc = "../jsinc";
-	require_once "$root/php/common.php";
+	$home = ".";
+	require_once "$home/php/common.php";
 ?>
 <html>
 <head>
@@ -9,7 +8,7 @@
 		include("php/fragments/header.php"); 
 	?>
 	<title>All Gigapans - by Neville Thompson</title>
-	<script src="js/widgets/allsolgigas.js"></script>
+	<script src="<?=$widgets?>/allsolgigas.js"></script>
 	<script src="js/pages/allgigas.js"></script>
 </head>
 <body onload="$(onLoadJQuery_GIGAS);">

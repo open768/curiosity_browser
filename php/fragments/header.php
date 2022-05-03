@@ -9,7 +9,7 @@
 <!-- common ckinc -->
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/debug.js"></script>
 <script type="text/javascript" src="<?=$jsExtra?>/bean/bean.js"></script>
-<script type="text/javascript" src="<?=$jsinc?>/ck-inc/secret.js"></script>
+<script type="text/javascript" src="<?=$home?>/js/secret.js"></script>
 
 <!-- analytics -->
 <?php	

@@ -1,9 +1,6 @@
 <?php	
-	$root=realpath(".");
-	$jsinc = "../jsinc";
-	$jsExtra = "$jsinc/extra";
-
-	require_once "$root/php/common.php";
+	$home=".";
+	require_once "$home/php/common.php";
 	
 	require_once("$phpinc/ckinc/header.php");
 	require_once("$spaceinc/curiosity/facebook.php");

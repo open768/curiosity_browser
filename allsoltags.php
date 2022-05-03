@@ -1,7 +1,6 @@
 <?php	
-	$root=realpath(".");
-	$jsinc = "../jsinc";
-	require_once "$root/php/common.php";
+	$home=".";
+	require_once "$home/php/common.php";
 ?>
 <html>
 <head>
@@ -11,7 +10,7 @@
 	<title>Sol Tags - Curiosity Browser</title>
 	<script src="<?=$jsinc?>/ck-inc/secret.js"></script>
 	<script src="js/pages/allsoltags.js"></script>
-	<script src="js/widgets/soltags.js"></script>
+	<script src="<?=$widgets?>/soltags.js"></script>
 </head>
 <body onload="$(onLoadJQuery_TAGS);">
 	<?php 

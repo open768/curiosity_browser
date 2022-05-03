@@ -1,7 +1,6 @@
 <?php	
-	$root=realpath(".");
-	$jsinc = "../jsinc";
-	require_once "$root/php/common.php";
+	$home=".";
+	require_once "$home/php/common.php";
 
 	include("php/fragments/header.php"); 
 	require_once("$phpinc/ckinc/facebook.php");
@@ -15,7 +14,7 @@
 	<?php include("php/fragments/header.php"); ?>
 	<title>Sol Highlights - Curiosity Browser </title>
 	<script type="text/javascript" src="js/pages/solhighs.js"></script>
-	<script type="text/javascript" src="js/widgets/solhighlights.js"></script>
+	<script type="text/javascript" src="<?=$widgets?>/solhighlights.js"></script>
 </head>
 <body onload="$(onLoadJQuery_SOLHI);">
 	<?php 

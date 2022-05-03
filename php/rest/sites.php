@@ -1,6 +1,6 @@
 <?php
-	$root=realpath("../..");
-	require_once "$root/php/common.php";
+	$home = "../..";
+	require_once "$home/php/common.php";
 	require_once("$spaceinc/curiosity/locations.php");
 	
 
