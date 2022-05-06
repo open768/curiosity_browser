@@ -35,6 +35,13 @@
 <script type="text/javascript" src="<?=$jsExtra?>/jquery-cookie/jquery.cookie.js"></script>
 
 <!-- everything else -->
+<script type="text/javascript">
+	var cLocations = {
+		home: "<?=$home?>",
+		rest: "<?=$home?>/php/rest",
+		jsextra: "<?=$jsExtra?>"
+	};
+</script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/common.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/http.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/httpqueue.js"></script>
@@ -43,11 +50,4 @@
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/space/space.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/space/tagging.js"></script>
 <script type="text/javascript" src="<?=$jsinc?>/ck-inc/space/imghilite.js"></script>
-<script type="text/javascript">
-	var cLocations = {
-		home: "<?=$home?>",
-		rest: "<?=$home?>/php/rest"
-	};
-	
-</script>
 

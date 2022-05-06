@@ -167,7 +167,7 @@ function onFacebookUser(){
 
 	$("#Commentsbox").sceditor({
 		plugins: 'bbcode',
-		style: "../jsinc/sceditor/minified/jquery.sceditor.default.min.css",
+		style: cLocations.jsextra + "/sceditor/minified/jquery.sceditor.default.min.css",
 		toolbarExclude: "print,code,email,source,maximize",
 		height:100,
 		resizeEnabled: false
@@ -334,9 +334,9 @@ function load_detail_callback(poHttp){
 	
 	//add the image 
 	$("#image").empty();
-	var oImg = $("<img/>").attr({"src":oData.i, "id":"baseimg", "onload":"OnImageLoaded()"});
+	var oImg = $("<img/>").attr({"src": oData.i, "id":"baseimg", "onload":"OnImageLoaded()"});
 	$("#image").append(oImg);
-	$("meta[property='og:image']").attr("content", oData.i);		//facebook tag for image
+	$("meta[property='og:image']").attr("content", cLocations.home + "/" + oData.i);		//facebook tag for image
 	
 	//get the tags and comments
 	sKey = cTagging.getTags(goItem.s,goItem.i,goItem.p, tag_callback);

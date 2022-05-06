@@ -171,7 +171,7 @@ $.widget( "ck.thumbnail",{
 			//add request for the better thumbnail to the queue
 			goBetterThumbQueue.add(oItem);
 		}else{
-			cDebug.write("Basic thumb not in view: "+oData.p);
+			cDebug.write("Basic thumb not in view: ");
 			oElement.on('inview', 	function(poEvent, pbIsInView){oThis.onBasicThumbInView(pbIsInView);}	);
 		}
 	},

@@ -185,6 +185,7 @@ var cIndexPage = {
 	//***************************************************************
 	load_data: function(){
 		var oChkThumb;
+		var self = this;
 		this.update_url();
 		
 		cDebug.write("loading data: " + cOptions.sol+ ":" + cOptions.instrument);
@@ -235,7 +236,8 @@ var cIndexPage = {
 	//***************************************************************
 	show_images: function( piSol, psInstr, piStartImage){
 		var sUrl;
-		cDebug.write("showing  images for " + psSol + " : " + psInstr);
+		var self = this;
+		cDebug.write("showing  images for " + piSol + " : " + psInstr);
 		
 		var oWidget, oDiv;
 		
