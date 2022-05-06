@@ -18,7 +18,7 @@ $.widget( "ck.instrumentimage",{
 	},
 	consts:{
 		WAIT_VISIBLE:1000,
-		WAIT_IMAGE: "images/browser/chicken_icon.png",
+		WAIT_IMAGE: cLocations.home + "/images/browser/chicken_icon.png",
 	},
 
 	//#################################################################
@@ -122,7 +122,7 @@ $.widget( "ck.instrumentimage",{
 		
 		//load the data
 		var oItem = new cHttpQueueItem();
-		oItem.url = cBrowser.buildUrl("php/rest/detail.php", {s:oOptions.sol, i:oOptions.instrument, p:oOptions.product,m:oOptions.mission.ID});
+		oItem.url = cBrowser.buildUrl(cLocations.rest + "/detail.php", {s:oOptions.sol, i:oOptions.instrument, p:oOptions.product,m:oOptions.mission.ID});
 		bean.on(oItem, "result", 	function(poHttp){oThis.onProductDetails(poHttp);}	);				
 		bean.on(oItem, "error", 	function(poHttp){oThis.onProductError(poHttp);}	);				
 		goImageQueue.add(oItem);

@@ -185,17 +185,17 @@ $.widget( "ck.solButtons",{
 		$("#"+sID+this.consts.SITE_ID).removeAttr("disabled");
 		
 		//fetch tags, highlights and gigapans
-		var sUrl = cBrowser.buildUrl("php/rest/gigapans.php",{o:"sol",s:this.options.sol,m:oOptions.mission.ID});
+		var sUrl = cBrowser.buildUrl(cLocations.rest + "/gigapans.php",{o:"sol",s:this.options.sol,m:oOptions.mission.ID});
 		var oHttp = new cHttp2();
 		bean.on(oHttp, "result", function(poHttp){oThis.onFetchedGigapans(poHttp);});
 		oHttp.fetch_json(sUrl);
 
-		var sUrl = cBrowser.buildUrl("php/rest/tag.php",{o:"solcount",s:this.options.sol,m:oOptions.mission.ID});
+		var sUrl = cBrowser.buildUrl(cLocations.rest + "/tag.php",{o:"solcount",s:this.options.sol,m:oOptions.mission.ID});
 		var oHttp = new cHttp2();
 		bean.on(oHttp, "result", function(poHttp){oThis.onFetchedTagCount(poHttp);});
 		oHttp.fetch_json(sUrl);
 
-		var sUrl = cBrowser.buildUrl("php/rest/img_highlight.php",{o:"solcount",s:this.options.sol,m:oOptions.mission.ID});
+		var sUrl = cBrowser.buildUrl(cLocations.rest + "/img_highlight.php",{o:"solcount",s:this.options.sol,m:oOptions.mission.ID});
 		var oHttp = new cHttp2();
 		bean.on(oHttp, "result", function(poHttp){oThis.onHiLiteCount(poHttp);});
 		oHttp.fetch_json(sUrl);

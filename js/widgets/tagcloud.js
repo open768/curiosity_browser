@@ -104,7 +104,7 @@ $.widget( "ck.tagcloud",{
 		oElement.append(oDiv);
 		
 		var oHttp = new cHttp2();
-		var sUrl =cBrowser.buildUrl("php/rest/tag.php", {o:"all",m:this.options.mission.ID});
+		var sUrl =cBrowser.buildUrl(cLocations.rest + "/tag.php", {o:"all",m:this.options.mission.ID});
 		bean.on(oHttp, "result", function(poHttp){oWidget.process_response(poHttp);});
 		bean.on(oHttp, "error",  function(poHttp){oWidget.process_error(poHttp);});
 		oHttp.fetch_json(sUrl);

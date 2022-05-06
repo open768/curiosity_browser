@@ -30,15 +30,16 @@ $.widget( "ck.solinstrumentChooser",{
 		
 		//check for necessary classes
 		if (!bean){		$.error("bean class is missing! check includes");	}
-		if (!cHttp2){		$.error("http2 class is missing! check includes");	}
+		if (!cHttp2){	$.error("http2 class is missing! check includes");	}
 		if (this.options.mission == null) $.error("mission is not set");
 
 		this.render();
 		this.prLoadLists();
 	},
 	
+	//*******************************************************************
 	render:function(){
-		var oThis, oElement, sID, sOID, oObj, oDiv;
+		var oThis, oElement, sID, sOID, oObj, oList, oHead, oDiv;
 		
 		oThis = this;
 		oElement = oThis.element;
@@ -50,29 +51,29 @@ $.widget( "ck.solinstrumentChooser",{
 		
 		// Missions  part of the widget
 		oDiv = $("<DIV>", {class:"ui-widget-content"});
-			oObj = $("<DIV>", {class:"ui-widget-header"});
-				oObj.append("Missions: ");
-			oDiv.append(oObj);
-			oObj = $("<SELECT>", {id:sID+this.consts.MISSIONS_ID});
-				oObj.append(  $("<Option>",{selected:true,value:"MSL"}).append("Mars Science Lab (Curiosity)")  );
-			oDiv.append(oObj);
+			oHead = $("<DIV>", {class:"ui-widget-header"});
+				oHead.append("Missions: ");
+			oDiv.append(oHead);
+			oList = $("<SELECT>", {id:sID+this.consts.MISSIONS_ID});
+				oList.append(  $("<Option>",{selected:true,value:"MSL"}).append("Mars Science Lab (Curiosity)")  );
+			oDiv.append(oList);
 		oElement.append(oDiv);
 		
 		// sols part of the widget
 		oDiv = $("<DIV>", {class:"ui-widget-content"});
-			oObj = $("<DIV>", {class:"ui-widget-header"});
-				oObj.append("Sol: ");
+			oHead = $("<DIV>", {class:"ui-widget-header"});
+				oHead.append("Sol: ");
 				sOID = sID+this.consts.THIS_SOL_ID;
-				oObj.append(	$("<SPAN>", {id:sOID}).append("???")	);
-			oDiv.append(oObj);
+				oHead.append(	$("<SPAN>", {id:sOID}).append("???")	);
+			oDiv.append(oHead);
 			
-			oObj = $("<SELECT>", {id:sID+this.consts.SOL_SUMMARY_ID});
-			oObj.append($("<Option>").append("loading..."));
-			oDiv.append(oObj);
+			oList = $("<SELECT>", {id:sID+this.consts.SOL_SUMMARY_ID});
+			oList.append($("<Option>").append("loading..."));
+			oDiv.append(oList);
 
-			oObj = $("<SELECT>", {id:sID+this.consts.SOL_LIST_ID});
-			oObj.append($("<Option>").append("loading..."));
-			oDiv.append(oObj);
+			oList = $("<SELECT>", {id:sID+this.consts.SOL_LIST_ID});
+			oList.append($("<Option>").append("loading..."));
+			oDiv.append(oList);
 		
 		
 			var oTable,oRow,oCell,oButton;
@@ -103,12 +104,13 @@ $.widget( "ck.solinstrumentChooser",{
 		
 		// instrument part of the widget
 		oDiv = $("<DIV>", {class:"ui-widget-content"});
-			oObj = $("<DIV>", {class:"ui-widget-header"}).append("Instruments");
-			oElement.append(oObj);
+			oHead = $("<DIV>", {class:"ui-widget-header"}).append("Instruments");
+			oElement.append(oHead);
 			
-			oObj = $("<SELECT>", {id:sID+this.consts.INSTR_ID});
-			oObj.append($("<Option>").append("loading..."));
-		oDiv.append(oObj);
+			oList = $("<SELECT>", {id:sID+this.consts.INSTR_ID});
+			oList.append($("<Option>").append("loading..."));
+		oDiv.append(oList);
+			
 		oElement.append(oDiv);		
 	},
 	
@@ -150,7 +152,7 @@ $.widget( "ck.solinstrumentChooser",{
 		);
 	
 		//get the instruments for this sol
-		var sUrl =cBrowser.buildUrl("php/rest/instruments.php", {s:psSol,r:0,m:this.options.mission.ID});
+		var sUrl =cBrowser.buildUrl(cLocations.rest + "/instruments.php", {s:psSol,r:0,m:this.options.mission.ID});
 		var oHttp = new cHttp2();
 		bean.on(oHttp,"result",function(poHttp){oThis.onLoadSolInstruments(poHttp)});
 		oHttp.fetch_json(sUrl);
@@ -164,12 +166,12 @@ $.widget( "ck.solinstrumentChooser",{
 
 		var oHttp = new cHttp2();
 		bean.on(oHttp,"result",function(poHttp){oThis.onLoadInstruments(poHttp)});
-		var sUrl =cBrowser.buildUrl("php/rest/instruments.php", {m:this.options.mission.ID});
+		var sUrl =cBrowser.buildUrl(cLocations.rest + "/instruments.php", {m:this.options.mission.ID});
 		oHttp.fetch_json(sUrl);
 
 		var oHttp2 = new cHttp2();
 		bean.on(oHttp2,"result",function(poHttp){oThis.onLoadSols(poHttp)});
-		var sUrl =cBrowser.buildUrl("php/rest/sols.php", {m:this.options.mission.ID});
+		var sUrl =cBrowser.buildUrl(cLocations.rest + "/sols.php", {m:this.options.mission.ID});
 		oHttp2.fetch_json(sUrl);
 	},
 	

@@ -1,20 +1,21 @@
 <?php	
-	$home=".";
-	require_once "$home/php/common.php";
+	$home="../..";
+	require_once "$root/php/common.php";
 ?>
+<?php 	include("$home/php/fragments/doctype.txt");  ?>
 <html>
 <head>
 	<?php 
-		include("php/fragments/header.php"); 
+		include("$home/php/fragments/header.php"); 
 	?>
 	<title>calendar - Curiosity Browser</title>
-	<script src="js/pages/cal.js"></script>
+	<script src="<?=$js?>/pages/cal.js"></script>
 	<script src="<?=$widgets?>/solcal.js"></script>
 </head>
 <body onload="$(onLoadJQuery_CAL);">
 	<?php 
 		$sTitle = "Curiosity calendar for SOL: <span id='sol'>???</span>";
-		include("php/fragments/title.php");
+		include("$home/php/fragments/title.php");
 	?>
 	<DIV class="gold">
 		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
@@ -28,7 +29,7 @@
 	
 	<!-- footer -->
 	<?php 	
-		include("php/fragments/github.php") 	
+		include("$home/php/fragments/github.php") 	
 	?>
 </body>
 </html>

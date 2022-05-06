@@ -55,7 +55,7 @@ $.widget( "ck.solcalendar",{
 		oElement.append(oDiv);
 		
 		var oHttp = new cHttp2();		
-		var sUrl = cBrowser.buildUrl("php/rest/cal.php",{s:oOptions.sol,m:oOptions.mission.ID});
+		var sUrl = cBrowser.buildUrl(cLocations.rest + "/cal.php",{s:oOptions.sol,m:oOptions.mission.ID});
 		bean.on(oHttp, "result", function(poHttp){oWidget.onCalResponse(poHttp);}	);
 		bean.on(oHttp, "error",  function(poHttp){oWidget.onError(poHttp);}			);
 		oHttp.fetch_json(sUrl, oElement);

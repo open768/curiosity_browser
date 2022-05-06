@@ -1,21 +1,21 @@
 <?php	
-	$home = ".";
+	$home="../..";
 	require_once "$home/php/common.php";
 ?>
+<?php 	include("$home/php/fragments/doctype.txt");  ?>
 <html>
 <head>
 	<?php 
-		include("php/fragments/header.php"); 
+		include("$home/php/fragments/header.php"); 
 	?>
 	<title>All Highlights - Curiosity Browser</title>
-	<script src="<?=$jsinc?>/ck-inc/secret.js"></script>
 	<script src="<?=$widgets?>/solhighgrid.js"></script>
-	<script src="js/pages/allsolhighs.js"></script>
+	<script src="<?=$js?>/pages/allsolhighs.js"></script>
 </head>
 <body onload="$(onLoadJQuery_HIGHS);">
 	<?php 
 		$sTitle = "Sols with Highlights";
-		include("php/fragments/title.php");
+		include("$home/php/fragments/title.php");
 	?>
 	<div class="gold">
 		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
@@ -28,7 +28,7 @@
 	
 	<!-- *************** footer *********************** -->
 	<?php 	
-		include("php/fragments/github.php") 	
+		include("$home/php/fragments/github.php") 	
 	?>
 </body>
 </html>

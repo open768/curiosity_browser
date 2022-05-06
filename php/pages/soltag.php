@@ -1,19 +1,20 @@
 <?php	
-	$home=".";
+	$home="../..";
 	require_once "$home/php/common.php";
 ?>
+<?php 	include("$home/php/fragments/doctype.txt");  ?>
 <html>
 <head>
 	<?php 
-		include("php/fragments/header.php"); 
+		include("$home/php/fragments/header.php"); 
 	?>
 	<title>sol Tags - Curiosity Browser</title>
-	<script src="js/pages/soltag.js"></script>
+	<script src="<?=$js?>/pages/soltag.js"></script>
 </head>
 <body onload="$(onLoadJQuery_SOLTAG);">
 	<?php 
 		$sTitle = "Tags for sol:<span id='sol'>??</span>";
-		include("php/fragments/title.php");
+		include("$home/php/fragments/title.php");
 	?>
 	<div class="gold">
 		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
@@ -26,6 +27,6 @@
 	<P>
 	
 	<!-- *************** footer *********************** -->
-	<?php 	include("php/fragments/github.php") 	?>
+	<?php 	include("$home/php/fragments/github.php") 	?>
 </body>
 </html>

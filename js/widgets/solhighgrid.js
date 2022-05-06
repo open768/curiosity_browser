@@ -43,7 +43,7 @@ $.widget( "ck.solhighgrid",{
 		//get the sols with Tags
 		var oHttp = new cHttp2();
 		bean.on(oHttp, "result", 	function(poHttp){oThis.onHighlightsResponse(poHttp);}	);				
-		var sUrl=cBrowser.buildUrl("php/rest/img_highlight.php", {o:"topsolindex",m:oOptions.mission.ID});
+		var sUrl=cBrowser.buildUrl(cLocations.rest + "/img_highlight.php", {o:"topsolindex",m:oOptions.mission.ID});
 		oHttp.fetch_json(sUrl);
 	},
 	
@@ -67,7 +67,7 @@ $.widget( "ck.solhighgrid",{
 			oElement.append("loading Sols...");
 			
 			
-			var sUrl=cBrowser.buildUrl("php/rest/sols.php", {m:oOptions.mission.ID});
+			var sUrl=cBrowser.buildUrl(cLocations.rest + "/sols.php", {m:oOptions.mission.ID});
 			var oHttp = new cHttp2();
 			bean.on(oHttp, "result", function(poHttp){ oThis.onSolsResponse(poHttp)} 	);
 			oHttp.fetch_json(sUrl);

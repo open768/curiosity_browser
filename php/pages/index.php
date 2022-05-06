@@ -1,22 +1,23 @@
 <?php	
-	$home = ".";
+	$home = "../..";
 	require_once "$home/php/common.php";
 	
 	$sUser = cAuth::get_user();
 	$bIsAdmin = false;
 	if ($sUser) $bIsAdmin = cAuth::is_role("admin");
 ?>
+<?php 	include("$home/php/fragments/doctype.txt");  ?>
 <html>
 	<head>
-		<?php 	include("php/fragments/header.php");  ?>
+		<?php 	include("$home/php/fragments/header.php");  ?>
 		
 		<title>Curiosity Browser</title>
-		<LINK href="css/drag.css" rel="stylesheet" type="text/css">
-		<LINK href="css/tabs.css" rel="stylesheet" type="text/css">
+		<LINK href="<?=$home?>/css/drag.css" rel="stylesheet" type="text/css">
+		<LINK href="<?=$home?>/css/tabs.css" rel="stylesheet" type="text/css">
 		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/queue.js"></script>
 		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/actionqueue.js"></script>
 		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/tabs.js"></script>
-		<script type="text/javascript" src="js/pages/index.js"></script>
+		<script type="text/javascript" src="<?=$js?>/pages/index.js"></script>
 		<script type="text/javascript" src="<?=$widgets?>/thumbnail.js"></script>
 		<script type="text/javascript" src="<?=$widgets?>/thumbnail-view.js"></script>
 		<script type="text/javascript" src="<?=$widgets?>/image-view.js"></script>
@@ -29,10 +30,10 @@
 		<meta property="og:image" content="http://www.mars-browser.co.uk/curiosity/images/rover.png" />
 		<meta property="og:description" content="Be part of the greatest exploration team ever. Discover great finds in the amazing images from NASA's Curiosity Rover and share your discoveries with the world." />
 	</head>
-	<body onload="$(onLoadJQuery_INDEX);">
+	<body onload="$( function(){ cIndexPage.onLoadJQuery()} );">
 		<?php 
 			$sTitle = "Home";
-			include("php/fragments/title.php");
+			include("$home/php/fragments/title.php");
 		?>
 		
 		<table id="payload" width="100%"><tr>
@@ -46,10 +47,10 @@
 						<div class="tab-content" id="sol-tab">
 							<!-- ************************************** -->
 							<p>
-							<div id="sichooser"></div>
+							<div id="sichooser">loading...</div>
 							<!-- ************************************** -->
 							<p>
-							<div id="solButtons"></div>
+							<div id="solButtons">loading...</div>
 							<!-- ************************************** -->
 							<p>
 							<div class="ui-widget">
@@ -77,7 +78,7 @@
 					<div class="gold" id="images">
 						<div id="intro" style="display:none">
 							<H2>Curiosity Browser</H2>
-							<img src="images/browser/dude.png" height="90" align="left" >
+							<img src="<?=$home?>/images/browser/dude.png" height="90" align="left" >
 							Welcome to the best place to find great images beamed from Curiosity, NASA's Mars Science Lab on Mars. 
 							<p>
 							You might find a fascinating geological formation, an intruiging rock, evidence of water flows, or something else. 
@@ -123,6 +124,6 @@
 			</tr></table>
 			
 			<!-- footer -->
-			<?php include("php/fragments/github.php") ?>
+			<?php include("$home/php/fragments/github.php") ?>
 		</body>
 	</html>

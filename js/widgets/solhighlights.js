@@ -67,7 +67,7 @@ $.widget( "ck.solhighlights",{
 			bean.on(oHttp, "result", 	function(poHttp){ oThis.onSheetResponse(poHttp)}	 );
 		}
 		
-		sUrl = cBrowser.buildUrl("php/rest/img_highlight.php", oParams);
+		sUrl = cBrowser.buildUrl(cLocations.rest + "/img_highlight.php", oParams);
 		oHttp.fetch_json(sUrl);
 	},
 			
@@ -140,7 +140,7 @@ $.widget( "ck.instrhighlight",{
 	},
 	consts:{
 		WAIT_VISIBLE:750,
-		HIGHLIGHT_URL:"php/rest/img_highlight.php",
+		HIGHLIGHT_URL:cLocations.rest + "/img_highlight.php",
 		STAGE1_MSG: "Sqeeezing Limes...",
 		STAGE2_MSG: "Caltching Dodos... "
 	},

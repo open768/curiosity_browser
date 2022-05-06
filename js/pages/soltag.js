@@ -34,7 +34,7 @@ function onLoadJQuery_SOLTAG(){
 	current_sol = sSol;
 	
 	//load tags
-	sUrl = cBrowser.buildUrl("php/rest/tag.php",{s:sSol,o:"sol",m:cMission.ID});
+	sUrl = cBrowser.buildUrl(cLocations.rest + "/tag.php",{s:sSol,o:"sol",m:cMission.ID});
 	set_status("fetching tags");
 
 	var oHttp = new cHttp2();

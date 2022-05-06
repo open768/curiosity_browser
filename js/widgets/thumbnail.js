@@ -31,8 +31,8 @@ $.widget( "ck.thumbnail",{
 			FINAL: "thumb-final",
 			MISSING: "thumb-missing"
 		},
-		BETTER_URL:"php/rest/solthumb.php",
-		DEFAULT_THUMBNAIL:"images/browser/chicken_icon.png",
+		BETTER_URL: cLocations.rest + "/solthumb.php",
+		DEFAULT_THUMBNAIL: cLocations.home + "/images/browser/chicken_icon.png",
 		WAIT_VISIBLE:2000
 	},
 
@@ -214,7 +214,9 @@ $.widget( "ck.thumbnail",{
 			this.pr__set_style(this.consts.STYLES.FINAL); 
 			//update the displayed image - on a Timer to be in a different non-blocking thread
 			setTimeout(	
-				function(){		oImg.attr("src", cBrowser.buildUrl(oData.u,{r:Math.random()}))	},
+				function(){		
+					oImg.attr("src", cBrowser.buildUrl(cLocations.home + "/" + oData.u,{r:Math.random()}))	
+				},
 				0
 			);
 		}

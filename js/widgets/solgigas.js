@@ -44,7 +44,7 @@ $.widget( "ck.solgigas",{
 		//get the sols with Tags
 		var oHttp = new cHttp2();
 		bean.on(oHttp, "result", 	function(poHttp){oThis.onGigaResponse(poHttp);}	);				
-		sUrl = cBrowser.buildUrl("php/rest/gigapans.php",{s:oOptions.sol,o:"sol",m:cMission.ID});
+		sUrl = cBrowser.buildUrl(cLocations.rest + "/gigapans.php",{s:oOptions.sol,o:"sol",m:cMission.ID});
 		oHttp.fetch_json(sUrl);
 	},
 	

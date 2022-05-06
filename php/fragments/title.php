@@ -1,6 +1,6 @@
 <div id='fb-root'></div>
 <?php
-	include("php/fragments/google.php");
+	include("$home/php/fragments/google.php");
 ?>
 <div class="titlebar">
 	<table width="100%"><tr>

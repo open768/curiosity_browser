@@ -7,7 +7,7 @@ $.widget( "ck.imageview",{
 	//# Definition
 	//#################################################################
 	consts:{
-		IMAGES_URL:"php/rest/images.php",
+		IMAGES_URL:cLocations.rest + "/images.php",
 		IMAGES_TO_SHOW: 5,
 		CurrentID:"C",
 		LeftID:"L",

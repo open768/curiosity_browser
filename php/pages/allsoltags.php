@@ -1,21 +1,22 @@
 <?php	
-	$home=".";
+	$home="../..";
 	require_once "$home/php/common.php";
 ?>
+<?php 	include("$home/php/fragments/doctype.txt");  ?>
 <html>
 <head>
 	<?php 
-		include("php/fragments/header.php"); 
+		include("$home/php/fragments/header.php"); 
 	?>
 	<title>Sol Tags - Curiosity Browser</title>
 	<script src="<?=$jsinc?>/ck-inc/secret.js"></script>
-	<script src="js/pages/allsoltags.js"></script>
+	<script src="<?=$js?>/pages/allsoltags.js"></script>
 	<script src="<?=$widgets?>/soltags.js"></script>
 </head>
 <body onload="$(onLoadJQuery_TAGS);">
 	<?php 
 		$sTitle = "Tagged Sols";
-		include("php/fragments/title.php");
+		include("$home/php/fragments/title.php");
 	?>
 	<DIV class="title">Tagged Sols</DIV>
 <p>
@@ -30,7 +31,7 @@
 	
 	<!-- *************** footer *********************** -->
 	<?php 	
-		include("php/fragments/github.php") 	
+		include("$home/php/fragments/github.php") 	
 	?>
 </body>
 </html>

@@ -53,7 +53,7 @@ function onLoadJQuery_PDS(){
 	set_status("loading pds data...");
 	
 	var sUrl = cBrowser.buildUrl(
-		"php/rest/pds.php",
+		cLocations.rest + "/pds.php",
 		{
 			a:"s",
 			s:cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING],

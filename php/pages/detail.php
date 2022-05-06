@@ -1,5 +1,5 @@
 <?php	
-	$home=".";
+	$home="../..";
 	require_once "$home/php/common.php";
 	
 	require_once("$phpinc/ckinc/header.php");
@@ -10,21 +10,22 @@
 		exit;
 	}
 ?>
+<?php 	include("$home/php/fragments/doctype.txt");  ?>
 <html>
 <head>
-	<?php include("php/fragments/header.php"); ?>
-	<LINK href="./css/drag.css" rel="stylesheet" type="text/css">
+	<?php include("$home/php/fragments/header.php"); ?>
+	<LINK href="<?=$home?>/css/drag.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="<?=$jsinc?>/sceditor/minified/themes/default.min.css" type="text/css" media="all" />
 	<title>Detail: Curiosity Browser</title>
 	<script src="<?=$jsExtra?>/pixlr/pixlr.js"></script>
 	<script src="<?=$jsinc?>/ck-inc/comments.js"></script>
 	<script src="<?=$jsExtra?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
-	<script src="js/pages/detail.js"></script>
+	<script src="<?=$js?>/pages/detail.js"></script>
 </head>
 <body onload="$(onLoadJQuery_DETAIL);">
 	<?php 
 		$sTitle = "Product Detail";
-		include("php/fragments/title.php");
+		include("$home/php/fragments/title.php");
 	?>
 	<DIV class="gold">
 		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
@@ -56,10 +57,10 @@
 			<td></td>
 			<td valign="bottom">
 				<nobr>
-				<button title="previous product" id="ltimebut_top" class="topnavbut leftbutton" title="previous in timeline" onclick="onClickPreviousTime();" style="width:100"><img src="images/browser/back.png"></button
+				<button title="previous product" id="ltimebut_top" class="topnavbut leftbutton" title="previous in timeline" onclick="onClickPreviousTime();" style="width:100"><img src="<?=$home?>/images/browser/back.png"></button
 				><button title="previous" id="lbut_top" class="topnavbut leftbutton" onclick="onClickPrevious();" style="width:300">&lt;</button
 				><button title="next" id="rbut_top" class="topnavbut rightbutton" onclick="onClickNext();" style="width:300">&gt;</button
-				><button title="next product" id="rtimebut_top" class="topnavbut rightbutton" title="next in timeline" onclick="onClickNextTime();" style="width:100"><img src="images/browser/forward.png"></button>
+				><button title="next product" id="rtimebut_top" class="topnavbut rightbutton" title="next in timeline" onclick="onClickNextTime();" style="width:100"><img src="<?=$home?>/images/browser/forward.png"></button>
 				</nobr>
 			</td>
 			<td></td>
@@ -76,8 +77,8 @@
 				<!-- template div is not visible and doesnt have to be contained -->
 				<div id="box_template" class="redbox" style="display:none" highlight="true">
 					<div id="controls">
-						<button class="smallbutton" title="accept" onclick="onClickBoxAccept();"><img src="images/browser/bullet_tick.png"></button
-						><button class="smallbutton" title="cancel" onclick="onClickBoxCancel();"><img src="images/browser/bullet_cross.png"></button>
+						<button class="smallbutton" title="accept" onclick="onClickBoxAccept();"><img src="<?=$home?>/images/browser/bullet_tick.png"></button
+						><button class="smallbutton" title="cancel" onclick="onClickBoxCancel();"><img src="<?=$home?>/images/browser/bullet_cross.png"></button>
 					</div>
 					<div id="number" class="lucky8"></div>
 				</div>
@@ -90,10 +91,10 @@
 		<tr>
 			<td></td>
 			<td valign="top">
-				<button title="previous product" id="ltimebut_bot" class="topnavbut leftbutton" title="previous in timeline" onclick="onClickPreviousTime();" style="width:100"><img src="images/browser/back.png"></button
+				<button title="previous product" id="ltimebut_bot" class="topnavbut leftbutton" title="previous in timeline" onclick="onClickPreviousTime();" style="width:100"><img src="<?=$home?>/images/browser/back.png"></button
 				><button title="previous" id="lbut_bot" class="topnavbut leftbutton" onclick="onClickPrevious();" style="width:300">&lt;</button
 				><button title="next" id="rbut_bot" class="topnavbut rightbutton" onclick="onClickNext();" style="width:300">&gt;</button
-				><button title="next product" id="rtimebut_bot" class="topnavbut rightbutton" title="next in timeline" onclick="onClickNextTime();" style="width:100"><img src="images/browser/forward.png"></button>
+				><button title="next product" id="rtimebut_bot" class="topnavbut rightbutton" title="next in timeline" onclick="onClickNextTime();" style="width:100"><img src="<?=$home?>/images/browser/forward.png"></button>
 			</td>
 			<td></td>
 		</tr>
@@ -119,7 +120,7 @@
 	<!-- footer -->
 	<?php 	
 		$sExtraCredits="link to curiosityrover.com courtesy of Joe Knapp";
-		include("php/fragments/github.php") 	
+		include("$home/php/fragments/github.php") 	
 	?>
 </body>
 </html>

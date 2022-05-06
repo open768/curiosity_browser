@@ -1,14 +1,15 @@
 <?php	
-	$home=".";
+	$home="../..";
 	require_once "$home/php/common.php";
 ?>
+<?php 	include("$home/php/fragments/doctype.txt");  ?>
 <html>
 <head>
 	<?php 
-		include("php/fragments/header.php"); 
+		include("$home/php/fragments/header.php"); 
 	?>
 	<title>Tags: Curiosity Browser</title>
-	<script type="text/javascript" src="js/pages/tag.js"></script>
+	<script type="text/javascript" src="<?=$js?>/pages/tag.js"></script>
 	<script type="text/javascript" src="<?=$jsinc?>/ck-inc/queue.js"></script>
 	<script type="text/javascript" src="<?=$jsinc?>/ck-inc/actionqueue.js"></script>
 	<script type="text/javascript" src="<?=$widgets?>/tag-view.js"></script>
@@ -18,7 +19,7 @@
 <body onload="$(onLoadJQuery_TAG);">
 	<?php 
 		$sTitle = "Instances of Tag <span id='tagname'>tag goes here</span>";
-		include("php/fragments/title.php");
+		include("$home/php/fragments/title.php");
 	?>
 	<table width="100%"><tr>
 		<td class="leftcolumn" valign="top">
@@ -41,6 +42,6 @@
 	
 	<P>
 	<!-- footer -->
-	<?php 	include("php/fragments/github.php") 	?>
+	<?php 	include("$home/php/fragments/github.php") 	?>
 </body>
 </html>

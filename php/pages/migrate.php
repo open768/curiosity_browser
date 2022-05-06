@@ -1,18 +1,19 @@
 <?php	
-	$home=".";
+	$home="../..";
 	require_once "$home/php/common.php";
 ?>
+<?php 	include("$home/php/fragments/doctype.txt");  ?>
 <html>
 <head>
 	<?php 
-		include("php/fragments/header.php"); 
+		include("$home/php/fragments/header.php"); 
 	?>
 	<title>Migrate</title>
 </head>
 <body>
 	<?php 
 		$sTitle = "Migrate";
-		include("php/fragments/title.php");
+		include("$home/php/fragments/title.php");
 	?>
 	<script src="<?=$jsinc?>/ck-inc/common.js"></script>
 	<div class="gold" >
@@ -20,7 +21,7 @@
 		<p>
 		<table border="0" width="100%"><tr>
 			<td valign=middle>
-				<img src="images/browser/rover.png" height="120">
+				<img src="<?=$home?>/images/browser/rover.png" height="120">
 			</td>
 			<td>
 				<font class="big_error">Migrating</font><P>
@@ -33,12 +34,12 @@
 				Migrating To: "<?=cHeader::get("pto")?>"
 			</td>
 			<td align="right">
-				<img src="images/browser/dude.png" height="120">
+				<img src="<?=$home?>/images/browser/dude.png" height="120">
 			</td>
 		</tr></table>
 	</div>
 
 	<!-- footer -->
-	<?php 	include("php/fragments/github.php") 	?>
+	<?php 	include("$home/php/fragments/github.php") 	?>
 </body>
 </html>

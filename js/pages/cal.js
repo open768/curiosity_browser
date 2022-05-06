@@ -38,7 +38,7 @@ function onClickPrevious(){
 function onClickRefresh(){
 	set_status("refreshing data");
 	
-	var sUrl = cBrowser.buildUrl("php/rest/instruments.php",{s:current_sol,r:"true",m:cMission.ID}); //force a refresh on the server
+	var sUrl = cBrowser.buildUrl(cLocations.rest + "/instruments.php",{s:current_sol,r:"true",m:cMission.ID}); //force a refresh on the server
 	var oHttp = new cHttp2();
 	bean.on(oHttp,"result",onLoadJQuery_CAL);
 	oHttp.fetch_json(sUrl);

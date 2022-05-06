@@ -1,7 +1,8 @@
 <?php
 	$root=realpath($home);
 	$jsinc = "$home/../jsinc";
-	$widgets = "$home/js/widgets";
+	$js = "$home/js";
+	$widgets = "$js/widgets";
 	$jsExtra = "$jsinc/extra";
 	$phpinc = "$root/../phpinc";		//have to set phpinc here to pull in header.php
 	$spaceinc = "$phpinc/space";
@@ -27,7 +28,7 @@
 	}	
 	
 	//includes
-	require_once "$phpinc/ckinc/secret.php";
+	require_once "$root/php/secret.php";
 
 	require_once "$phpinc/ckinc/common.php";
 	require_once "$phpinc/ckinc/auth.php" ;

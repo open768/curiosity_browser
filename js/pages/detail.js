@@ -28,7 +28,7 @@ function onClickComment(){
 
 //***************************************************************
 function onClickNextTime(){
-	var sUrl = cBrowser.buildUrl("php/rest/nexttime.php",{d:"n",s:goItem.s,p:goItem.p,m:cMission.ID});
+	var sUrl = cBrowser.buildUrl(cLocations.rest + "/nexttime.php",{d:"n",s:goItem.s,p:goItem.p,m:cMission.ID});
 	set_status("fetching next image details...");
 	var oHttp = new cHttp2();
 	bean.on(oHttp,"result",nexttime_callback);
@@ -37,7 +37,7 @@ function onClickNextTime(){
 
 //***************************************************************
 function onClickPreviousTime(){
-	var sUrl = cBrowser.buildUrl("php/rest/nexttime.php",{d:"p",s:goItem.s,p:goItem.p,m:cMission.ID});
+	var sUrl = cBrowser.buildUrl(cLocations.rest + "/nexttime.php",{d:"p",s:goItem.s,p:goItem.p,m:cMission.ID});
 	set_status("fetching previous image details...");
 	var oHttp = new cHttp2();
 	bean.on(oHttp,"result",nexttime_callback);
@@ -50,7 +50,7 @@ function onClickNext(){
 	var sUrl;
 	
 	set_status("fetching next image details...");
-	var sUrl = cBrowser.buildUrl("php/rest/next.php",{d:"n",s:goItem.s,i:goItem.i,p:goItem.p,m:cMission.ID});
+	var sUrl = cBrowser.buildUrl(cLocations.rest + "/next.php",{d:"n",s:goItem.s,i:goItem.i,p:goItem.p,m:cMission.ID});
 	var oHttp = new cHttp2();
 	bean.on(oHttp,"result",next_callback);
 	oHttp.fetch_json(sUrl);
@@ -59,7 +59,7 @@ function onClickNext(){
 //***************************************************************
 function onClickPrevious(){
 	set_status("fetching previous image details...");
-	var sUrl = cBrowser.buildUrl("php/rest/next.php",{d:"p",s:goItem.s,i:goItem.i,p:goItem.p,m:cMission.ID});
+	var sUrl = cBrowser.buildUrl(cLocations.rest + "/next.php",{d:"p",s:goItem.s,i:goItem.i,p:goItem.p,m:cMission.ID});
 	var oHttp = new cHttp2();
 	bean.on(oHttp,"result",next_callback);
 	oHttp.fetch_json(sUrl);
@@ -218,7 +218,7 @@ function onInputDefocus(){
 
 //***************************************************************
 function get_product_data( psSol, psInstr, psProd){
-	var sUrl = cBrowser.buildUrl("php/rest/detail.php",{s:psSol,i:psInstr,p:psProd,m:cMission.ID});
+	var sUrl = cBrowser.buildUrl(cLocations.rest + "/detail.php",{s:psSol,i:psInstr,p:psProd,m:cMission.ID});
 	set_status("fetching data for "+ psProd);
 	var oHttp = new cHttp2();
 	bean.on(oHttp,"result",load_detail_callback);

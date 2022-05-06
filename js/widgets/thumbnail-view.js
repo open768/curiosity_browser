@@ -7,7 +7,7 @@ $.widget( "ck.thumbnailview",{
 	//# Definition
 	//#################################################################
 	consts:{
-		BASIC_URL:"php/rest/solthumbs.php",
+		URL: cLocations.rest + "/solthumbs.php",
 	},
 	options:{
 		ThumbsPerPage: 100,
@@ -29,6 +29,7 @@ $.widget( "ck.thumbnailview",{
 		if (!cHttp2){			$.error("http2 class is missing! check includes");	}
 		if (!this.element.gSpinner){ 	$.error("gSpinner is missing! check includes");		}
 		if (!this.element.thumbnail){ 	$.error("thumbnail is missing! check includes");		}
+		cDebug.write("creating widget thumbnailview");
 
 		
 		//check that the options are passed correctly
@@ -53,7 +54,10 @@ $.widget( "ck.thumbnailview",{
 
 		//start the normal thumbnail download
 		this._trigger("onStatus",null,{text:"loading basic thumbnails"});
-		var sUrl = cBrowser.buildUrl(this.consts.BASIC_URL,{s:oOptions.sol,i:oOptions.instrument,m:oOptions.mission.ID});
+		var sUrl = cBrowser.buildUrl(
+			 this.consts.URL,
+			{s:oOptions.sol,i:oOptions.instrument,m:oOptions.mission.ID}
+		);
 		var oHttp = new cHttp2();
 		bean.on(oHttp,"result",function(poHttp){oThis.onThumbsJS(poHttp)});
 		oHttp.fetch_json(sUrl);
