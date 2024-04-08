@@ -6,11 +6,14 @@
 	$bIsAdmin = false;
 	if ($sUser) $bIsAdmin = cAuth::is_role("admin");
 ?>
+<!-- Doctype Fragment -->
 <?php 	include("$home/php/fragments/doctype.txt");  ?>
 <html>
 	<head>
+		<!-- header fragments -->
 		<?php 	include("$home/php/fragments/header.php");  ?>
 		
+		<!-- main scripts -->
 		<title>Curiosity Browser</title>
 		<LINK href="<?=$home?>/css/drag.css" rel="stylesheet" type="text/css">
 		<LINK href="<?=$home?>/css/tabs.css" rel="stylesheet" type="text/css">
@@ -25,6 +28,7 @@
 		<script type="text/javascript" src="<?=$widgets?>/solinstrchooser.js"></script>
 		<script type="text/javascript" src="<?=$widgets?>/solbuttons.js"></script>
 		<script type="text/javascript" src="<?=$widgets?>/tagcloud.js"></script>
+		<!-- end of scripts -->
 		
 		<meta property="og:title" content="Curiosity Browser - " />
 		<meta property="og:image" content="http://www.mars-browser.co.uk/curiosity/images/rover.png" />
