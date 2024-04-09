@@ -23,15 +23,16 @@ const cOptions = {
 // ###############################################################
 //* JQUERY
 // ###############################################################
-const cIndexPage = {
+//eslint-disable-next-line no-unused-vars
+class cIndexPage {
 
-  onLoadJQuery: function () {
+  static onLoadJQuery() {
     const self = this
     // show the intro blurb if nothing on the querystring
     if (document.location.search.length == 0) { $('#intro').show() }
 
     // load the tabs and show the first one
-    instrumentTabs()
+    cAppTabs.instrumentTabs()
     $('#sol-tab').show()
 
     // remember the start_image if its there
@@ -42,17 +43,17 @@ const cIndexPage = {
     // render the sol instrument chooser widget
     // this widget will kick off the image display thru onSelectSolInstrEvent
     $('#sichooser').solinstrumentChooser({
-      onStatus: function (poEvent, paHash) { self.onStatusEvent(poEvent, paHash) },
-      onSelect: function (poEvent, poData) { self.onSelectSolInstrEvent(poEvent, poData) },
+      onStatus(poEvent, paHash) { self.onStatusEvent(poEvent, paHash) },
+      onSelect(poEvent, poData) { self.onSelectSolInstrEvent(poEvent, poData) },
       mission: cMission
     })
 
     // render the solbuttons
     $('#solButtons').solButtons({
-      onStatus: function (poEvent, paHash) { self.onStatusEvent(poEvent, paHash) },
+      onStatus(poEvent, paHash) { self.onStatusEvent(poEvent, paHash) },
       mission: cMission,
-      onClick: function () { self.stop_queue() },
-      onAllSolThumbs: function () { self.onClickAllSolThumbs() }
+      onClick() { self.stop_queue() },
+      onAllSolThumbs() { self.onClickAllSolThumbs() }
     })
 
     // disable thumbs checkbox until something happens
@@ -63,28 +64,28 @@ const cIndexPage = {
 
     // load tagcloud
     $('#tags').tagcloud({ mission: cMission })
-  },
+  }
 
   // ###############################################################
   // # Event Handlers
   // ###############################################################
-  onClickAllSolThumbs: function () {
+  static onClickAllSolThumbs() {
     this.stop_queue()
     cOptions.instrument = null
     cOptions.start_image = -1
     $('#' + CHKTHUMBS_ID).prop('checked', true).attr('disabled', 'disabled')
     $('#sichooser').solinstrumentChooser('deselectInstrument')
     this.load_data()
-  },
+  }
 
   //* **************************************************************
-  onSearchKeypress: function (e) {
+  static onSearchKeypress(e) {
     this.stop_queue()
     if (e.which == 13) this.onClickSearch()
-  },
+  }
 
   //* **************************************************************
-  onClickSearch: function () {
+  static onClickSearch() {
     this.stop_queue()
     const sText = $('#search_text').val()
     if (sText == '') return
@@ -93,91 +94,91 @@ const cIndexPage = {
     if (!isNaN(sText)) { $('#sichooser').solinstrumentChooser('set_sol', sText) } else {
       const sUrl = cBrowser.buildUrl(cLocations.rest + '/search.php', { s: sText, m: cMission.ID })
       const oHttp = new cHttp2()
-      bean.on(oHttp, 'result', search_callback)
+      bean.on(oHttp, 'result', ()=>this.search_callback())
       oHttp.fetch_json(sUrl)
     }
-  },
+  }
 
   //* **************************************************************
-  onCheckThumbsEvent: function (poEvent) {
+  static onCheckThumbsEvent() {
     this.stop_queue()
     this.load_data()
-  },
+  }
 
   //* **************************************************************
-  onImageClick: function (poEvent, poOptions) {
+  static onImageClick(poEvent, poOptions) {
     this.stop_queue()
     const sUrl = cBrowser.buildUrl('detail.php', { s: poOptions.sol, i: poOptions.instrument, p: poOptions.product })
     cBrowser.openWindow(sUrl, 'detail')
-  },
+  }
 
   //* **************************************************************
-  onSelectSolInstrEvent: function (poEvent, poData) {
+  static onSelectSolInstrEvent(poEvent, poData) {
     this.stop_queue()
     // load the data
     cDebug.write('selected sol ' + poData.sol)
     cOptions.sol = poData.sol
     cDebug.write('selected instr ' + poData.instrument)
     cOptions.instrument = poData.instrument
-    if (!keep_start_image)		cOptions.start_image = 1
+    if (!keep_start_image) cOptions.start_image = 1
     keep_start_image = false
     this.load_data()
-  },
+  }
 
   //* **************************************************************
-  onStatusEvent: function (poEvent, paHash) {
+  static onStatusEvent(poEvent, paHash) {
     cCommonStatus.set_status(paHash.data)
-  },
+  }
 
   //* **************************************************************
-  onThumbClickEvent: function (poEvent, poData) {
+  static onThumbClickEvent(poEvent, poData) {
     this.stop_queue()
     const sUrl = cBrowser.buildUrl('detail.php', { s: poData.sol, i: poData.instr, p: poData.product })
     cDebug.write('loading page ' + sUrl)
     $('#' + IMAGE_CONTAINER_ID).empty().html('redirecting to: ' + sUrl)
     setTimeout(
-      function () {		cBrowser.openWindow(sUrl, 'detail') },
+      function () { cBrowser.openWindow(sUrl, 'detail') },
       0
     )
-  },
+  }
 
   //* **************************************************************
-  onImagesLoadedEvent: function (poEvent, piStartImage) {
+  static onImagesLoadedEvent(poEvent, piStartImage) {
     // enable thumbnails
     $('#solthumbs').removeAttr('disabled')
     cOptions.start_image = piStartImage
     this.update_url()
-  },
+  }
 
   // ###############################################################
   // # Utility functions
   // ###############################################################
-  update_url: function () {
+  static update_url() {
     const oParams = {}
     oParams[cSpaceBrowser.SOL_QUERYSTRING] = cOptions.sol
-    if (cOptions.instrument)	oParams[cSpaceBrowser.INSTR_QUERYSTRING] = cOptions.instrument
-    if (this.is_thumbs_checked())	oParams[cSpaceBrowser.THUMB_QUERYSTRING] = '1'
-    if (cOptions.start_image)		oParams[cSpaceBrowser.BEGIN_QUERYSTRING] = cOptions.start_image
+    if (cOptions.instrument) oParams[cSpaceBrowser.INSTR_QUERYSTRING] = cOptions.instrument
+    if (this.is_thumbs_checked()) oParams[cSpaceBrowser.THUMB_QUERYSTRING] = '1'
+    if (cOptions.start_image) oParams[cSpaceBrowser.BEGIN_QUERYSTRING] = cOptions.start_image
     const sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), oParams)
     cBrowser.pushState('Index', sUrl)
-  },
+  }
 
   //* **************************************************************
-  stop_queue: function () {
+  static stop_queue() {
     let oDiv
     try {
       oDiv = $('#' + IMAGE_CONTAINER_ID)
       oDiv.thumbnailview('stop_queue')
-    } catch (e) {}
-  },
+    } catch (e) {/* do nothing*/ }
+  }
 
   //* **************************************************************
-  is_thumbs_checked: function () {
+  static is_thumbs_checked() {
     return $('#' + CHKTHUMBS_ID).is(':checked')
-  },
+  }
 
   //* **************************************************************
-  load_data: function () {
+  static load_data() {
     let oChkThumb
     const self = this
     this.update_url()
@@ -199,40 +200,39 @@ const cIndexPage = {
       oChkThumb.attr('disabled', 'disabled')
       this.show_thumbs(cOptions.sol, cSpaceBrowser.ALL_INSTRUMENTS)
     }
-  },
+  }
 
   // ###############################################################
   //* GETTERS
   // ###############################################################
-  show_thumbs: function (psSol, psInstrument) {
-    var oWidget, oDiv
+  static show_thumbs(psSol, psInstrument) {
+    var oDiv
     cDebug.write('showing  thumbs for ' + psSol + ' : ' + psInstrument)
     const self = this
 
-    var oDiv = $('#' + IMAGE_CONTAINER_ID)
+    oDiv = $('#' + IMAGE_CONTAINER_ID)
     if (oDiv.length == 0) $.error('image DIV not found ')
 
     if (oDiv.thumbnailview('instance') != undefined) { oDiv.thumbnailview('destroy') }
 
     cDebug.write('creating widget')
-    oWidget = oDiv.thumbnailview({		 // apply widget
+    oDiv.thumbnailview({		 // apply widget
       sol: psSol,
       instrument: psInstrument,
-      onStatus: function (poEvent, paHash) { self.onStatusEvent(poEvent, paHash) }, 			// TODO replace with events
-      onClick: function (poEvent, poData) { self.onThumbClickEvent(poEvent, poData) },
+      onStatus(poEvent, paHash) { self.onStatusEvent(poEvent, paHash) }, 			// TODO replace with events
+      onClick(poEvent, poData) { self.onThumbClickEvent(poEvent, poData) },
       mission: cMission
     })
-  },
+  }
 
   //* **************************************************************
-  show_images: function (piSol, psInstr, piStartImage) {
-    let sUrl
-    const self = this
+  static show_images(piSol, psInstr, piStartImage) {
+    const oThis = this
     cDebug.write('showing  images for ' + piSol + ' : ' + psInstr)
 
     var oWidget, oDiv
 
-    var oDiv = $('#' + IMAGE_CONTAINER_ID)
+    oDiv = $('#' + IMAGE_CONTAINER_ID)
     if (oDiv.length == 0) $.error('image DIV not found')
 
     oWidget = oDiv.data('ckImageview')
@@ -243,23 +243,23 @@ const cIndexPage = {
       sol: piSol,
       instrument: psInstr,
       start_image: piStartImage,
-      onStatus: function (poEvent, paHash) { self.onStatusEvent(poEvent, paHash) },
-      onLoaded: function (poEvent, piStartImage) { self.onImagesLoadedEvent(poEvent, piStartImage) },
-      onClick: function (poEvent, poOptions) { self.onImageClick(poEvent, poOptions) },
+      onStatus(poEvent, paHash) { oThis.onStatusEvent(poEvent, paHash) },
+      onLoaded(poEvent, piStartImage) { oThis.onImagesLoadedEvent(poEvent, piStartImage) },
+      onClick(poEvent, poOptions) { oThis.onImageClick(poEvent, poOptions) },
       mission: cMission
     })
-  },
+  }
 
   // ###############################################################
   //* call backs
   // ###############################################################
-  search_callback: function (poHttp) {
+  static search_callback(poHttp) {
     var sUrl
 
     const oData = poHttp.response
     if (!oData) { cCommonStatus.set_status('not a valid search') } else {
       cCommonStatus.set_status('got search callback')
-      var sUrl = cBrowser.buildUrl('detail.php', { s: oData.s, i: oData.d.instrument, p: oData.d.itemName })
+      sUrl = cBrowser.buildUrl('detail.php', { s: oData.s, i: oData.d.instrument, p: oData.d.itemName })
       document.location.href = sUrl
     }
   }

@@ -15,6 +15,7 @@ const current_sol = null
 // ###############################################################
 // # Utility functions
 // ###############################################################
+//eslint-disable-next-line no-unused-vars
 function onLoadJQuery_SOLGIG () {
   let sUrl, sSol
 

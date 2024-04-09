@@ -15,6 +15,7 @@ module.exports = {
     "bean": "readonly",
     "cActionQueue": "readonly", 
     "cAuth": "readonly",
+    "cAppTabs": "readonly",
     "cBrowser": "readonly",
     "cComments": "readonly",
     "cCommonStatus": "readonly",

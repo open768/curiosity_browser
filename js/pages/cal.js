@@ -66,7 +66,7 @@ function onLoadJQuery_CAL () {
 
 function load_widget () {
   const oDiv = $('#calendar')
-  oWidget = oDiv.data('ckSolcalendar')	// capitalise the first letter of the widget
+  var oWidget = oDiv.data('ckSolcalendar')	// capitalise the first letter of the widget
   if (oWidget)	oWidget.destroy()
   $('#calendar').solcalendar({
     mission: cMission,

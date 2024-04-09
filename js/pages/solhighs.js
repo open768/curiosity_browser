@@ -10,6 +10,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
+//eslint-disable-next-line no-unused-vars
 class cSolHighs {
   static is_mosaic = false
   static current_sol = null
@@ -96,20 +97,18 @@ class cSolHighs {
     var sUrl
 
     if (cBrowser.data[cSpaceBrowser.MOSAIC_QUERYSTRING] != null) return
-    pr_stop_queue()
+    //pr_stop_queue()   //TODO find out what stop-queue is
     const oParams = {}
     oParams[cSpaceBrowser.SOL_QUERYSTRING] = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]
     oParams[cSpaceBrowser.MOSAIC_QUERYSTRING] = 1
-    var sUrl = cBrowser.buildUrl('solhigh.php', oParams)
+     sUrl = cBrowser.buildUrl('solhigh.php', oParams)
     cBrowser.pushState('highlights', sUrl)
     cCommonStatus.set_status('loading..')
-    onLoadJQuery()
+    this.onLoadJQuery()
   }
 
   //* **************************************************************
   static onHighlightClick (poEvent, poData) {
-    const oImg = $(this)
-
     const oParams = {}
     oParams[cSpaceBrowser.SOL_QUERYSTRING] = poData.s
     oParams[cSpaceBrowser.INSTR_QUERYSTRING] = poData.i
