@@ -1,7 +1,7 @@
 /**************************************************************************
-Copyright (C) Chicken Katsu 2014 
+Copyright (C) Chicken Katsu 2014
 
-This code is protected by copyright under the terms of the 
+This code is protected by copyright under the terms of the
 Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License
 http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 
@@ -11,123 +11,115 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 class cSolHighs {
-	static is_mosaic = false;
-	static current_sol = null;
+  static is_mosaic = false
+  static current_sol = null
 
-	//###############################################################
-	//# Entry point
-	//###############################################################
-	static onLoadJQuery(){
-		this.current_sol = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING];
-		if (this.current_sol==null){
-			$("#solhigh").append("no SOL provided!!!!");
-			return;
-		}
+  // ###############################################################
+  // # Entry point
+  // ###############################################################
+  static onLoadJQuery () {
+    this.current_sol = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]
+    if (this.current_sol == null) {
+      $('#solhigh').append('no SOL provided!!!!')
+      return
+    }
 
-		//change status of checkbox
-		if (cBrowser.data[cSpaceBrowser.MOSAIC_QUERYSTRING] != null )	$("#chkMosaic").prop('checked', true);	
-		$("#chkMosaic").on("change",()=>this.onCheckMosaic());
-		
-		this.set_browser_url();
-		this.load_widget();
-	}
+    // change status of checkbox
+    if (cBrowser.data[cSpaceBrowser.MOSAIC_QUERYSTRING] != null)	$('#chkMosaic').prop('checked', true)
+    $('#chkMosaic').on('change', () => this.onCheckMosaic())
 
-	//###############################################################
-	//# Utility functions 
-	//###############################################################
-	static load_widget(){
-		var oDiv = $("#solhigh");
-		var oWidget = oDiv.data("ckSolhighlights");	//capitalise the first letter of the widget
-		if ( oWidget)	oWidget.destroy();
+    this.set_browser_url()
+    this.load_widget()
+  }
 
-		
-		$("#solhigh").solhighlights({
-			sol:this.current_sol,
-			mission:cMission,
-			onStatus:(poEvent, poData)=>this.onStatusEvent(poEvent, poData),
-			onClick:(poEvent, poData)=>this.onHighlightClick(poEvent, poData)
-		});
-	}
+  // ###############################################################
+  // # Utility functions
+  // ###############################################################
+  static load_widget () {
+    const oDiv = $('#solhigh')
+    const oWidget = oDiv.data('ckSolhighlights')	// capitalise the first letter of the widget
+    if (oWidget)	oWidget.destroy()
 
-	//***************************************************************
-	static set_browser_url(){
-		$("#sol").html(this.current_sol);
-		$("#solbutton").html(this.current_sol);
-		var oParams = {};
-	
-		oParams[cSpaceBrowser.SOL_QUERYSTRING]= this.current_sol;
-		if (this.is_mosaic)	oParams[cSpaceBrowser.MOSAIC_QUERYSTRING]= 1;
-		
-		var sUrl = cBrowser.buildUrl(cBrowser.pageUrl() , oParams);
-		cBrowser.pushState("solhigh", sUrl);	
-	}
+    $('#solhigh').solhighlights({
+      sol: this.current_sol,
+      mission: cMission,
+      onStatus: (poEvent, poData) => this.onStatusEvent(poEvent, poData),
+      onClick: (poEvent, poData) => this.onHighlightClick(poEvent, poData)
+    })
+  }
 
-	//###############################################################
-	//# events
-	//###############################################################
-	static onCheckMosaic(){
-		this.is_mosaic = $("#chkMosaic")[0].checked;
-		this.set_browser_url();
-		this.load_widget();
-	}
+  //* **************************************************************
+  static set_browser_url () {
+    $('#sol').html(this.current_sol)
+    $('#solbutton').html(this.current_sol)
+    const oParams = {}
 
-	static onClickPrevious_sol(){
-		this.current_sol --;
-		this.set_browser_url();
-		this.load_widget();
-	}
+    oParams[cSpaceBrowser.SOL_QUERYSTRING] = this.current_sol
+    if (this.is_mosaic)	oParams[cSpaceBrowser.MOSAIC_QUERYSTRING] = 1
 
-	//***************************************************************
-	static onClickNext_sol(){
-		this.current_sol ++;
-		this.set_browser_url();
-		this.load_widget();
-	}
+    const sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), oParams)
+    cBrowser.pushState('solhigh', sUrl)
+  }
 
-	//***************************************************************
-	static onClickSol(){
-		var oParams = {};
-		oParams[cSpaceBrowser.SOL_QUERYSTRING] = this.current_sol;
-		var sUrl = cBrowser.buildUrl("index.php", oParams);
-		cBrowser.openWindow(sUrl, "index");
-	}
+  // ###############################################################
+  // # events
+  // ###############################################################
+  static onCheckMosaic () {
+    this.is_mosaic = $('#chkMosaic')[0].checked
+    this.set_browser_url()
+    this.load_widget()
+  }
 
+  static onClickPrevious_sol () {
+    this.current_sol--
+    this.set_browser_url()
+    this.load_widget()
+  }
 
-	//***************************************************************
-	static onClickMosaic(){
-		var sUrl;
-		
-		if (cBrowser.data[cSpaceBrowser.MOSAIC_QUERYSTRING] != null) return;
-		pr_stop_queue();
-		var oParams = {};
-		oParams[cSpaceBrowser.SOL_QUERYSTRING] = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING];
-		oParams[cSpaceBrowser.MOSAIC_QUERYSTRING] = 1;
-		var sUrl = cBrowser.buildUrl("solhigh.php", oParams);
-		cBrowser.pushState("highlights", sUrl);
-		set_status("loading..");
-		onLoadJQuery();
-	}
+  //* **************************************************************
+  static onClickNext_sol () {
+    this.current_sol++
+    this.set_browser_url()
+    this.load_widget()
+  }
 
-	//***************************************************************
-	static onHighlightClick(poEvent, poData){
-		var oImg = $(this);
-		
-		var oParams = {};
-		oParams[cSpaceBrowser.SOL_QUERYSTRING] = poData.s;
-		oParams[cSpaceBrowser.INSTR_QUERYSTRING] = poData.i;
-		oParams[cSpaceBrowser.PRODUCT_QUERYSTRING] = poData.p;
-		var sUrl = cBrowser.buildUrl("detail.php", oParams);
-		cBrowser.openWindow(sUrl, "detail");
-	}
+  //* **************************************************************
+  static onClickSol () {
+    const oParams = {}
+    oParams[cSpaceBrowser.SOL_QUERYSTRING] = this.current_sol
+    const sUrl = cBrowser.buildUrl('index.php', oParams)
+    cBrowser.openWindow(sUrl, 'index')
+  }
 
-	//***************************************************************
-	static onStatusEvent(poEvent, poData){
-		set_status(poData.text);
-	}
+  //* **************************************************************
+  static onClickMosaic () {
+    var sUrl
+
+    if (cBrowser.data[cSpaceBrowser.MOSAIC_QUERYSTRING] != null) return
+    pr_stop_queue()
+    const oParams = {}
+    oParams[cSpaceBrowser.SOL_QUERYSTRING] = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]
+    oParams[cSpaceBrowser.MOSAIC_QUERYSTRING] = 1
+    var sUrl = cBrowser.buildUrl('solhigh.php', oParams)
+    cBrowser.pushState('highlights', sUrl)
+    cCommonStatus.set_status('loading..')
+    onLoadJQuery()
+  }
+
+  //* **************************************************************
+  static onHighlightClick (poEvent, poData) {
+    const oImg = $(this)
+
+    const oParams = {}
+    oParams[cSpaceBrowser.SOL_QUERYSTRING] = poData.s
+    oParams[cSpaceBrowser.INSTR_QUERYSTRING] = poData.i
+    oParams[cSpaceBrowser.PRODUCT_QUERYSTRING] = poData.p
+    const sUrl = cBrowser.buildUrl('detail.php', oParams)
+    cBrowser.openWindow(sUrl, 'detail')
+  }
+
+  //* **************************************************************
+  static onStatusEvent (poEvent, poData) {
+    cCommonStatus.set_status(poData.text)
+  }
 }
-
-
-
-
-
-

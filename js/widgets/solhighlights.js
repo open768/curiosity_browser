@@ -1,9 +1,9 @@
-var goHighlightQueue = new cHttpQueue;
+var goHighlightQueue = new cHttpQueue()
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //% Definition
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-$.widget( "ck.solhighlights",{
+$.widget( "ck.solhighlights", {
 	//#################################################################
 	//# Definition
 	//#################################################################
@@ -18,7 +18,6 @@ $.widget( "ck.solhighlights",{
 	//# Constructor
 	//#################################################################
 	_create: function(){
-		var oThis = this;
 		var oOptions = this.options;
 		var oElement = this.element;
 		
@@ -61,7 +60,7 @@ $.widget( "ck.solhighlights",{
 		var oHttp = new cHttp2();
 		if (cBrowser.data[cSpaceBrowser.MOSAIC_QUERYSTRING] != null){
 			oParams[cSpaceBrowser.OUTPUT_QUERYSTRING ] = "mosaic";
-			bean.on(oHttp, "result", 	function(poHttp){ oThis.onMosaicResponse(poHttp)}	 );
+			bean.on(oHttp, "result", 	(poHttp)=> oThis.onMosaicResponse(poHttp)	 );
 		}else {
 			oParams[cSpaceBrowser.OUTPUT_QUERYSTRING ] = "soldata";
 			bean.on(oHttp, "result", 	function(poHttp){ oThis.onSheetResponse(poHttp)}	 );
