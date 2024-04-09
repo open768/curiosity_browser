@@ -18,17 +18,17 @@
 	<script type="text/javascript" src="<?=$js?>/pages/solhighs.js"></script>
 	<script type="text/javascript" src="<?=$widgets?>/solhighlights.js"></script>
 </head>
-<body onload="$(onLoadJQuery_SOLHI);">
+<body onload="$( ()=>cSolHighs.onLoadJQuery() );">
 	<?php 
 		$sTitle = "Highlights for sol:<span id='sol'>??</span>";
 		include("$home/php/fragments/title.php");
 	?>
 	<div class="gold">
 		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
-		<button class="leftbutton" onclick="onClickPrevious_sol()" title="previous sol">&lt;&lt;&lt;</button>
-		<button class="roundbutton" onclick="onClickSol();">sol <span id="solbutton">???</span></button>
+		<button class="leftbutton" onclick="cSolHighs.onClickPrevious_sol()" title="previous sol">&lt;&lt;&lt;</button>
+		<button class="roundbutton" onclick="cSolHighs.onClickSol();">sol <span id="solbutton">???</span></button>
 		<button class="leftbutton" onclick="cBrowser.openWindow('allsolhighs.php','allhighs');">All Sols</button>
-		<button class="rightbutton" onclick="onClickNext_sol()" title="next sol">&gt;&gt;&gt;</button>
+		<button class="rightbutton" onclick="cSolHighs.onClickNext_sol()" title="next sol">&gt;&gt;&gt;</button>
 
 		&nbsp;&nbsp;&nbsp;
 		<input id="chkMosaic" type="checkbox">Mosaic
