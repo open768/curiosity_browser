@@ -292,12 +292,12 @@ class cDetail {
 
   //* **************************************************************
   static onSetTag(paJS) {
-    this.tag_callback(paJS)
+    this.onGotTags(paJS)
     cTagging.getTagNames(() => this.alltagnames_callback())
   }
 
   //* **************************************************************
-  static tag_callback(paJS) {
+  static onGotTags(paJS) {
     let sHTML, i, sTag
 
     cCommonStatus.set_status('got tag')
@@ -318,7 +318,7 @@ class cDetail {
   }
 
   //* **************************************************************
-  static load_detail_callback(poHttp) {
+  static onGotDetails(poHttp) {
     let sUrl, oData
     cCommonStatus.set_status('received data...')
 
@@ -370,7 +370,7 @@ class cDetail {
     $("meta[property='og:image']").attr('content', cLocations.home + '/' + oData.i)		// facebook tag for image
 
     // get the tags and comments
-    cTagging.getTags(this.oItem.s, this.oItem.i, this.oItem.p, (oData) => this.tag_callback(oData))
+    cTagging.getTags(this.oItem.s, this.oItem.i, this.oItem.p, (oData) => this.onGotTags(oData))
     cComments.get(this.oItem.s, this.oItem.i, this.oItem.p, () => this.onGotComments())
 
     // empty highligths
@@ -386,7 +386,9 @@ class cDetail {
 
     if (!paJson) { sHTML = 'No Comments - be the first !' } else {
       sHTML = ''
-      for (i = 0; i < paJson.length; i++) { sHTML += paJson[i].u + ':' + paJson[i].c + '<p>' }
+      for (i = 0; i < paJson.length; i++) 
+        sHTML += paJson[i].u + ':' + paJson[i].c + '<p>' 
+      
     }
 
     oText = $('#comments')
@@ -397,7 +399,10 @@ class cDetail {
   //* **************************************************************
   static nexttime_callback(poHttp) {
     const oData = poHttp.response
-    if (!oData) { cCommonStatus.set_error_status('unable to find') } else { this.get_product_data(oData.s, oData.d.instrument, oData.d.itemName) }
+    if (!oData)
+      cCommonStatus.set_error_status('unable to find')
+    else 
+      this.get_product_data(oData.s, oData.d.instrument, oData.d.itemName) 
   }
 
   //* **************************************************************
@@ -451,7 +456,7 @@ class cDetail {
     const sUrl = cBrowser.buildUrl(cLocations.rest + '/detail.php', { s: psSol, i: psInstr, p: psProd, m: cMission.ID })
     cCommonStatus.set_status('fetching data for ' + psProd)
     const oHttp = new cHttp2()
-    bean.on(oHttp, 'result', (oData) => this.load_detail_callback(oData))
+    bean.on(oHttp, 'result', (oData) => this.onGotDetails(oData))
     oHttp.fetch_json(sUrl)
   }
 }
