@@ -12,7 +12,7 @@
 	<script src="<?=$js?>/pages/cal.js"></script>
 	<script src="<?=$widgets?>/solcal.js"></script>
 </head>
-<body onload="$(onLoadJQuery_CAL);">
+<body onload="$( ()=>cAppCal.onLoadJQuery() )">
 	<?php 
 		$sTitle = "Curiosity calendar for SOL: <span id='sol'>???</span>";
 		include("$home/php/fragments/title.php");

@@ -1,3 +1,4 @@
+    /* global goBetterThumbQueue */
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // % Definition
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -24,10 +25,10 @@ $.widget('ck.thumbnailview', {
     const oOptions = this.options
 
     // check for necessary classes
-    if (!bean) {				$.error('bean class is missing! check includes')	}
-    if (!cHttp2) {			$.error('http2 class is missing! check includes')	}
-    if (!this.element.gSpinner) { 	$.error('gSpinner is missing! check includes')		}
-    if (!this.element.thumbnail) { 	$.error('thumbnail is missing! check includes')		}
+    if (!bean) { $.error('bean class is missing! check includes') }
+    if (!cHttp2) { $.error('http2 class is missing! check includes') }
+    if (!this.element.gSpinner) { $.error('gSpinner is missing! check includes') }
+    if (!this.element.thumbnail) { $.error('thumbnail is missing! check includes') }
     cDebug.write('creating widget thumbnailview')
 
     // check that the options are passed correctly
@@ -52,7 +53,7 @@ $.widget('ck.thumbnailview', {
     // start the normal thumbnail download
     this._trigger('onStatus', null, { text: 'loading basic thumbnails' })
     const sUrl = cBrowser.buildUrl(
-			 this.consts.URL,
+      this.consts.URL,
       { s: oOptions.sol, i: oOptions.instrument, m: oOptions.mission.ID }
     )
     const oHttp = new cHttp2()

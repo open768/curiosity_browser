@@ -46,10 +46,10 @@ $.widget('ck.thumbnail', {
     oElement = this.element
 
     // check for necessary classes
-    if (!bean) {		$.error('bean class is missing! check includes')	}
-    if (!cHttp2) {		$.error('http2 class is missing! check includes')	}
-    if (!$.event.special.inview) {		$.error('inview class is missing! check includes')	}
-    if (!oElement.visible) 			$.error('visible class is missing! check includes')
+    if (!bean) { $.error('bean class is missing! check includes') }
+    if (!cHttp2) { $.error('http2 class is missing! check includes') }
+    if (!$.event.special.inview) { $.error('inview class is missing! check includes') }
+    if (!oElement.visible) $.error('visible class is missing! check includes')
 
     // init
     if (oOptions.sol == null) $.error('sol is not set')
@@ -64,21 +64,21 @@ $.widget('ck.thumbnail', {
     oElement.attr('class', this.consts.DEFAULT_STYLE)
 
     oImg =
-			$('<IMG>', {
-			  title: this.options.product,
-			  border: 0,
-			  height: this.consts.SIZE,
-			  src: this.consts.DEFAULT_THUMBNAIL,
-			  ID: sImgID
-			}
-			)
+      $('<IMG>', {
+        title: this.options.product,
+        border: 0,
+        height: this.consts.SIZE,
+        src: this.consts.DEFAULT_THUMBNAIL,
+        ID: sImgID
+      }
+      )
     oImg.click(function () { oThis.onThumbClick() })
     this.options.img = sImgID
     this.pr__set_style(this.consts.STYLES.ORIG)
 
     // optimise server requests, only display thumbnail if its in viewport
     oElement.append(oImg)
-    oElement.on('inview', 	function (poEvent, pbIsInView) { oThis.onPlaceholderInView(pbIsInView) })
+    oElement.on('inview', function (poEvent, pbIsInView) { oThis.onPlaceholderInView(pbIsInView) })
   },
 
   // #################################################################
@@ -107,7 +107,7 @@ $.widget('ck.thumbnail', {
     this.pr__set_style(oThis.consts.STYLES.WAITING1)
 
     setTimeout(
-      function () {	oThis.onPlaceholderDelay() },
+      function () { oThis.onPlaceholderDelay() },
       this.consts.WAIT_VISIBLE
     )
   },
@@ -127,7 +127,7 @@ $.widget('ck.thumbnail', {
     } else {
       // image is not visible - reset the inview trigger
       cDebug.write('placeholder not visible  ' + this.options.product)
-      oElement.on('inview', 	function (poEvent, pbIsInView) { oThis.onPlaceholderInView(pbIsInView) })
+      oElement.on('inview', function (poEvent, pbIsInView) { oThis.onPlaceholderInView(pbIsInView) })
     }
   },
 
@@ -135,7 +135,6 @@ $.widget('ck.thumbnail', {
   onBasicThumbLoaded: function () {
     const oThis = this
     const oImg = $('#' + this.options.img)
-    const oElement = this.element
 
     if (goBetterThumbQueue.stopping) return
     oImg.off('load') // remove the load event so it doesnt fire again
@@ -143,14 +142,13 @@ $.widget('ck.thumbnail', {
     if (goBetterThumbQueue.stopping) return
     this.pr__set_style(oThis.consts.STYLES.WAITING2)
     setTimeout(
-      function () {	oThis.onBasicThumbViewDelay() },
+      function () { oThis.onBasicThumbViewDelay() },
       this.consts.WAIT_VISIBLE
     )
   },
 
   //* *****************************************************************
   onBasicThumbViewDelay: function () {
-    let sUrl
     const oThis = this
     const oOptions = this.options
     const oImg = $('#' + this.options.img)
@@ -162,34 +160,30 @@ $.widget('ck.thumbnail', {
       const oItem = new cHttpQueueItem()
       oItem.url = cBrowser.buildUrl(this.consts.BETTER_URL, { s: oOptions.sol, i: oOptions.instrument, p: oOptions.product, m: oOptions.mission.ID })
 
-      bean.on(oItem, 'result', 	function (poHttp) { oThis.onBetterThumbResponse(poHttp) })
-      bean.on(oItem, 'error', 	function (poHttp) { oThis.onBetterThumbError(poHttp) })
-      bean.on(oItem, 'start', 	function () { oThis.onBetterThumbStarting() })
+      bean.on(oItem, 'result', function (poHttp) { oThis.onBetterThumbResponse(poHttp) })
+      bean.on(oItem, 'error', function (poHttp) { oThis.onBetterThumbError(poHttp) })
+      bean.on(oItem, 'start', function () { oThis.onBetterThumbStarting() })
 
       // add request for the better thumbnail to the queue
       goBetterThumbQueue.add(oItem)
     } else {
       cDebug.write('Basic thumb not in view: ')
-      oElement.on('inview', 	function (poEvent, pbIsInView) { oThis.onBasicThumbInView(pbIsInView) })
+      oElement.on('inview', function (poEvent, pbIsInView) { oThis.onBasicThumbInView(pbIsInView) })
     }
   },
 
   //* *****************************************************************
   onBasicThumbInView: function (pbIsInView) {
-    const oThis = this
     if (goBetterThumbQueue.stopping) return
 
     if (!pbIsInView) return
 
-    const oImg = $('#' + this.options.img)
     this.element.off('inview')	// turn off the inview listener
     this.onBasicThumbLoaded() // go back to
   },
 
   //* *****************************************************************
   onBetterThumbStarting: function () {
-    const oElement = this.element
-
     if (goBetterThumbQueue.stopping) return
 
     // ** TBD ** at this stage is the div is not visible stop the request
@@ -198,10 +192,8 @@ $.widget('ck.thumbnail', {
 
   //* *****************************************************************
   onBetterThumbResponse: function (poHttp) {
-    const oOptions = this.options
     const oImg = $('#' + this.options.img)
     const oData = poHttp.response
-    const oElement = this.element
 
     if (goBetterThumbQueue.stopping) return
     if (!oData.u) {
@@ -222,8 +214,6 @@ $.widget('ck.thumbnail', {
 
   //* *****************************************************************
   onBetterThumbError: function (poHttp) {
-    const oElement = this.element
-
     this.pr__set_style(this.consts.STYLES.ERROR)
     cDebug.write('ERROR: ' + poHttp.data + '\n' + poHttp.url + '\n' + poHttp.errorStatus + ' - ' + poHttp.error)
   },

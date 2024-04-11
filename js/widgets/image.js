@@ -80,8 +80,6 @@ $.widget('ck.instrumentimage', {
 
   // ***************************************************************
   onPlaceholderDelay: function () {
-    const oElement = this.element
-
     const sWaitImgID = this.element.attr('id') + 'i'
     const oImg = $('#' + sWaitImgID)
     if (!oImg.visible()) {
@@ -146,7 +144,7 @@ $.widget('ck.instrumentimage', {
     // build image div
     const oImgDiv = $('<DIV>', { class: 'ui-widget-body' }).css({ position: 'relative' })
     oOptions.image_div = oImgDiv
-    oImg = $('<IMG>', { src: oOptions.src })
+    var oImg = $('<IMG>', { src: oOptions.src })
     oImg.on('load',	function () { oThis.onLoadedImage() })
     oImg.click(function () { oThis._trigger('onClick', null, oOptions) })
     oImgDiv.append(oImg)
@@ -185,7 +183,7 @@ $.widget('ck.instrumentimage', {
     oDiv = this.options.image_div
 
     for (i = 0; i < paJS.d.length; i++) {
-      aItem = paJS.d[i]
+      var aItem = paJS.d[i]
 
       // create a redbox and display it
       oRedBox = $('<DIV>', { class: 'redbox' })
@@ -228,7 +226,7 @@ $.widget('ck.instrumentimage', {
   },
 
   // ***************************************************************
-  onProductError: function (poHttp) {
+  onProductError: function () {
     const oElement = this.element
 
     oElement.empty()

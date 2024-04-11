@@ -18,6 +18,7 @@ module.exports = {
     "cAppTabs": "readonly",
     "cBrowser": "readonly",
     "cComments": "readonly",
+    "cCommon": "readonly",
     "cCommonStatus": "readonly",
     "cDebug": "readonly",
     "cFacebook": "readonly",

@@ -25,13 +25,13 @@ let oSelectedHiRise = null
 // # Utility functions
 // ###############################################################
 //eslint-disable-next-line no-unused-vars
-function onLoadJQuery_SITES () {
+function onLoadJQuery_SITES() {
   cCommonStatus.set_status('initialising Google Earth')
   cGoogleEarth.callback = onGoogleEarthLoaded
   cGoogleEarth.init('map')
 }
 
-function onGoogleEarthLoaded () {
+function onGoogleEarthLoaded() {
   cCommonStatus.set_status('retrieving sites')
   const sUrl = cBrowser.buildUrl(cLocations.rest + '/sites.php', { o: 'allSitesBounds', m: cMission.ID })
   const oHttp = new cHttp2()
@@ -42,7 +42,7 @@ function onGoogleEarthLoaded () {
 // ###############################################################
 //* call backs
 // ###############################################################
-function all_sites_callback (poHttp) {
+function all_sites_callback(poHttp) {
   var oBounds
   var oSelect, oOption
   const oData = poHttp.response
@@ -74,7 +74,7 @@ function all_sites_callback (poHttp) {
 }
 
 //* ***************************************************************
-function render_sites () {
+function render_sites() {
   let i, oBounds, sLink, oPlace
   let fAll = null
   let bFirst = true
@@ -88,8 +88,8 @@ function render_sites () {
 
     // add to overall bounds
     if (bFirst) {
-			 fAll = { lat1: oBounds.lat1, long1: oBounds.long1, lat2: oBounds.lat2, long2: oBounds.long2 }
-			 bFirst = false
+      fAll = { lat1: oBounds.lat1, long1: oBounds.long1, lat2: oBounds.lat2, long2: oBounds.long2 }
+      bFirst = false
     } else {
       fAll.lat1 = Math.min(fAll.lat1, oBounds.lat1)
       fAll.long1 = Math.min(fAll.long1, oBounds.long1)
@@ -126,7 +126,7 @@ function render_sites () {
 }
 
 //* ***************************************************************
-function hirise_callback (poHttp) {
+function hirise_callback(poHttp) {
   let oSelect, i, oOption, oItem
 
   cCommonStatus.set_status('got hirise data')
@@ -151,7 +151,7 @@ function hirise_callback (poHttp) {
 }
 
 //* ***************************************************************
-function lookat_callback () {
+function lookat_callback() {
   cGoogleEarth.removeListener('frameend', lookat_callback)
   cCommonStatus.set_status('fetching sites')
   for (var i = 0; i < aSites.length; i++) {
@@ -164,11 +164,11 @@ function lookat_callback () {
 }
 
 //* ***************************************************************
-function get_site_callback (poHttp) {
+function get_site_callback(poHttp) {
   let i, aVector, fLat, fLong, aData
 
   const oData = poHttp.response
-  if (oData.d == null)	return
+  if (oData.d == null) return
   aData = oData.d
 
   aVector = []
@@ -184,7 +184,7 @@ function get_site_callback (poHttp) {
 // ###############################################################
 //* EVENTS
 // ###############################################################
-function onClickSite () {
+function onClickSite() {
   let iSite, sVal
 
   if (!bPluginLoaded) {
@@ -203,7 +203,7 @@ function onClickSite () {
 }
 
 //* ***************************************************************
-function onClickHirise () {
+function onClickHirise() {
   let sVal, iIndex, oPlace
 
   sVal = $(this).val()

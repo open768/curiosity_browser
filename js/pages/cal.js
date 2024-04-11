@@ -10,68 +10,70 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-const loading = true
+//eslint-disable-next-line no-unused-vars
+class cAppCal {
 
-let current_sol = null
-const current_date = null
-const oColours = {}
+  static current_sol = null
+  static current_date = null
+  static oColours = {}
 
-// ###############################################################
-// # Event Handlers
-// ###############################################################
-function onClickGotoSol () {
-  const sUrl = cBrowser.buildUrl('index.php', { s: current_sol })
-  cBrowser.openWindow(sUrl, 'index')
-}
+  // ###############################################################
+  // # entry point
+  // ###############################################################
+  static onLoadJQuery() {
+    this.current_sol = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]
+    this.load_widget()
+  }
 
-function onClickNext () {
-  current_sol = parseInt(current_sol) + 1
-  load_widget()
-}
+  // ###############################################################
+  // # Event Handlers
+  // ###############################################################
+  static onClickGotoSol() {
+    const sUrl = cBrowser.buildUrl('index.php', { s: this.current_sol })
+    cBrowser.openWindow(sUrl, 'index')
+  }
 
-function onClickPrevious () {
-  current_sol = parseInt(current_sol) - 1
-  load_widget()
-}
+  static onClickNext() {
+    this.current_sol = parseInt(this.current_sol) + 1
+    this.load_widget()
+  }
 
-function onClickRefresh () {
-  cCommonStatus.set_status('refreshing data')
+  static onClickPrevious() {
+    this.current_sol = parseInt(this.current_sol) - 1
+    this.load_widget()
+  }
 
-  const sUrl = cBrowser.buildUrl(cLocations.rest + '/instruments.php', { s: current_sol, r: 'true', m: cMission.ID }) // force a refresh on the server
-  const oHttp = new cHttp2()
-  bean.on(oHttp, 'result', onLoadJQuery_CAL)
-  oHttp.fetch_json(sUrl)
-}
+  static onClickRefresh() {
+    cCommonStatus.set_status('refreshing data')
 
-function onLoadedCal (poEvent, psSol) {
-  current_sol = psSol
-  $('#gotoSOL').html(psSol)
-  $('#sol').html(psSol)
-  const sURL = cBrowser.buildUrl(cBrowser.pageUrl(), { s: current_sol })
-  cBrowser.pushState('calendar', sURL)
-}
+    const sUrl = cBrowser.buildUrl(cLocations.rest + '/instruments.php', { s: this.current_sol, r: 'true', m: cMission.ID }) // force a refresh on the server
+    const oHttp = new cHttp2()
+    bean.on(oHttp, 'result', ()=>this.onLoadJQuery_CAL())
+    oHttp.fetch_json(sUrl)
+  }
 
-function onClickCal (poEvent, poData) {
-  const sUrl = cBrowser.buildUrl('detail.php', poData)
-  cBrowser.openWindow(sUrl, 'detail')
-}
+  static onLoadedCal(poEvent, psSol) {
+    this.current_sol = psSol
+    $('#gotoSOL').html(psSol)
+    $('#sol').html(psSol)
+    const sURL = cBrowser.buildUrl(cBrowser.pageUrl(), { s: this.current_sol })
+    cBrowser.pushState('calendar', sURL)
+  }
 
-// ###############################################################
-// # Utility functions
-// ###############################################################
-function onLoadJQuery_CAL () {
-  current_sol = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]
-  load_widget()
-}
+  static onClickCal(poEvent, poData) {
+    const sUrl = cBrowser.buildUrl('detail.php', poData)
+    cBrowser.openWindow(sUrl, 'detail')
+  }
 
-function load_widget () {
-  const oDiv = $('#calendar')
-  var oWidget = oDiv.data('ckSolcalendar')	// capitalise the first letter of the widget
-  if (oWidget)	oWidget.destroy()
-  $('#calendar').solcalendar({
-    mission: cMission,
-    sol: current_sol,
-    onLoadedCal,
-    onClick: onClickCal
-  })
+  static load_widget() {
+    const oDiv = $('#calendar')
+    var oWidget = oDiv.data('ckSolcalendar')	// capitalise the first letter of the widget
+    if (oWidget) oWidget.destroy()
+    $('#calendar').solcalendar({
+      mission: cMission,
+      sol: this.current_sol,
+      onLoaded: ()=>this.onLoadedCal(),
+      onClick: ()=>this.onClickCal()
+    })
+  }
 }

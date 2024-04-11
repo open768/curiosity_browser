@@ -1,6 +1,7 @@
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // % Definition
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/*global cAppCal */
 $.widget('ck.solcalendar', {
   // #################################################################
   // # Definition
@@ -17,17 +18,16 @@ $.widget('ck.solcalendar', {
   // #################################################################
   _create: function () {
     // check that the element is a div
-    const oWidget = this
     const oElement = this.element
     const oOptions = this.options
 
     // check for necessary classes
-    if (!bean)		$.error('bean class is missing! check includes')
-    if (!cHttp2)		$.error('http2 class is missing! check includes')
+    if (!bean) $.error('bean class is missing! check includes')
+    if (!cHttp2) $.error('http2 class is missing! check includes')
     if (oOptions.mission == null) $.error('mission is not set')
     if (oOptions.sol == null) $.error('sol is not set')
     if (oOptions.onClick == null) $.error('onClick is not set')
-    if (!oElement.gSpinner)	$.error('gspinner class is missing! check includes')
+    if (!oElement.gSpinner) $.error('gspinner class is missing! check includes')
 
     // make sure this is a DIV
     const sElementName = oElement.get(0).tagName
@@ -47,7 +47,7 @@ $.widget('ck.solcalendar', {
 
     // clear out the DIV and put some text in it
     oElement.empty()
-    oDiv = $('<DIV>', { class: 'ui-widget-body' }).width('100%').append('Loading calendar for sol: ' + oOptions.sol)
+    var oDiv = $('<DIV>', { class: 'ui-widget-body' }).width('100%').append('Loading calendar for sol: ' + oOptions.sol)
     const oLoader = $('<SPAN>').gSpinner({ scale: 0.25 })
     oDiv.append(oLoader)
     oElement.append(oDiv)
@@ -94,7 +94,7 @@ $.widget('ck.solcalendar', {
     oElement.append(oDiv)
 
     oDiv = $('<DIV>', { class: 'ui-widget-body' })
-    for (i = 0; i < paInstr.length; i++) {
+    for (var i = 0; i < paInstr.length; i++) {
       const oInstr = paInstr[i]
       const oOuterSpan = $('<span>').attr({ class: 'greybox' })
       oOuterSpan.append(oInstr.name).append('&nbsp;')
@@ -116,7 +116,7 @@ $.widget('ck.solcalendar', {
     const oElement = this.element
 
     const oDiv = $('<DIV>', { class: 'ui-widget-body' })
-    var oTable = $('<TABLE>', { class: 'cal' })
+    oTable = $('<TABLE>', { class: 'cal' })
     oDiv.append(oTable)
     oElement.append(oDiv)
 
@@ -138,13 +138,13 @@ $.widget('ck.solcalendar', {
   },
 
   //* **************************************************************
-  prv_renderRow: function (sTime, paHeadings, paDates, poColours) {
+  prv_renderRow: function (psTime, paHeadings, paDates, poColours) {
     let i, oRow, oCell
-    var oDate, sDate, sTime, aItems
+    var oDate, sDate, aItems
 
     oRow = $('<tr>', { class: 'caltime' })
 
-    oCell = $('<th>').append(sTime)
+    oCell = $('<th>').append(psTime)
     oRow.append(oCell)
 
     for (i = 0; i < paHeadings.length; i++) {
@@ -153,8 +153,9 @@ $.widget('ck.solcalendar', {
       oRow.append(oCell)
 
       oDate = paDates[sDate]
-      if (oDate.hasOwnProperty(sTime)) {
-        aItems = oDate[sTime]
+      //eslint-disable-next-line no-prototype-builtins
+      if (oDate.hasOwnProperty(psTime)) {
+        aItems = oDate[psTime]
         this.prv_render_items(oCell, aItems, poColours)
       }
     }
@@ -171,7 +172,7 @@ $.widget('ck.solcalendar', {
       oItem = paItems[i]
       sColour = poColours[oItem.i]
       sStyle = 'background-color:' + sColour
-      if (oItem.d === current_date) { sStyle += ';border:4px double black' }
+      if (oItem.d === cAppCal.current_date) { sStyle += ';border:4px double black' }
 
       oButton = $('<button>', {
         class: 'calbutton roundbutton',
@@ -181,7 +182,7 @@ $.widget('ck.solcalendar', {
         title: oItem.i + ',' + oItem.p
       })
       oButton.append('&nbsp;')
-      oButton.click(function (poEvent) { 	oWidget.onButtonClick(poEvent.target) })
+      oButton.click(function (poEvent) { oWidget.onButtonClick(poEvent.target) })
 
       poCell.append(oButton)
     }
@@ -198,7 +199,7 @@ $.widget('ck.solcalendar', {
   },
 
   //* **************************************************************
-  onError: function (poHttp) {
+  onError: function () {
     const oElement = this.element
 
     oElement.empty()
@@ -216,7 +217,6 @@ $.widget('ck.solcalendar', {
     oElement.addClass('ui-widget-content')
 
     const oData = poHttp.response
-    const sSol = oData.sol
     const aDates = oData.cal
     const aInstr = oData.instr
 

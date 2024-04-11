@@ -13,6 +13,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // ###############################################################
 // # Utility functions
 // ###############################################################
+//eslint-disable-next-line no-unused-vars
 function onLoadJQuery_TAG () {
   const sTag = cBrowser.data.t
 
