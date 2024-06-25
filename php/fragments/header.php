@@ -1,9 +1,10 @@
 <?php
 	require_once "$phpinc/ckinc/header.php";
 	require_once "$phpinc/ckinc/facebook.php";
+	$oAppID = cFacebook_ServerSide::getAppID();
 ?>
 <!-- meta tags -->
-<meta property="fb:app_id" content="<?=cFacebook_ServerSide::getAppID()->id?>" />
+<meta property="fb:app_id" content="<?=$oAppID->id?>" />
 
 <!-- CSS -->
 <link rel="icon" href="<?=$home?>/images/browser/dude.ico" type="image/x-icon" />

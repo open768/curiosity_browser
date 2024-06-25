@@ -1,0 +1,16 @@
+{
+    "folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../phpinc"
+		},
+		{
+			"path": "../phpinc/space"
+		},
+		{
+			"path": "../../js/jsinc"
+		}
+	]
+}

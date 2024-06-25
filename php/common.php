@@ -8,10 +8,13 @@
 	$spaceinc = "$phpinc/space";
 	
 	require_once "$phpinc/ckinc/header.php";	//this starts the session
+	require_once("$phpinc/ckinc/debug.php");
 	
+	//check for extensions
+	if (!extension_loaded("curl")) cDebug::error("curl extension is not loaded");
+	if (!extension_loaded("sqlite3")) cDebug::error("sqlite3 extension is not loaded");
 	
 	//check if debugging is needed
-	require_once("$phpinc/ckinc/debug.php");
 	cDebug::check_GET_or_POST();
 
 	//requests without https get redirected
@@ -34,6 +37,8 @@
 	require_once "$phpinc/ckinc/auth.php" ;
 	require_once "$spaceinc/curiosity/curiosity.php" ;
 	require_once "$spaceinc/curiosity/static.php" ;
+
+
 
 	cDebug::extra_debug("finished common.php");		
 ?>
