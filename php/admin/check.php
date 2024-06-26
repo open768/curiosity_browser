@@ -9,8 +9,16 @@ http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 For licenses that allow for commercial use please contact cluck@chickenkatsu.co.uk
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
-**************************************************************************/
-	$home="..";
-	require_once("$home/php/common.php");
+**************************************************************************/	
+
+	$home="../..";
+	try{
+		require_once("$home/php/common.php");
+	}
+	catch (Exception $e){
+		$sMsg = $e->getMessage();
+		print "Oops there was an Error: $sMsg\n";
+	}
+
 
 ?>
