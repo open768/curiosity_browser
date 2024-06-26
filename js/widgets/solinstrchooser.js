@@ -24,7 +24,7 @@ $.widget('ck.solinstrumentChooser', {
 
   // #################################################################
   // # Constructor
-  // #################################################################`
+  // #################################################################
   _create: function () {
     // check for necessary classes
     if (!bean) {		$.error('bean class is missing! check includes')	}

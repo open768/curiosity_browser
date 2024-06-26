@@ -11,25 +11,28 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 	$root=realpath("../");
-	require_once("$home/php/common.php");
+	require_once("$root/php/common.php");
+	require_once "$phpinc/ckinc/session.php";
+	cSession::set_folder();
+	session_start();
 
 	require_once("$phpinc/ckinc/header.php");
 	require_once("$phpinc/ckinc/auth.php");
 	require_once("$phpinc/ckinc/debug.php");
-	require_once("$spaceinc/misc/tags.php");
-	require_once("$spaceinc/misc/pichighlight.php");
-	require_once("$spaceinc/curiosity/static.php");
-	require_once("$spaceinc/curiosity/pdsindexer.php");
-	require_once("$spaceinc/curiosity/locations.php");
+	require_once("$phpinc/ckinc/tags.php");
+	require_once("$phpinc/ckinc/pichighlight.php");
+	require_once("$phpinc/curiosity/static.php");
+	require_once("$phpinc/curiosity/pdsindexer.php");
+	require_once("$phpinc/curiosity/locations.php");
 	require_once("$phpinc/ckinc/cached_http.php");
-	require_once("$spaceinc/misc/gigapan.php");
-	require_once("$spaceinc/misc/pencilnev.php");
+	require_once("$phpinc/ckinc/gigapan.php");
+	require_once("$phpinc/ckinc/pencilnev.php");
 	
 
-	cDebug::check_GET_or_POST();
 	$sUser = cAuth::must_get_user(); 
 	if (!$sUser)					cDebug::error("You are not logged in <a href='../'>Login here</a> and try again");
 	if (!cAuth::is_role("admin"))	cDebug::error("must be an admin user ");
+	cDebug::check_GET_or_POST();
 	
 	
 	//***************************************************
@@ -70,7 +73,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			break;
 			
 		case "parsePDS":
-			if (! isset( $_GET["v"])){
+			if (! array_key_exists( "v", $_GET)){
 				$aCats = cCuriosityPDS::catalogs();
 				?>
 				<a target="PDS" href="http://pds-imaging.jpl.nasa.gov/volumes/msl.html">Curiosity PDS released volumes</a>
@@ -98,7 +101,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 		//------------------------------------------------------
 		case "killHighlight":
-			if (! isset( $_GET["p"])){
+			if (! array_key_exists( "p", $_GET)){
 				?>
 				<form method="get">
 					<Input type="hidden" name="o" value="<?=$sOperation?>">
@@ -117,7 +120,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 		//------------------------------------------------------
 		case "deleteSolHighlights":
-			if (! isset( $_GET["s"])){
+			if (! array_key_exists( "s", $_GET)){
 				?>
 				<form method="get">
 					<Input type="hidden" name="o" value="<?=$sOperation?>">
@@ -132,7 +135,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 			break;
 			
 		case "killTag":
-			if (! isset( $_GET["t"])){
+			if (! array_key_exists( "t", $_GET)){
 				?>
 				<form method="get">
 					<Input type="hidden" name="o" value="<?=$sOperation?>">

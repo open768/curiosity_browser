@@ -8,7 +8,7 @@ node_modules/
 \[docs\]/JPL
 \[docs\]/old
 \[docs\]/screenshots
-\[docs\]/\[software\]
+\[docs\]/\[*
 \[objdata\]/
 \[tools\]/
 \[sessions\]
@@ -45,3 +45,4 @@ php/rest/session_test.php
 *.orig
 php/phpinfo.php
 *.db
+package-lock.json
