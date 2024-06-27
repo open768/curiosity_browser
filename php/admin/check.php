@@ -12,13 +12,49 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/	
 
 	$home="../..";
+	$sIniFile = php_ini_loaded_file();
+	$sCommonFile = realpath("$home/php/common.php");
+
+	//-------------------------------------------------------------------
+	$bErr = false;
 	try{
-		require_once("$home/php/common.php");
+		require_once($sCommonFile);
 	}
 	catch (Exception $e){
 		$sMsg = $e->getMessage();
-		print "Oops there was an Error: $sMsg\n";
+		print "Oops there was an Error: $sMsg\n\n";
+		$bErr = true;
+	}
+	if (!$bErr)
+		print "no immediate problems with $sCommonFile\n";
+
+	//-------------------------------------------------------------------
+	//check for extensions
+	if (!extension_loaded("curl"))
+		print "curl extension is not loaded - check ".$sIniFile."\n";
+	else
+		print "curl extension is loaded \n";
+
+	if (!extension_loaded("sqlite3")) 
+		print "sqlite3 extension is not loaded\n\t- check ".$sIniFile."\n";
+	else
+		print "sqlite3 extension is loaded \n";
+	
+	//-------------------------------------------------------------------
+	//check for existance of phpinc
+	if (is_dir($phpinc))
+		print "\$phpinc found $phpinc\n";
+	else{
+		print "couldnt find \$phpinc: $phpinc\n";
+		//lets find it
 	}
 
+	//-------------------------------------------------------------------
+	//check for existance of jsinc
+	$sDir = __DIR__."/".$jsinc;
+	if (!is_dir($sDir))
+		print "couldnt find \$jsinc: $sDir \n\t- check $sCommonFile\n";
+	else
+		print "\$jsinc found $sDir\n";
 
 ?>

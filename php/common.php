@@ -11,9 +11,15 @@
 	require_once("$phpinc/ckinc/debug.php");
 	
 	//check for extensions
-	if (!extension_loaded("curl")) cDebug::error("curl extension is not loaded");
-	if (!extension_loaded("sqlite3")) cDebug::error("sqlite3 extension is not loaded");
+	if (!extension_loaded("curl"))
+		cDebug::error("curl extension is not loaded - check ".php_ini_loaded_file());
+	if (!extension_loaded("sqlite3")) 
+		cDebug::error("sqlite3 extension is not loaded - check ".php_ini_loaded_file());
 	
+	//check for directories
+	if (!is_dir($jsinc))
+		cDebug::error("unable to find $jsinc",true);
+
 	//check if debugging is needed
 	cDebug::check_GET_or_POST();
 
