@@ -11,9 +11,12 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/	
 
-	$home="../..";
-	$sIniFile = php_ini_loaded_file();
-	$sCommonFile = realpath("$home/php/common.php");
+	$home="..";
+	$sCommonFile = "$home/php/common.php";
+	if (!is_file($sCommonFile)){
+		print "common file not found $sCommonFile - edit \$home variable in ".__FILE__;
+		exit(1);
+	}
 
 	//-------------------------------------------------------------------
 	$bErr = false;
@@ -29,6 +32,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 		print "no immediate problems with $sCommonFile\n";
 
 	//-------------------------------------------------------------------
+	$sIniFile = php_ini_loaded_file();
 	//check for extensions
 	if (!extension_loaded("curl"))
 		print "curl extension is not loaded - check ".$sIniFile."\n";
