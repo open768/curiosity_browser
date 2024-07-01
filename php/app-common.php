@@ -1,7 +1,7 @@
 <?php
 	$root=realpath($home);
-	$jsinc = "$home/../jsinc";
 	$js = "$home/js";
+	$jsinc = "$home/../../js/jsinc";
 	$widgets = "$js/widgets";
 	$jsExtra = "$jsinc/extra";
 	$phpinc = "$root/../phpinc";		//have to set phpinc here to pull in header.php
@@ -24,17 +24,18 @@
 	cDebug::check_GET_or_POST();
 
 	//requests without https get redirected
-	if ($_SERVER["REQUEST_SCHEME"] !== "https"){
-		cDebug::extra_debug("request scheme is not https");
-		$https_port = "";
-		if (cDebug::is_localhost())$https_port = ":8443";
-		
-		$newURL="https://".$_SERVER["SERVER_NAME"].$https_port.$_SERVER["REQUEST_URI"];
-		cHeader::redirect($newURL);
-		exit();
-	}else{
-		cDebug::extra_debug("request scheme is https");		
-	}	
+	if (!cDebug::is_cli())
+		if ($_SERVER["REQUEST_SCHEME"] !== "https"){
+			cDebug::extra_debug("request scheme is not https");
+			$https_port = "";
+			if (cDebug::is_localhost())$https_port = ":8443";
+			
+			$newURL="https://".$_SERVER["SERVER_NAME"].$https_port.$_SERVER["REQUEST_URI"];
+			cHeader::redirect($newURL);
+			exit();
+		}else{
+			cDebug::extra_debug("request scheme is https");		
+		}	
 	
 	//includes
 	require_once "$root/php/secret.php";

@@ -1,6 +1,6 @@
 <?php
 	$home = "../..";
-	require_once("$home/php/common.php");
+	require_once("$home/php/app-common.php");
 	require_once("$spaceinc/misc/pencilnev.php");
 	
 	$aData = null;
