@@ -10,55 +10,65 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/	
+function find_jsinc(){
+	cDebug::write("looking for jsinc");
+	cDebug::write("not implemented!!");
+}
 
-	$home="..";
-	$sCommonFile = "$home/php/common.php";
-	if (!is_file($sCommonFile)){
-		print "common file not found $sCommonFile - edit \$home variable in ".__FILE__;
-		exit(1);
-	}
+//*******************************************************************************
+$home="..";
+$sCommonFile = "$home/php/common.php";
+if (!is_file($sCommonFile)){
+	print "common file not found $sCommonFile - edit \$home variable in ".__FILE__;
+	exit(1);
+}
 
-	//-------------------------------------------------------------------
-	$bErr = false;
-	try{
-		require_once($sCommonFile);
-	}
-	catch (Exception $e){
-		$sMsg = $e->getMessage();
-		print "Oops there was an Error: $sMsg\n\n";
-		$bErr = true;
-	}
-	if (!$bErr)
-		print "no immediate problems with $sCommonFile\n";
+//-------------------------------------------------------------------
+$bErr = false;
+print "loading common file \n";
+try{
+	require_once($sCommonFile);
+}
+catch (Exception $e){
+	$sMsg = $e->getMessage();
+	cDebug::on(true);
+	cDebug::write( "Oops there was an Error: $sMsg");
+	$bErr = true;
+}
+if (!$bErr)
+	cDebug::write("no immediate problems with $sCommonFile");
 
-	//-------------------------------------------------------------------
-	$sIniFile = php_ini_loaded_file();
-	//check for extensions
-	if (!extension_loaded("curl"))
-		print "curl extension is not loaded - check ".$sIniFile."\n";
-	else
-		print "curl extension is loaded \n";
+if(!cDebug::is_debugging()) cDebug::on(true);
 
-	if (!extension_loaded("sqlite3")) 
-		print "sqlite3 extension is not loaded\n\t- check ".$sIniFile."\n";
-	else
-		print "sqlite3 extension is loaded \n";
-	
-	//-------------------------------------------------------------------
-	//check for existance of phpinc
-	if (is_dir($phpinc))
-		print "\$phpinc found $phpinc\n";
-	else{
-		print "couldnt find \$phpinc: $phpinc\n";
-		//lets find it
-	}
+//-------------------------------------------------------------------
+$sIniFile = php_ini_loaded_file();
+//check for extensions
+if (!extension_loaded("curl"))
+	cDebug::write( "curl extension is not loaded - check ".$sIniFile);
+else
+	cDebug::write(  "curl extension is loaded");
 
-	//-------------------------------------------------------------------
-	//check for existance of jsinc
-	$sDir = __DIR__."/".$jsinc;
-	if (!is_dir($sDir))
-		print "couldnt find \$jsinc: $sDir \n\t- check $sCommonFile\n";
-	else
-		print "\$jsinc found $sDir\n";
+if (!extension_loaded("sqlite3")) 
+	cDebug::write(  "sqlite3 extension is not loaded\n\t- check ".$sIniFile);
+else
+	cDebug::write(  "sqlite3 extension is loaded \n");
+
+//-------------------------------------------------------------------
+//check for existance of phpinc
+if (is_dir($phpinc))
+	cDebug::write(  "\$phpinc found $phpinc");
+else{
+	cDebug::write( print "couldnt find \$phpinc: $phpinc");
+	//lets find it
+}
+
+//-------------------------------------------------------------------
+//check for existance of jsinc
+$sDir = __DIR__."/".$jsinc;
+if (!is_dir($sDir)){
+	cDebug::write(  "couldnt find \$jsinc: $sDir \n\t- check $sCommonFile");
+	find_jsinc();
+}else
+	cDebug::write(  "\$jsinc found $sDir");
 
 ?>
