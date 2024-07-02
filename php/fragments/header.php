@@ -53,6 +53,6 @@
 	cFacebook.statusID = "#username";
 	cFacebook.ServerSide = "php/rest/facebook.php";
 	cFacebook.ServerUser = "<?=$sFBUser?>";
-	cFacebook.Version = "v11.0";
+	cFacebook.Version = "<?=cAppSecret::FB_VERSION?>";
 	cFacebook.AppID = <?=$oFBAppId->id?>;
 </script>
