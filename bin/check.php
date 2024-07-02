@@ -60,9 +60,4 @@ else {
 }
 
 //-------------------------------------------------------------------
-//check for existance of jsinc
-$sDir = __DIR__ . "/" . $jsinc;
-if (!is_dir($sDir)) {
-	cDebug::write("couldnt find \$jsinc: $sDir \n\t- check $sCommonFile");
-} else
-	cDebug::write("\$jsinc found $sDir");
+//check for existance of jsinc no longer needed as PHP doesnt access it

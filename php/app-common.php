@@ -1,8 +1,8 @@
 <?php
 	$root=realpath($home);
 	$js = "$home/js";
-	$jsinc = "$home/../../js/jsinc";
 	$widgets = "$js/widgets";
+	$jsinc = "$home/../jsinc";			//check this works
 	$jsExtra = "$jsinc/extra";
 	$phpinc = "$root/../phpinc";		//have to set phpinc here to pull in header.php
 	$spaceinc = "$phpinc/space";
@@ -16,10 +16,6 @@
 	if (!extension_loaded("sqlite3")) 
 		cDebug::error("sqlite3 extension is not loaded - check ".php_ini_loaded_file());
 	
-	//check for directories
-	if (!is_dir($jsinc))
-		cDebug::error("unable to find $jsinc",true);
-
 	//check if debugging is needed
 	cDebug::check_GET_or_POST();
 
