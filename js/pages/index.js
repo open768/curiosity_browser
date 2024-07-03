@@ -21,7 +21,44 @@ const cOptions = {
 }
 
 // ###############################################################
-//* JQUERY
+//* JQUERY widget
+// ###############################################################
+class cPageTabs {
+	static onTabClick(psID){
+		//close all tabs 
+		$(".tab-content").each(()=>{ $(this).hide()})
+		//show the tab clicked
+		$(psID).show()
+	}
+
+  //*********************************************************************
+  static add_button (poParent, psCaption, psContentID){
+    var sChildID, oButton, oThis
+
+    sChildID = cJquery.child_ID(poParent, psCaption) //should really remove spaces from caption
+    oButton = $("<button>",{id:sChildID,class:"w3-bar-item w3-button"})
+      oButton.append(psCaption)
+      oButton.click(() => oThis.onTabClick(psContentID))
+    poParent.append(oButton)
+}
+
+  //*********************************************************************
+	static renderTabs() {
+		cDebug.write("instrumenting tabs")
+
+    //add the buttons the the tab bar
+    var oBar = $("#tab-bar")
+      oBar.empty()
+      this.add_button(oBar, "Sol", "#tab-content-sol")
+      this.add_button(oBar, "Tags", "#tab-content-tags")
+
+    //click the instruments tab
+    this.onTabClick("#tab-content-sol")
+	}
+}
+
+// ###############################################################
+//* not quite a JQUERY widget - JQuery Events
 // ###############################################################
 //eslint-disable-next-line no-unused-vars
 class cIndexPage {
@@ -32,8 +69,7 @@ class cIndexPage {
     if (document.location.search.length == 0) { $('#intro').show() }
 
     // load the tabs and show the first one
-    cAppTabs.instrumentTabs()
-    $('#sol-tab').show()
+    cPageTabs.renderTabs()
 
     // remember the start_image if its there
     if (cBrowser.data[cSpaceBrowser.BEGIN_QUERYSTRING]) {
@@ -42,7 +78,7 @@ class cIndexPage {
 
     // render the sol instrument chooser widget
     // this widget will kick off the image display thru onSelectSolInstrEvent
-    $('#sichooser').solinstrumentChooser({
+    $('#siChooser').solinstrumentChooser({
       onStatus(poEvent, paHash) { self.onStatusEvent(poEvent, paHash) },
       onSelect(poEvent, poData) { self.onSelectSolInstrEvent(poEvent, poData) },
       mission: cMission
@@ -63,7 +99,7 @@ class cIndexPage {
     $('#search_text').keypress(function (e) { self.onSearchKeypress(e) })
 
     // load tagcloud
-    $('#tags').tagcloud({ mission: cMission })
+    $('#tab-tags').tagcloud({ mission: cMission })
   }
 
   // ###############################################################

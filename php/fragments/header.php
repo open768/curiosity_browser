@@ -14,6 +14,7 @@
 <LINK href="<?=$home?>/css/css.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="<?=$jsExtra?>/jquery-ui/jquery-ui.min.css">
 <link rel="stylesheet" href="<?=$jsExtra?>/jquery-spinner/css/gspinner.min.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <!-- common ckinc -->
 <script src="<?=$jsinc?>/ck-inc/common.js"></script>

@@ -19,7 +19,6 @@
 		<LINK href="<?=$home?>/css/tabs.css" rel="stylesheet" type="text/css">
 		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/queue.js"></script>
 		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/actionqueue.js"></script>
-		<script type="text/javascript" src="<?=$jsinc?>/ck-inc/tabs.js"></script>
 		<script type="text/javascript" src="<?=$js?>/pages/index.js"></script>
 		<script type="text/javascript" src="<?=$widgets?>/thumbnail.js"></script>
 		<script type="text/javascript" src="<?=$widgets?>/thumbnail-view.js"></script>
@@ -42,16 +41,16 @@
 		
 		<table id="payload" width="100%"><tr>
 			<td id="left-column" class="leftcolumn" valign="top">
+				<!-- TABS -->
 				<div id="tabs-container" >
-					<ul class="tabs-menu">
-						<li class="current"><a href="#sol-tab" >Sol</a></li>
-						<li><a href="#tags-tab">Tags</a></li>
-					</ul>
-					<div class="tab">
-						<div class="tab-content" id="sol-tab">
+					<div id="tab-bar" cclass="w3-bar">
+						Loading...
+					</div>
+					<div class="tab-content" id="tab-content-sol">
+						<div>
 							<!-- ************************************** -->
 							<p>
-							<div id="sichooser">loading...</div>
+							<div id="siChooser">loading...</div>
 							<!-- ************************************** -->
 							<p>
 							<div id="solButtons">loading...</div>
@@ -68,10 +67,11 @@
 								</div>
 							</div>
 						</div>
-						<div class="tab-content" id="tags-tab">
+						<div class="tab-content" id="tab-content-tags">
 							<div id="tags">Loading...</div>
 						</div>
 					</div>
+					<!-- End of tabs -->
 				</td>
 				<td id="right-column" valign="top" style="min-width:600px">
 					<div class="gold" id="header-pane" >

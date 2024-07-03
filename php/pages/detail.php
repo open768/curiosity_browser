@@ -44,6 +44,7 @@
 		<button class="leftbutton" id="pixlr" 		title="Edit Image with Pixlr" >Edit Image</button>
 		<button class="leftbutton" id="google" 		title="Search related with google" >Google</button>
 
+		<!-- add a tag -->
 		<div class="ui-widget">
 			<span class="subtitle">Tags:</span> 
 			<span ID="tags">Loading...</span> 
