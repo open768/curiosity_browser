@@ -27,6 +27,7 @@ module.exports = {
     "cHttpQueue": "readonly",
     "cHttpQueueItem": "readonly",
     "cImgHilite": "readonly",
+    "cJquery": "readonly",
     "cLocations": "readonly",
     "cMission" : "readonly",
     "cSpaceBrowser" : "readonly",

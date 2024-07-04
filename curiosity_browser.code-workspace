@@ -12,5 +12,8 @@
 		{
 			"path": "../../js/jsinc"
 		}
-	]
+	],
+	"settings": {
+		"editor.detectIndentation": false
+	}
 }
