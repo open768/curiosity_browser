@@ -40,12 +40,11 @@ class cPageTabs {
          $(this.current_button).removeClass(this.HIGHLIGHT_CLASS)
 
       //add highlight to clicked  tab button element
-      var oButton = $(poElement)
-      oButton.addClass(this.HIGHLIGHT_CLASS)
+      poElement.addClass(this.HIGHLIGHT_CLASS)
 
       //show the tab target for the button clicked
-      this.current_button = oButton.attr("id")
-      var sTarget = oButton.attr("target")
+      this.current_button = "#"+poElement.attr("id")
+      var sTarget = poElement.attr("target")
       var oSelected = $(sTarget)
       oSelected.show()
    }
