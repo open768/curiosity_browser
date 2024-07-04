@@ -26,7 +26,7 @@ const cOptions = {
 class cPageTabs {
    //see w3.css tabs https://www.w3schools.com/w3css/w3css_tabulators.asp
    static current_button = null
-   static HIGHLIGHT_CLASS = "w3-red"
+   static HIGHLIGHT_CLASS = "w3-blue"
 
    //*********************************************************************
    static onTabClick(poElement) {
@@ -63,7 +63,8 @@ class cPageTabs {
          target: psTarget,
       })
 
-      //set button events
+      //set button properties
+      oButton.width("50%")
       oButton.append(psCaption)
       oButton.on("click", function () {
          oThis.onTabClick($(this))
