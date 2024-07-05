@@ -31,6 +31,8 @@ $.widget("ck.tagcloud", {
       if (!oElement.gSpinner) {
          $.error("gSpinner is missing! check includes")
       }
+      if (!$.event.special.inview)
+        $.error("jquery inview is missing")
 
       // check that the element is a div
       const sElementName = oElement.get(0).tagName
