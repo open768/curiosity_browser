@@ -48,7 +48,7 @@ class cPageTabs {
          $(this.current_button).removeClass(cIndexConsts.HIGHLIGHT_CLASS)
 
       //add highlight to clicked  tab button element
-      poElement.addClass(this.HIGHLIGHT_CLASS)
+      poElement.addClass(cIndexConsts.HIGHLIGHT_CLASS)
 
       //show the tab target for the button clicked
       this.current_button = "#" + poElement.attr("id")
