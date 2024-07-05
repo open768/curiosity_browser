@@ -21,34 +21,24 @@ const cOptions = {
 // ###############################################################
 //* handles page tabs
 // ###############################################################
-class cIndexConsts {
-   static HIGHLIGHT_CLASS = "w3-blue"
-   static IMAGE_CONTAINER_ID = "#images"
-   static CHKTHUMBS_ID = "#chkThumbs"
-   static TAG_CONTENT_ID = "#tab-content-tags"
-   static CONTENT_CHOOSER_ID = "#tab-content-sol"
-}
-
-// ###############################################################
-//* handles page tabs
-// ###############################################################
 class cPageTabs {
    //see w3.css tabs https://www.w3schools.com/w3css/w3css_tabulators.asp
    static current_button = null
+   static HIGHLIGHT_CLASS = "w3-blue"
 
    //*********************************************************************
    static onTabClick(poElement) {
-      //close all tabs
+      //close all content pages
       $(".tab-content").each(function () {
          $(this).hide()
       })
 
       //remove the highlight of the previously clicked tab button
       if (this.current_button)
-         $(this.current_button).removeClass(cIndexConsts.HIGHLIGHT_CLASS)
+         $(this.current_button).removeClass(this.HIGHLIGHT_CLASS)
 
       //add highlight to clicked  tab button element
-      poElement.addClass(cIndexConsts.HIGHLIGHT_CLASS)
+      poElement.addClass(this.HIGHLIGHT_CLASS)
 
       //show the tab target for the button clicked
       this.current_button = "#" + poElement.attr("id")
@@ -88,10 +78,10 @@ class cPageTabs {
       cDebug.write("instrumenting tabs")
 
       //add the buttons the the tab bar
-      var oBar = $("#tab-bar")
+      var oBar = $(cIndexPageConsts.ID_TAB_BAR)
       oBar.empty()
-      var oBtnSol = this.add_button(oBar, "Sol", cIndexConsts.CONTENT_CHOOSER_ID)
-      this.add_button(oBar, "Tags", cIndexConsts.TAG_CONTENT_ID)
+      var oBtnSol = this.add_button(oBar, "Sol", cIndexPageConsts.ID_TAB_SOL_CONTENT)
+      this.add_button(oBar, "Tags", cIndexPageConsts.ID_TAB_TAG_CONTENT)
 
       //click the sol button
       oBtnSol.click()
@@ -103,13 +93,11 @@ class cPageTabs {
 // ###############################################################
 //eslint-disable-next-line no-unused-vars
 class cIndexPage {
-   static ID_CHOOSER = "#solInstChooser"
-
    static onLoadJQuery() {
       const self = this
       // show the intro blurb if nothing on the querystring
       if (document.location.search.length == 0) {
-         $("#intro").show()
+         $(cIndexPageConsts.ID_INTRO).show()
       }
 
       // load the tabs and show the first one
@@ -124,7 +112,7 @@ class cIndexPage {
 
       // render the sol instrument chooser widget
       // this widget will kick off the image display thru onSelectSolInstrEvent
-      $(cIndexConsts.ID_CHOOSER).solinstrumentChooser({
+      $(cIndexPageConsts.ID_WIDGET_CHOOSER).solinstrumentChooser({
          onStatus(poEvent, paHash) {
             self.onStatusEvent(poEvent, paHash)
          },
@@ -135,7 +123,7 @@ class cIndexPage {
       })
 
       // render the solbuttons
-      $("#solButtons").solButtons({
+      $(cIndexPageConsts.ID_WIDGET_SOLBUTTONS).solButtons({
          onStatus(poEvent, paHash) {
             self.onStatusEvent(poEvent, paHash)
          },
@@ -149,15 +137,15 @@ class cIndexPage {
       })
 
       // disable thumbs checkbox until something happens
-      $(cIndexConsts.CHKTHUMBS_ID).attr("disabled", "disabled")
+      $(cIndexPageConsts.ID_CHKTHUMBS).attr("disabled", "disabled")
 
       // set up keypress monitor
-      $("#search_text").keypress(function (e) {
+      $(cIndexPageConsts.ID_SEARCH).keypress(function (e) {
          self.onSearchKeypress(e)
       })
 
       // load tagcloud
-      $(cIndexConsts.TAG_CONTENT_ID).tagcloud({ mission: cMission })
+      $(cIndexPageConsts.ID_TAB_TAG_CONTENT).tagcloud({ mission: cMission })
    }
 
    // ###############################################################
@@ -167,8 +155,8 @@ class cIndexPage {
       this.stop_queue()
       cOptions.instrument = null
       cOptions.start_image = -1
-      $(cIndexConsts.CHKTHUMBS_ID).prop("checked", true).attr("disabled", "disabled")
-      $(cIndexConsts.ID_CHOOSER).solinstrumentChooser("deselectInstrument")
+      $(cIndexPageConsts.ID_CHKTHUMBS).prop("checked", true).attr("disabled", "disabled")
+      $(cIndexPageConsts.ID_WIDGET_CHOOSER).solinstrumentChooser("deselectInstrument")
       this.load_data()
    }
 
@@ -181,12 +169,12 @@ class cIndexPage {
    //* **************************************************************
    static onClickSearch() {
       this.stop_queue()
-      const sText = $("#search_text").val()
+      const sText = $(cIndexPageConsts.ID_SEARCH).val()
       if (sText == "") return
       cOptions.instrument = null
 
       if (!isNaN(sText)) {
-         $(cIndexConsts.ID_CHOOSER).solinstrumentChooser("set_sol", sText)
+         $(cIndexPageConsts.ID_WIDGET_CHOOSER).solinstrumentChooser("set_sol", sText)
       } else {
          const sUrl = cBrowser.buildUrl(cLocations.rest + "/search.php", {
             s: sText,
@@ -242,7 +230,7 @@ class cIndexPage {
          p: poData.product,
       })
       cDebug.write("loading page " + sUrl)
-      $(cIndexConsts.IMAGE_CONTAINER_ID)
+      $(cIndexPageConsts.ID_IMAGE_CONTAINER)
          .empty()
          .html("redirecting to: " + sUrl)
       setTimeout(function () {
@@ -253,7 +241,7 @@ class cIndexPage {
    //* **************************************************************
    static onImagesLoadedEvent(poEvent, piStartImage) {
       // enable thumbnails
-      $("#solthumbs").removeAttr("disabled")
+      $(cIndexPageConsts.ID_SOLTHUMBS).removeAttr("disabled")
       cOptions.start_image = piStartImage
       this.update_url()
    }
@@ -278,7 +266,7 @@ class cIndexPage {
    static stop_queue() {
       let oDiv
       try {
-         oDiv = $(cIndexConsts.IMAGE_CONTAINER_ID)
+         oDiv = $(cIndexPageConsts.ID_IMAGE_CONTAINER)
          oDiv.thumbnailview("stop_queue")
       } catch (e) {
          /* do nothing*/
@@ -287,7 +275,7 @@ class cIndexPage {
 
    //* **************************************************************
    static is_thumbs_checked() {
-      return $(cIndexConsts.CHKTHUMBS_ID).is(":checked")
+      return $(cIndexPageConsts.ID_CHKTHUMBS).is(":checked")
    }
 
    //* **************************************************************
@@ -298,8 +286,8 @@ class cIndexPage {
 
       cDebug.write("loading data: " + cOptions.sol + ":" + cOptions.instrument)
 
-      $("#solButtons").solButtons("set_sol", cOptions.sol)
-      oChkThumb = $(cIndexConsts.CHKTHUMBS_ID)
+      $(cIndexPageConsts.ID_WIDGET_BUTTONS).solButtons("set_sol", cOptions.sol)
+      oChkThumb = $(cIndexPageConsts.ID_CHKTHUMBS)
 
       if (cOptions.instrument) {
          oChkThumb.removeAttr("disabled")
@@ -331,7 +319,7 @@ class cIndexPage {
       cDebug.write("showing  thumbs for " + psSol + " : " + psInstrument)
       const self = this
 
-      oDiv = $(cIndexConsts.IMAGE_CONTAINER_ID)
+      oDiv = $(cIndexPageConsts.ID_IMAGE_CONTAINER)
       if (oDiv.length == 0) $.error("image DIV not found ")
 
       if (oDiv.thumbnailview("instance") != undefined) {
@@ -360,7 +348,7 @@ class cIndexPage {
 
       var oWidget, oDiv
 
-      oDiv = $(cIndexConsts.IMAGE_CONTAINER_ID)
+      oDiv = $(cIndexPageConsts.ID_IMAGE_CONTAINER)
       if (oDiv.length == 0) $.error("image DIV not found")
 
       oWidget = oDiv.data("ckImageview")

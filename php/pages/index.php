@@ -34,6 +34,37 @@ if ($sUser) $bIsAdmin = cAuth::is_role("admin");
         <meta property="og:image" content="http://www.mars-browser.co.uk/curiosity/images/rover.png" />
         <meta property="og:description" content="Be part of the greatest exploration team ever. Discover great finds in the amazing images from NASA's Curiosity Rover and share your discoveries with the world." />
 </head>
+<?php
+
+class cIndexPageConsts{
+    const ID_IMAGE_CONTAINER = "images";
+    const ID_CHKTHUMBS = "chkThumbs";
+    const ID_STATUS = "status";
+    const ID_TAB_TAG_CONTENT = "tab-content-tags";
+    const ID_TAB_SOL_CONTENT = "tab-content-sol";
+    const ID_WIDGET_CHOOSER = "solInstChooser";
+    const ID_WIDGET_SOLBUTTONS ="solButtons";
+    const ID_WIDGET_ADMIN ="admin";
+    const ID_SEARCH = "search_text";
+    const ID_TAB_BAR = "tab-bar";
+    const ID_INTRO = "intro";
+    const ID_SOLTHUMBS = "solthumbs";
+}
+?>
+<script>
+    class cIndexPageConsts{
+        static ID_IMAGE_CONTAINER = "#images"
+        static ID_CHKTHUMBS = "#chkThumbs"
+        static ID_TAB_TAG_CONTENT = "#tab-content-tags"
+        static ID_TAB_SOL_CONTENT = "#tab-content-sol"
+        static ID_WIDGET_CHOOSER = "#solInstChooser"
+        static ID_WIDGET_SOLBUTTONS ="#solButtons"
+        static ID_SEARCH = "#search_text"
+        static ID_TAB_BAR = "#tab-bar"
+        static ID_INTRO = "#intro"
+        static ID_SOLTHUMBS = "#solthumbs"
+    }
+</script>
 
 <body onload="$( function(){ cIndexPage.onLoadJQuery()} );">
         <?php
@@ -46,17 +77,17 @@ if ($sUser) $bIsAdmin = cAuth::is_role("admin");
                         <td id="left-column" class="leftcolumn" valign="top">
                                 <!-- TABS -->
                                 <div id="tabs-container">
-                                        <div id="tab-bar" cclass="w3-bar">
+                                        <div id="<?=cIndexPageConsts::ID_TAB_BAR?>" cclass="w3-bar">
                                                 Loading...
                                         </div>
-                                        <div class="tab-content" id="tab-content-sol">
+                                        <div class="tab-content" id="<?=cIndexPageConsts::ID_TAB_SOL_CONTENT?>">
                                                 <div>
                                                         <!-- ************************************** -->
-                                                        <div id="solInstChooser">loading...</div>
+                                                        <div id="<?=cIndexPageConsts::ID_WIDGET_CHOOSER?>">loading chooser widget...</div>
                                                         <!-- ************************************** -->
-                                                        <div id="solButtons">loading...</div>
+                                                        <div id="<?=cIndexPageConsts::ID_WIDGET_SOLBUTTONS?>">loading buttons widget...</div>
                                                         <!-- ************************************** -->
-                                                        <div class="ui-widget">
+                                                        <div class="ui-widget" id="<?=cIndexPageConsts::ID_WIDGET_ADMIN?>">
                                                                 <div class="ui-widget-header">Admin</div>
                                                                 <div class="ui-widget-body">
                                                                         <?php if ($bIsAdmin) { ?>
@@ -68,7 +99,7 @@ if ($sUser) $bIsAdmin = cAuth::is_role("admin");
                                                         </div>
                                                 </div>
                                         </div>
-                                        <div class="tab-content" id="tab-content-tags">
+                                        <div class="tab-content" id="<?=cIndexPageConsts::ID_TAB_TAG_CONTENT?>">
                                                 Loading...
                                         </div>
                                         <!-- End of tabs -->
@@ -76,11 +107,11 @@ if ($sUser) $bIsAdmin = cAuth::is_role("admin");
                         </td>
                         <td id="right-column" valign="top" style="min-width:600px">
                                 <div class="gold" id="header-pane">
-                                        <input type="textbox" id="search_text" maxlength="30" size="30"><button class="rightbutton" onclick="onClickSearch()" title="Search for Product">Search</button>
-                                        <input id="chkThumbs" type="checkbox">Show Thumbnails&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <span class="subtitle"> Status: </span><span ID="status" class="status">Loading...</span>
+                                        <input type="textbox" id="<?=cIndexPageConsts::ID_SEARCH?>" maxlength="30" size="30"><button class="rightbutton" onclick="onClickSearch()" title="Search for Product">Search</button>
+                                        <input id="<?=cIndexPageConsts::ID_CHKTHUMBS?>" type="checkbox">Show Thumbnails&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <span class="subtitle"> Status: </span><span ID="<?=cIndexPageConsts::ID_STATUS?>" class="status">Loading...</span>
                                 </div>
-                                <div class="gold" id="images">
+                                <div class="gold" id="<?=cIndexPageConsts::ID_IMAGE_CONTAINER?>">
                                         <div id="intro" style="display:none">
                                                 <H2>Curiosity Browser</H2>
                                                 <img src="<?= $home ?>/images/browser/dude.png" height="90" align="left">
