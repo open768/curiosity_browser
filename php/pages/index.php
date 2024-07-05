@@ -112,7 +112,7 @@ cPageOutput::write_JS_class_constant_IDs("cIndexPageConsts");
                                                         <p />
                                                         <b>To get started</b>
                                                 <ol>
-                                                        <li>select a <span class="subtitle">SOL</span> from the left hand list, or type it in the box above. (SOL represents the number of days that Curiosity had been or Mars.)</li>
+                                                        <li>select a <span class="subtitle">SOL</span> from the left hand list, or type it in the box above. (SOL represents the number of Mars days that Curiosity has been on Mars.)</li>
                                                         <li>Then select from the <span class="subtitle">instruments</span> shown for that SOL to see the amazing images.</li>
                                                 </ol>
                                         </div>
