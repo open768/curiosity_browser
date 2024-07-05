@@ -50,21 +50,9 @@ class cIndexPageConsts{
     const ID_INTRO = "intro";
     const ID_SOLTHUMBS = "solthumbs";
 }
+cPageOutput::write_JS_class_constant_IDs("cIndexPageConsts");
+
 ?>
-<script>
-    class cIndexPageConsts{
-        static ID_IMAGE_CONTAINER = "#images"
-        static ID_CHKTHUMBS = "#chkThumbs"
-        static ID_TAB_TAG_CONTENT = "#tab-content-tags"
-        static ID_TAB_SOL_CONTENT = "#tab-content-sol"
-        static ID_WIDGET_CHOOSER = "#solInstChooser"
-        static ID_WIDGET_SOLBUTTONS ="#solButtons"
-        static ID_SEARCH = "#search_text"
-        static ID_TAB_BAR = "#tab-bar"
-        static ID_INTRO = "#intro"
-        static ID_SOLTHUMBS = "#solthumbs"
-    }
-</script>
 
 <body onload="$( function(){ cIndexPage.onLoadJQuery()} );">
         <?php
