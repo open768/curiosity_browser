@@ -2,6 +2,7 @@
 $home = "../..";
 require_once "$home/php/app-common.php";
 
+//check for admin role to display admin button
 $sUser = cAuth::get_user();
 $bIsAdmin = false;
 if ($sUser) $bIsAdmin = cAuth::is_role("admin");
