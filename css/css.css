@@ -1,442 +1,441 @@
-body
-{
-	background-color:white;
-	font:15px arial,sans-serif;
+body {
+   background-color: white;
+   font:
+      15px arial,
+      sans-serif;
 }
 
 /* ------------------------------------- */
-.roundbutton{
-	height: 30px;
-	border-radius: 15px; 
-	padding:5px;
-    background: white;
+.roundbutton {
+   height: 30px;
+   border-radius: 15px;
+   padding: 5px;
+   background: white;
 }
-.roundbutton:hover{
-	height: 30px;
-	border-radius: 15px; 
-	padding:5px;
-    background: papayawhip;
-}
-	
-/* ------------------------------------- */
-.homebutton{
-    background: white url(mb_images/greydude.png) left no-repeat;
-	background-size: contain;
-	padding:5px;
-	padding-left: 30px;
-	height: 30px;
-	border-radius: 15px; 
-}
-.homebutton:hover{
-    background: papayawhip url(mb_images/smalldude.png) left no-repeat;
-	background-size: contain;
-	padding:5px;
-	padding-left: 30px;
-	height: 30px;
-	border-radius: 15px; 
+.roundbutton:hover {
+   height: 30px;
+   border-radius: 15px;
+   padding: 5px;
+   background: papayawhip;
 }
 
 /* ------------------------------------- */
-.leftarrow{
-    background: white url(mb_images/greyleft.png) left no-repeat;
-	background-size: contain;
-	padding:5px;
-	padding-left: 30px;
-	height: 30px;
-	border-radius: 15px; 
+.homebutton {
+   background: white url(mb_images/greydude.png) left no-repeat;
+   background-size: contain;
+   padding: 5px;
+   padding-left: 30px;
+   height: 30px;
+   border-radius: 15px;
 }
-.leftarrow:hover{
-    background: papayawhip url(mb_images/colourleft.png) left no-repeat;
-	background-size: contain;
-	padding:5px;
-	padding-left: 30px;
-	height: 30px;
-	border-radius: 15px; 
-}
-/* ------------------------------------- */
-.leftbutton{
-    background: white url(mb_images/greyportal.png) left no-repeat;
-	background-size: contain;
-	padding:5px;
-	padding-left: 30px;
-	height: 30px;
-	border-radius: 15px; 
-}
-.leftbutton:hover{
-    background: papayawhip url(mb_images/colourportal.png) left no-repeat;
-	background-size: contain;
-	padding:5px;
-	padding-left: 30px;
-	height: 30px;
-	border-radius: 15px; 
-}
-/* ------------------------------------- */
-.rightbutton{
-    background: white url(mb_images/greyportal.png) right no-repeat;
-	background-size: contain;
-	padding:5px;
-	padding-right: 30px;
-	height: 30px;
-	border-radius: 15px; 
-}
-.rightbutton:hover{
-    background: papayawhip url(mb_images/colourportal.png) right no-repeat;
-	background-size: contain;
-	padding:5px;
-	padding-right: 30px;
-	height: 30px;
-	border-radius: 15px; 
-}
-/* ------------------------------------- */
-.rightarrow{
-    background: white url(mb_images/greyright.png) right no-repeat;
-	background-size: contain;
-	padding:5px;
-	padding-right: 30px;
-	height: 30px;
-	border-radius: 15px; 
-}
-.rightarrow:hover{
-    background: papayawhip url(mb_images/colourright.png) right no-repeat;
-	background-size: contain;
-	padding:5px;
-	padding-right: 30px;
-	height: 30px;
-	border-radius: 15px; 
+.homebutton:hover {
+   background: papayawhip url(mb_images/smalldude.png) left no-repeat;
+   background-size: contain;
+   padding: 5px;
+   padding-left: 30px;
+   height: 30px;
+   border-radius: 15px;
 }
 
-
-
 /* ------------------------------------- */
-.FBloginButton{
-	display: inline-block;
-	
-    background: #627aac url(images/facebook_small.png) left no-repeat;
-	
-    border-top: 1px solid #29447e;
-    border-right: 1px solid #29447e;
-    border-bottom: 1px solid #1a356e;
-    border-left: none;
-	
-    height: 22px;
-	
-    padding-right: 7px;
-    padding-left: 29px;
-	
-    font-weight: bold;
-    font-size: 11px;
-    color: white;
-    text-decoration: none;
-    font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
-    line-height: 22px;
+.leftarrow {
+   background: white url(mb_images/greyleft.png) left no-repeat;
+   background-size: contain;
+   padding: 5px;
+   padding-left: 30px;
+   height: 30px;
+   border-radius: 15px;
+}
+.leftarrow:hover {
+   background: papayawhip url(mb_images/colourleft.png) left no-repeat;
+   background-size: contain;
+   padding: 5px;
+   padding-left: 30px;
+   height: 30px;
+   border-radius: 15px;
+}
+/* ------------------------------------- */
+.leftbutton {
+   background: white url(mb_images/greyportal.png) left no-repeat;
+   background-size: contain;
+   padding: 5px;
+   padding-left: 30px;
+   height: 30px;
+   border-radius: 15px;
+}
+.leftbutton:hover {
+   background: papayawhip url(mb_images/colourportal.png) left no-repeat;
+   background-size: contain;
+   padding: 5px;
+   padding-left: 30px;
+   height: 30px;
+   border-radius: 15px;
+}
+/* ------------------------------------- */
+.rightbutton {
+   background: white url(mb_images/greyportal.png) right no-repeat;
+   background-size: contain;
+   padding: 5px;
+   padding-right: 30px;
+   height: 30px;
+   border-radius: 15px;
+}
+.rightbutton:hover {
+   background: papayawhip url(mb_images/colourportal.png) right no-repeat;
+   background-size: contain;
+   padding: 5px;
+   padding-right: 30px;
+   height: 30px;
+   border-radius: 15px;
+}
+/* ------------------------------------- */
+.rightarrow {
+   background: white url(mb_images/greyright.png) right no-repeat;
+   background-size: contain;
+   padding: 5px;
+   padding-right: 30px;
+   height: 30px;
+   border-radius: 15px;
+}
+.rightarrow:hover {
+   background: papayawhip url(mb_images/colourright.png) right no-repeat;
+   background-size: contain;
+   padding: 5px;
+   padding-right: 30px;
+   height: 30px;
+   border-radius: 15px;
 }
 
-.titlebar{
-	background-color: #E5E5E5 ;
-	resize: horizontal;
+/* ------------------------------------- */
+.FBloginButton {
+   display: inline-block;
+
+   background: #627aac url(images/facebook_small.png) left no-repeat;
+
+   border-top: 1px solid #29447e;
+   border-right: 1px solid #29447e;
+   border-bottom: 1px solid #1a356e;
+   border-left: none;
+
+   height: 22px;
+
+   padding-right: 7px;
+   padding-left: 29px;
+
+   font-weight: bold;
+   font-size: 11px;
+   color: white;
+   text-decoration: none;
+   font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
+   line-height: 22px;
+}
+
+.titlebar {
+   background-color: #e5e5e5;
+   resize: horizontal;
 }
 
 .github {
-	background-color: #E5E5E5 ;
-    padding: 5px;
-	resize: horizontal;
+   background-color: #e5e5e5;
+   padding: 5px;
+   resize: horizontal;
 }
 
-.rnavbut{
-	margin: 0;
-	margin-left:0;
+.rnavbut {
+   margin: 0;
+   margin-left: 0;
 }
-.lnavbut{
-	margin: 0;
-	margin-right:0;
+.lnavbut {
+   margin: 0;
+   margin-right: 0;
 }
-.topnavbut{
-	height:25;
-	margin: 0;
-	vertical-align:bottom;
+.topnavbut {
+   height: 25;
+   margin: 0;
+   vertical-align: bottom;
 }
-.botnavbut{
-	height:25;
-	margin: 0;
-	vertical-align:top;
-}
-
-.leftcolumn{
-	width: 230px;
-	background-color: white;
-	vertical-align:top;
+.botnavbut {
+   height: 25;
+   margin: 0;
+   vertical-align: top;
 }
 
-.comments{
-	color: grey;
-	font-style:italic;
+.leftcolumn {
+   width: 230px;
+   background-color: white;
+   vertical-align: top;
 }
 
-.sols{
-	width: 230px;
+.comments {
+   color: grey;
+   font-style: italic;
 }
 
-.pagenav{
-	width: 150px;
-}
-.solnav{
-	width: 70px;
-}
-.imagenav{
-	width: 100%;
+.sols {
+   width: 230px;
 }
 
-.maintable
-{
-	width: 100%;
+.pagenav {
+   width: 150px;
+}
+.solnav {
+   width: 70px;
+}
+.imagenav {
+   width: 100%;
 }
 
-.tagtable{
-	width: 80%;
-	padding: 3px;
-	border:1px solid #999999;
+.maintable {
+   width: 100%;
 }
 
-.cookie{
-	border:2px solid blue;
-	border-radius: 10px;
-	padding: 10px;
-	background-color:#EEEEEE;
-}
-.about{
-	border:2px solid #e86005;
-	border-radius: 10px;
-	padding: 10px;
-	/*background-color:lightsalmon;*/
-	height: 70px;
-	display: table-cell;
-	vertical-align: middle;
-	text-align: center;
+.tagtable {
+   width: 80%;
+   padding: 3px;
+   border: 1px solid #999999;
 }
 
-.disclaim{
-	border:2px solid blue;
-	border-radius:10px;
-	padding: 10px;
-	background-color:#EEEEEE;
-	font-size:11px;
+.cookie {
+   border: 2px solid blue;
+   border-radius: 10px;
+   padding: 10px;
+   background-color: #eeeeee;
+}
+.about {
+   border: 2px solid #e86005;
+   border-radius: 10px;
+   padding: 10px;
+   /*background-color:lightsalmon;*/
+   height: 70px;
+   display: table-cell;
+   vertical-align: middle;
+   text-align: center;
 }
 
-.polaroid
-{
-	border:2px solid white;
-	padding:7px;
-	box-shadow:inset 0px 0px 7px 0px rgba(0, 0, 0, 1),0px 0px 7px 0px rgba(0, 0, 0, 1);
-	margin: 2px;
-	min-width:120px;
-	min-height:120px;
-	display:inline-flex;
+.disclaim {
+   border: 2px solid blue;
+   border-radius: 10px;
+   padding: 10px;
+   background-color: #eeeeee;
+   font-size: 11px;
+}
+
+.polaroid {
+   border: 2px solid white;
+   padding: 7px;
+   box-shadow:
+      inset 0px 0px 7px 0px rgba(0, 0, 0, 1),
+      0px 0px 7px 0px rgba(0, 0, 0, 1);
+   margin: 2px;
+   min-width: 120px;
+   min-height: 120px;
+   display: inline-flex;
+}
+
+/*---------------------------------------------------------------------------------*/
+.thumb-orig {
+   background: repeating-linear-gradient(
+      45deg,
+      white,
+      white 10px,
+      lemonchiffon 10px,
+      lemonchiffon 20px
+   );
+}
+.thumb-wait1 {
+   background: repeating-linear-gradient(
+      45deg,
+      white,
+      white 5px,
+      darkgray 5px,
+      darkgray 10px
+   );
+}
+.thumb-wait2 {
+   background: repeating-linear-gradient(
+      45deg,
+      white,
+      white 7px,
+      silver 7px,
+      silver 15px
+   );
+}
+.thumb-wait3 {
+   background: repeating-linear-gradient(
+      45deg,
+      white,
+      white 10px,
+      gainsboro 10px,
+      gainsboro 20px
+   );
+}
+.thumb-invis {
+   background: lemmonchiffon;
+}
+.thumb-work {
+   background: repeating-linear-gradient(
+      30deg,
+      white,
+      white 5px,
+      hotpink 5px,
+      hotpink 10px
+   );
+}
+.thumb-error {
+   background: mistyrose;
+}
+.thumb-final {
+   background: repeating-linear-gradient(
+      0deg,
+      white,
+      white 10px,
+      oldlace 10px,
+      oldlace 20px
+   );
+}
+.thumb-missing {
+   background: yellow;
 }
 
 /*---------------------------------------------------------------------------------*/
-.thumb-orig{
-	background: repeating-linear-gradient(
-		45deg,
-		white,
-		white 10px,
-		lemonchiffon 10px,
-		lemonchiffon 20px
-	);	
-}
-.thumb-wait1
-{
-	background: repeating-linear-gradient(
-		45deg,
-		white,
-		white 5px,
-		darkgray 5px,
-		darkgray 10px
-	);	
-}
-.thumb-wait2
-{
-	background: repeating-linear-gradient(
-		45deg,
-		white,
-		white 7px,
-		silver 7px,
-		silver 15px
-	);	
-}
-.thumb-wait3
-{
-	background: repeating-linear-gradient(
-		45deg,
-		white,
-		white 10px,
-		gainsboro 10px,
-		gainsboro 20px
-	);	
-}
-.thumb-invis{
-	background: lemmonchiffon;
-}
-.thumb-work
-{
-	background: repeating-linear-gradient(
-		30deg,
-		white,
-		white 5px,
-		hotpink 5px,
-		hotpink 10px
-	);	
-}
-.thumb-error{
-	background: mistyrose;
-}
-.thumb-final{
-	background: repeating-linear-gradient(
-		0deg,
-		white,
-		white 10px,
-		oldlace 10px,
-		oldlace 20px
-	);	
-}
-.thumb-missing{
-	background: yellow;
+.gold {
+   border-radius: 3px;
+   padding: 10px;
+   border: 1px solid #999999;
+   margin-bottom: 3px;
 }
 
-
-/*---------------------------------------------------------------------------------*/
-.gold{
-	border-radius: 3px;
-	padding: 10px;
-	border: 1px solid #999999;
-	margin-bottom: 3px;
+.soltags {
+   font-family: "Helvetica Neue", Helvetica, sans-serif;
+   font-size: 12px;
+   font-style: italic;
 }
 
-.soltags
-{
-	font-family: 'Helvetica Neue',Helvetica, sans-serif;
-	font-size: 12px;
-	font-style:italic;
+.subtitle {
+   font-family: "Helvetica Neue", Helvetica, sans-serif;
+   color: #e86005;
+   line-height: 1em;
+   font-size: 16px;
+   text-shadow:
+      0px 0px 0 rgb(89, -34, -34),
+      1px 1px 0 rgb(55, -68, -68),
+      2px 2px 1px rgba(0, 0, 0, 0.1),
+      2px 2px 1px rgba(0, 0, 0, 0.5),
+      0px 0px 1px rgba(0, 0, 0, 0.2);
+   background: white;
+   padding-bottom: 2px;
 }
 
-
-.subtitle
-{
-	font-family: 'Helvetica Neue',Helvetica, sans-serif;
-	color: #e86005;
-	line-height: 1em;
-	font-size: 16px;
-	text-shadow:0px 0px 0 rgb(89,-34,-34), 1px 1px 0 rgb(55,-68,-68),2px 2px 1px rgba(0,0,0,0.1),2px 2px 1px rgba(0,0,0,0.5),0px 0px 1px rgba(0,0,0,.2);
-	background: white;
-    padding-bottom: 2px;
+.imginfo {
+   display: inline-block;
+   width: 25px;
+   height: 25px;
+   font-family: "Helvetica Neue", Helvetica, sans-serif;
+   color: red;
+   font-weight: bold;
+   font-size: 20px;
+   border: 3px solid white;
+   background-color: rgba(255, 255, 255, 0.5);
+   -webkit-border-radius: 5px;
+   -moz-border-radius: 5px;
+   border-radius: 5px;
+   position: relative;
+   text-align: center;
+   top: -40px;
+   left: 5px;
 }
 
-.imginfo
-{
-	display: inline-block;
-	width: 25px;
-	height: 25px;
-	font-family: 'Helvetica Neue',Helvetica, sans-serif;
-	color: red;
-	font-weight:bold;
-	font-size: 20px;
-	border: 3px solid white;
-	background-color:rgba(255,255,255,0.5);
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-	position: relative;
-	text-align: center;
-	top: -40px;
-	left: 5px;
+.title {
+   font-family: "Helvetica Neue", Helvetica, sans-serif;
+   color: black;
+   font-weight: bold;
+   font-size: 18px;
 }
 
-.title
-{
-	font-family: 'Helvetica Neue',Helvetica, sans-serif;
-	color: black;
-	font-weight:bold;
-	font-size: 18px;
+.credits {
+   font-family: "Helvetica Neue", Helvetica, sans-serif;
+   line-height: 1em;
+   color: #e86005;
+   font-size: 14px;
+   text-shadow: 1px 1px 0 rgb(107, -29, -120);
+}
+.warning {
+   background: red;
+   color: white;
+   outline: 1px solid yellow;
+}
+.big_error {
+   font-family: "Helvetica Neue", Helvetica, sans-serif;
+   line-height: 1em;
+   color: #e86005;
+   font-size: 50px;
+   text-shadow: 1px 1px 0 rgb(107, -29, -120);
 }
 
-.credits
-{
-	font-family: 'Helvetica Neue',Helvetica, sans-serif;
-	line-height: 1em;
-	color: #e86005;
-	font-size: 14px;
-	text-shadow:1px 1px 0 rgb(107,-29,-120);
-}
-.warning
-{
-    background: red;
-	color: white;
-    outline: 1px solid yellow;
-}
-.big_error
-{
-	font-family: 'Helvetica Neue',Helvetica, sans-serif;
-	line-height: 1em;
-	color: #e86005;
-	font-size: 50px;
-	text-shadow:1px 1px 0 rgb(107,-29,-120);
+.instruments {
+   font-family: "Helvetica Neue", Helvetica, sans-serif;
+   font-size: 12px;
 }
 
-.instruments{
-	font-family: 'Helvetica Neue',Helvetica, sans-serif;
-	font-size: 12px;
-}
-
-.greybox{
-    outline: 1px solid #ddd;
-    border-top: 1px solid #fff;
-    padding: 5px;
-    background: #f0f0f0;
-	font-size: 10px;
-	display: inline-flex;
+.greybox {
+   outline: 1px solid #ddd;
+   border-top: 1px solid #fff;
+   padding: 5px;
+   background: #f0f0f0;
+   font-size: 10px;
+   display: inline-flex;
 }
 
 .redbox {
-	width: 120px;
-    height: 120px;
-    position: absolute;
-    border: 3px solid red;
-	z-index: 3;
+   width: 120px;
+   height: 120px;
+   position: absolute;
+   border: 3px solid red;
+   z-index: 3;
 }
 
-.solbutton{
-	width:35px;
-	height:20px;	
-	text-align:center;
+.solbutton {
+   width: 35px;
+   height: 20px;
+   padding: 1px;
 }
 
-.solbuttonDiv{
-	width:35px;
-	height:20px;
-	text-align: center;
-    padding: 2px;
-    margin: 2px;
-	display:inline-flex;
-}
-.highlight_product{
-	display: inline-flex;
-	height: 40px;
-	min-width: 100px;
-    background: floralwhite;
-	vertical-align:bottom;
-	text-align:right;
-    padding-right: 5px;
-    margin-bottom: 100px;
+.solbuttonDiv {
+   width: 45px;
+   height: 20px;
+   padding: 2px;
+   margin: 2px;
+   display: inline-flex;
+   justify-content: center;
+   align-items: center;
+   text-align: center;  
 }
 
-.highlight_body{
-	display: inline-flex;
-	min-height: 120px;
-	min-width: 120px;
-    background: oldlace;
-	vertical-align:top;
-    margin-top: 20px;
-	margin-right: 5px;
-	
-	border:2px solid white;
-	box-shadow:inset 0px 0px 7px 0px rgba(0, 0, 0, 1),0px 0px 7px 0px rgba(0, 0, 0, 1);
+.sollink {
+}
+
+.highlight_product {
+   display: inline-flex;
+   height: 40px;
+   min-width: 100px;
+   background: floralwhite;
+   vertical-align: bottom;
+   text-align: right;
+   padding-right: 5px;
+   margin-bottom: 100px;
+}
+
+.highlight_body {
+   display: inline-flex;
+   min-height: 120px;
+   min-width: 120px;
+   background: oldlace;
+   vertical-align: top;
+   margin-top: 20px;
+   margin-right: 5px;
+
+   border: 2px solid white;
+   box-shadow:
+      inset 0px 0px 7px 0px rgba(0, 0, 0, 1),
+      0px 0px 7px 0px rgba(0, 0, 0, 1);
 }

@@ -63,15 +63,16 @@ $.widget('ck.soltags', {
       oElement.append('<br>')
       oElement.append('loading Sols...')
 
+      //fetch a list of all the sols, so that the sols with Tags can be overlaid
       const sUrl = cBrowser.buildUrl(cLocations.rest + '/sols.php', { m: oOptions.mission.ID })
       const oHttp = new cHttp2()
-      bean.on(oHttp, 'result', function (poHttp) { oThis.onSolsResponse(poHttp) })
+      bean.on(oHttp, 'result', function (poHttp) { oThis.onAllSolsResponse(poHttp) })
       oHttp.fetch_json(sUrl)
     }
   },
 
   //* *************************************************************
-  onSolsResponse: function (poHttp) {
+  onAllSolsResponse: function (poHttp) {
     const oThis = this
     const oOptions = this.options
     const oElement = this.element
@@ -79,17 +80,17 @@ $.widget('ck.soltags', {
     let sSol, i
 
     oElement.empty()
-    for (i = 0; i < aData.length; i++) {
+    for (i = 0; i < aData.length; i++) { //iterate each sol
       sSol = aData[i].sol.toString()
-      const oDiv = $('<DIV>', { class: 'solbuttonDiv' })
+      const oDiv = $('<DIV>', { class: 'solbuttonDiv' })        //container for each button
 
-      if (oOptions.aSolsWithTags[sSol]) {
+      if (oOptions.aSolsWithTags[sSol]) {   //does sol have a tag?
         const oButton = $('<button>', { class: 'solbutton', sol: sSol }).append(sSol)
         oButton.click(function (poEvent) { oThis.onButtonClick(poEvent) })
         oDiv.append(oButton)
       } else {
         const sUrl = cBrowser.buildUrl('index.php', { s: sSol })
-        const oA = $('<a>', { href: sUrl }).append(sSol)
+        const oA = $('<a>', { href: sUrl, class:'sollink' }).append(sSol)
         oDiv.append(oA)
       }
 
