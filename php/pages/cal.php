@@ -9,8 +9,8 @@
 		include("$home/php/fragments/header.php"); 
 	?>
 	<title>calendar - Curiosity Browser</title>
-	<script src="<?=$js?>/pages/cal.js"></script>
-	<script src="<?=$widgets?>/solcal.js"></script>
+	<script src="<?=$AppJS?>/pages/cal.js"></script>
+	<script src="<?=$AppJSWidgets?>/solcal.js"></script>
 </head>
 <body onload="$( ()=>cAppCal.onLoadJQuery() )">
 	<?php 

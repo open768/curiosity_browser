@@ -9,8 +9,8 @@
 		include("$home/php/fragments/header.php"); 
 	?>
 	<title>All Gigapans - by Neville Thompson</title>
-	<script src="<?=$widgets?>/allsolgigas.js"></script>
-	<script src="<?=$js?>/pages/allgigas.js"></script>
+	<script src="<?=$AppJSWidgets?>/allsolgigas.js"></script>
+	<script src="<?=$AppJS?>/pages/allgigas.js"></script>
 </head>
 <body onload="$(onLoadJQuery_GIGAS);">
 	<?php 

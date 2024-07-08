@@ -9,7 +9,7 @@
 		include("$home/php/fragments/header.php"); 
 	?>
 	<title>All Sites - Curiosity Browser</title>
-	<script src="<?=$js?>/pages/allsites.js"></script>
+	<script src="<?=$AppJS?>/pages/allsites.js"></script>
 	<script src="<?=$jsinc?>/ck-inc/googleearth.js"></script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript">

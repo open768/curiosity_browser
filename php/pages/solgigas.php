@@ -9,8 +9,8 @@
 		include("$home/php/fragments/header.php"); 
 	?>
 	<title>sol Gigapans - Curiosity Browser</title>
-	<script src="<?=$js?>/pages/solgigas.js"></script>
-	<script src="<?=$widgets?>/solgigas.js"></script>
+	<script src="<?=$AppJS?>/pages/solgigas.js"></script>
+	<script src="<?=$AppJSWidgets?>/solgigas.js"></script>
 </head>
 <body onload="$(onLoadJQuery_SOLGIG);">
 	<?php 

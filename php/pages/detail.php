@@ -21,7 +21,7 @@
 	<script src="<?=$jsExtra?>/pixlr/pixlr.js"></script>
 	<script src="<?=$jsinc?>/ck-inc/comments.js"></script>
 	<script src="<?=$jsExtra?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
-	<script src="<?=$js?>/pages/detail.js"></script>
+	<script src="<?=$AppJS?>/pages/detail.js"></script>
 </head>
 <body onload="$( ()=>cDetail.onLoadJQuery() );">
 	<?php 

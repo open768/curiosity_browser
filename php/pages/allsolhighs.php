@@ -9,8 +9,8 @@
 		include("$home/php/fragments/header.php"); 
 	?>
 	<title>All Highlights - Curiosity Browser</title>
-	<script src="<?=$widgets?>/solhighgrid.js"></script>
-	<script src="<?=$js?>/pages/allsolhighs.js"></script>
+	<script src="<?=$AppJSWidgets?>/solhighgrid.js"></script>
+	<script src="<?=$AppJS?>/pages/allsolhighs.js"></script>
 </head>
 <body onload="$(onLoadJQuery_HIGHS);">
 	<?php 

@@ -15,8 +15,8 @@
 <head>
 	<?php include("$home/php/fragments/header.php"); ?>
 	<title>Sol Highlights - Curiosity Browser </title>
-	<script type="text/javascript" src="<?=$js?>/pages/solhighs.js"></script>
-	<script type="text/javascript" src="<?=$widgets?>/solhighlights.js"></script>
+	<script type="text/javascript" src="<?=$AppJS?>/pages/solhighs.js"></script>
+	<script type="text/javascript" src="<?=$AppJSWidgets?>/solhighlights.js"></script>
 </head>
 <body onload="$( ()=>cSolHighs.onLoadJQuery() );">
 	<?php 

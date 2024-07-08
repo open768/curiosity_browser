@@ -9,7 +9,7 @@
 		include("$home/php/fragments/header.php"); 
 	?>
 	<title>PDS details - Curiosity Browser</title>
-	<script src="<?=$js?>/pages/pds.js"></script>
+	<script src="<?=$AppJS?>/pages/pds.js"></script>
 </head>
 <body onload="$(onLoadJQuery_PDS);">
 	<?php 

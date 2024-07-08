@@ -9,12 +9,12 @@
 		include("$home/php/fragments/header.php"); 
 	?>
 	<title>Tags: Curiosity Browser</title>
-	<script type="text/javascript" src="<?=$js?>/pages/tag.js"></script>
+	<script type="text/javascript" src="<?=$AppJS?>/pages/tag.js"></script>
 	<script type="text/javascript" src="<?=$jsinc?>/ck-inc/queue.js"></script>
 	<script type="text/javascript" src="<?=$jsinc?>/ck-inc/actionqueue.js"></script>
-	<script type="text/javascript" src="<?=$widgets?>/tag-view.js"></script>
-	<script type="text/javascript" src="<?=$widgets?>/image.js"></script>
-	<script type="text/javascript" src="<?=$widgets?>/tagcloud.js"></script>
+	<script type="text/javascript" src="<?=$AppJSWidgets?>/tag-view.js"></script>
+	<script type="text/javascript" src="<?=$AppJSWidgets?>/image.js"></script>
+	<script type="text/javascript" src="<?=$AppJSWidgets?>/tagcloud.js"></script>
 </head>
 <body onload="$(onLoadJQuery_TAG);">
 	<?php 

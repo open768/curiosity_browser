@@ -20,14 +20,14 @@ if ($sUser) $bIsAdmin = cAuth::is_role("admin");
         <LINK href="<?= $home ?>/css/tabs.css" rel="stylesheet" type="text/css">
         <script type="text/javascript" src="<?= $jsinc ?>/ck-inc/queue.js"></script>
         <script type="text/javascript" src="<?= $jsinc ?>/ck-inc/actionqueue.js"></script>
-        <script type="text/javascript" src="<?= $js ?>/pages/index.js"></script>
-        <script type="text/javascript" src="<?= $widgets ?>/thumbnail.js"></script>
-        <script type="text/javascript" src="<?= $widgets ?>/thumbnail-view.js"></script>
-        <script type="text/javascript" src="<?= $widgets ?>/image-view.js"></script>
-        <script type="text/javascript" src="<?= $widgets ?>/image.js"></script>
-        <script type="text/javascript" src="<?= $widgets ?>/solinstrchooser.js"></script>
-        <script type="text/javascript" src="<?= $widgets ?>/solbuttons.js"></script>
-        <script type="text/javascript" src="<?= $widgets ?>/tagcloud.js"></script>
+        <script type="text/javascript" src="<?= $AppJS ?>/pages/index.js"></script>
+        <script type="text/javascript" src="<?= $AppJSWidgets ?>/thumbnail.js"></script>
+        <script type="text/javascript" src="<?= $AppJSWidgets ?>/thumbnail-view.js"></script>
+        <script type="text/javascript" src="<?= $AppJSWidgets ?>/image-view.js"></script>
+        <script type="text/javascript" src="<?= $AppJSWidgets ?>/image.js"></script>
+        <script type="text/javascript" src="<?= $AppJSWidgets ?>/solinstrchooser.js"></script>
+        <script type="text/javascript" src="<?= $AppJSWidgets ?>/solbuttons.js"></script>
+        <script type="text/javascript" src="<?= $AppJSWidgets ?>/tagcloud.js"></script>
         <!-- end of scripts -->
 
         <meta property="og:title" content="Curiosity Browser - " />
