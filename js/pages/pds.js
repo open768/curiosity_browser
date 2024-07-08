@@ -9,9 +9,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
-
-const loading = true
-
+"use strict";
 let goPds = null
 
 // ###############################################################
@@ -20,11 +18,13 @@ let goPds = null
 
 //* **************************************************************
 
+//eslint-disable-next-line no-unused-vars
 function onClickEDRLBL () {
   if (!has_pds_url()) return
   window.open(goPds.u, 'EDR')
 }
 
+//eslint-disable-next-line no-unused-vars
 function onClickDetail () {
   var sSol, sInstr, sProduct, sUrl
 
@@ -32,11 +32,12 @@ function onClickDetail () {
   sProduct = cBrowser.data[cSpaceBrowser.PRODUCT_QUERYSTRING]
   sSol = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]
 
-  var sUrl = cBrowser.buildUrl('detail.php',	{ s: sSol, i: sInstr, p: sProduct })
+  sUrl = cBrowser.buildUrl('detail.php',	{ s: sSol, i: sInstr, p: sProduct })
   cBrowser.openWindow(sUrl, 'detail')
 }
 
 //* **************************************************************
+//eslint-disable-next-line no-unused-vars
 function onClickNotebook () {
   if (!has_pds_url()) return
   cDebug.write(goPds.notebook)
@@ -46,6 +47,7 @@ function onClickNotebook () {
 // ###############################################################
 // # Utility functions
 // ###############################################################
+//eslint-disable-next-line no-unused-vars
 function onLoadJQuery_PDS () {
   cCommonStatus.set_status('loading pds data...')
 

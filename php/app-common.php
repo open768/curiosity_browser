@@ -9,8 +9,7 @@
 	$spaceinc = "$phpinc/space";
 	//**********************************************************************************
 	
-    /** @global cDebug */
-	require_once "$phpinc/ckinc/header.php";	//this starts the session
+    require_once "$phpinc/ckinc/header.php";	//this starts the session
 	require_once("$phpinc/ckinc/debug.php");
 	
 	//check for extensions

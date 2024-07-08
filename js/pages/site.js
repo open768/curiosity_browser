@@ -11,16 +11,16 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 //uses google earth plugin information from https://developers.google.com/earth/documentation/index
 **************************************************************************/
+"use strict";
+//eslint-disable-next-line no-unused-vars
 const COLUMNS = 12
-const sOperation = null
 let aSites = null
-const aCache = []
 let bPluginLoaded = false
-const sBound = null
 
 // ###############################################################
 // # Utility functions
 // ###############################################################
+//eslint-disable-next-line no-unused-vars
 function onLoadJQuery_SITES () {
   cCommonStatus.set_status('initialising google earth')
   cGoogleEarth.callback = onGoogleEarthLoaded
@@ -51,12 +51,12 @@ function do_op (psOper, psValue) {
   bean.on(oHttp, 'result', traverse_callback)
   oHttp.fetch_json(sUrl)
 
-  var oQueryData = {}
+  oQueryData = {}
   oQueryData[cSpaceBrowser.OUTPUT_QUERYSTRING] = 'siteBounds'
   oQueryData[psOper] = psValue
   oQueryData[cSpaceBrowser.MISSION_QUERYSTRING] = cMission.ID
-  var sUrl = cBrowser.buildUrl(cLocations.rest + '/sites.php', oQueryData)
-  var oHttp = new cHttp2()
+  sUrl = cBrowser.buildUrl(cLocations.rest + '/sites.php', oQueryData)
+  oHttp = new cHttp2()
   bean.on(oHttp, 'result', bounds_callback)
   oHttp.fetch_json(sUrl)
 }
@@ -65,13 +65,12 @@ function do_op (psOper, psValue) {
 //* call backs
 // ###############################################################
 function all_sites_callback (poHttp) {
-  let oButton, oBounds, fLat, fLong
+  let oButton, oBounds
 
   $('#sites').empty()
   if (poHttp.response.d == null) { cCommonStatus.set_error_status('No sites found') } else {
     aSites = poHttp.response.d
-    iCount = 0
-    for (i = 0; i < aSites.length; i++) {
+    for (var i = 0; i < aSites.length; i++) {
       // create button to interact with site
       oBounds = aSites[i]
       if (oBounds != null) {
@@ -79,7 +78,7 @@ function all_sites_callback (poHttp) {
         $('#site').append(oButton)
 
         // create geometry in earth
-        oPlace = cGoogleEarth.makeRect(oBounds)
+        cGoogleEarth.makeRect(oBounds)
         cGoogleEarth.makePlacemark((oBounds.lat1 + oBounds.lat2) / 2, (oBounds.long1 + oBounds.long2) / 2, 'site ' + i, 'site ' + i)
       }
     }
@@ -133,7 +132,7 @@ function traverse_callback (poHttp) {
 		", drive:<a href='?o=drive&drive=" + iDrive + "'>" + iDrive + '</a>'
 
     cCommonStatus.set_status('adding placemark')
-    oPlace = cGoogleEarth.makePlacemark(fLat, fLon, '', sHTML)
+    cGoogleEarth.makePlacemark(fLat, fLon, '', sHTML)
   }
 
   cCommonStatus.set_status('adding vector')

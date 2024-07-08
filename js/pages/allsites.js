@@ -1,4 +1,4 @@
-"option explicit"
+"use strict";
 
 /**************************************************************************
 Copyright (C) Chicken Katsu 2014

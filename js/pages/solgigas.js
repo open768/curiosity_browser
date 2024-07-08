@@ -9,15 +9,14 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
-
-const current_sol = null
+"use strict";
 
 // ###############################################################
 // # Utility functions
 // ###############################################################
 //eslint-disable-next-line no-unused-vars
 function onLoadJQuery_SOLGIG () {
-  let sUrl, sSol
+  let sSol
 
   // update sol number
   sSol = cBrowser.data.s
