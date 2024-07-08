@@ -1,6 +1,7 @@
 *.old
 *.dpp
 *secret*
+\~*
 node_modules/
 \[Largeurls\]/
 \[cache\]/
