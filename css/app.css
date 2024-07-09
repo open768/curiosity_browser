@@ -394,16 +394,11 @@ body {
    z-index: 3;
 }
 
-.solbutton {
-   width: 35px;
-   height: 20px;
-   padding: 1px;
+.solbutton{
 }
 
 .solbuttonDiv {
    width: 45px;
-   height: 20px;
-   padding: 2px;
    margin: 2px;
    display: inline-flex;
    justify-content: center;

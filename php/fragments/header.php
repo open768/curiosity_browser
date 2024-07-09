@@ -11,7 +11,7 @@
 
 <!-- CSS -->
 <link rel="icon" href="<?=$home?>/images/browser/dude.ico" type="image/x-icon" />
-<LINK href="<?=$home?>/css/css.css" rel="stylesheet" type="text/css">
+<LINK href="<?=$home?>/css/app.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="<?=$jsExtra?>/jquery-ui/jquery-ui.min.css">
 <link rel="stylesheet" href="<?=$jsExtra?>/jquery-spinner/css/gspinner.min.css">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -20,7 +20,10 @@
 <script src="<?=$jsinc?>/ck-inc/common.js"></script>
 <script src="<?=$jsinc?>/ck-inc/debug.js"></script>
 <script src="<?=$jsExtra?>/bean/bean.js"></script>
+
+<!-- App common -->
 <script src="<?=$home?>/js/secret.js"></script>
+<script src="<?=$home?>/js/app-common.js"></script>
 
 <!-- jquery -->
 <script src="<?=$jsExtra?>/jquery/jquery-3.6.0.min.js"></script>

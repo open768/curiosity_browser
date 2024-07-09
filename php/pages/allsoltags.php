@@ -9,7 +9,6 @@
 		include("$home/php/fragments/header.php"); 
 	?>
 	<title>Sol Tags - Curiosity Browser</title>
-	<script src="<?=$jsinc?>/ck-inc/secret.js"></script>
 	<script src="<?=$AppJS?>/pages/allsoltags.js"></script>
 	<script src="<?=$AppJSWidgets?>/soltags.js"></script>
 </head>
