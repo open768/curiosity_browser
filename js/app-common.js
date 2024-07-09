@@ -5,29 +5,44 @@ class cSolGridRenderer {
    mission = null
    onClickUrl = null
    element = null
-   solDataUrl = null
+   DataRestUrl = null
    solsUrl = cLocations.rest + "/sols.php"
    solData = null
 
    //*********************************************************************
-   constructor(psMissionID, poElement, psDataUrl, psOnClickUrl) {
+   constructor(psMissionID, poElement, psDataRestUrl, psOnClickUrl) {
       this.mission = psMissionID
       this.onClickUrl = psOnClickUrl
       this.element = poElement
-      this.solDataUrl = psDataUrl
+      this.DataRestUrl = cLocations.rest + "/" + psDataRestUrl
+
+      // check for necessary classes
+      if (!bean) {
+         $.error("bean class is missing! check includes")
+      }
+      if (!cHttp2) {
+         $.error("http2 class is missing! check includes")
+      }
    }
 
    //*********************************************************************
-   show_sol_grid() {
+   show_sol_grid(poExtraParams) {
       var oElement = this.element
 
       // check that the element is a div
+      if (!oElement.gSpinner) {
+         $.error("gSpinner is missing! check includes")
+      }
       const sElementName = oElement.get(0).tagName
       if (sElementName !== "DIV") {
          $.error("needs a DIV. this element is a: " + sElementName)
       }
 
+      // check that the options are passed correctly
+      if (this.mission == null) $.error("mission is not set")
+
       //update status
+      oElement.uniqueId()
       oElement.empty()
       const oLoader = $("<DIV>")
       oLoader.gSpinner({ scale: 0.25 })
@@ -35,16 +50,13 @@ class cSolGridRenderer {
 
       //send request to get the data
       var oThis = this
-      var sUrl = cBrowser.buildUrl(this.solDataUrl, {
-         m: this.mission,
-         o: 'topsolindex'           //dont know why this is needed
-      })
+      var oOptions = {      m: this.mission}
+      if (poExtraParams)  Object.assign(oOptions, poExtraParams)
+      var sUrl = cBrowser.buildUrl(this.DataRestUrl, oOptions)
       const oHttp = new cHttp2()
-      bean.on(
-            oHttp, "result", 
-            function(poHttp) {
-                oThis.onDataResponse(poHttp)
-            })
+      bean.on(oHttp, "result", function (poHttp) {
+         oThis.onDataResponse(poHttp)
+      })
       oHttp.fetch_json(sUrl)
    }
 
