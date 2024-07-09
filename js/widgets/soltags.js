@@ -15,5 +15,12 @@ $.widget("ck.soltags", {
    // #################################################################
    _create: function () {
       // create a grid
+      var oGrid = new cSolGridRenderer(
+         this.options.mission.ID,
+         this.element,
+         "tag.php",
+         "soltag.php",
+      )
+      oGrid.show_sol_grid({o: "topsolindex"})
    }
 })
