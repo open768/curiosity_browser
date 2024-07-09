@@ -1,5 +1,7 @@
 "use strict"
 
+//TODO make this into a widget
+
 //eslint-disable-next-line no-unused-vars
 class cSolGridRenderer {
    mission = null
@@ -66,7 +68,7 @@ class cSolGridRenderer {
 
       this.solData = poHttp.response
 
-      if (this.solData == null) {
+      if (this.solData === null) {
          oElement.empty()
          oElement.attr("class", ".ui-state-error")
          oElement.append("No data found")
@@ -98,7 +100,7 @@ class cSolGridRenderer {
          if (this.solData[sSol]) {
             //does sol have data?
             const oButton = $("<button>", {
-               class: "solbutton",
+               class: "w3-button w3-blue w3-padding-small",
                sol: sSol,
             }).append(sSol)
             oButton.click((poEvent) => this.onButtonClick(poEvent))
@@ -111,6 +113,7 @@ class cSolGridRenderer {
          }
 
          oElement.append(oDiv)
+
       }
    }
 
