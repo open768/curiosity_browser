@@ -1,168 +1,34 @@
 body {
    background-color: white;
+
    font:
       15px arial,
       sans-serif;
 }
 
-/* ------------------------------------- */
-.roundbutton {
-   height: 30px;
-   border-radius: 15px;
-   padding: 5px;
-   background: white;
-}
-.roundbutton:hover {
-   height: 30px;
-   border-radius: 15px;
-   padding: 5px;
-   background: papayawhip;
+.about {
+   border: 2px solid #e86005;
+   border-radius: 10px;
+   display: table-cell;
+   height: 70px;
+   padding: 10px;
+   text-align: center;
+   vertical-align: middle;
+
+   /*background-color:lightsalmon;*/
 }
 
-/* ------------------------------------- */
-.homebutton {
-   background: white url(mb_images/greydude.png) left no-repeat;
-   background-size: contain;
-   padding: 5px;
-   padding-left: 30px;
-   height: 30px;
-   border-radius: 15px;
-}
-.homebutton:hover {
-   background: papayawhip url(mb_images/smalldude.png) left no-repeat;
-   background-size: contain;
-   padding: 5px;
-   padding-left: 30px;
-   height: 30px;
-   border-radius: 15px;
+.big_error {
+   color: #e86005;
+   font-family: "Helvetica Neue", Helvetica, sans-serif;
+   font-size: 50px;
+   line-height: 1em;
+   text-shadow: 1px 1px 0 rgb(107, -29, -120);
 }
 
-/* ------------------------------------- */
-.leftarrow {
-   background: white url(mb_images/greyleft.png) left no-repeat;
-   background-size: contain;
-   padding: 5px;
-   padding-left: 30px;
-   height: 30px;
-   border-radius: 15px;
-}
-.leftarrow:hover {
-   background: papayawhip url(mb_images/colourleft.png) left no-repeat;
-   background-size: contain;
-   padding: 5px;
-   padding-left: 30px;
-   height: 30px;
-   border-radius: 15px;
-}
-/* ------------------------------------- */
-.leftbutton {
-   background: white url(mb_images/greyportal.png) left no-repeat;
-   background-size: contain;
-   padding: 5px;
-   padding-left: 30px;
-   height: 30px;
-   border-radius: 15px;
-}
-.leftbutton:hover {
-   background: papayawhip url(mb_images/colourportal.png) left no-repeat;
-   background-size: contain;
-   padding: 5px;
-   padding-left: 30px;
-   height: 30px;
-   border-radius: 15px;
-}
-/* ------------------------------------- */
-.rightbutton {
-   background: white url(mb_images/greyportal.png) right no-repeat;
-   background-size: contain;
-   padding: 5px;
-   padding-right: 30px;
-   height: 30px;
-   border-radius: 15px;
-}
-.rightbutton:hover {
-   background: papayawhip url(mb_images/colourportal.png) right no-repeat;
-   background-size: contain;
-   padding: 5px;
-   padding-right: 30px;
-   height: 30px;
-   border-radius: 15px;
-}
-/* ------------------------------------- */
-.rightarrow {
-   background: white url(mb_images/greyright.png) right no-repeat;
-   background-size: contain;
-   padding: 5px;
-   padding-right: 30px;
-   height: 30px;
-   border-radius: 15px;
-}
-.rightarrow:hover {
-   background: papayawhip url(mb_images/colourright.png) right no-repeat;
-   background-size: contain;
-   padding: 5px;
-   padding-right: 30px;
-   height: 30px;
-   border-radius: 15px;
-}
-
-/* ------------------------------------- */
-.FBloginButton {
-   display: inline-block;
-
-   background: #627aac url(images/facebook_small.png) left no-repeat;
-
-   border-top: 1px solid #29447e;
-   border-right: 1px solid #29447e;
-   border-bottom: 1px solid #1a356e;
-   border-left: none;
-
-   height: 22px;
-
-   padding-right: 7px;
-   padding-left: 29px;
-
-   font-weight: bold;
-   font-size: 11px;
-   color: white;
-   text-decoration: none;
-   font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
-   line-height: 22px;
-}
-
-.titlebar {
-   background-color: #e5e5e5;
-   resize: horizontal;
-}
-
-.github {
-   background-color: #e5e5e5;
-   padding: 5px;
-   resize: horizontal;
-}
-
-.rnavbut {
-   margin: 0;
-   margin-left: 0;
-}
-.lnavbut {
-   margin: 0;
-   margin-right: 0;
-}
-.topnavbut {
-   height: 25;
-   margin: 0;
-   vertical-align: bottom;
-}
 .botnavbut {
    height: 25;
    margin: 0;
-   vertical-align: top;
-}
-
-.leftcolumn {
-   width: 230px;
-   background-color: white;
    vertical-align: top;
 }
 
@@ -171,65 +37,350 @@ body {
    font-style: italic;
 }
 
-.sols {
+.cookie {
+   background-color: #eeeeee;
+   border: 2px solid blue;
+   border-radius: 10px;
+   padding: 10px;
+}
+
+.credits {
+   color: #e86005;
+   font-family: "Helvetica Neue", Helvetica, sans-serif;
+   font-size: 14px;
+   line-height: 1em;
+   text-shadow: 1px 1px 0 rgb(107, -29, -120);
+}
+
+.disclaim {
+   background-color: #eeeeee;
+   border: 2px solid blue;
+   border-radius: 10px;
+   font-size: 11px;
+   padding: 10px;
+}
+
+.FBloginButton {
+   background: #627aac url(images/facebook_small.png) left no-repeat;
+   border-bottom: 1px solid #1a356e;
+   border-left: none;
+   border-right: 1px solid #29447e;
+   border-top: 1px solid #29447e;
+   color: white;
+   display: inline-block;
+   font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
+   font-size: 11px;
+   font-weight: bold;
+   height: 22px;
+   line-height: 22px;
+   padding-left: 29px;
+   padding-right: 7px;
+   text-decoration: none;
+}
+
+.github {
+   background-color: #e5e5e5;
+   padding: 5px;
+   resize: horizontal;
+}
+
+.gold {
+   border: 1px solid #999999;
+   border-radius: 3px;
+   margin-bottom: 3px;
+   padding: 10px;
+}
+
+.greybox {
+   background: #f0f0f0;
+   border-top: 1px solid #fff;
+   display: inline-flex;
+   font-size: 10px;
+   outline: 1px solid #ddd;
+   padding: 5px;
+}
+
+.highlight_body {
+   background: oldlace;
+   border: 2px solid white;
+   display: inline-flex;
+   margin-right: 5px;
+   margin-top: 20px;
+   min-height: 120px;
+   min-width: 120px;
+   vertical-align: top;
+
+   box-shadow:
+      inset 0px 0px 7px 0px rgba(0, 0, 0, 1),
+      0px 0px 7px 0px rgba(0, 0, 0, 1);
+}
+
+.highlight_product {
+   background: floralwhite;
+   display: inline-flex;
+   height: 40px;
+   margin-bottom: 100px;
+   min-width: 100px;
+   padding-right: 5px;
+   text-align: right;
+   vertical-align: bottom;
+}
+
+/* ------------------------------------- */
+.homebutton {
+   background: white url(mb_images/greydude.png) left no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-left: 30px;
+}
+
+.homebutton:hover {
+   background: papayawhip url(mb_images/smalldude.png) left no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-left: 30px;
+}
+
+.imagenav {
+   width: 100%;
+}
+
+.imginfo {
+   -moz-border-radius: 5px;
+   -webkit-border-radius: 5px;
+   background-color: rgba(255, 255, 255, 0.5);
+   border: 3px solid white;
+   border-radius: 5px;
+   color: red;
+   display: inline-block;
+   font-family: "Helvetica Neue", Helvetica, sans-serif;
+   font-size: 20px;
+   font-weight: bold;
+   height: 25px;
+   left: 5px;
+   position: relative;
+   text-align: center;
+   top: -40px;
+   width: 25px;
+}
+
+.instruments {
+   font-family: "Helvetica Neue", Helvetica, sans-serif;
+   font-size: 12px;
+}
+
+/* ------------------------------------- */
+.leftarrow {
+   background: white url(mb_images/greyleft.png) left no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-left: 30px;
+}
+
+.leftarrow:hover {
+   background: papayawhip url(mb_images/colourleft.png) left no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-left: 30px;
+}
+
+/* ------------------------------------- */
+.leftbutton {
+   background: white url(mb_images/greyportal.png) left no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-left: 30px;
+}
+
+.leftbutton:hover {
+   background: papayawhip url(mb_images/colourportal.png) left no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-left: 30px;
+}
+
+.leftcolumn {
+   background-color: white;
+   vertical-align: top;
    width: 230px;
 }
 
-.pagenav {
-   width: 150px;
-}
-.solnav {
-   width: 70px;
-}
-.imagenav {
-   width: 100%;
+.lnavbut {
+   margin: 0;
+   margin-right: 0;
 }
 
 .maintable {
    width: 100%;
 }
 
-.tagtable {
-   width: 80%;
-   padding: 3px;
-   border: 1px solid #999999;
-}
-
-.cookie {
-   border: 2px solid blue;
-   border-radius: 10px;
-   padding: 10px;
-   background-color: #eeeeee;
-}
-.about {
-   border: 2px solid #e86005;
-   border-radius: 10px;
-   padding: 10px;
-   /*background-color:lightsalmon;*/
-   height: 70px;
-   display: table-cell;
-   vertical-align: middle;
-   text-align: center;
-}
-
-.disclaim {
-   border: 2px solid blue;
-   border-radius: 10px;
-   padding: 10px;
-   background-color: #eeeeee;
-   font-size: 11px;
+.pagenav {
+   width: 150px;
 }
 
 .polaroid {
    border: 2px solid white;
+   display: inline-flex;
+   margin: 2px;
+   min-height: 120px;
+   min-width: 120px;
    padding: 7px;
+
    box-shadow:
       inset 0px 0px 7px 0px rgba(0, 0, 0, 1),
       0px 0px 7px 0px rgba(0, 0, 0, 1);
-   margin: 2px;
-   min-width: 120px;
-   min-height: 120px;
+}
+
+.redbox {
+   border: 3px solid red;
+   height: 120px;
+   position: absolute;
+   width: 120px;
+   z-index: 3;
+}
+
+/* ------------------------------------- */
+.rightarrow {
+   background: white url(mb_images/greyright.png) right no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-right: 30px;
+}
+
+.rightarrow:hover {
+   background: papayawhip url(mb_images/colourright.png) right no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-right: 30px;
+}
+
+/* ------------------------------------- */
+.rightbutton {
+   background: white url(mb_images/greyportal.png) right no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-right: 30px;
+}
+
+.rightbutton:hover {
+   background: papayawhip url(mb_images/colourportal.png) right no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-right: 30px;
+}
+
+/* ------------------------------------- */
+.rnavbut {
+   margin: 0;
+   margin-left: 0;
+}
+
+/* ------------------------------------- */
+.roundbutton {
+   background: white;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+}
+
+.roundbutton:hover {
+   background: papayawhip;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+}
+
+.solbutton {
+}
+
+.solbuttonDiv {
+   align-items: center;
    display: inline-flex;
+   justify-content: center;
+   margin: 2px;
+   text-align: center;
+   width: 45px;
+}
+
+.sollink {
+}
+
+.solnav {
+   width: 70px;
+}
+
+.sols {
+   width: 230px;
+}
+
+.soltags {
+   font-family: "Helvetica Neue", Helvetica, sans-serif;
+   font-size: 12px;
+   font-style: italic;
+}
+
+.subtitle {
+   background: white;
+   color: #e86005;
+   font-family: "Helvetica Neue", Helvetica, sans-serif;
+   font-size: 16px;
+   line-height: 1em;
+   padding-bottom: 2px;
+
+   text-shadow:
+      0px 0px 0 rgb(89, -34, -34),
+      1px 1px 0 rgb(55, -68, -68),
+      2px 2px 1px rgba(0, 0, 0, 0.1),
+      2px 2px 1px rgba(0, 0, 0, 0.5),
+      0px 0px 1px rgba(0, 0, 0, 0.2);
+}
+
+.tagtable {
+   border: 1px solid #999999;
+   padding: 3px;
+   width: 80%;
+}
+
+.thumb-error {
+   background: mistyrose;
+}
+
+.thumb-final {
+   background: repeating-linear-gradient(
+      0deg,
+      white,
+      white 10px,
+      oldlace 10px,
+      oldlace 20px
+   );
+}
+
+.thumb-invis {
+   background: lemmonchiffon;
+}
+
+.thumb-missing {
+   background: yellow;
 }
 
 /*---------------------------------------------------------------------------------*/
@@ -242,6 +393,7 @@ body {
       lemonchiffon 20px
    );
 }
+
 .thumb-wait1 {
    background: repeating-linear-gradient(
       45deg,
@@ -251,6 +403,7 @@ body {
       darkgray 10px
    );
 }
+
 .thumb-wait2 {
    background: repeating-linear-gradient(
       45deg,
@@ -260,6 +413,7 @@ body {
       silver 15px
    );
 }
+
 .thumb-wait3 {
    background: repeating-linear-gradient(
       45deg,
@@ -269,9 +423,7 @@ body {
       gainsboro 20px
    );
 }
-.thumb-invis {
-   background: lemmonchiffon;
-}
+
 .thumb-work {
    background: repeating-linear-gradient(
       30deg,
@@ -281,156 +433,28 @@ body {
       hotpink 10px
    );
 }
-.thumb-error {
-   background: mistyrose;
-}
-.thumb-final {
-   background: repeating-linear-gradient(
-      0deg,
-      white,
-      white 10px,
-      oldlace 10px,
-      oldlace 20px
-   );
-}
-.thumb-missing {
-   background: yellow;
-}
-
-/*---------------------------------------------------------------------------------*/
-.gold {
-   border-radius: 3px;
-   padding: 10px;
-   border: 1px solid #999999;
-   margin-bottom: 3px;
-}
-
-.soltags {
-   font-family: "Helvetica Neue", Helvetica, sans-serif;
-   font-size: 12px;
-   font-style: italic;
-}
-
-.subtitle {
-   font-family: "Helvetica Neue", Helvetica, sans-serif;
-   color: #e86005;
-   line-height: 1em;
-   font-size: 16px;
-   text-shadow:
-      0px 0px 0 rgb(89, -34, -34),
-      1px 1px 0 rgb(55, -68, -68),
-      2px 2px 1px rgba(0, 0, 0, 0.1),
-      2px 2px 1px rgba(0, 0, 0, 0.5),
-      0px 0px 1px rgba(0, 0, 0, 0.2);
-   background: white;
-   padding-bottom: 2px;
-}
-
-.imginfo {
-   display: inline-block;
-   width: 25px;
-   height: 25px;
-   font-family: "Helvetica Neue", Helvetica, sans-serif;
-   color: red;
-   font-weight: bold;
-   font-size: 20px;
-   border: 3px solid white;
-   background-color: rgba(255, 255, 255, 0.5);
-   -webkit-border-radius: 5px;
-   -moz-border-radius: 5px;
-   border-radius: 5px;
-   position: relative;
-   text-align: center;
-   top: -40px;
-   left: 5px;
-}
 
 .title {
-   font-family: "Helvetica Neue", Helvetica, sans-serif;
    color: black;
-   font-weight: bold;
+   font-family: "Helvetica Neue", Helvetica, sans-serif;
    font-size: 18px;
+   font-weight: bold;
 }
 
-.credits {
-   font-family: "Helvetica Neue", Helvetica, sans-serif;
-   line-height: 1em;
-   color: #e86005;
-   font-size: 14px;
-   text-shadow: 1px 1px 0 rgb(107, -29, -120);
+/* ------------------------------------- */
+.titlebar {
+   background-color: #e5e5e5;
+   resize: horizontal;
 }
+
+.topnavbut {
+   height: 25;
+   margin: 0;
+   vertical-align: bottom;
+}
+
 .warning {
    background: red;
    color: white;
    outline: 1px solid yellow;
-}
-.big_error {
-   font-family: "Helvetica Neue", Helvetica, sans-serif;
-   line-height: 1em;
-   color: #e86005;
-   font-size: 50px;
-   text-shadow: 1px 1px 0 rgb(107, -29, -120);
-}
-
-.instruments {
-   font-family: "Helvetica Neue", Helvetica, sans-serif;
-   font-size: 12px;
-}
-
-.greybox {
-   outline: 1px solid #ddd;
-   border-top: 1px solid #fff;
-   padding: 5px;
-   background: #f0f0f0;
-   font-size: 10px;
-   display: inline-flex;
-}
-
-.redbox {
-   width: 120px;
-   height: 120px;
-   position: absolute;
-   border: 3px solid red;
-   z-index: 3;
-}
-
-.solbutton{
-}
-
-.solbuttonDiv {
-   width: 45px;
-   margin: 2px;
-   display: inline-flex;
-   justify-content: center;
-   align-items: center;
-   text-align: center;  
-}
-
-.sollink {
-}
-
-.highlight_product {
-   display: inline-flex;
-   height: 40px;
-   min-width: 100px;
-   background: floralwhite;
-   vertical-align: bottom;
-   text-align: right;
-   padding-right: 5px;
-   margin-bottom: 100px;
-}
-
-.highlight_body {
-   display: inline-flex;
-   min-height: 120px;
-   min-width: 120px;
-   background: oldlace;
-   vertical-align: top;
-   margin-top: 20px;
-   margin-right: 5px;
-
-   border: 2px solid white;
-   box-shadow:
-      inset 0px 0px 7px 0px rgba(0, 0, 0, 1),
-      0px 0px 7px 0px rgba(0, 0, 0, 1);
 }
