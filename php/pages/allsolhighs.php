@@ -11,6 +11,7 @@
 	<title>All Highlights - Curiosity Browser</title>
 	<script src="<?=$AppJSWidgets?>/solhighgrid.js"></script>
 	<script src="<?=$AppJS?>/pages/allsolhighs.js"></script>
+	<script src="<?=$AppJS?>/classes/solgrid.js"></script>
 </head>
 <body onload="$(onLoadJQuery_HIGHS);">
 	<?php 

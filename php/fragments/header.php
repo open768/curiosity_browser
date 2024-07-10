@@ -21,9 +21,8 @@
 <script src="<?=$jsinc?>/ck-inc/debug.js"></script>
 <script src="<?=$jsExtra?>/bean/bean.js"></script>
 
-<!-- App common -->
-<script src="<?=$home?>/js/secret.js"></script>
-<script src="<?=$home?>/js/app-common.js"></script>
+<!-- secret -->
+<script src="<?=$AppJS?>/secret.js"></script>
 
 <!-- jquery -->
 <script src="<?=$jsExtra?>/jquery/jquery-3.6.0.min.js"></script>
@@ -55,7 +54,7 @@
 
 <script type="text/javascript">
 	cFacebook.statusID = "#username";
-	cFacebook.ServerSide = "php/rest/facebook.php";
+	cFacebook.ServerSide = "<?=$home?>/php/rest/facebook.php";
 	cFacebook.ServerUser = "<?=$sFBUser?>";
 	cFacebook.Version = "<?=cAppSecret::FB_VERSION?>";
 	cFacebook.AppID = <?=$oFBAppId->id?>;

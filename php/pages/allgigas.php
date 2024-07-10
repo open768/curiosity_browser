@@ -11,6 +11,7 @@
 	<title>All Gigapans - by Neville Thompson</title>
 	<script src="<?=$AppJSWidgets?>/allsolgigas.js"></script>
 	<script src="<?=$AppJS?>/pages/allgigas.js"></script>
+	<script src="<?=$AppJS?>/classes/solgrid.js"></script>
 </head>
 <body onload="$(onLoadJQuery_GIGAS);">
 	<?php 
