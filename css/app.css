@@ -26,12 +26,6 @@ body {
    text-shadow: 1px 1px 0 rgb(107, -29, -120);
 }
 
-.botnavbut {
-   height: 25;
-   margin: 0;
-   vertical-align: top;
-}
-
 .comments {
    color: grey;
    font-style: italic;
@@ -126,25 +120,6 @@ body {
    vertical-align: bottom;
 }
 
-/* ------------------------------------- */
-.homebutton {
-   background: white url(mb_images/greydude.png) left no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-left: 30px;
-}
-
-.homebutton:hover {
-   background: papayawhip url(mb_images/smalldude.png) left no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-left: 30px;
-}
-
 .imagenav {
    width: 100%;
 }
@@ -173,53 +148,10 @@ body {
    font-size: 12px;
 }
 
-/* ------------------------------------- */
-.leftarrow {
-   background: white url(mb_images/greyleft.png) left no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-left: 30px;
-}
-
-.leftarrow:hover {
-   background: papayawhip url(mb_images/colourleft.png) left no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-left: 30px;
-}
-
-/* ------------------------------------- */
-.leftbutton {
-   background: white url(mb_images/greyportal.png) left no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-left: 30px;
-}
-
-.leftbutton:hover {
-   background: papayawhip url(mb_images/colourportal.png) left no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-left: 30px;
-}
-
 .leftcolumn {
    background-color: white;
    vertical-align: top;
    width: 230px;
-}
-
-.lnavbut {
-   margin: 0;
-   margin-right: 0;
 }
 
 .maintable {
@@ -249,68 +181,6 @@ body {
    position: absolute;
    width: 120px;
    z-index: 3;
-}
-
-/* ------------------------------------- */
-.rightarrow {
-   background: white url(mb_images/greyright.png) right no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-right: 30px;
-}
-
-.rightarrow:hover {
-   background: papayawhip url(mb_images/colourright.png) right no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-right: 30px;
-}
-
-/* ------------------------------------- */
-.rightbutton {
-   background: white url(mb_images/greyportal.png) right no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-right: 30px;
-}
-
-.rightbutton:hover {
-   background: papayawhip url(mb_images/colourportal.png) right no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-right: 30px;
-}
-
-/* ------------------------------------- */
-.rnavbut {
-   margin: 0;
-   margin-left: 0;
-}
-
-/* ------------------------------------- */
-.roundbutton {
-   background: white;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-}
-
-.roundbutton:hover {
-   background: papayawhip;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-}
-
-.solbutton {
 }
 
 .solbuttonDiv {
@@ -361,6 +231,26 @@ body {
    width: 80%;
 }
 
+.title {
+    color: black;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+ }
+ 
+ /* ------------------------------------- */
+ .titlebar {
+    background-color: #e5e5e5;
+    resize: horizontal;
+ }
+ 
+ .warning {
+    background: red;
+    color: white;
+    outline: 1px solid yellow;
+ }
+ 
+ /*----thumbnails---------------------------------------------------------------------*/
 .thumb-error {
    background: mistyrose;
 }
@@ -383,7 +273,6 @@ body {
    background: yellow;
 }
 
-/*---------------------------------------------------------------------------------*/
 .thumb-orig {
    background: repeating-linear-gradient(
       45deg,
@@ -434,17 +323,20 @@ body {
    );
 }
 
-.title {
-   color: black;
-   font-family: "Helvetica Neue", Helvetica, sans-serif;
-   font-size: 18px;
-   font-weight: bold;
-}
 
-/* ------------------------------------- */
-.titlebar {
-   background-color: #e5e5e5;
-   resize: horizontal;
+/* ---nav buttons---------------------------------- */
+.botnavbut {
+    height: 25;
+    margin: 0;
+    vertical-align: top;
+ }
+ .lnavbut {
+   margin: 0;
+   margin-right: 0;
+}
+.rnavbut {
+   margin: 0;
+   margin-left: 0;
 }
 
 .topnavbut {
@@ -453,8 +345,113 @@ body {
    vertical-align: bottom;
 }
 
-.warning {
-   background: red;
-   color: white;
-   outline: 1px solid yellow;
+/* -----------buttons -------------------------- */
+.homebutton {
+   background: white url(mb_images/greydude.png) left no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-left: 30px;
+}
+
+.homebutton:hover {
+   background: papayawhip url(mb_images/smalldude.png) left no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-left: 30px;
+}
+
+.leftarrow {
+   background: white url(mb_images/greyleft.png) left no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-left: 30px;
+}
+
+.leftarrow:hover {
+   background: papayawhip url(mb_images/colourleft.png) left no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-left: 30px;
+}
+
+/* ------------------------------------- */
+.leftbutton {
+   background: white url(mb_images/greyportal.png) left no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-left: 30px;
+}
+
+.leftbutton:hover {
+   background: papayawhip url(mb_images/colourportal.png) left no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-left: 30px;
+}
+
+rightarrow {
+   background: white url(mb_images/greyright.png) right no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-right: 30px;
+}
+
+.rightarrow:hover {
+   background: papayawhip url(mb_images/colourright.png) right no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-right: 30px;
+}
+
+/* ------------------------------------- */
+.rightbutton {
+   background: white url(mb_images/greyportal.png) right no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-right: 30px;
+}
+
+.rightbutton:hover {
+   background: papayawhip url(mb_images/colourportal.png) right no-repeat;
+   background-size: contain;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+   padding-right: 30px;
+}
+
+/* ------------------------------------- */
+.roundbutton {
+   background: white;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+}
+
+.roundbutton:hover {
+   background: papayawhip;
+   border-radius: 15px;
+   height: 30px;
+   padding: 5px;
+}
+
+.solbutton {
 }
