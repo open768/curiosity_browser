@@ -32,8 +32,8 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 <!-- everything else -->
 <script>
     class cSecret {
-        GA_TrackingID = "<?= cAppSecret::GOOGLE_ANALYTICS_ID ?>"
-        GA_App = "mars-tourist-guide.co.uk"
+        static GA_TrackingID = "<?= cAppSecret::GOOGLE_ANALYTICS_ID ?>"
+        static GA_App = "mars-tourist-guide.co.uk"
     }
 
     class cLocations {
@@ -53,7 +53,7 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 <!-- Facebook -->
 <script src="<?= $jsinc ?>/ck-inc/facebook.js"></script>
 
-<script type="text/javascript">
+<script>
     cFacebook.statusID = "#username";
     cFacebook.ServerSide = "<?= $home ?>/php/rest/facebook.php";
     cFacebook.ServerUser = "<?= $sFBUser ?>";
