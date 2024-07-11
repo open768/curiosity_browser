@@ -47,7 +47,6 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 <script src="<?= $jsinc ?>/ck-inc/space/space.js"></script>
 <script src="<?= $jsinc ?>/ck-inc/space/tagging.js"></script>
 <script src="<?= $jsinc ?>/ck-inc/space/imghilite.js"></script>
-<script src="<?= $jsinc ?>/ck-inc/space/imghilite.js"></script>
 
 <!-- Facebook -->
 <script src="<?= $jsinc ?>/ck-inc/facebook.js"></script>
@@ -61,6 +60,4 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 </script>
 
 <!-- New relic -->
-<?php
-include("$AppPhpFragments/newrelic.php")
-?>
+<script src="<?= $AppJS ?>/fragments/newrelic.php"></script>

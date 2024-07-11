@@ -1,12 +1,29 @@
 <?php
-    $home = "../..";
-    require_once "$home/php/app-common.php";
+$home = "../..";
+require_once "$home/php/app-common.php";
 
-    //check for admin role to display admin button
-    $sUser = cAuth::get_user();
-    $bIsAdmin = false;
-    if ($sUser) $bIsAdmin = cAuth::is_role("admin");
-    include("$AppPhpFragments/doctype.php");
+//check for admin role to display admin button
+$sUser = cAuth::get_user();
+$bIsAdmin = false;
+if ($sUser) $bIsAdmin = cAuth::is_role("admin");
+
+//define PHP constants
+class cIndexPageConsts
+{
+    const ID_IMAGE_CONTAINER = "images";
+    const ID_CHKTHUMBS = "chkThumbs";
+    const ID_STATUS = "status";
+    const ID_TAB_TAG_CONTENT = "tab-content-tags";
+    const ID_TAB_SOL_CONTENT = "tab-content-sol";
+    const ID_WIDGET_CHOOSER = "solInstChooser";
+    const ID_WIDGET_SOLBUTTONS = "solButtons";
+    const ID_WIDGET_ADMIN = "admin";
+    const ID_SEARCH = "search_text";
+    const ID_TAB_BAR = "tab-bar";
+    const ID_INTRO = "intro";
+    const ID_SOLTHUMBS = "solthumbs";
+}
+include("$AppPhpFragments/doctype.php");
 ?>
 <html>
 
@@ -34,28 +51,11 @@
     <meta property="og:image" content="http://www.mars-browser.co.uk/curiosity/images/rover.png" />
     <meta property="og:description" content="Be part of the greatest exploration team ever. Discover great finds in the amazing images from NASA's Curiosity Rover and share your discoveries with the world." />
 </head>
-<?php
-
-class cIndexPageConsts
-{
-    const ID_IMAGE_CONTAINER = "images";
-    const ID_CHKTHUMBS = "chkThumbs";
-    const ID_STATUS = "status";
-    const ID_TAB_TAG_CONTENT = "tab-content-tags";
-    const ID_TAB_SOL_CONTENT = "tab-content-sol";
-    const ID_WIDGET_CHOOSER = "solInstChooser";
-    const ID_WIDGET_SOLBUTTONS = "solButtons";
-    const ID_WIDGET_ADMIN = "admin";
-    const ID_SEARCH = "search_text";
-    const ID_TAB_BAR = "tab-bar";
-    const ID_INTRO = "intro";
-    const ID_SOLTHUMBS = "solthumbs";
-}
-cPageOutput::write_JS_class_constant_IDs("cIndexPageConsts");
-
-?>
 
 <body onload="$( function(){ cIndexPage.onLoadJQuery()} );">
+    <?php
+    cPageOutput::write_JS_class_constant_IDs("cIndexPageConsts");
+    ?>
     <?php
     $sTitle = "Home";
     include("$AppPhpFragments/title.php");
