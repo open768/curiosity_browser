@@ -13,8 +13,8 @@
 <head>
 	<?php include("$AppPhpFragments/header.php"); ?>
 	<title>Sol Highlights - Curiosity Browser </title>
-	<script type="text/javascript" src="<?=$AppJS?>/pages/solhighs.js"></script>
-	<script type="text/javascript" src="<?=$AppJSWidgets?>/solhighlights.js"></script>
+	<script src="<?=$AppJS?>/pages/solhighs.js"></script>
+	<script src="<?=$AppJSWidgets?>/solhighlights.js"></script>
 </head>
 <body onload="$( ()=>cSolHighs.onLoadJQuery() );">
 	<?php 

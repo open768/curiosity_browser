@@ -2,7 +2,7 @@
 require_once "$phpinc/ckinc/header.php";
 require_once "$phpinc/ckinc/facebook.php";
 ?>
-<!-- meta tags -->
+<!-- facebook meta tags -->
 <?php
 $oFBAppId = cFacebook_ServerSide::getAppID();
 $sFBUser = cFacebook_ServerSide::getSessionUser();
@@ -21,9 +21,6 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 <script src="<?= $jsinc ?>/ck-inc/debug.js"></script>
 <script src="<?= $jsExtra ?>/bean/bean.js"></script>
 
-<!-- secret -->
-<script src="<?= $AppJS ?>/secret.js"></script>
-
 <!-- jquery -->
 <script src="<?= $jsExtra ?>/jquery/jquery-3.6.0.min.js"></script>
 <script src="<?= $jsExtra ?>/jquery-ui/jquery-ui.js"></script>
@@ -33,11 +30,16 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 <script src="<?= $jsExtra ?>/jquery-cookie/jquery.cookie.js"></script>
 
 <!-- everything else -->
-<script type="text/javascript">
-    var cLocations = {
-        home: "<?= $home ?>",
-        rest: "<?= $home ?>/php/rest",
-        jsextra: "<?= $jsExtra ?>"
+<script>
+    class cSecret {
+        GA_TrackingID = "<?= cAppSecret::GOOGLE_ANALYTICS_ID ?>"
+        GA_App = "mars-tourist-guide.co.uk"
+    }
+
+    class cLocations {
+        static home = "<?= $home ?>"
+        static rest = "<?= $home ?>/php/rest"
+        static jsextra = "<?= $jsExtra ?>"
     };
 </script>
 <script src="<?= $jsinc ?>/ck-inc/http.js"></script>

@@ -10,7 +10,7 @@
 	<title>All Sites - Curiosity Browser</title>
 	<script src="<?=$AppJS?>/pages/allsites.js"></script>
 	<script src="<?=$jsinc?>/ck-inc/googleearth.js"></script>
-	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript">
 		google.load("earth", "1");
 	</script>

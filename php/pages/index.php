@@ -35,16 +35,16 @@ include("$AppPhpFragments/doctype.php");
     <title>Curiosity Browser</title>
     <LINK href="<?= $home ?>/css/drag.css" rel="stylesheet" type="text/css">
     <LINK href="<?= $home ?>/css/tabs.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="<?= $jsinc ?>/ck-inc/queue.js"></script>
-    <script type="text/javascript" src="<?= $jsinc ?>/ck-inc/actionqueue.js"></script>
-    <script type="text/javascript" src="<?= $AppJS ?>/pages/index.js"></script>
-    <script type="text/javascript" src="<?= $AppJSWidgets ?>/thumbnail.js"></script>
-    <script type="text/javascript" src="<?= $AppJSWidgets ?>/thumbnail-view.js"></script>
-    <script type="text/javascript" src="<?= $AppJSWidgets ?>/image-view.js"></script>
-    <script type="text/javascript" src="<?= $AppJSWidgets ?>/image.js"></script>
-    <script type="text/javascript" src="<?= $AppJSWidgets ?>/solinstrchooser.js"></script>
-    <script type="text/javascript" src="<?= $AppJSWidgets ?>/solbuttons.js"></script>
-    <script type="text/javascript" src="<?= $AppJSWidgets ?>/tagcloud.js"></script>
+    <script src="<?= $jsinc ?>/ck-inc/queue.js"></script>
+    <script src="<?= $jsinc ?>/ck-inc/actionqueue.js"></script>
+    <script src="<?= $AppJS ?>/pages/index.js"></script>
+    <script src="<?= $AppJSWidgets ?>/thumbnail.js"></script>
+    <script src="<?= $AppJSWidgets ?>/thumbnail-view.js"></script>
+    <script src="<?= $AppJSWidgets ?>/image-view.js"></script>
+    <script src="<?= $AppJSWidgets ?>/image.js"></script>
+    <script src="<?= $AppJSWidgets ?>/solinstrchooser.js"></script>
+    <script src="<?= $AppJSWidgets ?>/solbuttons.js"></script>
+    <script src="<?= $AppJSWidgets ?>/tagcloud.js"></script>
     <!-- end of scripts -->
 
     <meta property="og:title" content="Curiosity Browser - " />
