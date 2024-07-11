@@ -113,7 +113,7 @@ class cIndexPage {
 
       // render the sol instrument chooser widget
       // this widget will kick off the image display thru onSelectSolInstrEvent
-      $(cIndexPageConsts.ID_WIDGET_CHOOSER).solinstrumentChooser({
+      $(cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser({
          onStatus(poEvent, paHash) {
             self.onStatusEvent(poEvent, paHash)
          },
@@ -157,7 +157,7 @@ class cIndexPage {
       cOptions.instrument = null
       cOptions.start_image = -1
       $(cIndexPageConsts.ID_CHKTHUMBS).prop("checked", true).attr("disabled", "disabled")
-      $(cIndexPageConsts.ID_WIDGET_CHOOSER).solinstrumentChooser("deselectInstrument")
+      $(cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser("deselectInstrument")
       this.load_data()
    }
 
@@ -175,7 +175,7 @@ class cIndexPage {
       cOptions.instrument = null
 
       if (!isNaN(sText)) {
-         $(cIndexPageConsts.ID_WIDGET_CHOOSER).solinstrumentChooser("set_sol", sText)
+         $(cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser("set_sol", sText)
       } else {
          const sUrl = cBrowser.buildUrl(cLocations.rest + "/search.php", {
             s: sText,

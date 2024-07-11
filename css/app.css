@@ -401,7 +401,7 @@ body {
    padding-left: 30px;
 }
 
-rightarrow {
+.rightarrow {
    background: white url(mb_images/greyright.png) right no-repeat;
    background-size: contain;
    border-radius: 15px;

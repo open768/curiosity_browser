@@ -15,7 +15,7 @@ class cIndexPageConsts
     const ID_STATUS = "status";
     const ID_TAB_TAG_CONTENT = "tab-content-tags";
     const ID_TAB_SOL_CONTENT = "tab-content-sol";
-    const ID_WIDGET_CHOOSER = "solInstChooser";
+    const ID_WIDGET_SOLCHOOSER = "solInstChooser";
     const ID_WIDGET_SOLBUTTONS = "solButtons";
     const ID_WIDGET_ADMIN = "admin";
     const ID_SEARCH = "search_text";
@@ -66,13 +66,13 @@ include("$AppPhpFragments/doctype.php");
             <td id="left-column" class="leftcolumn" valign="top">
                 <!-- TABS -->
                 <div id="tabs-container">
-                    <div id="<?= cIndexPageConsts::ID_TAB_BAR ?>" cclass="w3-bar">
+                    <div id="<?= cIndexPageConsts::ID_TAB_BAR ?>">
                         Loading...
                     </div>
                     <div class="tab-content" id="<?= cIndexPageConsts::ID_TAB_SOL_CONTENT ?>">
                         <div>
                             <!-- ************************************** -->
-                            <div id="<?= cIndexPageConsts::ID_WIDGET_CHOOSER ?>">loading chooser widget...</div>
+                            <div id="<?= cIndexPageConsts::ID_WIDGET_SOLCHOOSER ?>">loading chooser widget...</div>
                             <!-- ************************************** -->
                             <div id="<?= cIndexPageConsts::ID_WIDGET_SOLBUTTONS ?>">loading buttons widget...</div>
                             <!-- ************************************** -->
