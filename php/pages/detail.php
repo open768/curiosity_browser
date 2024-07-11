@@ -10,11 +10,11 @@
 		exit;
 	}
 ?>
-<?php 	include("$home/php/fragments/doctype.txt");  ?>
+<?php 	include("$AppPhpFragments/doctype.txt");  ?>
 
 <html>
 <head>
-	<?php include("$home/php/fragments/header.php"); ?>
+	<?php include("$AppPhpFragments/header.php"); ?>
 	<LINK href="<?=$home?>/css/drag.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="<?=$jsExtra?>/sceditor/minified/themes/default.min.css" type="text/css" media="all" />
 	<title>Detail: Curiosity Browser</title>
@@ -26,7 +26,7 @@
 <body onload="$( ()=>cDetail.onLoadJQuery() );">
 	<?php 
 		$sTitle = "Product Detail";
-		include("$home/php/fragments/title.php");
+		include("$AppPhpFragments/title.php");
 	?>
 	<!-- TODO convert into a widget -->
 	<DIV class="gold">
@@ -123,7 +123,7 @@
 	<!-- footer -->
 	<?php 	
 		$sExtraCredits="link to curiosityrover.com courtesy of Joe Knapp";
-		include("$home/php/fragments/github.php") 	
+		include("$AppPhpFragments/github.php") 	
 	?>
 </body>
 </html>

@@ -2,11 +2,11 @@
 	$home = "../..";
 	require_once "$home/php/app-common.php";
 ?>
-<?php 	include("$home/php/fragments/doctype.txt");  ?>
+<?php 	include("$AppPhpFragments/doctype.txt");  ?>
 <html>
 <head>
 	<?php 
-		include("$home/php/fragments/header.php"); 
+		include("$AppPhpFragments/header.php"); 
 	?>
 	<title>All Sites - Curiosity Browser</title>
 	<script src="<?=$AppJS?>/pages/allsites.js"></script>
@@ -19,7 +19,7 @@
 <body onload="$(onLoadJQuery_SITES);">
 	<?php 
 		$sTitle = "Sites";
-		include("$home/php/fragments/title.php");
+		include("$AppPhpFragments/title.php");
 	?>
 	<div class="gold">
 		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
@@ -33,6 +33,6 @@
 	</div>
 	<P>
 	
-	<?php include("$home/php/fragments/github.php") ?>
+	<?php include("$AppPhpFragments/github.php") ?>
 </body>
 </html>

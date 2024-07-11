@@ -8,12 +8,12 @@ $bIsAdmin = false;
 if ($sUser) $bIsAdmin = cAuth::is_role("admin");
 ?>
 <!-- Doctype Fragment -->
-<?php include("$home/php/fragments/doctype.txt");  ?>
+<?php include("$AppPhpFragments/doctype.txt");  ?>
 <html>
 
 <head>
         <!-- header fragments -->
-        <?php include("$home/php/fragments/header.php");  ?>
+        <?php include("$AppPhpFragments/header.php");  ?>
 
         <!-- main scripts -->
         <title>Curiosity Browser</title>
@@ -58,7 +58,7 @@ cPageOutput::write_JS_class_constant_IDs("cIndexPageConsts");
 <body onload="$( function(){ cIndexPage.onLoadJQuery()} );">
         <?php
         $sTitle = "Home";
-        include("$home/php/fragments/title.php");
+        include("$AppPhpFragments/title.php");
         ?>
 
         <table id="payload" width="100%">
@@ -150,7 +150,7 @@ cPageOutput::write_JS_class_constant_IDs("cIndexPageConsts");
         </table>
 
         <!-- footer -->
-        <?php include("$home/php/fragments/github.php") ?>
+        <?php include("$AppPhpFragments/github.php") ?>
 </body>
 
 </html>

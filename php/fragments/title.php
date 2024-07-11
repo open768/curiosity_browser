@@ -1,7 +1,7 @@
 <!-- Tracking -->
 <div id='fb-root'></div>
 <?php
-include("$home/php/fragments/google.php");
+include("$AppPhpFragments/google.php");
 ?>
 
 <!-- Title Bar -->

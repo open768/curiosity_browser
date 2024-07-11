@@ -2,18 +2,18 @@
 	$home="../..";
 	require_once "$home/php/app-common.php";
 ?>
-<?php 	include("$home/php/fragments/doctype.txt");  ?>
+<?php 	include("$AppPhpFragments/doctype.txt");  ?>
 <html>
 <head>
 	<?php 
-		include("$home/php/fragments/header.php"); 
+		include("$AppPhpFragments/header.php"); 
 	?>
 	<title>About the Curiosity Browser </title>
 </head>
 <body>
 	<?php 
 		$sTitle = "About me";
-		include("$home/php/fragments/title.php");
+		include("$AppPhpFragments/title.php");
 	?>
 	<script src="<?=$jsinc?>/ck-inc/common.js"></script>
 	<div class="gold" >
@@ -120,6 +120,6 @@
 	</div>
 
 	<!-- footer -->
-	<?php 	include("$home/php/fragments/github.php") 	?>
+	<?php 	include("$AppPhpFragments/github.php") 	?>
 </body>
 </html>

@@ -2,11 +2,11 @@
 	$home = "../..";
 	require_once "$home/php/app-common.php";
 ?>
-<?php 	include("$home/php/fragments/doctype.txt");  ?>
+<?php 	include("$AppPhpFragments/doctype.txt");  ?>
 <html>
 <head>
 	<?php 
-		include("$home/php/fragments/header.php"); 
+		include("$AppPhpFragments/header.php"); 
 	?>
 	<title>All Gigapans - by Neville Thompson</title>
 	<script src="<?=$AppJSWidgets?>/allsolgigas.js"></script>
@@ -16,7 +16,7 @@
 <body onload="$(onLoadJQuery_GIGAS);">
 	<?php 
 		$sTitle = "All Gigapans - by Neville Thompson";
-		include("$home/php/fragments/title.php");
+		include("$AppPhpFragments/title.php");
 	?>
 	<div class="gold">
 		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
@@ -34,7 +34,7 @@
 	<!-- *************** footer *********************** -->
 	<?php 
 		$sExtraCredits="Data courtesy Neville Thompson http://www.gigapan.com/profiles/pencilnev";
-		include("$home/php/fragments/github.php") 
+		include("$AppPhpFragments/github.php") 
 	?>
 </body>
 </html>

@@ -2,11 +2,11 @@
 	$home="../..";
 	require_once "$home/php/app-common.php";
 ?>
-<?php 	include("$home/php/fragments/doctype.txt");  ?>
+<?php 	include("$AppPhpFragments/doctype.txt");  ?>
 <html>
 <head>
 	<?php 
-		include("$home/php/fragments/header.php"); 
+		include("$AppPhpFragments/header.php"); 
 	?>
 	<title>Tags: Curiosity Browser</title>
 	<script type="text/javascript" src="<?=$AppJS?>/pages/tag.js"></script>
@@ -19,7 +19,7 @@
 <body onload="$(onLoadJQuery_TAG);">
 	<?php 
 		$sTitle = "Instances of Tag <span id='tagname'>tag goes here</span>";
-		include("$home/php/fragments/title.php");
+		include("$AppPhpFragments/title.php");
 	?>
 	<table width="100%"><tr>
 		<td class="leftcolumn" valign="top">
@@ -42,6 +42,6 @@
 	
 	<P>
 	<!-- footer -->
-	<?php 	include("$home/php/fragments/github.php") 	?>
+	<?php 	include("$AppPhpFragments/github.php") 	?>
 </body>
 </html>

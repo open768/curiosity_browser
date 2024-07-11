@@ -2,11 +2,11 @@
 	$home="../..";
 	require_once "$home/php/app-common.php";
 ?>
-<?php 	include("$home/php/fragments/doctype.txt");  ?>
+<?php 	include("$AppPhpFragments/doctype.txt");  ?>
 <html>
 <head>
 	<?php 
-		include("$home/php/fragments/header.php"); 
+		include("$AppPhpFragments/header.php"); 
 	?>
 	<title>calendar - Curiosity Browser</title>
 	<script src="<?=$AppJS?>/pages/cal.js"></script>
@@ -15,7 +15,7 @@
 <body onload="$( ()=>cAppCal.onLoadJQuery() )">
 	<?php 
 		$sTitle = "Curiosity calendar for SOL: <span id='sol'>???</span>";
-		include("$home/php/fragments/title.php");
+		include("$AppPhpFragments/title.php");
 	?>
 	<DIV class="gold">
 		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
@@ -29,7 +29,7 @@
 	
 	<!-- footer -->
 	<?php 	
-		include("$home/php/fragments/github.php") 	
+		include("$AppPhpFragments/github.php") 	
 	?>
 </body>
 </html>

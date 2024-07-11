@@ -2,7 +2,7 @@
 	$home="../..";
 	require_once "$home/php/app-common.php";
 
-	include("$home/php/fragments/header.php"); 
+	include("$AppPhpFragments/header.php"); 
 	require_once("$phpinc/ckinc/facebook.php");
 	cHeader::redirect_if_referred();
 	if ( cFacebook_ServerSide::is_facebook()){
@@ -10,10 +10,10 @@
 		exit;
 	}
 ?>
-<?php 	include("$home/php/fragments/doctype.txt");  ?>
+<?php 	include("$AppPhpFragments/doctype.txt");  ?>
 <html>
 <head>
-	<?php include("$home/php/fragments/header.php"); ?>
+	<?php include("$AppPhpFragments/header.php"); ?>
 	<title>Sol Highlights - Curiosity Browser </title>
 	<script type="text/javascript" src="<?=$AppJS?>/pages/solhighs.js"></script>
 	<script type="text/javascript" src="<?=$AppJSWidgets?>/solhighlights.js"></script>
@@ -21,7 +21,7 @@
 <body onload="$( ()=>cSolHighs.onLoadJQuery() );">
 	<?php 
 		$sTitle = "Highlights for sol:<span id='sol'>??</span>";
-		include("$home/php/fragments/title.php");
+		include("$AppPhpFragments/title.php");
 	?>
 	<div class="gold">
 		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
@@ -41,6 +41,6 @@
 	<P>
 	
 	<!-- *************** footer *********************** -->
-	<?php 	include("$home/php/fragments/github.php") 	?>
+	<?php 	include("$AppPhpFragments/github.php") 	?>
 </body>
 </html>
