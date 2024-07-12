@@ -2,7 +2,7 @@
 <div class="github"><center>
 	<table><tr>
 		<td><div class="about">
-			<p class="credits">Data courtesy MSSS/MSL/NASA/JPL-Caltech.<br/>Please note <a href="index.php#disclaim">site disclaimer</a></p>
+			<p class="credits">Data courtesy MSSS/MSL/NASA/JPL-Caltech.<br>Please note <a href="index.php#disclaim">site disclaimer</a></p>
 			<?php if (isset($sExtraCredits)){?>
 				<p class="credits"><?=$sExtraCredits?>.</p>
 			<?php }?>

@@ -47,9 +47,9 @@ include("$AppPhpFragments/doctype.php");
     <script src="<?= $AppJSWidgets ?>/tagcloud.js"></script>
     <!-- end of scripts -->
 
-    <meta property="og:title" content="Curiosity Browser - " />
-    <meta property="og:image" content="http://www.mars-browser.co.uk/curiosity/images/rover.png" />
-    <meta property="og:description" content="Be part of the greatest exploration team ever. Discover great finds in the amazing images from NASA's Curiosity Rover and share your discoveries with the world." />
+    <meta property="og:title" content="Curiosity Browser - " >
+    <meta property="og:image" content="http://www.mars-browser.co.uk/curiosity/images/rover.png" >
+    <meta property="og:description" content="Be part of the greatest exploration team ever. Discover great finds in the amazing images from NASA's Curiosity Rover and share your discoveries with the world." >
 </head>
 
 <body onload="$( function(){ cIndexPage.onLoadJQuery()} );">
@@ -96,7 +96,7 @@ include("$AppPhpFragments/doctype.php");
             </td>
             <td id="right-column" valign="top" style="min-width:600px">
                 <div class="gold" id="header-pane">
-                    <input type="textbox" id="<?= cIndexPageConsts::ID_SEARCH ?>" maxlength="30" size="30"><button class="rightbutton" onclick="onClickSearch()" title="Search for Product">Search</button>
+                    <input type="text" id="<?= cIndexPageConsts::ID_SEARCH ?>" size="30"><button class="rightbutton" onclick="onClickSearch()" title="Search for Product">Search</button>
                     <input id="<?= cIndexPageConsts::ID_CHKTHUMBS ?>" type="checkbox">Show Thumbnails&nbsp;&nbsp;&nbsp;&nbsp;
                     <span class="subtitle"> Status: </span><span ID="<?= cIndexPageConsts::ID_STATUS ?>" class="status">Loading...</span>
                 </div>
@@ -110,30 +110,30 @@ include("$AppPhpFragments/doctype.php");
                             You might even be the one who discovers the next great scientific discovery of Mars.
                         <p>
                             And then let everyone know about your discoveries by sharing what you find.
-                            <p />
+                            <p>
                             <b>To get started</b>
                         <ol>
                             <li>select a <span class="subtitle">SOL</span> from the left hand list, or type it in the box above. (SOL represents the number of Mars days that Curiosity has been on Mars.)</li>
                             <li>Then select from the <span class="subtitle">instruments</span> shown for that SOL to see the amazing images.</li>
                         </ol>
                     </div>
-                    <P>&nbsp;</P>
-                    <P>&nbsp;</P>
-                    <P>&nbsp;</P>
-                    <P>&nbsp;</P>
-                    <P>&nbsp;</P>
-                    <P>&nbsp;</P>
+                    <P>&nbsp;
+                    <P>&nbsp;
+                    <P>&nbsp;
+                    <P>&nbsp;
+                    <P>&nbsp;
+                    <P>&nbsp;
                     <div class="cookie">
                         <b>An Appeal from the webmaster:</b> Have you got skills in PHP, Javascript or web design, or would love a project to help develop these skills?<br>
                         We <b>desperately</b> need your help in developing this platform so it becomes the leading place to interact with space science images.<br>
                         Please join us at <a href="https://github.com/open768/curiosity_browser">Github</a> or <a href="https://www.facebook.com/mars.features/">Facebook</a>.
                     </div>
-                    <p />
+                    <p>
                     <div class="cookie">
                         We are using cookies to give you the best experience on our site. Cookies are files stored in your browser and are used by most websites to help personalise your web experience.
                         By continuing to use our website without changing the settings, you are agreeing to our use of cookies.
                     </div>
-                    <p />
+                    <p>
                     <div class="disclaim">
                         <div class="subtitle">Dislaimer</div>
                         <ul>

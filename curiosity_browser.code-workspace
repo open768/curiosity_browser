@@ -1,18 +1,18 @@
 {
     "folders": [
-		{
-			"path": "."
-		},
-		{
-			"path": "../phpinc"
-		},
-		{
-			"path": "../phpinc/space"
-		},
-		{
-			"path": "../../js/jsinc"
-		}
-	],
+        {
+            "path": "."
+        },
+        {
+            "path": "../phpinc"
+        },
+        {
+            "path": "../../js/jsinc"
+        },
+        {
+            "path": "../spaceinc"
+        }
+    ],
 	"settings": {
 		"editor.detectIndentation": false
 	}

@@ -364,7 +364,7 @@ class cDetail {
 
     // add the image
     $('#image').empty()
-    const oImg = $('<img/>').attr({ src: oData.i, id: 'baseimg'})
+    const oImg = $('<img>').attr({ src: oData.i, id: 'baseimg'})
     oImg.on("load", (poEvent)=>this.OnImageLoaded(poEvent))
     $('#image').append(oImg)
     $("meta[property='og:image']").attr('content', cLocations.home + '/' + oData.i)		// facebook tag for image

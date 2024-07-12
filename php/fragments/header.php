@@ -7,10 +7,10 @@ require_once "$phpinc/ckinc/facebook.php";
 $oFBAppId = cFacebook_ServerSide::getAppID();
 $sFBUser = cFacebook_ServerSide::getSessionUser();
 ?>
-<meta property="fb:app_id" content="<?= $oFBAppId->id ?>" />
+<meta property="fb:app_id" content="<?= $oFBAppId->id ?>" >
 
 <!-- CSS -->
-<link rel="icon" href="<?= $home ?>/images/browser/dude.ico" type="image/x-icon" />
+<link rel="icon" href="<?= $home ?>/images/browser/dude.ico" type="image/x-icon" >
 <LINK href="<?= $home ?>/css/app.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="<?= $jsExtra ?>/jquery-ui/jquery-ui.min.css">
 <link rel="stylesheet" href="<?= $jsExtra ?>/jquery-spinner/css/gspinner.min.css">

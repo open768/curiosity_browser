@@ -14,7 +14,7 @@
 <head>
 	<?php include("$AppPhpFragments/header.php"); ?>
 	<LINK href="<?=$home?>/css/drag.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="<?=$jsExtra?>/sceditor/minified/themes/default.min.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="<?=$jsExtra?>/sceditor/minified/themes/default.min.css" type="text/css" media="all" >
 	<title>Detail: Curiosity Browser</title>
 	<script src="<?=$jsExtra?>/pixlr/pixlr.js"></script>
 	<script src="<?=$jsinc?>/ck-inc/comments.js"></script>
