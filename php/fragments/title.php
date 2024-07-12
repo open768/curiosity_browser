@@ -5,22 +5,16 @@ include("$AppPhpFragments/google.php");
 ?>
 
 <!-- Title Bar -->
-<div class="titlebar">
-    <table width="100%">
-        <tr>
-            <td style="vertical-align:middle;text-align:left">
-                    <font class="title">
-                        Curiosity Browser: 
-                        <span id="toptitle"><?= $sTitle ?></span>
-                        <?= (cDebug::is_localhost() ? " - <font color='red'>DEVELOPMENT</font>" : "") ?>
-                    </font>
-            </td>
-            <td style="vertical-align:middle;text-align:right">
-                <span style="display: inline-block; width: 300px;" id="username">One Moment please...</span>
-                <span style="display: inline-block; width: 100px;">
-                    <fb:login-button scope="public_profile,email" onlogin="cFacebook.checkLoginStatus();" auto_logout_link="true" />
-                </span>
-            </td>
-        </tr>
-    </table>
+<div class="w3-cell-row w3-light-grey"">
+    <div class= "w3-cell title">
+        Curiosity Browser: 
+        <span id="toptitle"><?= $sTitle ?></span>
+        <?= (cDebug::is_localhost() ? " - <font color='red'>DEVELOPMENT</font>" : "") ?>
+    </div>
+    <div class= "w3-cell w3-right-align">
+        <span style="display: inline-block; width: 300px;" id="fbusername">One Moment please...</span>
+        <span style="display: inline-block; width: 100px;">
+            <fb:login-button scope="public_profile,email" onlogin="cFacebook.checkLoginStatus();" auto_logout_link="true" />
+        </span>
+    </div>
 </div>
