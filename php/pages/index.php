@@ -35,8 +35,8 @@ include("$AppPhpFragments/doctype.php");
     <title>Curiosity Browser</title>
     <LINK href="<?= $home ?>/css/drag.css" rel="stylesheet" type="text/css">
     <LINK href="<?= $home ?>/css/tabs.css" rel="stylesheet" type="text/css">
-    <script src="<?= $jsinc ?>/ck-inc/queue.js"></script>
-    <script src="<?= $jsinc ?>/ck-inc/actionqueue.js"></script>
+    <script src="<?= $jsInc ?>/ck-inc/queue.js"></script>
+    <script src="<?= $jsInc ?>/ck-inc/actionqueue.js"></script>
     <script src="<?= $AppJS ?>/pages/index.js"></script>
     <script src="<?= $AppJSWidgets ?>/thumbnail.js"></script>
     <script src="<?= $AppJSWidgets ?>/thumbnail-view.js"></script>

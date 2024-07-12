@@ -1,8 +1,8 @@
 <?php
 //**********************************************************************************
 include "$home/php/app-config.php";    //config for the application
-require_once "$phpinc/ckinc/header.php";    //this starts the session
-require_once("$phpinc/ckinc/debug.php");
+require_once "$phpInc/ckinc/header.php";    //this starts the session
+require_once("$phpInc/ckinc/debug.php");
 
 //check for extensions
 if (!extension_loaded("curl"))
@@ -29,10 +29,10 @@ if (!cDebug::is_cli())
 
 //includes
 require_once "$root/php/secret.php";
-require_once "$phpinc/ckinc/common.php";
-require_once "$phpinc/ckinc/auth.php";
-require_once "$spaceinc/curiosity/curiosity.php";
-require_once "$spaceinc/curiosity/static.php";
+require_once "$phpInc/ckinc/common.php";
+require_once "$phpInc/ckinc/auth.php";
+require_once "$spaceInc/curiosity/curiosity.php";
+require_once "$spaceInc/curiosity/static.php";
 
 cDebug::extra_debug("finished app-common.php");
 ?>

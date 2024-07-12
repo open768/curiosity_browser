@@ -3,7 +3,7 @@
 	require_once "$home/php/app-common.php";
 
 	include("$AppPhpFragments/header.php"); 
-	require_once("$phpinc/ckinc/facebook.php");
+	require_once("$phpInc/ckinc/facebook.php");
 	cHeader::redirect_if_referred();
 	if ( cFacebook_ServerSide::is_facebook()){
 		cFacebookTags::make_fb_sol_high_tags();

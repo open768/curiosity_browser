@@ -1,7 +1,7 @@
 <?php
 	$home = "../..";
 	require_once("$home/php/app-common.php");
-	require_once("$spaceinc/misc/pencilnev.php");
+	require_once("$spaceInc/misc/pencilnev.php");
 	
 	$aData = null;
 	switch ( $_GET["o"]){

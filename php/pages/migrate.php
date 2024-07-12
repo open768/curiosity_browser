@@ -14,7 +14,7 @@
 		$sTitle = "Migrate";
 		include("$AppPhpFragments/title.php");
 	?>
-	<script src="<?=$jsinc?>/ck-inc/common.js"></script>
+	<script src="<?=$jsInc?>/ck-inc/common.js"></script>
 	<div class="gold" >
 		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
 		<p>

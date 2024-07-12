@@ -52,10 +52,10 @@ else
 
 //-------------------------------------------------------------------
 //check for existance of phpinc
-if (is_dir($phpinc))
-	cDebug::write("\$phpinc found $phpinc");
+if (is_dir($phpInc))
+	cDebug::write("\$phpInc found $phpInc");
 else {
-	cDebug::write(print "couldnt find \$phpinc: $phpinc");
+	cDebug::write(print "couldnt find \$phpInc: $phpInc");
 	//lets find it
 }
 

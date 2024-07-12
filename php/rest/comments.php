@@ -13,8 +13,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 	$home = "../..";
 	require_once("$home/php/app-common.php");
-	require_once("$spaceinc/misc/comments.php");
-	require_once("$phpinc/extra/sbbcode/SBBCodeParser.php");
+	require_once("$spaceInc/misc/comments.php");
+	require_once("$phpInc/extra/sbbcode/SBBCodeParser.php");
 	
 
 	

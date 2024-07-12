@@ -1,6 +1,6 @@
 <?php
-require_once "$phpinc/ckinc/header.php";
-require_once "$phpinc/ckinc/facebook.php";
+require_once "$phpInc/ckinc/header.php";
+require_once "$phpInc/ckinc/facebook.php";
 ?>
 <!-- facebook meta tags -->
 <?php
@@ -17,8 +17,8 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <!-- common ckinc -->
-<script src="<?= $jsinc ?>/ck-inc/common.js"></script>
-<script src="<?= $jsinc ?>/ck-inc/debug.js"></script>
+<script src="<?= $jsInc ?>/ck-inc/common.js"></script>
+<script src="<?= $jsInc ?>/ck-inc/debug.js"></script>
 <script src="<?= $jsExtra ?>/bean/bean.js"></script>
 
 <!-- jquery -->
@@ -42,16 +42,16 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
         static jsextra = "<?= $jsExtra ?>"
     };
 </script>
-<script src="<?= $jsinc ?>/ck-inc/http.js"></script>
-<script src="<?= $jsinc ?>/ck-inc/httpqueue.js"></script>
-<script src="<?= $jsinc ?>/ck-inc/auth.js"></script>
-<script src="<?= $jsinc ?>/ck-inc/space/curiosity.js"></script>
-<script src="<?= $jsinc ?>/ck-inc/space/space.js"></script>
-<script src="<?= $jsinc ?>/ck-inc/space/tagging.js"></script>
-<script src="<?= $jsinc ?>/ck-inc/space/imghilite.js"></script>
+<script src="<?= $jsInc ?>/ck-inc/http.js"></script>
+<script src="<?= $jsInc ?>/ck-inc/httpqueue.js"></script>
+<script src="<?= $jsInc ?>/ck-inc/auth.js"></script>
+<script src="<?= $jsInc ?>/ck-inc/space/curiosity.js"></script>
+<script src="<?= $jsInc ?>/ck-inc/space/space.js"></script>
+<script src="<?= $jsInc ?>/ck-inc/space/tagging.js"></script>
+<script src="<?= $jsInc ?>/ck-inc/space/imghilite.js"></script>
 
 <!-- Facebook -->
-<script src="<?= $jsinc ?>/ck-inc/facebook.js"></script>
+<script src="<?= $jsInc ?>/ck-inc/facebook.js"></script>
 
 <script>
     cFacebook.statusID = "#username";

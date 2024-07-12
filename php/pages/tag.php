@@ -9,8 +9,8 @@
 	?>
 	<title>Tags: Curiosity Browser</title>
 	<script src="<?=$AppJS?>/pages/tag.js"></script>
-	<script src="<?=$jsinc?>/ck-inc/queue.js"></script>
-	<script src="<?=$jsinc?>/ck-inc/actionqueue.js"></script>
+	<script src="<?=$jsInc?>/ck-inc/queue.js"></script>
+	<script src="<?=$jsInc?>/ck-inc/actionqueue.js"></script>
 	<script src="<?=$AppJSWidgets?>/tag-view.js"></script>
 	<script src="<?=$AppJSWidgets?>/image.js"></script>
 	<script src="<?=$AppJSWidgets?>/tagcloud.js"></script>

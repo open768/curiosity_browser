@@ -13,8 +13,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 	$home = "../..";
 	require_once("$home/php/app-common.php");
-	require_once("$spaceinc/misc/pichighlight.php");
-	require_once("$spaceinc/misc/tags.php");
+	require_once("$spaceInc/misc/pichighlight.php");
+	require_once("$spaceInc/misc/tags.php");
 	
 
 	

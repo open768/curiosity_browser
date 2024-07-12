@@ -14,8 +14,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	$home = "../..";
 	require_once "$home/php/app-common.php";
 	
-	require_once("$spaceinc/curiosity/curiositypds.php");
-	require_once("$spaceinc/pds/pdsreader.php");
+	require_once("$spaceInc/curiosity/curiositypds.php");
+	require_once("$spaceInc/pds/pdsreader.php");
 	
 
 	switch($_GET["a"]){

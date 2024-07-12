@@ -2,8 +2,8 @@
 	$home="../..";
 	require_once "$home/php/app-common.php";
 	
-	require_once("$phpinc/ckinc/header.php");
-	require_once("$spaceinc/curiosity/facebook.php");
+	require_once("$phpInc/ckinc/header.php");
+	require_once("$spaceInc/curiosity/facebook.php");
 	cHeader::redirect_if_referred();
 	if ( cFacebook_ServerSide::is_facebook()){
 		cFacebookTags::make_fb_detail_tags();
@@ -17,7 +17,7 @@
 	<link rel="stylesheet" href="<?=$jsExtra?>/sceditor/minified/themes/default.min.css" type="text/css" media="all" >
 	<title>Detail: Curiosity Browser</title>
 	<script src="<?=$jsExtra?>/pixlr/pixlr.js"></script>
-	<script src="<?=$jsinc?>/ck-inc/comments.js"></script>
+	<script src="<?=$jsInc?>/ck-inc/comments.js"></script>
 	<script src="<?=$jsExtra?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
 	<script src="<?=$AppJS?>/pages/detail.js"></script>
 </head>

@@ -1,7 +1,7 @@
 <?php
 	$home = "../..";
 	require_once "$home/php/app-common.php";
-	require_once("$spaceinc/curiosity/locations.php");
+	require_once("$spaceInc/curiosity/locations.php");
 	
 
 	$aData = null;

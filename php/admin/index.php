@@ -12,21 +12,21 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 	$root=realpath("../");
 	require_once("$root/php/app-common.php");
-	require_once "$phpinc/ckinc/session.php";
+	require_once "$phpInc/ckinc/session.php";
 	cSession::set_folder();
 	session_start();
 
-	require_once("$phpinc/ckinc/header.php");
-	require_once("$phpinc/ckinc/auth.php");
-	require_once("$phpinc/ckinc/debug.php");
-	require_once("$phpinc/ckinc/tags.php");
-	require_once("$phpinc/ckinc/pichighlight.php");
-	require_once("$phpinc/curiosity/static.php");
-	require_once("$phpinc/curiosity/pdsindexer.php");
-	require_once("$phpinc/curiosity/locations.php");
-	require_once("$phpinc/ckinc/cached_http.php");
-	require_once("$phpinc/ckinc/gigapan.php");
-	require_once("$phpinc/ckinc/pencilnev.php");
+	require_once("$phpInc/ckinc/header.php");
+	require_once("$phpInc/ckinc/auth.php");
+	require_once("$phpInc/ckinc/debug.php");
+	require_once("$phpInc/ckinc/tags.php");
+	require_once("$phpInc/ckinc/pichighlight.php");
+	require_once("$phpInc/curiosity/static.php");
+	require_once("$phpInc/curiosity/pdsindexer.php");
+	require_once("$phpInc/curiosity/locations.php");
+	require_once("$phpInc/ckinc/cached_http.php");
+	require_once("$phpInc/ckinc/gigapan.php");
+	require_once("$phpInc/ckinc/pencilnev.php");
 	
 
 	$sUser = cAuth::must_get_user(); 

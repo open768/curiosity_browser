@@ -14,13 +14,13 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	$home = "../..";
 	require_once("$home/php/app-common.php");
 
-	require_once("$phpinc/ckinc/header.php");
-	require_once("$phpinc/ckinc/secret.php");
-	require_once("$phpinc/ckinc/hash.php");
-	require_once("$phpinc/ckinc/facebook.php");
+	require_once("$phpInc/ckinc/header.php");
+	require_once("$phpInc/ckinc/secret.php");
+	require_once("$phpInc/ckinc/hash.php");
+	require_once("$phpInc/ckinc/facebook.php");
 	
 	//load facebook classes
-	require_once("$phpinc/extra/facebook/autoload.php");
+	require_once("$phpInc/extra/facebook/autoload.php");
 	use Facebook\FacebookSession;
 	use Facebook\FacebookRequest;
 	use Facebook\GraphUser;	
