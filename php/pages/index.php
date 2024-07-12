@@ -1,6 +1,7 @@
 <?php
 $home = "../..";
 require_once "$home/php/app-common.php";
+include("$AppPhpFragments/doctype.php");
 
 //check for admin role to display admin button
 $sUser = cAuth::get_user();
@@ -23,7 +24,6 @@ class cIndexPageConsts
     const ID_INTRO = "intro";
     const ID_SOLTHUMBS = "solthumbs";
 }
-include("$AppPhpFragments/doctype.php");
 ?>
 <html>
 

@@ -8,7 +8,7 @@
 	if ( cFacebook_ServerSide::is_facebook()){
 		cFacebookTags::make_fb_sol_high_tags();
 		exit;
-	} 	include("$AppPhpFragments/doctype.txt");  ?>
+	} 	include("$AppPhpFragments/doctype.php");  ?>
 <html>
 <head>
 	<?php include("$AppPhpFragments/header.php"); ?>

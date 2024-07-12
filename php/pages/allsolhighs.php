@@ -1,6 +1,6 @@
 <?php	
 	$home="../..";
-	require_once "$home/php/app-common.php";("$AppPhpFragments/doctype.txt");  ?>
+	require_once "$home/php/app-common.php";("$AppPhpFragments/doctype.php");  ?>
 <html>
 <head>
 	<?php 
