@@ -1,18 +1,18 @@
 <?php	
 	$home="../..";
 	require_once "$home/php/app-common.php";
- 	include("$AppPhpFragments/doctype.php");  ?>
+ 	include("$appPhpFragments/doctype.php");  ?>
 <html>
 <head>
 	<?php 
-		include("$AppPhpFragments/header.php"); 
+		include("$appPhpFragments/header.php"); 
 	?>
 	<title>About the Curiosity Browser </title>
 </head>
 <body>
 	<?php 
 		$sTitle = "About me";
-		include("$AppPhpFragments/title.php");
+		include("$appPhpFragments/title.php");
 	?>
 	<script src="<?=$jsInc?>/ck-inc/common.js"></script>
 	<div class="gold" >
@@ -20,14 +20,14 @@
 		<p>
 		<table border="0" width="100%"><tr>
 			<td valign=middle>
-				<img src="<?=$home?>/images/browser/rover.png" height="120">
+				<img src="<?=$appImages ?>/browser/rover.png" height="120">
 			</td>
 			<td>
 				The curiosity browser makes MSL curiosity data more accessible to citizen scientists by providing sticky social features to tag, 
 				highlight and comment on images. The browser can also be regarded as an example of using the power of crowds to classify space images. 
 			</td>
 			<td align="right">
-				<img src="<?=$home?>/images/browser/dude.png" height="120">
+				<img src="<?=$appImages ?>/browser/dude.png" height="120">
 			</td>
 		</tr></table>
 		<p>
@@ -119,6 +119,6 @@
 	</div>
 
 	<!-- footer -->
-	<?php 	include("$AppPhpFragments/footer.php") 	?>
+	<?php 	include("$appPhpFragments/footer.php") 	?>
 </body>
 </html>

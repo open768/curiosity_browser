@@ -1,11 +1,11 @@
 <?php	
 	$home="../..";
 	require_once "$home/php/app-common.php";
-	include("$AppPhpFragments/doctype.php");  ?>
+	include("$appPhpFragments/doctype.php");  ?>
 <html>
 <head>
 	<?php 
-		include("$AppPhpFragments/header.php"); 
+		include("$appPhpFragments/header.php"); 
 	?>
 	<title>Site - Curiosity Browser</title>
 	<script src="<?=$AppJS?>/pages/site.js"></script>
@@ -18,7 +18,7 @@
 <body onload="$(onLoadJQuery_SITES);">
 	<?php 
 		$sTitle = "Site <span id=\"siteid\"></span>";
-		include("$AppPhpFragments/title.php");
+		include("$appPhpFragments/title.php");
 	?>
 	<div class="gold">
 		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
@@ -34,6 +34,6 @@
 	<P>
 	
 	<!-- *************** footer *********************** -->
-	<?php include("$AppPhpFragments/footer.php") ?>
+	<?php include("$appPhpFragments/footer.php") ?>
 </body>
 </html>

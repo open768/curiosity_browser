@@ -2,16 +2,16 @@
 	$home="../..";
 	require_once "$home/php/app-common.php";
 
-	include("$AppPhpFragments/header.php"); 
+	include("$appPhpFragments/header.php"); 
 	require_once("$phpInc/ckinc/facebook.php");
 	cHeader::redirect_if_referred();
 	if ( cFacebook_ServerSide::is_facebook()){
 		cFacebookTags::make_fb_sol_high_tags();
 		exit;
-	} 	include("$AppPhpFragments/doctype.php");  ?>
+	} 	include("$appPhpFragments/doctype.php");  ?>
 <html>
 <head>
-	<?php include("$AppPhpFragments/header.php"); ?>
+	<?php include("$appPhpFragments/header.php"); ?>
 	<title>Sol Highlights - Curiosity Browser </title>
 	<script src="<?=$AppJS?>/pages/solhighs.js"></script>
 	<script src="<?=$AppJSWidgets?>/solhighlights.js"></script>
@@ -19,7 +19,7 @@
 <body onload="$( ()=>cSolHighs.onLoadJQuery() );">
 	<?php 
 		$sTitle = "Highlights for sol:<span id='sol'>??</span>";
-		include("$AppPhpFragments/title.php");
+		include("$appPhpFragments/title.php");
 	?>
 	<div class="gold">
 		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
@@ -39,6 +39,6 @@
 	<P>
 	
 	<!-- *************** footer *********************** -->
-	<?php 	include("$AppPhpFragments/footer.php") 	?>
+	<?php 	include("$appPhpFragments/footer.php") 	?>
 </body>
 </html>

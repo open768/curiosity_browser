@@ -1,11 +1,11 @@
 <?php	
 	$home="../..";
 	require_once "$home/php/app-common.php";
-	include("$AppPhpFragments/doctype.php");  ?>
+	include("$appPhpFragments/doctype.php");  ?>
 <html>
 <head>
 	<?php 
-		include("$AppPhpFragments/header.php"); 
+		include("$appPhpFragments/header.php"); 
 	?>
 	<title>sol Tags - Curiosity Browser</title>
 	<script src="<?=$AppJS?>/pages/soltag.js"></script>
@@ -13,7 +13,7 @@
 <body onload="$(onLoadJQuery_SOLTAG);">
 	<?php 
 		$sTitle = "Tags for sol:<span id='sol'>??</span>";
-		include("$AppPhpFragments/title.php");
+		include("$appPhpFragments/title.php");
 	?>
 	<div class="gold">
 		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
@@ -26,6 +26,6 @@
 	<P>
 	
 	<!-- *************** footer *********************** -->
-	<?php 	include("$AppPhpFragments/footer.php") 	?>
+	<?php 	include("$appPhpFragments/footer.php") 	?>
 </body>
 </html>

@@ -1,11 +1,11 @@
 <?php	
 	$home="../..";
 	require_once "$home/php/app-common.php";
-	include("$AppPhpFragments/doctype.php");  ?>
+	include("$appPhpFragments/doctype.php");  ?>
 <html>
 <head>
 	<?php 
-		include("$AppPhpFragments/header.php"); 
+		include("$appPhpFragments/header.php"); 
 	?>
 	<title>sol Gigapans - Curiosity Browser</title>
 	<script src="<?=$AppJS?>/pages/solgigas.js"></script>
@@ -14,7 +14,7 @@
 <body onload="$(onLoadJQuery_SOLGIG);">
 	<?php 
 		$sTitle = "Gigapans for sol:<span id=\"sol\">??</span>";
-		include("$AppPhpFragments/title.php");
+		include("$appPhpFragments/title.php");
 	?>
 	<div class="gold">
 		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
@@ -29,7 +29,7 @@
 	<!-- *************** footer *********************** -->
 	<?php 	
 		$sExtraCredits="Gigapans courtesy Neville Thompson http://www.gigapan.com/profiles/pencilnev.";
-		include("$AppPhpFragments/footer.php") 	
+		include("$appPhpFragments/footer.php") 	
 	?>
 </body>
 </html>

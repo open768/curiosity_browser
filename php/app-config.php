@@ -2,7 +2,8 @@
 	$root=realpath($home);
 	$phpInc = "$root/../phpinc";		//have to set phpinc here to pull in header.php
 	$spaceInc = "$root/../spaceinc";
-    $AppPhpFragments = "$root/php/fragments";
+    $appPhpFragments = "$root/php/fragments";
+    $appImages = "$home/images/";
 
     // Javascript locations 
 	$AppJS = "$home/js";

@@ -1,7 +1,7 @@
 <?php
 $home = "../..";
 require_once "$home/php/app-common.php";
-include("$AppPhpFragments/doctype.php");
+include("$appPhpFragments/doctype.php");
 
 //check for admin role to display admin button
 $sUser = cAuth::get_user();
@@ -29,7 +29,7 @@ class cIndexPageConsts
 
 <head>
     <!-- header fragments -->
-    <?php include("$AppPhpFragments/header.php");  ?>
+    <?php include("$appPhpFragments/header.php");  ?>
 
     <!-- main scripts -->
     <title>Curiosity Browser</title>
@@ -58,7 +58,7 @@ class cIndexPageConsts
     ?>
     <?php
     $sTitle = "Home";
-    include("$AppPhpFragments/title.php");
+    include("$appPhpFragments/title.php");
     ?>
 
     <table id="payload" width="100%">
@@ -103,7 +103,7 @@ class cIndexPageConsts
                 <div class="gold" id="<?= cIndexPageConsts::ID_IMAGE_CONTAINER ?>">
                     <div id="intro" style="display:none">
                         <H2>Curiosity Browser</H2>
-                        <img src="<?= $home ?>/images/browser/dude.png" height="90" align="left">
+                        <img src="<?= $appImages ?>/browser/dude.png" height="90" align="left">
                         Welcome to the best place to find great images beamed from Curiosity, NASA's Mars Science Lab on Mars.
                         <p>
                             You might find a fascinating geological formation, an intruiging rock, evidence of water flows, or something else.
@@ -150,7 +150,7 @@ class cIndexPageConsts
     </table>
 
     <!-- footer -->
-    <?php include("$AppPhpFragments/footer.php") ?>
+    <?php include("$appPhpFragments/footer.php") ?>
 </body>
 
 </html>

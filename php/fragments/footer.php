@@ -7,13 +7,12 @@
         <?php } ?>
     </div>
     <div class="w3-cell about w3-sand w3-cell-middle">
-        <img src="<?= $home ?>/images/browser/chicken_icon.png" align="left">
-
-        We're on <img src="<?= $home ?>/images/github_logo.png"><br>
-        <a href="https://github.com/open768/curiosity_browser">https://github.com/open768/curiosity_browser</a>
+        <img src="<?= $appImages ?>/browser/chicken_icon.png" align="left">
+        We're on 
+        <a href="https://github.com/open768/curiosity_browser"><img src="<?= $appImages ?>/github_logo.png"></a>
     </div>
     <div class="w3-cell about w3-cell-middle">
-        <a href="https://www.facebook.com/mars.features/"><img src="<?= $home ?>/images/facebook/FB-FindUsonFacebook-online-114.png" border="0"></a>
+        <a href="https://www.facebook.com/mars.features/"><img src="<?= $appImages ?>/facebook/FB-FindUsonFacebook-online-114.png" border="0"></a>
     </div>
     <div class="w3-cell about w3-cell-middle">
         <div class="fb-like" data-href="<?= $_SERVER['REQUEST_URI'] ?>" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div><br>

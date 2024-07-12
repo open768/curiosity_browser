@@ -8,11 +8,11 @@
 	if ( cFacebook_ServerSide::is_facebook()){
 		cFacebookTags::make_fb_detail_tags();
 		exit;
-	} 	include("$AppPhpFragments/doctype.php");  ?>
+	} 	include("$appPhpFragments/doctype.php");  ?>
 
 <html>
 <head>
-	<?php include("$AppPhpFragments/header.php"); ?>
+	<?php include("$appPhpFragments/header.php"); ?>
 	<LINK href="<?=$home?>/css/drag.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="<?=$jsExtra?>/sceditor/minified/themes/default.min.css" type="text/css" media="all" >
 	<title>Detail: Curiosity Browser</title>
@@ -24,7 +24,7 @@
 <body onload="$( ()=>cDetail.onLoadJQuery() );">
 	<?php 
 		$sTitle = "Product Detail";
-		include("$AppPhpFragments/title.php");
+		include("$appPhpFragments/title.php");
 	?>
 	<!-- TODO convert into a widget -->
 	<DIV class="gold">
@@ -58,10 +58,10 @@
 			<td></td>
 			<td valign="bottom">
 				<nobr>
-				<button title="previous product" id="prev_prod_top" class="topnavbut leftbutton" title="previous in timeline" style="width:100"><img src="<?=$home?>/images/browser/back.png"></button
+				<button title="previous product" id="prev_prod_top" class="topnavbut leftbutton" title="previous in timeline" style="width:100"><img src="<?=$appImages ?>/browser/back.png"></button
 				><button title="previous" id="prev_top" class="topnavbut leftbutton"  style="width:300">&lt;</button
 				><button title="next" id="next_top" class="topnavbut rightbutton"  style="width:300">&gt;</button
-				><button title="next product" id="next_prod_top" class="topnavbut rightbutton" title="next in timeline" style="width:100"><img src="<?=$home?>/images/browser/forward.png"></button>
+				><button title="next product" id="next_prod_top" class="topnavbut rightbutton" title="next in timeline" style="width:100"><img src="<?=$appImages ?>/browser/forward.png"></button>
 				</nobr>
 			</td>
 			<td></td>
@@ -78,8 +78,8 @@
 				<!-- template div is not visible and doesnt have to be contained -->
 				<div id="box_template" class="redbox" style="display:none" highlight="true">
 					<div id="controls">
-						<button class="smallbutton" title="accept" id="tmpl_accept" ><img src="<?=$home?>/images/browser/bullet_tick.png"></button
-						><button class="smallbutton" title="cancel" id="tmpl_cancel" ><img src="<?=$home?>/images/browser/bullet_cross.png"></button>
+						<button class="smallbutton" title="accept" id="tmpl_accept" ><img src="<?=$appImages ?>/browser/bullet_tick.png"></button
+						><button class="smallbutton" title="cancel" id="tmpl_cancel" ><img src="<?=$appImages ?>/browser/bullet_cross.png"></button>
 					</div>
 					<div id="number" class="lucky8"></div>
 				</div>
@@ -92,10 +92,10 @@
 		<tr>
 			<td></td>
 			<td valign="top">
-				<button title="previous product" id="prev_prod_bottom" class="topnavbut leftbutton" title="previous in timeline" style="width:100"><img src="<?=$home?>/images/browser/back.png"></button
+				<button title="previous product" id="prev_prod_bottom" class="topnavbut leftbutton" title="previous in timeline" style="width:100"><img src="<?=$appImages ?>/browser/back.png"></button
 				><button title="previous" id="prev_bottom" class="topnavbut leftbutton"  style="width:300">&lt;</button
 				><button title="next" id="next_bottom" class="topnavbut rightbutton" style="width:300">&gt;</button
-				><button title="next product" id="next_prod_bottom" class="topnavbut rightbutton" title="next in timeline" style="width:100"><img src="<?=$home?>/images/browser/forward.png"></button>
+				><button title="next product" id="next_prod_bottom" class="topnavbut rightbutton" title="next in timeline" style="width:100"><img src="<?=$appImages ?>/browser/forward.png"></button>
 			</td>
 			<td></td>
 		</tr>
@@ -121,7 +121,7 @@
 	<!-- footer -->
 	<?php 	
 		$sExtraCredits="link to curiosityrover.com courtesy of Joe Knapp";
-		include("$AppPhpFragments/footer.php") 	
+		include("$appPhpFragments/footer.php") 	
 	?>
 </body>
 </html>

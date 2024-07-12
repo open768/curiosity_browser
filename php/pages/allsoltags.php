@@ -1,11 +1,11 @@
 <?php	
 	$home="../..";
 	require_once "$home/php/app-common.php";
- 	include("$AppPhpFragments/doctype.php");  ?>
+ 	include("$appPhpFragments/doctype.php");  ?>
 <html>
 <head>
 	<?php 
-		include("$AppPhpFragments/header.php"); 
+		include("$appPhpFragments/header.php"); 
 	?>
 	<title>Sol Tags - Curiosity Browser</title>
 	<script src="<?=$AppJS?>/pages/allsoltags.js"></script>
@@ -15,7 +15,7 @@
 <body onload="$(onLoadJQuery_TAGS);">
 	<?php 
 		$sTitle = "Tagged Sols";
-		include("$AppPhpFragments/title.php");
+		include("$appPhpFragments/title.php");
 	?>
 	<DIV class="title">Tagged Sols</DIV>
 <p>
@@ -30,7 +30,7 @@
 	
 	<!-- *************** footer *********************** -->
 	<?php 	
-		include("$AppPhpFragments/footer.php") 	
+		include("$appPhpFragments/footer.php") 	
 	?>
 </body>
 </html>

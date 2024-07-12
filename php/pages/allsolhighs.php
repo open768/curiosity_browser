@@ -1,10 +1,10 @@
 <?php	
 	$home="../..";
-	require_once "$home/php/app-common.php";("$AppPhpFragments/doctype.php");  ?>
+	require_once "$home/php/app-common.php";("$appPhpFragments/doctype.php");  ?>
 <html>
 <head>
 	<?php 
-		include("$AppPhpFragments/header.php"); 
+		include("$appPhpFragments/header.php"); 
 	?>
 	<title>All Highlights - Curiosity Browser</title>
 	<script src="<?=$AppJSWidgets?>/solhighgrid.js"></script>
@@ -14,7 +14,7 @@
 <body onload="$(onLoadJQuery_HIGHS);">
 	<?php 
 		$sTitle = "Sols with Highlights";
-		include("$AppPhpFragments/title.php");
+		include("$appPhpFragments/title.php");
 	?>
 	<div class="gold">
 		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
@@ -27,7 +27,7 @@
 	
 	<!-- *************** footer *********************** -->
 	<?php 	
-		include("$AppPhpFragments/footer.php") 	
+		include("$appPhpFragments/footer.php") 	
 	?>
 </body>
 </html>
