@@ -1,5 +1,5 @@
 /**************************************************************************
-Copyright (C) Chicken Katsu 2014
+Copyright (C) Chicken Katsu 2013 - 2024
 
 This code is protected by copyright under the terms of the
 Creative Commons Attribution-Ncercial-NoDerivatives 4.0 International License

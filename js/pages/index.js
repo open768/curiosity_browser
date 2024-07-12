@@ -1,5 +1,5 @@
 /****************************************************************************
-Copyright (C) Chicken Katsu 2016 www.chickenkatsu.co.uk
+Copyright (C) Chicken Katsu 2013 - 2024 www.chickenkatsu.co.uk
 
 This code is protected by copyright under the terms of the
 Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License
