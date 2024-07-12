@@ -52,6 +52,6 @@
 			lOAdING pds Images...
 	</div>
 	<!-- footer -->
-	<?php include("$AppPhpFragments/github.php") ?>
+	<?php include("$AppPhpFragments/footer.php") ?>
 </body>
 </html>

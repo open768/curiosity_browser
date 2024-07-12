@@ -121,7 +121,7 @@
 	<!-- footer -->
 	<?php 	
 		$sExtraCredits="link to curiosityrover.com courtesy of Joe Knapp";
-		include("$AppPhpFragments/github.php") 	
+		include("$AppPhpFragments/footer.php") 	
 	?>
 </body>
 </html>

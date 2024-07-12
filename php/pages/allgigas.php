@@ -33,7 +33,7 @@
 	<!-- *************** footer *********************** -->
 	<?php 
 		$sExtraCredits="Data courtesy Neville Thompson http://www.gigapan.com/profiles/pencilnev";
-		include("$AppPhpFragments/github.php") 
+		include("$AppPhpFragments/footer.php") 
 	?>
 </body>
 </html>

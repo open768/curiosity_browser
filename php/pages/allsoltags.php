@@ -30,7 +30,7 @@
 	
 	<!-- *************** footer *********************** -->
 	<?php 	
-		include("$AppPhpFragments/github.php") 	
+		include("$AppPhpFragments/footer.php") 	
 	?>
 </body>
 </html>
