@@ -26,12 +26,13 @@ include("$appPhpFragments/doctype.php");  ?>
         </div>
 
         <!-- ##################################################################### -->
-        <div class="w3-panel w3-card-2 w3-padding-large w3-sand">
+        <div class="w3-panel w3-card-2 w3-padding-large w3-theme">
             <div class="w3-cell-row">
-                <div class="w3-cell w3-padding-small w3-sand">
+                <div class="w3-cell w3-padding-small">
                     <img src="<?= $appImages ?>/browser/rover.png" height="120">
                 </div>
                 <div class="w3-cell w3-padding-large">
+                    <h1>About Curiosity Browser</h1>
                     The curiosity browser makes MSL curiosity data more accessible to citizen scientists by providing sticky social features to tag,
                     highlight and comment on images.
                 </div>
@@ -42,7 +43,7 @@ include("$appPhpFragments/doctype.php");  ?>
         </div>
 
         <!-- ##################################################################### -->
-        <div class="w3-panel w3-card-2 w3-padding-large">
+        <div class="w3-panel w3-card-2 w3-padding-large w3-theme-l1">
             <h2>Sources of information:</h2>
             <ul>
                 <li>this is the <a href="https://www.mapbox.com/blog/tracking-mars-curiosity-rover/">article</a> that inspired me
@@ -60,7 +61,7 @@ include("$appPhpFragments/doctype.php");  ?>
         </div>
 
         <!-- ##################################################################### -->
-        <div class="w3-panel w3-card-2 w3-padding-large">
+        <div class="w3-panel w3-card-2 w3-padding-large w3-theme-l2">
             <h2>And thanks to </h2>
             <ul>
                 <li><a href="https://twitter.com/hrwgc">Chris Herwig</a> - for inspiring me to write the curiosity browser.
@@ -79,7 +80,7 @@ include("$appPhpFragments/doctype.php");  ?>
         </div>
 
         <!-- ##################################################################### -->
-        <div class="w3-panel w3-card-2 w3-padding-large">
+        <div class="w3-panel w3-card-2 w3-padding-large w3-theme-l3">
 
             <h2>tools and technologies used</h2>
             <ul>
@@ -100,7 +101,7 @@ include("$appPhpFragments/doctype.php");  ?>
         </div>
 
         <!-- ##################################################################### -->
-        <div class="w3-panel w3-card-2 w3-padding-large">
+        <div class="w3-panel w3-card-2 w3-padding-large w3-theme-l4">
 
             <h2>Other Excellent sources of information about Curosity </h2>
             <ul>
@@ -128,7 +129,7 @@ include("$appPhpFragments/doctype.php");  ?>
         </div>
 
         <!-- ##################################################################### -->
-        <div class="w3-panel w3-card-2 w3-padding-large">
+        <div class="w3-panel w3-card-2 w3-padding-large w3-theme-l5">
 
             <h2>Other Excellent sources of information about Mars</h2>
             <ul>
@@ -143,7 +144,7 @@ include("$appPhpFragments/doctype.php");  ?>
         </div>
 
         <!-- ##################################################################### -->
-        <div class="w3-panel w3-card-2 w3-sand w3-padding-large">
+        <div class="w3-panel w3-card-2 w3-padding-large w3-theme-action">
 
             <h2>end of document</h2>
             now get back to work
