@@ -21,7 +21,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	$iFound = -1;
 	
 	//get the data for sol and instrument to find the index of the product
-	$oInstrumentData = cCuriosity::getSolData($sSol, $sInstrument);
+	$oInstrumentData = cCuriosity::getSolRawData($sSol, $sInstrument);
 	$aImages=$oInstrumentData->data;
 	$iCount = count($aImages);
 	
@@ -56,7 +56,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 				return;
 			}
 					
-			$oInstrumentData = cCuriosity::getSolData($sSol, $sInstrument);
+			$oInstrumentData = cCuriosity::getSolRawData($sSol, $sInstrument);
 			$aImages=$oInstrumentData->data;
 			$iCountNew = count($aImages);
 			if ($iCountNew >0){

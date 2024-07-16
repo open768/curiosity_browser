@@ -22,7 +22,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	
 	
 	cDebug::write("getting sol $sSol data");
-	$oInstrumentData = cCuriosity::getSolData($sSol, $sInstrument);
+	$oInstrumentData = cCuriosity::getSolRawData($sSol, $sInstrument);
 	$aData = $oInstrumentData->data;
 	$iCount = count($aData);
 	
