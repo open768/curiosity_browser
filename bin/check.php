@@ -28,7 +28,7 @@ try {
 	require_once($sCommonFile);
 } catch (Exception $e) {
 	$sMsg = $e->getMessage();
-	cDebug::on(true);
+	cDebug::on(true);   //turn on debugging since there was an error
 	cDebug::write("Oops there was an Error: $sMsg");
 	$bErr = true;
 }
