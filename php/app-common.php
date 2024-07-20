@@ -28,7 +28,7 @@ if (!cDebug::is_cli())
     }
 
 //includes
-require_once "$root/php/secret.php";
+require_once "$home/php/secret.php";
 require_once "$phpInc/ckinc/common.php";
 require_once "$phpInc/ckinc/auth.php";
 require_once "$spaceInc/curiosity/curiosity.php";

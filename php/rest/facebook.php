@@ -14,7 +14,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	require_once("$home/php/app-common.php");
 
 	require_once("$phpInc/ckinc/header.php");
-	require_once("$phpInc/ckinc/secret.php");
 	require_once("$phpInc/ckinc/hash.php");
 	require_once("$phpInc/ckinc/facebook.php");
 	
