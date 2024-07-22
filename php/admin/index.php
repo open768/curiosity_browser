@@ -10,26 +10,36 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
-	$root=realpath("../");
-	require_once("$root/php/app-common.php");
+	$home="../../";
+	require_once("$home/php/app-common.php");
 	require_once "$phpInc/ckinc/session.php";
-	cSession::set_folder();
-	session_start();
+	//cSession::set_folder();       //dont set the folder as it will never be cleaned
 
+	require_once("$phpInc/ckinc/common.php");
 	require_once("$phpInc/ckinc/header.php");
 	require_once("$phpInc/ckinc/auth.php");
 	require_once("$phpInc/ckinc/debug.php");
-	require_once("$phpInc/ckinc/tags.php");
-	require_once("$phpInc/ckinc/pichighlight.php");
-	require_once("$phpInc/curiosity/static.php");
-	require_once("$phpInc/curiosity/pdsindexer.php");
-	require_once("$phpInc/curiosity/locations.php");
 	require_once("$phpInc/ckinc/cached_http.php");
-	require_once("$phpInc/ckinc/gigapan.php");
-	require_once("$phpInc/ckinc/pencilnev.php");
-	
 
-	$sUser = cAuth::must_get_user(); 
+	require_once("$spaceInc/curiosity/static.php");
+	require_once("$spaceInc/curiosity/pdsindexer.php");
+	require_once("$spaceInc/curiosity/locations.php");
+	require_once("$spaceInc/misc/gigapan.php");
+	require_once("$spaceInc/misc/pencilnev.php");
+	require_once("$spaceInc/misc/tags.php");
+	require_once("$spaceInc/misc/pichighlight.php");
+	
+    include("$appPhpFragments/header.php"); 
+    
+    //force the user to logon
+    $sUser=null;
+    try{
+	    $sUser = cAuth::must_get_user(); 
+    }
+    catch (Exception $e){
+        cPageOutput::errorbox( $e);
+        cDebug::error($e);
+    }
 	if (!$sUser)					cDebug::error("You are not logged in <a href='../'>Login here</a> and try again");
 	if (!cAuth::is_role("admin"))	cDebug::error("must be an admin user ");
 	cDebug::check_GET_or_POST();
