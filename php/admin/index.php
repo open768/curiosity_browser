@@ -37,7 +37,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 	    $sUser = cAuth::must_get_user(); 
     }
     catch (Exception $e){
-        cPageOutput::errorbox( $e);
+        cPageOutput::errorbox( $e->getMessage());
+        cPageOutput::messagebox( "go back to <a href='$home'>login</a>");
         cDebug::error($e);
     }
 	if (!$sUser)					cDebug::error("You are not logged in <a href='../'>Login here</a> and try again");
