@@ -7,10 +7,10 @@ require_once "$phpInc/ckinc/facebook.php";
 $oFBAppId = cFacebook_ServerSide::getAppID();
 $sFBUser = cFacebook_ServerSide::getSessionUser();
 ?>
-<meta property="fb:app_id" content="<?= $oFBAppId->id ?>" >
+<meta property="fb:app_id" content="<?= $oFBAppId->id ?>">
 
 <!-- CSS -->
-<link rel="icon" href="<?= $appImages ?>/browser/dude.ico" type="image/x-icon" >
+<link rel="icon" href="<?= $appImages ?>/browser/dude.ico" type="image/x-icon">
 <LINK href="<?= $home ?>/css/app.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="<?= $jsExtra ?>/jquery-ui/jquery-ui.min.css">
 <link rel="stylesheet" href="<?= $jsExtra ?>/jquery-spinner/css/gspinner.min.css">
@@ -54,7 +54,7 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 <script src="<?= $jsInc ?>/ck-inc/facebook.js"></script>
 
 <script>
-    cFacebook.buttonID = "fbusername";
+    cFacebook.buttonID = "<?= cAppConfig::FB_ELEMENT_ID ?>";
     cFacebook.ServerSide = "<?= $home ?>/php/rest/facebook.php";
     cFacebook.ServerUser = "<?= $sFBUser ?>";
     cFacebook.Version = "<?= cAppSecret::FB_VERSION ?>";
