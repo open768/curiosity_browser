@@ -54,7 +54,7 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 <script src="<?= $jsInc ?>/ck-inc/facebook.js"></script>
 
 <script>
-    cFacebook.statusID = "#fbusername";
+    cFacebook.buttonID = "fbusername";
     cFacebook.ServerSide = "<?= $home ?>/php/rest/facebook.php";
     cFacebook.ServerUser = "<?= $sFBUser ?>";
     cFacebook.Version = "<?= cAppSecret::FB_VERSION ?>";

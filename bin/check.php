@@ -15,7 +15,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 //*******************************************************************************
 $home = "..";
-$sCommonFile = "$home/php/app-common.php";
+$sCommonFile = "$home/php/fragments/app-common.php";
 if (!is_file($sCommonFile)) {
 	print "common file not found $sCommonFile - edit \$home variable in " . __FILE__;
 	exit(1);

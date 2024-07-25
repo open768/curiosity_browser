@@ -1,6 +1,6 @@
 <?php	
 	$home="../..";
-	require_once "$home/php/app-common.php";
+	require_once "$home/php/fragments/app-common.php";
 	
 	require_once("$phpInc/ckinc/header.php");
 	require_once("$spaceInc/curiosity/facebook.php");

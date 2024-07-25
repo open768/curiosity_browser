@@ -1,8 +1,8 @@
 <?php
 //**********************************************************************************
-include "$home/php/app-config.php";    //config for the application
+include "$home/php/fragments/app-config.php";    //config for the application
 require_once "$phpInc/ckinc/header.php";    //this starts the session
-require_once("$phpInc/ckinc/debug.php");
+require_once "$phpInc/ckinc/debug.php";
 
 //check for extensions
 if (!extension_loaded("curl"))
@@ -35,4 +35,3 @@ require_once "$spaceInc/curiosity/curiosity.php";
 require_once "$spaceInc/curiosity/static.php";
 
 cDebug::extra_debug("finished app-common.php");
-?>

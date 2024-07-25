@@ -12,7 +12,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 
 	$root=realpath("../..");
-	require_once("$home/php/app-common.php");
+	require_once("$home/php/fragments/app-common.php");
 	
 	//***************************************************
 	$sOperation = $_GET["o"] ;
