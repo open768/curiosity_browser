@@ -9,19 +9,19 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
-"use strict";
+"use strict"
 
 // ###############################################################
 // # Utility functions
 // ###############################################################
 //eslint-disable-next-line no-unused-vars
-function onLoadJQuery_SOLGIG () {
-  let sSol
+function onLoadJQuery_SOLGIG() {
+   let sSol
 
-  // update sol number
-  sSol = cBrowser.data.s
-  $('#solgiga').solgigas({
-    sol: sSol,
-    mission: cMission
-  })
+   // update sol number
+   sSol = cBrowser.data.s
+   $("#solgiga").solgigas({
+      sol: sSol,
+      mission: cMission,
+   })
 }

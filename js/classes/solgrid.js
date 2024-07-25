@@ -52,8 +52,8 @@ class cSolGridRenderer {
 
       //send request to get the data
       var oThis = this
-      var oOptions = {      m: this.mission}
-      if (poExtraParams)  Object.assign(oOptions, poExtraParams)
+      var oOptions = { m: this.mission }
+      if (poExtraParams) Object.assign(oOptions, poExtraParams)
       var sUrl = cBrowser.buildUrl(this.DataRestUrl, oOptions)
       const oHttp = new cHttp2()
       bean.on(oHttp, "result", function (poHttp) {
@@ -113,7 +113,6 @@ class cSolGridRenderer {
          }
 
          oElement.append(oDiv)
-
       }
    }
 

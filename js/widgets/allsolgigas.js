@@ -1,25 +1,25 @@
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // % Definition
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-$.widget('ck.allsolgigas', {
-  // #################################################################
-  // # Definition
-  // #################################################################
-  options: {
-    mission: null,
-    aSolWithGigas: null
-  },
+$.widget("ck.allsolgigas", {
+   // #################################################################
+   // # Definition
+   // #################################################################
+   options: {
+      mission: null,
+      aSolWithGigas: null,
+   },
 
-  // #################################################################
-  // # Constructor
-  // #################################################################
-  _create: function () {
-    var oGrid = new cSolGridRenderer(
-        this.options.mission.ID,
-        this.element,
-        "gigapans.php",
-        "solgigas.php",
-     )
-     oGrid.show_sol_grid({o: "all"})
-  }
+   // #################################################################
+   // # Constructor
+   // #################################################################
+   _create: function () {
+      var oGrid = new cSolGridRenderer(
+         this.options.mission.ID,
+         this.element,
+         "gigapans.php",
+         "solgigas.php",
+      )
+      oGrid.show_sol_grid({ o: "all" })
+   },
 })

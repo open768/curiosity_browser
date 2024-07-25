@@ -10,7 +10,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 /*global cIndexPageConsts*/
-"use strict";
+"use strict"
 let keep_start_image = true
 
 const cOptions = {
@@ -81,7 +81,11 @@ class cPageTabs {
       //add the buttons the the tab bar
       var oBar = $(cIndexPageConsts.ID_TAB_BAR)
       oBar.empty()
-      var oBtnSol = this.add_button(oBar, "Sol", cIndexPageConsts.ID_TAB_SOL_CONTENT)
+      var oBtnSol = this.add_button(
+         oBar,
+         "Sol",
+         cIndexPageConsts.ID_TAB_SOL_CONTENT,
+      )
       this.add_button(oBar, "Tags", cIndexPageConsts.ID_TAB_TAG_CONTENT)
 
       //click the sol button
@@ -156,8 +160,12 @@ class cIndexPage {
       this.stop_queue()
       cOptions.instrument = null
       cOptions.start_image = -1
-      $(cIndexPageConsts.ID_CHKTHUMBS).prop("checked", true).attr("disabled", "disabled")
-      $(cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser("deselectInstrument")
+      $(cIndexPageConsts.ID_CHKTHUMBS)
+         .prop("checked", true)
+         .attr("disabled", "disabled")
+      $(cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser(
+         "deselectInstrument",
+      )
       this.load_data()
    }
 
@@ -175,7 +183,10 @@ class cIndexPage {
       cOptions.instrument = null
 
       if (!isNaN(sText)) {
-         $(cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser("set_sol", sText)
+         $(cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser(
+            "set_sol",
+            sText,
+         )
       } else {
          const sUrl = cBrowser.buildUrl(cLocations.rest + "/search.php", {
             s: sText,

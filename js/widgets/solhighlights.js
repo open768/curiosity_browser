@@ -318,7 +318,7 @@ $.widget("ck.instrhighlight", {
       oSpan.empty()
 
       var aUrls = poHttp.response.u
-      var oOptions = this.options;
+      var oOptions = this.options
 
       if (aUrls.length == 0) {
          oError = $("<DIV>", { class: "ui-state-error" })
@@ -329,11 +329,11 @@ $.widget("ck.instrhighlight", {
 
          //add allthe found highlights
          for (i = 0; i < aUrls.length; i++) {
-            var sImgUrl = oOptions.home + "/" + aUrls[i];
+            var sImgUrl = oOptions.home + "/" + aUrls[i]
             oImg = $("<IMG>").attr({ src: sImgUrl, class: "highlight_body" })
             var sProduct = oSpan.attr("product")
             oImg.click(() => this.onImageClick(sProduct))
-            oSpan.after(oImg)           //append the image 
+            oSpan.after(oImg) //append the image
          }
 
          //and remove the placeholder span

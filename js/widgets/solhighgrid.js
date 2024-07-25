@@ -20,6 +20,6 @@ $.widget("ck.solhighgrid", {
          "img_highlight.php",
          "solhigh.php",
       )
-      oGrid.show_sol_grid({o: "topsolindex"})
+      oGrid.show_sol_grid({ o: "topsolindex" })
    },
 })

@@ -21,6 +21,6 @@ $.widget("ck.soltags", {
          "tag.php",
          "soltag.php",
       )
-      oGrid.show_sol_grid({o: "topsolindex"})
-   }
+      oGrid.show_sol_grid({ o: "topsolindex" })
+   },
 })
