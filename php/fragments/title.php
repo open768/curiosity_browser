@@ -5,8 +5,8 @@ include("$appPhpFragments/google.php");
 ?>
 
 <!-- Title Bar -->
-<div class="w3-cell-row w3-light-grey">
-    <div class="w3-cell title">
+<div class="w3-cell-row w3-header-theme">
+    <div class="w3-cell title w3-text-white">
         Curiosity Browser:
         <span id="toptitle"><?= $sTitle ?></span>
         <?= (cDebug::is_localhost() ? " - <font color='red'>DEVELOPMENT</font>" : "") ?>

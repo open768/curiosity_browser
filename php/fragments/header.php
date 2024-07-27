@@ -12,6 +12,7 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 <!-- CSS -->
 <link rel="icon" href="<?= $appImages ?>/browser/dude.ico" type="image/x-icon">
 <LINK href="<?= $home ?>/css/app.css" rel="stylesheet" type="text/css">
+<LINK href="<?= $home ?>/css/app-theme.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="<?= $jsExtra ?>/jquery-ui/jquery-ui.min.css">
 <link rel="stylesheet" href="<?= $jsExtra ?>/jquery-spinner/css/gspinner.min.css">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
