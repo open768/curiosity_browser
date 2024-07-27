@@ -15,7 +15,10 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 <LINK href="<?= $home ?>/css/app-theme.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="<?= $jsExtra ?>/jquery-ui/jquery-ui.min.css">
 <link rel="stylesheet" href="<?= $jsExtra ?>/jquery-spinner/css/gspinner.min.css">
+
+<!-- CSS frameworks -->
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 <!-- common ckinc -->
 <script src="<?= $jsInc ?>/ck-inc/common.js"></script>
