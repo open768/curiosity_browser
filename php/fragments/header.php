@@ -61,7 +61,7 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
     cFacebook.buttonID = "<?= cAppConfig::FB_ELEMENT_ID ?>";
     cFacebook.ServerSide = "<?= $home ?>/php/rest/facebook.php";
     cFacebook.ServerUser = "<?= $sFBUser ?>";
-    cFacebook.Version = "<?= cAppSecret::FB_VERSION ?>";
+    cFacebook.Version = "<?= cAppConfig::FB_VERSION ?>";
     cFacebook.AppID = <?= $oFBAppId->id ?>;
 </script>
 

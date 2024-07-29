@@ -5,9 +5,11 @@ $appConfig = "$root/php/app-config";
 include "$appConfig/app-config.php";    //config for the application
 
 
+//**********************************************************************************
 require_once "$phpInc/ckinc/header.php";    //this starts the session
 require_once "$phpInc/ckinc/debug.php";
 
+//**********************************************************************************
 //check for extensions
 if (!extension_loaded("curl"))
     cDebug::error("curl extension is not loaded - check " . php_ini_loaded_file());
@@ -32,7 +34,6 @@ if (!cDebug::is_cli())
     }
 
 //includes
-require_once "$appConfig/app-secret.php";
 require_once "$phpInc/ckinc/common.php";
 require_once "$phpInc/ckinc/auth.php";
 require_once "$spaceInc/curiosity/curiosity.php";
