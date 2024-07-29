@@ -4,12 +4,15 @@ $phpInc = "$root/../phpinc";        //have to set phpinc here to pull in header.
 $spaceInc = "$root/../spaceinc";
 $appPhpFragments = "$root/php/fragments";
 $appImages = "$home/images/";
+$appConfig = "$root/php/app-config";
 
 // Javascript locations 
 $AppJS = "$home/js";
 $AppJSWidgets = "$AppJS/widgets";
 $jsInc = "$home/../jsinc";            //check this works
 $jsExtra = "$jsInc/extra";
+
+require_once  "$appConfig/app-secret.php";
 
 //***************************************************** */
 class cAppConfig

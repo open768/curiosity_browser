@@ -1,6 +1,10 @@
 <?php
 //**********************************************************************************
-include "$home/php/fragments/app-config.php";    //config for the application
+$root = realpath($home);
+$appConfig = "$root/php/app-config";
+include "$appConfig/app-config.php";    //config for the application
+
+
 require_once "$phpInc/ckinc/header.php";    //this starts the session
 require_once "$phpInc/ckinc/debug.php";
 
@@ -28,7 +32,7 @@ if (!cDebug::is_cli())
     }
 
 //includes
-require_once "$home/php/secret.php";
+require_once "$appConfig/app-secret.php";
 require_once "$phpInc/ckinc/common.php";
 require_once "$phpInc/ckinc/auth.php";
 require_once "$spaceInc/curiosity/curiosity.php";

@@ -1,4 +1,5 @@
 <?php
+
 /**************************************************************************
 Copyright (C) Chicken Katsu 2013 -2024
 
@@ -9,43 +10,42 @@ http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 For licenses that allow for commercial use please contact cluck@chickenkatsu.co.uk
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
-**************************************************************************/
+ **************************************************************************/
 
-	$home = "../..";
-	require_once "$home/php/fragments/app-common.php";
-	
-	require_once("$spaceInc/curiosity/curiositypds.php");
-	require_once("$spaceInc/pds/pdsreader.php");
-	
+$home = "../..";
+require_once "$home/php/fragments/app-common.php";
 
-	switch($_GET["a"]){
-	case "s":
-		$sSol = $_GET["s"];
-		$sInstr = $_GET["i"];
-		$sProduct = $_GET["p"];
-		if (!$sSol || !$sInstr || !$sProduct) cDebug::error("missing parameters!");
-	
-	
-		//-------------------
-		try{
-			$oData = cCuriosityPDS::search_pds($sSol, $sInstr, $sProduct);
-		}catch (Exception $e){
-			cDebug::write("search failed");
-			$oData = null;
-		}
-		break;
-	
-	case "p":
-		$sPDSUrl =  $_GET["u"];
-		cDebug::write($sPDSUrl);
-		try{
-			$oData = cCuriosityPDS::get_pds_product($sPDSUrl);
-		}catch (Exception $e){
-			cDebug::write("error :".e );
-			$oData = null;
-		}
-		break;
-	}
-	
-	cCommon::write_json($oData);
-?>
+require_once  "$spaceInc/curiosity/curiositypds.php";
+require_once  "$spaceInc/pds/pdsreader.php";
+
+
+switch ($_GET["a"]) {
+    case "s":
+        $sSol = $_GET["s"];
+        $sInstr = $_GET["i"];
+        $sProduct = $_GET["p"];
+        if (!$sSol || !$sInstr || !$sProduct) cDebug::error("missing parameters!");
+
+
+        //-------------------
+        try {
+            $oData = cCuriosityPDS::search_pds($sSol, $sInstr, $sProduct);
+        } catch (Exception $e) {
+            cDebug::write("search failed");
+            $oData = null;
+        }
+        break;
+
+    case "p":
+        $sPDSUrl =  $_GET["u"];
+        cDebug::write($sPDSUrl);
+        try {
+            $oData = cCuriosityPDS::get_pds_product($sPDSUrl);
+        } catch (Exception $e) {
+            cDebug::write("error :" . e);
+            $oData = null;
+        }
+        break;
+}
+
+cCommon::write_json($oData);

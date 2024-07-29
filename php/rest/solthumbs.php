@@ -1,4 +1,5 @@
 <?php
+
 /**************************************************************************
 Copyright (C) Chicken Katsu 2013 -2024
 
@@ -9,18 +10,17 @@ http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 For licenses that allow for commercial use please contact cluck@chickenkatsu.co.uk
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
-**************************************************************************/
+ **************************************************************************/
 
-	$home = "../..";
-	require_once("$home/php/fragments/app-common.php");
+$home = "../..";
+require_once  "$home/php/fragments/app-common.php";
 
-	$sSol = $_GET["s"] ;
-	$sInstr = $_GET["i"] ;
-	
-	if (! $sSol || !$sInstr) cDebug::error("wrong parameters");
-	
-	cDebug::write("getting sol $sSol thumbnails data");
-	$aData = cCuriosity::getThumbnails($sSol, $sInstr);
-	
-	cCommon::write_json($aData);
-?>
+$sSol = $_GET["s"];
+$sInstr = $_GET["i"];
+
+if (!$sSol || !$sInstr) cDebug::error("wrong parameters");
+
+cDebug::write("getting sol $sSol thumbnails data");
+$aData = cCuriosity::getThumbnails($sSol, $sInstr);
+
+cCommon::write_json($aData);

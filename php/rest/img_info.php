@@ -1,4 +1,5 @@
 <?php
+
 /**************************************************************************
 Copyright (C) Chicken Katsu 2013 -2024
 
@@ -9,33 +10,32 @@ http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 For licenses that allow for commercial use please contact cluck@chickenkatsu.co.uk
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
-**************************************************************************/
+ **************************************************************************/
 
-	$home = "../..";
-	require_once("$home/php/fragments/app-common.php");
-	require_once("$spaceInc/misc/pichighlight.php");
-	require_once("$spaceInc/misc/tags.php");
-	
+$home = "../..";
+require_once  "$home/php/fragments/app-common.php";
+require_once  "$spaceInc/misc/pichighlight.php";
+require_once  "$spaceInc/misc/tags.php";
 
-	
-	$iTagCount = 0;
-	$iHighCount = 0;
-	
-	//***************************************************
-	$sSol = $_GET["s"];
-	$sInstrument= $_GET["i"];
-	$sProduct= $_GET["p"];
-	
-	$aTagData = cTags::get_tag_names( $sSol, $sInstrument, $sProduct);
-	if ($aTagData) $iTagCount=count($aTagData);
-	
-	$aImgData = cImageHighlight::get( $sSol, $sInstrument, $sProduct);
-	if ($aImgData["d"]) $iHighCount=count($aImgData["d"]);
-	
-	$oResult = ["p"=>$sProduct, "t"=>$iTagCount, "h"=>$iHighCount];
-	
-	
-	//***************************************************
-	//output the tags
-	cCommon::write_json($oResult);
-?>
+
+
+$iTagCount = 0;
+$iHighCount = 0;
+
+//***************************************************
+$sSol = $_GET["s"];
+$sInstrument = $_GET["i"];
+$sProduct = $_GET["p"];
+
+$aTagData = cTags::get_tag_names($sSol, $sInstrument, $sProduct);
+if ($aTagData) $iTagCount = count($aTagData);
+
+$aImgData = cImageHighlight::get($sSol, $sInstrument, $sProduct);
+if ($aImgData["d"]) $iHighCount = count($aImgData["d"]);
+
+$oResult = ["p" => $sProduct, "t" => $iTagCount, "h" => $iHighCount];
+
+
+//***************************************************
+//output the tags
+cCommon::write_json($oResult);
