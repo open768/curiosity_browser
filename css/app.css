@@ -149,8 +149,6 @@ body {
 }
 
 .leftcolumn {
-   background-color: white;
-   vertical-align: top;
    width: 230px;
 }
 
@@ -190,9 +188,6 @@ body {
    margin: 2px;
    text-align: center;
    width: 45px;
-}
-
-.sollink {
 }
 
 .solnav {
@@ -450,7 +445,4 @@ body {
    border-radius: 15px;
    height: 30px;
    padding: 5px;
-}
-
-.solbutton {
 }

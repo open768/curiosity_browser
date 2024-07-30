@@ -144,6 +144,14 @@ include("$appPhpFragments/doctype.php");  ?>
         </div>
 
         <!-- ##################################################################### -->
+        <div class="w3-panel w3-card-2 w3-padding-large cookie">
+            <b>An Appeal from the webmaster:</b> Have you got skills in PHP, Javascript or web design, or would love a project to help develop these skills?<br>
+            We <b>desperately</b> need your help in developing this platform so it becomes the leading place to interact with space science images.<br>
+            Please join us at <a href="https://github.com/open768/curiosity_browser">Github</a> or <a href="https://www.facebook.com/mars.features/">Facebook</a>.
+        </div>
+
+
+        <!-- ##################################################################### -->
         <div class="w3-panel w3-card-2 w3-padding-large w3-theme-action">
 
             <h2>end of document</h2>
