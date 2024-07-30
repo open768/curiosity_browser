@@ -56,9 +56,7 @@ class cSolGridRenderer {
       if (poExtraParams) Object.assign(oOptions, poExtraParams)
       var sUrl = cBrowser.buildUrl(this.DataRestUrl, oOptions)
       const oHttp = new cHttp2()
-      bean.on(oHttp, "result", function (poHttp) {
-         oThis.onDataResponse(poHttp)
-      })
+      bean.on(oHttp, "result", (poHttp) => oThis.onDataResponse(poHttp))
       oHttp.fetch_json(sUrl)
    }
 
