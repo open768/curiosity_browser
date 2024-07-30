@@ -1,7 +1,7 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-include("$appPhpFragments/doctype.php");
+include "$appPhpFragments/doctype.php";
 
 //check for admin role to display admin button
 $sUser = cAuth::get_user();
@@ -25,6 +25,7 @@ class cIndexPageConsts
     const ID_SOLTHUMBS = "solthumbs";
     const ID_LEFT_COL = "left-column";
     const ID_BODY = "main-body";
+    const ID_PAYLOAD = "payload";
 }
 ?>
 <html>
@@ -63,33 +64,37 @@ class cIndexPageConsts
     include("$appPhpFragments/title.php");
     ?>
 
-    <DIV id="payload" class="cell-row">
+    <DIV id="<?= cIndexPageConsts::ID_PAYLOAD ?>" class="cell-row">
         <!-- LEFT COLUMN OF PAGE -->
-        <div id="<?= cIndexPageConsts::ID_LEFT_COL ?>" class="w3-cell leftcolumn">
+        <div id=" <?= cIndexPageConsts::ID_LEFT_COL ?>" class="w3-cell leftcolumn">
             <!-- TABS -->
             <div id="tabs-container">
+                <!-- TAB Buttons -->
                 <div id="<?= cIndexPageConsts::ID_TAB_BAR ?>">
                     Loading...
                 </div>
+                <!-- TAB Content -->
                 <div class="tab-content" id="<?= cIndexPageConsts::ID_TAB_SOL_CONTENT ?>">
-                    <div>
-                        <!-- ************************************** -->
-                        <div id="<?= cIndexPageConsts::ID_WIDGET_SOLCHOOSER ?>">loading chooser widget...</div>
-                        <!-- ************************************** -->
-                        <div id="<?= cIndexPageConsts::ID_WIDGET_SOLBUTTONS ?>">loading buttons widget...</div>
-                        <!-- ************************************** -->
-                        <div class="ui-widget" id="<?= cIndexPageConsts::ID_WIDGET_ADMIN ?>">
-                            <div class="ui-widget-header">Admin</div>
-                            <div class="ui-widget-body">
-                                <?php if ($bIsAdmin) { ?>
-                                    <button title="Admin Functions" id="admin" onclick="cBrowser.openWindow('admin/', 'admin');">Admin functions</button>
-                                <?php } else { ?>
-                                    not an Admin.
-                                <?php } ?>
-                            </div>
+                    <!-- ** SOL Chooser ************************************ -->
+                    <div id="<?= cIndexPageConsts::ID_WIDGET_SOLCHOOSER ?>">loading chooser widget...</div>
+
+                    <!-- ** SOL buttons ************************************** -->
+                    <div id="<?= cIndexPageConsts::ID_WIDGET_SOLBUTTONS ?>">loading buttons widget...</div>
+
+                    <!-- ** ADMIN content ********************************** -->
+                    <div class="ui-widget" id="<?= cIndexPageConsts::ID_WIDGET_ADMIN ?>">
+                        <div class="ui-widget-header">Admin</div>
+                        <div class="ui-widget-body">
+                            <?php if ($bIsAdmin) { ?>
+                                <button title="Admin Functions" id="admin" onclick="cBrowser.openWindow('admin/', 'admin');">Admin functions</button>
+                            <?php } else { ?>
+                                not an Admin.
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
+
+                <!-- TAB Content -->
                 <div class="tab-content" id="<?= cIndexPageConsts::ID_TAB_TAG_CONTENT ?>">
                     Loading...
                 </div>
@@ -99,13 +104,16 @@ class cIndexPageConsts
 
         <!-- MAIN BODY OF PAGE -->
         <div id="<?= cIndexPageConsts::ID_BODY ?>" class="w3-cell">
+            <!-- Search box -->
             <div class="gold" id="header-pane">
                 <input type="text" id="<?= cIndexPageConsts::ID_SEARCH ?>" size="30"><button class="rightbutton" onclick="onClickSearch()" title="Search for Product">Search</button>
                 <input id="<?= cIndexPageConsts::ID_CHKTHUMBS ?>" type="checkbox">Show Thumbnails&nbsp;&nbsp;&nbsp;&nbsp;
                 <span class="subtitle"> Status: </span><span ID="<?= cIndexPageConsts::ID_STATUS ?>" class="status">Loading...</span>
             </div>
+
+            <!-- will contain images when selected -->
             <div class="gold" id="<?= cIndexPageConsts::ID_IMAGE_CONTAINER ?>">
-                <div id="intro" style="display:none">
+                <div id="<?= cIndexPageConsts::ID_INTRO ?>" style="display:none">
                     <H2>Curiosity Browser</H2>
                     <img src="<?= $appImages ?>/browser/dude.png" height="90" align="left">
                     Welcome to the best place to find great images beamed from Curiosity, NASA's Mars Science Lab on Mars.
@@ -121,33 +129,19 @@ class cIndexPageConsts
                         <li>Then select from the <span class="subtitle">instruments</span> shown for that SOL to see the amazing images.</li>
                     </ol>
                 </div>
-                <P>&nbsp;
-                <P>&nbsp;
-                <P>&nbsp;
-                <P>&nbsp;
-                <P>&nbsp;
-                <P>&nbsp;
-                <p>
-                <div class="w3-panel w3-card-2 w3-padding-large cookie">
-                    We are using cookies to give you the best experience on our site. Cookies are files stored in your browser and are used by most websites to help personalise your web experience.
-                    By continuing to use our website without changing the settings, you are agreeing to our use of cookies.
-                </div>
-                <p>
-                <div class="w3-panel w3-card-2 w3-padding-large disclaim">
-                    <div class="subtitle">Dislaimer</div>
-                    <ul>
-                        <li>Chicken Katsu is not responsible for, and expressly disclaims all liability for, damages of any kind arising out of use, reference to, or reliance on any
-                            information contained within the site. While the information contained within the site is periodically updated, no guarantee is given that the information provided in this website is correct, complete, and up-to-date.
-                        <li>Although www.mars-browser.co.uk may contain links providing direct access to other Internet resources, including websites, Chicken Katsu,
-                            as the owner and operator of www.mars-browser.co.uk is not responsible for the accuracy or content of information contained in these sites.
-                        <li><b>This web site is not affiliated with JPL or NASA.</b>
-                    </ul>
-                </div>
+                <p>&nbsp;
+                <p>&nbsp;
+                <p>&nbsp;
+                <p>&nbsp;
+                <p>&nbsp;
+                    <?php
+                    include "$appPhpFragments/disclaim.html";
+                    ?>
             </div>
         </div>
-
-        <!-- Footer -->
-        <?php include("$appPhpFragments/footer.php") ?>
+    </div>
+    <!-- Footer -->
+    <?php include("$appPhpFragments/footer.php") ?>
 </body>
 
 </html>

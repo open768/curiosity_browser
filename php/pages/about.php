@@ -152,14 +152,18 @@ include("$appPhpFragments/doctype.php");  ?>
 
 
         <!-- ##################################################################### -->
-        <div class="w3-panel w3-card-2 w3-padding-large w3-theme-action">
+        <?php
+        include "$appPhpFragments/disclaim.html"; ?>
 
+        <!-- ##################################################################### -->
+        <div class="w3-panel w3-card-2 w3-padding-large w3-theme-action">
             <h2>end of document</h2>
             now get back to work
         </div>
 
         <!-- footer -->
-        <?php include("$appPhpFragments/footer.php")     ?>
+        <?php
+        include "$appPhpFragments/footer.php"     ?>
 </body>
 
 </html>
