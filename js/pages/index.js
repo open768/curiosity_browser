@@ -1,3 +1,4 @@
+"use strict"
 /****************************************************************************
 Copyright (C) Chicken Katsu 2013 - 2024 www.chickenkatsu.co.uk
 
@@ -9,8 +10,10 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
+
 /*global cIndexPageConsts*/
-"use strict"
+// cIndexPageConsts are defined in index.php - and written out line 57
+
 let keep_start_image = true
 
 const cOptions = {
@@ -98,8 +101,15 @@ class cPageTabs {
 // ###############################################################
 //eslint-disable-next-line no-unused-vars
 class cIndexPage {
+   /**
+    *called  when jQuery is loaded
+    *
+    * @static
+    * @memberof cIndexPage
+    * @returns void
+    */
    static onLoadJQuery() {
-      const self = this
+      const oThis = this
       // show the intro blurb if nothing on the querystring
       if (document.location.search.length == 0) {
          $(cIndexPageConsts.ID_INTRO).show()
@@ -118,27 +128,18 @@ class cIndexPage {
       // render the sol instrument chooser widget
       // this widget will kick off the image display thru onSelectSolInstrEvent
       $(cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser({
-         onStatus(poEvent, paHash) {
-            self.onStatusEvent(poEvent, paHash)
-         },
-         onSelect(poEvent, poData) {
-            self.onSelectSolInstrEvent(poEvent, poData)
-         },
+         onStatus: (poEvent, paHash) => oThis.onStatusEvent(poEvent, paHash),
+         onSelect: (poEvent, poData) =>
+            oThis.onSelectSolInstrEvent(poEvent, poData),
          mission: cMission,
       })
 
       // render the solbuttons
       $(cIndexPageConsts.ID_WIDGET_SOLBUTTONS).solButtons({
-         onStatus(poEvent, paHash) {
-            self.onStatusEvent(poEvent, paHash)
-         },
+         onStatus: (poEvent, paHash) => oThis.onStatusEvent(poEvent, paHash),
          mission: cMission,
-         onClick() {
-            self.stop_queue()
-         },
-         onAllSolThumbs() {
-            self.onClickAllSolThumbs()
-         },
+         onClick: () => oThis.stop_queue(),
+         onAllSolThumbs: () => oThis.onClickAllSolThumbs(),
       })
 
       // disable thumbs checkbox until something happens
@@ -146,7 +147,7 @@ class cIndexPage {
 
       // set up keypress monitor
       $(cIndexPageConsts.ID_SEARCH).keypress(function (e) {
-         self.onSearchKeypress(e)
+         oThis.onSearchKeypress(e)
       })
 
       // load tagcloud
@@ -293,7 +294,7 @@ class cIndexPage {
    //* **************************************************************
    static load_data() {
       let oChkThumb
-      const self = this
+      const oThis = this
       this.update_url()
 
       cDebug.write("loading data: " + cOptions.sol + ":" + cOptions.instrument)
@@ -315,7 +316,7 @@ class cIndexPage {
             )
          }
          oChkThumb.on("change", function (poEvent) {
-            self.onCheckThumbsEvent(poEvent)
+            oThis.onCheckThumbsEvent(poEvent)
          })
       } else {
          oChkThumb.attr("disabled", "disabled")
@@ -329,7 +330,7 @@ class cIndexPage {
    static show_thumbs(psSol, psInstrument) {
       var oDiv
       cDebug.write("showing  thumbs for " + psSol + " : " + psInstrument)
-      const self = this
+      const oThis = this
 
       oDiv = $(cIndexPageConsts.ID_IMAGE_CONTAINER)
       if (oDiv.length == 0) $.error("image DIV not found ")
@@ -344,10 +345,10 @@ class cIndexPage {
          sol: psSol,
          instrument: psInstrument,
          onStatus(poEvent, paHash) {
-            self.onStatusEvent(poEvent, paHash)
+            oThis.onStatusEvent(poEvent, paHash)
          }, // TODO replace with events
          onClick(poEvent, poData) {
-            self.onThumbClickEvent(poEvent, poData)
+            oThis.onThumbClickEvent(poEvent, poData)
          },
          mission: cMission,
       })
