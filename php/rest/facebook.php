@@ -35,7 +35,7 @@ $sUser = null;
 
 
 $sOperation = cHeader::get("o");
-cDebug.write("Operation is : $sOperation")
+cDebug::write("Operation is : $sOperation");
 switch ($sOperation) {
     case "getuser":
         cDebug::write("getting stored user details");
