@@ -28,15 +28,17 @@ cDebug::write("userID: $sUserID");
 
 $sToken = cHeader::get("t");
 if (!$sToken) cDebug::error("token parameter missing");
-cDebug::write("access token: $sToken");
+//cDebug::write("access token: $sToken");
 
 //***************************************************
 $sUser = null;
 
 
 $sOperation = cHeader::get("o");
+cDebug.write("Operation is : $sOperation")
 switch ($sOperation) {
     case "getuser":
+        cDebug::write("getting stored user details");
         $sUser = cFacebook_ServerSide::getStoredUser($sUserID);
 
         if ($sUser)
@@ -45,7 +47,7 @@ switch ($sOperation) {
 
         //finally get user details from facebook
         if (!$sUser) {
-            cDebug::write("user not known getting  from Facebook");
+            cDebug::write("stored details not found, getting  from Facebook");
             $sUser = cFacebook_ServerSide::getUserIDDetails($sUserID, $sToken);
         }
         break;
