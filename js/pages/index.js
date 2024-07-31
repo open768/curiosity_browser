@@ -25,6 +25,95 @@ const cOptions = {
 }
 
 // ###############################################################
+//* renders left column
+// ###############################################################
+class cLeftColumn {
+   static render(poParent) {
+      poParent.empty()
+
+      //-----------------------the TAB Bar
+      var oTabBar = $("<DIV>", { id: cIndexPageConsts.ID_TAB_BAR })
+      {
+         oTabBar.append("Loading Tab bar")
+         poParent.append(oTabBar)
+      }
+
+      //-------------------------tab content (Sols)
+      var oSolTabContent = $("<DIV>", {
+         id: cIndexPageConsts.ID_TAB_SOL_CONTENT,
+         class: "tab-content",
+      })
+      {
+         //--------SOL chooser
+         var oSolChooser = $("<DIV>", {
+            id: cIndexPageConsts.ID_WIDGET_SOLCHOOSER,
+         })
+         oSolChooser.append("Loading chooser widget")
+         oSolTabContent.append(oSolChooser)
+
+         //----------SOL buttons
+         var oSolButtons = $("<DIV>", {
+            id: cIndexPageConsts.ID_WIDGET_SOLBUTTONS,
+         })
+         oSolButtons.append("Loading buttons widget")
+         oSolTabContent.append(oSolButtons)
+
+         //---------admin
+         this.pr__render_admin(oSolTabContent)
+
+         //complete the widget
+         poParent.append(oSolTabContent)
+      }
+
+      //Tab Content (tags)
+      var oTagContent = $("<DIV>", {
+         id: cIndexPageConsts.ID_TAB_TAG_CONTENT,
+         class: "tab-content",
+      })
+      {
+         oTagContent.append("loading TAGS")
+         poParent.append(oTagContent)
+      }
+   }
+
+   //*************************************************************
+   static pr__render_admin(poParent) {
+      var oThis = this
+      var oDiv = $("<DIV>", {
+         id: cIndexPageConsts.ID_WIDGET_ADMIN,
+         class: "ui-widget",
+      })
+      {
+         var oHeader = $("<DIV>", {
+            class: "ui-widget-header",
+         })
+         {
+            oHeader.append("Admin")
+            oDiv.append(oHeader)
+         }
+
+         var oBody = $("<DIV>", { class: "ui-widget-body" })
+         {
+            if (cIndexPageConsts.IS_ADMIN) {
+               var oButton = $("<BUTTON>", { title: "Admin Functions" })
+               oButton.click(() => oThis.onAdminClick())
+               oBody.append()
+            } else {
+               oBody.append("Not an Admin")
+            }
+            oDiv.append(oBody)
+         }
+      }
+      poParent.append(oDiv)
+   }
+
+   //*************************************************************
+   static onAdminClick() {
+      cBrowser.openWindow("admin/", "admin")
+   }
+}
+
+// ###############################################################
 //* handles page tabs
 // ###############################################################
 class cPageTabs {
@@ -49,7 +138,7 @@ class cPageTabs {
       //show the tab target for the button clicked
       this.current_button = "#" + poElement.attr("id")
       var sTarget = poElement.attr("target")
-      var oSelected = $(sTarget)
+      var oSelected = $("#" + sTarget)
       oSelected.show()
    }
 
@@ -84,7 +173,7 @@ class cPageTabs {
       cDebug.write("instrumenting tabs")
 
       //add the buttons the the tab bar
-      var oBar = $(cIndexPageConsts.ID_TAB_BAR)
+      var oBar = $("#" + cIndexPageConsts.ID_TAB_BAR)
       oBar.empty()
       var oBtnSol = this.add_button(
          oBar,
@@ -114,10 +203,12 @@ class cIndexPage {
       const oThis = this
       // show the intro blurb if nothing on the querystring
       if (document.location.search.length == 0) {
-         $(cIndexPageConsts.ID_INTRO).show()
+         $("#" + cIndexPageConsts.ID_INTRO).show()
       }
 
       // load the tabs and show the first one
+      var oLeftColumn = $("#" + cIndexPageConsts.ID_LEFT_COL)
+      cLeftColumn.render(oLeftColumn)
       cPageTabs.renderTabs()
 
       // remember the start_image if its there
@@ -129,7 +220,7 @@ class cIndexPage {
 
       // render the sol instrument chooser widget
       // this widget will kick off the image display thru onSelectSolInstrEvent
-      $(cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser({
+      $("#" + cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser({
          onStatus: (poEvent, paHash) => oThis.onStatusEvent(poEvent, paHash),
          onSelect: (poEvent, poData) =>
             oThis.onSelectSolInstrEvent(poEvent, poData),
@@ -137,7 +228,7 @@ class cIndexPage {
       })
 
       // render the solbuttons
-      $(cIndexPageConsts.ID_WIDGET_SOLBUTTONS).solButtons({
+      $("#" + cIndexPageConsts.ID_WIDGET_SOLBUTTONS).solButtons({
          onStatus: (poEvent, paHash) => oThis.onStatusEvent(poEvent, paHash),
          mission: cMission,
          onClick: () => oThis.stop_queue(),
@@ -145,15 +236,17 @@ class cIndexPage {
       })
 
       // disable thumbs checkbox until something happens
-      $(cIndexPageConsts.ID_CHKTHUMBS).attr("disabled", "disabled")
+      $("#" + cIndexPageConsts.ID_CHKTHUMBS).attr("disabled", "disabled")
 
       // set up keypress monitor
-      $(cIndexPageConsts.ID_SEARCH).keypress(function (e) {
+      $("#" + cIndexPageConsts.ID_SEARCH).keypress(function (e) {
          oThis.onSearchKeypress(e)
       })
 
       // load tagcloud
-      $(cIndexPageConsts.ID_TAB_TAG_CONTENT).tagcloud({ mission: cMission })
+      $("#" + cIndexPageConsts.ID_TAB_TAG_CONTENT).tagcloud({
+         mission: cMission,
+      })
    }
 
    // ###############################################################
@@ -163,10 +256,10 @@ class cIndexPage {
       this.stop_queue()
       cOptions.instrument = null
       cOptions.start_image = -1
-      $(cIndexPageConsts.ID_CHKTHUMBS)
+      $("#" + cIndexPageConsts.ID_CHKTHUMBS)
          .prop("checked", true)
          .attr("disabled", "disabled")
-      $(cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser(
+      $("#" + cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser(
          "deselectInstrument",
       )
       this.load_data()
@@ -181,12 +274,12 @@ class cIndexPage {
    //* **************************************************************
    static onClickSearch() {
       this.stop_queue()
-      const sText = $(cIndexPageConsts.ID_SEARCH).val()
+      const sText = $("#" + cIndexPageConsts.ID_SEARCH).val()
       if (sText == "") return
       cOptions.instrument = null
 
       if (!isNaN(sText)) {
-         $(cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser(
+         $("#" + cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser(
             "set_sol",
             sText,
          )
@@ -245,7 +338,7 @@ class cIndexPage {
          p: poData.product,
       })
       cDebug.write("loading page " + sUrl)
-      $(cIndexPageConsts.ID_IMAGE_CONTAINER)
+      $("#" + cIndexPageConsts.ID_IMAGE_CONTAINER)
          .empty()
          .html("redirecting to: " + sUrl)
       setTimeout(function () {
@@ -256,7 +349,7 @@ class cIndexPage {
    //* **************************************************************
    static onImagesLoadedEvent(poEvent, piStartImage) {
       // enable thumbnails
-      $(cIndexPageConsts.ID_SOLTHUMBS).removeAttr("disabled")
+      $("#" + cIndexPageConsts.ID_SOLTHUMBS).removeAttr("disabled")
       cOptions.start_image = piStartImage
       this.update_url()
    }
@@ -281,7 +374,7 @@ class cIndexPage {
    static stop_queue() {
       let oDiv
       try {
-         oDiv = $(cIndexPageConsts.ID_IMAGE_CONTAINER)
+         oDiv = $("#" + cIndexPageConsts.ID_IMAGE_CONTAINER)
          oDiv.thumbnailview("stop_queue")
       } catch (e) {
          /* do nothing*/
@@ -290,7 +383,7 @@ class cIndexPage {
 
    //* **************************************************************
    static is_thumbs_checked() {
-      return $(cIndexPageConsts.ID_CHKTHUMBS).is(":checked")
+      return $("#" + cIndexPageConsts.ID_CHKTHUMBS).is(":checked")
    }
 
    //* **************************************************************
@@ -301,8 +394,11 @@ class cIndexPage {
 
       cDebug.write("loading data: " + cOptions.sol + ":" + cOptions.instrument)
 
-      $(cIndexPageConsts.ID_WIDGET_BUTTONS).solButtons("set_sol", cOptions.sol)
-      oChkThumb = $(cIndexPageConsts.ID_CHKTHUMBS)
+      $("#" + cIndexPageConsts.ID_WIDGET_BUTTONS).solButtons(
+         "set_sol",
+         cOptions.sol,
+      )
+      oChkThumb = $("#" + cIndexPageConsts.ID_CHKTHUMBS)
 
       if (cOptions.instrument) {
          oChkThumb.removeAttr("disabled")
@@ -334,7 +430,7 @@ class cIndexPage {
       cDebug.write("showing  thumbs for " + psSol + " : " + psInstrument)
       const oThis = this
 
-      oDiv = $(cIndexPageConsts.ID_IMAGE_CONTAINER)
+      oDiv = $("#" + cIndexPageConsts.ID_IMAGE_CONTAINER)
       if (oDiv.length == 0) $.error("image DIV not found ")
 
       if (oDiv.thumbnailview("instance") != undefined) {
@@ -363,7 +459,7 @@ class cIndexPage {
 
       var oWidget, oDiv
 
-      oDiv = $(cIndexPageConsts.ID_IMAGE_CONTAINER)
+      oDiv = $("#" + cIndexPageConsts.ID_IMAGE_CONTAINER)
       if (oDiv.length == 0) $.error("image DIV not found")
 
       oWidget = oDiv.data("ckImageview")

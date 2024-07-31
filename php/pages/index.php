@@ -5,8 +5,8 @@ include "$appPhpFragments/doctype.php";
 
 //check for admin role to display admin button
 $sUser = cAuth::get_user();
-$bIsAdmin = false;
-if ($sUser) $bIsAdmin = cAuth::is_role("admin");
+$bIsAdmin = "no";
+if ($sUser && cAuth::is_role("admin")) $bIsAdmin = "yes";
 
 //define PHP constants
 class cIndexPageConsts
@@ -14,6 +14,7 @@ class cIndexPageConsts
     const ID_IMAGE_CONTAINER = "images";
     const ID_CHKTHUMBS = "chkThumbs";
     const ID_STATUS = "status";
+    const ID_TABS_CONTAINER = "tabs-Container";
     const ID_TAB_TAG_CONTENT = "tab-content-tags";
     const ID_TAB_SOL_CONTENT = "tab-content-sol";
     const ID_WIDGET_SOLCHOOSER = "solInstChooser";
@@ -26,7 +27,10 @@ class cIndexPageConsts
     const ID_LEFT_COL = "left-column";
     const ID_BODY = "main-body";
     const ID_PAYLOAD = "payload";
+    const ID_SIDEBAR = "sidebar";
+    static $IS_ADMIN = "no";
 }
+cIndexPageConsts::$IS_ADMIN = $bIsAdmin;
 ?>
 <html>
 
@@ -50,6 +54,7 @@ class cIndexPageConsts
     <script src="<?= $AppJSWidgets ?>/tagcloud.js"></script>
     <!-- end of scripts -->
 
+    <!-- meta properties for facebook -->
     <meta property="og:title" content="Curiosity Browser - ">
     <meta property="og:image" content="http://www.mars-browser.co.uk/curiosity/images/rover.png">
     <meta property="og:description" content="Be part of the greatest exploration team ever. Discover great finds in the amazing images from NASA's Curiosity Rover and share your discoveries with the world.">
@@ -66,44 +71,10 @@ class cIndexPageConsts
 
     <DIV id="<?= cIndexPageConsts::ID_PAYLOAD ?>" class="cell-row">
         <!-- LEFT COLUMN OF PAGE -->
-        <div id=" <?= cIndexPageConsts::ID_LEFT_COL ?>" class="w3-cell leftcolumn">
-            <!-- TABS -->
-            <div id="tabs-container">
-                <!-- TAB Buttons -->
-                <div id="<?= cIndexPageConsts::ID_TAB_BAR ?>">
-                    Loading...
-                </div>
-                <!-- TAB Content -->
-                <div class="tab-content" id="<?= cIndexPageConsts::ID_TAB_SOL_CONTENT ?>">
-                    <!-- ** SOL Chooser ************************************ -->
-                    <div id="<?= cIndexPageConsts::ID_WIDGET_SOLCHOOSER ?>">loading chooser widget...</div>
-
-                    <!-- ** SOL buttons ************************************** -->
-                    <div id="<?= cIndexPageConsts::ID_WIDGET_SOLBUTTONS ?>">loading buttons widget...</div>
-
-                    <!-- ** ADMIN content ********************************** -->
-                    <div class="ui-widget" id="<?= cIndexPageConsts::ID_WIDGET_ADMIN ?>">
-                        <div class="ui-widget-header">Admin</div>
-                        <div class="ui-widget-body">
-                            <?php if ($bIsAdmin) { ?>
-                                <button title="Admin Functions" id="admin" onclick="cBrowser.openWindow('admin/', 'admin');">Admin functions</button>
-                            <?php } else { ?>
-                                not an Admin.
-                            <?php } ?>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TAB Content -->
-                <div class="tab-content" id="<?= cIndexPageConsts::ID_TAB_TAG_CONTENT ?>">
-                    Loading...
-                </div>
-                <!-- End of tabs -->
-            </div>
-        </div>
+        <div id="<?= cIndexPageConsts::ID_LEFT_COL ?>" class="w3-cell leftcolumn">Loading...</div> <!-- left column -->
 
         <!-- MAIN BODY OF PAGE -->
-        <div id="<?= cIndexPageConsts::ID_BODY ?>" class="w3-cell">
+        <div id="<?= cIndexPageConsts::ID_BODY ?>" class="w3-cell">Loading
             <!-- Search box -->
             <div class="gold" id="header-pane">
                 <input type="text" id="<?= cIndexPageConsts::ID_SEARCH ?>" size="30"><button class="rightbutton" onclick="onClickSearch()" title="Search for Product">Search</button>
