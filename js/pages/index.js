@@ -28,17 +28,17 @@ const cOptions = {
 //* renders left column
 // ###############################################################
 class cLeftColumn {
-   static render(poParent) {
-      poParent.empty()
-
+   static render_tab_bar(poParent) {
       //-----------------------the TAB Bar
       var oTabBar = $("<DIV>", { id: cIndexPageConsts.ID_TAB_BAR })
       {
          oTabBar.append("Loading Tab bar")
          poParent.append(oTabBar)
       }
+   }
 
-      //-------------------------tab content (Sols)
+   //**********************************************************
+   static render_tab_content_sol(poParent) {
       var oSolTabContent = $("<DIV>", {
          id: cIndexPageConsts.ID_TAB_SOL_CONTENT,
          class: "tab-content",
@@ -64,7 +64,10 @@ class cLeftColumn {
          //complete the widget
          poParent.append(oSolTabContent)
       }
+   }
 
+   //**********************************************************
+   static render_tab_content_tags(poParent) {
       //Tab Content (tags)
       var oTagContent = $("<DIV>", {
          id: cIndexPageConsts.ID_TAB_TAG_CONTENT,
@@ -74,6 +77,19 @@ class cLeftColumn {
          oTagContent.append("loading TAGS")
          poParent.append(oTagContent)
       }
+   }
+
+   //**********************************************************
+   static render(poParent) {
+      poParent.empty()
+
+      this.render_tab_bar(poParent)
+      cPageTabs.renderTabs()
+      this.render_tab_content_sol(poParent)
+      this.render_tab_content_tags(poParent)
+
+      //click the default tab
+      cPageTabs.clickDefaultTab()
    }
 
    //*************************************************************
@@ -143,7 +159,7 @@ class cPageTabs {
    }
 
    //*********************************************************************
-   static add_button(poParent, psCaption, psTarget) {
+   static pr__add_tab(poParent, psCaption, psTarget) {
       var sChildID, oButton, oThis
 
       oThis = this
@@ -172,18 +188,25 @@ class cPageTabs {
    static renderTabs() {
       cDebug.write("instrumenting tabs")
 
-      //add the buttons the the tab bar
+      //clear out any content
       var oBar = $("#" + cIndexPageConsts.ID_TAB_BAR)
       oBar.empty()
-      var oBtnSol = this.add_button(
+
+      //add the buttons the the tab bar
+      var oBtnSol = this.pr__add_tab(
          oBar,
          "Sol",
          cIndexPageConsts.ID_TAB_SOL_CONTENT,
       )
-      this.add_button(oBar, "Tags", cIndexPageConsts.ID_TAB_TAG_CONTENT)
+      this.pr__add_tab(oBar, "Tags", cIndexPageConsts.ID_TAB_TAG_CONTENT)
+   }
 
-      //click the sol button
-      oBtnSol.click()
+   //*********************************************************************
+   static clickDefaultTab() {
+      var oBar = $("#" + cIndexPageConsts.ID_TAB_BAR)
+      var sButtonID = cJquery.child_ID(oBar, "Sol")
+      var oButton = $("#" + sButtonID)
+      oButton.click()
    }
 }
 
@@ -209,7 +232,6 @@ class cIndexPage {
       // load the tabs and show the first one
       var oLeftColumn = $("#" + cIndexPageConsts.ID_LEFT_COL)
       cLeftColumn.render(oLeftColumn)
-      cPageTabs.renderTabs()
 
       // remember the start_image if its there
       if (cBrowser.data[cSpaceBrowser.BEGIN_QUERYSTRING]) {

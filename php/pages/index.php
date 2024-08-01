@@ -71,10 +71,13 @@ cIndexPageConsts::$IS_ADMIN = $bIsAdmin;
 
     <DIV id="<?= cIndexPageConsts::ID_PAYLOAD ?>" class="cell-row">
         <!-- LEFT COLUMN OF PAGE -->
-        <div id="<?= cIndexPageConsts::ID_LEFT_COL ?>" class="w3-cell leftcolumn">Loading...</div> <!-- left column -->
+        <div id="<?= cIndexPageConsts::ID_LEFT_COL ?>" class="w3-cell leftcolumn">
+            Loading left column...
+        </div>
 
         <!-- MAIN BODY OF PAGE -->
-        <div id="<?= cIndexPageConsts::ID_BODY ?>" class="w3-cell">Loading
+        <div id="<?= cIndexPageConsts::ID_BODY ?>" class="w3-cell">
+            Loading
             <!-- Search box -->
             <div class="gold" id="header-pane">
                 <input type="text" id="<?= cIndexPageConsts::ID_SEARCH ?>" size="30"><button class="rightbutton" onclick="onClickSearch()" title="Search for Product">Search</button>
