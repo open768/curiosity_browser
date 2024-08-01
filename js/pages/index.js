@@ -83,10 +83,37 @@ class cLeftColumn {
    static render(poParent) {
       poParent.empty()
 
+      //tab bar
       this.render_tab_bar(poParent)
       cPageTabs.renderTabs()
+
+      // sol tab content
       this.render_tab_content_sol(poParent)
+
+      // render the sol instrument chooser widget
+      // this widget will kick off the image display thru onSelectSolInstrEvent
+      $("#" + cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser({
+         onStatus: (poEvent, paHash) =>
+            cIndexPage.onStatusEvent(poEvent, paHash),
+         onSelect: (poEvent, poData) =>
+            cIndexPage.onSelectSolInstrEvent(poEvent, poData),
+         mission: cMission,
+      })
+
+      // render the solbuttons
+      $("#" + cIndexPageConsts.ID_WIDGET_SOLBUTTONS).solButtons({
+         onStatus: (poEvent, paHash) =>
+            cIndexPage.onStatusEvent(poEvent, paHash),
+         mission: cMission,
+         onClick: () => cIndexPage.stop_queue(),
+         onAllSolThumbs: () => cIndexPage.onClickAllSolThumbs(),
+      })
+
+      //  tags tab content
       this.render_tab_content_tags(poParent)
+      $("#" + cIndexPageConsts.ID_TAB_TAG_CONTENT).tagcloud({
+         mission: cMission,
+      })
 
       //click the default tab
       cPageTabs.clickDefaultTab()
@@ -136,6 +163,8 @@ class cPageTabs {
    //see w3.css tabs https://www.w3schools.com/w3css/w3css_tabulators.asp
    static current_button = null
    static HIGHLIGHT_CLASS = "w3-blue"
+   static SOL_CAPTION = "Sol"
+   static TAGS_CAPTION = "Tags"
 
    //*********************************************************************
    static onTabClick(poElement) {
@@ -193,18 +222,22 @@ class cPageTabs {
       oBar.empty()
 
       //add the buttons the the tab bar
-      var oBtnSol = this.pr__add_tab(
+      this.pr__add_tab(
          oBar,
-         "Sol",
+         this.SOL_CAPTION,
          cIndexPageConsts.ID_TAB_SOL_CONTENT,
       )
-      this.pr__add_tab(oBar, "Tags", cIndexPageConsts.ID_TAB_TAG_CONTENT)
+      this.pr__add_tab(
+         oBar,
+         this.TAGS_CAPTION,
+         cIndexPageConsts.ID_TAB_TAG_CONTENT,
+      )
    }
 
    //*********************************************************************
    static clickDefaultTab() {
       var oBar = $("#" + cIndexPageConsts.ID_TAB_BAR)
-      var sButtonID = cJquery.child_ID(oBar, "Sol")
+      var sButtonID = cJquery.child_ID(oBar, this.SOL_CAPTION)
       var oButton = $("#" + sButtonID)
       oButton.click()
    }
@@ -240,34 +273,12 @@ class cIndexPage {
          )
       }
 
-      // render the sol instrument chooser widget
-      // this widget will kick off the image display thru onSelectSolInstrEvent
-      $("#" + cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser({
-         onStatus: (poEvent, paHash) => oThis.onStatusEvent(poEvent, paHash),
-         onSelect: (poEvent, poData) =>
-            oThis.onSelectSolInstrEvent(poEvent, poData),
-         mission: cMission,
-      })
-
-      // render the solbuttons
-      $("#" + cIndexPageConsts.ID_WIDGET_SOLBUTTONS).solButtons({
-         onStatus: (poEvent, paHash) => oThis.onStatusEvent(poEvent, paHash),
-         mission: cMission,
-         onClick: () => oThis.stop_queue(),
-         onAllSolThumbs: () => oThis.onClickAllSolThumbs(),
-      })
-
       // disable thumbs checkbox until something happens
       $("#" + cIndexPageConsts.ID_CHKTHUMBS).attr("disabled", "disabled")
 
       // set up keypress monitor
       $("#" + cIndexPageConsts.ID_SEARCH).keypress(function (e) {
          oThis.onSearchKeypress(e)
-      })
-
-      // load tagcloud
-      $("#" + cIndexPageConsts.ID_TAB_TAG_CONTENT).tagcloud({
-         mission: cMission,
       })
    }
 
