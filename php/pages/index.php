@@ -5,8 +5,8 @@ include "$appPhpFragments/doctype.php";
 
 //check for admin role to display admin button
 $sUser = cAuth::get_user();
-$bIsAdmin = "no";
-if ($sUser && cAuth::is_role("admin")) $bIsAdmin = "yes";
+$sIsAdmin = "no";
+if ($sUser && cAuth::is_role("admin")) $sIsAdmin = "yes";
 
 //define PHP constants
 class cIndexPageConsts
@@ -30,7 +30,7 @@ class cIndexPageConsts
     const ID_SIDEBAR = "sidebar";
     static $IS_ADMIN = "no";
 }
-cIndexPageConsts::$IS_ADMIN = $bIsAdmin;
+cIndexPageConsts::$IS_ADMIN = $sIsAdmin;
 ?>
 <html>
 

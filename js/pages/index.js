@@ -110,10 +110,10 @@ class cLeftColumn {
 
          var oBody = $("<DIV>", { class: "ui-widget-body" })
          {
-            if (cIndexPageConsts.IS_ADMIN) {
+            if (cIndexPageConsts.IS_ADMIN === "yes") {
                var oButton = $("<BUTTON>", { title: "Admin Functions" })
                oButton.click(() => oThis.onAdminClick())
-               oBody.append()
+               oBody.append(oButton)
             } else {
                oBody.append("Not an Admin")
             }
