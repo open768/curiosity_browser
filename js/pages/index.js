@@ -260,7 +260,7 @@ class cPageTabs {
          $(this).hide()
       })
 
-      //remove the highlight of all buttons
+      //remove the highlight of all buttons within the TAB BAR
       var oThis = this
       var oParent = $("#" + cIndexPageConsts.ID_TAB_BAR)
       var oChildren = oParent.children("." + this.BUTTON_CLASS)
@@ -268,10 +268,12 @@ class cPageTabs {
       oChildren.each(function () {
          var oButton = $(this)
          oButton.removeClass(oThis.HIGHLIGHT_CLASS)
+         oButton.addClass(oThis.LOWLIGHT_CLASS)
       })
 
       //add highlight to clicked  tab button element
       poElement.addClass(this.HIGHLIGHT_CLASS)
+      poElement.removeClass(this.LOWLIGHT_CLASS)
 
       //show the tab target for the button clicked
       var sTarget = poElement.attr("target")
