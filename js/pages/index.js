@@ -28,7 +28,7 @@ const cOptions = {
 //* renders left column
 // ###############################################################
 class cLeftColumn {
-   static render_tab_bar(poParent) {
+   static pr__render_tab_bar(poParent) {
       //-----------------------the TAB Bar
       var oTabBar = $("<DIV>", { id: cIndexPageConsts.ID_TAB_BAR })
       {
@@ -38,7 +38,7 @@ class cLeftColumn {
    }
 
    //**********************************************************
-   static render_tab_content_sol(poParent) {
+   static pr__render_tab_content_sol(poParent) {
       var oSolTabContent = $("<DIV>", {
          id: cIndexPageConsts.ID_TAB_SOL_CONTENT,
          class: "tab-content",
@@ -67,7 +67,7 @@ class cLeftColumn {
    }
 
    //**********************************************************
-   static render_tab_content_tags(poParent) {
+   static pr__render_tab_content_tags(poParent) {
       //Tab Content (tags)
       var oTagContent = $("<DIV>", {
          id: cIndexPageConsts.ID_TAB_TAG_CONTENT,
@@ -84,11 +84,11 @@ class cLeftColumn {
       poParent.empty()
 
       //tab bar
-      this.render_tab_bar(poParent)
+      this.pr__render_tab_bar(poParent)
       cPageTabs.renderTabs()
 
       // sol tab content
-      this.render_tab_content_sol(poParent)
+      this.pr__render_tab_content_sol(poParent)
 
       // render the sol instrument chooser widget
       // this widget will kick off the image display thru onSelectSolInstrEvent
@@ -110,7 +110,7 @@ class cLeftColumn {
       })
 
       //  tags tab content
-      this.render_tab_content_tags(poParent)
+      this.pr__render_tab_content_tags(poParent)
       $("#" + cIndexPageConsts.ID_TAB_TAG_CONTENT).tagcloud({
          mission: cMission,
       })
