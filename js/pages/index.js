@@ -28,15 +28,6 @@ const cOptions = {
 //* renders left column
 // ###############################################################
 class cLeftColumn {
-   static pr__render_tab_bar(poParent) {
-      //-----------------------the TAB Bar
-      var oTabBar = $("<DIV>", { id: cIndexPageConsts.ID_TAB_BAR })
-      {
-         oTabBar.append("Loading Tab bar")
-         poParent.append(oTabBar)
-      }
-   }
-
    //**********************************************************
    static pr__render_tab_content_sol(poParent) {
       var oSolTabContent = $("<DIV>", {
@@ -84,8 +75,7 @@ class cLeftColumn {
       poParent.empty()
 
       //tab bar
-      this.pr__render_tab_bar(poParent)
-      cPageTabs.renderTabs()
+      cPageTabs.render(poParent)
 
       // sol tab content
       this.pr__render_tab_content_sol(poParent)
@@ -229,6 +219,39 @@ class cPageTabs {
    static TAGS_CAPTION = "Tags"
 
    //*********************************************************************
+   static render(poParent) {
+      //-----------------------the TAB Bar
+      var oTabBar = $("<DIV>", { id: cIndexPageConsts.ID_TAB_BAR })
+      {
+         oTabBar.append("Loading Tab bar")
+         poParent.append(oTabBar)
+      }
+
+      this.pr__renderTabs()
+   }
+
+   //*********************************************************************
+   static pr__renderTabs() {
+      cDebug.write("instrumenting tabs")
+
+      //clear out any content
+      var oBar = $("#" + cIndexPageConsts.ID_TAB_BAR)
+      oBar.empty()
+
+      //add the buttons the the tab bar
+      this.pr__add_tab(
+         oBar,
+         this.SOL_CAPTION,
+         cIndexPageConsts.ID_TAB_SOL_CONTENT,
+      )
+      this.pr__add_tab(
+         oBar,
+         this.TAGS_CAPTION,
+         cIndexPageConsts.ID_TAB_TAG_CONTENT,
+      )
+   }
+
+   //*********************************************************************
    static onTabClick(poElement) {
       //close all content pages
       $(".tab-content").each(function () {
@@ -273,27 +296,6 @@ class cPageTabs {
       //add button to parent
       poParent.append(oButton)
       return oButton
-   }
-
-   //*********************************************************************
-   static renderTabs() {
-      cDebug.write("instrumenting tabs")
-
-      //clear out any content
-      var oBar = $("#" + cIndexPageConsts.ID_TAB_BAR)
-      oBar.empty()
-
-      //add the buttons the the tab bar
-      this.pr__add_tab(
-         oBar,
-         this.SOL_CAPTION,
-         cIndexPageConsts.ID_TAB_SOL_CONTENT,
-      )
-      this.pr__add_tab(
-         oBar,
-         this.TAGS_CAPTION,
-         cIndexPageConsts.ID_TAB_TAG_CONTENT,
-      )
    }
 
    //*********************************************************************
