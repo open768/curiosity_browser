@@ -214,9 +214,11 @@ class cSearchBox {
 class cPageTabs {
    //see w3.css tabs https://www.w3schools.com/w3css/w3css_tabulators.asp
    static current_button = null
-   static HIGHLIGHT_CLASS = "w3-blue"
+   static HIGHLIGHT_CLASS = "w3-theme-d5"
+   static LOWLIGHT_CLASS = "w3-theme-l4"
    static SOL_CAPTION = "Sol"
    static TAGS_CAPTION = "Tags"
+   static BUTTON_CLASS = "tagbut"
 
    //*********************************************************************
    static render(poParent) {
@@ -258,15 +260,20 @@ class cPageTabs {
          $(this).hide()
       })
 
-      //remove the highlight of the previously clicked tab button
-      if (this.current_button)
-         $(this.current_button).removeClass(this.HIGHLIGHT_CLASS)
+      //remove the highlight of all buttons
+      var oThis = this
+      var oParent = $("#" + cIndexPageConsts.ID_TAB_BAR)
+      var oChildren = oParent.children("." + this.BUTTON_CLASS)
+
+      oChildren.each(function () {
+         var oButton = $(this)
+         oButton.removeClass(oThis.HIGHLIGHT_CLASS)
+      })
 
       //add highlight to clicked  tab button element
       poElement.addClass(this.HIGHLIGHT_CLASS)
 
       //show the tab target for the button clicked
-      this.current_button = "#" + poElement.attr("id")
       var sTarget = poElement.attr("target")
       var oSelected = $("#" + sTarget)
       oSelected.show()
@@ -282,7 +289,7 @@ class cPageTabs {
       sChildID = cJquery.child_ID(poParent, psCaption) //should really remove spaces from caption
       oButton = $("<button>", {
          id: sChildID,
-         class: "w3-bar-item w3-button",
+         class: "w3-bar-item w3-button " + oThis.BUTTON_CLASS,
          target: psTarget,
       })
 
