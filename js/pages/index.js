@@ -159,6 +159,64 @@ class cLeftColumn {
 // ###############################################################
 //* handles page tabs
 // ###############################################################
+class cSearchBox {
+   static instrument_box() {
+      var oThis = this
+      $("#" + cIndexPageConsts.ID_SEARCH).keypress(function (e) {
+         oThis.onSearchKeypress(e)
+      })
+   }
+   //* **************************************************************
+   static onSearchKeypress(poEvent) {
+      cIndexPage.stop_queue()
+      if (poEvent.which == 13) this.onClickSearch()
+   }
+
+   //* **************************************************************
+   static onClickSearch() {
+      cIndexPage.stop_queue()
+      const sText = $("#" + cIndexPageConsts.ID_SEARCH).val()
+      if (sText == "") return
+      cOptions.instrument = null
+      var oThis = this
+
+      if (!isNaN(sText)) {
+         $("#" + cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser(
+            "set_sol",
+            sText,
+         )
+      } else {
+         const sUrl = cBrowser.buildUrl(cLocations.rest + "/search.php", {
+            s: sText,
+            m: cMission.ID,
+         })
+         const oHttp = new cHttp2()
+         bean.on(oHttp, "result", (poHttp) => oThis.OnSearchResponse(poHttp))
+         oHttp.fetch_json(sUrl)
+      }
+   }
+
+   //* **************************************************************
+   static OnSearchResponse(poHttp) {
+      var sUrl
+
+      const oData = poHttp.response
+      if (!oData) {
+         cCommonStatus.set_status("not a valid search")
+      } else {
+         cCommonStatus.set_status("got search callback")
+         sUrl = cBrowser.buildUrl("detail.php", {
+            s: oData.s,
+            i: oData.d.instrument,
+            p: oData.d.itemName,
+         })
+         document.location.href = sUrl
+      }
+   }
+}
+// ###############################################################
+//* handles page tabs
+// ###############################################################
 class cPageTabs {
    //see w3.css tabs https://www.w3schools.com/w3css/w3css_tabulators.asp
    static current_button = null
@@ -256,7 +314,6 @@ class cIndexPage {
     * @returns void
     */
    static onLoadJQuery() {
-      const oThis = this
       // show the intro blurb if nothing on the querystring
       if (document.location.search.length == 0) {
          $("#" + cIndexPageConsts.ID_INTRO).show()
@@ -277,9 +334,7 @@ class cIndexPage {
       $("#" + cIndexPageConsts.ID_CHKTHUMBS).attr("disabled", "disabled")
 
       // set up keypress monitor
-      $("#" + cIndexPageConsts.ID_SEARCH).keypress(function (e) {
-         oThis.onSearchKeypress(e)
-      })
+      cSearchBox.instrument_box()
    }
 
    // ###############################################################
@@ -296,35 +351,6 @@ class cIndexPage {
          "deselectInstrument",
       )
       this.load_data()
-   }
-
-   //* **************************************************************
-   static onSearchKeypress(e) {
-      this.stop_queue()
-      if (e.which == 13) this.onClickSearch()
-   }
-
-   //* **************************************************************
-   static onClickSearch() {
-      this.stop_queue()
-      const sText = $("#" + cIndexPageConsts.ID_SEARCH).val()
-      if (sText == "") return
-      cOptions.instrument = null
-
-      if (!isNaN(sText)) {
-         $("#" + cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser(
-            "set_sol",
-            sText,
-         )
-      } else {
-         const sUrl = cBrowser.buildUrl(cLocations.rest + "/search.php", {
-            s: sText,
-            m: cMission.ID,
-         })
-         const oHttp = new cHttp2()
-         bean.on(oHttp, "result", () => this.search_callback())
-         oHttp.fetch_json(sUrl)
-      }
    }
 
    //* **************************************************************
@@ -517,25 +543,5 @@ class cIndexPage {
          },
          mission: cMission,
       })
-   }
-
-   // ###############################################################
-   //* call backs
-   // ###############################################################
-   static search_callback(poHttp) {
-      var sUrl
-
-      const oData = poHttp.response
-      if (!oData) {
-         cCommonStatus.set_status("not a valid search")
-      } else {
-         cCommonStatus.set_status("got search callback")
-         sUrl = cBrowser.buildUrl("detail.php", {
-            s: oData.s,
-            i: oData.d.instrument,
-            p: oData.d.itemName,
-         })
-         document.location.href = sUrl
-      }
    }
 }
