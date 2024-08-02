@@ -157,7 +157,7 @@ class cLeftColumn {
 }
 
 // ###############################################################
-//* handles page tabs
+//* handles search box
 // ###############################################################
 class cSearchBox {
    static instrument_box() {
