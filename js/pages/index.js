@@ -59,7 +59,7 @@ class cLeftColumn {
          oSolTabContent.append(oSolButtons)
 
          //---------admin
-         this.pr__render_admin(oSolTabContent)
+         cAdminBox.render(oSolTabContent)
 
          //complete the widget
          poParent.append(oSolTabContent)
@@ -118,24 +118,29 @@ class cLeftColumn {
       //click the default tab
       cPageTabs.clickDefaultTab()
    }
+}
 
+// ###############################################################
+//* handles search box
+// ###############################################################
+class cAdminBox {
    //*************************************************************
-   static pr__render_admin(poParent) {
+   static render(poParent) {
       var oThis = this
       var oDiv = $("<DIV>", {
          id: cIndexPageConsts.ID_WIDGET_ADMIN,
-         class: "ui-widget",
+         class: "w3-card-4",
       })
       {
          var oHeader = $("<DIV>", {
-            class: "ui-widget-header",
+            class: "w3-container w3-theme-dark",
          })
          {
             oHeader.append("Admin")
             oDiv.append(oHeader)
          }
 
-         var oBody = $("<DIV>", { class: "ui-widget-body" })
+         var oBody = $("<DIV>", { class: "w3-container" })
          {
             if (cIndexPageConsts.IS_ADMIN === "yes") {
                var oButton = $("<BUTTON>", { title: "Admin Functions" })
@@ -149,7 +154,6 @@ class cLeftColumn {
       }
       poParent.append(oDiv)
    }
-
    //*************************************************************
    static onAdminClick() {
       cBrowser.openWindow("admin/", "admin")
