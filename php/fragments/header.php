@@ -22,6 +22,7 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 
 <!-- common ckinc -->
 <script src="<?= $jsInc ?>/ck-inc/common.js"></script>
+<script src="<?= $jsInc ?>/ck-inc/render.js"></script>
 <script src="<?= $jsInc ?>/ck-inc/debug.js"></script>
 <script src="<?= $jsExtra ?>/bean/bean.js"></script>
 

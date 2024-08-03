@@ -11,7 +11,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-/*global cIndexPageConsts*/
+/*global cIndexPageConsts, cRenderGoogleFont*/
 // cIndexPageConsts are defined in index.php - and written out line 57
 
 cDebug.on()
@@ -44,7 +44,7 @@ class cSideBar {
 
    //*****************************************************************
    static render(poParent) {
-      var oButton, oSpan, oThis
+      var oButton, oIcon, oThis
       oThis = this
 
       var oContainer = $("<DIV>", {
@@ -57,9 +57,8 @@ class cSideBar {
          {
             oButton = $("<button>", { class: "w3-button w3-theme-l5" })
             {
-               oSpan = $("<SPAN>", { class: "material-symbols-outlined" })
-               oSpan.append("left_panel_open")
-               oButton.append(oSpan)
+               oIcon = cRenderGoogleFont.create_icon("left_panel_open")
+               oButton.append(oIcon)
                oButton.click(() => oThis.onClickExpand())
                oCollapsed.append(oButton)
 
@@ -76,9 +75,8 @@ class cSideBar {
          {
             oButton = $("<button>", { class: "w3-button w3-theme-l5" })
             {
-               oSpan = $("<SPAN>", { class: "material-symbols-outlined" })
-               oSpan.append("left_panel_close")
-               oButton.append(oSpan)
+               oIcon = cRenderGoogleFont.create_icon("left_panel_close")
+               oButton.append(oIcon)
                oButton.click(() => oThis.onClickCollapse())
                oExpanded.append(oButton)
                oExpanded.hide()
