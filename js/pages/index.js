@@ -58,7 +58,7 @@ class cSideBar {
             oButton = $("<button>", { class: "w3-button w3-theme-l5" })
             {
                oSpan = $("<SPAN>", { class: "material-symbols-outlined" })
-               oSpan.append("switch_left")
+               oSpan.append("left_panel_open")
                oButton.append(oSpan)
                oButton.click(() => oThis.onClickExpand())
                oCollapsed.append(oButton)
@@ -77,7 +77,7 @@ class cSideBar {
             oButton = $("<button>", { class: "w3-button w3-theme-l5" })
             {
                oSpan = $("<SPAN>", { class: "material-symbols-outlined" })
-               oSpan.append("switch_right")
+               oSpan.append("left_panel_close")
                oButton.append(oSpan)
                oButton.click(() => oThis.onClickCollapse())
                oExpanded.append(oButton)
