@@ -49,20 +49,21 @@ class cSideBar {
 
       var oContainer = $("<DIV>", {
          id: this.ID_SIDEBAR,
+         class: "sidebar w3-theme-d1",
       })
       {
          var oCollapsed = $("<DIV>", {
             id: this.ID_SIDEBAR_COLLAPSED,
          })
          {
-            oButton = $("<button>", { class: "w3-button w3-theme-l5" })
+            oButton = $("<button>", { class: "w3-button" })
             {
                oIcon = cRenderGoogleFont.create_icon("left_panel_open")
                oButton.append(oIcon)
                oButton.click(() => oThis.onClickExpand())
                oCollapsed.append(oButton)
 
-               var oText = $("<DIV>", { class: "sidebar" })
+               var oText = $("<DIV>", { class: "sidebar-text" })
                oText.append("Menu")
                oCollapsed.append(oText)
             }
@@ -73,7 +74,7 @@ class cSideBar {
             id: this.ID_SIDEBAR_EXPANDED,
          })
          {
-            oButton = $("<button>", { class: "w3-button w3-theme-l5" })
+            oButton = $("<button>", { class: "w3-button" })
             {
                oIcon = cRenderGoogleFont.create_icon("left_panel_close")
                oButton.append(oIcon)

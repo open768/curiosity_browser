@@ -182,6 +182,12 @@ body {
 }
 
 .sidebar {
+   height: 100%;
+   width: 100%;
+   color: whitesmoke;
+}
+
+.sidebar-text {
    writing-mode: vertical-rl;
    font: normal bold 36px/1 "arial";
    color: whitesmoke;
