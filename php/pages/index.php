@@ -70,7 +70,7 @@ cIndexPageConsts::$IS_ADMIN = $sIsAdmin;
 
     <DIV id="<?= cIndexPageConsts::ID_PAYLOAD ?>" class="cell-row">
         <!-- LEFT COLUMN OF PAGE -->
-        <div id="<?= cIndexPageConsts::ID_LEFT_COL ?>" class="w3-cell leftcolumn">
+        <div id="<?= cIndexPageConsts::ID_LEFT_COL ?>" class="w3-cell">
             Loading left column...
         </div>
 

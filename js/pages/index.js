@@ -49,12 +49,10 @@ class cSideBar {
 
       var oContainer = $("<DIV>", {
          id: this.ID_SIDEBAR,
-         class: "w3-cell-row",
       })
       {
          var oCollapsed = $("<DIV>", {
             id: this.ID_SIDEBAR_COLLAPSED,
-            class: "w3-cell",
          })
          {
             oButton = $("<button>", { class: "w3-button w3-theme-l5" })
@@ -74,7 +72,6 @@ class cSideBar {
 
          var oExpanded = $("<DIV>", {
             id: this.ID_SIDEBAR_EXPANDED,
-            class: "w3-cell",
          })
          {
             oButton = $("<button>", { class: "w3-button w3-theme-l5" })
@@ -156,6 +153,7 @@ class cLeftColumn {
       cPageTabs.render(oExpanded)
 
       // sol tab content
+      oExpanded.addClass("leftcolumn")
       this.pr__render_tab_content_sol(oExpanded)
 
       // render the sol instrument chooser widget
