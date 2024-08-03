@@ -181,6 +181,13 @@ body {
    z-index: 3;
 }
 
+.sidebar {
+   writing-mode: vertical-rl;
+   font: normal bold 36px/1 "arial";
+   color: whitesmoke;
+   text-shadow: -1px -1px 0px rgba(32, 32, 32, 0.3);
+}
+
 .solbuttonDiv {
    align-items: center;
    display: inline-flex;

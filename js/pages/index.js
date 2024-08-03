@@ -25,6 +25,77 @@ const cOptions = {
 }
 
 // ###############################################################
+class cSideBar {
+   static ID_SIDEBAR = "SB"
+   static ID_SIDEBAR_COLLAPSED = "SBc"
+   static ID_SIDEBAR_EXPANDED = "SBe"
+
+   //*****************************************************************
+   static onClickExpand() {
+      $("#" + this.ID_SIDEBAR_COLLAPSED).hide()
+      $("#" + this.ID_SIDEBAR_EXPANDED).show()
+   }
+
+   //*****************************************************************
+   static onClickCollapse() {
+      $("#" + this.ID_SIDEBAR_COLLAPSED).show()
+      $("#" + this.ID_SIDEBAR_EXPANDED).hide()
+   }
+
+   //*****************************************************************
+   static render(poParent) {
+      var oButton, oSpan, oThis
+      oThis = this
+
+      var oContainer = $("<DIV>", {
+         id: this.ID_SIDEBAR,
+         class: "w3-cell-row",
+      })
+      {
+         var oCollapsed = $("<DIV>", {
+            id: this.ID_SIDEBAR_COLLAPSED,
+            class: "w3-cell",
+         })
+         {
+            oButton = $("<button>", { class: "w3-button w3-theme-l5" })
+            {
+               oSpan = $("<SPAN>", { class: "material-symbols-outlined" })
+               oSpan.append("switch_left")
+               oButton.append(oSpan)
+               oButton.click(() => oThis.onClickExpand())
+               oCollapsed.append(oButton)
+
+               var oText = $("<DIV>", { class: "sidebar" })
+               oText.append("Menu")
+               oCollapsed.append(oText)
+            }
+            oContainer.append(oCollapsed)
+         }
+
+         var oExpanded = $("<DIV>", {
+            id: this.ID_SIDEBAR_EXPANDED,
+            class: "w3-cell",
+         })
+         {
+            oButton = $("<button>", { class: "w3-button w3-theme-l5" })
+            {
+               oSpan = $("<SPAN>", { class: "material-symbols-outlined" })
+               oSpan.append("switch_right")
+               oButton.append(oSpan)
+               oButton.click(() => oThis.onClickCollapse())
+               oExpanded.append(oButton)
+               oExpanded.hide()
+            }
+            oContainer.append(oExpanded)
+         }
+      }
+
+      poParent.append(oContainer)
+      return oContainer
+   }
+}
+
+// ###############################################################
 //* renders left column
 // ###############################################################
 class cLeftColumn {
@@ -39,16 +110,18 @@ class cLeftColumn {
          var oSolChooser = $("<DIV>", {
             id: cIndexPageConsts.ID_WIDGET_SOLCHOOSER,
          })
-         oSolChooser.append("Loading chooser widget")
-         oSolTabContent.append(oSolChooser)
-
+         {
+            oSolChooser.append("Loading chooser widget")
+            oSolTabContent.append(oSolChooser)
+         }
          //----------SOL buttons
          var oSolButtons = $("<DIV>", {
             id: cIndexPageConsts.ID_WIDGET_SOLBUTTONS,
          })
-         oSolButtons.append("Loading buttons widget")
-         oSolTabContent.append(oSolButtons)
-
+         {
+            oSolButtons.append("Loading buttons widget")
+            oSolTabContent.append(oSolButtons)
+         }
          //---------admin
          cAdminBox.render(oSolTabContent)
 
@@ -74,11 +147,16 @@ class cLeftColumn {
    static render(poParent) {
       poParent.empty()
 
+      var oSideBar
+      oSideBar = cSideBar.render(poParent)
+      poParent.append(oSideBar)
+
       //tab bar
-      cPageTabs.render(poParent)
+      var oExpanded = $("#" + cSideBar.ID_SIDEBAR_EXPANDED)
+      cPageTabs.render(oExpanded)
 
       // sol tab content
-      this.pr__render_tab_content_sol(poParent)
+      this.pr__render_tab_content_sol(oExpanded)
 
       // render the sol instrument chooser widget
       // this widget will kick off the image display thru onSelectSolInstrEvent
