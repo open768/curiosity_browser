@@ -1,5 +1,11 @@
 <?php
 $home = "../..";
+/*
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+*/
+
 require_once "$home/php/fragments/app-common.php";
 include "$appPhpFragments/doctype.php";
 
@@ -68,10 +74,10 @@ cIndexPageConsts::$IS_ADMIN = $sIsAdmin;
     include("$appPhpFragments/title.php");
     ?>
 
-    <DIV id="<?= cIndexPageConsts::ID_PAYLOAD ?>" class="cell-row">
+    <DIV id="<?= cIndexPageConsts::ID_PAYLOAD ?>" class="w3-cell-row">
         <!-- LEFT COLUMN OF PAGE -->
         <div id="<?= cIndexPageConsts::ID_LEFT_COL ?>" class="w3-cell">
-            Loading left column...
+            Loading ...
         </div>
 
         <!-- MAIN BODY OF PAGE -->

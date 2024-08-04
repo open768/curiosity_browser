@@ -49,7 +49,7 @@ class cSideBar {
 
       var oContainer = $("<DIV>", {
          id: this.ID_SIDEBAR,
-         class: "sidebar w3-theme-d1",
+         class: "sidebar",
       })
       {
          var oCollapsed = $("<DIV>", {
@@ -142,6 +142,7 @@ class cLeftColumn {
    //**********************************************************
    static render(poParent) {
       poParent.empty()
+      poParent.addClass("w3-theme-d1")
 
       var oSideBar
       oSideBar = cSideBar.render(poParent)
