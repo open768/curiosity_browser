@@ -107,16 +107,30 @@ class cLeftColumn {
             id: cIndexPageConsts.ID_WIDGET_SOLCHOOSER,
          })
          {
-            oSolChooser.append("Loading chooser widget")
+            oSolChooser.append("Loading ")
             oSolTabContent.append(oSolChooser)
+            oSolChooser.solinstrumentChooser({
+               onStatus: (poEvent, paHash) =>
+                  cIndexPage.onStatusEvent(poEvent, paHash),
+               onSelect: (poEvent, poData) =>
+                  cIndexPage.onSelectSolInstrEvent(poEvent, poData),
+               mission: cMission,
+            })
          }
          //----------SOL buttons
          var oSolButtons = $("<DIV>", {
             id: cIndexPageConsts.ID_WIDGET_SOLBUTTONS,
          })
          {
-            oSolButtons.append("Loading buttons widget")
+            oSolButtons.append("Loading ")
             oSolTabContent.append(oSolButtons)
+            oSolButtons.solButtons({
+               onStatus: (poEvent, paHash) =>
+                  cIndexPage.onStatusEvent(poEvent, paHash),
+               mission: cMission,
+               onClick: () => cIndexPage.stop_queue(),
+               onAllSolThumbs: () => cIndexPage.onClickAllSolThumbs(),
+            })
          }
          //---------admin
          cAdminBox.render(oSolTabContent)
@@ -136,6 +150,9 @@ class cLeftColumn {
       {
          oTagContent.append("loading TAGS")
          poParent.append(oTagContent)
+         oTagContent.tagcloud({
+            mission: cMission,
+         })
       }
    }
 
@@ -156,30 +173,8 @@ class cLeftColumn {
       oExpanded.addClass("leftcolumn")
       this.pr__render_tab_content_sol(oExpanded)
 
-      // render the sol instrument chooser widget
-      // this widget will kick off the image display thru onSelectSolInstrEvent
-      $("#" + cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser({
-         onStatus: (poEvent, paHash) =>
-            cIndexPage.onStatusEvent(poEvent, paHash),
-         onSelect: (poEvent, poData) =>
-            cIndexPage.onSelectSolInstrEvent(poEvent, poData),
-         mission: cMission,
-      })
-
-      // render the solbuttons
-      $("#" + cIndexPageConsts.ID_WIDGET_SOLBUTTONS).solButtons({
-         onStatus: (poEvent, paHash) =>
-            cIndexPage.onStatusEvent(poEvent, paHash),
-         mission: cMission,
-         onClick: () => cIndexPage.stop_queue(),
-         onAllSolThumbs: () => cIndexPage.onClickAllSolThumbs(),
-      })
-
       //  tags tab content
-      this.pr__render_tab_content_tags(poParent)
-      $("#" + cIndexPageConsts.ID_TAB_TAG_CONTENT).tagcloud({
-         mission: cMission,
-      })
+      this.pr__render_tab_content_tags(oExpanded)
 
       //click the default tab
       cPageTabs.clickDefaultTab()
