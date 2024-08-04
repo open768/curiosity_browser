@@ -82,7 +82,6 @@ cIndexPageConsts::$IS_ADMIN = $sIsAdmin;
 
         <!-- MAIN BODY OF PAGE -->
         <div id="<?= cIndexPageConsts::ID_BODY ?>" class="w3-cell">
-            Loading
             <!-- Search box -->
             <div class="gold" id="header-pane">
                 <input type="text" id="<?= cIndexPageConsts::ID_SEARCH ?>" size="30"><button class="rightbutton" onclick="onClickSearch()" title="Search for Product">Search</button>
@@ -113,14 +112,14 @@ cIndexPageConsts::$IS_ADMIN = $sIsAdmin;
                 <p>&nbsp;
                 <p>&nbsp;
                 <p>&nbsp;
-                    <?php
-                    include "$appPhpFragments/disclaim.html";
-                    ?>
             </div>
         </div>
     </div>
     <!-- Footer -->
-    <?php include("$appPhpFragments/footer.php") ?>
+    <?php
+    include "$appPhpFragments/disclaim.html";
+    include "$appPhpFragments/footer.php";
+    ?>
 </body>
 
 </html>
