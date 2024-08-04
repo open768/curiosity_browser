@@ -131,7 +131,7 @@ class cLeftColumn {
       //Tab Content (tags)
       var oTagContent = $("<DIV>", {
          id: cIndexPageConsts.ID_TAB_TAG_CONTENT,
-         class: "tab-content",
+         class: "tab-content leftcolumn",
       })
       {
          oTagContent.append("loading TAGS")
