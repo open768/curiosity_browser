@@ -34,7 +34,7 @@ include("$appPhpFragments/doctype.php");  ?>
         <button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
         <button class="leftbutton" id="sol" title="Choose Sol">loading...</button>
         <button class="leftbutton" id="instrument" title="Choose Instrument">loading</button>
-        <button class="leftbutton" id="solCal" title="Show SOL Calendar">loading...</button>
+        <button class="leftbutton" id="solCal" title="Show SOL Calendar">Calendar</button>
         <button class="leftbutton" id="showthumb" title="Show thumbnails">Thumbnails</button>
         <button class="leftbutton" id="highlights" title="Highlights">Highlights</button>
         image <span id="img_index">??</span> of <span id="max_images">??</span>
