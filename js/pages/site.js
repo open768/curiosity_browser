@@ -14,8 +14,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 "use strict"
 //eslint-disable-next-line no-unused-vars
 const COLUMNS = 12
-let aSites = null
-let bPluginLoaded = false
+var aSites = null
+var bPluginLoaded = false
 
 // ###############################################################
 // # Utility functions
@@ -68,7 +68,7 @@ function do_op(psOper, psValue) {
 //* call backs
 // ###############################################################
 function all_sites_callback(poHttp) {
-   let oButton, oBounds
+   var oButton, oBounds
 
    $("#sites").empty()
    if (poHttp.response.d == null) {
@@ -104,7 +104,7 @@ function all_sites_callback(poHttp) {
 
 //* **********************************************************************
 function bounds_callback(poHttp) {
-   let oCentre, oSite
+   var oCentre, oSite
 
    if (poHttp.response.d == null) {
       cCommonStatus.set_error_status("No site bounds found")
@@ -121,7 +121,7 @@ function bounds_callback(poHttp) {
 
 //* **********************************************************************
 function traverse_callback(poHttp) {
-   let i, aItem, aItems, sHTML, iDrive, iStart, iEnd, iSite, fLat, fLon
+   var i, aItem, aItems, sHTML, iDrive, iStart, iEnd, iSite, fLat, fLon
    const aVector = []
 
    if (poHttp.response.d == null) {
@@ -178,7 +178,7 @@ function traverse_callback(poHttp) {
 
 //* ***************************************************************
 function onclickSite() {
-   let iSite
+   var iSite
 
    if (!bPluginLoaded) {
       cCommonStatus.set_error_status("wait for google earth plugin to load")

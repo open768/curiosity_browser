@@ -1,3 +1,4 @@
+/* global goImageQueue */
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // % Definition
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -49,7 +50,7 @@ $.widget("ck.tagview", {
 
       // clear out the DIV and put some text in it
       oElement.empty()
-      oDiv = $("<DIV>", { class: "ui-widget-body" })
+      var oDiv = $("<DIV>", { class: "ui-widget-body" })
          .width("100%")
          .append("Loading Images for tag: " + sTag)
       const oLoader = $("<SPAN>").gSpinner({ scale: 0.25 })
@@ -76,7 +77,7 @@ $.widget("ck.tagview", {
    // # Events
    // #################################################################
    onTagUsage: function (poHttp) {
-      let i, sItem, aParts, sSol, sInstr, sProd
+      var i, sItem, aParts
       const aData = poHttp.response
       const oWidget = this
       const oElement = this.element

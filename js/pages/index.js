@@ -16,7 +16,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 cDebug.on()
 
-let keep_start_image = true
+var keep_start_image = true
 
 const cOptions = {
    start_image: 1,
@@ -517,7 +517,7 @@ class cIndexPage {
 
    //* **************************************************************
    static stop_queue() {
-      let oDiv
+      var oDiv
       try {
          oDiv = $("#" + cIndexPageConsts.ID_IMAGE_CONTAINER)
          oDiv.thumbnailview("stop_queue")
@@ -533,18 +533,20 @@ class cIndexPage {
 
    //* **************************************************************
    static load_data() {
-      let oChkThumb
+      var oChkThumb
       const oThis = this
       this.update_url()
 
       cDebug.write("loading data: " + cOptions.sol + ":" + cOptions.instrument)
 
+      //inform subscribers
       $("#" + cIndexPageConsts.ID_WIDGET_BUTTONS).solButtons(
          "set_sol",
          cOptions.sol,
       )
-      oChkThumb = $("#" + cIndexPageConsts.ID_CHKTHUMBS)
 
+      //inform subscribers
+      oChkThumb = $("#" + cIndexPageConsts.ID_CHKTHUMBS)
       if (cOptions.instrument) {
          oChkThumb.removeAttr("disabled")
          oChkThumb.off("change")
@@ -558,9 +560,7 @@ class cIndexPage {
                cOptions.start_image,
             )
          }
-         oChkThumb.on("change", function (poEvent) {
-            oThis.onCheckThumbsEvent(poEvent)
-         })
+         oChkThumb.on("change", (poEvent) => oThis.onCheckThumbsEvent(poEvent))
       } else {
          oChkThumb.attr("disabled", "disabled")
          this.show_thumbs(cOptions.sol, cSpaceBrowser.ALL_INSTRUMENTS)

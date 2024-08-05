@@ -61,14 +61,14 @@ include("$appPhpFragments/doctype.php");  ?>
             <td></td>
             <td valign="bottom">
                 <nobr>
-                    <button title="previous product" id="prev_prod_top" class="topnavbut leftbutton" title="previous in timeline" style="width:100"><img src="<?= $appImages ?>/browser/back.png"></button><button title="previous" id="prev_top" class="topnavbut leftbutton" style="width:300">&lt;</button><button title="next" id="next_top" class="topnavbut rightbutton" style="width:300">&gt;</button><button title="next product" id="next_prod_top" class="topnavbut rightbutton" title="next in timeline" style="width:100"><img src="<?= $appImages ?>/browser/forward.png"></button>
+                    <button id="prev_prod_top" class="topnavbut leftbutton" title="previous in timeline (P)" style="width:100"><img src="<?= $appImages ?>/browser/back.png"></button><button title="previous (p)" id="prev_top" class="topnavbut leftbutton" style="width:300">&lt;</button><button title="next (n)" id="next_top" class="topnavbut rightbutton" style="width:300">&gt;</button> <button title="next product" id="next_prod_top" class="topnavbut rightbutton" title="next in timeline (N)" style="width:100"><img src="<?= $appImages ?>/browser/forward.png"></button>
                 </nobr>
             </td>
             <td></td>
         </tr>
         <tr>
             <td align="right">
-                <button title="previous" class="roundbutton" id="prev_left" ;" style="height:600" class="lnavbut">&lt;</button>
+                <button title="previous (p)" class="roundbutton" id="prev_left" ;" style="height:600" class="lnavbut">&lt;</button>
             </td>
             <td align="middle">
                 <div id="container" class="container">
@@ -85,13 +85,13 @@ include("$appPhpFragments/doctype.php");  ?>
 
             </td>
             <td align="left">
-                <button id="next_right" title="next" class="roundbutton" style="height:600" class="rnavbut">&gt;</button>
+                <button id="next_right" title="next (n)" class="roundbutton" style="height:600" class="rnavbut">&gt;</button>
             </td>
         </tr>
         <tr>
             <td></td>
             <td valign="top">
-                <button title="previous product" id="prev_prod_bottom" class="topnavbut leftbutton" title="previous in timeline" style="width:100"><img src="<?= $appImages ?>/browser/back.png"></button><button title="previous" id="prev_bottom" class="topnavbut leftbutton" style="width:300">&lt;</button><button title="next" id="next_bottom" class="topnavbut rightbutton" style="width:300">&gt;</button><button title="next product" id="next_prod_bottom" class="topnavbut rightbutton" title="next in timeline" style="width:100"><img src="<?= $appImages ?>/browser/forward.png"></button>
+                <button id="prev_prod_bottom" class="topnavbut leftbutton" title="previous in timeline (P)" style="width:100"><img src="<?= $appImages ?>/browser/back.png"></button><button title="previous (p)" id="prev_bottom" class="topnavbut leftbutton" style="width:300">&lt;</button><button title="next (n)" id="next_bottom" class="topnavbut rightbutton" style="width:300">&gt;</button><button title="next product" id="next_prod_bottom" class="topnavbut rightbutton" title="next in timeline (N)" style="width:100"><img src="<?= $appImages ?>/browser/forward.png"></button>
             </td>
             <td></td>
         </tr>

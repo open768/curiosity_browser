@@ -52,7 +52,7 @@ $.widget("ck.solgigas", {
       bean.on(oHttp, "result", function (poHttp) {
          oThis.onGigaResponse(poHttp)
       })
-      sUrl = cBrowser.buildUrl(cLocations.rest + "/gigapans.php", {
+      var sUrl = cBrowser.buildUrl(cLocations.rest + "/gigapans.php", {
          s: oOptions.sol,
          o: "sol",
          m: cMission.ID,
@@ -64,8 +64,6 @@ $.widget("ck.solgigas", {
    // # Events
    // #################################################################
    onGigaResponse: function (poHttp) {
-      const oThis = this
-      const oOptions = this.options
       const oElement = this.element
       const aData = poHttp.response
 
@@ -79,24 +77,24 @@ $.widget("ck.solgigas", {
       }
 
       // --------------------------------------------------------------
-      for (let i = 0; i < aData.length; i++) {
-         aItem = aData[i]
-         sGigaID = aItem.I
-         sIUrl =
+      for (var i = 0; i < aData.length; i++) {
+         let aItem = aData[i]
+         let sGigaID = aItem.I
+         let sIUrl =
             "http://static.gigapan.org/gigapans0/" +
             sGigaID +
             "/images/" +
             sGigaID +
             "-800x279.jpg"
-         sGUrl = "http://www.gigapan.com/gigapans/" + sGigaID
+         let sGUrl = "http://www.gigapan.com/gigapans/" + sGigaID
 
-         var oNewDiv = $("<DIV>", { class: "ui-widget-header" })
+         let oNewDiv = $("<DIV>", { class: "ui-widget-header" })
          oA = $("<a>", { target: "giga", href: sGUrl })
          oA.append(aItem.D)
          oNewDiv.append(oA)
          oElement.append(oNewDiv)
 
-         var oNewDiv = $("<DIV>", { class: "ui-widget-body" })
+         oNewDiv = $("<DIV>", { class: "ui-widget-body" })
          var oA = $("<a>", { target: "giga", href: sGUrl })
          const oImg = $("<img>", { src: sIUrl })
          oA.append(oImg)

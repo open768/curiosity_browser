@@ -27,7 +27,6 @@ $.widget("ck.imageview", {
    // #################################################################
    _create: function () {
       // check that the element is a div
-      const oThis = this
 
       // check for necessary classes
       if (!bean) {
@@ -119,7 +118,7 @@ $.widget("ck.imageview", {
    //* *************************************************************************************************
    onFullImages: function (poHttp) {
       const oThis = this
-      var oDiv, iIndex, oItem, oOuterDiv
+      var oDiv, iIndex
 
       this._trigger("onStatus", null, { text: "showing images" })
       const oJson = poHttp.response
@@ -143,8 +142,8 @@ $.widget("ck.imageview", {
          const sID = this.element.id
          const oNavTable = $("<table>", { class: "gold", width: "100%" })
          const oRow = $("<TR>")
-         let oCell = $("<TD>", { width: "40%" })
-         let oButton = $("<button>", {
+         var oCell = $("<TD>", { width: "40%" })
+         var oButton = $("<button>", {
             class: "leftarrow imagenav",
             title: "Previous Page",
             id: sID + this.consts.LeftID,
@@ -187,10 +186,8 @@ $.widget("ck.imageview", {
 
          // display the images
          for (iIndex = 0; iIndex < oJson.images.length; iIndex++) {
-            var oDiv, oImgDiv, oA, oImg
-
             // get the img details
-            oItem = oJson.images[iIndex]
+            let oItem = oJson.images[iIndex]
 
             // build up the div
             oDiv = $("<DIV>").instrumentimage({

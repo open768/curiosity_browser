@@ -70,7 +70,7 @@ $.widget("ck.solinstrumentChooser", {
          oSolsDiv.append(oContent)
 
          //buttons
-         let oTable, oRow, oCell, oButton
+         var oTable, oRow, oCell, oButton
          oTable = $("<TABLE>", { border: 0, width: "100%" })
          {
             oRow = $("<TR>")
@@ -156,7 +156,7 @@ $.widget("ck.solinstrumentChooser", {
 
    //* ******************************************************************
    render: function () {
-      let oThis, oElement, sID, oList, oHead
+      var oThis, oElement, sID, oList, oHead
 
       oThis = this
       oElement = oThis.element
@@ -266,7 +266,7 @@ $.widget("ck.solinstrumentChooser", {
    onPreviousSolClick: function () {
       const sID = this.element.attr("id")
 
-      let oSelected, oPrev
+      var oSelected, oPrev
       const sListID = sID + this.consts.SOL_LIST_ID
 
       oSelected = $("#" + sListID + " option:selected")
@@ -304,7 +304,7 @@ $.widget("ck.solinstrumentChooser", {
 
    //* ****************************************************************
    onNextSolClick: function () {
-      let oSelected, oNext
+      var oSelected, oNext
       const sID = this.element.attr("id")
       const sListID = sID + this.consts.SOL_LIST_ID
 
@@ -388,7 +388,7 @@ $.widget("ck.solinstrumentChooser", {
 
    //* ****************************************************************
    onLoadSolInstruments: function (poHttp) {
-      let i, sInstr, oList, oJson
+      var i, sInstr, oList, oJson
 
       this._trigger("onStatus", null, {
          data: "got instruments for sol" + this.options.sol,
@@ -454,7 +454,7 @@ $.widget("ck.solinstrumentChooser", {
 
    //* ****************************************************************
    onLoadSols: function (poHttp) {
-      let i, oSol, oList, oSumList, oOption, iSol, iLastRange, iRange
+      var i, oSol, oList, oSumList, oOption, iSol, iLastRange, iRange
       const oThis = this
 
       const aData = poHttp.response

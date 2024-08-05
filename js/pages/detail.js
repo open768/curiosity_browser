@@ -27,7 +27,7 @@ class cDetail {
       $("#btnComment").attr("disabled", "disabled")
 
       // catch key presses but not on text inputs
-      $(window).keypress(() => this.onKeyPress())
+      $(window).keypress((poEvent) => this.onKeyPress(poEvent))
       $(":input").each(function (index, oObj) {
          if ($(oObj).attr("type") === "text") {
             $(oObj).focus(() => this.onInputFocus())
@@ -156,7 +156,7 @@ class cDetail {
 
    //* **************************************************************
    static onClickCal() {
-      let sUrl
+      var sUrl
 
       sUrl = "cal.php?s=" + this.oItem.s + "&t=" + this.oItem.d.du
       cBrowser.openWindow(sUrl, "calendar")
@@ -228,7 +228,7 @@ class cDetail {
 
    //* **************************************************************
    static onClickAddTag() {
-      let sTag
+      var sTag
 
       // check something was entered
       sTag = $("#tagtext").val()
@@ -357,7 +357,7 @@ class cDetail {
 
    //* **************************************************************
    static onGotHighlights(paJS) {
-      let i, aItem, oBox, oNumber
+      var i, aItem, oBox, oNumber
       if (!paJS.d) {
          cDebug.write("no highlights")
          return
@@ -381,7 +381,7 @@ class cDetail {
 
    //* **************************************************************
    static onGotTags(paJS) {
-      let sHTML, i, sTag
+      var sHTML, i, sTag
 
       cCommonStatus.set_status("got tag")
       if (paJS.d.length == 0) {
@@ -409,7 +409,7 @@ class cDetail {
 
    //* **************************************************************
    static onGotDetails(poHttp) {
-      let sUrl, oData
+      var sUrl, oData
       cCommonStatus.set_status("received data...")
 
       // rely upon what came back rather than the query string
@@ -508,7 +508,7 @@ class cDetail {
 
    //* **************************************************************
    static onGotComments(paJson) {
-      let i, oText, sHTML
+      var i, oText, sHTML
 
       if (!paJson) {
          sHTML = "No Comments - be the first !"
@@ -538,7 +538,7 @@ class cDetail {
 
    //* **************************************************************
    static OnImageLoaded(poEvent) {
-      let iWidth, iHeight, iImgW, iButW
+      var iWidth, iHeight, iImgW, iButW
 
       iHeight = $(poEvent.target).height()
       iImgW = $(poEvent.target).width()
@@ -560,7 +560,7 @@ class cDetail {
       $("#prev_prod_bottom").innerWidth(iWidth)
 
       // make the image clickable
-      $(poEvent.target).click(() => this.OnImageClick())
+      $(poEvent.target).click((poImgEvent) => this.OnImageClick(poImgEvent))
       cImgHilite.imgTarget = poEvent.target
 
       // get the highlights if any

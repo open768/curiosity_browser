@@ -67,8 +67,8 @@ $.widget("ck.tagcloud", {
    // # methods
    // #################################################################
    process_response: function (poHttp) {
-      let sKey, iCount, iSize, iWeight, iMax, fsRatio, fwRatio
-      let oA, sUrl
+      var sKey, iCount, iSize, iWeight, iMax, fsRatio, fwRatio
+      var oA, sUrl
 
       const oElement = this.element
       const oData = poHttp.response

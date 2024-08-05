@@ -50,7 +50,7 @@ $.widget("ck.instrumentimage", {
       oElement.empty()
       oElement.addClass("ui-widget-content")
 
-      let oDiv = $("<DIV>", { class: "ui-widget-header" })
+      var oDiv = $("<DIV>", { class: "ui-widget-header" })
       oDiv.append("Loading....")
       oElement.append(oDiv)
 
@@ -117,7 +117,7 @@ $.widget("ck.instrumentimage", {
       // put up a loading...
       oElement.empty()
       oElement.addClass("ui-widget-content")
-      let oDiv = $("<DIV>", { class: "ui-widget-header" }).append(
+      var oDiv = $("<DIV>", { class: "ui-widget-header" }).append(
          "Loading details for: " + oOptions.product,
       )
       oElement.append(oDiv)
@@ -219,7 +219,7 @@ $.widget("ck.instrumentimage", {
 
    // ***************************************************************
    onHighlights: function (paJS) {
-      let i, oDiv, oRedBox, iLeft, iTop
+      var i, oDiv, oRedBox, iLeft, iTop
 
       if (!paJS.d) return
       oDiv = this.options.image_div
@@ -240,7 +240,7 @@ $.widget("ck.instrumentimage", {
 
    // ***************************************************************
    onTags: function (paJS) {
-      let oDiv, oA, sTag, i
+      var oDiv, oA, sTag, i
 
       oDiv = this.options.tags_div
       oDiv.empty()

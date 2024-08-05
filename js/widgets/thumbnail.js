@@ -39,7 +39,7 @@ $.widget("ck.thumbnail", {
    // # Constructor
    // #################################################################
    _create: function () {
-      let oImg, oThis, oElement
+      var oImg, oThis, oElement
       const oOptions = this.options
 
       oThis = this
@@ -121,7 +121,7 @@ $.widget("ck.thumbnail", {
 
    //* *****************************************************************
    onPlaceholderDelay: function () {
-      let oImg, oThis
+      var oImg, oThis
       const oElement = this.element
       oThis = this
       if (goBetterThumbQueue.stopping) return

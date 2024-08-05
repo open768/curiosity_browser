@@ -11,7 +11,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 "use strict"
 
-let current_sol = null
+var current_sol = null
 // ###############################################################
 // # event handlers
 // ###############################################################
@@ -25,7 +25,7 @@ function onClickAllSols() {
 // ###############################################################
 //eslint-disable-next-line no-unused-vars
 function onLoadJQuery_SOLTAG() {
-   let sUrl, sSol
+   var sUrl, sSol
 
    // update sol number
    sSol = cBrowser.data.s
@@ -51,8 +51,8 @@ function onLoadJQuery_SOLTAG() {
 //* call backs
 // ###############################################################
 function load_soltag_callback(poHttp) {
-   let sInstr, aTags, i, sProduct, sTag, oItem, sTagUrl, sProductURL
-   let oDiv
+   var sInstr, aTags, i, sProduct, sTag, oItem, sTagUrl, sProductURL
+   var oDiv
 
    oDiv = $("#soltag")
    oDiv.empty()

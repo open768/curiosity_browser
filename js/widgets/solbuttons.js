@@ -28,7 +28,7 @@ $.widget("ck.solButtons", {
    // # Constructor
    // #################################################################
    _create: function () {
-      let oThis, oElement, sID, sOID, oButton, oDiv
+      var oThis, oElement, sID, oButton, oDiv
 
       // check for necessary classes
       if (!bean) {
@@ -48,7 +48,7 @@ $.widget("ck.solButtons", {
 
       //* ******************* buttons for sol *********************************************
       oDiv = $("<DIV>", { class: "ui-widget-content" })
-      let oObj
+      var oObj
       oObj = $("<DIV>", { class: "ui-widget-header" })
       oObj.append("Sol Information:")
       oDiv.append(oObj)
@@ -260,7 +260,7 @@ $.widget("ck.solButtons", {
       })
 
       // enable selected
-      sID = this.element.attr("id")
+      var sID = this.element.attr("id")
       $("#" + sID + this.consts.NOTEBOOK_ID).removeAttr("disabled")
       $("#" + sID + this.consts.NOTEBOOKMAP_ID).removeAttr("disabled")
       $("#" + sID + this.consts.CAL_ID).removeAttr("disabled")
@@ -280,23 +280,23 @@ $.widget("ck.solButtons", {
       })
       oHttp.fetch_json(sUrl)
 
-      var sUrl = cBrowser.buildUrl(cLocations.rest + "/tag.php", {
+      sUrl = cBrowser.buildUrl(cLocations.rest + "/tag.php", {
          o: "solcount",
          s: this.options.sol,
          m: oOptions.mission.ID,
       })
-      var oHttp = new cHttp2()
+      oHttp = new cHttp2()
       bean.on(oHttp, "result", function (poHttp) {
          oThis.onFetchedTagCount(poHttp)
       })
       oHttp.fetch_json(sUrl)
 
-      var sUrl = cBrowser.buildUrl(cLocations.rest + "/img_highlight.php", {
+      sUrl = cBrowser.buildUrl(cLocations.rest + "/img_highlight.php", {
          o: "solcount",
          s: this.options.sol,
          m: oOptions.mission.ID,
       })
-      var oHttp = new cHttp2()
+      oHttp = new cHttp2()
       bean.on(oHttp, "result", function (poHttp) {
          oThis.onHiLiteCount(poHttp)
       })

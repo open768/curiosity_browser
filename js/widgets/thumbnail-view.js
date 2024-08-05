@@ -88,7 +88,7 @@ $.widget("ck.thumbnailview", {
    // # Events
    // #################################################################
    onThumbsJS: function (poHttp) {
-      let i, aData, oItem
+      var i, aData, oItem
       const oThis = this
       const oElement = oThis.element
 

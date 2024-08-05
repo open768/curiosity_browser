@@ -76,7 +76,7 @@ $.widget("ck.solcalendar", {
    //* **************************************************************
    prv__get_Headings: function (paDates) {
       const aHeadings = Array()
-      let sDateKey
+      var sDateKey
 
       for (sDateKey in paDates) {
          aHeadings.push(sDateKey)
@@ -86,7 +86,7 @@ $.widget("ck.solcalendar", {
 
    //* **************************************************************
    prv__get_Times: function (paDates) {
-      let sDate, sTime
+      var sDate, sTime
       const aTimes = Array()
 
       for (sDate in paDates) {
@@ -108,7 +108,7 @@ $.widget("ck.solcalendar", {
       const oElement = this.element
       const oColours = {}
 
-      let oDiv = $("<DIV>", { class: "ui-widget-header" }).append("legend")
+      var oDiv = $("<DIV>", { class: "ui-widget-header" }).append("legend")
       oElement.append(oDiv)
 
       oDiv = $("<DIV>", { class: "ui-widget-body" })
@@ -161,7 +161,7 @@ $.widget("ck.solcalendar", {
 
    //* **************************************************************
    prv_renderRow: function (psTime, paHeadings, paDates, poColours) {
-      let i, oRow, oCell
+      var i, oRow, oCell
       var oDate, sDate, aItems
 
       oRow = $("<tr>", { class: "caltime" })
@@ -187,7 +187,7 @@ $.widget("ck.solcalendar", {
 
    //* **************************************************************
    prv_render_items: function (poCell, paItems, poColours) {
-      let i, oItem, oButton, sColour, sStyle
+      var i, oItem, oButton, sColour, sStyle
       const oWidget = this
 
       for (i = 0; i < paItems.length; i++) {

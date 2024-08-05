@@ -16,7 +16,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // ###############################################################
 //eslint-disable-next-line no-unused-vars
 function onLoadJQuery_SOLGIG() {
-   let sSol
+   var sSol
 
    // update sol number
    sSol = cBrowser.data.s

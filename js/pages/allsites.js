@@ -12,14 +12,14 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-let aSites = null
+var aSites = null
 const aHirise = []
-let bPluginLoaded = false
-let oCentre = null
+var bPluginLoaded = false
+var oCentre = null
 const sSiteColor = "ffff0000"
 const sHiriseColor = "ff00ff00"
 const sSelectedHiriseColor = "ff0000ff"
-let oSelectedHiRise = null
+var oSelectedHiRise = null
 
 // ###############################################################
 // # Utility functions
@@ -80,9 +80,9 @@ function all_sites_callback(poHttp) {
 
 //* ***************************************************************
 function render_sites() {
-   let i, oBounds, sLink, oPlace
-   let fAll = null
-   let bFirst = true
+   var i, oBounds, sLink, oPlace
+   var fAll = null
+   var bFirst = true
 
    cCommonStatus.set_status("adding placemarks")
 
@@ -151,7 +151,7 @@ function render_sites() {
 
 //* ***************************************************************
 function hirise_callback(poHttp) {
-   let oSelect, i, oOption, oItem
+   var oSelect, i, oOption, oItem
 
    cCommonStatus.set_status("got hirise data")
    $("#hirise").empty()
@@ -193,7 +193,7 @@ function lookat_callback() {
 
 //* ***************************************************************
 function get_site_callback(poHttp) {
-   let i, aVector, fLat, fLong, aData
+   var i, aVector, fLat, fLong, aData
 
    const oData = poHttp.response
    if (oData.d == null) return
@@ -213,7 +213,7 @@ function get_site_callback(poHttp) {
 //* EVENTS
 // ###############################################################
 function onClickSite() {
-   let iSite, sVal
+   var iSite, sVal
 
    if (!bPluginLoaded) {
       cCommonStatus.set_error_status("wait for google earth plugin to load")
@@ -238,7 +238,7 @@ function onClickSite() {
 
 //* ***************************************************************
 function onClickHirise() {
-   let sVal, iIndex, oPlace
+   var sVal, iIndex, oPlace
 
    sVal = $(this).val()
    iIndex = parseInt(sVal)
