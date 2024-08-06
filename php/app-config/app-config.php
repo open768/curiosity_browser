@@ -18,6 +18,6 @@ require_once  "$appConfig/app-secret.php";
 class cAppConfig
 {
     const FB_SCOPE = "public_profile";
-    const FB_ELEMENT_ID = "FB_element";
+    const FB_ELEMENT_ID = "FB_User";
     const FB_VERSION = "v20.0";
 }
