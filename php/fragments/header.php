@@ -59,11 +59,11 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 <script src="<?= $jsInc ?>/ck-inc/facebook.js"></script>
 
 <script>
-    cFacebook.NameID = "<?= cAppConfig::FB_ELEMENT_ID ?>";
     cFacebook.ServerSide = "<?= $home ?>/php/rest/facebook.php";
     cFacebook.ServerUser = "<?= $sFBUser ?>";
     cFacebook.Version = "<?= cAppConfig::FB_VERSION ?>";
     cFacebook.AppID = <?= $oFBAppId->id ?>;
+    bean.on(cFacebook, cFacebook.STATUS_EVENT, (psText) => $("#<?= cAppConfig::FB_ELEMENT_ID ?>").html(psText))
 </script>
 
 <!-- New relic -->
