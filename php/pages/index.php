@@ -17,22 +17,15 @@ if ($sUser && cAuth::is_role("admin")) $sIsAdmin = "yes";
 //define PHP constants
 class cIndexPageConsts
 {
-    const ID_IMAGE_CONTAINER = "ic";
-    const ID_CHKTHUMBS = "ct";
-    const ID_STATUS = "status";
-    const ID_TABS_CONTAINER = "tc";
-    const ID_TAB_BAR = "tb";
-    const ID_TAB_TAG_CONTENT = "TTC";
-    const ID_TAB_SOL_CONTENT = "TSC";
-    const ID_WIDGET_SOLCHOOSER = "WSC";
-    const ID_WIDGET_SOLBUTTONS = "WSB";
-    const ID_WIDGET_ADMIN = "WA";
-    const ID_SEARCH = "SR";
-    const ID_INTRO = "intro";
-    const ID_SOLTHUMBS = "ST";
+    const ID_PAYLOAD = "P";
     const ID_LEFT_COL = "LC";
     const ID_BODY = "B";
-    const ID_PAYLOAD = "P";
+    const ID_SEARCH = "SR";
+    const ID_CHKTHUMBS = "ct";
+    const ID_IMAGE_CONTAINER = "ic";
+    const ID_STATUS = "status";
+    const ID_INTRO = "idintro";
+
     static $IS_ADMIN = "no";
 }
 cIndexPageConsts::$IS_ADMIN = $sIsAdmin;

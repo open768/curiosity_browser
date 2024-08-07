@@ -95,16 +95,21 @@ class cSideBar {
 //* renders left column
 // ###############################################################
 class cLeftColumn {
+   static ID_TAB_TAG_CONTENT = "idttc"
+   static ID_TAB_SOL_CONTENT = "idtsc"
+   static ID_WIDGET_SOLCHOOSER = "idWSC"
+   static ID_WIDGET_SOLBUTTONS = "idWSB"
+
    //**********************************************************
    static pr__render_tab_content_sol(poParent) {
       var oSolTabContent = $("<DIV>", {
-         id: cIndexPageConsts.ID_TAB_SOL_CONTENT,
          class: "tab-content",
+         id: this.ID_TAB_SOL_CONTENT,
       })
       {
          //--------SOL chooser
          var oSolChooser = $("<DIV>", {
-            id: cIndexPageConsts.ID_WIDGET_SOLCHOOSER,
+            id: this.ID_WIDGET_SOLCHOOSER,
          })
          {
             oSolChooser.append("Loading ")
@@ -119,7 +124,7 @@ class cLeftColumn {
          }
          //----------SOL buttons
          var oSolButtons = $("<DIV>", {
-            id: cIndexPageConsts.ID_WIDGET_SOLBUTTONS,
+            id: this.ID_WIDGET_SOLBUTTONS,
          })
          {
             oSolButtons.append("Loading ")
@@ -144,8 +149,8 @@ class cLeftColumn {
    static pr__render_tab_content_tags(poParent) {
       //Tab Content (tags)
       var oTagContent = $("<DIV>", {
-         id: cIndexPageConsts.ID_TAB_TAG_CONTENT,
          class: "tab-content leftcolumn",
+         id: this.ID_TAB_TAG_CONTENT,
       })
       {
          oTagContent.append("loading TAGS")
@@ -189,7 +194,6 @@ class cAdminBox {
    static render(poParent) {
       var oThis = this
       var oDiv = $("<DIV>", {
-         id: cIndexPageConsts.ID_WIDGET_ADMIN,
          class: "w3-card-4",
       })
       {
@@ -246,7 +250,7 @@ class cSearchBox {
       var oThis = this
 
       if (!isNaN(sText)) {
-         $("#" + cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser(
+         $("#" + cLeftColumn.ID_WIDGET_SOLCHOOSER).solinstrumentChooser(
             "set_sol",
             sText,
          )
@@ -290,12 +294,15 @@ class cPageTabs {
    static SOL_CAPTION = "Sol"
    static TAGS_CAPTION = "Tags"
    static BUTTON_CLASS = "tagbut"
+   static ID_TAB_BAR = null
 
    //*********************************************************************
    static render(poParent) {
       //-----------------------the TAB Bar
-      var oTabBar = $("<DIV>", { id: cIndexPageConsts.ID_TAB_BAR })
+      var oTabBar = $("<DIV>")
       {
+         oTabBar.uniqueId()
+         this.ID_TAB_BAR = oTabBar.attr("id")
          oTabBar.append("Loading Tab bar")
          poParent.append(oTabBar)
       }
@@ -308,20 +315,12 @@ class cPageTabs {
       cDebug.write("instrumenting tabs")
 
       //clear out any content
-      var oBar = $("#" + cIndexPageConsts.ID_TAB_BAR)
+      var oBar = $("#" + this.ID_TAB_BAR)
       oBar.empty()
 
       //add the buttons the the tab bar
-      this.pr__add_tab(
-         oBar,
-         this.SOL_CAPTION,
-         cIndexPageConsts.ID_TAB_SOL_CONTENT,
-      )
-      this.pr__add_tab(
-         oBar,
-         this.TAGS_CAPTION,
-         cIndexPageConsts.ID_TAB_TAG_CONTENT,
-      )
+      this.pr__add_tab(oBar, this.SOL_CAPTION, cLeftColumn.ID_TAB_SOL_CONTENT)
+      this.pr__add_tab(oBar, this.TAGS_CAPTION, cLeftColumn.ID_TAB_TAG_CONTENT)
    }
 
    //*********************************************************************
@@ -333,7 +332,7 @@ class cPageTabs {
 
       //remove the highlight of all buttons within the TAB BAR
       var oThis = this
-      var oParent = $("#" + cIndexPageConsts.ID_TAB_BAR)
+      var oParent = $("#" + this.ID_TAB_BAR)
       var oChildren = oParent.children("." + this.BUTTON_CLASS)
 
       oChildren.each(function () {
@@ -380,7 +379,7 @@ class cPageTabs {
 
    //*********************************************************************
    static clickDefaultTab() {
-      var oBar = $("#" + cIndexPageConsts.ID_TAB_BAR)
+      var oBar = $("#" + this.ID_TAB_BAR)
       var sButtonID = cJquery.child_ID(oBar, this.SOL_CAPTION)
       var oButton = $("#" + sButtonID)
       oButton.click()
@@ -433,7 +432,7 @@ class cIndexPage {
       $("#" + cIndexPageConsts.ID_CHKTHUMBS)
          .prop("checked", true)
          .attr("disabled", "disabled")
-      $("#" + cIndexPageConsts.ID_WIDGET_SOLCHOOSER).solinstrumentChooser(
+      $("#" + cLeftColumn.ID_WIDGET_SOLCHOOSER).solinstrumentChooser(
          "deselectInstrument",
       )
       this.load_data()
@@ -494,7 +493,7 @@ class cIndexPage {
    //* **************************************************************
    static onImagesLoadedEvent(poEvent, piStartImage) {
       // enable thumbnails
-      $("#" + cIndexPageConsts.ID_SOLTHUMBS).removeAttr("disabled")
+      $("#" + cIndexPageConsts.ID_CHKTHUMBS).removeAttr("disabled")
       cOptions.start_image = piStartImage
       this.update_url()
    }
@@ -540,7 +539,7 @@ class cIndexPage {
       cDebug.write("loading data: " + cOptions.sol + ":" + cOptions.instrument)
 
       //inform subscribers
-      $("#" + cIndexPageConsts.ID_WIDGET_BUTTONS).solButtons(
+      $("#" + cLeftColumn.ID_WIDGET_SOLBUTTONS).solButtons(
          "set_sol",
          cOptions.sol,
       )
