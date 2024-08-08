@@ -209,6 +209,7 @@ class cAdminBox {
          {
             if (cIndexPageConsts.IS_ADMIN === "yes") {
                var oButton = $("<BUTTON>", { title: "Admin Functions" })
+               oButton.append("Admin")
                oButton.click(() => oThis.onAdminClick())
                oBody.append(oButton)
             } else {
@@ -221,7 +222,7 @@ class cAdminBox {
    }
    //*************************************************************
    static onAdminClick() {
-      cBrowser.openWindow("admin/", "admin")
+      cBrowser.openWindow(cLocations.home + "/php/admin", "admin")
    }
 }
 
