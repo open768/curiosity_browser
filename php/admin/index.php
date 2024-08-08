@@ -206,6 +206,9 @@ switch ($sOperation) {
         break;
 
         //------------------------------------------------------
+    case "migrate_to_Objdb":
+        cDebug::error("not implemented");
+        //------------------------------------------------------
     default:
         $sTitle = "Admin";
         include("$appPhpFragments/title.php");
@@ -228,6 +231,7 @@ switch ($sOperation) {
             <Input type="radio" name="o" value="killHighlight">erase particular highlight<br>
             <Input type="radio" name="o" value="deleteSolHighlights">Delete Sol highlight image files<br>
             <Input type="radio" name="o" value="killSession">kill the session<br>
+            <Input type="radio" name="o" value="migrate_to_Objdb">Migrate to objdb<br>
             <Input type="hidden" name="debug" value="1">
             <input type="submit"></input>
         </form>
