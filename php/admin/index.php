@@ -41,8 +41,10 @@ try {
     cPageOutput::messagebox("go back to <a href='$home'>login</a>");
     cDebug::error($e);
 }
-if (!$sUser)                    cDebug::error("You are not logged in <a href='../'>Login here</a> and try again");
-if (!cAuth::is_role("admin"))    cDebug::error("must be an admin user ");
+cAuth::check_for_admin_id_file();
+$sAdmin = cAuth::current_user_is_admin();
+if ($sAdmin !== cAuth::YES)
+    cDebug::error("not an admin user ");
 cDebug::check_GET_or_POST();
 
 

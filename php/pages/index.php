@@ -9,11 +9,6 @@ error_reporting(E_ALL);
 require_once "$home/php/fragments/app-common.php";
 include "$appPhpFragments/doctype.php";
 
-//check for admin role to display admin button
-$sUser = cAuth::get_user();
-$sIsAdmin = "no";
-if ($sUser && cAuth::is_role("admin")) $sIsAdmin = "yes";
-
 //define PHP constants
 class cIndexPageConsts
 {
@@ -28,7 +23,7 @@ class cIndexPageConsts
 
     static $IS_ADMIN = "no";
 }
-cIndexPageConsts::$IS_ADMIN = $sIsAdmin;
+cIndexPageConsts::$IS_ADMIN = cAuth::is_admin();
 ?>
 <html>
 
