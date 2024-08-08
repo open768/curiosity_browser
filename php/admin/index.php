@@ -11,7 +11,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
  **************************************************************************/
-$home = "../../";
+$home = "../..";
 require_once  "$home/php/fragments/app-common.php";
 require_once "$phpInc/ckinc/session.php";
 //cSession::set_folder();       //dont set the folder as it will never be cleaned
@@ -54,7 +54,6 @@ ini_set("max_input_time", 60);
 set_time_limit(600);
 
 //***************************************************
-
 if (!isset($_GET["o"]))
     $sOperation = "";
 else
@@ -208,7 +207,10 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     default:
+        $sTitle = "Admin";
+        include("$appPhpFragments/title.php");
         ?>
+
         <form method="get">
             <Input type="radio" name="o" value="backup">backup objdata<br>
             <Input type="radio" name="o" value="parsePDS">parse PDS files<br>
