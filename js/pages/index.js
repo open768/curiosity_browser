@@ -208,7 +208,10 @@ class cAdminBox {
          var oBody = $("<DIV>", { class: "w3-container" })
          {
             if (cIndexPageConsts.IS_ADMIN === "yes") {
-               var oButton = $("<BUTTON>", { title: "Admin Functions" })
+               var oButton = $("<BUTTON>", {
+                  title: "Admin Functions",
+                  class: "w3-button w3-theme-button-up",
+               })
                oButton.append("Admin")
                oButton.click(() => oThis.onAdminClick())
                oBody.append(oButton)
@@ -290,8 +293,8 @@ class cSearchBox {
 class cPageTabs {
    //see w3.css tabs https://www.w3schools.com/w3css/w3css_tabulators.asp
    static current_button = null
-   static HIGHLIGHT_CLASS = "w3-theme-d5"
-   static LOWLIGHT_CLASS = "w3-theme-l4"
+   static HIGHLIGHT_CLASS = "w3-theme-button-up"
+   static LOWLIGHT_CLASS = "w3-theme-button-down"
    static SOL_CAPTION = "Sol"
    static TAGS_CAPTION = "Tags"
    static BUTTON_CLASS = "tagbut"

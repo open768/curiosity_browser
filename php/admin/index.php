@@ -12,23 +12,27 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
  **************************************************************************/
 $home = "../..";
-require_once  "$home/php/fragments/app-common.php";
+require_once "$home/php/fragments/app-common.php";
+
+//phpinc includes
 require_once "$phpInc/ckinc/session.php";
-//cSession::set_folder();       //dont set the folder as it will never be cleaned
+require_once "$phpInc/ckinc/common.php";
+require_once "$phpInc/ckinc/header.php";
+require_once "$phpInc/ckinc/auth.php";
+require_once "$phpInc/ckinc/debug.php";
+require_once "$phpInc/ckinc/cached_http.php";
 
-require_once  "$phpInc/ckinc/common.php";
-require_once  "$phpInc/ckinc/header.php";
-require_once  "$phpInc/ckinc/auth.php";
-require_once  "$phpInc/ckinc/debug.php";
-require_once  "$phpInc/ckinc/cached_http.php";
+//space includes
+require_once "$spaceInc/curiosity/static.php";
+require_once "$spaceInc/curiosity/pdsindexer.php";
+require_once "$spaceInc/curiosity/locations.php";
+require_once "$spaceInc/misc/gigapan.php";
+require_once "$spaceInc/misc/pencilnev.php";
+require_once "$spaceInc/misc/tags.php";
+require_once "$spaceInc/misc/pichighlight.php";
+require_once "$spaceInc/misc/migrate_objdata.php";
 
-require_once  "$spaceInc/curiosity/static.php";
-require_once  "$spaceInc/curiosity/pdsindexer.php";
-require_once  "$spaceInc/curiosity/locations.php";
-require_once  "$spaceInc/misc/gigapan.php";
-require_once  "$spaceInc/misc/pencilnev.php";
-require_once  "$spaceInc/misc/tags.php";
-require_once  "$spaceInc/misc/pichighlight.php";
+//specific includes
 
 include("$appPhpFragments/header.php");
 
@@ -54,10 +58,13 @@ ini_set("max_input_time", 60);
 set_time_limit(600);
 
 //***************************************************
-if (!isset($_GET["o"]))
+const OPS_PARAM = "o";
+if (!isset($_GET[OPS_PARAM]))
     $sOperation = "";
-else
-    $sOperation = $_GET["o"];
+else {
+    $sOperation = $_GET[OPS_PARAM];
+    cDebug::on(true);
+}
 cDebug::write("Operation is '$sOperation'");
 
 $aData = null;
@@ -65,14 +72,7 @@ $aData = null;
 switch ($sOperation) {
         //------------------------------------------------------
     case "backup":
-        $sFilename = addslashes("$root/backup.zip");
-        $sFolder = addslashes("$root/[objdata]");
-        $cmd = "zip -r \"$sFilename\" \"$sFolder\"";
-        cDebug::write("running command $cmd");
-        $iReturn = 0;
-        echo exec($cmd, $output, $iReturn);
-        cDebug::write("done: $iReturn");
-        cDebug::vardump($output);
+        cObjStore::backup();
         break;
 
     case "parseAllPDS":
@@ -88,10 +88,10 @@ switch ($sOperation) {
         if (!array_key_exists("v", $_GET)) {
             $aCats = cCuriosityPDS::catalogs();
 ?>
-            <a target="PDS" href="http://pds-imaging.jpl.nasa.gov/volumes/msl.html">Curiosity PDS released volumes</a>
+            <a target="PDS" href="<?= cCuriosity::PDS_VOLUMES ?>">Curiosity PDS released volumes</a>
             <p>
             <form method="get" name="pds">
-                <Input type="hidden" name="o" value="<?= $sOperation ?>">
+                <Input type="hidden" name="<?= OPS_PARAM ?>" value="<?= $sOperation ?>">
                 <Input type="hidden" name="debug" value="1">
                 volume: <select name="v">
                     <?php
@@ -116,7 +116,7 @@ switch ($sOperation) {
         if (!array_key_exists("p", $_GET)) {
         ?>
             <form method="get">
-                <Input type="hidden" name="o" value="<?= $sOperation ?>">
+                <Input type="hidden" name=<?= OPS_PARAM ?> value="<?= $sOperation ?>">
                 <Input type="hidden" name="debug" value="1">
                 sol: <Input type="input" name="s"><br>
                 instr: <Input type="input" name="i"><br>
@@ -135,7 +135,7 @@ switch ($sOperation) {
         if (!array_key_exists("s", $_GET)) {
         ?>
             <form method="get">
-                <Input type="hidden" name="o" value="<?= $sOperation ?>">
+                <Input type="hidden" name="<?= OPS_PARAM ?>" value="<?= $sOperation ?>">
                 <Input type="hidden" name="debug" value="1">
                 Sol: <Input type="input" name="s"><br>
                 <input type="submit"></input>
@@ -150,7 +150,7 @@ switch ($sOperation) {
         if (!array_key_exists("t", $_GET)) {
         ?>
             <form method="get">
-                <Input type="hidden" name="o" value="<?= $sOperation ?>">
+                <Input type="hidden" name="<?= OPS_PARAM ?>" value="<?= $sOperation ?>">
                 <Input type="hidden" name="debug" value="1">
                 <Input type="input" name="t"><br>
                 <input type="submit"></input>
@@ -174,7 +174,7 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case "rebuildHiliteSolIndex":
-        cImageHighlight::rebuildSolIndices();   //not implelemnted
+        cImageHighlight::rebuildSolIndices();  //not implelemnted
         break;
 
         //------------------------------------------------------
@@ -207,7 +207,8 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case "migrate_to_Objdb":
-        cDebug::error("not implemented");
+        cMigrateObjdata::migrate();
+        break;
         //------------------------------------------------------
     default:
         $sTitle = "Admin";
@@ -215,25 +216,24 @@ switch ($sOperation) {
         ?>
 
         <form method="get">
-            <Input type="radio" name="o" value="backup">backup objdata<br>
-            <Input type="radio" name="o" value="parsePDS">parse PDS files<br>
-            <Input type="radio" name="o" value="parseAllPDS">parse ALL PDS files<br>
-            <Input type="radio" name="o" value="killPDSIndex">Kill ALL PDS index files<br>
-            <Input type="radio" name="o" value="killCache">clear cache<br>
-            <Input type="radio" name="o" value="killTag">remove tag<br>
-            <Input type="radio" name="o" value="mergeTags">merge a tag<br>
-            <Input type="radio" name="o" value="indexGigas">index Nevilles gigapans<br>
-            <Input type="radio" name="o" value="parseLocations">parse curiosity locations<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="backup">backup objdata<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="parsePDS">parse PDS files<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="parseAllPDS">parse ALL PDS files<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="killPDSIndex">Kill ALL PDS index files<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="killCache">clear cache<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="killTag">remove tag<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="mergeTags">merge a tag<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="indexGigas">index Nevilles gigapans<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="parseLocations">parse curiosity locations<br>
 
-            <Input type="radio" name="o" value="rebuildHiliteSolIndex">rebuild hilite indices<br>
-            <Input type="radio" name="o" value="reindexTags">reindex Tags - needed after deletion<br>
-            <Input type="radio" name="o" value="reindexHilite">reindex image highlights <br>
-            <Input type="radio" name="o" value="killHighlight">erase particular highlight<br>
-            <Input type="radio" name="o" value="deleteSolHighlights">Delete Sol highlight image files<br>
-            <Input type="radio" name="o" value="killSession">kill the session<br>
-            <Input type="radio" name="o" value="migrate_to_Objdb">Migrate to objdb<br>
-            <Input type="hidden" name="debug" value="1">
-            <input type="submit"></input>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="rebuildHiliteSolIndex">rebuild hilite indices<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="reindexTags">reindex Tags - needed after deletion<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="reindexHilite">reindex image highlights <br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="killHighlight">erase particular highlight<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="deleteSolHighlights">Delete Sol highlight image files<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="killSession">kill the session<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="migrate_to_Objdb">Migrate to objdb<br>
+            <input type="submit" class="w3-button w3-theme-button-up"></input>
         </form>
 <?php
         break;

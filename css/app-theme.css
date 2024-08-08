@@ -24,6 +24,14 @@
    color: #000 !important;
    background-color: #ffad5c !important;
 }
+.w3-theme-button-up {
+   color: #000 !important;
+   background-color: #ffd6ad !important;
+}
+.w3-theme-button-down {
+   color: #000 !important;
+   background-color: #d66b00 !important;
+}
 
 /* -- darker --*/
 .w3-theme-d1 {
