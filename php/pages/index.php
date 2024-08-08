@@ -23,7 +23,7 @@ class cIndexPageConsts
 
     static $IS_ADMIN = "no";
 }
-cIndexPageConsts::$IS_ADMIN = cAuth::is_admin();
+cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
 ?>
 <html>
 
