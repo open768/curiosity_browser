@@ -67,3 +67,6 @@ delete from objstore where RE='FB';
 
 insert into 'INDEX' select * from objstore where RE='INDEX';
 delete from objstore where RE='INDEX';
+
+/* delete old cache data */
+delete from HTMLCAC where DA < date('now','-1 month')
