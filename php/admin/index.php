@@ -46,6 +46,8 @@ try {
     cDebug::error($e);
 }
 cAuth::check_for_admin_id_file();
+$oDB = cAuth::$objstoreDB; //debug
+$oDB->SHOW_SQL = true;   //debug
 $sAdmin = cAuth::current_user_is_admin();
 if ($sAdmin !== cAuth::YES)
     cDebug::error("not an admin user ");
