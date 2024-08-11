@@ -50,7 +50,7 @@ switch ($sOperation) {
 
     case "solcount":
         $sSol = $_GET["s"];
-        $oResult = cIndexes::get_solcount($sSol, cImageHighlight::INDEX_SUFFIX);
+        $oResult = cSpaceIndex::get_solcount($sSol, cImageHighlight::INDEX_SUFFIX);
         break;
 
     case "topsolindex":
@@ -58,8 +58,7 @@ switch ($sOperation) {
         //unfortunately cant display count of highlights as i've hard coded 1 as the index value, 
         //regardless of how many highlights --OOPS - needs a change to the underlying lack of data model.
         //update when going to sql lite
-        $oResult = cIndexes::get_top_sol_data(cImageHighlight::INDEX_SUFFIX);
-
+        $oResult = cImageHighlight::get_top_index();
         break;
 
     case "soldata":

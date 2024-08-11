@@ -30,7 +30,9 @@ require_once "$spaceInc/misc/gigapan.php";
 require_once "$spaceInc/misc/pencilnev.php";
 require_once "$spaceInc/misc/tags.php";
 require_once "$spaceInc/misc/pichighlight.php";
-require_once "$spaceInc/misc/migrate_objdata.php";
+
+//specific app includes
+require_once "$home/php/admin/migrate_objdata.php";
 
 //specific includes
 
@@ -55,9 +57,12 @@ cDebug::check_GET_or_POST();
 
 
 //***************************************************
+ob_end_clean();
 ini_set("max_execution_time", 60);
 ini_set("max_input_time", 60);
 set_time_limit(600);
+ini_set("output_buffering", "Off");
+ini_set("implicit_flush", 1);
 
 //***************************************************
 const OPS_PARAM = "o";
