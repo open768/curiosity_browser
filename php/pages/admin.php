@@ -87,15 +87,18 @@ switch ($sOperation) {
         cObjStore::backup();
         break;
 
+        //------------------------------------------------------
     case "parseAllPDS":
         cCuriosityPdsIndexer::index_everything();
         break;
 
+        //------------------------------------------------------
     case "killPDSIndex":
         cPDS::kill_index_files();
         cDebug::write("done");
         break;
 
+        //------------------------------------------------------
     case "parsePDS":
         if (!array_key_exists("v", $_GET)) {
             $aCats = cCuriosityPDS::catalogs();
@@ -225,8 +228,8 @@ switch ($sOperation) {
         cDebug::write("finished");
         break;
         //------------------------------------------------------
-    case "ihighlite":
-        //deleteing iHighlite files
+    case "del_ihighlite":
+        //deleteing ihighlite files
         cAdminfunctions::delete_ihighlite_files();
         break;
 
@@ -252,7 +255,7 @@ switch ($sOperation) {
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killHighlight">erase particular highlight<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="deleteSolHighlights">Delete Sol highlight image files<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killSession">kill the session<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="ihighlite">delete iHighlite files<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="del_ihighlite">delete ihighlite files<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="migrate_to_Objdb">Migrate to objdb<br>
             <input type="submit" class="w3-button w3-theme-button-up"></input>
         </form>

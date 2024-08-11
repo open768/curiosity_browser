@@ -37,7 +37,7 @@ class cMigrateObjdata {
         cDebug::enter();
 
         //prevent buffering
-        echo "<script>setInterval(() => document.documentElement.scrollTop = document.documentElement.scrollHeight,10)</script>";
+        //echo "<script>setInterval(() => document.documentElement.scrollTop = document.documentElement.scrollHeight,10)</script>";
         cDebug::flush();
         //get the phase last migrated to
         /** @var cObjStoreDB $oDB */
