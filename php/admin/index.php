@@ -55,6 +55,7 @@ if ($sAdmin !== cAuth::YES)
     cDebug::error("not an admin user ");
 cDebug::check_GET_or_POST();
 
+echo "<BODY>";
 
 //***************************************************
 ob_end_clean();
@@ -165,7 +166,7 @@ switch ($sOperation) {
         <?php
             exit();
         }
-        cTags::kill_tag($_GET["t"]);
+        cSpaceTags::kill_tag($_GET["t"]);
         break;
 
         //------------------------------------------------------
@@ -186,7 +187,7 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case "reindexTags":
-        cTags::reindex();
+        cSpaceTags::reindex();
         break;
 
         //------------------------------------------------------
@@ -215,6 +216,7 @@ switch ($sOperation) {
         //------------------------------------------------------
     case "migrate_to_Objdb":
         cMigrateObjdata::migrate();
+        cDebug::write("finished");
         break;
         //------------------------------------------------------
     default:
@@ -245,4 +247,6 @@ switch ($sOperation) {
 <?php
         break;
 }
+echo "</BODY>";
+
 ?>

@@ -29,7 +29,7 @@ switch ($sOperation) {
         $sInstrument = $_GET["i"];
         $sProduct = $_GET["p"];
 
-        $aResult = cComments::get($sSol, $sInstrument, $sProduct);
+        $aResult = cSpaceComments::get($sSol, $sInstrument, $sProduct);
 
         break;
     case "set":
@@ -45,7 +45,7 @@ switch ($sOperation) {
         $sHTML = $parser->get_html();
         $sComment = utf8_encode($sHTML);
 
-        $aResult = cComments::set($sSol, $sInstrument, $sProduct, $sComment, $sUser);
+        $aResult = cSpaceComments::set($sSol, $sInstrument, $sProduct, $sComment, $sUser);
         break;
     default:
         cDebug::error("unsupported operation");

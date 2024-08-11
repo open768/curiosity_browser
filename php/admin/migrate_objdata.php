@@ -15,6 +15,7 @@ class cMigrateObjdata {
     const MIGRATED_PRODUCT = "MIPr";
     const PHASE_COMPLETE = "phdone";
     const PHASE_COMMENTS = "phc";
+    const PHASE_GIGA = "phg";
     const PHASE_HIGHLIGHTS = "phh";
     const PHASE_TAGS = "pht";
     const BEFORE_MIGRATION_SOL = -1;
@@ -28,17 +29,20 @@ class cMigrateObjdata {
         cDebug::leave();
     }
 
+
+    //*******************************************************************
+    //* steps:  highlights, tags, gigas, comments
     //*******************************************************************
     static function migrate() {
         cDebug::enter();
 
         //prevent buffering
-
-
+        echo "<script>setInterval(() => document.documentElement.scrollTop = document.documentElement.scrollHeight,10)</script>";
+        cDebug::flush();
         //get the phase last migrated to
         /** @var cObjStoreDB $oDB */
         $oDB = self::$objstoreDB;
-        $oDB->SHOW_SQL = true;
+        //$oDB->SHOW_SQL = true;
 
         //get the status of the migration
         $sPhase = $oDB->get(self::MIGRATED_PHASE);
@@ -65,6 +69,10 @@ class cMigrateObjdata {
                 cDebug::write("completing comment migration");
                 self::pr_migrate_comments();
                 break;
+            case self::PHASE_GIGA:
+                cDebug::write("completing gigapan migration");
+                self::pr_migrate_gigas();
+                break;
             case self::PHASE_COMPLETE:
                 // migration completed
                 cDebug::error("migration completed");
@@ -77,7 +85,18 @@ class cMigrateObjdata {
         cDebug::leave();
     }
 
-    //******************************************************
+    //*******************************************************************
+    //*
+    //*******************************************************************
+    private static function pr_set_last_sol($piSol) {
+        $oDB = self::$objstoreDB;
+        $oDB->put(self::MIGRATED_SOL, $piSol);
+        self::$LastSol = $piSol;
+    }
+
+    //*******************************************************************
+    //*
+    //*******************************************************************
     private static function pr_migrate_highlights() {
         cDebug::enter();
         cDebug::write("migrating Highlights");
@@ -94,16 +113,17 @@ class cMigrateObjdata {
         foreach ($aList as $iSol => $iCount)
             if ($iSol > self::$LastSol) {
                 $aProducts = cImageHighlight::get_all_highlights($iSol);
-                $oDB->put(self::MIGRATED_SOL, $iSol);
+                self::pr_set_last_sol($iSol);
                 cDebug::write("migrated highlights for sol $iSol");
-                cDebug::flush();
             }
 
         //next migration
-        $oDB->put(self::MIGRATED_SOL, self::BEFORE_MIGRATION_SOL);
+        self::pr_set_last_sol(self::BEFORE_MIGRATION_SOL);
         self::pr_migrate_tags();
         cDebug::leave();
     }
+
+
     //******************************************************
     private static function pr_migrate_comments() {
         cDebug::enter();
@@ -113,10 +133,17 @@ class cMigrateObjdata {
 
         //update the state of the migration
         $oDB->put(self::MIGRATED_PHASE, self::PHASE_COMMENTS);
+        //get the list
+        cDebug::error("comments are not indexed");
 
+
+        //next migration
+        self::pr_set_last_sol(self::BEFORE_MIGRATION_SOL);
+        $oDB->put(self::MIGRATED_PHASE, self::PHASE_COMPLETE);
 
         cDebug::leave();
     }
+
     //******************************************************
     private static function pr_migrate_tags() {
         cDebug::enter();
@@ -126,7 +153,57 @@ class cMigrateObjdata {
 
         //update the state of the migration
         $oDB->put(self::MIGRATED_PHASE, self::PHASE_TAGS);
+
+        //get the list
+        $aList = cSpaceTags::get_top_sol_index();
+        cDebug::vardump($aList);
+
+        //iterate through the list
+        foreach ($aList as $iSol => $iCount)
+            if ($iSol > self::$LastSol) {
+                $aProducts = cSpaceTags::get_sol_tags($iSol);
+                self::pr_set_last_sol($iSol);
+                cDebug::write("migrated highlights for sol $iSol");
+                cDebug::flush();
+            }
+
+        //next migration
+        self::pr_set_last_sol(self::BEFORE_MIGRATION_SOL);
+        self::pr_migrate_gigas();
+
+        cDebug::leave();
+    }
+
+    //******************************************************
+    private static function pr_migrate_gigas() {
+        cDebug::enter();
+        cDebug::write("migrating Gigapans");
+        /** @var cObjStoreDB $oDB */
+        $oDB = self::$objstoreDB;
+
+        //update the state of the migration
+        $oDB->put(self::MIGRATED_PHASE, self::PHASE_GIGA);
+
+        //get the list
+        $aList = cPencilNev::get_top_gigas();
+        cDebug::vardump($aList);
+
+        //iterate through the list
+        foreach ($aList as $iSol => $iCount)
+            if ($iSol > self::$LastSol) {
+                $aProducts = cPencilNev::get_sol_gigas($iSol);
+                self::pr_set_last_sol($iSol);
+                cDebug::write("migrated highlights for sol $iSol");
+                cDebug::flush();
+            }
+
+        //next migration
+        self::pr_set_last_sol(self::BEFORE_MIGRATION_SOL);
+        self::pr_migrate_comments();
+
         cDebug::leave();
     }
 }
+
+
 cMigrateObjdata::init_obj_store_db();

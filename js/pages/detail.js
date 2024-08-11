@@ -90,7 +90,7 @@ class cDetail {
    // ###############################################################
    static onClickComment() {
       const sText = $("#Commentsbox").sceditor("instance").val() // gets the bbcode - MUST BE PARSED AT SERVER
-      cComments.set(this.oItem.s, this.oItem.i, this.oItem.p, sText, () =>
+      cSpaceComments.set(this.oItem.s, this.oItem.i, this.oItem.p, sText, () =>
          this.onGotComments(),
       )
    }
@@ -495,7 +495,7 @@ class cDetail {
       cTagging.getTags(this.oItem.s, this.oItem.i, this.oItem.p, (oData) =>
          this.onGotTags(oData),
       )
-      cComments.get(this.oItem.s, this.oItem.i, this.oItem.p, () =>
+      cSpaceComments.get(this.oItem.s, this.oItem.i, this.oItem.p, () =>
          this.onGotComments(),
       )
 

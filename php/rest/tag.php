@@ -28,32 +28,32 @@ switch ($sOperation) {
         $sInstrument = $_GET["i"];
         $sProduct = $_GET["p"];
         $sTag = $_GET["v"];
-        cTags::set_tag($sSol, $sInstrument, $sProduct, $sTag, $sUser);
+        cSpaceTags::set_tag($sSol, $sInstrument, $sProduct, $sTag, $sUser);
     case "get":
         $sSol = $_GET["s"];
         $sInstrument = $_GET["i"];
         $sProduct = $_GET["p"];
-        $aTags = cTags::get_tag_names($sSol, $sInstrument, $sProduct);
+        $aTags = cSpaceTags::get_tag_names($sSol, $sInstrument, $sProduct);
         cDebug::vardump($aTags);
         $aData = ["p" => $sProduct, "d" => $aTags];
         break;
     case "detail":
         $sTag = $_GET["t"];
-        $aData = cTags::get_tag_index($sTag);
+        $aData = cSpaceTags::get_tag_index($sTag);
         break;
     case "topsolindex":
-        $aData = cTags::get_top_sol_index();
+        $aData = cSpaceTags::get_top_sol_index();
         break;
     case "sol":
         $sSol = $_GET["s"];
-        $aData = cTags::get_sol_tags($sSol);
+        $aData = cSpaceTags::get_sol_tags($sSol);
         break;
     case "solcount":
         $sSol = $_GET["s"];
-        $aData = cTags::get_sol_tag_count($sSol);
+        $aData = cSpaceTags::get_sol_tag_count($sSol);
         break;
     case "all":
-        $aData = cTags::get_top_tags();
+        $aData = cSpaceTags::get_top_tags();
         break;
 }
 
