@@ -1,12 +1,13 @@
 <?php
 
-function del_ihigh_check(SplFileInfo $poFile) {
-    if ($poFile->isDir()) return true;      //allows recursion
-    $sFileName = $poFile->getFileName();
-    return ($sFileName === "[iHighlite].txt");
-}
 
 class cAdminfunctions {
+    static function pr_del_ihigh_check(SplFileInfo $poFile) {
+        if ($poFile->isDir()) return true;      //allows recursion
+        $sFileName = $poFile->getFileName();
+        return ($sFileName === "[iHighlite].txt");
+    }
+
     static function delete_ihighlite_files() {
         cDebug::enter();
         cPageOutput::prevent_buffering();
@@ -18,18 +19,19 @@ class cAdminfunctions {
         $oDirIter = new RecursiveDirectoryIterator($sFolder, FilesystemIterator::SKIP_DOTS); //tree walks the directory
         $oFilterIter = new RecursiveCallbackFilterIterator(
             $oDirIter,
-            function ($po) {
-                return del_ihigh_check($po);
+            function (SplFileInfo $po) {
+                return self::pr_del_ihigh_check($po);
             }
         );
 
         $oIter = new RecursiveIteratorIterator($oFilterIter);
         /** @var  SplFileInfo */
         $oFile = null;
+        cDebug::extra_debug("starting directory walk");
         foreach ($oIter as $oFile) {
             $sPath = $oFile->getpathname();
             cDebug::write("deleting $sPath");
-            unlink($sPath);
+            @unlink($sPath);
         }
 
         cDebug::leave();
