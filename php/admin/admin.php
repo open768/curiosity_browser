@@ -2,7 +2,7 @@
 
 class cAdminfunctions {
     static function         delete_ihighlite_files() {
-        cDebug::en  ter();
+        cDebug::enter();
         cDebug::error("not implemented");
         cDebug::leave();
     }

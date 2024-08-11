@@ -19,7 +19,7 @@ include("$appPhpFragments/doctype.php");  ?>
     <link rel="stylesheet" href="<?= $jsExtra ?>/sceditor/minified/themes/default.min.css" type="text/css" media="all">
     <title>Detail: Curiosity Browser</title>
     <script src="<?= $jsExtra ?>/pixlr/pixlr.js"></script>
-    <script src="<?= $jsInc ?>/ck-inc/comments.js"></script>
+    <script src="<?= $jsInc ?>/ck-inc/space/comments.js"></script>
     <script src="<?= $jsExtra ?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
     <script src="<?= $AppJS ?>/pages/detail.js"></script>
 </head>
