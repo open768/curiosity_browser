@@ -225,7 +225,7 @@ class cAdminBox {
    }
    //*************************************************************
    static onAdminClick() {
-      cBrowser.openWindow(cLocations.home + "/php/admin", "admin")
+      cBrowser.openWindow(cLocations.home + "/php/pages/admin.php", "admin")
    }
 }
 

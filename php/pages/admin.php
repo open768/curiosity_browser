@@ -33,10 +33,22 @@ require_once "$spaceInc/misc/pichighlight.php";
 
 //specific app includes
 require_once "$home/php/admin/migrate_objdata.php";
+require_once "$home/php/admin/admin.php";
 
-//specific includes
+//settings to prevent buffering
+cPageOutput::prevent_buffering();
 
+//##################################################################
+//headers
+include "$appPhpFragments/doctype.php";
+echo "<HEAD>";
+$sTitle = "Curiosity browser - Admin";
 include("$appPhpFragments/header.php");
+echo "</HEAD>";
+
+//##################################################################
+echo "<BODY>";
+include("$appPhpFragments/title.php");
 
 //force the user to logon
 $sUser = null;
@@ -47,6 +59,8 @@ try {
     cPageOutput::messagebox("go back to <a href='$home'>login</a>");
     cDebug::error($e);
 }
+
+//##################################################################
 cAuth::check_for_admin_id_file();
 $oDB = cAuth::$objstoreDB; //debug
 $oDB->SHOW_SQL = true;   //debug
@@ -55,17 +69,7 @@ if ($sAdmin !== cAuth::YES)
     cDebug::error("not an admin user ");
 cDebug::check_GET_or_POST();
 
-echo "<BODY>";
-
-//***************************************************
-ob_end_clean();
-ini_set("max_execution_time", 60);
-ini_set("max_input_time", 60);
-set_time_limit(600);
-ini_set("output_buffering", "Off");
-ini_set("implicit_flush", 1);
-
-//***************************************************
+//##################################################################
 const OPS_PARAM = "o";
 if (!isset($_GET[OPS_PARAM]))
     $sOperation = "";
@@ -115,6 +119,7 @@ switch ($sOperation) {
         }
         $sVolume = $_GET["v"];
         if (!isset($_GET["i"])) cDebug::error("no index specified");
+
         $sIndex = $_GET["i"];
         cCuriosityPdsIndexer::run_indexer($sVolume, $sIndex);
         break;
@@ -154,6 +159,7 @@ switch ($sOperation) {
         cDebug::write("not implemented");
         break;
 
+        //------------------------------------------------------
     case "killTag":
         if (!array_key_exists("t", $_GET)) {
         ?>
@@ -219,9 +225,14 @@ switch ($sOperation) {
         cDebug::write("finished");
         break;
         //------------------------------------------------------
+    case "ihighlite":
+        //deleteing iHighlite files
+        cAdminfunctions::delete_ihighlite_files();
+        break;
+
+        //------------------------------------------------------
     default:
         $sTitle = "Admin";
-        include("$appPhpFragments/title.php");
         ?>
 
         <form method="get">
@@ -241,6 +252,7 @@ switch ($sOperation) {
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killHighlight">erase particular highlight<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="deleteSolHighlights">Delete Sol highlight image files<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killSession">kill the session<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="ihighlite">delete iHighlite files<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="migrate_to_Objdb">Migrate to objdb<br>
             <input type="submit" class="w3-button w3-theme-button-up"></input>
         </form>

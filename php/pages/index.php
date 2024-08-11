@@ -10,8 +10,7 @@ require_once "$home/php/fragments/app-common.php";
 include "$appPhpFragments/doctype.php";
 
 //define PHP constants
-class cIndexPageConsts
-{
+class cIndexPageConsts {
     const ID_PAYLOAD = "P";
     const ID_LEFT_COL = "LC";
     const ID_BODY = "B";
@@ -25,7 +24,6 @@ class cIndexPageConsts
 }
 cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
 ?>
-<html>
 
 <head>
     <!-- header fragments -->
@@ -109,5 +107,3 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
     include "$appPhpFragments/footer.php";
     ?>
 </body>
-
-</html>
