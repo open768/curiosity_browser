@@ -223,7 +223,7 @@ $.widget("ck.solinstrumentChooser", {
       })
 
       // get the instruments for this sol
-      const sUrl = cBrowser.buildUrl(cLocations.rest + "/instruments.php", {
+      const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/instruments.php", {
          s: psSol,
          r: 0,
          m: this.options.mission.ID,
@@ -245,7 +245,7 @@ $.widget("ck.solinstrumentChooser", {
       bean.on(oHttp, "result", function (poHttp) {
          oThis.onLoadInstruments(poHttp)
       })
-      var sUrl = cBrowser.buildUrl(cLocations.rest + "/instruments.php", {
+      var sUrl = cBrowser.buildUrl(cAppLocations.rest + "/instruments.php", {
          m: this.options.mission.ID,
       })
       oHttp.fetch_json(sUrl)
@@ -254,7 +254,7 @@ $.widget("ck.solinstrumentChooser", {
       bean.on(oHttp2, "result", function (poHttp) {
          oThis.onLoadSols(poHttp)
       })
-      sUrl = cBrowser.buildUrl(cLocations.rest + "/sols.php", {
+      sUrl = cBrowser.buildUrl(cAppLocations.rest + "/sols.php", {
          m: this.options.mission.ID,
       })
       oHttp2.fetch_json(sUrl)

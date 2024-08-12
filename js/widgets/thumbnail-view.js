@@ -7,7 +7,7 @@ $.widget("ck.thumbnailview", {
    // # Definition
    // #################################################################
    consts: {
-      URL: cLocations.rest + "/solthumbs.php",
+      URL: cAppLocations.rest + "/solthumbs.php",
    },
    options: {
       ThumbsPerPage: 100,

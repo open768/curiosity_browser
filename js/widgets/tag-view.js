@@ -58,7 +58,7 @@ $.widget("ck.tagview", {
       oElement.append(oDiv)
 
       const oHttp = new cHttp2()
-      const sUrl = cBrowser.buildUrl(cLocations.rest + "/tag.php", {
+      const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/tag.php", {
          t: sTag,
          o: "detail",
          m: this.options.mission.ID,

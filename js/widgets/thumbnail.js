@@ -30,8 +30,9 @@ $.widget("ck.thumbnail", {
          FINAL: "thumb-final",
          MISSING: "thumb-missing",
       },
-      BETTER_URL: cLocations.rest + "/solthumb.php",
-      DEFAULT_THUMBNAIL: cLocations.home + "/images/browser/chicken_icon.png",
+      BETTER_URL: cAppLocations.rest + "/solthumb.php",
+      DEFAULT_THUMBNAIL:
+         cAppLocations.home + "/images/browser/chicken_icon.png",
       WAIT_VISIBLE: 2000,
    },
 
@@ -229,7 +230,7 @@ $.widget("ck.thumbnail", {
          setTimeout(function () {
             oImg.attr(
                "src",
-               cBrowser.buildUrl(cLocations.home + "/" + oData.u, {
+               cBrowser.buildUrl(cAppLocations.home + "/" + oData.u, {
                   r: Math.random(),
                }),
             )

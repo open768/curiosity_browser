@@ -46,7 +46,7 @@ class cSolHighs {
       $("#solhigh").solhighlights({
          sol: this.current_sol,
          mission: cMission,
-         home: cLocations.home,
+         home: cAppLocations.home,
          onStatus: (poEvent, poData) => this.onStatusEvent(poEvent, poData),
          onClick: (poEvent, poData) => this.onHighlightClick(poEvent, poData),
       })

@@ -18,7 +18,7 @@ $.widget("ck.instrumentimage", {
    },
    consts: {
       WAIT_VISIBLE: 1000,
-      WAIT_IMAGE: cLocations.home + "/images/browser/chicken_icon.png",
+      WAIT_IMAGE: cAppLocations.home + "/images/browser/chicken_icon.png",
    },
 
    // #################################################################
@@ -129,7 +129,7 @@ $.widget("ck.instrumentimage", {
 
       // load the data
       const oItem = new cHttpQueueItem()
-      oItem.url = cBrowser.buildUrl(cLocations.rest + "/detail.php", {
+      oItem.url = cBrowser.buildUrl(cAppLocations.rest + "/detail.php", {
          s: oOptions.sol,
          i: oOptions.instrument,
          p: oOptions.product,

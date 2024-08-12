@@ -41,7 +41,7 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
         static GA_App = "mars-tourist-guide.co.uk"
     }
 
-    class cLocations {
+    class cAppLocations {
         static home = "<?= $home ?>"
         static rest = "<?= $home ?>/php/rest"
         static jsextra = "<?= $jsExtra ?>"

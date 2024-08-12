@@ -122,7 +122,7 @@ $.widget("ck.tagcloud", {
       oElement.append(oDiv)
 
       const oHttp = new cHttp2()
-      const sUrl = cBrowser.buildUrl(cLocations.rest + "/tag.php", {
+      const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/tag.php", {
          o: "all",
          m: this.options.mission.ID,
       })

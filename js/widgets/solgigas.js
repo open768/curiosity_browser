@@ -52,7 +52,7 @@ $.widget("ck.solgigas", {
       bean.on(oHttp, "result", function (poHttp) {
          oThis.onGigaResponse(poHttp)
       })
-      var sUrl = cBrowser.buildUrl(cLocations.rest + "/gigapans.php", {
+      var sUrl = cBrowser.buildUrl(cAppLocations.rest + "/gigapans.php", {
          s: oOptions.sol,
          o: "sol",
          m: cMission.ID,

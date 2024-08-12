@@ -225,7 +225,7 @@ class cAdminBox {
    }
    //*************************************************************
    static onAdminClick() {
-      cBrowser.openWindow(cLocations.home + "/php/pages/admin.php", "admin")
+      cBrowser.openWindow(cAppLocations.home + "/php/pages/admin.php", "admin")
    }
 }
 
@@ -259,7 +259,7 @@ class cSearchBox {
             sText,
          )
       } else {
-         const sUrl = cBrowser.buildUrl(cLocations.rest + "/search.php", {
+         const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/search.php", {
             s: sText,
             m: cMission.ID,
          })

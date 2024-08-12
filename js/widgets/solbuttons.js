@@ -269,7 +269,7 @@ $.widget("ck.solButtons", {
       $("#" + sID + this.consts.SITE_ID).removeAttr("disabled")
 
       // fetch tags, highlights and gigapans
-      var sUrl = cBrowser.buildUrl(cLocations.rest + "/gigapans.php", {
+      var sUrl = cBrowser.buildUrl(cAppLocations.rest + "/gigapans.php", {
          o: "sol",
          s: this.options.sol,
          m: oOptions.mission.ID,
@@ -280,7 +280,7 @@ $.widget("ck.solButtons", {
       })
       oHttp.fetch_json(sUrl)
 
-      sUrl = cBrowser.buildUrl(cLocations.rest + "/tag.php", {
+      sUrl = cBrowser.buildUrl(cAppLocations.rest + "/tag.php", {
          o: "solcount",
          s: this.options.sol,
          m: oOptions.mission.ID,
@@ -291,7 +291,7 @@ $.widget("ck.solButtons", {
       })
       oHttp.fetch_json(sUrl)
 
-      sUrl = cBrowser.buildUrl(cLocations.rest + "/img_highlight.php", {
+      sUrl = cBrowser.buildUrl(cAppLocations.rest + "/img_highlight.php", {
          o: "solcount",
          s: this.options.sol,
          m: oOptions.mission.ID,

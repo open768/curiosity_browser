@@ -97,7 +97,7 @@ class cDetail {
 
    //* **************************************************************
    static onClickNextProduct() {
-      const sUrl = cBrowser.buildUrl(cLocations.rest + "/nexttime.php", {
+      const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/nexttime.php", {
          d: "n",
          s: this.oItem.s,
          p: this.oItem.p,
@@ -111,7 +111,7 @@ class cDetail {
 
    //* **************************************************************
    static onClickPreviousProduct() {
-      const sUrl = cBrowser.buildUrl(cLocations.rest + "/nexttime.php", {
+      const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/nexttime.php", {
          d: "p",
          s: this.oItem.s,
          p: this.oItem.p,
@@ -127,7 +127,7 @@ class cDetail {
    static onClickNext() {
       // find the next product
       cCommonStatus.set_status("fetching next image details...")
-      var sUrl = cBrowser.buildUrl(cLocations.rest + "/next.php", {
+      var sUrl = cBrowser.buildUrl(cAppLocations.rest + "/next.php", {
          d: "n",
          s: this.oItem.s,
          i: this.oItem.i,
@@ -142,7 +142,7 @@ class cDetail {
    //* **************************************************************
    static onClickPrevious() {
       cCommonStatus.set_status("fetching previous image details...")
-      const sUrl = cBrowser.buildUrl(cLocations.rest + "/next.php", {
+      const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/next.php", {
          d: "p",
          s: this.oItem.s,
          i: this.oItem.i,
@@ -329,7 +329,7 @@ class cDetail {
       $("#Commentsbox").sceditor({
          plugins: "bbcode",
          style:
-            cLocations.jsextra +
+            cAppLocations.jsextra +
             "/sceditor/minified/jquery.sceditor.default.min.css",
          toolbarExclude: "print,code,email,source,maximize",
          height: 100,
@@ -488,7 +488,7 @@ class cDetail {
       $("#image").append(oImg)
       $("meta[property='og:image']").attr(
          "content",
-         cLocations.home + "/" + oData.i,
+         cAppLocations.home + "/" + oData.i,
       ) // facebook tag for image
 
       // get the tags and comments
@@ -587,7 +587,7 @@ class cDetail {
 
    //* **************************************************************
    static get_product_data(psSol, psInstr, psProd) {
-      const sUrl = cBrowser.buildUrl(cLocations.rest + "/detail.php", {
+      const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/detail.php", {
          s: psSol,
          i: psInstr,
          p: psProd,

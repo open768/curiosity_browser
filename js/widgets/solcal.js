@@ -60,7 +60,7 @@ $.widget("ck.solcalendar", {
       oElement.append(oDiv)
 
       const oHttp = new cHttp2()
-      const sUrl = cBrowser.buildUrl(cLocations.rest + "/cal.php", {
+      const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/cal.php", {
          s: oOptions.sol,
          m: oOptions.mission.ID,
       })

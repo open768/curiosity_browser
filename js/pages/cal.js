@@ -45,7 +45,7 @@ class cAppCal {
    static onClickRefresh() {
       cCommonStatus.set_status("refreshing data")
 
-      const sUrl = cBrowser.buildUrl(cLocations.rest + "/instruments.php", {
+      const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/instruments.php", {
          s: this.current_sol,
          r: "true",
          m: cMission.ID,

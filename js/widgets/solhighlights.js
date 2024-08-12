@@ -75,7 +75,7 @@ $.widget("ck.solhighlights", {
       }
 
       var sUrl = cBrowser.buildUrl(
-         cLocations.rest + "/img_highlight.php",
+         cAppLocations.rest + "/img_highlight.php",
          oParams,
       )
       oHttp.fetch_json(sUrl)
@@ -153,7 +153,7 @@ $.widget("ck.instrhighlight", {
    },
    consts: {
       WAIT_VISIBLE: 750,
-      HIGHLIGHT_URL: cLocations.rest + "/img_highlight.php",
+      HIGHLIGHT_URL: cAppLocations.rest + "/img_highlight.php",
       STAGE1_MSG: "Sqeeezing Limes...",
       STAGE2_MSG: "Caltching Dodos... ",
    },

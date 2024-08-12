@@ -51,7 +51,7 @@ function onClickNotebook() {
 function onLoadJQuery_PDS() {
    cCommonStatus.set_status("loading pds data...")
 
-   const sUrl = cBrowser.buildUrl(cLocations.rest + "/pds.php", {
+   const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/pds.php", {
       a: "s",
       s: cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING],
       i: cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING],

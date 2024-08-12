@@ -35,7 +35,7 @@ function onLoadJQuery_SOLTAG() {
    current_sol = sSol
 
    // load tags
-   sUrl = cBrowser.buildUrl(cLocations.rest + "/tag.php", {
+   sUrl = cBrowser.buildUrl(cAppLocations.rest + "/tag.php", {
       s: sSol,
       o: "sol",
       m: cMission.ID,
