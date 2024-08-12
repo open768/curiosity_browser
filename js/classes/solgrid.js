@@ -8,7 +8,7 @@ class cSolGridRenderer {
    onClickUrl = null
    element = null
    DataRestUrl = null
-   solsUrl = cAppLocations.rest + "/sols.php"
+   solsUrl = null
    solData = null
 
    //*********************************************************************
@@ -17,6 +17,7 @@ class cSolGridRenderer {
       this.onClickUrl = psOnClickUrl
       this.element = poElement
       this.DataRestUrl = cAppLocations.rest + "/" + psDataRestUrl
+      this.solsUrl = cAppLocations.rest + "/sols.php"
 
       // check for necessary classes
       if (!bean) {

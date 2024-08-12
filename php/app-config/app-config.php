@@ -15,9 +15,17 @@ $jsExtra = "$jsInc/extra";
 require_once  "$appConfig/app-secret.php";
 
 //***************************************************** */
-class cAppConfig
-{
+class cAppConfig {
     const FB_SCOPE = "public_profile";
     const FB_ELEMENT_ID = "FB_User";
     const FB_VERSION = "v20.0";
 }
+
+class cAppLocations {
+    static $home = null;
+    static $rest = null;
+    static $jsextra = null;
+};
+cAppLocations::$home = $home;
+cAppLocations::$rest = "{$home}/php/rest";
+cAppLocations::$jsextra = $jsExtra;

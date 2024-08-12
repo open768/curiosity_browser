@@ -20,6 +20,16 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
+<!-- Constants -->
+<script>
+    class cSecret {
+        static GA_TrackingID = "<?= cAppSecret::GOOGLE_ANALYTICS_ID ?>"
+        static GA_App = "mars-tourist-guide.co.uk"
+    }
+</script>
+<?php
+cPageOutput::write_JS_class_constant_IDs("cAppLocations");
+?>
 <!-- common ckinc -->
 <script src="<?= $jsInc ?>/ck-inc/common.js"></script>
 <script src="<?= $jsInc ?>/ck-inc/render.js"></script>
@@ -35,18 +45,6 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 <script src="<?= $jsExtra ?>/jquery-cookie/jquery.cookie.js"></script>
 
 <!-- everything else -->
-<script>
-    class cSecret {
-        static GA_TrackingID = "<?= cAppSecret::GOOGLE_ANALYTICS_ID ?>"
-        static GA_App = "mars-tourist-guide.co.uk"
-    }
-
-    class cAppLocations {
-        static home = "<?= $home ?>"
-        static rest = "<?= $home ?>/php/rest"
-        static jsextra = "<?= $jsExtra ?>"
-    };
-</script>
 <script src="<?= $jsInc ?>/ck-inc/http.js"></script>
 <script src="<?= $jsInc ?>/ck-inc/httpqueue.js"></script>
 <script src="<?= $jsInc ?>/ck-inc/auth.js"></script>
@@ -54,6 +52,8 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 <script src="<?= $jsInc ?>/ck-inc/space/space.js"></script>
 <script src="<?= $jsInc ?>/ck-inc/space/tagging.js"></script>
 <script src="<?= $jsInc ?>/ck-inc/space/imghilite.js"></script>
+
+
 
 <!-- Facebook -->
 <script src="<?= $jsInc ?>/ck-inc/facebook.js"></script>
