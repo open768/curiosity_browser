@@ -205,20 +205,23 @@ switch ($sOperation) {
         break;
 
         //------------------------------------------------------
+    case "indexComm":
+        cAdminfunctions::indexComments();
+        break;
+
+        //------------------------------------------------------
     case "mergeTags":
         throw new Exception("to be done");
         break;
 
         //------------------------------------------------------
     case "indexGigas":
-        set_time_limit(600);
         $aItems = cGigapan::get_all_gigapans("pencilnev");
         cPencilNev::index_gigapans($aItems);
         break;
 
         //------------------------------------------------------
     case "parseLocations":
-        set_time_limit(600);
         cCuriosityLocations::parseLocations();
         break;
 
@@ -240,23 +243,23 @@ switch ($sOperation) {
 
         <form method="get">
             <Input type="radio" name="<?= OPS_PARAM ?>" value="backup">backup objdata<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="parsePDS">parse PDS files<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="parseAllPDS">parse ALL PDS files<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="killPDSIndex">Kill ALL PDS index files<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="del_ihighlite">delete ihighlite files<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="deleteSolHighlights">Delete Sol highlight image files<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="indexComm">index Comments<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="indexGigas">index Nevilles gigapans<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killCache">clear cache<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="killHighlight">erase particular highlight<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="killPDSIndex">Kill ALL PDS index files<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="killSession">kill the session<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killTag">remove tag<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="mergeTags">merge a tag<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="indexGigas">index Nevilles gigapans<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="parseLocations">parse curiosity locations<br>
-
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="rebuildHiliteSolIndex">rebuild hilite indices<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="reindexTags">reindex Tags - needed after deletion<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="reindexHilite">reindex image highlights <br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="killHighlight">erase particular highlight<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="deleteSolHighlights">Delete Sol highlight image files<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="killSession">kill the session<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="del_ihighlite">delete ihighlite files<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="migrate_to_Objdb">Migrate to objdb<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="parseAllPDS">parse ALL PDS files<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="parseLocations">parse curiosity locations<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="parsePDS">parse PDS files<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="rebuildHiliteSolIndex">rebuild hilite indices<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="reindexHilite">reindex image highlights <br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="reindexTags">reindex Tags - needed after deletion<br>
             <input type="submit" class="w3-button w3-theme-button-up"></input>
         </form>
 <?php

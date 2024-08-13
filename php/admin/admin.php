@@ -16,15 +16,14 @@ class cAdminfunctions {
         $sFolder = realpath(cObjStore::$rootFolder);
         cDebug::extra_debug("looking in $sFolder");
 
-        $oDirIter = new RecursiveDirectoryIterator($sFolder, FilesystemIterator::SKIP_DOTS); //tree walks the directory
-        $oFilterIter = new RecursiveCallbackFilterIterator(
-            $oDirIter,
+        //************************************************************
+        $oIter = cCommonFiles::get_directory_iterator(
+            $sFolder,
             function (SplFileInfo $po) {
                 return self::pr_del_ihigh_check($po);
             }
         );
 
-        $oIter = new RecursiveIteratorIterator($oFilterIter);
         /** @var  SplFileInfo */
         $oFile = null;
         cDebug::extra_debug("starting directory walk");
@@ -34,6 +33,18 @@ class cAdminfunctions {
             @unlink($sPath);
         }
 
+        cDebug::leave();
+    }
+
+    //************************************************************
+    static function indexComments() {
+        cDebug::enter();
+        //scan the objdata directory for comments files to determine the SOL and instrument
+        $sFolder = realpath(cObjStore::$rootFolder);
+        cDebug::write("scanning  folder {$sFolder} for comments files");
+
+        //
+        cDebug::error("not implemented");
         cDebug::leave();
     }
 }
