@@ -161,6 +161,7 @@ class cMigrateObjdata {
         foreach ($aList as $iSol => $iCount)
             if ($iSol > self::$LastSol) {
                 $aProducts = cSpaceTags::get_sol_tags($iSol);
+
                 self::pr_set_last_sol($iSol);
                 cDebug::write("migrated highlights for sol $iSol");
                 cDebug::flush();

@@ -53,7 +53,7 @@ switch ($sOperation) {
         $aData = cSpaceTags::get_sol_tag_count($sSol);
         break;
     case "all":
-        $aData = cSpaceTags::get_top_tags();
+        $aData = cSpaceTags::get_top_tag_names();
         break;
 }
 

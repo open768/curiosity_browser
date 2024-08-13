@@ -180,7 +180,7 @@ switch ($sOperation) {
         <?php
             exit();
         }
-        cSpaceTags::kill_tag($_GET["t"]);
+        cSpaceTags::kill_tag_name($_GET["t"]);
         break;
 
         //------------------------------------------------------
