@@ -33,7 +33,7 @@ require_once "$spaceInc/misc/pichighlight.php";
 
 //specific app includes
 require_once "$home/php/admin/migrate_objdata.php";
-require_once "$home/php/admin/admin.php";
+require_once "$home/php/admin/admin_fns.php";
 
 //settings to prevent buffering
 cPageOutput::prevent_buffering();
