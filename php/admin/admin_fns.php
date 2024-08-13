@@ -11,7 +11,6 @@ class cAdminfunctions {
 
     static function delete_ihighlite_files() {
         cDebug::enter();
-        cPageOutput::prevent_buffering();
 
         //find all files named "[iHighlite].txt"
         $sFolder = realpath(cObjStore::$rootFolder);
@@ -85,6 +84,47 @@ class cAdminfunctions {
                 cSpaceComments::add_to_index($sSol, $sInstr, $sProduct);
         }
 
+        cDebug::leave();
+    }
+    //************************************************************
+    /**
+     * adds to index comments from files on disk
+     * 
+     * @return never 
+     */
+    static function pr_mosaic_filter(SplFileInfo $poFile) {
+        if ($poFile->isDir()) return true;      //allows recursion
+        $sFileName = $poFile->getFileName();
+        return ($sFileName === "[moscount].txt");
+    }
+
+    //******************************************************
+    static function migrate_mosaics() {
+        cDebug::enter();
+        cDebug::write("migrating mosaics");
+
+        //update the state of the migration
+        $sFolder = realpath(cObjStore::$rootFolder);
+        cDebug::write("directory is $sFolder");
+        cMigrateObjdata::set_phase(cMigrateObjdata::PHASE_MOSAIC);
+        $oIter = cCommonFiles::get_directory_iterator(
+            $sFolder,
+            function ($poFileInfo) {
+                return self::pr_mosaic_filter($poFileInfo);
+            }
+        );
+        /** @var SplFileInfo $oFile */
+        foreach ($oIter as  $oFile) {
+            $sPath = $oFile->getPath();
+            $oParentInfo = $oFile->getPathInfo();
+            $sSol = $oParentInfo->getBasename();
+            cDebug::write("found file: $sPath");
+            cSpaceImageHighlight::get_mosaic_sol_highlight_count($sSol);
+        }
+
+        //next step
+        cMigrateObjdata::set_last_sol(cMigrateObjdata::BEFORE_MIGRATION_SOL);
+        cMigrateObjdata::set_phase(cMigrateObjdata::PHASE_COMPLETE);
         cDebug::leave();
     }
 }

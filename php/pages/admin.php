@@ -36,18 +36,18 @@ require_once "$home/php/admin/migrate_objdata.php";
 require_once "$home/php/admin/admin_fns.php";
 
 //settings to prevent buffering
-cPageOutput::prevent_buffering();
+prevent_buffering();
 
 //##################################################################
 //headers
 include "$appPhpFragments/doctype.php";
-echo "<HEAD>";
+echo "<HEAD>\n";
 $sTitle = "Curiosity browser - Admin";
 include("$appPhpFragments/header.php");
-echo "</HEAD>";
+echo "</HEAD>\n";
 
 //##################################################################
-echo "<BODY>";
+echo "<BODY>\n";
 include("$appPhpFragments/title.php");
 
 //force the user to logon
@@ -143,7 +143,7 @@ switch ($sOperation) {
         <?php
             exit();
         }
-        cImageHighlight::kill_highlites($_GET["s"], $_GET["i"], $_GET["p"], $_GET["w"]);
+        cSpaceImageHighlight::kill_highlites($_GET["s"], $_GET["i"], $_GET["p"], $_GET["w"]);
         break;
 
         //------------------------------------------------------
@@ -195,18 +195,8 @@ switch ($sOperation) {
         break;
 
         //------------------------------------------------------
-    case "rebuildHiliteSolIndex":
-        cImageHighlight::rebuildSolIndices();  //not implelemnted
-        break;
-
-        //------------------------------------------------------
-    case "reindexTags":
-        cSpaceTags::reindex();
-        break;
-
-        //------------------------------------------------------
     case "reindexHilite":
-        cImageHighlight::reindex();
+        cSpaceImageHighlight::reindex();
         break;
 
         //------------------------------------------------------
@@ -248,7 +238,7 @@ switch ($sOperation) {
 
         <form method="get">
             <Input type="radio" name="<?= OPS_PARAM ?>" value="backup">backup objdata<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="del_empty_folders">delete empty folders<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="del_empty_folders">delete empty objdata folders<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="del_ihighlite">delete ihighlite files<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="deleteSolHighlights">Delete Sol highlight image files<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="indexComm">index Comments<br>
@@ -263,9 +253,6 @@ switch ($sOperation) {
             <Input type="radio" name="<?= OPS_PARAM ?>" value="parseAllPDS">parse ALL PDS files<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="parseLocations">parse curiosity locations<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="parsePDS">parse PDS files<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="rebuildHiliteSolIndex">rebuild hilite indices<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="reindexHilite">reindex image highlights <br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="reindexTags">reindex Tags - needed after deletion<br>
             <input type="submit" class="w3-button w3-theme-button-up"></input>
         </form>
 <?php

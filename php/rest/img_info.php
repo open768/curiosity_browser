@@ -30,7 +30,7 @@ $sProduct = $_GET["p"];
 $aTagData = cSpaceTags::get_product_tags($sSol, $sInstrument, $sProduct);
 if ($aTagData) $iTagCount = count($aTagData);
 
-$aImgData = cImageHighlight::get($sSol, $sInstrument, $sProduct);
+$aImgData = cSpaceImageHighlight::get($sSol, $sInstrument, $sProduct);
 if ($aImgData["d"]) $iHighCount = count($aImgData["d"]);
 
 $oResult = ["p" => $sProduct, "t" => $iTagCount, "h" => $iHighCount];

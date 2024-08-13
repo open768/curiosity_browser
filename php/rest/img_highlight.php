@@ -33,24 +33,24 @@ switch ($sOperation) {
         $sProduct = $_GET["p"];
         $top = $_GET["t"];
         $left = $_GET["l"];
-        $oResult = cImageHighlight::set($sSol, $sInstrument, $sProduct, $top, $left, $sUser);
+        $oResult = cSpaceImageHighlight::set($sSol, $sInstrument, $sProduct, $top, $left, $sUser);
         break;
     case "get":
         $sSol = $_GET["s"];
         $sInstrument = $_GET["i"];
         $sProduct = $_GET["p"];
-        $oResult = cImageHighlight::get($sSol, $sInstrument, $sProduct);
+        $oResult = cSpaceImageHighlight::get($sSol, $sInstrument, $sProduct);
         break;
     case "thumbs":
         $sSol = $_GET["s"];
         $sInstrument = $_GET["i"];
         $sProduct = $_GET["p"];
-        $oResult = cImageHighlight::get_thumbs($sSol, $sInstrument, $sProduct);
+        $oResult = cSpaceImageHighlight::get_thumbs($sSol, $sInstrument, $sProduct);
         break;
 
     case "solcount":
         $sSol = $_GET["s"];
-        $oResult = cSpaceIndex::get_solcount($sSol, cImageHighlight::INDEX_SUFFIX);
+        $oResult = cSpaceIndex::get_solcount($sSol, cSpaceImageHighlight::INDEX_SUFFIX);
         break;
 
     case "topsolindex":
@@ -58,16 +58,16 @@ switch ($sOperation) {
         //unfortunately cant display count of highlights as i've hard coded 1 as the index value, 
         //regardless of how many highlights --OOPS - needs a change to the underlying lack of data model.
         //update when going to sql lite
-        $oResult = cImageHighlight::get_top_index();
+        $oResult = cSpaceImageHighlight::get_top_index();
         break;
 
     case "soldata":
-        $oResult = cImageHighlight::get_sol_highlighted_products($_GET["s"]);
+        $oResult = cSpaceImageHighlight::get_sol_highlighted_products($_GET["s"]);
         break;
 
     case "mosaic":
         $sSol = $_GET["s"];
-        $sURL = cImageHighlight::get_sol_high_mosaic($sSol);
+        $sURL = cSpaceImageHighlight::get_sol_high_mosaic($sSol);
         $oResult = [
             "s" => $sSol,
             "u" => $sURL
