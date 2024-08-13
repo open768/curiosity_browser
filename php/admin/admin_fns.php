@@ -169,6 +169,7 @@ class cMigrateTags {
         return ($sFileName === cSpaceTags::PRODUCT_TAG_FILE);
     }
 
+    //******************************************************
     static function mop_up_product_tags() {
         $oIter = cCommonFiles::get_directory_iterator(
             cObjStore::$rootFolder,
@@ -178,12 +179,24 @@ class cMigrateTags {
         );
         /** @var SplFileInfo $oFile */
         foreach ($oIter as $oFile) {
-            $sPath = $oFile->getPathname();
-            cDebug::write("found $sPath");
-            cDebug::error("stop");
+            $oParent = $oFile->getPathInfo();
+            $sProduct = $oParent->getBasename();
+
+            $oParent = $oParent->getPathInfo();
+            $sInstr = $oParent->getBasename();
+
+            $oParent = $oParent->getPathInfo();
+            $sSol = $oParent->getBasename();
+
+            cDebug::write("found s:$sSol i:$sInstr p:$sProduct");
+            $aTags = cSpaceTags::get_product_tags($sSol, $sInstr, $sProduct);
+            foreach ($aTags as $sTag => $iCount) {
+                cSpaceTags::update_instr_index($sSol, $sInstr, $sProduct, $sTag);
+            }
         }
     }
 
+    //******************************************************
     static function migrate_product_tags() {
         cDebug::enter();
         cDebug::write("migrating product Tags");
