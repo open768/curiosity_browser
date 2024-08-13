@@ -147,6 +147,11 @@ switch ($sOperation) {
         break;
 
         //------------------------------------------------------
+    case "del_empty_folders":
+        cCommonFiles::delete_empty_folders(cObjStore::$rootFolder);
+        break;
+
+        //------------------------------------------------------
     case "deleteSolHighlights":
         if (!array_key_exists("s", $_GET)) {
         ?>
@@ -243,6 +248,7 @@ switch ($sOperation) {
 
         <form method="get">
             <Input type="radio" name="<?= OPS_PARAM ?>" value="backup">backup objdata<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="del_empty_folders">delete empty folders<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="del_ihighlite">delete ihighlite files<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="deleteSolHighlights">Delete Sol highlight image files<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="indexComm">index Comments<br>

@@ -134,8 +134,7 @@ class cMigrateObjdata {
         //update the state of the migration
         $oDB->put(self::MIGRATED_PHASE, self::PHASE_COMMENTS);
         //get the list
-        cDebug::error("comments are not indexed");
-
+        cAdminfunctions::indexComments();
 
         //next migration
         self::pr_set_last_sol(self::BEFORE_MIGRATION_SOL);
