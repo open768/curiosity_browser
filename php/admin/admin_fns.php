@@ -25,7 +25,7 @@ class cAdminfunctions {
             }
         );
 
-        /** @var  SplFileInfo */
+        /** @var SplFileInfo $oFile */
         $oFile = null;
         cDebug::extra_debug("starting directory walk");
         foreach ($oIter as $oFile) {

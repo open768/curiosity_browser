@@ -27,7 +27,7 @@ $sSol = $_GET["s"];
 $sInstrument = $_GET["i"];
 $sProduct = $_GET["p"];
 
-$aTagData = cSpaceTags::get_tag_names($sSol, $sInstrument, $sProduct);
+$aTagData = cSpaceTags::get_product_tags($sSol, $sInstrument, $sProduct);
 if ($aTagData) $iTagCount = count($aTagData);
 
 $aImgData = cImageHighlight::get($sSol, $sInstrument, $sProduct);

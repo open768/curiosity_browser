@@ -5,7 +5,7 @@ require_once "$spaceInc/misc/pichighlight.php";
 require_once "$spaceInc/misc/comments.php";
 
 class cMigrateObjdata {
-    /** @var cObjStoreDB */
+    /** @var cObjStoreDB $objstoreDB */
     static $objstoreDB = null;
     static $LastProduct = null;
     static $LastSol = null;
@@ -160,7 +160,9 @@ class cMigrateObjdata {
         //iterate through the list
         foreach ($aList as $iSol => $iCount)
             if ($iSol > self::$LastSol) {
-                $aProducts = cSpaceTags::get_sol_tags($iSol);
+                $aInstrData = cSpaceTags::get_sol_tags($iSol);
+                foreach ($aInstrData as $sInstr => $aTags) {
+                }
 
                 self::pr_set_last_sol($iSol);
                 cDebug::write("migrated highlights for sol $iSol");
