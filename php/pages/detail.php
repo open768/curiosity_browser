@@ -18,7 +18,6 @@ include("$appPhpFragments/doctype.php");  ?>
     <LINK href="<?= $home ?>/css/drag.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="<?= $jsExtra ?>/sceditor/minified/themes/default.min.css" type="text/css" media="all">
     <title>Detail: Curiosity Browser</title>
-    <script src="<?= $jsExtra ?>/pixlr/pixlr.js"></script>
     <script src="<?= $jsInc ?>/ck-inc/space/comments.js"></script>
     <script src="<?= $jsExtra ?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
     <script src="<?= $AppJS ?>/pages/detail.js"></script>
@@ -41,7 +40,6 @@ include("$appPhpFragments/doctype.php");  ?>
         <button class="leftbutton" id="nasalink" title="Original Nasa image">Original</button>
         <button class="leftbutton" id="mslrawlink" title="MSL curiosity Raw images">MSL Raw Image</button>
         <button class="leftbutton" id="pds_product" title="released PDS product">PDS Product</button>
-        <button class="leftbutton" id="pixlr" title="Edit Image with Pixlr">Edit Image</button>
         <button class="leftbutton" id="google" title="Search related with google">Google</button>
 
         <!-- add a tag -->

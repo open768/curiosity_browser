@@ -45,7 +45,6 @@ class cDetail {
       $("#nasalink").click((poEvent) => this.onClickNASA(poEvent))
       $("#mslrawlink").click((poEvent) => this.onClickMSLRaw(poEvent))
       $("#pds_product").click((poEvent) => this.onClickonClickPDS(poEvent))
-      $("#pixlr").click((poEvent) => this.onClickPixlr(poEvent))
       $("#google").click((poEvent) => this.onClickGoogle(poEvent))
 
       $("#submittag").click((poEvent) => this.onClickAddTag(poEvent))
@@ -241,18 +240,6 @@ class cDetail {
       cTagging.setTag(this.oItem.s, this.oItem.i, this.oItem.p, sTag, () =>
          this.onSetTag(),
       )
-   }
-
-   //* **************************************************************
-   static onClickPixlr() {
-      /* global pixlr */
-      pixlr.edit({
-         image: this.oItem.d.i,
-         service: "editor",
-         exit: document.location,
-         referer: "mars browser",
-         redirect: false,
-      })
    }
 
    //* **************************************************************
