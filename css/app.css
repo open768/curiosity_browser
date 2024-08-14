@@ -143,6 +143,19 @@ body {
    width: 25px;
 }
 
+.image_error {
+   background-color: red;
+   color: white;
+   height: 200px;
+   width: 800px;
+   font-size: 50px;
+   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+   text-align: center;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
 .instruments {
    font-family: "Helvetica Neue", Helvetica, sans-serif;
    font-size: 12px;

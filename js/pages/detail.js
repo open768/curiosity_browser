@@ -405,6 +405,11 @@ class cDetail {
       // check whether there was any data
       oData = this.oItem.d
       if (oData === null) {
+         cDebug.warn("product " + this.oItem.p + " was not found")
+         $("#image").empty()
+         $("#image").addClass("image_error")
+         $("#image").append("product not found")
+
          if (this.oItem.migrate !== null) {
             sUrl =
                "migrate.php?s=" +
