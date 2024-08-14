@@ -26,40 +26,88 @@ class cMigrateHighlights {
         cDebug::leave();
     }
 
-    //******************************************************
-    static function pr_mosaic_filter(SplFileInfo $poFile) {
-        if ($poFile->isDir()) return true;      //allows recursion
-        $sFileName = $poFile->getFileName();
-        return ($sFileName === "[moscount].txt");
-    }
 
     //******************************************************
     static function migrate_mosaics() {
         cDebug::enter();
         cDebug::write("migrating mosaics");
 
+        //******************************************************
+        $fnFilter = function (SplFileInfo $poFile) {
+            if ($poFile->isDir()) return true;      //allows recursion
+            $sFileName = $poFile->getFileName();
+            return ($sFileName === cSpaceImageMosaic::MOSAIC_COUNT_FILENAME);
+        };
         //update the state of the migration
-        $sFolder = realpath(cObjStore::$rootFolder);
-        cDebug::write("directory is $sFolder");
         cMigrateObjdata::set_phase(cMigrateObjdata::PHASE_MOSAIC);
-        $oIter = cCommonFiles::get_directory_iterator(
-            $sFolder,
-            function ($poFileInfo) {
-                return self::pr_mosaic_filter($poFileInfo);
-            }
-        );
+        $oIter = cCommonFiles::get_directory_iterator(cObjStore::$rootFolder, $fnFilter);
         /** @var SplFileInfo $oFile */
         foreach ($oIter as  $oFile) {
             $sPath = $oFile->getPath();
             $oParentInfo = $oFile->getPathInfo();
             $sSol = $oParentInfo->getBasename();
             cDebug::write("found file: $sPath");
-            cSpaceImageHighlight::get_mosaic_sol_highlight_count($sSol);
+            cSpaceImageMosaic::get_mosaic_sol_highlight_count($sSol);
         }
 
         //next step
         cMigrateObjdata::set_last_sol(cMigrateObjdata::BEFORE_MIGRATION_SOL);
         cMigrateObjdata::set_phase(cMigrateObjdata::PHASE_COMPLETE);
+        cDebug::leave();
+    }
+
+    //************************************************************
+    static function delete_old_ihighlite_files() {
+        cDebug::enter();
+
+        $fnFilter = function (SplFileInfo $poFile) {
+            if ($poFile->isDir()) return true;      //allows recursion
+            $sFileName = $poFile->getFileName();
+            return ($sFileName === "[iHighlite].txt");
+        };
+
+        $oIter = cCommonFiles::get_directory_iterator(cObjStore::$rootFolder, $fnFilter);
+
+        /** @var SplFileInfo $oFile */
+        $oFile = null;
+        cDebug::extra_debug("starting directory walk");
+        foreach ($oIter as $oFile) {
+            $sPath = $oFile->getpathname();
+            cDebug::write("deleting $sPath");
+            @unlink($sPath);
+        }
+
+        cDebug::leave();
+    }
+
+    //************************************************************
+    static function mopup_imgbox_files() {
+        cDebug::enter();
+
+        $fnFilter = function (SplFileInfo $poFile) {
+            if ($poFile->isDir()) return true;      //allows recursion
+            $sFileName = $poFile->getFileName();
+            return ($sFileName === cSpaceImageHighlight::IMGHIGH_FILENAME);
+        };
+
+        $oIter = cCommonFiles::get_directory_iterator(cObjStore::$rootFolder, $fnFilter);
+
+        cDebug::extra_debug("starting directory walk");
+        /** @var SplFileInfo $oFile */
+        foreach ($oIter as $oFile) {
+            $oParent = $oFile->getPathInfo();
+            $sProduct = $oParent->getBasename();
+            $oParent = $oParent->getPathInfo();
+            $sInstr = $oParent->getBasename();
+            $oParent = $oParent->getPathInfo();
+            $sSol = $oParent->getBasename();
+
+            cDebug::write("s:$sSol i:$sInstr p:$sProduct");
+            //cSpaceImageHighlight::get_sol_highlighted_products();
+            cSpaceImageHighlight::get($sSol, $sInstr, $sProduct);
+            cSpaceIndex::update_indexes($sSol, $sInstr, $sProduct, 1, cSpaceIndex::HILITE_SUFFIX);
+        }
+
         cDebug::leave();
     }
 }
@@ -84,26 +132,18 @@ class cMigrateComments {
     }
 
     //******************************************************
-    static function pr_comment_filter(SplFileInfo $poFile) {
-        if ($poFile->isDir()) return true;      //allows recursion
-        $sFileName = $poFile->getFileName();
-        return ($sFileName === "[comment].txt");
-    }
 
     //******************************************************
     static function indexComments() {
         cDebug::enter();
 
-        //scan the objdata directory for comments files to determine the SOL and instrument
-        $sFolder = realpath(cObjStore::$rootFolder);
-        cDebug::write("scanning  folder {$sFolder} for comments files");
+        $fnFilter = function (SplFileInfo $poFile) {
+            if ($poFile->isDir()) return true;      //allows recursion
+            $sFileName = $poFile->getFileName();
+            return ($sFileName === cSpaceComments::COMMENT_FILENAME);
+        };
 
-        $oIter = cCommonFiles::get_directory_iterator(
-            $sFolder,
-            function ($poFile) {
-                return self::pr_comment_filter($poFile);
-            }
-        );
+        $oIter = cCommonFiles::get_directory_iterator(cObjStore::$rootFolder, $fnFilter);
         /** @var SplFileInfo $oFile */
         foreach ($oIter as $oFile) {
             //-------- find the sol, instrument and product
@@ -162,21 +202,50 @@ class cMigrateGigas {
 
 //##########################################################################
 class cMigrateTags {
-    //******************************************************
-    static function pr_filter_product_tag(SplFileInfo $poFile) {
-        if ($poFile->isDir()) return true;      //allows recursion
-        $sFileName = $poFile->getFileName();
-        return ($sFileName === cSpaceTags::PRODUCT_TAG_FILE);
-    }
 
     //******************************************************
-    static function mop_up_product_tags() {
-        $oIter = cCommonFiles::get_directory_iterator(
-            cObjStore::$rootFolder,
-            function ($poFileInfo) {
-                return self::pr_filter_product_tag($poFileInfo);
+    static function mopup_soltag_files() {
+        cDebug::enter();
+        //******************************************************
+        $fnFilter =  function (SplFileInfo $poFile) {
+            if ($poFile->isDir()) return true;      //allows recursion
+            $sFileName = $poFile->getFileName();
+            return ($sFileName === cSpaceTags::SOL_TAG_FILE);
+        };
+
+        $oIter = cCommonFiles::get_directory_iterator(cObjStore::$rootFolder, $fnFilter);
+        /** @var SplFileInfo $oFile */
+        foreach ($oIter as $oFile) {
+            $oParent = $oFile->getPathInfo();
+            $sProduct = $oParent->getBasename();
+
+            $oParent = $oParent->getPathInfo();
+            $sInstr = $oParent->getBasename();
+
+            $oParent = $oParent->getPathInfo();
+            $sSol = $oParent->getBasename();
+
+            cDebug::write("found s:$sSol i:$sInstr p:$sProduct");
+            /*
+            $aTags = cSpaceTags::get_product_tags($sSol, $sInstr, $sProduct);
+            foreach ($aTags as $sTag => $iCount) {
+                cSpaceTags::update_instr_index($sSol, $sInstr, $sProduct, $sTag);
             }
-        );
+                */
+        }
+        cDebug::leave();
+    }
+    //******************************************************
+    static function mopup_product_tags() {
+        cDebug::enter();
+        //******************************************************
+        $fnFilter =  function (SplFileInfo $poFile) {
+            if ($poFile->isDir()) return true;      //allows recursion
+            $sFileName = $poFile->getFileName();
+            return ($sFileName === cSpaceTags::PRODUCT_TAG_FILE);
+        };
+
+        $oIter = cCommonFiles::get_directory_iterator(cObjStore::$rootFolder, $fnFilter);
         /** @var SplFileInfo $oFile */
         foreach ($oIter as $oFile) {
             $oParent = $oFile->getPathInfo();
@@ -194,6 +263,7 @@ class cMigrateTags {
                 cSpaceTags::update_instr_index($sSol, $sInstr, $sProduct, $sTag);
             }
         }
+        cDebug::leave();
     }
 
     //******************************************************
@@ -226,7 +296,8 @@ class cMigrateTags {
             }
 
         //mop up tag files
-        self::mop_up_product_tags();
+        self::mopup_product_tags();
+        self::mopup_soltag_files();
 
         //next migration
         cMigrateObjdata::set_last_sol(cMigrateObjdata::BEFORE_MIGRATION_SOL);
@@ -245,54 +316,17 @@ class cMigrateTags {
         cMigrateObjdata::set_phase(cMigrateObjdata::PHASE_TAG_NAMES);
 
         //
-        $aTags = cSpaceTags::get_top_tag_names();
+        $aTags = cSpaceTagNames::get_top_tag_names();
 
         foreach ($aTags as $sTag => $sCount) {
             if ($sTag === "") continue;
             cDebug::write("Tag is $sTag");
-            cSpaceTags::get_tag_name_index($sTag);
+            cSpaceTagNames::get_tag_name_index($sTag);
         }
 
         //next migration
         cMigrateObjdata::set_last_sol(cMigrateObjdata::BEFORE_MIGRATION_SOL);
         cMigrateGigas::migrate_gigas();
-
-        cDebug::leave();
-    }
-}
-
-//##########################################################################
-class cAdminfunctions {
-    //************************************************************
-    static function pr_ihigh_filter(SplFileInfo $poFile) {
-        if ($poFile->isDir()) return true;      //allows recursion
-        $sFileName = $poFile->getFileName();
-        return ($sFileName === "[iHighlite].txt");
-    }
-
-    static function delete_ihighlite_files() {
-        cDebug::enter();
-
-        //find all files named "[iHighlite].txt"
-        $sFolder = realpath(cObjStore::$rootFolder);
-        cDebug::extra_debug("looking in $sFolder");
-
-        //************************************************************
-        $oIter = cCommonFiles::get_directory_iterator(
-            $sFolder,
-            function (SplFileInfo $po) {
-                return self::pr_ihigh_filter($po);
-            }
-        );
-
-        /** @var SplFileInfo $oFile */
-        $oFile = null;
-        cDebug::extra_debug("starting directory walk");
-        foreach ($oIter as $oFile) {
-            $sPath = $oFile->getpathname();
-            cDebug::write("deleting $sPath");
-            @unlink($sPath);
-        }
 
         cDebug::leave();
     }

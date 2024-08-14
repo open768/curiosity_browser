@@ -11,7 +11,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
  **************************************************************************/
-$home = "../..";
+$home = "../../..";
 require_once "$home/php/fragments/app-common.php";
 
 //phpinc includes
@@ -33,7 +33,7 @@ require_once "$spaceInc/misc/pichighlight.php";
 
 //specific app includes
 require_once "$home/php/admin/migrate_objdata.php";
-require_once "$home/php/admin/admin_fns.php";
+require_once "$home/php/admin/migrate_fns.php";
 
 //settings to prevent buffering
 prevent_buffering();
@@ -180,7 +180,7 @@ switch ($sOperation) {
         <?php
             exit();
         }
-        cSpaceTags::kill_tag_name($_GET["t"]);
+        cSpaceTagNames::kill_tag_name($_GET["t"]);
         break;
 
         //------------------------------------------------------
@@ -201,7 +201,7 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case "indexComm":
-        cAdminfunctions::indexComments();
+        cMigrateComments::indexComments();
         break;
 
         //------------------------------------------------------
@@ -228,7 +228,7 @@ switch ($sOperation) {
         //------------------------------------------------------
     case "del_ihighlite":
         //deleteing ihighlite files
-        cAdminfunctions::delete_ihighlite_files();
+        cMigrateHighlights::delete_old_ihighlite_files();
         break;
 
         //------------------------------------------------------

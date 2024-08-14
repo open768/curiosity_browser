@@ -53,8 +53,7 @@ class cMigrateObjdata {
     static function migrate() {
         cDebug::enter();
         $sPhase = self::initialise();
-        cMigrateTags::mop_up_product_tags();
-        cDebug::error("stop");
+        cMigrateTags::mopup_soltag_files();
 
         cDebug::extra_debug("migration phase is '$sPhase'");
 
