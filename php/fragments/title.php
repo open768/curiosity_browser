@@ -1,6 +1,6 @@
 <!-- Tracking -->
 <?php
-include("$appPhpFragments/google.php");
+//include("$appPhpFragments/google.php");
 include("$appPhpFragments/appd.php");
 
 $sFile = cCommonFiles::server_filename();

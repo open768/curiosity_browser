@@ -53,8 +53,6 @@ cPageOutput::write_JS_class_constant_IDs("cAppLocations");
 <script src="<?= $jsInc ?>/ck-inc/space/tagging.js"></script>
 <script src="<?= $jsInc ?>/ck-inc/space/imghilite.js"></script>
 
-
-
 <!-- Facebook -->
 <script src="<?= $jsInc ?>/ck-inc/facebook.js"></script>
 
