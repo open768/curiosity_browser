@@ -204,6 +204,14 @@ $.widget("ck.solButtons", {
       oObj.append(oButton)
 
       // ----------------------------------------------------
+      oButton = $("<button>", { title: "All Comments", class: "leftbutton" })
+      oButton.append("All Comments")
+      oButton.click(function () {
+         cBrowser.openWindow("allcomments.php", "allcomments")
+      })
+      oObj.append(oButton)
+
+      // ----------------------------------------------------
       oButton = $("<button>", { title: "All Sites", class: "leftbutton" })
       oButton.append("All Sites")
       oButton.click(function () {

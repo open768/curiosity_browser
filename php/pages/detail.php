@@ -31,7 +31,6 @@ include("$appPhpFragments/doctype.php");  ?>
     ?>
     <!-- TODO convert into a widget -->
     <DIV class="gold">
-        <button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
         <button class="leftbutton" id="sol" title="Choose Sol">loading...</button>
         <button class="leftbutton" id="instrument" title="Choose Instrument">loading</button>
         <button class="leftbutton" id="solCal" title="Show SOL Calendar">Calendar</button>
@@ -51,9 +50,6 @@ include("$appPhpFragments/doctype.php");  ?>
             <span ID="tags">Loading...</span>
             <input type="text" size="20" maxlength="20" id="tagtext"><button class="rightbutton" id="submittag">Add</button>
         </div>
-    </div>
-    <DIV class="gold">
-        <span class="subtitle">Status:</span> <span ID="status" class="status">Loading...</span>
     </div>
     <!-- image container -->
     <table border="0" class="gold">

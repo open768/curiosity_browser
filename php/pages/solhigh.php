@@ -23,7 +23,6 @@ include("$appPhpFragments/doctype.php");  ?>
     include("$appPhpFragments/title.php");
     ?>
     <div class="gold">
-        <button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
         <button class="leftbutton" onclick="cSolHighs.onClickPrevious_sol()" title="previous sol">&lt;&lt;&lt;</button>
         <button class="roundbutton" onclick="cSolHighs.onClickSol();">sol <span id="solbutton">???</span></button>
         <button class="leftbutton" onclick="cBrowser.openWindow('allsolhighs.php','allhighs');">All Sols</button>
@@ -31,8 +30,6 @@ include("$appPhpFragments/doctype.php");  ?>
 
         &nbsp;&nbsp;&nbsp;
         <input id="chkMosaic" type="checkbox">Mosaic
-        &nbsp;&nbsp;&nbsp;
-        <span class="subtitle">Status:</span> <span class="status" id="status"> loading...</span>
     </div>
     <div class="gold" id="solhigh">
         Loading...

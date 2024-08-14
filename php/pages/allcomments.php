@@ -1,25 +1,27 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-("$appPhpFragments/doctype.php");  ?>
+include("$appPhpFragments/doctype.php");  ?>
 <html>
 
 <head>
     <?php
     include("$appPhpFragments/header.php");
     ?>
-    <title>All Highlights - Curiosity Browser</title>
-    <script src="<?= $AppJSWidgets ?>/solhighgrid.js"></script>
-    <script src="<?= $AppJS ?>/pages/allsolhighs.js"></script>
+    <title>All Comments - Curiosity Browser</title>
+    <script src="<?= $AppJS ?>/pages/allcomments.js"></script>
+    <script src="<?= $AppJSWidgets ?>/allcomments.js"></script>
     <script src="<?= $AppJS ?>/classes/solgrid.js"></script>
 </head>
 
-<body onload="$(onLoadJQuery_HIGHS);">
+<body onload="$(onLoadJQuery_TAGS);">
     <?php
-    $sTitle = "Sols with Highlights";
+    $sTitle = "Tagged Sols";
     include("$appPhpFragments/title.php");
     ?>
-    <div class="gold" id="solhighs">
+    <DIV class="title">Tagged Sols</DIV>
+    <p>
+    <div class="gold" id="soltag">
         Loading...
     </div>
     <P>

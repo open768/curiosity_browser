@@ -18,12 +18,6 @@ include("$appPhpFragments/doctype.php");  ?>
     ?>
     <script src="<?= $jsInc ?>/ck-inc/common.js"></script>
     <div class="gold">
-        <!-- ##################################################################### -->
-        <div class="w3-cell-row w3-header-theme">
-            <div class="w3-cell">
-                <button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
-            </div>
-        </div>
 
         <!-- ##################################################################### -->
         <div class="w3-panel w3-card-2 w3-padding-large w3-theme">

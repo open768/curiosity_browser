@@ -1,36 +1,35 @@
-<?php	
-	$home="../..";
-	require_once "$home/php/fragments/app-common.php";
- 	include("$appPhpFragments/doctype.php");  ?>
+<?php
+$home = "../..";
+require_once "$home/php/fragments/app-common.php";
+include("$appPhpFragments/doctype.php");  ?>
 <html>
+
 <head>
-	<?php 
-		include("$appPhpFragments/header.php"); 
-	?>
-	<title>Sol Tags - Curiosity Browser</title>
-	<script src="<?=$AppJS?>/pages/allsoltags.js"></script>
-	<script src="<?=$AppJSWidgets?>/soltags.js"></script>
-	<script src="<?=$AppJS?>/classes/solgrid.js"></script>
+    <?php
+    include("$appPhpFragments/header.php");
+    ?>
+    <title>Sol Tags - Curiosity Browser</title>
+    <script src="<?= $AppJS ?>/pages/allsoltags.js"></script>
+    <script src="<?= $AppJSWidgets ?>/soltags.js"></script>
+    <script src="<?= $AppJS ?>/classes/solgrid.js"></script>
 </head>
+
 <body onload="$(onLoadJQuery_TAGS);">
-	<?php 
-		$sTitle = "Tagged Sols";
-		include("$appPhpFragments/title.php");
-	?>
-	<DIV class="title">Tagged Sols</DIV>
-<p>
-	<div class="gold">
-		<button class="homebutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
-		<span class="subtitle">Status:</span> <span class="status" id="status">	loading...</span>
-	</div>
-	<div class="gold"  id="soltag">
-		Loading...
-	</div>
-	<P>
-	
-	<!-- *************** footer *********************** -->
-	<?php 	
-		include("$appPhpFragments/footer.php") 	
-	?>
+    <?php
+    $sTitle = "Tagged Sols";
+    include("$appPhpFragments/title.php");
+    ?>
+    <DIV class="title">Tagged Sols</DIV>
+    <p>
+    <div class="gold" id="soltag">
+        Loading...
+    </div>
+    <P>
+
+        <!-- *************** footer *********************** -->
+        <?php
+        include("$appPhpFragments/footer.php")
+        ?>
 </body>
+
 </html>

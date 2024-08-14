@@ -26,6 +26,11 @@ class cAppLocations {
     static $rest = null;
     static $jsextra = null;
 };
+
 cAppLocations::$home = $home;
 cAppLocations::$rest = "{$home}/php/rest";
 cAppLocations::$jsextra = $jsExtra;
+
+class cAppIDs {
+    const STATUS_ID = "status";
+}

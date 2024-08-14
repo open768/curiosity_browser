@@ -17,7 +17,7 @@ class cIndexPageConsts {
     const ID_SEARCH = "SR";
     const ID_CHKTHUMBS = "ct";
     const ID_IMAGE_CONTAINER = "ic";
-    const ID_STATUS = "status";
+    const ID_STATUS = cAppIDs::STATUS_ID;
     const ID_INTRO = "idintro";
 
     static $IS_ADMIN = "no";
@@ -72,7 +72,6 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
             <div class="gold" id="header-pane">
                 <input type="text" id="<?= cIndexPageConsts::ID_SEARCH ?>" size="30"><button class="rightbutton" onclick="onClickSearch()" title="Search for Product">Search</button>
                 <input id="<?= cIndexPageConsts::ID_CHKTHUMBS ?>" type="checkbox">Show Thumbnails&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="subtitle"> Status: </span><span ID="<?= cIndexPageConsts::ID_STATUS ?>" class="status">Loading...</span>
             </div>
 
             <!-- will contain images when selected -->

@@ -71,4 +71,4 @@ cPageOutput::write_JS_class_constant_IDs("cAppLocations");
 </script>
 
 <!-- New relic -->
-<script src="<?= $AppJS ?>/fragments/newrelic.php"></script>
+<!-- <script src="<?= $AppJS ?>/fragments/newrelic.php"></script> -->
