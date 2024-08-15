@@ -13,6 +13,7 @@ class cMigrateObjdata {
     const MIGRATED_PHASE = "MIPh";
     const MIGRATED_SOL = "MIS";
     const MIGRATED_PRODUCT = "MIPr";
+    const PHASE_FACEBOOK = "pfb";
     const PHASE_COMPLETE = "phdone";
     const PHASE_COMMENTS = "phc";
     const PHASE_GIGA = "phg";
@@ -53,7 +54,6 @@ class cMigrateObjdata {
     static function migrate() {
         cDebug::enter();
         $sPhase = self::initialise();
-        cMigrateTags::mopup_soltag_files();
 
         cDebug::extra_debug("migration phase is '$sPhase'");
 
@@ -85,6 +85,10 @@ class cMigrateObjdata {
             case self::PHASE_MOSAIC:
                 cDebug::write("completing mosaic migration");
                 cMigrateHighlights::migrate_mosaics();
+                break;
+            case self::PHASE_FACEBOOK:
+                cDebug::write("completing facebook migration");
+                cMigrateFacebook::migrate_FB();
                 break;
             case self::PHASE_COMPLETE:
                 // migration completed

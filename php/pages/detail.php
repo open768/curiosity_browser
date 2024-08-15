@@ -28,7 +28,7 @@ include("$appPhpFragments/doctype.php");  ?>
     $sTitle = "Product Detail";
     include("$appPhpFragments/title.php");
     ?>
-    <!-- TODO convert into a widget -->
+    <!-- @todo convert into a widget -->
     <DIV class="gold">
         <button class="leftbutton" id="sol" title="Choose Sol">loading...</button>
         <button class="leftbutton" id="instrument" title="Choose Instrument">loading</button>

@@ -40,7 +40,7 @@ class cMigrateHighlights {
         };
         //update the state of the migration
         cMigrateObjdata::set_phase(cMigrateObjdata::PHASE_MOSAIC);
-        $oIter = cCommonFiles::get_directory_iterator(cObjStore::$rootFolder, $fnFilter);
+        $oIter = cCommonFiles::get_directory_iterator(cObjStore::get_folder_path(), $fnFilter);
         /** @var SplFileInfo $oFile */
         foreach ($oIter as  $oFile) {
             $sPath = $oFile->getPath();
@@ -52,7 +52,7 @@ class cMigrateHighlights {
 
         //next step
         cMigrateObjdata::set_last_sol(cMigrateObjdata::BEFORE_MIGRATION_SOL);
-        cMigrateObjdata::set_phase(cMigrateObjdata::PHASE_COMPLETE);
+        cMigrateObjdata::set_phase(cMigrateObjdata::PHASE_FACEBOOK);
         cDebug::leave();
     }
 
@@ -66,7 +66,7 @@ class cMigrateHighlights {
             return ($sFileName === "[iHighlite].txt");
         };
 
-        $oIter = cCommonFiles::get_directory_iterator(cObjStore::$rootFolder, $fnFilter);
+        $oIter = cCommonFiles::get_directory_iterator(cObjStore::get_folder_path(), $fnFilter);
 
         /** @var SplFileInfo $oFile */
         $oFile = null;
@@ -90,7 +90,7 @@ class cMigrateHighlights {
             return ($sFileName === cSpaceImageHighlight::IMGHIGH_FILENAME);
         };
 
-        $oIter = cCommonFiles::get_directory_iterator(cObjStore::$rootFolder, $fnFilter);
+        $oIter = cCommonFiles::get_directory_iterator(cObjStore::get_folder_path(), $fnFilter);
 
         cDebug::extra_debug("starting directory walk");
         /** @var SplFileInfo $oFile */
@@ -132,8 +132,6 @@ class cMigrateComments {
     }
 
     //******************************************************
-
-    //******************************************************
     static function indexComments() {
         cDebug::enter();
 
@@ -143,7 +141,7 @@ class cMigrateComments {
             return ($sFileName === cSpaceComments::COMMENT_FILENAME);
         };
 
-        $oIter = cCommonFiles::get_directory_iterator(cObjStore::$rootFolder, $fnFilter);
+        $oIter = cCommonFiles::get_directory_iterator(cObjStore::get_folder_path(), $fnFilter);
         /** @var SplFileInfo $oFile */
         foreach ($oIter as $oFile) {
             //-------- find the sol, instrument and product
@@ -201,6 +199,57 @@ class cMigrateGigas {
 }
 
 //##########################################################################
+class cMigrateFacebook {
+    static function mopup_FB() {
+        cDebug::enter();
+        cDebug::write("mopping up facebook");
+        //******************************************************
+        $fnFilter =  function (SplFileInfo $poFile) {
+            if ($poFile->isDir()) return true;      //allows recursion
+            $sFileName = $poFile->getFileName();
+            return (is_numeric($sFileName));
+        };
+
+        $sFolder = cObjStore::get_folder_path(cFacebook_ServerSide::FB_USER_FOLDER);
+        $oIter = cCommonFiles::get_directory_iterator($sFolder, $fnFilter);
+        /** @var SplFileInfo $oFile */
+        foreach ($oIter as $oFile) {
+            $sUserID = $oFile->getBasename();
+            cDebug::write("found file $sUserID");
+            $oUser = cFacebook_ServerSide::get_userDetails($sUserID);
+            cFacebook_ServerSide::add_to_index($sUserID);
+        }
+
+
+        cDebug::leave();
+    }
+
+    //******************************************************
+    static function migrate_FB() {
+        cDebug::enter();
+        cDebug::write("migrating facebook");
+
+        //-------------------------------------------------------
+        $aUsers = cFacebook_ServerSide::get_index();
+        if ($aUsers) {
+            foreach ($aUsers as $sUserId => $iCount) {
+                cDebug::write("FB user: $sUserId");
+                cFacebook_ServerSide::get_userDetails($sUserId);
+            }
+        }
+
+        //-------------------------------------------------------
+        self::mopup_FB();
+
+        //-------------------------------------------------------
+        //next step
+        cMigrateObjdata::set_last_sol(cMigrateObjdata::BEFORE_MIGRATION_SOL);
+        cMigrateObjdata::set_phase(cMigrateObjdata::PHASE_COMPLETE);
+        cDebug::leave();
+    }
+}
+
+//##########################################################################
 class cMigrateTags {
 
     //******************************************************
@@ -213,7 +262,7 @@ class cMigrateTags {
             return ($sFileName === cSpaceTags::SOL_TAG_FILE);
         };
 
-        $oIter = cCommonFiles::get_directory_iterator(cObjStore::$rootFolder, $fnFilter);
+        $oIter = cCommonFiles::get_directory_iterator(cObjStore::get_folder_path(), $fnFilter);
         /** @var SplFileInfo $oFile */
         foreach ($oIter as $oFile) {
             $oParent = $oFile->getPathInfo();
@@ -245,7 +294,7 @@ class cMigrateTags {
             return ($sFileName === cSpaceTags::PRODUCT_TAG_FILE);
         };
 
-        $oIter = cCommonFiles::get_directory_iterator(cObjStore::$rootFolder, $fnFilter);
+        $oIter = cCommonFiles::get_directory_iterator(cObjStore::get_folder_path(), $fnFilter);
         /** @var SplFileInfo $oFile */
         foreach ($oIter as $oFile) {
             $oParent = $oFile->getPathInfo();
