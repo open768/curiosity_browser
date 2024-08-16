@@ -1,4 +1,5 @@
 <?php
+ini_set("display_errors", "on"); //needed otherwise 500 error
 
 /**************************************************************************
 Copyright (C) Chicken Katsu 2013 -2024
