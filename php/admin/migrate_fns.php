@@ -44,15 +44,15 @@ class cMigrateHighlights {
         /** @var SplFileInfo $oFile */
         foreach ($oIter as  $oFile) {
             $sPath = $oFile->getPath();
-            $oParentInfo = $oFile->getPathInfo();
-            $sSol = $oParentInfo->getBasename();
-            cDebug::write("found file: $sPath");
+            $oParent = $oFile->getPathInfo();
+            $sSol = $oParent->getBasename();
+            cDebug::write("found file: $sPath sol:$sSol");
             cSpaceImageMosaic::get_mosaic_sol_highlight_count($sSol);
         }
 
         //next step
         cMigrateObjdata::set_last_sol(cMigrateObjdata::BEFORE_MIGRATION_SOL);
-        cMigrateObjdata::set_phase(cMigrateObjdata::PHASE_FACEBOOK);
+        cMigrateFacebook::migrate_FB();
         cDebug::leave();
     }
 
@@ -141,6 +141,7 @@ class cMigrateComments {
             return ($sFileName === cSpaceComments::COMMENT_FILENAME);
         };
 
+        cDebug::write("Looking for filename: " . cSpaceComments::COMMENT_FILENAME);
         $oIter = cCommonFiles::get_directory_iterator(cObjStore::get_folder_path(), $fnFilter);
         /** @var SplFileInfo $oFile */
         foreach ($oIter as $oFile) {
@@ -154,8 +155,11 @@ class cMigrateComments {
             $oParent = $oParent->getPathInfo();
             $sSol = $oParent->getBasename();
 
-            if (!is_numeric($sSol)) continue;
-            if (!is_numeric($sInstr)) continue;
+            cDebug::write("Sol:$sSol, Instr: $sInstr");
+            if (!is_numeric($sSol)) {
+                cDebug::write("no numeric sol: $sPath");
+                continue;
+            }
             cDebug::write("s:{$sSol} i:{$sInstr} p:{$sProduct}");
 
             // --------- migrate the comment itself (can only do this once so do it right)
@@ -228,6 +232,8 @@ class cMigrateFacebook {
     static function migrate_FB() {
         cDebug::enter();
         cDebug::write("migrating facebook");
+
+        cMigrateObjdata::set_phase(cMigrateObjdata::PHASE_FACEBOOK);
 
         //-------------------------------------------------------
         $aUsers = cFacebook_ServerSide::get_index();
