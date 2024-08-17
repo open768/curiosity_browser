@@ -31,13 +31,6 @@ body {
    font-style: italic;
 }
 
-.cookie {
-   background-color: #eeeeee;
-   border: 2px solid blue;
-   border-radius: 10px;
-   padding: 10px;
-}
-
 .credits {
    color: #e86005;
    font-family: "Helvetica Neue", Helvetica, sans-serif;
@@ -47,11 +40,8 @@ body {
 }
 
 .disclaim {
-   background-color: #eeeeee;
-   border: 2px solid blue;
    border-radius: 10px;
    font-size: 11px;
-   padding: 10px;
 }
 
 .FBloginButton {
