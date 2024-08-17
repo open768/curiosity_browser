@@ -43,10 +43,15 @@ class cMigrateObjdata {
         //$oDB->SHOW_SQL = true;
 
         //get the status of the migration
-        $sPhase = $oDB->get(self::MIGRATED_PHASE);
+        $sPhase = self::get_phase();
         self::$LastSol = $oDB->get(self::MIGRATED_SOL);
         if (self::$LastSol == null) self::$LastSol = self::BEFORE_MIGRATION_SOL;
         self::$LastProduct = $oDB->get(self::MIGRATED_PRODUCT);
+
+        if (cCommon::is_string_empty($sPhase)) {
+            cDebug::write("migration not attempted before");
+            $sPhase = null;
+        }
 
         return $sPhase;
     }
@@ -60,7 +65,8 @@ class cMigrateObjdata {
         //process according to the reached phase
         switch ($sPhase) {
             case null:
-                // migration not attempted
+                cDebug::write("starting migration");
+                cMigrateHighlights::migrate_highlights();
                 break;
             case self::PHASE_HIGHLIGHTS:
                 cDebug::write("completing highlight migration");
@@ -111,12 +117,23 @@ class cMigrateObjdata {
         self::$LastSol = $piSol;
     }
 
+    //*******************************************************************
     static function set_phase($psPhase) {
         /** @var cObjStoreDB $oDB */
         $oDB = self::$objstoreDB;
 
         //update the state of the migration
-        $oDB->put(self::MIGRATED_PHASE, $psPhase);
+        cDebug::write("storing  phase $psPhase");
+        $oDB->put(self::MIGRATED_PHASE, $psPhase, true);
+    }
+
+    //*******************************************************************
+    static function get_phase() {
+        /** @var cObjStoreDB $oDB */
+        $oDB = self::$objstoreDB;
+        $sPhase = $oDB->get(self::MIGRATED_PHASE);
+        cDebug::write("current phase is $sPhase");
+        return $sPhase;
     }
 }
 
