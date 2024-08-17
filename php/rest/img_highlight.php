@@ -50,7 +50,7 @@ switch ($sOperation) {
 
     case "solcount":
         $sSol = $_GET["s"];
-        $oResult = cSpaceIndex::get_solcount($sSol, cSpaceImageHighlight::INDEX_SUFFIX);
+        $oResult = cSpaceIndex::get_solcount($sSol, cSpaceIndex::HILITE_SUFFIX);
         break;
 
     case "topsolindex":
@@ -67,7 +67,7 @@ switch ($sOperation) {
 
     case "mosaic":
         $sSol = $_GET["s"];
-        $sURL = cSpaceImageHighlight::get_sol_high_mosaic($sSol);
+        $sURL = cSpaceImageMosaic::get_sol_high_mosaic($sSol);
         $oResult = [
             "s" => $sSol,
             "u" => $sURL

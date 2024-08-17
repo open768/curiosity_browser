@@ -157,7 +157,7 @@ class cMigrateComments {
 
             cDebug::write("Sol:$sSol, Instr: $sInstr");
             if (!is_numeric($sSol)) {
-                cDebug::write("no numeric sol: $sPath");
+                cDebug::write("not a numeric sol: $sSol");
                 continue;
             }
             cDebug::write("s:{$sSol} i:{$sInstr} p:{$sProduct}");
