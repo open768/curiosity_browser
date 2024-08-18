@@ -217,7 +217,7 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case  "indexManifest":
-        cDebug::error("not implemented");
+        cCuriosityManifest::indexManifest();
         break;
         //------------------------------------------------------
     case "parseLocations":
