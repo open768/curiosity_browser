@@ -216,6 +216,10 @@ switch ($sOperation) {
         break;
 
         //------------------------------------------------------
+    case  "indexManifest":
+        cDebug::error("not implemented");
+        break;
+        //------------------------------------------------------
     case "parseLocations":
         cCuriosityLocations::parseLocations();
         break;
@@ -243,6 +247,7 @@ switch ($sOperation) {
             <Input type="radio" name="<?= OPS_PARAM ?>" value="deleteSolHighlights">Delete Sol highlight image files<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="indexComm">index Comments<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="indexGigas">index Nevilles gigapans<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="indexManifest">index curiosity manifests<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killCache">clear cache<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killHighlight">erase particular highlight<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killPDSIndex">Kill ALL PDS index files<br>
