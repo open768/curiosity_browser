@@ -79,9 +79,7 @@ $.widget("ck.instrumentimage", {
          oImg.off("inview")
 
          const oThis = this
-         setTimeout(function () {
-            oThis.onPlaceholderDelay()
-         }, this.consts.WAIT_VISIBLE)
+         setTimeout(() => oThis.onPlaceholderDelay(), this.consts.WAIT_VISIBLE)
       }
    },
 

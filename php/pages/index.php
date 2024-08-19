@@ -19,6 +19,8 @@ class cIndexPageConsts {
     const ID_IMAGE_CONTAINER = "ic";
     const ID_STATUS = cAppIDs::STATUS_ID;
     const ID_INTRO = "idintro";
+    const ID_INTRO_BODY = "idintrobody";
+    const ID_INTRO_FOOTER = "idintrofoot";
 
     static $IS_ADMIN = "no";
 }
@@ -76,29 +78,31 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
 
             <!-- will contain images when selected -->
             <div class="gold" id="<?= cIndexPageConsts::ID_IMAGE_CONTAINER ?>">
-                <div id="<?= cIndexPageConsts::ID_INTRO ?>" style="display:none">
-                    <H2>Curiosity Browser</H2>
-                    <img src="<?= $appImages ?>/browser/dude.png" height="90" align="left">
-                    Welcome to the best place to find great images beamed from Curiosity, NASA's Mars Science Lab on Mars.
-                    <p>
-                        You might find a fascinating geological formation, an intruiging rock, evidence of water flows, or something else.
-                        You might even be the one who discovers the next great scientific discovery of Mars.
-                    <p>
-                        And then let everyone know about your discoveries by sharing what you find.
-                    <p>
-                        <b>To get started</b>
-                    <ol>
-                        <li>select a <span class="subtitle">SOL</span> from the left hand list, or type it in the box above. (SOL represents the number of Mars days that Curiosity has been on Mars.)</li>
-                        <li>Then select from the <span class="subtitle">instruments</span> shown for that SOL to see the amazing images.</li>
-                    </ol>
+                <div id="<?= cIndexPageConsts::ID_INTRO ?>" class="w3-card" style="display:none">
+                    <header class="w3-container w3-theme-l1">
+                        <h2>Curiosity Browser</h2>
+                    </header>
+                    <div class="w3-container" style="height:800px" id="<?= cIndexPageConsts::ID_INTRO_BODY ?>">
+                        <img src="<?= $appImages ?>/browser/dude.png" height="90" align="left">
+                        Welcome to the best place to find great images beamed from Curiosity, NASA's Mars Science Lab on Mars.
+                        <p>
+                            You might find a fascinating geological formation, an intruiging rock, evidence of water flows, or something else.
+                            You might even be the one who discovers the next great scientific discovery of Mars.
+                        <p>
+                            And then let everyone know about your discoveries by sharing what you find.
+                        <p>
+                            <b>To get started</b>
+                        <ol>
+                            <li>select a <span class="subtitle">SOL</span> from the left hand list, or type it in the box above. (SOL represents the number of Mars days that Curiosity has been on Mars.)</li>
+                            <li>Then select from the <span class="subtitle">instruments</span> shown for that SOL to see the amazing images.</li>
+                        </ol>
+                    </div>
+                    <footer class="w3-container w3-theme-l3" style:"display:none" id="<?= cIndexPageConsts::ID_INTRO_FOOTER ?>">
+                    </footer>
                 </div>
-                <p>&nbsp;
-                <p>&nbsp;
-                <p>&nbsp;
-                <p>&nbsp;
-                <p>&nbsp;
             </div>
         </div>
+    </div>
     </div>
     <!-- Footer -->
     <?php

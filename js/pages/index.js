@@ -25,6 +25,73 @@ const cOptions = {
 }
 
 // ###############################################################
+class cBackgroundImage {
+   static REST_URL = "random.php"
+   static INTERVAL = 5 * 60 * 1000
+   static stop = false
+
+   //*****************************************************************
+   static render() {
+      this.fetch_image()
+   }
+
+   //*****************************************************************
+   static fetch_image() {
+      if (this.stop) return
+
+      const oThis = this
+      const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/" + this.REST_URL, {
+         o: "i", //images
+         h: 1, //only want 1 image
+      })
+      const oHttp = new cHttp2()
+      bean.on(oHttp, "result", (poHttp) => oThis.OnImageResponse(poHttp))
+      oHttp.fetch_json(sUrl)
+   }
+
+   //*****************************************************************
+   static OnImageResponse(poHttp) {
+      if (this.stop) return
+      const oData = poHttp.response
+      if (!oData) cCommonStatus.set_status("couldnt get image")
+
+      //------------show the image
+      var oBodyDiv = $("#" + cIndexPageConsts.ID_INTRO_BODY)
+
+      //stop if the intro section has gone
+      if (oBodyDiv.length === 0) {
+         this.stop = true
+         return
+      }
+
+      var oImgData = oData.d[0]
+      oBodyDiv.css("background-image", "url('" + oImgData.d + "')")
+      oBodyDiv.css("background-size", "cover")
+      oBodyDiv.css("background-repeat", "no-repeat")
+
+      //------------show information about the image
+      var oFootDiv = $("#" + cIndexPageConsts.ID_INTRO_FOOTER)
+      oFootDiv.show()
+      oFootDiv.empty()
+
+      const sUrl = cBrowser.buildUrl(
+         cAppLocations.home + "/php/pages/detail.php",
+         {
+            s: oImgData.s,
+            i: oImgData.i,
+            p: oImgData.p,
+         },
+      )
+      var oA = $("<A>", { href: sUrl })
+      oA.append("Click here to see background image")
+      oFootDiv.append(oA)
+
+      var oThis = this
+      setTimeout(() => oThis.fetch_image(), this.INTERVAL)
+   }
+}
+
+// ###############################################################
 class cSideBar {
    static ID_SIDEBAR = "SB"
    static ID_SIDEBAR_COLLAPSED = "SBc"
@@ -187,7 +254,7 @@ class cLeftColumn {
 }
 
 // ###############################################################
-//* handles search box
+//* handles admin box
 // ###############################################################
 class cAdminBox {
    //*************************************************************
@@ -236,6 +303,8 @@ class cAdminBox {
 //* handles search box
 // ###############################################################
 class cSearchBox {
+   static REST_URL = "search.php"
+
    static instrument_box() {
       var oThis = this
       $("#" + cIndexPageConsts.ID_SEARCH).keypress(function (e) {
@@ -262,10 +331,13 @@ class cSearchBox {
             sText,
          )
       } else {
-         const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/search.php", {
-            s: sText,
-            m: cMission.ID,
-         })
+         const sUrl = cBrowser.buildUrl(
+            cAppLocations.rest + "/" + this.REST_URL,
+            {
+               s: sText,
+               m: cMission.ID,
+            },
+         )
          const oHttp = new cHttp2()
          bean.on(oHttp, "result", (poHttp) => oThis.OnSearchResponse(poHttp))
          oHttp.fetch_json(sUrl)
@@ -409,6 +481,7 @@ class cIndexPage {
       // show the intro blurb if nothing on the querystring
       if (document.location.search.length == 0) {
          $("#" + cIndexPageConsts.ID_INTRO).show()
+         cBackgroundImage.render()
       }
 
       // load the tabs and show the first one
@@ -492,9 +565,7 @@ class cIndexPage {
       $("#" + cIndexPageConsts.ID_IMAGE_CONTAINER)
          .empty()
          .html("redirecting to: " + sUrl)
-      setTimeout(function () {
-         cBrowser.openWindow(sUrl, "detail")
-      }, 0)
+      setTimeout(() => cBrowser.openWindow(sUrl, "detail"), 0)
    }
 
    //* **************************************************************

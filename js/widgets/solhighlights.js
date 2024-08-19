@@ -248,9 +248,7 @@ $.widget("ck.instrhighlight", {
       oSpan.off("inview")
 
       //wait for object to remain visible
-      setTimeout(function () {
-         oThis.onTimer(oSpan)
-      }, this.consts.WAIT_VISIBLE)
+      setTimeout(() => oThis.onTimer(oSpan), this.consts.WAIT_VISIBLE)
    },
 
    //*******************************************************************

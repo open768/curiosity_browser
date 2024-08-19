@@ -115,9 +115,7 @@ $.widget("ck.thumbnail", {
       this.element.off("inview") // turn off the inview listener
       this.pr__set_style(oThis.consts.STYLES.WAITING1)
 
-      setTimeout(function () {
-         oThis.onPlaceholderDelay()
-      }, this.consts.WAIT_VISIBLE)
+      setTimeout(() => oThis.onPlaceholderDelay(), this.consts.WAIT_VISIBLE)
    },
 
    //* *****************************************************************
@@ -153,9 +151,7 @@ $.widget("ck.thumbnail", {
 
       if (goBetterThumbQueue.stopping) return
       this.pr__set_style(oThis.consts.STYLES.WAITING2)
-      setTimeout(function () {
-         oThis.onBasicThumbViewDelay()
-      }, this.consts.WAIT_VISIBLE)
+      setTimeout(() => oThis.onBasicThumbViewDelay(), this.consts.WAIT_VISIBLE)
    },
 
    //* *****************************************************************
@@ -227,14 +223,10 @@ $.widget("ck.thumbnail", {
          cDebug.write("got better thumbnail: " + oData.p)
          this.pr__set_style(this.consts.STYLES.FINAL)
          // update the displayed image - on a Timer to be in a different non-blocking thread
-         setTimeout(function () {
-            oImg.attr(
-               "src",
-               cBrowser.buildUrl(cAppLocations.home + "/" + oData.u, {
-                  r: Math.random(),
-               }),
-            )
-         }, 0)
+         var sUrl = cBrowser.buildUrl(cAppLocations.home + "/" + oData.u, {
+            r: Math.random(),
+         })
+         setTimeout(() => oImg.attr("src", sUrl), 0)
       }
    },
 
