@@ -217,7 +217,7 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case  "indexManifest":
-        cCuriosityManifest::indexManifest();
+        cCuriosityManifestIndex::indexManifest();
         break;
         //------------------------------------------------------
     case "parseLocations":
