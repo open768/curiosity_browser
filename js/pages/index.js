@@ -82,7 +82,7 @@ class cBackgroundImage {
             p: oImgData.p,
          },
       )
-      var oA = $("<A>", { href: sUrl })
+      var oA = $("<A>", { href: sUrl, target: "detail" })
       oA.append("Click here to see background image")
       oFootDiv.append(oA)
 
