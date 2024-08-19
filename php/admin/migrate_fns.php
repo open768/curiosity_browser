@@ -240,6 +240,7 @@ class cMigrateFacebook {
         if ($aUsers) {
             foreach ($aUsers as $sUserId => $iCount) {
                 cDebug::write("FB user: $sUserId");
+                if ($sUserId === 0) continue;
                 cFacebook_ServerSide::get_userDetails($sUserId);
             }
         }
