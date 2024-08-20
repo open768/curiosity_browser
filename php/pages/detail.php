@@ -43,7 +43,7 @@ class cDetailPageConstants {
     ?>
     <div id="<?= cDetailPageConstants::PAGE_CONTENTS_ID ?>">
         <!-- controls -->
-        <DIV id="<? cDetailPageConstants::CONTROLS_ID ?>" class="gold">
+        <DIV id="<? cDetailPageConstants::CONTROLS_ID ?>" class="w3-card w3-theme-l1">
             <button class="leftbutton" id="sol" title="Choose Sol">loading...</button>
             <button class="leftbutton" id="instrument" title="Choose Instrument">loading</button>
             <button class="leftbutton" id="solCal" title="Show SOL Calendar">Calendar</button>
@@ -55,19 +55,19 @@ class cDetailPageConstants {
             <button class="leftbutton" id="mslrawlink" title="MSL curiosity Raw images">MSL Raw Image</button>
             <button class="leftbutton" id="pds_product" title="released PDS product">PDS Product</button>
             <button class="leftbutton" id="google" title="Search related with google">Google</button>
-
+        </div>
+        <!-- tags -->
+        <div class="w3-card w3-theme-l3">
             <!-- add a tag -->
-            <div class="ui-widget">
-                <span class="subtitle">Tags:</span>
-                <span ID="<?= cDetailPageConstants::TAGS_ID ?>">Loading...</span>
-                <input type="text" size="20" maxlength="20" id="tagtext"><button class="rightbutton" id="submittag">Add</button>
-            </div>
+            <span class="subtitle">Tags:</span>
+            <span ID="<?= cDetailPageConstants::TAGS_ID ?>">Loading...</span>
+            <input type="text" size="20" maxlength="20" id="tagtext"><button class="w3-button w3-theme-action" id="submittag">Add</button>
         </div>
 
         <!-- image container -->
         <div ID="<?= cDetailPageConstants::IMAGE_CONTAINER_ID ?>">
             <table border="0" class="gold">
-                <tr>
+                <tr> <!-- top row -->
                     <td></td>
                     <td valign="bottom">
                         <nobr>
@@ -76,7 +76,7 @@ class cDetailPageConstants {
                     </td>
                     <td></td>
                 </tr>
-                <tr>
+                <tr> <!-- middle row -->
                     <td align="right">
                         <button title="previous (p)" class="roundbutton" id="prev_left" ;" style="height:600" class="lnavbut">&lt;</button>
                     </td>
@@ -109,14 +109,14 @@ class cDetailPageConstants {
         </div>
         <!-- end image container -->
         <p>
-        <div class="gold" id="commentContainer">
+        <div class="w3-card w3-theme-l4" id="commentContainer">
             <div ID="<?= cDetailPageConstants::COMMENTS_ID ?>" class="comments">loading comments data...</div>
             <p>
                 <textarea rows="5" cols="120" id="Commentsbox" placeholder="go on share your thoughts with everyone"></textarea>
                 <button class="leftbutton" id="btnComment" id="submit_comment" title="submit comment">comment</button>
         </div>
 
-        <div class="gold" ID="msldata">
+        <div class="w3-card w3-theme-l4" ID="msldata">
             loading MSL data
         </div>
     </div>

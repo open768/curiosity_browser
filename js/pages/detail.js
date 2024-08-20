@@ -402,37 +402,6 @@ class cDetail {
       // rely upon what came back rather than the query string
       this.oItem = poHttp.response
 
-      // no data returned
-      oData = this.oItem.d
-      if (oData === null) {
-         cDebug.warn("product " + this.oItem.p + " was not found")
-         var oTopDiv = $("#" + cDetailPageConstants.PAGE_CONTENTS_ID)
-         {
-            oTopDiv.empty()
-            oTopDiv.addClass("image_error")
-            oTopDiv.append("product not found")
-         }
-
-         if (this.oItem.migrate !== null) {
-            sUrl =
-               "migrate.php?s=" +
-               this.oItem.s +
-               "&i=" +
-               this.oItem.i +
-               "&pfrom=" +
-               this.oItem.p +
-               "&pto=" +
-               this.oItem.migrate
-            cBrowser.openWindow(sUrl, "migrate")
-         } else {
-            cBrowser.openWindow(
-               "error.php?m=product " + this.oItem.p + " was not found",
-               "error",
-            )
-         }
-         return
-      }
-
       //---------- THERE WAS DATA -----------------
       // update the title
       document.title =
@@ -456,6 +425,8 @@ class cDetail {
          this.oItem.p
       cBrowser.pushState("Detail", sUrl)
 
+      this.populate_image()
+
       // tags
       var oTagDiv = $("#" + cDetailPageConstants.TAGS_ID)
       if (!oData.tags) oTagDiv.html("no Tags - be the first to add one")
@@ -475,16 +446,6 @@ class cDetail {
       const sDump = cDebug.getvardump(oData.data, 1)
       $("#msldata").html($("<pre>").append(sDump))
 
-      // add the image
-      const oImg = $("<img>").attr({ src: oData.i, id: "baseimg" })
-      oImg.on("load", (poEvent) => this.OnImageLoaded(poEvent))
-      $("#image").empty()
-      $("#image").append(oImg)
-      $("meta[property='og:image']").attr(
-         "content",
-         cAppLocations.home + "/" + oData.i,
-      ) // facebook tag for image
-
       // get the tags and comments
       cTagging.getTags(this.oItem.s, this.oItem.i, this.oItem.p, (oData) =>
          this.onGotTags(oData),
@@ -498,6 +459,59 @@ class cDetail {
 
       // set status
       cCommonStatus.set_status("Image Loading")
+   }
+
+   //* **************************************************************
+   static populate_image() {
+      // no data returned
+      var oData = this.oItem.d
+
+      //--------------there was no data returned
+      if (oData === null) {
+         cDebug.warn("product " + this.oItem.p + " was not found")
+         var oDiv = $("#" + cDetailPageConstants.IMAGE_CONTAINER_ID)
+         {
+            oDiv.empty()
+            oDiv.addClass("image_error")
+            oDiv.append("product not found")
+         }
+
+         //- - - - - - - - - - - - - - - - -
+         var oBut = $("#" + cDetailPageConstants.TAGS_ID)
+         oBut.enabled = false
+         oBut.html("no tags")
+
+         if (this.oItem.migrate !== null) {
+            sUrl =
+               "migrate.php?s=" +
+               this.oItem.s +
+               "&i=" +
+               this.oItem.i +
+               "&pfrom=" +
+               this.oItem.p +
+               "&pto=" +
+               this.oItem.migrate
+            cBrowser.openWindow(sUrl, "migrate")
+         } else {
+            cBrowser.openWindow(
+               "error.php?m=product " + this.oItem.p + " was not found",
+               "error",
+            )
+         }
+         return
+      }
+
+      // there was an image
+      const oImg = $("<img>").attr({ src: oData.i, id: "baseimg" })
+      oImg.on("load", (poEvent) => this.OnImageLoaded(poEvent))
+      $("#image").empty()
+      $("#image").append(oImg)
+
+      //update the FB meta information for the image //should be a separate class
+      $("meta[property='og:image']").attr(
+         "content",
+         cAppLocations.home + "/" + oData.i,
+      ) // facebook tag for image
    }
 
    //* **************************************************************
