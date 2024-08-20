@@ -71,8 +71,8 @@ class cBackgroundImage {
 
       var oImgData = oData.d[0]
       oBodyDiv.css("background-image", "url(" + oImgData.d + ")")
-      oBodyDiv.css("background-size", "cover")
-      oBodyDiv.css("background-repeat", "no-repeat")
+      oBodyDiv.css("background-size", "contain")
+      oBodyDiv.css("background-repeat", "repeat")
 
       //------------show information about the image
       var oFootDiv = $("#" + cIndexPageConsts.ID_INTRO_FOOTER)
