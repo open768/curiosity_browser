@@ -402,13 +402,16 @@ class cDetail {
       // rely upon what came back rather than the query string
       this.oItem = poHttp.response
 
-      // check whether there was any data
+      // no data returned
       oData = this.oItem.d
       if (oData === null) {
          cDebug.warn("product " + this.oItem.p + " was not found")
-         $("#image").empty()
-         $("#image").addClass("image_error")
-         $("#image").append("product not found")
+         var oTopDiv = $("#" + cDetailPageConstants.PAGE_CONTENTS_ID)
+         {
+            oTopDiv.empty()
+            oTopDiv.addClass("image_error")
+            oTopDiv.append("product not found")
+         }
 
          if (this.oItem.migrate !== null) {
             sUrl =
@@ -430,6 +433,7 @@ class cDetail {
          return
       }
 
+      //---------- THERE WAS DATA -----------------
       // update the title
       document.title =
          "detail: s:" +
@@ -453,11 +457,9 @@ class cDetail {
       cBrowser.pushState("Detail", sUrl)
 
       // tags
-      if (!oData.tags) {
-         $("#tags").html("no Tags - be the first to add one")
-      } else {
-         $("#tags").html(oData.tags)
-      }
+      var oTagDiv = $("#" + cDetailPageConstants.TAGS_ID)
+      if (!oData.tags) oTagDiv.html("no Tags - be the first to add one")
+      else oTagDiv.html(oData.tags)
 
       // update image index details
       this.iNum = this.oItem.item
@@ -474,9 +476,9 @@ class cDetail {
       $("#msldata").html($("<pre>").append(sDump))
 
       // add the image
-      $("#image").empty()
       const oImg = $("<img>").attr({ src: oData.i, id: "baseimg" })
       oImg.on("load", (poEvent) => this.OnImageLoaded(poEvent))
+      $("#image").empty()
       $("#image").append(oImg)
       $("meta[property='og:image']").attr(
          "content",
