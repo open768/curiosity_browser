@@ -94,7 +94,7 @@ class cBackgroundImage {
       oA.append("Click here to see background image")
       oFootDiv.append(oA)
 
-      oFootDiv.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+      oFootDiv.append(cBrowser.whitespace(100))
 
       var oBut = $("<button>", { class: "w3-button" })
       oBut.append("refresh")

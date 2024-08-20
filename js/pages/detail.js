@@ -43,7 +43,6 @@ class cDetail {
       )
       $("#showthumb").click((poEvent) => this.onClickThumbnails(poEvent))
       $("#highlights").click((poEvent) => this.onClickHighlights(poEvent))
-      $("#maplink").click((poEvent) => this.onClickMap(poEvent))
       $("#nasalink").click((poEvent) => this.onClickNASA(poEvent))
       $("#mslrawlink").click((poEvent) => this.onClickMSLRaw(poEvent))
       $("#pds_product").click((poEvent) => this.onClickPDS(poEvent))
@@ -161,12 +160,6 @@ class cDetail {
 
       sUrl = "cal.php?s=" + this.oItem.s + "&t=" + this.oItem.d.du
       cBrowser.openWindow(sUrl, "calendar")
-   }
-
-   //* **************************************************************
-   static onClickMap() {
-      const sUrl = "http://curiosityrover.com/imgpoint.php?name=" + this.oItem.p
-      window.open(sUrl, "map")
    }
 
    //* **************************************************************
@@ -422,6 +415,7 @@ class cDetail {
          cJquery.disable_element(cDetailPageConstants.CAL_ID)
          cJquery.disable_element("pds_product")
          cJquery.disable_element("nasalink")
+         $("#msldata").hide()
          $("#" + cDetailPageConstants.COMMENTS_CONTAINER_ID).hide()
          return
       }
@@ -459,7 +453,6 @@ class cDetail {
 
       // populate the remaining fields
       $("#date_utc").html(oData.du)
-      // $("#date_lmst").html( this.oItem.d.dm);
       const sDump = cDebug.getvardump(oData.data, 1)
       $("#msldata").html($("<pre>").append(sDump))
 

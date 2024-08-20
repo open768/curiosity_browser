@@ -46,18 +46,19 @@ class cDetailPageConstants {
     ?>
     <div id="<?= cDetailPageConstants::PAGE_CONTENTS_ID ?>">
         <!-- controls -->
-        <DIV id="<? cDetailPageConstants::CONTROLS_ID ?>" class="w3-card w3-theme-l1">
-            <button class="leftbutton" id="sol" title="Choose Sol">loading...</button>
-            <button class="leftbutton" id="instrument" title="Choose Instrument">loading</button>
-            <button class="leftbutton" id="<?= cDetailPageConstants::CAL_ID ?>" title="Show SOL Calendar">Calendar</button>
-            <button class="leftbutton" id="showthumb" title="Show thumbnails">Thumbnails</button>
-            <button class="leftbutton" id="highlights" title="Highlights">Highlights</button>
+        <DIV id="<? cDetailPageConstants::CONTROLS_ID ?>" class="w3-container w3-theme-l1 w3-padding">
+            <button class="w3-button w3-padding-small w3-theme-action" id="sol" title="Choose Sol">loading...</button>
+            <button class="w3-button w3-padding-small w3-theme-action" id="instrument" title="Choose Instrument">loading</button>
+            <button class="w3-button w3-padding-small w3-theme-action" id="<?= cDetailPageConstants::CAL_ID ?>" title="Show SOL Calendar">Calendar</button>
+            <button class="w3-button w3-padding-small w3-theme-action" id="showthumb" title="Show thumbnails">Thumbnails</button>
+            <button class="w3-button w3-padding-small w3-theme-action" id="highlights" title="Highlights">Highlights</button>
+            <button class="w3-button w3-padding-small w3-theme-action" id="nasalink" title="Original Nasa image">Original</button>
+            <button class="w3-button w3-padding-small w3-theme-action" id="mslrawlink" title="MSL curiosity Raw images">MSL Raw Image</button>
+            <button class="w3-button w3-padding-small w3-theme-action" id="pds_product" title="released PDS product">PDS Product</button>
+            <button class="w3-button w3-padding-small w3-theme-action" id="google" title="Search related with google">Google</button>
+            <span style="display:inline-block;width:50px"></span>
             image <span id="img_index">??</span> of <span id="max_images">??</span>
-            <button class="leftbutton" id="maplink" title="Map at curiositybrowser.com">Map</button>
-            <button class="leftbutton" id="nasalink" title="Original Nasa image">Original</button>
-            <button class="leftbutton" id="mslrawlink" title="MSL curiosity Raw images">MSL Raw Image</button>
-            <button class="leftbutton" id="pds_product" title="released PDS product">PDS Product</button>
-            <button class="leftbutton" id="google" title="Search related with google">Google</button>
+            </nobr>
         </div>
         <!-- tags -->
         <div class="w3-card w3-theme-l3" id="<?= cDetailPageConstants::TAGS_CONTAINER_ID ?>">
@@ -112,14 +113,14 @@ class cDetailPageConstants {
         </div>
         <!-- end image container -->
         <p>
-        <div class="w3-card w3-theme-l4" id="commentContainer">
+        <div class="w3-card w3-theme-l3" id="commentContainer">
             <div ID="<?= cDetailPageConstants::COMMENTS_ID ?>" class="comments">loading comments data...</div>
             <p>
                 <textarea rows="5" cols="120" id="Commentsbox" placeholder="go on share your thoughts with everyone"></textarea>
                 <button class="leftbutton" id="btnComment" id="submit_comment" title="submit comment">comment</button>
         </div>
 
-        <div class="w3-card w3-theme-l4" ID="msldata">
+        <div class="w3-card w3-theme-l3" ID="msldata">
             loading MSL data
         </div>
     </div>

@@ -119,7 +119,7 @@ $.widget("ck.solcalendar", {
          const oInnerSpan = $("<span>").attr({
             style: "background-color:" + oInstr.colour,
          })
-         oInnerSpan.append("&nbsp;&nbsp;&nbsp;")
+         oInnerSpan.append(cBrowser.whitespace(100))
          oOuterSpan.append(oInnerSpan)
          oDiv.append(oOuterSpan)
          oDiv.append(" ")
