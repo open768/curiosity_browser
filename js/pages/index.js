@@ -29,6 +29,7 @@ class cBackgroundImage {
    static REST_URL = "random.php"
    static INTERVAL = 5 * 60 * 1000
    static stop = false
+   static timer = null
 
    //*****************************************************************
    static render() {
@@ -38,6 +39,10 @@ class cBackgroundImage {
    //*****************************************************************
    static fetch_image() {
       if (this.stop) return
+      if (this.timer) {
+         clearTimeout(this.timer)
+         this.timer = null
+      }
 
       const oThis = this
       const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/" + this.REST_URL, {
@@ -65,7 +70,7 @@ class cBackgroundImage {
       }
 
       var oImgData = oData.d[0]
-      oBodyDiv.css("background-image", "url('" + oImgData.d + "')")
+      oBodyDiv.css("background-image", "url(" + oImgData.d + ")")
       oBodyDiv.css("background-size", "cover")
       oBodyDiv.css("background-repeat", "no-repeat")
 
@@ -82,12 +87,21 @@ class cBackgroundImage {
             p: oImgData.p,
          },
       )
+
+      //------ add info to footer
+      var oThis = this
       var oA = $("<A>", { href: sUrl, target: "detail" })
       oA.append("Click here to see background image")
       oFootDiv.append(oA)
 
-      var oThis = this
-      setTimeout(() => oThis.fetch_image(), this.INTERVAL)
+      oFootDiv.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+
+      var oBut = $("<button>", { class: "w3-button" })
+      oBut.append("refresh")
+      oBut.click(() => oThis.fetch_image())
+      oFootDiv.append(oBut)
+
+      this.timer = setTimeout(() => oThis.fetch_image(), this.INTERVAL)
    }
 }
 
