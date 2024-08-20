@@ -21,10 +21,10 @@ class cDetail {
    // ###############################################################
    static onLoadJQuery() {
       // disable edit controls
-      $("#tagtext").attr("disabled", "disabled")
-      $("#submittag").attr("disabled", "disabled")
-      $("#Commentsbox").attr("disabled", "disabled")
-      $("#btnComment").attr("disabled", "disabled")
+      cJquery.disable_element("tagtext")
+      cJquery.disable_element("submittag")
+      cJquery.disable_element("Commentsbox")
+      cJquery.disable_element("btnComment")
 
       // catch key presses but not on text inputs
       $(window).keypress((poEvent) => this.onKeyPress(poEvent))
@@ -38,13 +38,15 @@ class cDetail {
       //set click handlers
       $("#sol").click((poEvent) => this.onClickSol(poEvent))
       $("#instrument").click((poEvent) => this.onClickInstr(poEvent))
-      $("#solCal").click((poEvent) => this.onClickCal(poEvent))
+      $("#" + cDetailPageConstants.CAL_ID).click((poEvent) =>
+         this.onClickCal(poEvent),
+      )
       $("#showthumb").click((poEvent) => this.onClickThumbnails(poEvent))
       $("#highlights").click((poEvent) => this.onClickHighlights(poEvent))
       $("#maplink").click((poEvent) => this.onClickMap(poEvent))
       $("#nasalink").click((poEvent) => this.onClickNASA(poEvent))
       $("#mslrawlink").click((poEvent) => this.onClickMSLRaw(poEvent))
-      $("#pds_product").click((poEvent) => this.onClickonClickPDS(poEvent))
+      $("#pds_product").click((poEvent) => this.onClickPDS(poEvent))
       $("#google").click((poEvent) => this.onClickGoogle(poEvent))
 
       $("#submittag").click((poEvent) => this.onClickAddTag(poEvent))
@@ -309,9 +311,9 @@ class cDetail {
    // ###############################################################
    static onFacebookUser() {
       cDebug.write("detail.js got Facebook user")
-      $("#tagtext").removeAttr("disabled")
-      $("#submittag").removeAttr("disabled")
-      $("#btnComment").removeAttr("disabled")
+      cJquery.enable_element("tagtext")
+      cJquery.enable_element("submittag")
+      cJquery.enable_element("btnComment")
 
       $("#Commentsbox").sceditor({
          plugins: "bbcode",
@@ -400,21 +402,42 @@ class cDetail {
       cCommonStatus.set_status("received data...")
 
       // rely upon what came back rather than the query string
-      this.oItem = poHttp.response
+      var oResponse = poHttp.response
+      this.oItem = oResponse
+      var oData = this.oItem.d
+
+      //----these things can be done
+      this.populate_image()
+      $("#sol").html(oResponse.s)
+      $("#instrument").html(oResponse.i)
+      $("#max_images").html(oResponse.max)
+      $("#toptitle").html(oResponse.p)
+
+      //if not data hide controls
+      if (!oData) {
+         var oTagDiv = $("#" + cDetailPageConstants.TAGS_CONTAINER_ID)
+         oTagDiv.hide()
+
+         $("#date_utc").empty().append("unable to get date")
+         cJquery.disable_element(cDetailPageConstants.CAL_ID)
+         cJquery.disable_element("pds_product")
+         cJquery.disable_element("nasalink")
+         $("#" + cDetailPageConstants.COMMENTS_CONTAINER_ID).hide()
+         return
+      }
 
       //---------- THERE WAS DATA -----------------
       // update the title
       document.title =
          "detail: s:" +
-         this.oItem.s +
+         oResponse.s +
          " i:" +
-         this.oItem.i +
+         oResponse.i +
          " p:" +
-         this.oItem.p +
+         oResponse.p +
          " (Curiosity Browser)"
-      $("#toptitle").html(this.oItem.p)
 
-      // update the address bar
+      // ------------update the address bar
       sUrl =
          cBrowser.pageUrl() +
          "?s=" +
@@ -425,23 +448,17 @@ class cDetail {
          this.oItem.p
       cBrowser.pushState("Detail", sUrl)
 
-      this.populate_image()
-
-      // tags
+      // ------------ tags
       var oTagDiv = $("#" + cDetailPageConstants.TAGS_ID)
       if (!oData.tags) oTagDiv.html("no Tags - be the first to add one")
       else oTagDiv.html(oData.tags)
 
       // update image index details
-      this.iNum = this.oItem.item
-      $("#img_index").html(this.iNum)
-
-      $("#max_images").html(this.oItem.max)
-      $("#sol").html(this.oItem.s)
-      $("#instrument").html(this.oItem.i)
+      this.iNum = oResponse.item
+      $("#img_index").html(oResponse.item)
 
       // populate the remaining fields
-      $("#date_utc").html(this.oItem.d.du)
+      $("#date_utc").html(oData.du)
       // $("#date_lmst").html( this.oItem.d.dm);
       const sDump = cDebug.getvardump(oData.data, 1)
       $("#msldata").html($("<pre>").append(sDump))
@@ -454,7 +471,7 @@ class cDetail {
          this.onGotComments(),
       )
 
-      // empty highligths
+      // empty highligths as there may have been a product before
       cImgHilite.remove_boxes()
 
       // set status

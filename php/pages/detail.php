@@ -16,9 +16,12 @@ class cDetailPageConstants {
     const IMAGE_CONTAINER_ID = "icontain";
     const IMAGE_ID = "image";
     const TAGS_ID = "tags";
+    const TAGS_CONTAINER_ID = "tcontain";
     const CONTROLS_ID = "controls";
     const COMMENTS_ID = "comments";
+    const COMMENTS_CONTAINER_ID = "commentContainer";
     const PAGE_CONTENTS_ID = "pagec";
+    const CAL_ID = "solCal";
 }
 
 ?>
@@ -46,7 +49,7 @@ class cDetailPageConstants {
         <DIV id="<? cDetailPageConstants::CONTROLS_ID ?>" class="w3-card w3-theme-l1">
             <button class="leftbutton" id="sol" title="Choose Sol">loading...</button>
             <button class="leftbutton" id="instrument" title="Choose Instrument">loading</button>
-            <button class="leftbutton" id="solCal" title="Show SOL Calendar">Calendar</button>
+            <button class="leftbutton" id="<?= cDetailPageConstants::CAL_ID ?>" title="Show SOL Calendar">Calendar</button>
             <button class="leftbutton" id="showthumb" title="Show thumbnails">Thumbnails</button>
             <button class="leftbutton" id="highlights" title="Highlights">Highlights</button>
             image <span id="img_index">??</span> of <span id="max_images">??</span>
@@ -57,7 +60,7 @@ class cDetailPageConstants {
             <button class="leftbutton" id="google" title="Search related with google">Google</button>
         </div>
         <!-- tags -->
-        <div class="w3-card w3-theme-l3">
+        <div class="w3-card w3-theme-l3" id="<?= cDetailPageConstants::TAGS_CONTAINER_ID ?>">
             <!-- add a tag -->
             <span class="subtitle">Tags:</span>
             <span ID="<?= cDetailPageConstants::TAGS_ID ?>">Loading...</span>
@@ -65,7 +68,7 @@ class cDetailPageConstants {
         </div>
 
         <!-- image container -->
-        <div ID="<?= cDetailPageConstants::IMAGE_CONTAINER_ID ?>">
+        <div ID="<?= cDetailPageConstants::IMAGE_CONTAINER_ID ?>" class="w3-card">
             <table border="0" class="gold">
                 <tr> <!-- top row -->
                     <td></td>
