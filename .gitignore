@@ -1,5 +1,6 @@
 *.7z
 *.db
+*.db-journal
 *.dpp
 *.old
 *.orig
@@ -31,3 +32,4 @@ images/mosaics/
 images/thumbs/
 node_modules/
 package\-lock.json
+php/test

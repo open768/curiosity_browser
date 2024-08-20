@@ -27,7 +27,7 @@ $oOutput = null;
 switch ($sOperation) {
     case "i":
         //images
-        $aResult = cCuriosityManifestIndex::random_images("MAST_%", $iHowMany);
+        $aResult = cCuriosityManifestIndex::get_random_images("MAST_%", $iHowMany);
         $oOutput = ["d" => $aResult];
         break;
     default:
