@@ -390,24 +390,38 @@ class cDetail {
    }
 
    //* **************************************************************
-   static onGotDetails(poHttp) {
-      var sUrl, oData
-      cCommonStatus.set_status("received data...")
+   static pr_update_doc_title(poItem) {
+      //---------- THERE WAS DATA -----------------
+      // update the title
+      document.title =
+         "detail: s:" +
+         poItem.s +
+         " i:" +
+         poItem.i +
+         " p:" +
+         poItem.p +
+         " (Curiosity Browser)"
 
-      // rely upon what came back rather than the query string
-      var oResponse = poHttp.response
-      this.oItem = oResponse
-      var oData = this.oItem.d
+      // ------------update the address bar
+      var sUrl =
+         cBrowser.pageUrl() +
+         "?s=" +
+         poItem.s +
+         "&i=" +
+         poItem.i +
+         "&p=" +
+         poItem.p
+      cBrowser.pushState("Detail", sUrl)
+   }
 
-      //----these things can be done
-      this.populate_image()
-      $("#sol").html(oResponse.s)
-      $("#instrument").html(oResponse.i)
-      $("#max_images").html(oResponse.max)
-      $("#toptitle").html(oResponse.p)
+   static pr_update_elements(poItem) {
+      $("#sol").html(poItem.s)
+      $("#instrument").html(poItem.i)
+      $("#max_images").html(poItem.max)
+      $("#toptitle").html(poItem.p)
 
       //if not data hide controls
-      if (!oData) {
+      if (!poItem.d) {
          var oTagDiv = $("#" + cDetailPageConstants.TAGS_CONTAINER_ID)
          oTagDiv.hide()
 
@@ -419,28 +433,22 @@ class cDetail {
          $("#" + cDetailPageConstants.COMMENTS_CONTAINER_ID).hide()
          return
       }
+   }
+   //* **************************************************************
+   static onGotDetails(poHttp) {
+      var sUrl, oData
+      cCommonStatus.set_status("received data...")
 
-      //---------- THERE WAS DATA -----------------
-      // update the title
-      document.title =
-         "detail: s:" +
-         oResponse.s +
-         " i:" +
-         oResponse.i +
-         " p:" +
-         oResponse.p +
-         " (Curiosity Browser)"
+      // rely upon what came back rather than the query string
+      var oResponse = poHttp.response
+      this.oItem = oResponse
+      var oData = this.oItem.d
 
-      // ------------update the address bar
-      sUrl =
-         cBrowser.pageUrl() +
-         "?s=" +
-         this.oItem.s +
-         "&i=" +
-         this.oItem.i +
-         "&p=" +
-         this.oItem.p
-      cBrowser.pushState("Detail", sUrl)
+      //----these things can be done
+      this.populate_image()
+      this.pr_update_elements(oResponse)
+      this.pr_update_doc_title(oResponse)
+      if (!oData) return
 
       // ------------ tags
       var oTagDiv = $("#" + cDetailPageConstants.TAGS_ID)
@@ -463,18 +471,18 @@ class cDetail {
       cSpaceComments.get(this.oItem.s, this.oItem.i, this.oItem.p, () =>
          this.onGotComments(),
       )
-
-      // empty highligths as there may have been a product before
-      cImgHilite.remove_boxes()
-
-      // set status
-      cCommonStatus.set_status("Image Loading")
    }
 
    //* **************************************************************
    static populate_image() {
       // no data returned
       var oData = this.oItem.d
+
+      // empty highligths as there may have been a product before
+      cImgHilite.remove_boxes()
+
+      // set status
+      cCommonStatus.set_status("Image Loading")
 
       //--------------there was no data returned
       if (oData === null) {
