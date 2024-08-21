@@ -24,51 +24,16 @@ class cSolButtons {
    }
 
    //****************************************************************
-   pr_create_widget(psTitle) {
-      var oWidget, oHeader, oBody
-      var oWidget = $("<DIV>", { class: "w3-card w3-theme-widget" })
-      {
-         oHeader = $("<DIV>", { class: "w3-container w3-theme-widget-header" })
-         {
-            oHeader.append(psTitle)
-            oWidget.append(oHeader)
-         }
-
-         oBody = $("<DIV>", { class: "w3-container" })
-         oWidget.append(oBody)
-         oWidget.body = oBody
-      }
-      return oWidget
-   }
-
-   //****************************************************************
-   pr_make_button(psID, psCaption, psTitle, pbDisabled, pfnOnClick) {
-      var oOptions = {
-         title: psTitle,
-         class: "w3-button w3-theme-action",
-      }
-      if (pbDisabled) oOptions.disabled = "disabled"
-      if (psID) oOptions.id = psID
-
-      var oButton = $("<button>", oOptions)
-      {
-         oButton.append(psCaption)
-         oButton.click(pfnOnClick)
-      }
-      return oButton
-   }
-
-   //****************************************************************
    pr_render_sol_buttons() {
       var oWidget, oButton, sbutID
       var oElement = this.element
       var sID = oElement.attr("id")
 
-      oWidget = this.pr_create_widget("Sol Information:")
+      oWidget = cAppRender.create_widget("Sol Information:")
       {
          var oBody = oWidget.body
          // ----------------------------------------------------
-         oButton = this.pr_make_button(
+         oButton = cAppRender.make_button(
             sID + this.consts.TAG_ID,
             "Tags",
             "Tags",
@@ -78,7 +43,7 @@ class cSolButtons {
          oBody.append(oButton)
 
          // ----------------------------------------------------
-         oButton = this.pr_make_button(
+         oButton = cAppRender.make_button(
             sID + this.consts.HIGH_ID,
             "Highlights",
             "Highlights",
@@ -88,7 +53,7 @@ class cSolButtons {
          oBody.append(oButton)
 
          // ----------------------------------------------------
-         oButton = this.pr_make_button(
+         oButton = cAppRender.make_button(
             sID + this.consts.GIGA_ID,
             "Gigapans",
             "Gigapans",
@@ -98,7 +63,7 @@ class cSolButtons {
          oBody.append(oButton)
 
          // ----------------------------------------------------
-         oButton = this.pr_make_button(
+         oButton = cAppRender.make_button(
             sID + this.consts.NOTEBOOK_ID,
             "Notebook",
             "Notebook",
@@ -108,7 +73,7 @@ class cSolButtons {
          oBody.append(oButton)
 
          // ----------------------------------------------------
-         oButton = this.pr_make_button(
+         oButton = cAppRender.make_button(
             sID + this.consts.NOTEBOOKMAP_ID,
             "notebook Map",
             "notebook Map",
@@ -118,7 +83,7 @@ class cSolButtons {
          oBody.append(oButton)
 
          // ----------------------------------------------------
-         oButton = this.pr_make_button(
+         oButton = cAppRender.make_button(
             sID + this.consts.NOTEBOOKMAP_ID,
             "Calendar",
             "Calendar",
@@ -128,7 +93,7 @@ class cSolButtons {
          oBody.append(oButton)
 
          // ----------------------------------------------------
-         oButton = this.pr_make_button(
+         oButton = cAppRender.make_button(
             sID + this.consts.REFRESH_ID,
             "Calendar",
             "Calendar",
@@ -138,7 +103,7 @@ class cSolButtons {
          oBody.append(oButton)
 
          // ----------------------------------------------------
-         oButton = this.pr_make_button(
+         oButton = cAppRender.make_button(
             sID + this.consts.ALLTHUMB_ID,
             "All thumbnails",
             "All thumbnails",
@@ -148,7 +113,7 @@ class cSolButtons {
          oBody.append(oButton)
 
          // ----------------------------------------------------
-         oButton = this.pr_make_button(
+         oButton = cAppRender.make_button(
             sID + this.consts.SITE_ID,
             "Site",
             "Site",
@@ -164,17 +129,17 @@ class cSolButtons {
    pr_render_info() {
       var oElement = this.element
       var oButton = null
-      var oWidget = this.pr_create_widget("information:")
+      var oWidget = cAppRender.create_widget("information:")
       {
          var oBody = oWidget.body
          // ----------------------------------------------------
-         oButton = this.pr_make_button(null, "about", "about", false, () =>
+         oButton = cAppRender.make_button(null, "about", "about", false, () =>
             cBrowser.openWindow("about.php", "about"),
          )
          oBody.append(oButton)
 
          // ----------------------------------------------------
-         oButton = this.pr_make_button(
+         oButton = cAppRender.make_button(
             null,
             "curiosity?",
             "Where is curiosity now?",
@@ -195,23 +160,19 @@ class cSolButtons {
       var oElement = this.element
       var oButton
 
-      var oWidget = this.pr_create_widget("All Sols:")
+      var oWidget = cAppRender.create_widget("All Sols:")
       {
          var oBody = oWidget.body
          // ----------------------------------------------------
-         oButton = this.pr_make_button(
-            null,
-            "All Tags",
-            "All Tags",
-            false,
-            () => cBrowser.openWindow("allsoltags.php", "alltags"),
+         oButton = cAppRender.make_button(null, "Tags", "All Tags", false, () =>
+            cBrowser.openWindow("allsoltags.php", "alltags"),
          )
          oBody.append(oButton)
 
          // ----------------------------------------------------
-         oButton = this.pr_make_button(
+         oButton = cAppRender.make_button(
             null,
-            "All Highlights",
+            "Highlights",
             "All Highlights",
             false,
             () => cBrowser.openWindow("allsolhighs.php", "allhighs"),
@@ -219,9 +180,9 @@ class cSolButtons {
          oBody.append(oButton)
 
          // ----------------------------------------------------
-         oButton = this.pr_make_button(
+         oButton = cAppRender.make_button(
             null,
-            "All Gigapans",
+            "Gigapans",
             "All Gigapans",
             false,
             () => cBrowser.openWindow("allgigas.php", "allgigas"),
@@ -229,9 +190,9 @@ class cSolButtons {
          oBody.append(oButton)
 
          // ----------------------------------------------------
-         oButton = this.pr_make_button(
+         oButton = cAppRender.make_button(
             null,
-            "All Comments",
+            "Comments",
             "All Comments",
             false,
             () => cBrowser.openWindow("allcomments.php", "allcomments"),
@@ -239,9 +200,9 @@ class cSolButtons {
          oBody.append(oButton)
 
          // ----------------------------------------------------
-         oButton = this.pr_make_button(
+         oButton = cAppRender.make_button(
             null,
-            "All Sites",
+            "Sites",
             "All Sites",
             false,
             () => cBrowser.openWindow("allsites.php", "allsites"),

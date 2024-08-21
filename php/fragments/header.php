@@ -56,6 +56,9 @@ cPageOutput::write_JS_class_constant_IDs("cAppLocations");
 <!-- Facebook -->
 <script src="<?= $jsInc ?>/ck-inc/facebook.js"></script>
 
+<!-- app stuff -->
+<script src="<?= $AppJS ?>/classes/app-common.js"></script>
+
 <script>
     cFacebook.ServerSide = "<?= $home ?>/php/rest/facebook.php";
     cFacebook.ServerUser = "<?= $sFBUser ?>";
@@ -67,6 +70,3 @@ cPageOutput::write_JS_class_constant_IDs("cAppLocations");
         (psText) => $("#<?= cAppConfig::FB_ELEMENT_ID ?>").html(psText)
     );
 </script>
-
-<!-- New relic -->
-<!-- <script src="<?= $AppJS ?>/fragments/newrelic.php"></script> -->
