@@ -93,3 +93,7 @@
    background-color: #ef9631f2 !important;
    color: white;
 }
+
+.w3-no-margin {
+   margin: 0px;
+}
