@@ -44,9 +44,9 @@ class cDetailPageConstants {
     include("$appPhpFragments/title.php");
     cPageOutput::write_JS_class_constant_IDs("cDetailPageConstants");
     ?>
-    <div id="<?= cDetailPageConstants::PAGE_CONTENTS_ID ?>">
+    <div id="<?= cDetailPageConstants::PAGE_CONTENTS_ID ?>" class="w3-container w3-padding-small">
         <!-- controls -->
-        <DIV id="<? cDetailPageConstants::CONTROLS_ID ?>" class="w3-container w3-theme-l1 w3-padding">
+        <DIV id=" <?= cDetailPageConstants::CONTROLS_ID ?>" class="w3-container w3-theme-l1 w3-padding">
             <button class="w3-button w3-padding-small w3-theme-action" id="sol" title="Choose Sol">loading...</button>
             <button class="w3-button w3-padding-small w3-theme-action" id="instrument" title="Choose Instrument">loading</button>
             <button class="w3-button w3-padding-small w3-theme-action" id="<?= cDetailPageConstants::CAL_ID ?>" title="Show SOL Calendar">Calendar</button>
