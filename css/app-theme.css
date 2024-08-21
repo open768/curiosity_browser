@@ -62,7 +62,7 @@
 /* theme colours */
 .w3-theme-action {
    color: #fff !important;
-   background-color: #699cbb !important;
+   background-color: #a05704 !important;
 }
 .w3-theme {
    color: #000 !important;
@@ -96,4 +96,16 @@
 
 .w3-no-margin {
    margin: 0px;
+}
+
+.w3-theme-widget {
+   margin-top: 10px;
+   margin-bottom: 5px;
+   color: #000 !important;
+   background-color: #fae6d1 !important;
+}
+
+.w3-theme-widget-header {
+   color: #fff !important;
+   background-color: #994d00 !important;
 }

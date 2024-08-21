@@ -1,18 +1,8 @@
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-$.widget("ck.solButtons", {
-   // #################################################################
-   // # Definition
-   // #################################################################
-   options: {
-      sol: null,
-      onStatus: null,
-      onClick: null,
-      onAllSolThumbs: null,
-      mission: null,
-   },
-
-   consts: {
+/*jshint esversion: 6 */
+class cSolButtons {
+   consts = {
       TAG_ID: "t",
       HIGH_ID: "h",
       GIGA_ID: "g",
@@ -22,13 +12,248 @@ $.widget("ck.solButtons", {
       REFRESH_ID: "r",
       ALLTHUMB_ID: "at",
       SITE_ID: "s",
-   },
+   }
+   options = null
+   element = null
 
-   // #################################################################
-   // # Constructor
-   // #################################################################
-   _create: function () {
-      var oThis, oElement, sID, oButton, oDiv
+   //****************************************************************
+   constructor(poOptions, poElement) {
+      this.options = poOptions
+      this.element = poElement
+      this.init()
+   }
+
+   //****************************************************************
+   pr_create_widget(psTitle) {
+      var oWidget, oHeader, oBody
+      var oWidget = $("<DIV>", { class: "w3-card w3-theme-widget" })
+      {
+         oHeader = $("<DIV>", { class: "w3-container w3-theme-widget-header" })
+         {
+            oHeader.append(psTitle)
+            oWidget.append(oHeader)
+         }
+
+         oBody = $("<DIV>", { class: "w3-container" })
+         oWidget.append(oBody)
+         oWidget.body = oBody
+      }
+      return oWidget
+   }
+
+   //****************************************************************
+   pr_make_button(psID, psCaption, psTitle, pbDisabled, pfnOnClick) {
+      var oOptions = {
+         title: psTitle,
+         class: "w3-button w3-theme-action",
+      }
+      if (pbDisabled) oOptions.disabled = "disabled"
+      if (psID) oOptions.id = psID
+
+      var oButton = $("<button>", oOptions)
+      {
+         oButton.append(psCaption)
+         oButton.click(pfnOnClick)
+      }
+      return oButton
+   }
+
+   //****************************************************************
+   pr_render_sol_buttons() {
+      var oWidget, oButton, sbutID
+      var oElement = this.element
+      var sID = oElement.attr("id")
+
+      oWidget = this.pr_create_widget("Sol Information:")
+      {
+         var oBody = oWidget.body
+         // ----------------------------------------------------
+         oButton = this.pr_make_button(
+            sID + this.consts.TAG_ID,
+            "Tags",
+            "Tags",
+            true,
+            () => oThis.onClickTag(),
+         )
+         oBody.append(oButton)
+
+         // ----------------------------------------------------
+         oButton = this.pr_make_button(
+            sID + this.consts.HIGH_ID,
+            "Highlights",
+            "Highlights",
+            true,
+            () => oThis.onClickHighlights(),
+         )
+         oBody.append(oButton)
+
+         // ----------------------------------------------------
+         oButton = this.pr_make_button(
+            sID + this.consts.GIGA_ID,
+            "Gigapans",
+            "Gigapans",
+            true,
+            () => oThis.onClickGigapans(),
+         )
+         oBody.append(oButton)
+
+         // ----------------------------------------------------
+         oButton = this.pr_make_button(
+            sID + this.consts.NOTEBOOK_ID,
+            "Notebook",
+            "Notebook",
+            true,
+            () => oThis.onClickMSLNotebook(),
+         )
+         oBody.append(oButton)
+
+         // ----------------------------------------------------
+         oButton = this.pr_make_button(
+            sID + this.consts.NOTEBOOKMAP_ID,
+            "notebook Map",
+            "notebook Map",
+            true,
+            () => oThis.onClickMSLNotebook(),
+         )
+         oBody.append(oButton)
+
+         // ----------------------------------------------------
+         oButton = this.pr_make_button(
+            sID + this.consts.NOTEBOOKMAP_ID,
+            "Calendar",
+            "Calendar",
+            true,
+            () => oThis.onClickCalender(),
+         )
+         oBody.append(oButton)
+
+         // ----------------------------------------------------
+         oButton = this.pr_make_button(
+            sID + this.consts.REFRESH_ID,
+            "Calendar",
+            "Calendar",
+            true,
+            () => oThis.onClickRefresh(),
+         )
+         oBody.append(oButton)
+
+         // ----------------------------------------------------
+         oButton = this.pr_make_button(
+            sID + this.consts.ALLTHUMB_ID,
+            "All thumbnails",
+            "All thumbnails",
+            true,
+            () => oThis.onClickAllThumbs(),
+         )
+         oBody.append(oButton)
+
+         // ----------------------------------------------------
+         oButton = this.pr_make_button(
+            sID + this.consts.SITE_ID,
+            "Site",
+            "Site",
+            true,
+            () => oThis.onClickSite(),
+         )
+         oBody.append(oButton)
+      }
+      oElement.append(oWidget)
+   }
+
+   //****************************************************************
+   pr_render_info() {
+      var oElement = this.element
+      var oButton = null
+      var oWidget = this.pr_create_widget("information:")
+      {
+         var oBody = oWidget.body
+         // ----------------------------------------------------
+         oButton = this.pr_make_button(null, "about", "about", false, () =>
+            cBrowser.openWindow("about.php", "about"),
+         )
+         oBody.append(oButton)
+
+         // ----------------------------------------------------
+         oButton = this.pr_make_button(
+            null,
+            "curiosity?",
+            "Where is curiosity now?",
+            false,
+            () =>
+               cBrowser.openWindow(
+                  "http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/",
+                  "whereami",
+               ),
+         )
+         oBody.append(oButton)
+      }
+      oElement.append(oWidget)
+   }
+
+   //****************************************************************
+   pr_render_all_sols() {
+      var oElement = this.element
+      var oButton
+
+      var oWidget = this.pr_create_widget("All Sols:")
+      {
+         var oBody = oWidget.body
+         // ----------------------------------------------------
+         oButton = this.pr_make_button(
+            null,
+            "All Tags",
+            "All Tags",
+            false,
+            () => cBrowser.openWindow("allsoltags.php", "alltags"),
+         )
+         oBody.append(oButton)
+
+         // ----------------------------------------------------
+         oButton = this.pr_make_button(
+            null,
+            "All Highlights",
+            "All Highlights",
+            false,
+            () => cBrowser.openWindow("allsolhighs.php", "allhighs"),
+         )
+         oBody.append(oButton)
+
+         // ----------------------------------------------------
+         oButton = this.pr_make_button(
+            null,
+            "All Gigapans",
+            "All Gigapans",
+            false,
+            () => cBrowser.openWindow("allgigas.php", "allgigas"),
+         )
+         oBody.append(oButton)
+
+         // ----------------------------------------------------
+         oButton = this.pr_make_button(
+            null,
+            "All Comments",
+            "All Comments",
+            false,
+            () => cBrowser.openWindow("allcomments.php", "allcomments"),
+         )
+         oBody.append(oButton)
+
+         // ----------------------------------------------------
+         oButton = this.pr_make_button(
+            null,
+            "All Sites",
+            "All Sites",
+            false,
+            () => cBrowser.openWindow("allsites.php", "allsites"),
+         )
+         oBody.append(oButton)
+      }
+      oElement.append(oWidget)
+   }
+
+   //****************************************************************
+   init() {
+      var oElement
 
       // check for necessary classes
       if (!bean) {
@@ -39,223 +264,19 @@ $.widget("ck.solButtons", {
       }
       if (this.options.mission == null) $.error("mission is not set")
 
-      oThis = this
-      oElement = oThis.element
+      //prepare element
+      oElement = this.element
       oElement.uniqueId()
-      sID = oElement.attr("id")
-
       oElement.empty()
 
-      //* ******************* buttons for sol *********************************************
-      oDiv = $("<DIV>", { class: "ui-widget-content" })
-      var oObj
-      oObj = $("<DIV>", { class: "ui-widget-header" })
-      oObj.append("Sol Information:")
-      oDiv.append(oObj)
+      //make buttons
+      this.pr_render_sol_buttons()
+      this.pr_render_all_sols()
+      this.pr_render_info()
+   }
 
-      oObj = $("<DIV>", { class: "ui-widget-body" })
-      // ----------------------------------------------------
-      oButton = $("<button>", {
-         title: "Tags",
-         class: "leftbutton",
-         id: sID + this.consts.TAG_ID,
-         disabled: "disabled",
-      })
-      oButton.append("Tags")
-      oButton.click(function () {
-         oThis.onClickTag()
-      })
-      oObj.append(oButton)
-
-      // ----------------------------------------------------
-      oButton = $("<button>", {
-         title: "Highlights",
-         class: "leftbutton",
-         id: sID + this.consts.HIGH_ID,
-         disabled: "disabled",
-      })
-      oButton.append("Highlights")
-      oButton.click(function () {
-         oThis.onClickHighlights()
-      })
-      oObj.append(oButton)
-
-      // ----------------------------------------------------
-      oButton = $("<button>", {
-         title: "Gigapans",
-         class: "leftbutton",
-         id: sID + this.consts.GIGA_ID,
-         disabled: "disabled",
-      })
-      oButton.append("Gigapans")
-      oButton.click(function () {
-         oThis.onClickGigapans()
-      })
-      oObj.append(oButton)
-
-      // ----------------------------------------------------
-      oButton = $("<button>", {
-         title: "notebook",
-         class: "leftbutton",
-         id: sID + this.consts.NOTEBOOK_ID,
-         disabled: "disabled",
-      })
-      oButton.append("Notebook")
-      oButton.click(function () {
-         oThis.onClickMSLNotebook()
-      })
-      oObj.append(oButton)
-
-      // ----------------------------------------------------
-      oButton = $("<button>", {
-         title: "notebook Map",
-         class: "leftbutton",
-         id: sID + this.consts.NOTEBOOKMAP_ID_ID,
-         disabled: "disabled",
-      })
-      oButton.append("Notebook Map")
-      oButton.click(function () {
-         oThis.onClickMSLNotebookMap()
-      })
-      oObj.append(oButton)
-
-      // ----------------------------------------------------
-      oButton = $("<button>", {
-         title: "Calendar",
-         class: "leftbutton",
-         id: sID + this.consts.CAL_ID,
-         disabled: "disabled",
-      })
-      oButton.append("Calendar")
-      oButton.click(function () {
-         oThis.onClickCalender()
-      })
-      oObj.append(oButton)
-
-      // ----------------------------------------------------
-      oButton = $("<button>", {
-         title: "Force Refresh Cache",
-         class: "leftbutton",
-         id: sID + this.consts.REFRESH_ID,
-      })
-      oButton.append("Refresh")
-      oButton.click(function () {
-         oThis.onClickRefresh()
-      })
-      oObj.append(oButton)
-
-      // ----------------------------------------------------
-      oButton = $("<button>", {
-         title: "All thumbnails",
-         class: "leftbutton",
-         id: sID + this.consts.ALLTHUMB_ID,
-         disabled: "disabled",
-      })
-      oButton.append("All Thumbnails")
-      oButton.click(function () {
-         oThis.onClickAllThumbs()
-      })
-      oObj.append(oButton)
-
-      // ----------------------------------------------------
-      oButton = $("<button>", {
-         title: "Site",
-         class: "leftbutton",
-         id: sID + this.consts.SITE_ID,
-         disabled: "disabled",
-      })
-      oButton.append("Site")
-      oButton.click(function () {
-         oThis.onClickSite()
-      })
-      oObj.append(oButton)
-      oDiv.append(oObj)
-      oElement.append(oDiv)
-
-      //* ******************* buttons for all sols *********************************************
-      oDiv = $("<DIV>", { class: "ui-widget-content" })
-      oObj = $("<DIV>", { class: "ui-widget-header" })
-      oObj.append("All Sols:")
-      oDiv.append(oObj)
-
-      oObj = $("<DIV>", { class: "ui-widget-body" })
-      // ----------------------------------------------------
-      oButton = $("<button>", { title: "All Tags", class: "leftbutton" })
-      oButton.append("All Tags")
-      oButton.click(function () {
-         cBrowser.openWindow("allsoltags.php", "alltags")
-      })
-      oObj.append(oButton)
-
-      // ----------------------------------------------------
-      oButton = $("<button>", { title: "All Highlights", class: "leftbutton" })
-      oButton.append("All Highlights")
-      oButton.click(function () {
-         cBrowser.openWindow("allsolhighs.php", "allhighs")
-      })
-      oObj.append(oButton)
-
-      // ----------------------------------------------------
-      oButton = $("<button>", { title: "All Gigapans", class: "leftbutton" })
-      oButton.append("All Gigapans")
-      oButton.click(function () {
-         cBrowser.openWindow("allgigas.php", "allgigas")
-      })
-      oObj.append(oButton)
-
-      // ----------------------------------------------------
-      oButton = $("<button>", { title: "All Comments", class: "leftbutton" })
-      oButton.append("All Comments")
-      oButton.click(function () {
-         cBrowser.openWindow("allcomments.php", "allcomments")
-      })
-      oObj.append(oButton)
-
-      // ----------------------------------------------------
-      oButton = $("<button>", { title: "All Sites", class: "leftbutton" })
-      oButton.append("All Sites")
-      oButton.click(function () {
-         cBrowser.openWindow("allsites.php", "allsites")
-      })
-      oObj.append(oButton)
-
-      oDiv.append(oObj)
-      oElement.append(oDiv)
-
-      //* ******************* buttons for all sols *********************************************
-      oDiv = $("<DIV>", { class: "ui-widget-content" })
-      oObj = $("<DIV>", { class: "ui-widget-header" })
-      oObj.append("Information:")
-      oDiv.append(oObj)
-
-      oObj = $("<DIV>", { class: "ui-widget-body" })
-
-      oButton = $("<button>", { title: "about", class: "homebutton" })
-      oButton.append("About")
-      oButton.click(function () {
-         cBrowser.openWindow("about.php", "about")
-      })
-      oObj.append(oButton)
-
-      // ----------------------------------------------------
-      oButton = $("<button>", {
-         title: "Where is curiosity now?",
-         class: "leftbutton",
-      })
-      oButton.append("curiosity?")
-      oButton.click(function () {
-         window.open(
-            "http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/",
-            "whereami",
-         )
-      })
-      oObj.append(oButton)
-      oDiv.append(oObj)
-      oElement.append(oDiv)
-   },
-
-   //* ****************************************************************
-   set_sol: function (psSol) {
+   //*****************************************************************
+   set_sol(psSol) {
       const oThis = this
 
       // store the sol
@@ -309,64 +330,60 @@ $.widget("ck.solButtons", {
          oThis.onHiLiteCount(poHttp)
       })
       oHttp.fetch_json(sUrl)
-   },
-
-   // #################################################################
-   // # Privates
-   // #################################################################
+   }
 
    // #################################################################
    // # Events
    // #################################################################
-   onHiLiteCount: function (poHttp) {
+   onHiLiteCount(poHttp) {
       if (poHttp.response > 0) {
          const sID = "#" + this.element.attr("id") + this.consts.HIGH_ID
          $(sID).removeAttr("disabled")
       }
-   },
+   }
 
-   //* ****************************************************************
-   onFetchedTagCount: function (poHttp) {
+   //*****************************************************************
+   onFetchedTagCount(poHttp) {
       if (poHttp.response > 0) {
          const sID = "#" + this.element.attr("id") + this.consts.TAG_ID
          $(sID).removeAttr("disabled")
       }
-   },
+   }
 
-   //* ****************************************************************
-   onFetchedGigapans: function (poHttp) {
+   //*****************************************************************
+   onFetchedGigapans(poHttp) {
       if (poHttp.response) {
          const sID = "#" + this.element.attr("id") + this.consts.GIGA_ID
          $(sID).removeAttr("disabled")
       }
-   },
+   }
 
-   //* ****************************************************************
-   onClickTag: function () {
+   //*****************************************************************
+   onClickTag() {
       this._trigger("onClick", null)
       cBrowser.openWindow(
          cBrowser.buildUrl("soltag.php", { s: this.options.sol }),
          "soltag",
       )
-   },
-   //* ****************************************************************
-   onClickHighlights: function () {
+   }
+   //*****************************************************************
+   onClickHighlights() {
       this._trigger("onClick", null)
       cBrowser.openWindow(
          cBrowser.buildUrl("solhigh.php", { sheet: 1, s: this.options.sol }),
          "solhigh",
       )
-   },
-   //* ****************************************************************
-   onClickGigapans: function () {
+   }
+   //*****************************************************************
+   onClickGigapans() {
       this._trigger("onClick", null)
       cBrowser.openWindow(
          cBrowser.buildUrl("solgigas.php", { s: this.options.sol }),
          "solgigas",
       )
-   },
-   //* ****************************************************************
-   onClickMSLNotebook: function () {
+   }
+   //*****************************************************************
+   onClickMSLNotebook() {
       this._trigger("onClick", null)
       const sUrl = cBrowser.buildUrl(
          "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx",
@@ -376,9 +393,9 @@ $.widget("ck.solButtons", {
          },
       )
       window.open(sUrl, "date")
-   },
-   //* ****************************************************************
-   onClickMSLNotebookMap: function () {
+   }
+   //*****************************************************************
+   onClickMSLNotebookMap() {
       this._trigger("onClick", null)
       const sUrl = cBrowser.buildUrl(
          "https://an.rsl.wustl.edu/msl/mslbrowser/tab.aspx?t=mp&i=A&it=MT&ii=SOL",
@@ -390,28 +407,51 @@ $.widget("ck.solButtons", {
          },
       )
       window.open(sUrl, "map")
-   },
-   //* ****************************************************************
-   onClickCalender: function () {
+   }
+   //*****************************************************************
+   onClickCalender() {
       this._trigger("onClick", null)
       const sUrl = cBrowser.buildUrl("cal.php", { s: this.options.sol })
       cBrowser.openWindow(sUrl, "calendar")
-   },
-   //* ****************************************************************
-   onClickRefresh: function () {
+   }
+   //*****************************************************************
+   onClickRefresh() {
       this._trigger("onClick", null)
-   },
-   //* ****************************************************************
-   onClickAllThumbs: function () {
+   }
+   //*****************************************************************
+   onClickAllThumbs() {
       this._trigger("onClick", null)
       this._trigger("onAllSolThumbs", null, { s: this.options.sol })
-   },
-   //* ****************************************************************
-   onClickSite: function () {
+   }
+   //*****************************************************************
+   onClickSite() {
       this._trigger("onClick", null)
       cBrowser.openWindow(
          cBrowser.buildUrl("site.php", { sol: this.options.sol }),
          "site",
       )
+   }
+}
+
+//#########################################################################
+//#
+//#########################################################################
+$.widget("ck.solButtons", {
+   options: {
+      sol: null,
+      onStatus: null,
+      onClick: null,
+      onAllSolThumbs: null,
+      mission: null,
+   },
+   instance: null,
+
+   _create: function () {
+      this.instance = new cSolButtons(this.options, this.element)
+   },
+
+   //*****************************************************************
+   set_sol: function (psSol) {
+      return this.instance.set_sol(psSol)
    },
 })
