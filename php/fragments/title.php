@@ -4,7 +4,7 @@
 include("$appPhpFragments/appd.php");
 
 $sFile = cCommonFiles::server_filename();
-$bIsHome =  ($sFile === "index.php");
+$bIsHome =  ($sFile === "index.php" && (cHeader::count_params() == 0));
 ?>
 <div id='fb-root'></div>
 
