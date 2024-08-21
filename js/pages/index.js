@@ -91,9 +91,10 @@ class cBackgroundImage {
       //------ add info to footer
       var oThis = this
       var oA = $("<A>", { href: sUrl, target: "detail" })
-      oA.append("Click here to see background image")
-      oFootDiv.append(oA)
-
+      {
+         oA.append("Click here to see background image")
+         oFootDiv.append(oA)
+      }
       oFootDiv.append(cBrowser.whitespace(100))
 
       var oBut = $("<button>", { class: "w3-button" })
