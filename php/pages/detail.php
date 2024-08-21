@@ -124,12 +124,11 @@ class cDetailPageConstants {
             loading MSL data
         </div>
     </div>
-    <p>
-        <!-- footer -->
-        <?php
-        $sExtraCredits = "link to curiosityrover.com courtesy of Joe Knapp";
-        include("$appPhpFragments/footer.php")
-        ?>
+
+    <!-- footer -->
+    <?php
+    include("$appPhpFragments/footer.php")
+    ?>
 </body>
 
 </html>
