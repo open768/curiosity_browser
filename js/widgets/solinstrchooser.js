@@ -39,124 +39,135 @@ $.widget("ck.solinstrumentChooser", {
       this.prLoadLists()
    },
 
-   //* ******************************************************************
+   //*******************************************************************
    render_part_sols: function () {
       var oElement = this.element
       var sID = oElement.attr("id")
       var oThis = this
-      var oSolsDiv = $("<DIV>", { class: "ui-widget-content" })
-      {
-         //widget header
-         var oHead = $("<DIV>", { class: "ui-widget-header" })
-         {
-            oHead.append("Sol: ")
-            var sOID = sID + this.consts.THIS_SOL_ID
-            oHead.append($("<SPAN>", { id: sOID }).append("choose a SOL..."))
-         }
-         oSolsDiv.append(oHead)
 
-         //content
-         var oContent = $("<DIV>")
+      var oWidgetHeader = $("<SPAN>")
+      {
+         oWidgetHeader.append("Mission:")
+         var sOID = sID + this.consts.THIS_SOL_ID
+         oWidgetHeader.append(
+            $("<SPAN>", { id: sOID }).append("choose a SOL..."),
+         )
+      }
+      var oWidget = cAppRender.create_widget(oWidgetHeader)
+      var oBody = oWidget.body
+      {
+         //SOL and instrument chooser
+         var oListsDiv = $("<DIV>")
          {
             //pull down lists
             var oList = $("<SELECT>", { id: sID + this.consts.SOL_SUMMARY_ID })
-            oList.append($("<Option>").append("loading..."))
-            oContent.append(oList)
+            {
+               oList.append($("<Option>").append("loading..."))
+               oListsDiv.append(oList)
+            }
 
             oList = $("<SELECT>", { id: sID + this.consts.SOL_LIST_ID })
-            oList.append($("<Option>").append("loading..."))
-            oContent.append(oList)
+            {
+               oList.append($("<Option>").append("loading..."))
+               oListsDiv.append(oList)
+            }
+
+            oBody.append(oListsDiv)
          }
-         oSolsDiv.append(oContent)
 
          //buttons
-         var oTable, oRow, oCell, oButton
-         oTable = $("<TABLE>", { border: 0, width: "100%" })
+         var oCell, oButton, oButtonDiv, sButID
+         var oThis = this
+         oButtonDiv = $("<DIV>", { class: "w3-cell-row" })
          {
-            oRow = $("<TR>")
+            //-----------------------------------------------------
+            oCell = $("<DIV>", { class: "w3-cell" })
             {
-               oCell = $("<TD>", { align: "left" })
-               {
-                  oButton = $("<button>", {
-                     class: "solnav leftarrow",
-                     title: "previous Sol ([)",
-                  })
-                  oButton.click(function () {
-                     oThis.onPreviousSolClick()
-                  })
-                  oCell.append(oButton)
-               }
-               oRow.append(oCell)
-
-               sOID = sID + this.consts.LATEST_ID
-               oCell = $("<TD>", { align: "middle" })
-               {
-                  oButton = $("<button>", {
-                     class: "roundbutton",
-                     title: "latest",
-                     disabled: "disabled",
-                     id: sOID,
-                  }).append("latest")
-                  oButton.click(function () {
-                     oThis.onLatestSolClick()
-                  })
-                  oCell.append(oButton)
-               }
-               oRow.append(oCell)
-
-               oCell = $("<TD>", { align: "right" })
-               {
-                  oButton = $("<button>", {
-                     class: "solnav rightarrow",
-                     title: "Next Sol (])",
-                  })
-                  oButton.click(function () {
-                     oThis.onNextSolClick()
-                  })
-                  oCell.append(oButton)
-               }
-               oRow.append(oCell)
+               oButton = cAppRender.make_button(
+                  null,
+                  "&lt; previous",
+                  "previous Sol [",
+                  false,
+                  () => oThis.onPreviousSolClick(),
+               )
+               oCell.append(oButton)
+               oButtonDiv.append(oCell)
             }
-            oTable.append(oRow)
+
+            //-----------------------------------------------------
+            oCell = $("<DIV>", { class: "w3-cell" })
+            {
+               sButID = sID + this.consts.LATEST_ID
+               oButton = cAppRender.make_button(
+                  sButID,
+                  "latest",
+                  "latest sol",
+                  true,
+                  () => oThis.onLatestSolClick(),
+               )
+               oCell.append(oButton)
+               oButtonDiv.append(oCell)
+            }
+            //-----------------------------------------------------
+            oCell = $("<DIV>", { class: "w3-cell" })
+            {
+               oButton = cAppRender.make_button(
+                  null,
+                  "next >",
+                  "next Sol ]",
+                  false,
+                  () => oThis.onNextSolClick(),
+               )
+               oCell.append(oButton)
+               oButtonDiv.append(oCell)
+            }
+            oBody.append(oButtonDiv)
          }
-         oSolsDiv.append(oTable)
+         oElement.append(oWidget)
       }
-      oElement.append(oSolsDiv)
    },
 
-   //* ******************************************************************
+   //*******************************************************************
    render_part_mission: function () {
       var oElement = this.element
       var sID = oElement.attr("id")
-      var oMissionDiv = $("<DIV>", { class: "ui-widget-content" })
+
+      var oWidget = cAppRender.create_widget("Mission:")
+      var oBody = oWidget.body
       {
-         //header
-         var oHead = $("<DIV>", { class: "ui-widget-header" })
+         var oList = $("<SELECT>", { id: sID + this.consts.MISSIONS_ID })
          {
-            oHead.append("Mission: ")
+            oList.append(
+               $("<Option>", { selected: true, value: "MSL" }).append(
+                  "Mars Science Lab (Curiosity)",
+               ),
+            )
+            oBody.append(oList)
          }
-         oMissionDiv.append(oHead)
-         //content
-         var oContent = $("<DIV>")
-         {
-            var oList = $("<SELECT>", { id: sID + this.consts.MISSIONS_ID })
-            {
-               oList.append(
-                  $("<Option>", { selected: true, value: "MSL" }).append(
-                     "Mars Science Lab (Curiosity)",
-                  ),
-               )
-            }
-            oContent.append(oList)
-         }
-         oMissionDiv.append(oContent)
       }
-      oElement.append(oMissionDiv)
+      oElement.append(oWidget)
    },
 
-   //* ******************************************************************
+   //*******************************************************************
+   render_part_instruments: function () {
+      // instrument part of the widget
+      var oElement = this.element
+      var sID = oElement.attr("id")
+      var oWidget = cAppRender.create_widget("Instruments")
+      {
+         var oBody = oWidget.body
+         {
+            oList = $("<SELECT>", { id: sID + this.consts.INSTR_ID })
+            oList.append($("<Option>").append("loading..."))
+            oBody.append(oList)
+         }
+         oElement.append(oWidget)
+      }
+   },
+
+   //*******************************************************************
    render: function () {
-      var oThis, oElement, sID, oList, oHead
+      var oThis, oElement, sID
 
       oThis = this
       oElement = oThis.element
@@ -169,18 +180,7 @@ $.widget("ck.solinstrumentChooser", {
       //------------------------------------------------------------------
       this.render_part_mission()
       this.render_part_sols()
-
-      // instrument part of the widget
-      var oInstrDiv = $("<DIV>", { class: "ui-widget-content" })
-      {
-         oHead = $("<DIV>", { class: "ui-widget-header" }).append("Instruments")
-         oInstrDiv.append(oHead)
-
-         oList = $("<SELECT>", { id: sID + this.consts.INSTR_ID })
-         oList.append($("<Option>").append("loading..."))
-         oInstrDiv.append(oList)
-      }
-      oElement.append(oInstrDiv)
+      this.render_part_instruments()
    },
 
    // #################################################################
@@ -208,7 +208,7 @@ $.widget("ck.solinstrumentChooser", {
       }
    },
 
-   //* ****************************************************************
+   //*****************************************************************
    get_sol_instruments: function (psSol) {
       const oThis = this
       const sListID = this.element.attr("id") + this.consts.INSTR_ID
@@ -287,7 +287,7 @@ $.widget("ck.solinstrumentChooser", {
       return false
    },
 
-   //* ****************************************************************
+   //*****************************************************************
    onLatestSolClick: function () {
       const sID = this.element.attr("id")
       cDebug.write("setting latest sol: ")
@@ -302,7 +302,7 @@ $.widget("ck.solinstrumentChooser", {
          .change() // call the change event on the sol list
    },
 
-   //* ****************************************************************
+   //*****************************************************************
    onNextSolClick: function () {
       var oSelected, oNext
       const sID = this.element.attr("id")
@@ -326,7 +326,7 @@ $.widget("ck.solinstrumentChooser", {
       return false
    },
 
-   //* ****************************************************************
+   //*****************************************************************
    onKeypress: function (poEvent) {
       if (poEvent.target.tagName === "INPUT") return
 
@@ -342,7 +342,7 @@ $.widget("ck.solinstrumentChooser", {
       }
    },
 
-   //* ****************************************************************
+   //*****************************************************************
    OnChangeSolList: function (poEvent) {
       this.options.sol = poEvent.target.value
       if (this.options.instrument) {
@@ -363,12 +363,12 @@ $.widget("ck.solinstrumentChooser", {
       this.get_sol_instruments(poEvent.target.value)
    },
 
-   //* ****************************************************************
+   //*****************************************************************
    OnChangeSolSummaryList: function (poEvent) {
       this.set_sol(poEvent.target.value)
    },
 
-   //* ****************************************************************
+   //*****************************************************************
    OnChangeInstrList: function (poEvent) {
       this.options.instrument = poEvent.target.value
       this._trigger("onSelect", null, {
@@ -386,7 +386,7 @@ $.widget("ck.solinstrumentChooser", {
       })
    },
 
-   //* ****************************************************************
+   //*****************************************************************
    onLoadSolInstruments: function (poHttp) {
       var i, sInstr, oList, oJson
 
@@ -416,7 +416,7 @@ $.widget("ck.solinstrumentChooser", {
       }
    },
 
-   //* ****************************************************************
+   //*****************************************************************
    onLoadInstruments: function (poHttp) {
       const oThis = this
       const aData = poHttp.response
@@ -452,7 +452,7 @@ $.widget("ck.solinstrumentChooser", {
       })
    },
 
-   //* ****************************************************************
+   //*****************************************************************
    onLoadSols: function (poHttp) {
       var i, oSol, oList, oSumList, oOption, iSol, iLastRange, iRange
       const oThis = this

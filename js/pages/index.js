@@ -14,7 +14,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 /*global cIndexPageConsts, cRenderGoogleFont*/
 // cIndexPageConsts are defined in index.php - and written out line 57
 
-cDebug.on()
+//cDebug.on()
 
 var keep_start_image = true
 
@@ -275,36 +275,25 @@ class cAdminBox {
    //*************************************************************
    static render(poParent) {
       var oThis = this
-      var oDiv = $("<DIV>", {
-         class: "w3-card-4",
-      })
+      var oWidget = cAppRender.create_widget("Admin")
+      var oBody = oWidget.body
       {
-         var oHeader = $("<DIV>", {
-            class: "w3-container w3-theme-dark",
-         })
-         {
-            oHeader.append("Admin")
-            oDiv.append(oHeader)
-         }
-
-         var oBody = $("<DIV>", { class: "w3-container" })
-         {
-            if (cIndexPageConsts.IS_ADMIN === "yes") {
-               var oButton = $("<BUTTON>", {
-                  title: "Admin Functions",
-                  class: "w3-button w3-theme-button-up",
-               })
-               oButton.append("Admin")
-               oButton.click(() => oThis.onAdminClick())
-               oBody.append(oButton)
-            } else {
-               oBody.append("Not an Admin")
-            }
-            oDiv.append(oBody)
+         if (cIndexPageConsts.IS_ADMIN === "yes") {
+            var oButton = cAppRender.make_button(
+               null,
+               "Admin",
+               "Admin functions",
+               false,
+               () => oThis.onAdminClick(),
+            )
+            oBody.append(oButton)
+         } else {
+            oBody.append("Not an Admin")
          }
       }
-      poParent.append(oDiv)
+      poParent.append(oWidget)
    }
+
    //*************************************************************
    static onAdminClick() {
       cBrowser.openWindow(

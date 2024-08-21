@@ -3,7 +3,7 @@ class cAppRender {
    static make_button(psID, psCaption, psTitle, pbDisabled, pfnOnClick) {
       var oOptions = {
          title: psTitle,
-         class: "w3-button w3-theme-action w3-round w3-padding-small",
+         class: "w3-button w3-theme-action w3-round w3-padding-small w3-theme-margin-1",
       }
       if (pbDisabled) oOptions.disabled = "disabled"
       if (psID) oOptions.id = psID
@@ -27,7 +27,7 @@ class cAppRender {
             oWidget.append(oHeader)
          }
 
-         oBody = $("<DIV>", { class: "w3-container" })
+         oBody = $("<DIV>", { class: "w3-theme-widget-body" })
          oWidget.append(oBody)
          oWidget.body = oBody
       }
