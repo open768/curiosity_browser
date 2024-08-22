@@ -32,11 +32,15 @@ class cAppLocations {
     static $home = null;
     static $rest = null;
     static $jsextra = null;
-};
 
-cAppLocations::$home = $home;
-cAppLocations::$rest = $AppRest;
-cAppLocations::$jsextra = $jsExtra;
+    static function init() {
+        global $home, $AppRest, $jsExtra;
+        self::$home = $home;
+        self::$rest = $AppRest;
+        self::$jsextra = $jsExtra;
+    }
+}
+cAppLocations::init();
 
 class cAppIDs {
     const STATUS_ID = "status";

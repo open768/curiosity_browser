@@ -359,12 +359,13 @@ body {
 
 /* -----------buttons -------------------------- */
 .homebutton {
-   background: white url(mb_images/greydude.png) left no-repeat;
+   background: white url(mb_images/greydude.png) center no-repeat;
    background-size: contain;
-   border-radius: 15px;
+   border-radius: 20px;
    height: 30px;
    padding: 5px;
    padding-left: 30px;
+   margin-right: 10px;
 }
 
 .homebutton:hover {

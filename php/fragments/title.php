@@ -4,24 +4,55 @@
 include("$appPhpFragments/appd.php");
 
 $sFile = cCommonFiles::server_filename();
-$bIsHome =  ($sFile === "index.php" && (cHeader::count_params() == 0));
+
+class cTitleConstants {
+    static $IS_HOME;
+    static $TITLE;
+    static $IS_LOCALHOST;
+
+    static function init($psFile) {
+        global $sTitle;
+        $bIsHome = ($psFile === "index.php" && (cHeader::count_params() == 0));
+        self::$IS_HOME = $bIsHome;
+        self::$TITLE = $sTitle;
+        self::$IS_LOCALHOST =  cDebug::is_localhost();
+    }
+}
+cTitleConstants::init($sFile);
+
+cPageOutput::write_JS_class_constant_IDs("cTitleConstants");
+
 ?>
 <div id='fb-root'></div>
+<script>
+    function render_title() {
+        var oDiv = $("#titlebut")
+        oDiv.empty();
+        if (!cTitleConstants.IS_HOME) {
+            var sUrl = cAppLocations.home + "/php/pages/index.php"
+            var oImg = $("<span>", {
+                class: "homebutton"
+            })
+            var oButton = cAppRender.make_button(null, "Home", "Home", false, () => cBrowser.openWindow(sUrl, "index"));
+            {
+                oButton.prepend(oImg);
+                //oButton.addClass("homebutton")
+                oDiv.append(oButton);
+            }
+        } else
+            oDiv.append("Curiosity Browser")
+        oDiv.append(" - " + cTitleConstants.TITLE)
+
+        if (cTitleConstants.IS_LOCALHOST) oDiv.append(" - <font color='red'>DEVELOPMENT</font>")
+    }
+    $(render_title)
+</script>
 
 <!-- Title Bar -->
 <div class="w3-cell-row w3-header-theme ">
     <div class="w3-cell">
-        <?php
-        if ($bIsHome)
-            echo "Curiosity Browser";
-        else {
-        ?>
-            <button class='homebutton' onclick='cBrowser.openWindow("<?= $home ?>/php/pages/index.php","index")'>Home</button>
-        <?php
-        }
-        ?>
-        <span id="toptitle"><?= $sTitle ?></span>
-        <?= (cDebug::is_localhost() ? " - <span><font color='red'>DEVELOPMENT</font></span>" : "") ?>
+        <span class="w3-cell" id="titlebut">Crowded Spaces</span>
+        <span class="w3-cell" id="toptitle"> - </span>
     </div>
     <div class="w3-cell w3-right-align">
         <span style="display: inline-block; width: 300px;" id="<?= cAppConfig::FB_ELEMENT_ID ?>">One Moment please...</span>
