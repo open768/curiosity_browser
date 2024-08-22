@@ -16,9 +16,9 @@ class cSolHighs {
    static is_mosaic = false
    static current_sol = null
 
-   // ###############################################################
-   // # Entry point
-   // ###############################################################
+   //###############################################################
+   //# Entry point
+   //###############################################################
    static onLoadJQuery() {
       this.current_sol = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]
       if (this.current_sol == null) {
@@ -35,9 +35,9 @@ class cSolHighs {
       this.load_widget()
    }
 
-   // ###############################################################
-   // # Utility functions
-   // ###############################################################
+   //###############################################################
+   //# Utility functions
+   //###############################################################
    static load_widget() {
       const oDiv = $("#solhigh")
       const oWidget = oDiv.data("ckSolhighlights") // capitalise the first letter of the widget
@@ -52,7 +52,7 @@ class cSolHighs {
       })
    }
 
-   //* **************************************************************
+   //***************************************************************
    static set_browser_url() {
       $("#sol").html(this.current_sol)
       $("#solbutton").html(this.current_sol)
@@ -65,9 +65,9 @@ class cSolHighs {
       cBrowser.pushState("solhigh", sUrl)
    }
 
-   // ###############################################################
-   // # events
-   // ###############################################################
+   //###############################################################
+   //# events
+   //###############################################################
    static onCheckMosaic() {
       this.is_mosaic = $("#chkMosaic")[0].checked
       this.set_browser_url()
@@ -80,14 +80,14 @@ class cSolHighs {
       this.load_widget()
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onClickNext_sol() {
       this.current_sol++
       this.set_browser_url()
       this.load_widget()
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onClickSol() {
       const oParams = {}
       oParams[cSpaceBrowser.SOL_QUERYSTRING] = this.current_sol
@@ -95,7 +95,7 @@ class cSolHighs {
       cBrowser.openWindow(sUrl, "index")
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onClickMosaic() {
       var sUrl
 
@@ -111,7 +111,7 @@ class cSolHighs {
       this.onLoadJQuery()
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onHighlightClick(poEvent, poData) {
       const oParams = {}
       oParams[cSpaceBrowser.SOL_QUERYSTRING] = poData.s
@@ -121,7 +121,7 @@ class cSolHighs {
       cBrowser.openWindow(sUrl, "detail")
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onStatusEvent(poEvent, poData) {
       cCommonStatus.set_status(poData.text)
    }

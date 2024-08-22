@@ -12,11 +12,11 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 "use strict"
 var goPds = null
 
-// ###############################################################
-// # Event Handlers
-// ###############################################################
+//###############################################################
+//# Event Handlers
+//###############################################################
 
-//* **************************************************************
+//***************************************************************
 
 //eslint-disable-next-line no-unused-vars
 function onClickEDRLBL() {
@@ -36,7 +36,7 @@ function onClickDetail() {
    cBrowser.openWindow(sUrl, "detail")
 }
 
-//* **************************************************************
+//***************************************************************
 //eslint-disable-next-line no-unused-vars
 function onClickNotebook() {
    if (!has_pds_url()) return
@@ -44,9 +44,9 @@ function onClickNotebook() {
    window.open(goPds.notebook, "notebook")
 }
 
-// ###############################################################
-// # Utility functions
-// ###############################################################
+//###############################################################
+//# Utility functions
+//###############################################################
 //eslint-disable-next-line no-unused-vars
 function onLoadJQuery_PDS() {
    cCommonStatus.set_status("loading pds data...")
@@ -70,9 +70,9 @@ function has_pds_url() {
    return goPds
 }
 
-// ###############################################################
+//###############################################################
 //* call backs
-// ###############################################################
+//###############################################################
 function get_pds_callback(poHttp) {
    const oData = poHttp.response
    if (oData == null) {

@@ -16,9 +16,9 @@ class cDetail {
    static aTags = null
    static iNum = null
 
-   // ###############################################################
-   // # entry point
-   // ###############################################################
+   //###############################################################
+   //# entry point
+   //###############################################################
    static onLoadJQuery() {
       // disable edit controls
       cJquery.disable_element("tagtext")
@@ -85,9 +85,9 @@ class cDetail {
       cTagging.getTags(() => this.onGotAllTagNames())
    }
 
-   // ###############################################################
-   // # Click Event Handlers
-   // ###############################################################
+   //###############################################################
+   //# Click Event Handlers
+   //###############################################################
    static onClickComment() {
       const sText = $("#Commentsbox").sceditor("instance").val() // gets the bbcode - MUST BE PARSED AT SERVER
       cSpaceComments.set(this.oItem.s, this.oItem.i, this.oItem.p, sText, () =>
@@ -95,7 +95,7 @@ class cDetail {
       )
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onClickNextProduct() {
       const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/nexttime.php", {
          d: "n",
@@ -109,7 +109,7 @@ class cDetail {
       oHttp.fetch_json(sUrl)
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onClickPreviousProduct() {
       const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/nexttime.php", {
          d: "p",
@@ -123,7 +123,7 @@ class cDetail {
       oHttp.fetch_json(sUrl)
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onClickNext() {
       // find the next product
       cCommonStatus.set_status("fetching next image details...")
@@ -139,7 +139,7 @@ class cDetail {
       oHttp.fetch_json(sUrl)
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onClickPrevious() {
       cCommonStatus.set_status("fetching previous image details...")
       const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/next.php", {
@@ -154,7 +154,7 @@ class cDetail {
       oHttp.fetch_json(sUrl)
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onClickCal() {
       var sUrl
 
@@ -162,7 +162,7 @@ class cDetail {
       cBrowser.openWindow(sUrl, "calendar")
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onClickSol() {
       const sUrl =
          "index.php?s=" +
@@ -174,29 +174,29 @@ class cDetail {
       cBrowser.openWindow(sUrl, "index")
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onClickThumbnails() {
       const sUrl = "index.php?s=" + this.oItem.s + "&i=" + this.oItem.i + "&t=1"
       cBrowser.openWindow(sUrl, "solthumb")
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onClickHighlights() {
       const sUrl = "solhigh.php?sheet&s=" + this.oItem.s
       cBrowser.openWindow(sUrl, "solthumb")
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onClickInstr() {
       this.onClickSol()
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onClickNASA() {
       window.open(this.oItem.d.i, "nasa")
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onClickMSLRaw() {
       const sUrl =
          "http://mars.nasa.gov/msl/multimedia/raw/?rawid=" +
@@ -206,7 +206,7 @@ class cDetail {
       window.open(sUrl, "mslraw")
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onClickPDS() {
       const sUrl =
          "pds.php?s=" +
@@ -220,7 +220,7 @@ class cDetail {
       cBrowser.openWindow(sUrl, "pds")
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onClickAddTag() {
       var sTag
 
@@ -237,7 +237,7 @@ class cDetail {
       )
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onKeyPress(poEvent) {
       const sChar = String.fromCharCode(poEvent.which)
       switch (sChar) {
@@ -256,13 +256,13 @@ class cDetail {
       }
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onClickGoogle() {
       const sUrl = "https://www.google.com/#q=%22" + this.oItem.p + "%22"
       window.open(sUrl, "map")
    }
 
-   //* **************************************************************
+   //***************************************************************
    static OnImageClick(poEvent) {
       if (cAuth.user) {
          cImgHilite.makeBox(poEvent.pageX, poEvent.pageY, true)
@@ -271,7 +271,7 @@ class cDetail {
       }
    }
 
-   //* *************************************************
+   //**************************************************
    static onClickBoxAccept(poEvent) {
       const oBox = cImgHilite.getBoxFromButton(poEvent.currentTarget)
       cImgHilite.save_highlight(
@@ -283,14 +283,14 @@ class cDetail {
       )
    }
 
-   //* *************************************************
+   //**************************************************
    static onClickBoxCancel(poEvent) {
       cImgHilite.rejectBox(poEvent.currentTarget)
    }
 
-   // ###############################################################
-   // # Focus Event Handlers
-   // ###############################################################
+   //###############################################################
+   //# Focus Event Handlers
+   //###############################################################
    static onInputFocus() {
       $(window).unbind("keypress")
    }
@@ -299,9 +299,9 @@ class cDetail {
       $(window).keypress(() => this.onKeyPress())
    }
 
-   // ###############################################################
-   // # Event Handlers
-   // ###############################################################
+   //###############################################################
+   //# Event Handlers
+   //###############################################################
    static onFacebookUser() {
       cDebug.write("detail.js got Facebook user")
       cJquery.enable_element("tagtext")
@@ -325,9 +325,9 @@ class cDetail {
          .focus(() => this.onInputFocus())
    }
 
-   // ###############################################################
+   //###############################################################
    //* call backs
-   // ###############################################################
+   //###############################################################
    static onGotAllTagNames(poJs) {
       cCommonStatus.set_status("got tag names")
       this.aTags = new Array()
@@ -337,7 +337,7 @@ class cDetail {
       $("#tagtext").autocomplete({ source: this.aTags })
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onGotHighlights(paJS) {
       var i, aItem, oBox, oNumber
       if (!paJS.d) {
@@ -355,13 +355,13 @@ class cDetail {
       }
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onSetTag(paJS) {
       this.onGotTags(paJS)
       cTagging.getTagNames(() => this.alltagnames_callback())
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onGotTags(paJS) {
       var sHTML, i, sTag
 
@@ -389,7 +389,7 @@ class cDetail {
       cCommonStatus.set_status("ok")
    }
 
-   //* **************************************************************
+   //***************************************************************
    static pr_update_doc_title(poItem) {
       //---------- THERE WAS DATA -----------------
       // update the title
@@ -434,7 +434,7 @@ class cDetail {
          return
       }
    }
-   //* **************************************************************
+   //***************************************************************
    static onGotDetails(poHttp) {
       var sUrl, oData
       cCommonStatus.set_status("received data...")
@@ -473,7 +473,7 @@ class cDetail {
       )
    }
 
-   //* **************************************************************
+   //***************************************************************
    static populate_image() {
       // no data returned
       var oData = this.oItem.d
@@ -532,7 +532,7 @@ class cDetail {
       ) // facebook tag for image
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onGotComments(paJson) {
       var i, oText, sHTML
 
@@ -549,20 +549,20 @@ class cDetail {
       cCommonStatus.set_status("ok")
    }
 
-   //* **************************************************************
+   //***************************************************************
    static nexttime_callback(poHttp) {
       const oData = poHttp.response
       if (!oData) cCommonStatus.set_error_status("unable to find")
       else this.get_product_data(oData.s, oData.d.instrument, oData.d.itemName)
    }
 
-   //* **************************************************************
+   //***************************************************************
    static next_callback(poHttp) {
       const oData = poHttp.response
       this.get_product_data(oData.s, this.oItem.i, oData.d.p)
    }
 
-   //* **************************************************************
+   //***************************************************************
    static OnImageLoaded(poEvent) {
       var iWidth, iHeight, iImgW, iButW
 
@@ -600,7 +600,7 @@ class cDetail {
       cCommonStatus.set_status("OK")
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onSaveHighlight() {
       cImgHilite.remove_boxes()
       cImgHilite.getHighlights(
@@ -611,7 +611,7 @@ class cDetail {
       )
    }
 
-   //* **************************************************************
+   //***************************************************************
    static get_product_data(psSol, psInstr, psProd) {
       const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/detail.php", {
          s: psSol,

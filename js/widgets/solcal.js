@@ -3,9 +3,9 @@
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 /*global cAppCal */
 $.widget("ck.solcalendar", {
-   // #################################################################
-   // # Definition
-   // #################################################################
+   //#################################################################
+   //# Definition
+   //#################################################################
    options: {
       mission: null,
       sol: null,
@@ -13,9 +13,9 @@ $.widget("ck.solcalendar", {
       onClick: null,
    },
 
-   // #################################################################
-   // # Constructor
-   // #################################################################
+   //#################################################################
+   //# Constructor
+   //#################################################################
    _create: function () {
       // check that the element is a div
       const oElement = this.element
@@ -42,9 +42,9 @@ $.widget("ck.solcalendar", {
       this.prv__getData()
    },
 
-   // #################################################################
-   // # Private
-   // #################################################################
+   //#################################################################
+   //# Private
+   //#################################################################
    prv__getData: function () {
       const oWidget = this
       const oElement = this.element
@@ -73,7 +73,7 @@ $.widget("ck.solcalendar", {
       oHttp.fetch_json(sUrl, oElement)
    },
 
-   //* **************************************************************
+   //***************************************************************
    prv__get_Headings: function (paDates) {
       const aHeadings = Array()
       var sDateKey
@@ -84,7 +84,7 @@ $.widget("ck.solcalendar", {
       return aHeadings
    },
 
-   //* **************************************************************
+   //***************************************************************
    prv__get_Times: function (paDates) {
       var sDate, sTime
       const aTimes = Array()
@@ -101,9 +101,9 @@ $.widget("ck.solcalendar", {
       return aTimes
    },
 
-   // #################################################################
-   // # render functions
-   // #################################################################
+   //#################################################################
+   //# render functions
+   //#################################################################
    prv__build_colour_part: function (paInstr) {
       const oElement = this.element
       const oColours = {}
@@ -130,7 +130,7 @@ $.widget("ck.solcalendar", {
       return oColours
    },
 
-   //* **************************************************************
+   //***************************************************************
    prv__build_cal_part: function (paHeadings, paDates, paTimes, poColours) {
       var i, oTable, oRow, oCell
       const oElement = this.element
@@ -159,7 +159,7 @@ $.widget("ck.solcalendar", {
       }
    },
 
-   //* **************************************************************
+   //***************************************************************
    prv_renderRow: function (psTime, paHeadings, paDates, poColours) {
       var i, oRow, oCell
       var oDate, sDate, aItems
@@ -185,7 +185,7 @@ $.widget("ck.solcalendar", {
       return oRow
    },
 
-   //* **************************************************************
+   //***************************************************************
    prv_render_items: function (poCell, paItems, poColours) {
       var i, oItem, oButton, sColour, sStyle
       const oWidget = this
@@ -214,9 +214,9 @@ $.widget("ck.solcalendar", {
       }
    },
 
-   // #################################################################
-   // # Events
-   // #################################################################
+   //#################################################################
+   //# Events
+   //#################################################################
    onButtonClick: function (poButton) {
       const oOptions = this.options
       const oItem = $(poButton)
@@ -229,7 +229,7 @@ $.widget("ck.solcalendar", {
       })
    },
 
-   //* **************************************************************
+   //***************************************************************
    onError: function () {
       const oElement = this.element
 
@@ -239,7 +239,7 @@ $.widget("ck.solcalendar", {
       oElement.append(oDiv)
    },
 
-   //* **************************************************************
+   //***************************************************************
    onCalResponse: function (poHttp) {
       const oElement = this.element
       const oOptions = this.options

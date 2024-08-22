@@ -16,17 +16,17 @@ class cAppCal {
    static current_date = null
    static oColours = {}
 
-   // ###############################################################
-   // # entry point
-   // ###############################################################
+   //###############################################################
+   //# entry point
+   //###############################################################
    static onLoadJQuery() {
       this.current_sol = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]
       this.load_widget()
    }
 
-   // ###############################################################
-   // # Event Handlers
-   // ###############################################################
+   //###############################################################
+   //# Event Handlers
+   //###############################################################
    static onClickGotoSol() {
       const sUrl = cBrowser.buildUrl("index.php", { s: this.current_sol })
       cBrowser.openWindow(sUrl, "index")

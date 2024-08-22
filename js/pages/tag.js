@@ -11,9 +11,9 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 "use strict"
 
-// ###############################################################
-// # Utility functions
-// ###############################################################
+//###############################################################
+//# Utility functions
+//###############################################################
 //eslint-disable-next-line no-unused-vars
 function onLoadJQuery_TAG() {
    const sTag = cBrowser.data.t
@@ -29,12 +29,12 @@ function onLoadJQuery_TAG() {
    })
 }
 
-//* **************************************************************
+//***************************************************************
 function onStatusEvent(poEvent, paHash) {
    cCommonStatus.set_status(paHash.text)
 }
 
-//* **************************************************************
+//***************************************************************
 function onImageClick(poEvent, poOptions) {
    const sUrl = cBrowser.buildUrl("detail.php", {
       s: poOptions.sol,

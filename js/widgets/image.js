@@ -3,9 +3,9 @@ const goImageQueue = new cHttpQueue()
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 $.widget("ck.instrumentimage", {
-   // #################################################################
-   // # Definition
-   // #################################################################
+   //#################################################################
+   //# Definition
+   //#################################################################
    options: {
       sol: null,
       instrument: null,
@@ -21,9 +21,9 @@ $.widget("ck.instrumentimage", {
       WAIT_IMAGE: cAppLocations.home + "/images/browser/chicken_icon.png",
    },
 
-   // #################################################################
-   // # Constructor
-   // #################################################################
+   //#################################################################
+   //# Constructor
+   //#################################################################
    _create: function () {
       const oThis = this
       const oOptions = oThis.options
@@ -104,9 +104,9 @@ $.widget("ck.instrumentimage", {
       }
    },
 
-   // #################################################################
-   // # Privates
-   // #################################################################
+   //#################################################################
+   //# Privates
+   //#################################################################
    prv_loadDetails: function () {
       const oThis = this
       const oOptions = oThis.options
@@ -186,9 +186,9 @@ $.widget("ck.instrumentimage", {
       oElement.append(oImgDiv)
    },
 
-   // #################################################################
-   // # Events
-   // #################################################################
+   //#################################################################
+   //# Events
+   //#################################################################
    onLoadedImage: function () {
       const oOptions = this.options
       const oThis = this
@@ -196,7 +196,7 @@ $.widget("ck.instrumentimage", {
       cDebug.write("loaded image: " + this.options.src)
 
       // get the image and tag highlights
-      // #TODO# add these to a queue that can be stopped
+      //#TODO# add these to a queue that can be stopped
       cImgHilite.getHighlights(
          oOptions.sol,
          oOptions.instrument,

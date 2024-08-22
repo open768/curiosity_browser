@@ -21,9 +21,9 @@ const sHiriseColor = "ff00ff00"
 const sSelectedHiriseColor = "ff0000ff"
 var oSelectedHiRise = null
 
-// ###############################################################
-// # Utility functions
-// ###############################################################
+//###############################################################
+//# Utility functions
+//###############################################################
 //eslint-disable-next-line no-unused-vars
 function onLoadJQuery_SITES() {
    cCommonStatus.set_status("initialising Google Earth")
@@ -42,9 +42,9 @@ function onGoogleEarthLoaded() {
    oHttp.fetch_json(sUrl)
 }
 
-// ###############################################################
+//###############################################################
 //* call backs
-// ###############################################################
+//###############################################################
 function all_sites_callback(poHttp) {
    var oBounds
    var oSelect, oOption
@@ -78,7 +78,7 @@ function all_sites_callback(poHttp) {
    }
 }
 
-//* ***************************************************************
+//****************************************************************
 function render_sites() {
    var i, oBounds, sLink, oPlace
    var fAll = null
@@ -149,7 +149,7 @@ function render_sites() {
    bPluginLoaded = true
 }
 
-//* ***************************************************************
+//****************************************************************
 function hirise_callback(poHttp) {
    var oSelect, i, oOption, oItem
 
@@ -174,7 +174,7 @@ function hirise_callback(poHttp) {
    oSelect.change(onClickHirise)
 }
 
-//* ***************************************************************
+//****************************************************************
 function lookat_callback() {
    cGoogleEarth.removeListener("frameend", lookat_callback)
    cCommonStatus.set_status("fetching sites")
@@ -191,7 +191,7 @@ function lookat_callback() {
    cCommonStatus.set_status("ok")
 }
 
-//* ***************************************************************
+//****************************************************************
 function get_site_callback(poHttp) {
    var i, aVector, fLat, fLong, aData
 
@@ -209,9 +209,9 @@ function get_site_callback(poHttp) {
    cGoogleEarth.makeVector(aVector)
 }
 
-// ###############################################################
+//###############################################################
 //* EVENTS
-// ###############################################################
+//###############################################################
 function onClickSite() {
    var iSite, sVal
 
@@ -236,7 +236,7 @@ function onClickSite() {
    }
 }
 
-//* ***************************************************************
+//****************************************************************
 function onClickHirise() {
    var sVal, iIndex, oPlace
 

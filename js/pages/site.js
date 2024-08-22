@@ -17,9 +17,9 @@ const COLUMNS = 12
 var aSites = null
 var bPluginLoaded = false
 
-// ###############################################################
-// # Utility functions
-// ###############################################################
+//###############################################################
+//# Utility functions
+//###############################################################
 //eslint-disable-next-line no-unused-vars
 function onLoadJQuery_SITES() {
    cCommonStatus.set_status("initialising google earth")
@@ -27,7 +27,7 @@ function onLoadJQuery_SITES() {
    cGoogleEarth.init("map")
 }
 
-//* **********************************************************************
+//***********************************************************************
 function onGoogleEarthLoaded() {
    bPluginLoaded = true
    $("#site").empty()
@@ -64,9 +64,9 @@ function do_op(psOper, psValue) {
    oHttp.fetch_json(sUrl)
 }
 
-// ###############################################################
+//###############################################################
 //* call backs
-// ###############################################################
+//###############################################################
 function all_sites_callback(poHttp) {
    var oButton, oBounds
 
@@ -102,7 +102,7 @@ function all_sites_callback(poHttp) {
    do_op(sOperation, sValue)
 }
 
-//* **********************************************************************
+//***********************************************************************
 function bounds_callback(poHttp) {
    var oCentre, oSite
 
@@ -119,7 +119,7 @@ function bounds_callback(poHttp) {
    }
 }
 
-//* **********************************************************************
+//***********************************************************************
 function traverse_callback(poHttp) {
    var i, aItem, aItems, sHTML, iDrive, iStart, iEnd, iSite, fLat, fLon
    const aVector = []
@@ -176,7 +176,7 @@ function traverse_callback(poHttp) {
    // now fly there
 }
 
-//* ***************************************************************
+//****************************************************************
 function onclickSite() {
    var iSite
 

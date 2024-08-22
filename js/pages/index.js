@@ -16,15 +16,14 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 //cDebug.on()
 
-var keep_start_image = true
-
-const cOptions = {
-   start_image: 1,
-   sol: null,
-   instrument: null,
+class cIndexPageOptions {
+   static start_image = 1
+   static sol = null
+   static instrument = null
+   static keep_start_image = true
 }
 
-// ###############################################################
+//###############################################################
 class cBackgroundImage {
    static REST_URL = "random.php"
    static INTERVAL = 5 * 60 * 1000
@@ -32,7 +31,7 @@ class cBackgroundImage {
    static timer = null
 
    //*****************************************************************
-   static render() {
+   static async render() {
       this.fetch_image()
    }
 
@@ -97,16 +96,20 @@ class cBackgroundImage {
       }
       oFootDiv.append(cBrowser.whitespace(100))
 
-      var oBut = $("<button>", { class: "w3-button" })
-      oBut.append("refresh")
-      oBut.click(() => oThis.fetch_image())
+      var oBut = cAppRender.make_button(
+         null,
+         "refresh",
+         "refresh random background image",
+         false,
+         () => oThis.fetch_image(),
+      )
       oFootDiv.append(oBut)
 
       this.timer = setTimeout(() => oThis.fetch_image(), this.INTERVAL)
    }
 }
 
-// ###############################################################
+//###############################################################
 class cSideBar {
    static ID_SIDEBAR = "SB"
    static ID_SIDEBAR_COLLAPSED = "SBc"
@@ -125,7 +128,7 @@ class cSideBar {
    }
 
    //*****************************************************************
-   static render(poParent) {
+   static async render(poParent) {
       var oButton, oIcon, oThis
       oThis = this
 
@@ -173,9 +176,9 @@ class cSideBar {
    }
 }
 
-// ###############################################################
+//###############################################################
 //* renders left column
-// ###############################################################
+//###############################################################
 class cLeftColumn {
    static ID_TAB_TAG_CONTENT = "idttc"
    static ID_TAB_SOL_CONTENT = "idtsc"
@@ -183,7 +186,7 @@ class cLeftColumn {
    static ID_WIDGET_SOLBUTTONS = "idWSB"
 
    //**********************************************************
-   static pr__render_tab_content_sol(poParent) {
+   static async pr__render_tab_content_sol(poParent) {
       var oSolTabContent = $("<DIV>", {
          class: "tab-content",
          id: this.ID_TAB_SOL_CONTENT,
@@ -228,7 +231,7 @@ class cLeftColumn {
    }
 
    //**********************************************************
-   static pr__render_tab_content_tags(poParent) {
+   static async pr__render_tab_content_tags(poParent) {
       //Tab Content (tags)
       var oTagContent = $("<DIV>", {
          class: "tab-content leftcolumn",
@@ -248,9 +251,12 @@ class cLeftColumn {
       poParent.empty()
       poParent.addClass("w3-theme-d1")
 
+      // side bar
       var oSideBar
       oSideBar = cSideBar.render(poParent)
       poParent.append(oSideBar)
+
+      // side bar
 
       //tab bar
       var oExpanded = $("#" + cSideBar.ID_SIDEBAR_EXPANDED)
@@ -268,12 +274,12 @@ class cLeftColumn {
    }
 }
 
-// ###############################################################
+//###############################################################
 //* handles admin box
-// ###############################################################
+//###############################################################
 class cAdminBox {
    //*************************************************************
-   static render(poParent) {
+   static async render(poParent) {
       var oThis = this
       var oWidget = cAppRender.create_widget("Admin")
       var oBody = oWidget.body
@@ -303,30 +309,37 @@ class cAdminBox {
    }
 }
 
-// ###############################################################
+//###############################################################
 //* handles search box
-// ###############################################################
+//###############################################################
 class cSearchBox {
    static REST_URL = "search.php"
 
-   static instrument_box() {
+   //***************************************************************
+   static async render() {
+      this.pr_instrument_box()
+   }
+
+   //***************************************************************
+   static pr_instrument_box() {
       var oThis = this
       $("#" + cIndexPageConsts.ID_SEARCH).keypress(function (e) {
          oThis.onSearchKeypress(e)
       })
    }
-   //* **************************************************************
+
+   //***************************************************************
    static onSearchKeypress(poEvent) {
       cIndexPage.stop_queue()
       if (poEvent.which == 13) this.onClickSearch()
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onClickSearch() {
       cIndexPage.stop_queue()
       const sText = $("#" + cIndexPageConsts.ID_SEARCH).val()
       if (sText == "") return
-      cOptions.instrument = null
+      cIndexPageOptions.instrument = null
       var oThis = this
 
       if (!isNaN(sText)) {
@@ -348,7 +361,7 @@ class cSearchBox {
       }
    }
 
-   //* **************************************************************
+   //***************************************************************
    static OnSearchResponse(poHttp) {
       var sUrl
 
@@ -366,9 +379,9 @@ class cSearchBox {
       }
    }
 }
-// ###############################################################
+//###############################################################
 //* handles page tabs
-// ###############################################################
+//###############################################################
 class cPageTabs {
    //see w3.css tabs https://www.w3schools.com/w3css/w3css_tabulators.asp
    static current_button = null
@@ -380,7 +393,7 @@ class cPageTabs {
    static ID_TAB_BAR = null
 
    //*********************************************************************
-   static render(poParent) {
+   static async render(poParent) {
       //-----------------------the TAB Bar
       var oTabBar = $("<DIV>")
       {
@@ -469,9 +482,9 @@ class cPageTabs {
    }
 }
 
-// ###############################################################
+//###############################################################
 //* not quite a JQUERY widget - JQuery Events
-// ###############################################################
+//###############################################################
 //eslint-disable-next-line no-unused-vars
 class cIndexPage {
    /**
@@ -494,25 +507,25 @@ class cIndexPage {
 
       // remember the start_image if its there
       if (cBrowser.data[cSpaceBrowser.BEGIN_QUERYSTRING]) {
-         cOptions.start_image = parseInt(
+         cIndexPageOptions.start_image = parseInt(
             cBrowser.data[cSpaceBrowser.BEGIN_QUERYSTRING],
          )
       }
 
+      // render searchbox
+      cSearchBox.render()
+
       // disable thumbs checkbox until something happens
       $("#" + cIndexPageConsts.ID_CHKTHUMBS).attr("disabled", "disabled")
-
-      // set up keypress monitor
-      cSearchBox.instrument_box()
    }
 
-   // ###############################################################
-   // # Event Handlers
-   // ###############################################################
+   //###############################################################
+   //# Event Handlers
+   //###############################################################
    static onClickAllSolThumbs() {
       this.stop_queue()
-      cOptions.instrument = null
-      cOptions.start_image = -1
+      cIndexPageOptions.instrument = null
+      cIndexPageOptions.start_image = -1
       $("#" + cIndexPageConsts.ID_CHKTHUMBS)
          .prop("checked", true)
          .attr("disabled", "disabled")
@@ -522,13 +535,13 @@ class cIndexPage {
       this.load_data()
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onCheckThumbsEvent() {
       this.stop_queue()
       this.load_data()
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onImageClick(poEvent, poOptions) {
       this.stop_queue()
       const sUrl = cBrowser.buildUrl("detail.php", {
@@ -539,25 +552,25 @@ class cIndexPage {
       cBrowser.openWindow(sUrl, "detail")
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onSelectSolInstrEvent(poEvent, poData) {
       this.stop_queue()
       // load the data
       cDebug.write("selected sol " + poData.sol)
-      cOptions.sol = poData.sol
+      cIndexPageOptions.sol = poData.sol
       cDebug.write("selected instr " + poData.instrument)
-      cOptions.instrument = poData.instrument
-      if (!keep_start_image) cOptions.start_image = 1
-      keep_start_image = false
+      cIndexPageOptions.instrument = poData.instrument
+      if (!cIndexPageOptions.keep_start_image) cIndexPageOptions.start_image = 1
+      cIndexPageOptions.keep_start_image = false
       this.load_data()
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onStatusEvent(poEvent, paHash) {
       cCommonStatus.set_status(paHash.data)
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onThumbClickEvent(poEvent, poData) {
       this.stop_queue()
       const sUrl = cBrowser.buildUrl("detail.php", {
@@ -572,31 +585,32 @@ class cIndexPage {
       setTimeout(() => cBrowser.openWindow(sUrl, "detail"), 0)
    }
 
-   //* **************************************************************
+   //***************************************************************
    static onImagesLoadedEvent(poEvent, piStartImage) {
       // enable thumbnails
       $("#" + cIndexPageConsts.ID_CHKTHUMBS).removeAttr("disabled")
-      cOptions.start_image = piStartImage
+      cIndexPageOptions.start_image = piStartImage
       this.update_url()
    }
 
-   // ###############################################################
-   // # Utility functions
-   // ###############################################################
+   //###############################################################
+   //# Utility functions
+   //###############################################################
    static update_url() {
       const oParams = {}
-      oParams[cSpaceBrowser.SOL_QUERYSTRING] = cOptions.sol
-      if (cOptions.instrument)
-         oParams[cSpaceBrowser.INSTR_QUERYSTRING] = cOptions.instrument
+      oParams[cSpaceBrowser.SOL_QUERYSTRING] = cIndexPageOptions.sol
+      if (cIndexPageOptions.instrument)
+         oParams[cSpaceBrowser.INSTR_QUERYSTRING] = cIndexPageOptions.instrument
       if (this.is_thumbs_checked())
          oParams[cSpaceBrowser.THUMB_QUERYSTRING] = "1"
-      if (cOptions.start_image)
-         oParams[cSpaceBrowser.BEGIN_QUERYSTRING] = cOptions.start_image
+      if (cIndexPageOptions.start_image)
+         oParams[cSpaceBrowser.BEGIN_QUERYSTRING] =
+            cIndexPageOptions.start_image
       const sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), oParams)
       cBrowser.pushState("Index", sUrl)
    }
 
-   //* **************************************************************
+   //***************************************************************
    static stop_queue() {
       var oDiv
       try {
@@ -607,50 +621,58 @@ class cIndexPage {
       }
    }
 
-   //* **************************************************************
+   //***************************************************************
    static is_thumbs_checked() {
       return $("#" + cIndexPageConsts.ID_CHKTHUMBS).is(":checked")
    }
 
-   //* **************************************************************
+   //***************************************************************
    static load_data() {
       var oChkThumb
       const oThis = this
       this.update_url()
 
-      cDebug.write("loading data: " + cOptions.sol + ":" + cOptions.instrument)
+      cDebug.write(
+         "loading data: " +
+            cIndexPageOptions.sol +
+            ":" +
+            cIndexPageOptions.instrument,
+      )
 
       //inform subscribers
       $("#" + cLeftColumn.ID_WIDGET_SOLBUTTONS).solButtons(
          "set_sol",
-         cOptions.sol,
+         cIndexPageOptions.sol,
       )
 
       //inform subscribers
       oChkThumb = $("#" + cIndexPageConsts.ID_CHKTHUMBS)
-      if (cOptions.instrument) {
+      if (cIndexPageOptions.instrument) {
          oChkThumb.removeAttr("disabled")
          oChkThumb.off("change")
          if (cBrowser.data[cSpaceBrowser.THUMB_QUERYSTRING]) {
             oChkThumb.prop("checked", true)
-            this.show_thumbs(cOptions.sol, cOptions.instrument)
+            this.show_thumbs(
+               cIndexPageOptions.sol,
+               cIndexPageOptions.instrument,
+            )
          } else {
             this.show_images(
-               cOptions.sol,
-               cOptions.instrument,
-               cOptions.start_image,
+               cIndexPageOptions.sol,
+               cIndexPageOptions.instrument,
+               cIndexPageOptions.start_image,
             )
          }
          oChkThumb.on("change", (poEvent) => oThis.onCheckThumbsEvent(poEvent))
       } else {
          oChkThumb.attr("disabled", "disabled")
-         this.show_thumbs(cOptions.sol, cSpaceBrowser.ALL_INSTRUMENTS)
+         this.show_thumbs(cIndexPageOptions.sol, cSpaceBrowser.ALL_INSTRUMENTS)
       }
    }
 
-   // ###############################################################
+   //###############################################################
    //* GETTERS
-   // ###############################################################
+   //###############################################################
    static show_thumbs(psSol, psInstrument) {
       var oDiv
       cDebug.write("showing  thumbs for " + psSol + " : " + psInstrument)
@@ -678,7 +700,7 @@ class cIndexPage {
       })
    }
 
-   //* **************************************************************
+   //***************************************************************
    static show_images(piSol, psInstr, piStartImage) {
       const oThis = this
       cDebug.write("showing  images for " + piSol + " : " + psInstr)

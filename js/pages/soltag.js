@@ -12,17 +12,17 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 "use strict"
 
 var current_sol = null
-// ###############################################################
-// # event handlers
-// ###############################################################
+//###############################################################
+//# event handlers
+//###############################################################
 //eslint-disable-next-line no-unused-vars
 function onClickAllSols() {
    cBrowser.openWindow("allsoltags.php", "allsoltags")
 }
 
-// ###############################################################
-// # Utility functions
-// ###############################################################
+//###############################################################
+//# Utility functions
+//###############################################################
 //eslint-disable-next-line no-unused-vars
 function onLoadJQuery_SOLTAG() {
    var sUrl, sSol
@@ -47,9 +47,9 @@ function onLoadJQuery_SOLTAG() {
    oHttp.fetch_json(sUrl)
 }
 
-// ###############################################################
+//###############################################################
 //* call backs
-// ###############################################################
+//###############################################################
 function load_soltag_callback(poHttp) {
    var sInstr, aTags, i, sProduct, sTag, oItem, sTagUrl, sProductURL
    var oDiv

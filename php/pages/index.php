@@ -15,6 +15,7 @@ class cIndexPageConsts {
     const ID_LEFT_COL = "LC";
     const ID_BODY = "B";
     const ID_SEARCH = "SR";
+    const ID_SEARCH_PANE = "SB";
     const ID_CHKTHUMBS = "ct";
     const ID_IMAGE_CONTAINER = "ic";
     const ID_STATUS = cAppIDs::STATUS_ID;
@@ -71,13 +72,13 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
         <!-- MAIN BODY OF PAGE -->
         <div id="<?= cIndexPageConsts::ID_BODY ?>" class="w3-cell">
             <!-- Search box -->
-            <div class="gold" id="header-pane">
-                <input type="text" id="<?= cIndexPageConsts::ID_SEARCH ?>" size="30"><button class="rightbutton" onclick="onClickSearch()" title="Search for Product">Search</button>
-                <input id="<?= cIndexPageConsts::ID_CHKTHUMBS ?>" type="checkbox">Show Thumbnails&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="w3-card w3-theme-d2" id="<?= cIndexPageConsts::ID_SEARCH_PANE ?>">
+                <input type="text" id="<?= cIndexPageConsts::ID_SEARCH ?>" size="30"><button class="w3-button" onclick="onClickSearch()" title="Search for Product">Search</button>
+                <input id="<?= cIndexPageConsts::ID_CHKTHUMBS ?>" type="checkbox">Show Thumbnails
             </div>
 
             <!-- will contain images when selected -->
-            <div class="gold" id="<?= cIndexPageConsts::ID_IMAGE_CONTAINER ?>">
+            <div class="w3-container" id="<?= cIndexPageConsts::ID_IMAGE_CONTAINER ?>">
                 <div id="<?= cIndexPageConsts::ID_INTRO ?>" class="w3-card" style="display:none">
                     <header class="w3-container w3-theme-l1">
                         <h2>Curiosity Browser</h2>
