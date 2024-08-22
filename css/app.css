@@ -152,7 +152,7 @@ body {
 }
 
 .intro_text {
-   background-color: rgba(255, 255, 255, 0.5);
+   background-color: rgba(255, 255, 255, 0.75);
    display: table; /* keep the background color wrapped tight */
    padding: 5px;
    margin: 10px;
