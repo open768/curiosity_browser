@@ -317,6 +317,49 @@ class cSearchBox {
 
    //***************************************************************
    static async render() {
+      // populate contents
+      var oThis = this
+      var oElement = cJquery.element(cIndexPageConsts.ID_SEARCH_PANE)
+      oElement.empty()
+      oElement.addClass("w3-cell-row")
+
+      var oCell = $("<div>", { class: "w3-cell" })
+      {
+         //--------- input box
+         var oTextbox = $("<input>", {
+            type: "text",
+            id: cIndexPageConsts.ID_SEARCH,
+            size: 30,
+         })
+         oCell.append(oTextbox)
+
+         //--------- button
+         var oButton = cAppRender.make_button(
+            null,
+            "Search",
+            "Search for a product",
+            false,
+            () => oThis.onClickSearch(),
+         )
+         oCell.append(oButton)
+         oElement.append(oCell)
+      }
+
+      oCell = $("<div>", { class: "w3-cell" })
+      {
+         //--------- checkbox
+         var oCheckbox = $("<input>", {
+            class: "w3-check",
+            type: "checkbox",
+            id: cIndexPageConsts.ID_CHKTHUMBS,
+         })
+         oCell.append(oCheckbox)
+
+         oCell.append("<label>Show Thumbnails</label>")
+         oElement.append(oCell)
+      }
+
+      // setup keypress
       this.pr_instrument_box()
    }
 

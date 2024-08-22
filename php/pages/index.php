@@ -15,7 +15,7 @@ class cIndexPageConsts {
     const ID_LEFT_COL = "LC";
     const ID_BODY = "B";
     const ID_SEARCH = "SR";
-    const ID_SEARCH_PANE = "SB";
+    const ID_SEARCH_PANE = "SP";
     const ID_CHKTHUMBS = "ct";
     const ID_IMAGE_CONTAINER = "ic";
     const ID_STATUS = cAppIDs::STATUS_ID;
@@ -72,10 +72,7 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
         <!-- MAIN BODY OF PAGE -->
         <div id="<?= cIndexPageConsts::ID_BODY ?>" class="w3-cell">
             <!-- Search box -->
-            <div class="w3-card w3-theme-d2" id="<?= cIndexPageConsts::ID_SEARCH_PANE ?>">
-                <input type="text" id="<?= cIndexPageConsts::ID_SEARCH ?>" size="30"><button class="w3-button" onclick="onClickSearch()" title="Search for Product">Search</button>
-                <input id="<?= cIndexPageConsts::ID_CHKTHUMBS ?>" type="checkbox">Show Thumbnails
-            </div>
+            <div class="w3-card w3-theme-d2" id="<?= cIndexPageConsts::ID_SEARCH_PANE ?>">... </div>
 
             <!-- will contain images when selected -->
             <div class="w3-container" id="<?= cIndexPageConsts::ID_IMAGE_CONTAINER ?>">
