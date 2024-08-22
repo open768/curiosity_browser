@@ -30,8 +30,10 @@ cPageOutput::write_JS_class_constant_IDs("cTitleConstants");
         oDiv.empty();
         if (!cTitleConstants.IS_HOME) {
             var sUrl = cAppLocations.home + "/php/pages/index.php"
-            var oImg = $("<span>", {
-                class: "homebutton"
+            var sImgUrl = cAppLocations.home + "/css/mb_images/greydude.png"
+            var oImg = $("<img>", {
+                class: "homebutton",
+                src: sImgUrl
             })
             var oButton = cAppRender.make_button(null, "Home", "Home", false, () => cBrowser.openWindow(sUrl, "index"));
             {

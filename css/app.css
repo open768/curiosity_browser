@@ -359,22 +359,14 @@ body {
 
 /* -----------buttons -------------------------- */
 .homebutton {
-   background: white url(mb_images/greydude.png) center no-repeat;
-   background-size: contain;
-   border-radius: 20px;
-   height: 30px;
-   padding: 5px;
-   padding-left: 30px;
+   height: 35px;
    margin-right: 10px;
-}
-
-.homebutton:hover {
-   background: papayawhip url(mb_images/smalldude.png) left no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-left: 30px;
+   mask-image: radial-gradient(
+      circle,
+      black 60%,
+      darkgray 63%,
+      rgba(0, 0, 0, 0) 65%
+   );
 }
 
 .leftarrow {
