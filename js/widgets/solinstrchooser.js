@@ -189,7 +189,7 @@ $.widget("ck.solinstrumentChooser", {
    deselectInstrument: function () {
       const sID = this.element.attr("id")
       const sListID = sID + this.consts.INSTR_ID
-      $("#" + sListID + " option:first").prop("selected", true)
+      cJquery.element(sListID + " option:first").prop("selected", true)
       this.options.instrument = null
    },
 
@@ -218,7 +218,7 @@ $.widget("ck.solinstrumentChooser", {
       })
 
       // hide instruments jQUERY
-      $("#" + sListID + " option").each(function (pIndex, pObj) {
+      cJquery.element(sListID + " option").each(function (pIndex, pObj) {
          $(pObj).attr({ disabled: "disabled" })
       })
 
@@ -269,7 +269,7 @@ $.widget("ck.solinstrumentChooser", {
       var oSelected, oPrev
       const sListID = sID + this.consts.SOL_LIST_ID
 
-      oSelected = $("#" + sListID + " option:selected")
+      oSelected = cJquery.element(sListID + " option:selected")
       if (oSelected.length == 0) {
          this._trigger("onStatus", null, { text: "Select a sol!!!" })
          return true
@@ -297,7 +297,8 @@ $.widget("ck.solinstrumentChooser", {
 
       // select the list item
       const sListID = sID + this.consts.SOL_LIST_ID
-      $("#" + sListID + " :last")
+      cJquery
+         .element(sListID + " :last")
          .prop("selected", true)
          .change() // call the change event on the sol list
    },
@@ -308,7 +309,7 @@ $.widget("ck.solinstrumentChooser", {
       const sID = this.element.attr("id")
       const sListID = sID + this.consts.SOL_LIST_ID
 
-      oSelected = $("#" + sListID + " option:selected")
+      oSelected = cJquery.element(sListID + " option:selected")
       if (oSelected.length == 0) {
          this._trigger("onStatus", null, { text: "Select a sol!!!" })
          return true
@@ -357,7 +358,7 @@ $.widget("ck.solinstrumentChooser", {
 
       // update the caption on the Sol Chooser
       const sID = this.element.attr("id") + this.consts.THIS_SOL_ID
-      $("#" + sID).html(this.options.sol)
+      cJquery.element(sID).html(this.options.sol)
 
       // next step in workflow
       this.get_sol_instruments(poEvent.target.value)
@@ -396,7 +397,7 @@ $.widget("ck.solinstrumentChooser", {
 
       oJson = poHttp.response
       const sID = this.element.attr("id")
-      oList = $("#" + sID + this.consts.INSTR_ID)
+      oList = cJquery.element(sID + this.consts.INSTR_ID)
 
       // mark the instruments remaining
       for (i = 0; i < oJson.length; i++) {
@@ -422,7 +423,7 @@ $.widget("ck.solinstrumentChooser", {
       const aData = poHttp.response
 
       var sID = this.element.attr("id")
-      var oList = $("#" + sID + this.consts.INSTR_ID)
+      var oList = cJquery.element(sID + this.consts.INSTR_ID)
       oList.empty()
 
       oList.append(
@@ -460,10 +461,10 @@ $.widget("ck.solinstrumentChooser", {
       const aData = poHttp.response
 
       const sID = this.element.attr("id")
-      oList = $("#" + sID + this.consts.SOL_LIST_ID)
+      oList = cJquery.element(sID + this.consts.SOL_LIST_ID)
       oList.empty()
 
-      oSumList = $("#" + sID + this.consts.SOL_SUMMARY_ID)
+      oSumList = cJquery.element(sID + this.consts.SOL_SUMMARY_ID)
       oSumList.empty()
       iLastRange = -1
 
@@ -490,7 +491,7 @@ $.widget("ck.solinstrumentChooser", {
 
       // enable latest button
       var sOID = sID + this.consts.LATEST_ID
-      $("#" + sOID).removeAttr("disabled")
+      cJquery.element(sOID).removeAttr("disabled")
 
       // set up the change handler
       oSumList.change(function (poEvent) {

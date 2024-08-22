@@ -251,12 +251,12 @@ class cSolButtons {
 
       // enable selected
       var sID = this.element.attr("id")
-      $("#" + sID + this.consts.NOTEBOOK_ID).removeAttr("disabled")
-      $("#" + sID + this.consts.NOTEBOOKMAP_ID).removeAttr("disabled")
-      $("#" + sID + this.consts.CAL_ID).removeAttr("disabled")
-      $("#" + sID + this.consts.REFRESH_ID).removeAttr("disabled")
-      $("#" + sID + this.consts.ALLTHUMB_ID).removeAttr("disabled")
-      $("#" + sID + this.consts.SITE_ID).removeAttr("disabled")
+      cJquery.element(sID + this.consts.NOTEBOOK_ID).removeAttr("disabled")
+      cJquery.element(sID + this.consts.NOTEBOOKMAP_ID).removeAttr("disabled")
+      cJquery.element(sID + this.consts.CAL_ID).removeAttr("disabled")
+      cJquery.element(sID + this.consts.REFRESH_ID).removeAttr("disabled")
+      cJquery.element(sID + this.consts.ALLTHUMB_ID).removeAttr("disabled")
+      cJquery.element(sID + this.consts.SITE_ID).removeAttr("disabled")
 
       // fetch tags, highlights and gigapans
       var sUrl = cBrowser.buildUrl(cAppLocations.rest + "/gigapans.php", {

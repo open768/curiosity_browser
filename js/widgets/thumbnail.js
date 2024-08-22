@@ -127,7 +127,7 @@ $.widget("ck.thumbnail", {
 
       if (oElement.visible()) {
          // load the basic thumbnail
-         oImg = $("#" + this.options.img)
+         oImg = cJquery.element(this.options.img)
          oImg.on("load", function () {
             oThis.onBasicThumbLoaded()
          }) // do something when thumbnail loaded
@@ -144,7 +144,7 @@ $.widget("ck.thumbnail", {
    //******************************************************************
    onBasicThumbLoaded: function () {
       const oThis = this
-      const oImg = $("#" + this.options.img)
+      const oImg = cJquery.element(this.options.img)
 
       if (goBetterThumbQueue.stopping) return
       oImg.off("load") // remove the load event so it doesnt fire again
@@ -158,7 +158,7 @@ $.widget("ck.thumbnail", {
    onBasicThumbViewDelay: function () {
       const oThis = this
       const oOptions = this.options
-      const oImg = $("#" + this.options.img)
+      const oImg = cJquery.element(this.options.img)
       const oElement = this.element
 
       if (goBetterThumbQueue.stopping) return
@@ -212,7 +212,7 @@ $.widget("ck.thumbnail", {
 
    //******************************************************************
    onBetterThumbResponse: function (poHttp) {
-      const oImg = $("#" + this.options.img)
+      const oImg = cJquery.element(this.options.img)
       const oData = poHttp.response
 
       if (goBetterThumbQueue.stopping) return

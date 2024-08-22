@@ -60,7 +60,7 @@ class cBackgroundImage {
       if (!oData) cCommonStatus.set_status("couldnt get image")
 
       //------------show the image
-      var oBodyDiv = $("#" + cIndexPageConsts.ID_INTRO_BODY)
+      var oBodyDiv = cJquery.element(cIndexPageConsts.ID_INTRO_BODY)
 
       //stop if the intro section has gone
       if (oBodyDiv.length === 0) {
@@ -74,7 +74,7 @@ class cBackgroundImage {
       oBodyDiv.css("background-repeat", "repeat")
 
       //------------show information about the image
-      var oFootDiv = $("#" + cIndexPageConsts.ID_INTRO_FOOTER)
+      var oFootDiv = cJquery.element(cIndexPageConsts.ID_INTRO_FOOTER)
       oFootDiv.show()
       oFootDiv.empty()
 
@@ -117,14 +117,14 @@ class cSideBar {
 
    //*****************************************************************
    static onClickExpand() {
-      $("#" + this.ID_SIDEBAR_COLLAPSED).hide()
-      $("#" + this.ID_SIDEBAR_EXPANDED).show()
+      cJquery.element(this.ID_SIDEBAR_COLLAPSED).hide()
+      cJquery.element(this.ID_SIDEBAR_EXPANDED).show()
    }
 
    //*****************************************************************
    static onClickCollapse() {
-      $("#" + this.ID_SIDEBAR_COLLAPSED).show()
-      $("#" + this.ID_SIDEBAR_EXPANDED).hide()
+      cJquery.element(this.ID_SIDEBAR_COLLAPSED).show()
+      cJquery.element(this.ID_SIDEBAR_EXPANDED).hide()
    }
 
    //*****************************************************************
@@ -259,7 +259,7 @@ class cLeftColumn {
       // side bar
 
       //tab bar
-      var oExpanded = $("#" + cSideBar.ID_SIDEBAR_EXPANDED)
+      var oExpanded = cJquery.element(cSideBar.ID_SIDEBAR_EXPANDED)
       cPageTabs.render(oExpanded)
 
       // sol tab content
@@ -323,7 +323,7 @@ class cSearchBox {
    //***************************************************************
    static pr_instrument_box() {
       var oThis = this
-      $("#" + cIndexPageConsts.ID_SEARCH).keypress(function (e) {
+      cJquery.element(cIndexPageConsts.ID_SEARCH).keypress(function (e) {
          oThis.onSearchKeypress(e)
       })
    }
@@ -337,16 +337,15 @@ class cSearchBox {
    //***************************************************************
    static onClickSearch() {
       cIndexPage.stop_queue()
-      const sText = $("#" + cIndexPageConsts.ID_SEARCH).val()
+      const sText = cJquery.element(cIndexPageConsts.ID_SEARCH).val()
       if (sText == "") return
       cIndexPageOptions.instrument = null
       var oThis = this
 
       if (!isNaN(sText)) {
-         $("#" + cLeftColumn.ID_WIDGET_SOLCHOOSER).solinstrumentChooser(
-            "set_sol",
-            sText,
-         )
+         cJquery
+            .element(cLeftColumn.ID_WIDGET_SOLCHOOSER)
+            .solinstrumentChooser("set_sol", sText)
       } else {
          const sUrl = cBrowser.buildUrl(
             cAppLocations.rest + "/" + this.REST_URL,
@@ -411,7 +410,7 @@ class cPageTabs {
       cDebug.write("instrumenting tabs")
 
       //clear out any content
-      var oBar = $("#" + this.ID_TAB_BAR)
+      var oBar = cJquery.element(this.ID_TAB_BAR)
       oBar.empty()
 
       //add the buttons the the tab bar
@@ -428,7 +427,7 @@ class cPageTabs {
 
       //remove the highlight of all buttons within the TAB BAR
       var oThis = this
-      var oParent = $("#" + this.ID_TAB_BAR)
+      var oParent = cJquery.element(this.ID_TAB_BAR)
       var oChildren = oParent.children("." + this.BUTTON_CLASS)
 
       oChildren.each(function () {
@@ -443,7 +442,7 @@ class cPageTabs {
 
       //show the tab target for the button clicked
       var sTarget = poElement.attr("target")
-      var oSelected = $("#" + sTarget)
+      var oSelected = cJquery.element(sTarget)
       oSelected.show()
    }
 
@@ -475,9 +474,9 @@ class cPageTabs {
 
    //*********************************************************************
    static clickDefaultTab() {
-      var oBar = $("#" + this.ID_TAB_BAR)
+      var oBar = cJquery.element(this.ID_TAB_BAR)
       var sButtonID = cJquery.child_ID(oBar, this.SOL_CAPTION)
-      var oButton = $("#" + sButtonID)
+      var oButton = cJquery.element(sButtonID)
       oButton.click()
    }
 }
@@ -497,12 +496,12 @@ class cIndexPage {
    static onLoadJQuery() {
       // show the intro blurb if nothing on the querystring
       if (document.location.search.length == 0) {
-         $("#" + cIndexPageConsts.ID_INTRO).show()
+         cJquery.element(cIndexPageConsts.ID_INTRO).show()
          cBackgroundImage.render()
       }
 
       // load the tabs and show the first one
-      var oLeftColumn = $("#" + cIndexPageConsts.ID_LEFT_COL)
+      var oLeftColumn = cJquery.element(cIndexPageConsts.ID_LEFT_COL)
       cLeftColumn.render(oLeftColumn)
 
       // remember the start_image if its there
@@ -516,7 +515,9 @@ class cIndexPage {
       cSearchBox.render()
 
       // disable thumbs checkbox until something happens
-      $("#" + cIndexPageConsts.ID_CHKTHUMBS).attr("disabled", "disabled")
+      cJquery
+         .element(cIndexPageConsts.ID_CHKTHUMBS)
+         .attr("disabled", "disabled")
    }
 
    //###############################################################
@@ -526,12 +527,13 @@ class cIndexPage {
       this.stop_queue()
       cIndexPageOptions.instrument = null
       cIndexPageOptions.start_image = -1
-      $("#" + cIndexPageConsts.ID_CHKTHUMBS)
+      cJquery
+         .element(cIndexPageConsts.ID_CHKTHUMBS)
          .prop("checked", true)
          .attr("disabled", "disabled")
-      $("#" + cLeftColumn.ID_WIDGET_SOLCHOOSER).solinstrumentChooser(
-         "deselectInstrument",
-      )
+      cJquery
+         .element(cLeftColumn.ID_WIDGET_SOLCHOOSER)
+         .solinstrumentChooser("deselectInstrument")
       this.load_data()
    }
 
@@ -579,7 +581,8 @@ class cIndexPage {
          p: poData.product,
       })
       cDebug.write("loading page " + sUrl)
-      $("#" + cIndexPageConsts.ID_IMAGE_CONTAINER)
+      cJquery
+         .element(cIndexPageConsts.ID_IMAGE_CONTAINER)
          .empty()
          .html("redirecting to: " + sUrl)
       setTimeout(() => cBrowser.openWindow(sUrl, "detail"), 0)
@@ -588,7 +591,7 @@ class cIndexPage {
    //***************************************************************
    static onImagesLoadedEvent(poEvent, piStartImage) {
       // enable thumbnails
-      $("#" + cIndexPageConsts.ID_CHKTHUMBS).removeAttr("disabled")
+      cJquery.element(cIndexPageConsts.ID_CHKTHUMBS).removeAttr("disabled")
       cIndexPageOptions.start_image = piStartImage
       this.update_url()
    }
@@ -614,7 +617,7 @@ class cIndexPage {
    static stop_queue() {
       var oDiv
       try {
-         oDiv = $("#" + cIndexPageConsts.ID_IMAGE_CONTAINER)
+         oDiv = cJquery.element(cIndexPageConsts.ID_IMAGE_CONTAINER)
          oDiv.thumbnailview("stop_queue")
       } catch (e) {
          /* do nothing*/
@@ -623,7 +626,7 @@ class cIndexPage {
 
    //***************************************************************
    static is_thumbs_checked() {
-      return $("#" + cIndexPageConsts.ID_CHKTHUMBS).is(":checked")
+      return cJquery.element(cIndexPageConsts.ID_CHKTHUMBS).is(":checked")
    }
 
    //***************************************************************
@@ -640,13 +643,12 @@ class cIndexPage {
       )
 
       //inform subscribers
-      $("#" + cLeftColumn.ID_WIDGET_SOLBUTTONS).solButtons(
-         "set_sol",
-         cIndexPageOptions.sol,
-      )
+      cJquery
+         .element(cLeftColumn.ID_WIDGET_SOLBUTTONS)
+         .solButtons("set_sol", cIndexPageOptions.sol)
 
       //inform subscribers
-      oChkThumb = $("#" + cIndexPageConsts.ID_CHKTHUMBS)
+      oChkThumb = cJquery.element(cIndexPageConsts.ID_CHKTHUMBS)
       if (cIndexPageOptions.instrument) {
          oChkThumb.removeAttr("disabled")
          oChkThumb.off("change")
@@ -678,7 +680,7 @@ class cIndexPage {
       cDebug.write("showing  thumbs for " + psSol + " : " + psInstrument)
       const oThis = this
 
-      oDiv = $("#" + cIndexPageConsts.ID_IMAGE_CONTAINER)
+      oDiv = cJquery.element(cIndexPageConsts.ID_IMAGE_CONTAINER)
       if (oDiv.length == 0) $.error("image DIV not found ")
 
       if (oDiv.thumbnailview("instance") != undefined) {
@@ -707,7 +709,7 @@ class cIndexPage {
 
       var oWidget, oDiv
 
-      oDiv = $("#" + cIndexPageConsts.ID_IMAGE_CONTAINER)
+      oDiv = cJquery.element(cIndexPageConsts.ID_IMAGE_CONTAINER)
       if (oDiv.length == 0) $.error("image DIV not found")
 
       oWidget = oDiv.data("ckImageview")

@@ -38,9 +38,9 @@ class cDetail {
       //set click handlers
       $("#sol").click((poEvent) => this.onClickSol(poEvent))
       $("#instrument").click((poEvent) => this.onClickInstr(poEvent))
-      $("#" + cDetailPageConstants.CAL_ID).click((poEvent) =>
-         this.onClickCal(poEvent),
-      )
+      cJquery
+         .element(cDetailPageConstants.CAL_ID)
+         .click((poEvent) => this.onClickCal(poEvent))
       $("#showthumb").click((poEvent) => this.onClickThumbnails(poEvent))
       $("#highlights").click((poEvent) => this.onClickHighlights(poEvent))
       $("#nasalink").click((poEvent) => this.onClickNASA(poEvent))
@@ -422,7 +422,7 @@ class cDetail {
 
       //if not data hide controls
       if (!poItem.d) {
-         var oTagDiv = $("#" + cDetailPageConstants.TAGS_CONTAINER_ID)
+         var oTagDiv = cJquery.element(cDetailPageConstants.TAGS_CONTAINER_ID)
          oTagDiv.hide()
 
          $("#date_utc").empty().append("unable to get date")
@@ -430,7 +430,7 @@ class cDetail {
          cJquery.disable_element("pds_product")
          cJquery.disable_element("nasalink")
          $("#msldata").hide()
-         $("#" + cDetailPageConstants.COMMENTS_CONTAINER_ID).hide()
+         cJquery.element(cDetailPageConstants.COMMENTS_CONTAINER_ID).hide()
          return
       }
    }
@@ -451,7 +451,7 @@ class cDetail {
       if (!oData) return
 
       // ------------ tags
-      var oTagDiv = $("#" + cDetailPageConstants.TAGS_ID)
+      var oTagDiv = cJquery.element(cDetailPageConstants.TAGS_ID)
       if (!oData.tags) oTagDiv.html("no Tags - be the first to add one")
       else oTagDiv.html(oData.tags)
 
@@ -487,7 +487,7 @@ class cDetail {
       //--------------there was no data returned
       if (oData === null) {
          cDebug.warn("product " + this.oItem.p + " was not found")
-         var oDiv = $("#" + cDetailPageConstants.IMAGE_CONTAINER_ID)
+         var oDiv = cJquery.element(cDetailPageConstants.IMAGE_CONTAINER_ID)
          {
             oDiv.empty()
             oDiv.addClass("image_error")
@@ -495,7 +495,7 @@ class cDetail {
          }
 
          //- - - - - - - - - - - - - - - - -
-         var oBut = $("#" + cDetailPageConstants.TAGS_ID)
+         var oBut = cJquery.element(cDetailPageConstants.TAGS_ID)
          oBut.enabled = false
          oBut.html("no tags")
 

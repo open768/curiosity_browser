@@ -75,7 +75,7 @@ $.widget("ck.instrumentimage", {
       // wait for a few ms before rendering, just in case the element has  scrolled thru the viewport
       if (pbIsInView) {
          const sWaitImgID = this.element.attr("id") + "i"
-         const oImg = $("#" + sWaitImgID)
+         const oImg = cJquery.element(sWaitImgID)
          oImg.off("inview")
 
          const oThis = this
@@ -86,7 +86,7 @@ $.widget("ck.instrumentimage", {
    // ***************************************************************
    onPlaceholderDelay: function () {
       const sWaitImgID = this.element.attr("id") + "i"
-      const oImg = $("#" + sWaitImgID)
+      const oImg = cJquery.element(sWaitImgID)
       if (!oImg.visible()) {
          // bug only fires if the whole div is visible... which it wont be
          const oThis = this
