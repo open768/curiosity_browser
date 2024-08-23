@@ -624,10 +624,11 @@ class cIndexPage {
          p: poData.product,
       })
       cDebug.write("loading page " + sUrl)
-      cJquery
-         .element(cIndexPageConsts.ID_IMAGE_CONTAINER)
-         .empty()
-         .html("redirecting to: " + sUrl)
+      oImgDiv = cJquery.element(cIndexPageConsts.ID_IMAGE_CONTAINER)
+      {
+         oImgDiv.empty()
+         oImgDiv.html("redirecting to: " + sUrl)
+      }
       setTimeout(() => cBrowser.openWindow(sUrl, "detail"), 0)
    }
 
