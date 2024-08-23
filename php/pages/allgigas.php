@@ -10,7 +10,6 @@ include("$appPhpFragments/doctype.php");
     ?>
     <title>All Gigapans - by Neville Thompson</title>
     <script src="<?= $AppJSWidgets ?>/allsolgigas.js"></script>
-    <script src="<?= $AppJS ?>/pages/allgigas.js"></script>
     <script src="<?= $AppJS ?>/classes/solgrid.js"></script>
 </head>
 
@@ -19,6 +18,13 @@ include("$appPhpFragments/doctype.php");
     $sTitle = "All Gigapans - by Neville Thompson";
     include("$appPhpFragments/title.php");
     ?>
+    <script>
+        function onLoadJQuery_GIGAS() {
+            $("#solgiga").allsolgigas({
+                mission: cMission,
+            })
+        }
+    </script>
     <div class="gold">
         Behind each of these buttons are extraordinary gigapans published by enthusiast <a target="pencilnev" href="http://www.gigapan.com/profiles/pencilnev">Neville Thompson</a>.
         Neville also curates and moderates a number of facebook groups which discuss the topic of life on other worlds. Find Neville on <a href="https://uk.linkedin.com/in/neville-thompson-27a798b" target="pencilnev">LinkedIn</a>

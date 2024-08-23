@@ -10,7 +10,6 @@ require_once "$home/php/fragments/app-common.php";
     ?>
     <title>All Highlights - Curiosity Browser</title>
     <script src="<?= $AppJSWidgets ?>/solhighgrid.js"></script>
-    <script src="<?= $AppJS ?>/pages/allsolhighs.js"></script>
     <script src="<?= $AppJS ?>/classes/solgrid.js"></script>
 </head>
 
@@ -19,6 +18,13 @@ require_once "$home/php/fragments/app-common.php";
     $sTitle = "Sols with Highlights";
     include("$appPhpFragments/title.php");
     ?>
+    <script>
+        function onLoadJQuery_HIGHS() {
+            $("#solhighs").solhighgrid({
+                mission: cMission,
+            })
+        }
+    </script>
     <div class="gold" id="solhighs">
         Loading...
     </div>

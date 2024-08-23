@@ -9,7 +9,6 @@ $.widget("ck.soltags", {
    //#################################################################
    options: {
       mission: null,
-      aSolsWithTags: null,
    },
 
    //#################################################################
@@ -20,8 +19,8 @@ $.widget("ck.soltags", {
       var oGrid = new cSolGridRenderer(
          this.options.mission.ID,
          this.element,
-         "tag.php",
-         "soltag.php",
+         "tag.php", //rest call
+         "soltag.php", //onclick
       )
       oGrid.show_sol_grid({ o: "topsolindex" })
    },
