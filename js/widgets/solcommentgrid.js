@@ -3,7 +3,7 @@
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 /* global cSolGridRenderer */
 
-$.widget("ck.solcommentgrid", {
+$.widget("ck.commentgrid", {
    //#################################################################
    //# Definition
    //#################################################################
@@ -18,7 +18,7 @@ $.widget("ck.solcommentgrid", {
       var oGrid = new cSolGridRenderer(
          this.options.mission.ID,
          this.element,
-         "comment.php",
+         "comments.php",
          "solcomment.php",
       )
       oGrid.show_sol_grid({ o: "topsolindex" })

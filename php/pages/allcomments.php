@@ -10,7 +10,7 @@ include("$appPhpFragments/doctype.php");
     include("$appPhpFragments/header.php");
     ?>
     <title>All Comments - Curiosity Browser</title>
-    <script src="<?= $AppJSWidgets ?>/allcomments.js"></script>
+    <script src="<?= $AppJSWidgets ?>/solcommentgrid.js"></script>
     <script src="<?= $AppJS ?>/classes/solgrid.js"></script>
 </head>
 
@@ -20,7 +20,7 @@ include("$appPhpFragments/doctype.php");
     ?>
     <script>
         function onLoadJQuery_Comments() {
-            $("#solcomments").solcommentgrid({
+            $("#solcomments").commentgrid({
                 mission: cMission,
             })
         }
@@ -28,12 +28,11 @@ include("$appPhpFragments/doctype.php");
     <div class="w3-panel" id="solcomments">
         Loading...
     </div>
-    <P>
 
-        <!-- *************** footer *********************** -->
-        <?php
-        include("$appPhpFragments/footer.php")
-        ?>
+    <!-- *************** footer *********************** -->
+    <?php
+    include("$appPhpFragments/footer.php")
+    ?>
 </body>
 
 </html>

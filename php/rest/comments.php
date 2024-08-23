@@ -47,6 +47,10 @@ switch ($sOperation) {
 
         $aResult = cSpaceComments::set($sSol, $sInstrument, $sProduct, $sComment, $sUser);
         break;
+    case "topsolindex":
+        $aResult = cSpaceComments::get_top_index();
+        break;
+
     default:
         cDebug::error("unsupported operation");
         break;
