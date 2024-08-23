@@ -9,7 +9,6 @@ if (cFacebook_ServerSide::is_facebook()) {
     cFacebookTags::make_fb_detail_tags();
     exit;
 }
-include("$appPhpFragments/doctype.php");
 
 //************************************************************
 class cDetailPageConstants {
@@ -24,9 +23,8 @@ class cDetailPageConstants {
     const CAL_ID = "solCal";
 }
 
+include("$appPhpFragments/doctype.php");
 ?>
-
-<html>
 
 <head>
     <?php include("$appPhpFragments/header.php"); ?>

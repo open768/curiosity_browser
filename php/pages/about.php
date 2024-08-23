@@ -2,7 +2,6 @@
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 include("$appPhpFragments/doctype.php");  ?>
-<html>
 
 <head>
     <?php

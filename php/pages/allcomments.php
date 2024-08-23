@@ -1,8 +1,8 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-include("$appPhpFragments/doctype.php");  ?>
-<html>
+include("$appPhpFragments/doctype.php");
+?>
 
 <head>
     <?php

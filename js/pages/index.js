@@ -686,9 +686,8 @@ class cIndexPage {
       )
 
       //inform subscribers
-      cJquery
-         .element(cLeftColumn.ID_WIDGET_SOLBUTTONS)
-         .solButtons("set_sol", cIndexPageOptions.sol)
+      var oSolBtnsElement = cJquery.element(cLeftColumn.ID_WIDGET_SOLBUTTONS)
+      oSolBtnsElement.solButtons("set_sol", cIndexPageOptions.sol)
 
       //inform subscribers
       oChkThumb = cJquery.element(cIndexPageConsts.ID_CHKTHUMBS)
