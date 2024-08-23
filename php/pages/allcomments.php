@@ -1,5 +1,6 @@
 <?php
 $home = "../..";
+$sTitle = "All Comments";
 require_once "$home/php/fragments/app-common.php";
 include("$appPhpFragments/doctype.php");
 ?>
@@ -9,19 +10,22 @@ include("$appPhpFragments/doctype.php");
     include("$appPhpFragments/header.php");
     ?>
     <title>All Comments - Curiosity Browser</title>
-    <script src="<?= $AppJS ?>/pages/allcomments.js"></script>
     <script src="<?= $AppJSWidgets ?>/allcomments.js"></script>
     <script src="<?= $AppJS ?>/classes/solgrid.js"></script>
 </head>
 
-<body onload="$(onLoadJQuery_TAGS);">
+<body onload="$(onLoadJQuery_Comments);">
     <?php
-    $sTitle = "Tagged Sols";
     include("$appPhpFragments/title.php");
     ?>
-    <DIV class="title">Tagged Sols</DIV>
-    <p>
-    <div class="gold" id="soltag">
+    <script>
+        function onLoadJQuery_Comments() {
+            $("#solcomments").solcommentgrid({
+                mission: cMission,
+            })
+        }
+    </script>
+    <div class="w3-panel" id="solcomments">
         Loading...
     </div>
     <P>
