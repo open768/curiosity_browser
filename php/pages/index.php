@@ -18,7 +18,6 @@ class cIndexPageConsts {
     const ID_SEARCH_PANE = "SP";
     const ID_CHKTHUMBS = "ct";
     const ID_IMAGE_CONTAINER = "ic";
-    const ID_STATUS = cAppIDs::STATUS_ID;
     const ID_INTRO = "idintro";
     const ID_INTRO_BODY = "idintrobody";
     const ID_INTRO_FOOTER = "idintrofoot";

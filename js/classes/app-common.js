@@ -33,4 +33,10 @@ class cAppRender {
       }
       return oWidget
    }
+
+   //****************************************************************
+   static update_title(psText) {
+      var oDiv = cJquery.element("toptitle")
+      oDiv.html(psText)
+   }
 }

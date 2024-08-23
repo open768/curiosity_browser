@@ -418,7 +418,7 @@ class cDetail {
       $("#sol").html(poItem.s)
       $("#instrument").html(poItem.i)
       $("#max_images").html(poItem.max)
-      $("#toptitle").html(poItem.p)
+      cAppRender.update_title(poItem.p)
 
       //if not data hide controls
       if (!poItem.d) {

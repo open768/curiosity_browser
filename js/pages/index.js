@@ -672,7 +672,12 @@ class cIndexPage {
       return cJquery.element(cIndexPageConsts.ID_CHKTHUMBS).is(":checked")
    }
 
-   //***************************************************************
+   /**
+    *loads data into the page - is also triggered by solinstrchooser
+    *
+    * @static
+    * @memberof cIndexPage
+    */
    static load_data() {
       var oChkThumb
       const oThis = this
@@ -685,7 +690,7 @@ class cIndexPage {
             cIndexPageOptions.instrument,
       )
 
-      //inform subscribers
+      //inform subscribers @todo - change to use bean. this function shouldnt have to know who the subscribers are
       var oSolBtnsElement = cJquery.element(cLeftColumn.ID_WIDGET_SOLBUTTONS)
       oSolBtnsElement.solButtons("set_sol", cIndexPageOptions.sol)
 
@@ -719,7 +724,9 @@ class cIndexPage {
    //###############################################################
    static show_thumbs(psSol, psInstrument) {
       var oDiv
-      cDebug.write("showing  thumbs for " + psSol + " : " + psInstrument)
+      cAppRender.update_title(
+         "showing  thumbs for sol:" + psSol + " : " + psInstrument,
+      )
       const oThis = this
 
       oDiv = cJquery.element(cIndexPageConsts.ID_IMAGE_CONTAINER)
@@ -746,21 +753,23 @@ class cIndexPage {
 
    //***************************************************************
    static show_images(piSol, psInstr, piStartImage) {
-      const oThis = this
-      cDebug.write("showing  images for " + piSol + " : " + psInstr)
-
       var oWidget, oDiv
+      const oThis = this
+      cAppRender.update_title(
+         "showing  images for sol:" + piSol + " : " + psInstr,
+      )
 
+      //---- find the DIV
       oDiv = cJquery.element(cIndexPageConsts.ID_IMAGE_CONTAINER)
       if (oDiv.length == 0) $.error("image DIV not found")
 
+      //---- destroy the previous widget if it exists
       oWidget = oDiv.data("ckImageview")
-      if (oWidget) {
-         oWidget.destroy()
-      }
+      if (oWidget) oWidget.destroy()
 
+      //---- create the widget to display the images
       cDebug.write("creating widget")
-      oWidget = oDiv.imageview({
+      oDiv.imageview({
          // apply widget
          sol: piSol,
          instrument: psInstr,
