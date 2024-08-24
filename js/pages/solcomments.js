@@ -137,7 +137,6 @@ class cSolComments {
    static onLoadSolComments(poHttp) {
       var oJson = poHttp.response
       var oDiv = cJquery.element("comments")
-
-      oDiv.html("not implemented")
+      oDiv.html(JSON.stringify(oJson))
    }
 }

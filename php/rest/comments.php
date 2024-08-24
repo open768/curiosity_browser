@@ -51,7 +51,7 @@ switch ($sOperation) {
 
     case "sol":
         $sSol = $_GET["s"];
-        $aResult = cSpaceComments::get_sol_index($sSol);
+        $aResult = cSpaceComments::get_all_sol_data($sSol);
         break;
 
     default:
