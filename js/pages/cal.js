@@ -51,7 +51,7 @@ class cAppCal {
          m: cMission.ID,
       }) // force a refresh on the server
       const oHttp = new cHttp2()
-      bean.on(oHttp, "result", () => this.onLoadJQuery_CAL())
+      bean.on(oHttp, "result", () => this.onLoadedCal())
       oHttp.fetch_json(sUrl)
    }
 
