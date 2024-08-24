@@ -61,13 +61,17 @@ class cSolComments {
             false,
             () => oThis.onClickPrevious_sol(),
          )
+         oDiv.append(oButton)
+
          oButton = cAppRender.make_button(
-            null,
-            "Sol <span id='sol'>???</span>",
+            "solbut",
+            "Sol ???",
             "go to sol",
             false,
             () => oThis.onClickGoToSol(),
          )
+         oDiv.append(oButton)
+
          oButton = cAppRender.make_button(
             null,
             "next sol",
@@ -75,6 +79,8 @@ class cSolComments {
             false,
             () => oThis.onClickNext_sol(),
          )
+         oDiv.append(oButton)
+
          oButton = cAppRender.make_button(
             null,
             "All",
@@ -82,12 +88,19 @@ class cSolComments {
             false,
             () => oThis.onClickAll(),
          )
+         oDiv.append(oButton)
       }
    }
 
    //***************************************************************
    static load_sol_comments() {
       var sUrl, oHttp
+
+      //update the displayed sol
+      var oSolDiv = cJquery.element("solbut")
+      oSolDiv.html("Sol: " + this.current_sol)
+
+      //fetch sol data
       sUrl = cBrowser.buildUrl(cAppLocations.rest + "/comments.php", {
          o: "sol",
          s: this.current_sol,
@@ -123,6 +136,8 @@ class cSolComments {
 
    static onLoadSolComments(poHttp) {
       var oJson = poHttp.response
-      cDebug.error("not implemented")
+      var oDiv = cJquery.element("comments")
+
+      oDiv.html("not implemented")
    }
 }

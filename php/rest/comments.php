@@ -49,6 +49,11 @@ switch ($sOperation) {
         $aResult = cSpaceComments::get_top_index();
         break;
 
+    case "sol":
+        $sSol = $_GET["s"];
+        $aResult = cSpaceComments::get_sol_index($sSol);
+        break;
+
     default:
         cDebug::error("unsupported operation");
         break;
