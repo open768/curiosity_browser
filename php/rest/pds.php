@@ -47,5 +47,6 @@ switch ($_GET["a"]) {
         }
         break;
 }
-
+//############################### response ####################
+include "$appPhpFragments/rest_header.php";
 cCommon::write_json($oData);

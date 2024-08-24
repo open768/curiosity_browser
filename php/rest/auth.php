@@ -14,6 +14,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 $root = realpath("../..");
 require_once  "$home/php/fragments/app-common.php";
+include "$appPhpFragments/rest_header.php";
 
 //***************************************************
 $sOperation = $_GET["o"];
@@ -26,6 +27,6 @@ switch ($sOperation) {
         break;
 }
 
-//***************************************************
-//output the 
+//############################### response ####################
+include "$appPhpFragments/rest_header.php";
 cCommon::write_json($sUser);

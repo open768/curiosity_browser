@@ -35,7 +35,6 @@ switch ($sOperation) {
         cDebug::error("unknown operation $sOperation");
 }
 
-
-//***************************************************
-//output the tags
+//############################### response ####################
+include "$appPhpFragments/rest_header.php";
 cCommon::write_json($oOutput);

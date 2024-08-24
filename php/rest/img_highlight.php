@@ -79,6 +79,6 @@ switch ($sOperation) {
         break;
 }
 
-//***************************************************
-//output the tags
+//############################### response ####################
+include "$appPhpFragments/rest_header.php";
 cCommon::write_json($oResult);

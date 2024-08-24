@@ -68,4 +68,6 @@ if (($iFound < 0) || ($iFound >= $iCount)) {
     }
 }
 
+//############################### response ####################
+include "$appPhpFragments/rest_header.php";
 cCommon::write_json(["s" => $sSol, "d" => $aImages[$iFound]]);

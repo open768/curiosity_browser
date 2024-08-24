@@ -17,8 +17,6 @@ require_once  "$home/php/fragments/app-common.php";
 require_once  "$spaceInc/misc/comments.php";
 require_once  "$phpInc/extra/sbbcode/SBBCodeParser.php";
 
-
-
 //***************************************************
 $sOperation = $_GET["o"];
 $oResult = null;
@@ -56,6 +54,6 @@ switch ($sOperation) {
         break;
 }
 
-//***************************************************
-//output the data
+//############################### response ####################
+include "$appPhpFragments/rest_header.php";
 cCommon::write_json($aResult);

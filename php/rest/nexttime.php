@@ -57,6 +57,6 @@ if ($iFound >= 0) {
     $oData = ["s" => $sSol, "d" => $aImages[$iFound]];
 }
 
-//***************************************************
-//output the tags
+//############################### response ####################
+include "$appPhpFragments/rest_header.php";
 cCommon::write_json($oData);

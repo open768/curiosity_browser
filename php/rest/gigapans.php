@@ -12,4 +12,6 @@ switch ($_GET["o"]) {
         $aData = cPencilNev::get_top_gigas();
         break;
 }
+//############################### response ####################
+include "$appPhpFragments/rest_header.php";
 cCommon::write_json($aData);

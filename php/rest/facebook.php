@@ -55,6 +55,6 @@ switch ($sOperation) {
         cDebug::error("unrecognised operation $sOperation");
 }
 
-//***************************************************
-//output the 
+//############################### response ####################
+include "$appPhpFragments/rest_header.php";
 cCommon::write_json($sUser);
