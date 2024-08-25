@@ -3,7 +3,7 @@
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 /*jshint esversion: 6 */
 class cSolButtons {
-   consts = {
+   CONSTS = {
       TAG_ID: "t",
       HIGH_ID: "h",
       GIGA_ID: "g",
@@ -38,7 +38,7 @@ class cSolButtons {
          var oBody = oWidget.body
          // ----------------------------------------------------
          oButton = cAppRender.make_button(
-            sID + this.consts.TAG_ID,
+            sID + this.CONSTS.TAG_ID,
             "Tags",
             "Tags",
             true,
@@ -48,7 +48,7 @@ class cSolButtons {
 
          // ----------------------------------------------------
          oButton = cAppRender.make_button(
-            sID + this.consts.HIGH_ID,
+            sID + this.CONSTS.HIGH_ID,
             "Highlights",
             "Highlights",
             true,
@@ -58,7 +58,7 @@ class cSolButtons {
 
          // ----------------------------------------------------
          oButton = cAppRender.make_button(
-            sID + this.consts.GIGA_ID,
+            sID + this.CONSTS.GIGA_ID,
             "Gigapans",
             "Gigapans",
             true,
@@ -68,7 +68,7 @@ class cSolButtons {
 
          // ----------------------------------------------------
          oButton = cAppRender.make_button(
-            sID + this.consts.NOTEBOOK_ID,
+            sID + this.CONSTS.NOTEBOOK_ID,
             "Notebook",
             "Notebook",
             true,
@@ -78,7 +78,7 @@ class cSolButtons {
 
          // ----------------------------------------------------
          oButton = cAppRender.make_button(
-            sID + this.consts.CAL_ID,
+            sID + this.CONSTS.CAL_ID,
             "Calendar",
             "Calendar",
             true,
@@ -88,7 +88,7 @@ class cSolButtons {
 
          // ----------------------------------------------------
          oButton = cAppRender.make_button(
-            sID + this.consts.REFRESH_ID,
+            sID + this.CONSTS.REFRESH_ID,
             "Refresh",
             "Refresh",
             true,
@@ -98,7 +98,7 @@ class cSolButtons {
 
          // ----------------------------------------------------
          oButton = cAppRender.make_button(
-            sID + this.consts.ALLTHUMB_ID,
+            sID + this.CONSTS.ALLTHUMB_ID,
             "All thumbnails",
             "All thumbnails",
             true,
@@ -108,7 +108,7 @@ class cSolButtons {
 
          // ----------------------------------------------------
          oButton = cAppRender.make_button(
-            sID + this.consts.SITE_ID,
+            sID + this.CONSTS.SITE_ID,
             "Site",
             "Site",
             true,
@@ -245,12 +245,12 @@ class cSolButtons {
 
       // enable selected
       var sID = this.element.attr("id")
-      cJquery.element(sID + this.consts.NOTEBOOK_ID).removeAttr("disabled")
-      cJquery.element(sID + this.consts.NOTEBOOKMAP_ID).removeAttr("disabled")
-      cJquery.element(sID + this.consts.CAL_ID).removeAttr("disabled")
-      cJquery.element(sID + this.consts.REFRESH_ID).removeAttr("disabled")
-      cJquery.element(sID + this.consts.ALLTHUMB_ID).removeAttr("disabled")
-      cJquery.element(sID + this.consts.SITE_ID).removeAttr("disabled")
+      cJquery.element(sID + this.CONSTS.NOTEBOOK_ID).removeAttr("disabled")
+      cJquery.element(sID + this.CONSTS.NOTEBOOKMAP_ID).removeAttr("disabled")
+      cJquery.element(sID + this.CONSTS.CAL_ID).removeAttr("disabled")
+      cJquery.element(sID + this.CONSTS.REFRESH_ID).removeAttr("disabled")
+      cJquery.element(sID + this.CONSTS.ALLTHUMB_ID).removeAttr("disabled")
+      cJquery.element(sID + this.CONSTS.SITE_ID).removeAttr("disabled")
 
       // fetch tags, highlights and gigapans
       var sUrl = cBrowser.buildUrl(cAppLocations.rest + "/gigapans.php", {
@@ -292,7 +292,7 @@ class cSolButtons {
    //#################################################################
    onHiLiteCount(poHttp) {
       if (poHttp.response > 0) {
-         const sID = "#" + this.element.attr("id") + this.consts.HIGH_ID
+         const sID = "#" + this.element.attr("id") + this.CONSTS.HIGH_ID
          $(sID).removeAttr("disabled")
       }
    }
@@ -300,7 +300,7 @@ class cSolButtons {
    //*****************************************************************
    onFetchedTagCount(poHttp) {
       if (poHttp.response > 0) {
-         const sID = "#" + this.element.attr("id") + this.consts.TAG_ID
+         const sID = "#" + this.element.attr("id") + this.CONSTS.TAG_ID
          $(sID).removeAttr("disabled")
       }
    }
@@ -308,7 +308,7 @@ class cSolButtons {
    //*****************************************************************
    onFetchedGigapans(poHttp) {
       if (poHttp.response) {
-         const sID = "#" + this.element.attr("id") + this.consts.GIGA_ID
+         const sID = "#" + this.element.attr("id") + this.CONSTS.GIGA_ID
          $(sID).removeAttr("disabled")
       }
    }
