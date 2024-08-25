@@ -1,3 +1,4 @@
+"use strict"
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 /*jshint esversion: 6 */
@@ -15,11 +16,13 @@ class cSolButtons {
    }
    options = null
    element = null
+   widget = null
 
    //****************************************************************
-   constructor(poOptions, poElement) {
-      this.options = poOptions
-      this.element = poElement
+   constructor(poWidget) {
+      this.widget = poWidget
+      this.options = poWidget.options
+      this.element = poWidget.element
       this.init()
    }
 
@@ -28,6 +31,7 @@ class cSolButtons {
       var oWidget, oButton, sbutID
       var oElement = this.element
       var sID = oElement.attr("id")
+      var oThis = this
 
       oWidget = cAppRender.create_widget("Sol Information:")
       {
@@ -74,17 +78,7 @@ class cSolButtons {
 
          // ----------------------------------------------------
          oButton = cAppRender.make_button(
-            sID + this.consts.NOTEBOOKMAP_ID,
-            "notebook Map",
-            "notebook Map",
-            true,
-            () => oThis.onClickMSLNotebook(),
-         )
-         oBody.append(oButton)
-
-         // ----------------------------------------------------
-         oButton = cAppRender.make_button(
-            sID + this.consts.NOTEBOOKMAP_ID,
+            sID + this.consts.CAL_ID,
             "Calendar",
             "Calendar",
             true,
@@ -95,8 +89,8 @@ class cSolButtons {
          // ----------------------------------------------------
          oButton = cAppRender.make_button(
             sID + this.consts.REFRESH_ID,
-            "Calendar",
-            "Calendar",
+            "Refresh",
+            "Refresh",
             true,
             () => oThis.onClickRefresh(),
          )
@@ -321,7 +315,7 @@ class cSolButtons {
 
    //*****************************************************************
    onClickTag() {
-      this._trigger("onClick", null)
+      this.widget._trigger("onClick", null)
       cBrowser.openWindow(
          cBrowser.buildUrl("soltag.php", { s: this.options.sol }),
          "soltag",
@@ -329,7 +323,7 @@ class cSolButtons {
    }
    //*****************************************************************
    onClickHighlights() {
-      this._trigger("onClick", null)
+      this.widget._trigger("onClick", null)
       cBrowser.openWindow(
          cBrowser.buildUrl("solhigh.php", { sheet: 1, s: this.options.sol }),
          "solhigh",
@@ -337,7 +331,7 @@ class cSolButtons {
    }
    //*****************************************************************
    onClickGigapans() {
-      this._trigger("onClick", null)
+      this.widget._trigger("onClick", null)
       cBrowser.openWindow(
          cBrowser.buildUrl("solgigas.php", { s: this.options.sol }),
          "solgigas",
@@ -345,7 +339,7 @@ class cSolButtons {
    }
    //*****************************************************************
    onClickMSLNotebook() {
-      this._trigger("onClick", null)
+      this.widget._trigger("onClick", null)
       const sUrl = cBrowser.buildUrl(
          "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx",
          {
@@ -357,7 +351,7 @@ class cSolButtons {
    }
    //*****************************************************************
    onClickMSLNotebookMap() {
-      this._trigger("onClick", null)
+      this.widget._trigger("onClick", null)
       const sUrl = cBrowser.buildUrl(
          "https://an.rsl.wustl.edu/msl/mslbrowser/tab.aspx?t=mp&i=A&it=MT&ii=SOL",
          {
@@ -371,22 +365,22 @@ class cSolButtons {
    }
    //*****************************************************************
    onClickCalender() {
-      this._trigger("onClick", null)
+      this.widget._trigger("onClick", null)
       const sUrl = cBrowser.buildUrl("cal.php", { s: this.options.sol })
       cBrowser.openWindow(sUrl, "calendar")
    }
    //*****************************************************************
    onClickRefresh() {
-      this._trigger("onClick", null)
+      this.widget._trigger("onClick", null)
    }
    //*****************************************************************
    onClickAllThumbs() {
-      this._trigger("onClick", null)
-      this._trigger("onAllSolThumbs", null, { s: this.options.sol })
+      this.widget._trigger("onClick", null)
+      this.widget._trigger("onAllSolThumbs", null, { s: this.options.sol })
    }
    //*****************************************************************
    onClickSite() {
-      this._trigger("onClick", null)
+      this.widget._trigger("onClick", null)
       cBrowser.openWindow(
          cBrowser.buildUrl("site.php", { sol: this.options.sol }),
          "site",
@@ -408,7 +402,7 @@ $.widget("ck.solButtons", {
    instance: null,
 
    _create: function () {
-      this.instance = new cSolButtons(this.options, this.element)
+      this.instance = new cSolButtons(this)
    },
 
    //*****************************************************************
