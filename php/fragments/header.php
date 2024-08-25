@@ -57,6 +57,7 @@ cPageOutput::write_JS_class_constant_IDs("cAppLocations");
 <script src="<?= $jsInc ?>/ck-inc/facebook.js"></script>
 
 <!-- app stuff -->
+<script src="<?= $AppJS ?>/classes/curiosity.js"></script>
 <script src="<?= $AppJS ?>/classes/app-common.js"></script>
 
 <script>

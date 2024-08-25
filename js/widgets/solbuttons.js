@@ -69,8 +69,8 @@ class cSolButtons {
          // ----------------------------------------------------
          oButton = cAppRender.make_button(
             sID + this.CONSTS.NOTEBOOK_ID,
-            "Notebook",
-            "Notebook",
+            "MSL Notebook",
+            "MSL Notebook",
             true,
             () => oThis.onClickMSLNotebook(),
          )
@@ -340,13 +340,7 @@ class cSolButtons {
    //*****************************************************************
    onClickMSLNotebook() {
       this.widget._trigger("onClick", null)
-      const sUrl = cBrowser.buildUrl(
-         "https://an.rsl.wustl.edu/msl/mslbrowser/br2.aspx",
-         {
-            tab: "solsumm",
-            sol: this.options.sol,
-         },
-      )
+      const sUrl = cCuriosity.get_msl_notbook_link(this.options.sol)
       window.open(sUrl, "date")
    }
    //*****************************************************************
