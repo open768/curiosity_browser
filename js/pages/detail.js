@@ -191,7 +191,7 @@ class cDetail {
 
     //***************************************************************
     static onClickHighlights() {
-        const sUrl = 'solhigh.php?sheet&s=' + this.oItem.s;
+        const sUrl = cBrowser.buildUrl('solhigh.php', { s: this.oItem.s });
         cBrowser.openWindow(sUrl, 'solthumb');
     }
 
@@ -213,15 +213,12 @@ class cDetail {
 
     //***************************************************************
     static onClickPDS() {
-        const sUrl =
-            'pds.php?s=' +
-            this.oItem.s +
-            '&i=' +
-            this.oItem.i +
-            '&p=' +
-            this.oItem.p +
-            '&t=' +
-            escape(this.oItem.d.du);
+        const sUrl = cBrowser.buildUrl('pds.php', {
+            s: this.oItem.s,
+            i: this.oItem.i,
+            p: this.oItem.p,
+            t: escape(this.oItem.d.du),
+        });
         cBrowser.openWindow(sUrl, 'pds');
     }
 
@@ -370,28 +367,21 @@ class cDetail {
 
     //***************************************************************
     static onGotTags(paJS) {
-        var sHTML, i, sTag;
-
         cCommonStatus.set_status('got tag');
+        var oTags = cJquery.element('tags');
         if (paJS.d.length == 0) {
-            sHTML = 'No Tags found, be the first to add one';
+            oTags.html('No Tags found, be the first to add one');
         } else {
-            sHTML = '';
-            for (i = 0; i < paJS.d.length; i++) {
+            oTags.empty();
+            var oA, sUrl, sTag;
+            for (var i = 0; i < paJS.d.length; i++) {
                 sTag = paJS.d[i];
 
-                const sTarget = cCommon.SINGLE_WINDOW ? '' : "target='tags'";
-                sHTML +=
-                    '<a ' +
-                    sTarget +
-                    " href='tag.php?t=" +
-                    sTag +
-                    "'>#" +
-                    sTag +
-                    '</a> ';
+                sUrl = cBrowser.buildUrl('tag.php', { t: sTag });
+                oA = $('<A>', { target: 'tags', href: sUrl });
+                oTags.append(oA);
             }
         }
-        $('#tags').html(sHTML);
 
         cCommonStatus.set_status('ok');
     }
