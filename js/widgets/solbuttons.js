@@ -138,11 +138,7 @@ class cSolButtons {
             "curiosity?",
             "Where is curiosity now?",
             false,
-            () =>
-               cBrowser.openWindow(
-                  "http://mars.jpl.nasa.gov/msl/mission/whereistherovernow/",
-                  "whereami",
-               ),
+            () => cBrowser.openWindow(cCuriosity.WHERE_IS_ROVER, "whereami"),
          )
          oBody.append(oButton)
       }
@@ -340,22 +336,8 @@ class cSolButtons {
    //*****************************************************************
    onClickMSLNotebook() {
       this.widget._trigger("onClick", null)
-      const sUrl = cCuriosity.get_msl_notbook_link(this.options.sol)
+      const sUrl = cCuriosity.get_msl_notebook_link(this.options.sol)
       window.open(sUrl, "date")
-   }
-   //*****************************************************************
-   onClickMSLNotebookMap() {
-      this.widget._trigger("onClick", null)
-      const sUrl = cBrowser.buildUrl(
-         "https://an.rsl.wustl.edu/msl/mslbrowser/tab.aspx?t=mp&i=A&it=MT&ii=SOL",
-         {
-            t: "mp",
-            i: "A",
-            it: "MT",
-            ii: "SOL," + this.options.sol,
-         },
-      )
-      window.open(sUrl, "map")
    }
    //*****************************************************************
    onClickCalender() {
