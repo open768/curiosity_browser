@@ -162,28 +162,30 @@ class cDetail {
 
     //***************************************************************
     static onClickCal() {
-        var sUrl;
-
-        sUrl = 'cal.php?s=' + this.oItem.s + '&t=' + this.oItem.d.du;
+        const sUrl = cBrowser.buildUrl('cal.php', {
+            s: this.oItem.s,
+            t: this.oItem.d.du,
+        });
         cBrowser.openWindow(sUrl, 'calendar');
     }
 
     //***************************************************************
     static onClickSol() {
-        const sUrl =
-            'index.php?s=' +
-            this.oItem.s +
-            '&i=' +
-            this.oItem.i +
-            '&b=' +
-            this.iNum;
+        const sUrl = cBrowser.buildUrl('index.php', {
+            s: this.oItem.s,
+            i: this.oItem.i,
+            b: this.iNum,
+        });
         cBrowser.openWindow(sUrl, 'index');
     }
 
     //***************************************************************
     static onClickThumbnails() {
-        const sUrl =
-            'index.php?s=' + this.oItem.s + '&i=' + this.oItem.i + '&t=1';
+        const sUrl = cBrowser.buildUrl('index.php', {
+            s: this.oItem.s,
+            i: this.oItem.i,
+            t: 1,
+        });
         cBrowser.openWindow(sUrl, 'solthumb');
     }
 
@@ -443,13 +445,13 @@ class cDetail {
     }
     //***************************************************************
     static onGotDetails(poHttp) {
-        var sUrl, oData;
+        var oData;
         cCommonStatus.set_status('received data...');
 
         // rely upon what came back rather than the query string
         var oResponse = poHttp.response;
         this.oItem = oResponse;
-        var oData = this.oItem.d;
+        oData = this.oItem.d;
 
         //----these things can be done
         this.populate_image();
@@ -506,22 +508,21 @@ class cDetail {
             oBut.enabled = false;
             oBut.html('no tags');
 
+            var sUrl;
             if (this.oItem.migrate !== null) {
-                sUrl =
-                    'migrate.php?s=' +
-                    this.oItem.s +
-                    '&i=' +
-                    this.oItem.i +
-                    '&pfrom=' +
-                    this.oItem.p +
-                    '&pto=' +
-                    this.oItem.migrate;
+                sUrl = cBrowser.buildUrl('migrate.php', {
+                    s: this.oItem.s,
+                    i: this.oItem.i,
+                    pfrom: this.oItem.p,
+                    pto: this.oItem.migrate,
+                });
+
                 cBrowser.openWindow(sUrl, 'migrate');
             } else {
-                cBrowser.openWindow(
-                    'error.php?m=product ' + this.oItem.p + ' was not found',
-                    'error',
-                );
+                sUrl = cBrowser.buildUrl('error.php', {
+                    m: 'product ' + this.oItem.p + ' was not found',
+                });
+                cBrowser.openWindow(sUrl, 'error');
             }
             return;
         }

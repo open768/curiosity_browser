@@ -1,519 +1,525 @@
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-$.widget("ck.solinstrumentChooser", {
-   //#################################################################
-   //# Definition
-   //#################################################################
-   options: {
-      sol: null,
-      instrument: null,
-      previous_instrument: null,
-      onSelect: null,
-      onStatus: null,
-      mission: null,
-   },
-   consts: {
-      THIS_SOL_ID: "ts",
-      SOL_SUMMARY_ID: "ss",
-      SOL_LIST_ID: "sl",
-      MISSIONS_ID: "mi",
-      LATEST_ID: "la",
-      INSTR_ID: "i",
-      SOL_DIVISIONS: 50,
-   },
+$.widget('ck.solinstrumentChooser', {
+    //#################################################################
+    //# Definition
+    //#################################################################
+    options: {
+        sol: null,
+        instrument: null,
+        previous_instrument: null,
+        onSelect: null,
+        onStatus: null,
+        mission: null,
+    },
+    consts: {
+        THIS_SOL_ID: 'ts',
+        SOL_SUMMARY_ID: 'ss',
+        SOL_LIST_ID: 'sl',
+        MISSIONS_ID: 'mi',
+        LATEST_ID: 'la',
+        INSTR_ID: 'i',
+        SOL_DIVISIONS: 50,
+    },
 
-   //#################################################################
-   //# Constructor
-   //#################################################################
-   _create: function () {
-      // check for necessary classes
-      if (!bean) {
-         $.error("bean class is missing! check includes")
-      }
-      if (!cHttp2) {
-         $.error("http2 class is missing! check includes")
-      }
-      if (this.options.mission == null) $.error("mission is not set")
+    //#################################################################
+    //# Constructor
+    //#################################################################
+    _create: function () {
+        // check for necessary classes
+        if (!bean) {
+            $.error('bean class is missing! check includes');
+        }
+        if (!cHttp2) {
+            $.error('http2 class is missing! check includes');
+        }
+        if (this.options.mission == null) $.error('mission is not set');
 
-      this.render()
-      this.prLoadLists()
-   },
+        this.render();
+        this.prLoadLists();
+    },
 
-   //*******************************************************************
-   render_part_sols: function () {
-      var oElement = this.element
-      var sID = oElement.attr("id")
-      var oThis = this
+    //*******************************************************************
+    render_part_sols: function () {
+        var oElement = this.element;
+        var sID = oElement.attr('id');
+        var oThis = this;
 
-      var oWidgetHeader = $("<SPAN>")
-      {
-         oWidgetHeader.append("Mission:")
-         var sOID = sID + this.consts.THIS_SOL_ID
-         oWidgetHeader.append(
-            $("<SPAN>", { id: sOID }).append("choose a SOL..."),
-         )
-      }
-      var oWidget = cAppRender.create_widget(oWidgetHeader)
-      var oBody = oWidget.body
-      {
-         //SOL and instrument chooser
-         var oListsDiv = $("<DIV>")
-         {
-            //pull down lists
-            var oList = $("<SELECT>", { id: sID + this.consts.SOL_SUMMARY_ID })
+        var oWidgetHeader = $('<SPAN>');
+        {
+            oWidgetHeader.append('Mission:');
+            var sOID = sID + this.consts.THIS_SOL_ID;
+            oWidgetHeader.append(
+                $('<SPAN>', { id: sOID }).append('choose a SOL...'),
+            );
+        }
+        var oWidget = cAppRender.create_widget(oWidgetHeader);
+        var oBody = oWidget.body;
+        {
+            //SOL and instrument chooser
+            var oListsDiv = $('<DIV>');
             {
-               oList.append($("<Option>").append("loading..."))
-               oListsDiv.append(oList)
+                //pull down lists
+                var oList = $('<SELECT>', {
+                    id: sID + this.consts.SOL_SUMMARY_ID,
+                });
+                {
+                    oList.append($('<Option>').append('loading...'));
+                    oListsDiv.append(oList);
+                }
+
+                oList = $('<SELECT>', { id: sID + this.consts.SOL_LIST_ID });
+                {
+                    oList.append($('<Option>').append('loading...'));
+                    oListsDiv.append(oList);
+                }
+
+                oBody.append(oListsDiv);
             }
 
-            oList = $("<SELECT>", { id: sID + this.consts.SOL_LIST_ID })
+            //buttons
+            var oCell, oButton, oButtonDiv, sButID;
+            oButtonDiv = $('<DIV>', { class: 'w3-cell-row' });
             {
-               oList.append($("<Option>").append("loading..."))
-               oListsDiv.append(oList)
+                //-----------------------------------------------------
+                oCell = $('<DIV>', { class: 'w3-cell' });
+                {
+                    oButton = cAppRender.make_button(
+                        null,
+                        '&lt; previous',
+                        'previous Sol [',
+                        false,
+                        () => oThis.onPreviousSolClick(),
+                    );
+                    oCell.append(oButton);
+                    oButtonDiv.append(oCell);
+                }
+
+                //-----------------------------------------------------
+                oCell = $('<DIV>', { class: 'w3-cell' });
+                {
+                    sButID = sID + this.consts.LATEST_ID;
+                    oButton = cAppRender.make_button(
+                        sButID,
+                        'latest',
+                        'latest sol',
+                        true,
+                        () => oThis.onLatestSolClick(),
+                    );
+                    oCell.append(oButton);
+                    oButtonDiv.append(oCell);
+                }
+                //-----------------------------------------------------
+                oCell = $('<DIV>', { class: 'w3-cell' });
+                {
+                    oButton = cAppRender.make_button(
+                        null,
+                        'next >',
+                        'next Sol ]',
+                        false,
+                        () => oThis.onNextSolClick(),
+                    );
+                    oCell.append(oButton);
+                    oButtonDiv.append(oCell);
+                }
+                oBody.append(oButtonDiv);
             }
+            oElement.append(oWidget);
+        }
+    },
 
-            oBody.append(oListsDiv)
-         }
+    //*******************************************************************
+    render_part_mission: function () {
+        var oElement = this.element;
+        var sID = oElement.attr('id');
 
-         //buttons
-         var oCell, oButton, oButtonDiv, sButID
-         var oThis = this
-         oButtonDiv = $("<DIV>", { class: "w3-cell-row" })
-         {
-            //-----------------------------------------------------
-            oCell = $("<DIV>", { class: "w3-cell" })
+        var oWidget = cAppRender.create_widget('Mission:');
+        var oBody = oWidget.body;
+        {
+            var oList = $('<SELECT>', { id: sID + this.consts.MISSIONS_ID });
             {
-               oButton = cAppRender.make_button(
-                  null,
-                  "&lt; previous",
-                  "previous Sol [",
-                  false,
-                  () => oThis.onPreviousSolClick(),
-               )
-               oCell.append(oButton)
-               oButtonDiv.append(oCell)
+                oList.append(
+                    $('<Option>', { selected: true, value: 'MSL' }).append(
+                        'Mars Science Lab (Curiosity)',
+                    ),
+                );
+                oBody.append(oList);
             }
+        }
+        oElement.append(oWidget);
+    },
 
-            //-----------------------------------------------------
-            oCell = $("<DIV>", { class: "w3-cell" })
+    //*******************************************************************
+    render_part_instruments: function () {
+        // instrument part of the widget
+        var oElement = this.element;
+        var sID = oElement.attr('id');
+        var oWidget = cAppRender.create_widget('Instruments');
+        {
+            var oBody = oWidget.body;
             {
-               sButID = sID + this.consts.LATEST_ID
-               oButton = cAppRender.make_button(
-                  sButID,
-                  "latest",
-                  "latest sol",
-                  true,
-                  () => oThis.onLatestSolClick(),
-               )
-               oCell.append(oButton)
-               oButtonDiv.append(oCell)
+                var oList = $('<SELECT>', { id: sID + this.consts.INSTR_ID });
+                oList.append($('<Option>').append('loading...'));
+                oBody.append(oList);
             }
-            //-----------------------------------------------------
-            oCell = $("<DIV>", { class: "w3-cell" })
+            oElement.append(oWidget);
+        }
+    },
+
+    //*******************************************************************
+    render: function () {
+        var oThis, oElement;
+
+        oThis = this;
+        oElement = oThis.element;
+        oElement.uniqueId();
+
+        oElement.empty();
+        oElement.addClass('ui-widget');
+
+        //------------------------------------------------------------------
+        this.render_part_mission();
+        this.render_part_sols();
+        this.render_part_instruments();
+    },
+
+    //#################################################################
+    //# methods
+    //#################################################################
+    deselectInstrument: function () {
+        const sID = this.element.attr('id');
+        const sListID = sID + this.consts.INSTR_ID;
+        cJquery.element(sListID + ' option:first').prop('selected', true);
+        this.options.instrument = null;
+    },
+
+    //#################################################################
+    //# Privates
+    //#################################################################
+    set_sol: function (psSol) {
+        const sID = this.element.attr('id') + this.consts.SOL_LIST_ID;
+        const sSelector = '#' + sID + ' option[value=' + psSol + ']';
+        const oOption = $(sSelector);
+        if (oOption.length == 0) {
+            this._trigger('onStatus', null, { data: 'no such sol' + psSol });
+        } else {
+            oOption.attr('selected', true); // select the options
+            oOption.change(); // kick the OnChangeSolList change handler
+        }
+    },
+
+    //*****************************************************************
+    get_sol_instruments: function (psSol) {
+        const oThis = this;
+        const sListID = this.element.attr('id') + this.consts.INSTR_ID;
+
+        this._trigger('onStatus', null, {
+            data: 'getting instruments for sol' + psSol,
+        });
+
+        // hide instruments jQUERY
+        cJquery.element(sListID + ' option').each(function (pIndex, pObj) {
+            $(pObj).attr({ disabled: 'disabled' });
+        });
+
+        // get the instruments for this sol
+        const sUrl = cBrowser.buildUrl(
+            cAppLocations.rest + '/instruments.php',
             {
-               oButton = cAppRender.make_button(
-                  null,
-                  "next >",
-                  "next Sol ]",
-                  false,
-                  () => oThis.onNextSolClick(),
-               )
-               oCell.append(oButton)
-               oButtonDiv.append(oCell)
-            }
-            oBody.append(oButtonDiv)
-         }
-         oElement.append(oWidget)
-      }
-   },
+                s: psSol,
+                r: 0,
+                m: this.options.mission.ID,
+            },
+        );
+        const oHttp = new cHttp2();
+        bean.on(oHttp, 'result', function (poHttp) {
+            oThis.onLoadSolInstruments(poHttp);
+        });
+        oHttp.fetch_json(sUrl);
+    },
 
-   //*******************************************************************
-   render_part_mission: function () {
-      var oElement = this.element
-      var sID = oElement.attr("id")
+    //#################################################################
+    //# Privates
+    //#################################################################
+    prLoadLists: function () {
+        const oThis = this;
 
-      var oWidget = cAppRender.create_widget("Mission:")
-      var oBody = oWidget.body
-      {
-         var oList = $("<SELECT>", { id: sID + this.consts.MISSIONS_ID })
-         {
-            oList.append(
-               $("<Option>", { selected: true, value: "MSL" }).append(
-                  "Mars Science Lab (Curiosity)",
-               ),
-            )
-            oBody.append(oList)
-         }
-      }
-      oElement.append(oWidget)
-   },
+        const oHttp = new cHttp2();
+        bean.on(oHttp, 'result', function (poHttp) {
+            oThis.onLoadInstruments(poHttp);
+        });
+        var sUrl = cBrowser.buildUrl(cAppLocations.rest + '/instruments.php', {
+            m: this.options.mission.ID,
+        });
+        oHttp.fetch_json(sUrl);
 
-   //*******************************************************************
-   render_part_instruments: function () {
-      // instrument part of the widget
-      var oElement = this.element
-      var sID = oElement.attr("id")
-      var oWidget = cAppRender.create_widget("Instruments")
-      {
-         var oBody = oWidget.body
-         {
-            oList = $("<SELECT>", { id: sID + this.consts.INSTR_ID })
-            oList.append($("<Option>").append("loading..."))
-            oBody.append(oList)
-         }
-         oElement.append(oWidget)
-      }
-   },
+        const oHttp2 = new cHttp2();
+        bean.on(oHttp2, 'result', function (poHttp) {
+            oThis.onLoadSols(poHttp);
+        });
+        sUrl = cBrowser.buildUrl(cAppLocations.rest + '/sols.php', {
+            m: this.options.mission.ID,
+        });
+        oHttp2.fetch_json(sUrl);
+    },
 
-   //*******************************************************************
-   render: function () {
-      var oThis, oElement, sID
+    //#################################################################
+    //# button Events
+    //#################################################################
+    onPreviousSolClick: function () {
+        const sID = this.element.attr('id');
 
-      oThis = this
-      oElement = oThis.element
-      oElement.uniqueId()
-      sID = oElement.attr("id")
+        var oSelected, oPrev;
+        const sListID = sID + this.consts.SOL_LIST_ID;
 
-      oElement.empty()
-      oElement.addClass("ui-widget")
+        oSelected = cJquery.element(sListID + ' option:selected');
+        if (oSelected.length == 0) {
+            this._trigger('onStatus', null, { text: 'Select a sol!!!' });
+            return true;
+        }
 
-      //------------------------------------------------------------------
-      this.render_part_mission()
-      this.render_part_sols()
-      this.render_part_instruments()
-   },
+        oPrev = oSelected.prev('option');
+        if (oPrev.attr('disabled') == 'disabled') {
+            oPrev = oPrev.prev('option');
+        } // skip over disabled items
 
-   //#################################################################
-   //# methods
-   //#################################################################
-   deselectInstrument: function () {
-      const sID = this.element.attr("id")
-      const sListID = sID + this.consts.INSTR_ID
-      cJquery.element(sListID + " option:first").prop("selected", true)
-      this.options.instrument = null
-   },
+        if (oPrev.length > 0) {
+            oPrev.prop('selected', true).change();
+        }
 
-   //#################################################################
-   //# Privates
-   //#################################################################
-   set_sol: function (psSol) {
-      const sID = this.element.attr("id") + this.consts.SOL_LIST_ID
-      const sSelector = "#" + sID + " option[value=" + psSol + "]"
-      const oOption = $(sSelector)
-      if (oOption.length == 0) {
-         this._trigger("onStatus", null, { data: "no such sol" + psSol })
-      } else {
-         oOption.attr("selected", true) // select the options
-         oOption.change() // kick the OnChangeSolList change handler
-      }
-   },
+        return false;
+    },
 
-   //*****************************************************************
-   get_sol_instruments: function (psSol) {
-      const oThis = this
-      const sListID = this.element.attr("id") + this.consts.INSTR_ID
+    //*****************************************************************
+    onLatestSolClick: function () {
+        const sID = this.element.attr('id');
+        cDebug.write('setting latest sol: ');
 
-      this._trigger("onStatus", null, {
-         data: "getting instruments for sol" + psSol,
-      })
+        // deslect instruments
+        this.deselectInstrument();
 
-      // hide instruments jQUERY
-      cJquery.element(sListID + " option").each(function (pIndex, pObj) {
-         $(pObj).attr({ disabled: "disabled" })
-      })
+        // select the list item
+        const sListID = sID + this.consts.SOL_LIST_ID;
+        cJquery
+            .element(sListID + ' :last')
+            .prop('selected', true)
+            .change(); // call the change event on the sol list
+    },
 
-      // get the instruments for this sol
-      const sUrl = cBrowser.buildUrl(cAppLocations.rest + "/instruments.php", {
-         s: psSol,
-         r: 0,
-         m: this.options.mission.ID,
-      })
-      const oHttp = new cHttp2()
-      bean.on(oHttp, "result", function (poHttp) {
-         oThis.onLoadSolInstruments(poHttp)
-      })
-      oHttp.fetch_json(sUrl)
-   },
+    //*****************************************************************
+    onNextSolClick: function () {
+        var oSelected, oNext;
+        const sID = this.element.attr('id');
+        const sListID = sID + this.consts.SOL_LIST_ID;
 
-   //#################################################################
-   //# Privates
-   //#################################################################
-   prLoadLists: function () {
-      const oThis = this
+        oSelected = cJquery.element(sListID + ' option:selected');
+        if (oSelected.length == 0) {
+            this._trigger('onStatus', null, { text: 'Select a sol!!!' });
+            return true;
+        }
 
-      const oHttp = new cHttp2()
-      bean.on(oHttp, "result", function (poHttp) {
-         oThis.onLoadInstruments(poHttp)
-      })
-      var sUrl = cBrowser.buildUrl(cAppLocations.rest + "/instruments.php", {
-         m: this.options.mission.ID,
-      })
-      oHttp.fetch_json(sUrl)
+        oNext = oSelected.next('option');
+        if (oNext.attr('disabled') == 'disabled') {
+            oNext = oNext.next('option');
+        } // skip over disabled items
 
-      const oHttp2 = new cHttp2()
-      bean.on(oHttp2, "result", function (poHttp) {
-         oThis.onLoadSols(poHttp)
-      })
-      sUrl = cBrowser.buildUrl(cAppLocations.rest + "/sols.php", {
-         m: this.options.mission.ID,
-      })
-      oHttp2.fetch_json(sUrl)
-   },
+        if (oNext.length > 0) {
+            oNext.prop('selected', true).change();
+        }
 
-   //#################################################################
-   //# button Events
-   //#################################################################
-   onPreviousSolClick: function () {
-      const sID = this.element.attr("id")
+        return false;
+    },
 
-      var oSelected, oPrev
-      const sListID = sID + this.consts.SOL_LIST_ID
+    //*****************************************************************
+    onKeypress: function (poEvent) {
+        if (poEvent.target.tagName === 'INPUT') return;
 
-      oSelected = cJquery.element(sListID + " option:selected")
-      if (oSelected.length == 0) {
-         this._trigger("onStatus", null, { text: "Select a sol!!!" })
-         return true
-      }
+        const sChar = String.fromCharCode(poEvent.which);
 
-      oPrev = oSelected.prev("option")
-      if (oPrev.attr("disabled") == "disabled") {
-         oPrev = oPrev.prev("option")
-      } // skip over disabled items
+        switch (sChar) {
+            case '[':
+                this.onPreviousSolClick();
+                break;
+            case ']':
+                this.onNextSolClick();
+                break;
+        }
+    },
 
-      if (oPrev.length > 0) {
-         oPrev.prop("selected", true).change()
-      }
+    //*****************************************************************
+    OnChangeSolList: function (poEvent) {
+        this.options.sol = poEvent.target.value;
+        if (this.options.instrument) {
+            this.options.previous_instrument = this.options.instrument;
+            this.deselectInstrument();
+        } else {
+            this._trigger('onSelect', null, {
+                sol: this.options.sol,
+                instrument: this.options.instrument,
+            });
+        }
 
-      return false
-   },
+        // update the caption on the Sol Chooser
+        const sID = this.element.attr('id') + this.consts.THIS_SOL_ID;
+        cJquery.element(sID).html(this.options.sol);
 
-   //*****************************************************************
-   onLatestSolClick: function () {
-      const sID = this.element.attr("id")
-      cDebug.write("setting latest sol: ")
+        // next step in workflow
+        this.get_sol_instruments(poEvent.target.value);
+    },
 
-      // deslect instruments
-      this.deselectInstrument()
+    //*****************************************************************
+    OnChangeSolSummaryList: function (poEvent) {
+        this.set_sol(poEvent.target.value);
+    },
 
-      // select the list item
-      const sListID = sID + this.consts.SOL_LIST_ID
-      cJquery
-         .element(sListID + " :last")
-         .prop("selected", true)
-         .change() // call the change event on the sol list
-   },
-
-   //*****************************************************************
-   onNextSolClick: function () {
-      var oSelected, oNext
-      const sID = this.element.attr("id")
-      const sListID = sID + this.consts.SOL_LIST_ID
-
-      oSelected = cJquery.element(sListID + " option:selected")
-      if (oSelected.length == 0) {
-         this._trigger("onStatus", null, { text: "Select a sol!!!" })
-         return true
-      }
-
-      oNext = oSelected.next("option")
-      if (oNext.attr("disabled") == "disabled") {
-         oNext = oNext.next("option")
-      } // skip over disabled items
-
-      if (oNext.length > 0) {
-         oNext.prop("selected", true).change()
-      }
-
-      return false
-   },
-
-   //*****************************************************************
-   onKeypress: function (poEvent) {
-      if (poEvent.target.tagName === "INPUT") return
-
-      const sChar = String.fromCharCode(poEvent.which)
-
-      switch (sChar) {
-         case "[":
-            this.onPreviousSolClick()
-            break
-         case "]":
-            this.onNextSolClick()
-            break
-      }
-   },
-
-   //*****************************************************************
-   OnChangeSolList: function (poEvent) {
-      this.options.sol = poEvent.target.value
-      if (this.options.instrument) {
-         this.options.previous_instrument = this.options.instrument
-         this.deselectInstrument()
-      } else {
-         this._trigger("onSelect", null, {
+    //*****************************************************************
+    OnChangeInstrList: function (poEvent) {
+        this.options.instrument = poEvent.target.value;
+        this._trigger('onSelect', null, {
             sol: this.options.sol,
             instrument: this.options.instrument,
-         })
-      }
+        });
+    },
 
-      // update the caption on the Sol Chooser
-      const sID = this.element.attr("id") + this.consts.THIS_SOL_ID
-      cJquery.element(sID).html(this.options.sol)
+    //#################################################################
+    //# data Events
+    //#################################################################
+    onError: function (poHttp) {
+        this._trigger('onStatus', null, {
+            data: 'error when fetching: ' + poHttp.url,
+        });
+    },
 
-      // next step in workflow
-      this.get_sol_instruments(poEvent.target.value)
-   },
+    //*****************************************************************
+    onLoadSolInstruments: function (poHttp) {
+        var i, sInstr, oList, oJson;
 
-   //*****************************************************************
-   OnChangeSolSummaryList: function (poEvent) {
-      this.set_sol(poEvent.target.value)
-   },
+        this._trigger('onStatus', null, {
+            data: 'got instruments for sol' + this.options.sol,
+        });
 
-   //*****************************************************************
-   OnChangeInstrList: function (poEvent) {
-      this.options.instrument = poEvent.target.value
-      this._trigger("onSelect", null, {
-         sol: this.options.sol,
-         instrument: this.options.instrument,
-      })
-   },
+        oJson = poHttp.response;
+        const sID = this.element.attr('id');
+        oList = cJquery.element(sID + this.consts.INSTR_ID);
 
-   //#################################################################
-   //# data Events
-   //#################################################################
-   onError: function (poHttp) {
-      this._trigger("onStatus", null, {
-         data: "error when fetching: " + poHttp.url,
-      })
-   },
+        // mark the instruments remaining
+        for (i = 0; i < oJson.length; i++) {
+            sInstr = oJson[i];
+            oList.find('option[value="' + sInstr + '"]').removeAttr('disabled');
+        }
 
-   //*****************************************************************
-   onLoadSolInstruments: function (poHttp) {
-      var i, sInstr, oList, oJson
+        // select the instrument previously selected
+        if (this.options.previous_instrument) {
+            const oItem = oList.find(
+                'option[value="' + this.options.previous_instrument + '"]',
+            );
+            if (oItem.length > 0) {
+                oList.val(this.options.previous_instrument);
+                oList.change();
+            }
+        }
+    },
 
-      this._trigger("onStatus", null, {
-         data: "got instruments for sol" + this.options.sol,
-      })
+    //*****************************************************************
+    onLoadInstruments: function (poHttp) {
+        const oThis = this;
+        const aData = poHttp.response;
 
-      oJson = poHttp.response
-      const sID = this.element.attr("id")
-      oList = cJquery.element(sID + this.consts.INSTR_ID)
+        var sID = this.element.attr('id');
+        var oList = cJquery.element(sID + this.consts.INSTR_ID);
+        oList.empty();
 
-      // mark the instruments remaining
-      for (i = 0; i < oJson.length; i++) {
-         sInstr = oJson[i]
-         oList.find('option[value="' + sInstr + '"]').removeAttr("disabled")
-      }
-
-      // select the instrument previously selected
-      if (this.options.previous_instrument) {
-         const oItem = oList.find(
-            'option[value="' + this.options.previous_instrument + '"]',
-         )
-         if (oItem.length > 0) {
-            oList.val(this.options.previous_instrument)
-            oList.change()
-         }
-      }
-   },
-
-   //*****************************************************************
-   onLoadInstruments: function (poHttp) {
-      const oThis = this
-      const aData = poHttp.response
-
-      var sID = this.element.attr("id")
-      var oList = cJquery.element(sID + this.consts.INSTR_ID)
-      oList.empty()
-
-      oList.append(
-         $("<option>", { value: "", disabled: "disabled" }).html(
-            "Select an Instrument...",
-         ),
-      )
-
-      for (var i = 0; i < aData.length; i++) {
-         var oInstr = aData[i]
-         oList.append(
-            $("<option>", { value: oInstr.name, disabled: "disabled" }).html(
-               oInstr.caption,
+        oList.append(
+            $('<option>', { value: '', disabled: 'disabled' }).html(
+                'Select an Instrument...',
             ),
-         )
-      }
+        );
 
-      // click the buttons if stuff was passed in the query string
-      if (cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING]) {
-         const sInstr = cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING]
-         oList.find('option[value="' + sInstr + '"]').attr("selected", true)
-      }
+        for (var i = 0; i < aData.length; i++) {
+            var oInstr = aData[i];
+            oList.append(
+                $('<option>', {
+                    value: oInstr.name,
+                    disabled: 'disabled',
+                }).html(oInstr.caption),
+            );
+        }
 
-      // set up change handler
-      oList.change(function (poEvent) {
-         oThis.OnChangeInstrList(poEvent)
-      })
-   },
+        // click the buttons if stuff was passed in the query string
+        if (cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING]) {
+            const sInstr = cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING];
+            oList.find('option[value="' + sInstr + '"]').attr('selected', true);
+        }
 
-   //*****************************************************************
-   onLoadSols: function (poHttp) {
-      var i, oSol, oList, oSumList, oOption, iSol, iLastRange, iRange
-      const oThis = this
+        // set up change handler
+        oList.change(function (poEvent) {
+            oThis.OnChangeInstrList(poEvent);
+        });
+    },
 
-      const aData = poHttp.response
+    //*****************************************************************
+    onLoadSols: function (poHttp) {
+        var i, oSol, oList, oSumList, oOption, iSol, iLastRange, iRange;
+        const oThis = this;
 
-      const sID = this.element.attr("id")
-      oList = cJquery.element(sID + this.consts.SOL_LIST_ID)
-      oList.empty()
+        const aData = poHttp.response;
 
-      oSumList = cJquery.element(sID + this.consts.SOL_SUMMARY_ID)
-      oSumList.empty()
-      iLastRange = -1
+        const sID = this.element.attr('id');
+        oList = cJquery.element(sID + this.consts.SOL_LIST_ID);
+        oList.empty();
 
-      for (i = 0; i < aData.length; i++) {
-         oSol = aData[i]
-         iSol = parseInt(oSol.sol)
-         iRange = Math.floor(iSol / this.consts.SOL_DIVISIONS)
+        oSumList = cJquery.element(sID + this.consts.SOL_SUMMARY_ID);
+        oSumList.empty();
+        iLastRange = -1;
 
-         if (iRange != iLastRange) {
-            oOption = $("<option>", { value: iSol }).html(oSol.sol + " to ...")
-            oSumList.append(oOption)
+        for (i = 0; i < aData.length; i++) {
+            oSol = aData[i];
+            iSol = parseInt(oSol.sol);
+            iRange = Math.floor(iSol / this.consts.SOL_DIVISIONS);
 
-            oOption = $("<option>", {
-               value: "NaN",
-               disabled: "disabled",
-            }).html("-- " + oSol.sol + " --")
-            oList.append(oOption)
-            iLastRange = iRange
-         }
+            if (iRange != iLastRange) {
+                oOption = $('<option>', { value: iSol }).html(
+                    oSol.sol + ' to ...',
+                );
+                oSumList.append(oOption);
 
-         oOption = $("<option>", { value: oSol.sol }).html(oSol.sol)
-         oList.append(oOption)
-      }
+                oOption = $('<option>', {
+                    value: 'NaN',
+                    disabled: 'disabled',
+                }).html('-- ' + oSol.sol + ' --');
+                oList.append(oOption);
+                iLastRange = iRange;
+            }
 
-      // enable latest button
-      var sOID = sID + this.consts.LATEST_ID
-      cJquery.element(sOID).removeAttr("disabled")
+            oOption = $('<option>', { value: oSol.sol }).html(oSol.sol);
+            oList.append(oOption);
+        }
 
-      // set up the change handler
-      oSumList.change(function (poEvent) {
-         oThis.OnChangeSolSummaryList(poEvent)
-      })
-      oList.change(function (poEvent) {
-         oThis.OnChangeSolList(poEvent)
-      })
+        // enable latest button
+        var sOID = sID + this.consts.LATEST_ID;
+        cJquery.element(sOID).removeAttr('disabled');
 
-      // select the sol and instrument if there on the querystring
-      if (cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING]) {
-         this.options.instrument =
-            cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING]
-      }
-      if (cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]) {
-         this.set_sol(cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING])
-      }
+        // set up the change handler
+        oSumList.change(function (poEvent) {
+            oThis.OnChangeSolSummaryList(poEvent);
+        });
+        oList.change(function (poEvent) {
+            oThis.OnChangeSolList(poEvent);
+        });
 
-      this._on(window, {
-         keypress: function (poEvent) {
-            oThis.onKeypress(poEvent)
-         },
-      })
-   },
-})
+        // select the sol and instrument if there on the querystring
+        if (cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING]) {
+            this.options.instrument =
+                cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING];
+        }
+        if (cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]) {
+            this.set_sol(cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]);
+        }
+
+        this._on(window, {
+            keypress: function (poEvent) {
+                oThis.onKeypress(poEvent);
+            },
+        });
+    },
+});
