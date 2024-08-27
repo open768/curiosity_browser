@@ -79,49 +79,37 @@ $.widget('ck.solinstrumentChooser', {
 
             //buttons
             var oCell, oButton, oButtonDiv, sButID;
-            oButtonDiv = $('<DIV>', { class: 'w3-cell-row' });
+            oButtonDiv = $('<DIV>', { style: 'white-space: nowrap' });
             {
                 //-----------------------------------------------------
-                oCell = $('<DIV>', { class: 'w3-cell' });
-                {
-                    oButton = cAppRender.make_button(
-                        null,
-                        '&lt; previous',
-                        'previous Sol [',
-                        false,
-                        () => oThis.onPreviousSolClick(),
-                    );
-                    oCell.append(oButton);
-                    oButtonDiv.append(oCell);
-                }
+                oButton = cAppRender.make_button(
+                    null,
+                    '<span style="display:flex:align-items:center"><span class="material-symbols-outlined">arrow_back_ios</span> <span>previous</span></span>',
+                    'previous Sol [',
+                    false,
+                    () => oThis.onPreviousSolClick(),
+                );
+                oButtonDiv.append(oButton);
 
+                sButID = sID + this.consts.LATEST_ID;
+                oButton = cAppRender.make_button(
+                    sButID,
+                    'latest',
+                    'latest sol',
+                    true,
+                    () => oThis.onLatestSolClick(),
+                );
+                oButtonDiv.append(oButton);
                 //-----------------------------------------------------
-                oCell = $('<DIV>', { class: 'w3-cell' });
-                {
-                    sButID = sID + this.consts.LATEST_ID;
-                    oButton = cAppRender.make_button(
-                        sButID,
-                        'latest',
-                        'latest sol',
-                        true,
-                        () => oThis.onLatestSolClick(),
-                    );
-                    oCell.append(oButton);
-                    oButtonDiv.append(oCell);
-                }
-                //-----------------------------------------------------
-                oCell = $('<DIV>', { class: 'w3-cell' });
-                {
-                    oButton = cAppRender.make_button(
-                        null,
-                        'next >',
-                        'next Sol ]',
-                        false,
-                        () => oThis.onNextSolClick(),
-                    );
-                    oCell.append(oButton);
-                    oButtonDiv.append(oCell);
-                }
+                oButton = cAppRender.make_button(
+                    null,
+                    '<span style="display:flex:align-items:center"><span>next</span> <span class="material-symbols-outlined">arrow_forward_ios</span></span>',
+                    'next Sol ]',
+                    false,
+                    () => oThis.onNextSolClick(),
+                );
+                oButtonDiv.append(oButton);
+
                 oBody.append(oButtonDiv);
             }
             oElement.append(oWidget);
