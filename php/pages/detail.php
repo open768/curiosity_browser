@@ -34,6 +34,7 @@ include("$appPhpFragments/doctype.php");
     <script src="<?= $jsInc ?>/ck-inc/space/comments.js"></script>
     <script src="<?= $jsExtra ?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
     <script src="<?= $AppJS ?>/pages/detail.js"></script>
+    <script src="<?= $AppJSWidgets ?>/comment.js"></script>
 </head>
 
 <body onload="$( ()=>cDetail.onLoadJQuery() );">
@@ -111,12 +112,7 @@ include("$appPhpFragments/doctype.php");
         </div>
         <!-- end image container -->
         <p>
-        <div class="w3-card w3-theme-l3" id="commentContainer">
-            <div ID="<?= cDetailPageConstants::COMMENTS_ID ?>" class="comments">loading comments data...</div>
-            <p>
-                <textarea rows="5" cols="120" id="Commentsbox" placeholder="go on share your thoughts with everyone"></textarea>
-                <button class="leftbutton" id="btnComment" id="submit_comment" title="submit comment">comment</button>
-        </div>
+        <div id="<?= cDetailPageConstants::COMMENTS_CONTAINER_ID ?>"></div>
 
         <div class="w3-card w3-theme-l3" ID="msldata">
             loading MSL data

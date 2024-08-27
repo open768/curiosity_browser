@@ -10,8 +10,6 @@ include("$appPhpFragments/doctype.php");
     ?>
     <title>All Sites - Curiosity Browser</title>
     <script src="<?= $AppJS ?>/pages/allsites.js"></script>
-    <script src="<?= $jsInc ?>/ck-inc/googleearth.js"></script>
-    <script src="https://www.google.com/jsapi"></script>
     <script>
         google.load("earth", "1");
     </script>
@@ -26,8 +24,8 @@ include("$appPhpFragments/doctype.php");
         <font class="subtitle">Site:</font> <span id="sites"> loading...</span>
         <font class="subtitle">HiRise:</font><span id="hirise"> loading...</span>
     </div>
-    <div class="gold">
-        <span id="map">This page used the google earth plugin which is no longer supported by google</span>
+    <div class="w3-panel w3-pale-red w3-leftbar w3-border-red">
+        <h1>Work in progress - feature not available</h2>
     </div>
     <P>
 

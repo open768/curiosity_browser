@@ -23,8 +23,6 @@ class cDetail {
         // disable edit controls
         cJquery.disable_element('tagtext');
         cJquery.disable_element('submittag');
-        cJquery.disable_element('Commentsbox');
-        cJquery.disable_element('btnComment');
 
         // catch key presses but not on text inputs
         $(window).keypress((poEvent) => this.onKeyPress(poEvent));
@@ -75,31 +73,30 @@ class cDetail {
             this.onClickNextProduct(poEvent),
         );
 
-        $('submit_comment').click((poEvent) => this.onClickComment(poEvent));
-
         // get user data
         cCommonStatus.set_status('loading user data...');
-        this.get_product_data(
-            cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING],
-            cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING],
-            cBrowser.data[cSpaceBrowser.PRODUCT_QUERYSTRING],
-        );
+        var sSol = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING];
+        var sInstr = cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING];
+        var sProduct = cBrowser.data[cSpaceBrowser.PRODUCT_QUERYSTRING];
+
+        var sProduct = this.get_product_data(sSol, sInstr, sProduct);
+
         cTagging.getTags(() => this.onGotAllTagNames());
+
+        // render comments
+        var oComment = cJquery.element('commentContainer');
+        oComment.commentbox({
+            mission: cMission,
+            sol: sSol,
+            product: sProduct,
+            instrument: sInstr,
+            read_only: false,
+        });
     }
 
     //###############################################################
     //# Click Event Handlers
     //###############################################################
-    static onClickComment() {
-        const sText = $('#Commentsbox').sceditor('instance').val(); // gets the bbcode - MUST BE PARSED AT SERVER
-        cSpaceComments.set(
-            this.oItem.s,
-            this.oItem.i,
-            this.oItem.p,
-            sText,
-            () => this.onGotComments(),
-        );
-    }
 
     //***************************************************************
     static onClickNextProduct() {
@@ -308,23 +305,6 @@ class cDetail {
         cDebug.write('detail.js got Facebook user');
         cJquery.enable_element('tagtext');
         cJquery.enable_element('submittag');
-        cJquery.enable_element('btnComment');
-
-        $('#Commentsbox').sceditor({
-            plugins: 'bbcode',
-            style:
-                cAppLocations.jsextra +
-                '/sceditor/minified/jquery.sceditor.default.min.css',
-            toolbarExclude: 'print,code,email,source,maximize',
-            height: 100,
-            resizeEnabled: false,
-        });
-        $('#Commentsbox')
-            .sceditor('instance')
-            .blur(() => this.onInputDefocus());
-        $('#Commentsbox')
-            .sceditor('instance')
-            .focus(() => this.onInputFocus());
     }
 
     //###############################################################
@@ -400,14 +380,11 @@ class cDetail {
             ' (Curiosity Browser)';
 
         // ------------update the address bar
-        var sUrl =
-            cBrowser.pageUrl() +
-            '?s=' +
-            poItem.s +
-            '&i=' +
-            poItem.i +
-            '&p=' +
-            poItem.p;
+        var sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), {
+            s: poItem.s,
+            i: poItem.i,
+            p: poItem.p,
+        });
         cBrowser.pushState('Detail', sUrl);
     }
 
@@ -429,6 +406,7 @@ class cDetail {
             cJquery.disable_element('pds_product');
             cJquery.disable_element('nasalink');
             $('#msldata').hide();
+
             cJquery.element(cDetailPageConstants.COMMENTS_CONTAINER_ID).hide();
             return;
         }
@@ -463,12 +441,9 @@ class cDetail {
         const sDump = cDebug.getvardump(oData.data, 1);
         $('#msldata').html($('<pre>').append(sDump));
 
-        // get the tags and comments
+        // get the tags
         cTagging.getTags(this.oItem.s, this.oItem.i, this.oItem.p, (oData) =>
             this.onGotTags(oData),
-        );
-        cSpaceComments.get(this.oItem.s, this.oItem.i, this.oItem.p, () =>
-            this.onGotComments(),
         );
     }
 
@@ -528,23 +503,6 @@ class cDetail {
             'content',
             cAppLocations.home + '/' + oData.i,
         ); // facebook tag for image
-    }
-
-    //***************************************************************
-    static onGotComments(paJson) {
-        var i, oText, sHTML;
-
-        if (!paJson) {
-            sHTML = 'No Comments - be the first !';
-        } else {
-            sHTML = '';
-            for (i = 0; i < paJson.length; i++)
-                sHTML += paJson[i].u + ':' + paJson[i].c + '<p>';
-        }
-
-        oText = $('#comments');
-        oText.html(sHTML);
-        cCommonStatus.set_status('ok');
     }
 
     //***************************************************************

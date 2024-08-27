@@ -44,6 +44,7 @@ cPageOutput::write_JS_class_constant_IDs("cAppLocations");
 <script src="<?= $jsExtra ?>/jquery-visible/jquery.visible.min.js"></script>
 <script src="<?= $jsExtra ?>/jquery-spinner/g-spinner.min.js"></script>
 <script src="<?= $jsExtra ?>/jquery-cookie/jquery.cookie.js"></script>
+<script src="<?= $jsInc ?>/ck-inc/jquery/jquery.common.js"></script>
 
 <!-- everything else -->
 <script src="<?= $jsInc ?>/ck-inc/http.js"></script>
