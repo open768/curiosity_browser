@@ -31,10 +31,10 @@ include("$appPhpFragments/doctype.php");
     <LINK href="<?= $home ?>/css/drag.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="<?= $jsExtra ?>/sceditor/minified/themes/default.min.css" type="text/css" media="all">
     <title>Detail: Curiosity Browser</title>
-    <script src="<?= $jsInc ?>/ck-inc/space/comments.js"></script>
+    <script src="<?= $jsSpaceInc ?>/comments.js"></script>
     <script src="<?= $jsExtra ?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
     <script src="<?= $AppJS ?>/pages/detail.js"></script>
-    <script src="<?= $AppJSWidgets ?>/comment.js"></script>
+    <script src="<?= $AppJSWidgets ?>/comment-box.js"></script>
 </head>
 
 <body onload="$( ()=>cDetail.onLoadJQuery() );">

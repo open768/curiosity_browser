@@ -36,6 +36,9 @@ class cCommentBox {
             oElement.append(oDisplayDiv);
         }
 
+        //-----------if readonly dont enable anything
+        if (this.options.read_only) return;
+
         //--- textarea display
         var sTEXT_ID, oTextDiv;
         sTEXT_ID = cJquery.child_ID(oElement, this.COMMENTS_TEXTAREA_ID);
@@ -71,16 +74,27 @@ class cCommentBox {
         oElement.empty();
         this.render();
         var oThis = this;
-        bean.on(cFacebook, cFacebook.STATUS_EVENT, () =>
-            oThis.onFacebookUser(),
-        );
+        cDebug.on(); //DEBUG
 
-        cSpaceComments.get(
-            this.options.sol,
-            this.options.instrument,
-            this.options.product,
-            () => oThis.onGotComments(),
+        //----------- hook onto facebook user - if readonly skip
+        if (!this.options.read_only)
+            bean.on(cFacebook, cFacebook.STATUS_EVENT, () =>
+                oThis.onFacebookUser(),
+            );
+
+        //get the comments
+        var sSOl = this.options.sol;
+        var sProduct = this.options.product;
+        var sInstr = this.options.instrument;
+        cDebug.write(
+            'getting comments for s:' +
+                sSOl +
+                ' p:' +
+                sProduct +
+                ' i:' +
+                sInstr,
         );
+        cSpaceComments.get(sSOl, sInstr, sProduct, () => oThis.onGotComments());
     }
 
     //*************************************************************
@@ -88,6 +102,9 @@ class cCommentBox {
     //*************************************************************
     onFacebookUser() {
         var oElement = this.element;
+
+        //-----------if readonly dont enable anything
+        if (this.options.read_only) return;
 
         //-----------enable the button
         var sBUT_ID = cJquery.child_ID(oElement, this.COMMENTS_BUTTON_ID);
@@ -161,6 +178,9 @@ $.widget('ck.commentbox', {
     },
 
     _create: function () {
+        if (typeof cSpaceComments === 'undefined')
+            cDebug.error('cSpaceComments is not defined');
+
         var oBox = new cCommentBox(this);
         this.instance = oBox;
         oBox.init();

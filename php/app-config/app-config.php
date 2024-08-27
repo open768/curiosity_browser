@@ -16,6 +16,7 @@ $AppJS = "$home/js";
 $AppJSWidgets = "$AppJS/widgets";
 $jsInc = "$home/../jsinc";            //check this works
 $jsExtra = "$jsInc/extra";
+$jsSpaceInc = "$jsInc/ck-inc/space";
 $AppRest = "$home/php/rest";
 
 //*****************************************************
