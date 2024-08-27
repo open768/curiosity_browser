@@ -150,40 +150,74 @@ class cSolComments {
         oContainer.empty();
 
         //--------parse the data
-        var sProduct, oInstr, sInstr, oCommentDiv;
-        for (sProduct in oJson) {
-            oInstr = oJson[sProduct];
+        for (var sProduct in oJson) {
+            var oInstr = oJson[sProduct];
+
+            //EACH PRODUCT HAS ITS OWN cARD
             var oProductDiv = $('<div>', {
                 class: 'w3-card w3-theme-l5 w3-margin',
             });
             {
-                var oHeader = $('<header>', {
+                //- - - - -  PRODUCT HEADER - - - - - -
+                var oProductHeader = $('<header>', {
                     class: 'w3-theme-d3 w3-container',
                 });
                 {
-                    oHeader.append(sProduct);
-                    oProductDiv.append(oHeader);
+                    oProductHeader.append(sProduct);
+                    oProductDiv.append(oProductHeader);
                 }
 
-                var oBody = $('<div>', { class: 'w3-container' });
+                //- - - - -  ITERATE INSTRUMENTS - - - - - -
+                var oProductBody = $('<div>', { class: 'w3-container' });
                 {
-                    for (sInstr in oInstr) {
-                        oCommentDiv = $('<div>', {
-                            class: 'w3-container',
+                    for (var sInstr in oInstr) {
+                        var oInstrDiv = $('<div>', {
+                            class: 'w3-cell-row',
                         });
                         {
-                            oCommentDiv.commentbox({
-                                mission: cMission,
-                                sol: this.current_sol,
-                                product: sProduct,
-                                instrument: sInstr,
-                                read_only: true,
+                            var oGotoProductDiv = $('<div>', {
+                                class: 'w3-cell w3-padding',
+                                style: 'width:50px',
                             });
+                            {
+                                var sUrl = cBrowser.buildUrl('detail.php', {
+                                    s: this.current_sol,
+                                    i: sInstr,
+                                    p: sProduct,
+                                });
+                                var oLink = $('<A>', {
+                                    href: sUrl,
+                                    target: 'detail',
+                                });
+                                {
+                                    var oIcon =
+                                        cRenderGoogleFont.create_icon(
+                                            'open_in_browser',
+                                        );
+                                    oLink.append(oIcon);
+                                    oGotoProductDiv.append(oLink);
+                                }
+                                oInstrDiv.append(oGotoProductDiv);
+                            }
 
-                            oBody.append(oCommentDiv);
+                            var oInstrCommentDiv = $('<div>', {
+                                class: 'w3-cell',
+                            });
+                            {
+                                oInstrCommentDiv.commentbox({
+                                    mission: cMission,
+                                    sol: this.current_sol,
+                                    product: sProduct,
+                                    instrument: sInstr,
+                                    read_only: true,
+                                });
+                                oInstrDiv.append(oInstrCommentDiv);
+                            }
+
+                            oProductBody.append(oInstrDiv);
                         }
                     }
-                    oProductDiv.append(oBody);
+                    oProductDiv.append(oProductBody);
                 }
 
                 oContainer.append(oProductDiv);

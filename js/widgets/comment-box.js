@@ -180,10 +180,13 @@ $.widget('ck.commentbox', {
         read_only: true,
     },
 
+    //*******************************************************************
     _create: function () {
+        //-------checks
         if (typeof cSpaceComments === 'undefined')
             cDebug.error('cSpaceComments is not defined');
 
+        //-------proceed
         var oBox = new cCommentBox(this);
         this.instance = oBox;
         oBox.init();
