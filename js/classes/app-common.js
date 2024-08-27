@@ -13,7 +13,7 @@ class cAppRender {
         var oButton = $('<button>', oOptions);
         {
             var oSpan = $('<span>', {
-                style: 'display:flex:align-items:center',
+                style: 'display:flex;align-items:center',
             });
             {
                 oSpan.append(psCaption);
