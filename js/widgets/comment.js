@@ -1,3 +1,5 @@
+//uses sceditor https://www.sceditor.com/
+
 class cCommentBox {
     COMMENTS_DISPLAY_ID = 'CDI';
     COMMENTS_TEXTAREA_ID = 'CTI';
@@ -103,6 +105,7 @@ class cCommentBox {
             toolbarExclude: 'print,code,email,source,maximize',
             height: 100,
             resizeEnabled: false,
+            emoticonsRoot: cAppLocations.jsextra + '/sceditor/',
         });
         var oThis = this;
         oTextBox.sceditor('instance').blur(() => oThis.onInputDefocus());
