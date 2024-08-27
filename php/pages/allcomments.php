@@ -10,7 +10,7 @@ include("$appPhpFragments/doctype.php");
     include("$appPhpFragments/header.php");
     ?>
     <title>All Comments - Curiosity Browser</title>
-    <script src="<?= $AppJSWidgets ?>/solcommentgrid.js"></script>
+    <script src="<?= $AppJSWidgets ?>/allgrid.js"></script>
     <script src="<?= $AppJS ?>/classes/solgrid.js"></script>
 </head>
 
@@ -20,8 +20,10 @@ include("$appPhpFragments/doctype.php");
     ?>
     <script>
         function onLoadJQuery_Comments() {
-            $("#solcomments").commentgrid({
+            $("#solcomments").allgrid({
                 mission: cMission,
+                data_url: 'comments.php',
+                sol_url: 'solcomment.php'
             })
         }
     </script>

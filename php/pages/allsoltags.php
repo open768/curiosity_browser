@@ -10,15 +10,17 @@ $sTitle = "Tagged Sols";
     include("$appPhpFragments/header.php");
     ?>
     <title>Sol Tags - Curiosity Browser</title>
-    <script src="<?= $AppJSWidgets ?>/soltags.js"></script>
+    <script src="<?= $AppJSWidgets ?>/allgrid.js"></script>
     <script src="<?= $AppJS ?>/classes/solgrid.js"></script>
 </head>
 
 <body onload="$(onLoadJQuery_TAGS);">
     <script>
         function onLoadJQuery_TAGS() {
-            $("#soltag").soltags({
+            $("#soltag").allgrid({
                 mission: cMission,
+                data_url: 'tag.php',
+                sol_url: 'soltag.php'
             })
         }
     </script>

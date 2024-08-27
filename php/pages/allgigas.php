@@ -9,7 +9,7 @@ include("$appPhpFragments/doctype.php");
     include("$appPhpFragments/header.php");
     ?>
     <title>All Gigapans - by Neville Thompson</title>
-    <script src="<?= $AppJSWidgets ?>/allsolgigas.js"></script>
+    <script src="<?= $AppJSWidgets ?>/allgrid.js"></script>
     <script src="<?= $AppJS ?>/classes/solgrid.js"></script>
 </head>
 
@@ -20,8 +20,10 @@ include("$appPhpFragments/doctype.php");
     ?>
     <script>
         function onLoadJQuery_GIGAS() {
-            $("#solgiga").allsolgigas({
+            $("#solgiga").allgrid({
                 mission: cMission,
+                data_url: 'gigapans.php',
+                sol_url: 'solgigas.php'
             })
         }
     </script>

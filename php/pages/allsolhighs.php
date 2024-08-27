@@ -9,7 +9,7 @@ require_once "$home/php/fragments/app-common.php";
     include("$appPhpFragments/header.php");
     ?>
     <title>All Highlights - Curiosity Browser</title>
-    <script src="<?= $AppJSWidgets ?>/solhighgrid.js"></script>
+    <script src="<?= $AppJSWidgets ?>/allgrid.js"></script>
     <script src="<?= $AppJS ?>/classes/solgrid.js"></script>
 </head>
 
@@ -20,8 +20,10 @@ require_once "$home/php/fragments/app-common.php";
     ?>
     <script>
         function onLoadJQuery_HIGHS() {
-            $("#solhighs").solhighgrid({
+            $("#solhighs").allgrid({
                 mission: cMission,
+                data_url: 'img_highlight.php',
+                sol_url: 'solhigh.php'
             })
         }
     </script>
