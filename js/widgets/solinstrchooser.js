@@ -84,7 +84,7 @@ $.widget('ck.solinstrumentChooser', {
                 //-----------------------------------------------------
                 oButton = cAppRender.make_button(
                     null,
-                    '<span style="display:flex:align-items:center"><span class="material-symbols-outlined">arrow_back_ios</span> <span>previous</span></span>',
+                    '<span class="material-symbols-outlined">arrow_back_ios</span> <span>previous</span>',
                     'previous Sol [',
                     false,
                     () => oThis.onPreviousSolClick(),
@@ -103,7 +103,7 @@ $.widget('ck.solinstrumentChooser', {
                 //-----------------------------------------------------
                 oButton = cAppRender.make_button(
                     null,
-                    '<span style="display:flex:align-items:center"><span>next</span> <span class="material-symbols-outlined">arrow_forward_ios</span></span>',
+                    '<span>next</span> <span class="material-symbols-outlined">arrow_forward_ios</span>',
                     'next Sol ]',
                     false,
                     () => oThis.onNextSolClick(),
