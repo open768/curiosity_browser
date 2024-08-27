@@ -153,7 +153,9 @@ class cSolComments {
         var sProduct, oInstr, sInstr, oCommentDiv;
         for (sProduct in oJson) {
             oInstr = oJson[sProduct];
-            var oProductDiv = $('<div>', { class: 'w3-card w3-theme-l5' });
+            var oProductDiv = $('<div>', {
+                class: 'w3-card w3-theme-l5 w3-margin',
+            });
             {
                 var oHeader = $('<header>', {
                     class: 'w3-theme-d3 w3-container',
@@ -170,16 +172,6 @@ class cSolComments {
                             class: 'w3-container',
                         });
                         {
-                            var sDebug =
-                                's: ' +
-                                this.current_sol +
-                                ' p:' +
-                                sProduct +
-                                ' i:' +
-                                sInstr;
-
-                            oCommentDiv.append(sDebug);
-
                             oCommentDiv.commentbox({
                                 mission: cMission,
                                 sol: this.current_sol,

@@ -94,7 +94,9 @@ class cCommentBox {
                 ' i:' +
                 sInstr,
         );
-        cSpaceComments.get(sSOl, sInstr, sProduct, () => oThis.onGotComments());
+        cSpaceComments.get(sSOl, sInstr, sProduct, (d) =>
+            oThis.onGotComments(d),
+        );
     }
 
     //*************************************************************
@@ -147,11 +149,12 @@ class cCommentBox {
     }
 
     //*************************************************************
-    onGotComments(paJson) {
+    onGotComments(poHttp) {
         var sHTML = '';
         var oElement = this.element;
         var sCommentsID = cJquery.child_ID(oElement, this.COMMENTS_DISPLAY_ID);
         var oDiv = cJquery.element(sCommentsID);
+        var paJson = poHttp.response;
 
         if (!paJson) {
             sHTML = 'No Comments - be the first !';
