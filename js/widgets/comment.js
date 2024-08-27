@@ -133,8 +133,8 @@ class cCommentBox {
     onGotComments(paJson) {
         var sHTML = '';
         var oElement = this.element;
-        var sTEXT_ID = cJquery.child_ID(oElement, this.COMMENTS_TEXTAREA_ID);
-        var oTextBox = cJquery.element(sTEXT_ID);
+        var sCommentsID = cJquery.child_ID(oElement, this.COMMENTS_DISPLAY_ID);
+        var oDiv = cJquery.element(sCommentsID);
 
         if (!paJson) {
             sHTML = 'No Comments - be the first !';
@@ -144,7 +144,7 @@ class cCommentBox {
                 sHTML += paJson[i].u + ':' + paJson[i].c + '<p>';
         }
 
-        oTextBox.html(sHTML);
+        oDiv.html(sHTML);
     }
 }
 
