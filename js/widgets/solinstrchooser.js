@@ -79,12 +79,13 @@ $.widget('ck.solinstrumentChooser', {
 
             //buttons
             var oCell, oButton, oButtonDiv, sButID;
-            oButtonDiv = $('<DIV>', { style: 'white-space: nowrap' });
+            oButtonDiv = $('<DIV>', { style: 'white-space:nowrap' });
             {
                 //-----------------------------------------------------
+                var oIcon = cRenderGoogleFont.create_icon('arrow_back_ios');
                 oButton = cAppRender.make_button(
                     null,
-                    '<span class="material-symbols-outlined">arrow_back_ios</span> <span>previous</span>',
+                    oIcon.prop('outerHTML') + ' <span>previous</span>',
                     'previous Sol [',
                     false,
                     () => oThis.onPreviousSolClick(),
@@ -101,9 +102,10 @@ $.widget('ck.solinstrumentChooser', {
                 );
                 oButtonDiv.append(oButton);
                 //-----------------------------------------------------
+                var oIcon = cRenderGoogleFont.create_icon('arrow_forward_ios');
                 oButton = cAppRender.make_button(
                     null,
-                    '<span>next</span> <span class="material-symbols-outlined">arrow_forward_ios</span>',
+                    '<span>next</span> ' + oIcon.prop('outerHTML'),
                     'next Sol ]',
                     false,
                     () => oThis.onNextSolClick(),
