@@ -79,7 +79,7 @@ class cDetail {
         var sInstr = cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING];
         var sProduct = cBrowser.data[cSpaceBrowser.PRODUCT_QUERYSTRING];
 
-        var sProduct = this.get_product_data(sSol, sInstr, sProduct);
+        this.get_product_data(sSol, sInstr, sProduct);
 
         cTagging.getTags(() => this.onGotAllTagNames());
 

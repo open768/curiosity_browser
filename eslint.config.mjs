@@ -25,6 +25,7 @@ export default [
                 cImgHilite: 'readonly',
                 cJquery: 'readonly',
                 cMission: 'readonly',
+                cRenderGoogleFont: 'readonly',
                 cSpaceBrowser: 'readonly',
                 cSpaceComments: 'readonly',
                 cTagging: 'readonly',
@@ -35,7 +36,7 @@ export default [
         },
         rules: {
             'no-unused-vars': 'warn',
-            semi: 'never',
+            semi: 'off',
         },
     },
 ];

@@ -11,7 +11,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 
-/*global cIndexPageConsts, cRenderGoogleFont*/
+/*global cIndexPageConsts*/
 // cIndexPageConsts are defined in index.php - and written out line 57
 
 //cDebug.on()

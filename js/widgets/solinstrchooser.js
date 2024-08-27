@@ -78,7 +78,7 @@ $.widget('ck.solinstrumentChooser', {
             }
 
             //buttons
-            var oCell, oButton, oButtonDiv, sButID;
+            var oButton, oButtonDiv, sButID;
             oButtonDiv = $('<DIV>', { style: 'white-space:nowrap' });
             {
                 //-----------------------------------------------------
@@ -102,7 +102,7 @@ $.widget('ck.solinstrumentChooser', {
                 );
                 oButtonDiv.append(oButton);
                 //-----------------------------------------------------
-                var oIcon = cRenderGoogleFont.create_icon('arrow_forward_ios');
+                oIcon = cRenderGoogleFont.create_icon('arrow_forward_ios');
                 oButton = cAppRender.make_button(
                     null,
                     '<span>next</span> ' + oIcon.prop('outerHTML'),

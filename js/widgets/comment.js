@@ -114,6 +114,7 @@ class cCommentBox {
         var oElement = this.element;
         var sTEXT_ID = cJquery.child_ID(oElement, this.COMMENTS_TEXTAREA_ID);
         var oTextBox = cJquery.element(sTEXT_ID);
+        var sText = oTextBox.html();
 
         oTextBox.sceditor('instance').val(); // gets the bbcode - MUST BE PARSED AT SERVER
         cSpaceComments.set(
@@ -136,7 +137,7 @@ class cCommentBox {
             sHTML = 'No Comments - be the first !';
         } else {
             sHTML = '';
-            for (i = 0; i < paJson.length; i++)
+            for (var i = 0; i < paJson.length; i++)
                 sHTML += paJson[i].u + ':' + paJson[i].c + '<p>';
         }
 
