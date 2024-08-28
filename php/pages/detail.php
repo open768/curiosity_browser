@@ -31,6 +31,9 @@ include("$appPhpFragments/doctype.php");
     <LINK href="<?= $home ?>/css/drag.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="<?= $jsExtra ?>/sceditor/minified/themes/default.min.css" type="text/css" media="all">
     <title>Detail: Curiosity Browser</title>
+    <?php
+    cPageOutput::write_JS_class_constant_IDs("cDetailPageConstants");
+    ?>
     <script src="<?= $jsSpaceInc ?>/comments.js"></script>
     <script src="<?= $jsExtra ?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
     <script src="<?= $AppJS ?>/pages/detail.js"></script>
@@ -41,7 +44,6 @@ include("$appPhpFragments/doctype.php");
     <?php
     $sTitle = "Product Detail";
     include("$appPhpFragments/title.php");
-    cPageOutput::write_JS_class_constant_IDs("cDetailPageConstants");
     ?>
     <div id="<?= cDetailPageConstants::PAGE_CONTENTS_ID ?>" class="w3-container w3-padding-small">
         <!-- controls -->
@@ -60,12 +62,7 @@ include("$appPhpFragments/doctype.php");
             </nobr>
         </div>
         <!-- tags -->
-        <div class="w3-card w3-theme-l3" id="<?= cDetailPageConstants::TAGS_CONTAINER_ID ?>">
-            <!-- add a tag -->
-            <span class="subtitle">Tags:</span>
-            <span ID="<?= cDetailPageConstants::TAGS_ID ?>">Loading...</span>
-            <input type="text" size="20" maxlength="20" id="tagtext"><button class="w3-button w3-theme-action" id="submittag">Add</button>
-        </div>
+        <div id="<?= cDetailPageConstants::TAGS_CONTAINER_ID ?>">loading tags widget </div>
 
         <!-- image container -->
         <div ID="<?= cDetailPageConstants::IMAGE_CONTAINER_ID ?>" class="w3-card">

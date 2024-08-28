@@ -11,28 +11,166 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 'use strict';
 
+//###############################################################
+//# cDetail
+//###############################################################
+class cDetailTags {
+    static TAGS_ID = 'cdid';
+    static TAGS_TEXT_ID = 'cdtext';
+    static TAGS_BUTTON_ID = 'cdbut';
+
+    static async render() {
+        var oContainer = cJquery.element(
+            cDetailPageConstants.TAGS_CONTAINER_ID,
+        );
+        {
+            //--------------------------------------------------
+            oContainer.empty();
+            oContainer.addClass('w3-cell-row w3-theme-l3');
+
+            //----label------------------------------------------
+            var oSpan = $('<span>', {
+                class: 'w3-cell w3-theme',
+                style: 'width:100px',
+            });
+            {
+                oSpan.append('Tags:');
+                oContainer.append(oSpan);
+            }
+
+            //---where tags go--------------------------------------
+            var sID = cJquery.child_ID(oContainer, this.TAGS_ID);
+            oSpan = $('<span>', { class: 'w3-cell', id: sID });
+            {
+                oSpan.append('loading tags');
+                oContainer.append(oSpan);
+            }
+
+            //---input controls-----------------------------------------------
+            var oThis = this;
+            oSpan = $('<span>', { class: 'w3-cell' });
+            {
+                sID = cJquery.child_ID(oContainer, this.TAGS_TEXT_ID);
+                {
+                    var oInput = $('<input>', {
+                        type: 'text',
+                        size: 20,
+                        id: sID,
+                    });
+                    cJquery.disable_element(oInput);
+                    oSpan.append(oInput);
+                }
+
+                sID = cJquery.child_ID(oContainer, this.TAGS_BUTTON_ID);
+                {
+                    var oButton = cAppRender.make_button(
+                        null,
+                        'add',
+                        'add Tag',
+                        true,
+                        () => oThis.onClickAdd(),
+                    );
+                    oSpan.append(oButton);
+                }
+                oContainer.append(oSpan);
+            }
+        }
+        this.get_tags();
+    }
+
+    //***********************************************************
+    static async get_tags() {
+        var oThis = this;
+
+        cTagging.getTags(
+            cDetail.sol,
+            cDetail.instrument,
+            cDetail.product,
+            (poHttp) => oThis.onGotTags(poHttp),
+        );
+    }
+
+    //***********************************************************
+    static onGotTags(poHttp) {
+        cCommonStatus.set_status('got tag');
+        //---------------------------------------------------
+        var oContainer = cJquery.element(
+            cDetailPageConstants.TAGS_CONTAINER_ID,
+        );
+        var sID = cJquery.child_ID(oContainer, this.TAGS_ID);
+        var oTagDiv = cJquery.element(sID);
+        oTagDiv.empty();
+
+        //---------------------------------------------------
+        var aData = poHttp.response.d;
+        if (aData.length == 0) {
+            oTagDiv.html('No Tags found, be the first to add one');
+        } else {
+            var oA, sUrl, sTag;
+            for (var i = 0; i < aData.length; i++) {
+                sTag = aData[i];
+
+                sUrl = cBrowser.buildUrl('tag.php', { t: sTag });
+                oA = $('<A>', { target: 'tags', href: sUrl });
+                oTagDiv.append(oA);
+            }
+        }
+
+        cCommonStatus.set_status('ok');
+    }
+
+    //***********************************************************
+    static async onClickAdd() {
+        var sTag;
+
+        var oContainer = cJquery.element(
+            cDetailPageConstants.TAGS_CONTAINER_ID,
+        );
+        var sID = cJquery.child_ID(oContainer, this.TAGS_TEXT_ID);
+        var oText = cJquery.element(sID);
+
+        // check something was entered
+        sTag = oText.val();
+        if (sTag === '') {
+            alert('no tag text');
+            return;
+        }
+
+        var oThis = this;
+        cCommonStatus.set_status('setting tag: ' + sTag);
+        cTagging.setTag(this.oItem.s, this.oItem.i, this.oItem.p, sTag, () =>
+            oThis.onSetTag(),
+        );
+    }
+
+    //***********************************************************
+    static enable() {
+        var oContainer = cJquery.element(
+            cDetailPageConstants.TAGS_CONTAINER_ID,
+        );
+        var sID = cJquery.child_ID(oContainer, this.TAGS_TEXT_ID);
+        var oElement = cJquery.element(sID);
+        cJquery.enable_element(oElement);
+
+        sID = cJquery.child_ID(oContainer, this.TAGS_BUTTON_ID);
+        oElement = cJquery.element(sID);
+        cJquery.enable_element(oElement);
+    }
+}
+
+//###############################################################
+//# cDetail
+//###############################################################
 class cDetail {
     static oItem = null;
     static aTags = null;
     static iNum = null;
+    static sol = null;
+    static instrument = null;
+    static product = null;
 
-    //###############################################################
-    //# entry point
-    //###############################################################
+    //***********************************************************
     static onLoadJQuery() {
-        // disable edit controls
-        cJquery.disable_element('tagtext');
-        cJquery.disable_element('submittag');
-
-        // catch key presses but not on text inputs
-        $(window).keypress((poEvent) => this.onKeyPress(poEvent));
-        $(':input').each(function (index, oObj) {
-            if ($(oObj).attr('type') === 'text') {
-                $(oObj).focus(() => this.onInputFocus());
-                $(oObj).blur(() => this.onInputDefocus());
-            }
-        });
-
         //set click handlers
         $('#sol').click((poEvent) => this.onClickSol(poEvent));
         $('#instrument').click((poEvent) => this.onClickInstr(poEvent));
@@ -73,15 +211,29 @@ class cDetail {
             this.onClickNextProduct(poEvent),
         );
 
+        // catch key presses but not on text inputs
+        $(window).keypress((poEvent) => this.onKeyPress(poEvent));
+        $(':input').each(function (index, oObj) {
+            if ($(oObj).attr('type') === 'text') {
+                $(oObj).focus(() => this.onInputFocus());
+                $(oObj).blur(() => this.onInputDefocus());
+            }
+        });
+
         // get user data
         cCommonStatus.set_status('loading user data...');
         var sSol = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING];
         var sInstr = cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING];
         var sProduct = cBrowser.data[cSpaceBrowser.PRODUCT_QUERYSTRING];
+        this.sol = sSol;
+        this.instrument = sInstr;
+        this.product = sProduct;
 
+        //tags
+        cDetailTags.render();
+
+        //get the image data
         this.get_product_data(sSol, sInstr, sProduct);
-
-        cTagging.getTags(() => this.onGotAllTagNames());
 
         // render comments
         var oComment = cJquery.element('commentContainer');
@@ -208,23 +360,6 @@ class cDetail {
     }
 
     //***************************************************************
-    static onClickAddTag() {
-        var sTag;
-
-        // check something was entered
-        sTag = $('#tagtext').val();
-        if (sTag === '') {
-            alert('no tag text');
-            return;
-        }
-
-        cCommonStatus.set_status('setting tag: ' + sTag);
-        cTagging.setTag(this.oItem.s, this.oItem.i, this.oItem.p, sTag, () =>
-            this.onSetTag(),
-        );
-    }
-
-    //***************************************************************
     static onKeyPress(poEvent) {
         const sChar = String.fromCharCode(poEvent.which);
         switch (sChar) {
@@ -291,20 +426,20 @@ class cDetail {
     //###############################################################
     static onFacebookUser() {
         cDebug.write('detail.js got Facebook user');
-        cJquery.enable_element('tagtext');
-        cJquery.enable_element('submittag');
+        cDetailTags.enable();
     }
 
     //***************************************************************
     static onNextProduct(poHttp) {
         const oData = poHttp.response;
         if (!oData) cCommonStatus.set_error_status('unable to find');
-        else
+        else {
             this.get_product_data(
                 oData.s,
                 oData.d.instrument,
                 oData.d.itemName,
             );
+        }
     }
 
     //***************************************************************
@@ -347,16 +482,6 @@ class cDetail {
     }
 
     //***************************************************************
-    static onGotAllTagNames(poJs) {
-        cCommonStatus.set_status('got tag names');
-        this.aTags = new Array();
-        for (var sKey in poJs) {
-            this.aTags.push(sKey);
-        }
-        $('#tagtext').autocomplete({ source: this.aTags });
-    }
-
-    //***************************************************************
     static onGotHighlights(poHttp) {
         var i, aItem, oBox, oNumber;
         var oData = poHttp.response;
@@ -378,31 +503,7 @@ class cDetail {
     }
 
     //***************************************************************
-    static onSetTag(paJS) {
-        this.onGotTags(paJS);
-        cTagging.getTagNames(() => this.alltagnames_callback());
-    }
-
-    //***************************************************************
-    static onGotTags(paJS) {
-        cCommonStatus.set_status('got tag');
-        var oTags = cJquery.element('tags');
-        if (paJS.d.length == 0) {
-            oTags.html('No Tags found, be the first to add one');
-        } else {
-            oTags.empty();
-            var oA, sUrl, sTag;
-            for (var i = 0; i < paJS.d.length; i++) {
-                sTag = paJS.d[i];
-
-                sUrl = cBrowser.buildUrl('tag.php', { t: sTag });
-                oA = $('<A>', { target: 'tags', href: sUrl });
-                oTags.append(oA);
-            }
-        }
-
-        cCommonStatus.set_status('ok');
-    }
+    static onSetTag() {}
 
     //***************************************************************
     static onGotDetails(poHttp) {
@@ -414,16 +515,16 @@ class cDetail {
         this.oItem = oResponse;
         oData = this.oItem.d;
 
+        //----remember the details
+        this.sol = oData.s;
+        this.product = oData.p;
+        this.instrument = oData.i;
+
         //----these things can be done
         this.pr_populate_image();
         this.pr_update_elements(oResponse);
         this.pr_update_doc_title(oResponse);
         if (!oData) return;
-
-        // ------------ tags
-        var oTagDiv = cJquery.element(cDetailPageConstants.TAGS_ID);
-        if (!oData.tags) oTagDiv.html('no Tags - be the first to add one');
-        else oTagDiv.html(oData.tags);
 
         // update image index details
         this.iNum = oResponse.item;
@@ -435,9 +536,7 @@ class cDetail {
         $('#msldata').html($('<pre>').append(sDump));
 
         // get the tags
-        cTagging.getTags(this.oItem.s, this.oItem.i, this.oItem.p, (oData) =>
-            this.onGotTags(oData),
-        );
+        cDetailTags.get_tags();
     }
 
     //***************************************************************
