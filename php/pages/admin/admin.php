@@ -31,6 +31,9 @@ require_once "$spaceInc/misc/pencilnev.php";
 require_once "$spaceInc/misc/tags.php";
 require_once "$spaceInc/misc/pichighlight.php";
 
+//other includes
+require_once "$home/php/classes/admin-funcs.php";
+
 //settings to prevent buffering
 prevent_buffering();
 
@@ -47,23 +50,9 @@ echo "<BODY>\n";
 include("$appPhpFragments/title.php");
 
 //force the user to logon
-$sUser = null;
-try {
-    $sUser = cAuth::must_get_user();
-} catch (Exception $e) {
-    cPageOutput::errorbox($e->getMessage());
-    cPageOutput::messagebox("go back to <a href='$home'>login</a>");
-    cDebug::error($e);
-}
 
-//##################################################################
-cAuth::check_for_admin_id_file();
-$oDB = cAuth::$objstoreDB; //debug
-$oDB->SHOW_SQL = true;   //debug
-$sAdmin = cAuth::current_user_is_admin();
-if ($sAdmin !== cAuth::YES)
-    cDebug::error("not an admin user ");
-cDebug::check_GET_or_POST();
+cAdminFunctions::check_user_is_admin();
+cAdminFunctions::check_admin_file();
 
 //##################################################################
 const OPS_PARAM = "o";
@@ -164,6 +153,17 @@ switch ($sOperation) {
         break;
 
         //------------------------------------------------------
+    case "indexGigas":
+        $aItems = cGigapan::get_all_gigapans("pencilnev");
+        cPencilNev::index_gigapans($aItems);
+        break;
+
+        //------------------------------------------------------
+    case  "indexManifest":
+        cCuriosityManifestIndex::indexManifest();
+        break;
+
+        //------------------------------------------------------
     case "killTag":
         if (!array_key_exists("t", $_GET)) {
         ?>
@@ -197,20 +197,14 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case "mergeTags":
-        throw new Exception("to be done");
+        cDebug::error("to be done");
         break;
 
         //------------------------------------------------------
-    case "indexGigas":
-        $aItems = cGigapan::get_all_gigapans("pencilnev");
-        cPencilNev::index_gigapans($aItems);
+    case "migrateTagsIndex":
+        cAdminMigrate::migrate_tag_index();
         break;
 
-        //------------------------------------------------------
-    case  "indexManifest":
-        cCuriosityManifestIndex::indexManifest();
-        break;
-        //------------------------------------------------------
     case "parseLocations":
         cCuriosityLocations::parseLocations();
         break;
@@ -232,6 +226,7 @@ switch ($sOperation) {
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killSession">kill the session<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killTag">remove tag<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="mergeTags">merge a tag<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="migrateTagsIndex">Migrate Tag Index<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="parseAllPDS">parse ALL PDS files<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="parseLocations">parse curiosity locations<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="parsePDS">parse PDS files<br>
