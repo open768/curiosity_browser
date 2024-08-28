@@ -28,7 +28,7 @@ switch ($sOperation) {
         $sInstrument = $_GET["i"];
         $sProduct = $_GET["p"];
         $sTag = $_GET["v"];
-        cSpaceTags::set_tag($sSol, $sInstrument, $sProduct, $sTag, $sUser);
+        cSpaceTags::set_product_tag($sSol, $sInstrument, $sProduct, $sTag, $sUser);
     case "get":
         $sSol = $_GET["s"];
         $sInstrument = $_GET["i"];
