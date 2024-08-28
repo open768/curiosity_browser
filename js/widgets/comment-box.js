@@ -83,6 +83,12 @@ class cCommentBox {
                 oThis.onFacebookUser(),
             );
 
+        this.get_comments();
+    }
+
+    //*************************************************************
+    get_comments() {
+        var oThis = this;
         //get the comments
         var sSOl = this.options.sol;
         var sProduct = this.options.product;
@@ -140,32 +146,54 @@ class cCommentBox {
         var oTextBox = cJquery.element(sTEXT_ID);
 
         var sText = oTextBox.sceditor('instance').val(); // gets the bbcode - MUST BE PARSED AT SERVER
+        var oThis = this;
         cSpaceComments.set(
             this.options.sol,
             this.options.instrument,
             this.options.product,
             sText,
-            () => this.onGotComments(),
+            () => oThis.get_comments(),
         );
     }
 
     //*************************************************************
     onGotComments(poHttp) {
-        var sHTML = '';
         var oElement = this.element;
         var sCommentsID = cJquery.child_ID(oElement, this.COMMENTS_DISPLAY_ID);
+        var oData = poHttp.response;
+
         var oDiv = cJquery.element(sCommentsID);
-        var paJson = poHttp.response;
+        oDiv.empty();
 
-        if (!paJson) {
-            sHTML = 'No Comments - be the first !';
+        if (!oData) {
+            oDiv.append('No Comments - be the first !');
         } else {
-            sHTML = '';
-            for (var i = 0; i < paJson.length; i++)
-                sHTML += paJson[i].u + ':' + paJson[i].c + '<p>';
-        }
+            for (var i = 0; i < oData.length; i++) {
+                var sText = decodeURIComponent(oData[i].c);
+                var sUser = oData[i].u;
+                if (sUser === '') sUser = 'anonymous';
 
-        oDiv.html(sHTML);
+                var oCommentDiv = $('<DIV>', {
+                    class: 'w3-container w3-margin w3-theme-l5',
+                });
+                {
+                    var oUserSpan = $('<span>', {
+                        class: 'w3-theme-tag w3-round w3-padding',
+                    });
+                    {
+                        oUserSpan.append(sUser);
+                        oCommentDiv.append(oUserSpan);
+                    }
+                    var oTextSpan = $('<span>');
+                    {
+                        oTextSpan.append(sText);
+                        oCommentDiv.append(oTextSpan);
+                    }
+
+                    oDiv.append(oCommentDiv);
+                }
+            }
+        }
     }
 }
 
