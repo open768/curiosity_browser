@@ -19,7 +19,8 @@ class cDetailTags {
     static TAGS_TEXT_ID = 'cdtext';
     static TAGS_BUTTON_ID = 'cdbut';
 
-    static async render() {
+    static render() {
+        var oThis = this;
         var oContainer = cJquery.element(
             cDetailPageConstants.TAGS_CONTAINER_ID,
         );
@@ -40,14 +41,17 @@ class cDetailTags {
 
             //---where tags go--------------------------------------
             var sID = cJquery.child_ID(oContainer, this.TAGS_ID);
-            oSpan = $('<span>', { class: 'w3-cell', id: sID });
+            oSpan = $('<span>', {
+                class: 'w3-cell',
+                id: sID,
+                style: 'min-width:400px',
+            });
             {
                 oSpan.append('loading tags');
                 oContainer.append(oSpan);
             }
 
             //---input controls-----------------------------------------------
-            var oThis = this;
             oSpan = $('<span>', { class: 'w3-cell' });
             {
                 sID = cJquery.child_ID(oContainer, this.TAGS_TEXT_ID);
@@ -64,7 +68,7 @@ class cDetailTags {
                 sID = cJquery.child_ID(oContainer, this.TAGS_BUTTON_ID);
                 {
                     var oButton = cAppRender.make_button(
-                        null,
+                        sID,
                         'add',
                         'add Tag',
                         true,
@@ -75,6 +79,10 @@ class cDetailTags {
                 oContainer.append(oSpan);
             }
         }
+        //catch FB event
+        oThis = this;
+        bean.on(cFacebook, cFacebook.STATUS_EVENT, () => oThis.enable());
+
         this.get_tags();
     }
 
@@ -143,9 +151,17 @@ class cDetailTags {
 
         var oThis = this;
         cCommonStatus.set_status('setting tag: ' + sTag);
-        cTagging.setTag(this.oItem.s, this.oItem.i, this.oItem.p, sTag, () =>
-            oThis.onSetTag(),
+        cTagging.setTag(
+            cDetail.sol,
+            cDetail.instrument,
+            cDetail.product,
+            sTag,
+            () => oThis.onSetTag(),
         );
+    }
+    //***************************************************************
+    static onSetTag() {
+        this.get_tags();
     }
 
     //***********************************************************
@@ -153,6 +169,8 @@ class cDetailTags {
         var oContainer = cJquery.element(
             cDetailPageConstants.TAGS_CONTAINER_ID,
         );
+        if (oContainer.length == 0) cDebug.error('TAG container doesnt exist');
+
         var sID = cJquery.child_ID(oContainer, this.TAGS_TEXT_ID);
         var oElement = cJquery.element(sID);
         cJquery.enable_element(oElement);
@@ -233,9 +251,6 @@ class cDetail {
         this.instrument = sInstr;
         this.product = sProduct;
 
-        //tags
-        cDetailTags.render();
-
         //get the image data
         this.get_product_data(sSol, sInstr, sProduct);
 
@@ -248,6 +263,9 @@ class cDetail {
             instrument: sInstr,
             read_only: false,
         });
+
+        //tags
+        cDetailTags.render();
     }
 
     //***************************************************************
@@ -428,10 +446,6 @@ class cDetail {
     //###############################################################
     //# Event Handlers
     //###############################################################
-    static onFacebookUser() {
-        cDebug.write('detail.js got Facebook user');
-        cDetailTags.enable();
-    }
 
     //***************************************************************
     static onNextProduct(poHttp) {
@@ -505,9 +519,6 @@ class cDetail {
             oNumber.html(i + 1);
         }
     }
-
-    //***************************************************************
-    static onSetTag() {}
 
     //***************************************************************
     static onGotDetails(poHttp) {
@@ -678,5 +689,3 @@ class cDetail {
         oHttp.fetch_json(sUrl);
     }
 }
-
-bean.on(cFacebook, 'gotUser', cDetail.onFacebookUser());

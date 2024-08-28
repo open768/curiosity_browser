@@ -339,7 +339,7 @@ class cMigrateTags {
                 $aInstrData = cSpaceTags::get_sol_tags($iSol);
                 if (is_array($aInstrData)) {
                     foreach ($aInstrData as $sInstr => $aTags) {
-                        cSpaceTags::get_instr_index($iSol, $sInstr);
+                        cSpaceTagsIndex::get_instr_index($iSol, $sInstr);
                         foreach ($aTags as $oItem) {
                             $sProduct = $oItem["p"];
                             cSpaceTags::get_product_tags($iSol, $sInstr, $sProduct);

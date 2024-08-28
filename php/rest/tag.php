@@ -39,10 +39,10 @@ switch ($sOperation) {
         break;
     case "detail":
         $sTag = $_GET["t"];
-        $aData = cSpaceTags::get_tag_name_index($sTag);
+        $aData = cSpaceTagNames::get_tag_name_index($sTag);
         break;
     case "topsolindex":
-        $aData = cSpaceTags::get_top_sol_index();
+        $aData = cSpaceTagsIndex::get_top_sol_index();
         break;
     case "sol":
         $sSol = $_GET["s"];
