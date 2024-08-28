@@ -61,6 +61,7 @@ class cCommentBox {
                 sBUT_ID,
                 'comment',
                 'submit comment',
+                true,
                 () => oThis.onClick(),
             );
             cJquery.disable_element(oButton);
@@ -110,7 +111,8 @@ class cCommentBox {
 
         //-----------enable the button
         var sBUT_ID = cJquery.child_ID(oElement, this.COMMENTS_BUTTON_ID);
-        cJquery.enable_element(sBUT_ID);
+        var oButton = cJquery.element(sBUT_ID);
+        cJquery.enable_element(oButton);
 
         //-----------enable the textbox
         var sTEXT_ID = cJquery.child_ID(oElement, this.COMMENTS_TEXTAREA_ID);

@@ -111,7 +111,12 @@ class cDetailTags {
                 sTag = aData[i];
 
                 sUrl = cBrowser.buildUrl('tag.php', { t: sTag });
-                oA = $('<A>', { target: 'tags', href: sUrl });
+                oA = $('<A>', {
+                    target: 'tags',
+                    href: sUrl,
+                    class: 'w3-tag w3-theme-tag',
+                });
+                oA.append(sTag);
                 oTagDiv.append(oA);
             }
         }
@@ -516,9 +521,9 @@ class cDetail {
         oData = this.oItem.d;
 
         //----remember the details
-        this.sol = oData.s;
-        this.product = oData.p;
-        this.instrument = oData.i;
+        this.sol = oResponse.s;
+        this.product = oResponse.p;
+        this.instrument = oResponse.i;
 
         //----these things can be done
         this.pr_populate_image();

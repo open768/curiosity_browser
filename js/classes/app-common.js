@@ -1,3 +1,4 @@
+'use strict';
 // eslint-disable-next-line no-unused-vars
 class cAppRender {
     //****************************************************************
@@ -9,6 +10,9 @@ class cAppRender {
         };
         if (pbDisabled) oOptions.disabled = 'disabled';
         if (psID) oOptions.id = psID;
+        var sType = typeof pfnOnClick;
+        if (sType !== 'function')
+            cDebug.error('not passed in a function: ' + sType);
 
         var oButton = $('<button>', oOptions);
         {
@@ -19,8 +23,9 @@ class cAppRender {
                 oSpan.append(psCaption);
                 oButton.append(oSpan);
             }
-            oButton.click(pfnOnClick);
+            oButton.click(() => pfnOnClick());
         }
+        if (!psID) oButton.uniqueId();
         return oButton;
     }
 
