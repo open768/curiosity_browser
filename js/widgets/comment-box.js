@@ -25,13 +25,21 @@ class cCommentBox {
     //*************************************************************
     render() {
         var oElement = this.element;
-        oElement.addClass('w3-card w3-theme-l3');
+        oElement.addClass('w3-card w3-theme-l3 w3-margin');
+
+        //--- header
+        var oHeader = $('<header>', { class: 'w3-container w3-theme' });
+        oHeader.append('comments');
+        oElement.append(oHeader);
 
         //--- comments display
         var sDisplay_ID, oDisplayDiv;
         sDisplay_ID = cJquery.child_ID(oElement, this.COMMENTS_DISPLAY_ID);
         {
-            oDisplayDiv = $('<DIV>', { id: sDisplay_ID, class: 'comments' });
+            oDisplayDiv = $('<DIV>', {
+                id: sDisplay_ID,
+                class: 'w3-container w3-theme-l2',
+            });
             oDisplayDiv.append('loading comments');
             oElement.append(oDisplayDiv);
         }

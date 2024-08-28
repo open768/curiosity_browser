@@ -168,7 +168,6 @@ class cDetailTags {
 //###############################################################
 class cDetail {
     static oItem = null;
-    static aTags = null;
     static iNum = null;
     static sol = null;
     static instrument = null;
@@ -531,14 +530,14 @@ class cDetail {
         this.pr_update_doc_title(oResponse);
         if (!oData) return;
 
+        this.pr_update_msl(oData.data);
+
         // update image index details
         this.iNum = oResponse.item;
         $('#img_index').html(oResponse.item);
 
         // populate the remaining fields
         $('#date_utc').html(oData.du);
-        const sDump = cDebug.getvardump(oData.data, 1);
-        $('#msldata').html($('<pre>').append(sDump));
 
         // get the tags
         cDetailTags.get_tags();
@@ -583,11 +582,6 @@ class cDetail {
 
         //if not data hide controls
         if (!poItem.d) {
-            var oTagDiv = cJquery.element(
-                cDetailPageConstants.TAGS_CONTAINER_ID,
-            );
-            oTagDiv.hide();
-
             $('#date_utc').empty().append('unable to get date');
             cJquery.disable_element(cDetailPageConstants.CAL_ID);
             cJquery.disable_element('pds_product');
@@ -620,11 +614,6 @@ class cDetail {
                 oDiv.append('product not found');
             }
 
-            //- - - - - - - - - - - - - - - - -
-            var oBut = cJquery.element(cDetailPageConstants.TAGS_ID);
-            oBut.enabled = false;
-            oBut.html('no tags');
-
             var sUrl;
             if (this.oItem.migrate !== null) {
                 sUrl = cBrowser.buildUrl('migrate.php', {
@@ -655,6 +644,13 @@ class cDetail {
             'content',
             cAppLocations.home + '/' + oData.i,
         ); // facebook tag for image
+    }
+    //***************************************************************
+    static pr_update_msl(oData) {
+        const sDump = cDebug.getvardump(oData, 1);
+
+        var oMSLDiv = cJquery.element(cDetailPageConstants.MSL_ID);
+        oMSLDiv.html($('<pre>').append(sDump));
     }
 
     //***************************************************************

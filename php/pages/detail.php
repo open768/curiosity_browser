@@ -21,6 +21,7 @@ class cDetailPageConstants {
     const COMMENTS_CONTAINER_ID = "commentContainer";
     const PAGE_CONTENTS_ID = "pagec";
     const CAL_ID = "solCal";
+    const MSL_ID = "msl";
 }
 
 include("$appPhpFragments/doctype.php");
@@ -111,8 +112,11 @@ include("$appPhpFragments/doctype.php");
         <p>
         <div id="<?= cDetailPageConstants::COMMENTS_CONTAINER_ID ?>"></div>
 
-        <div class="w3-card w3-theme-l3" ID="msldata">
-            loading MSL data
+        <div class="w3-card w3-theme-l3 w3-margin" ">
+            <header class=" w3-container w3-theme">MSL Data</header>
+            <div class="w3-container" ID="<?= cDetailPageConstants::MSL_ID ?>">
+                loading MSL data
+            </div>
         </div>
     </div>
 
