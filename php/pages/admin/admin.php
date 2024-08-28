@@ -200,10 +200,6 @@ switch ($sOperation) {
         cDebug::error("to be done");
         break;
 
-        //------------------------------------------------------
-    case "migrateTagsIndex":
-        cAdminMigrate::migrate_tag_index();
-        break;
 
     case "parseLocations":
         cCuriosityLocations::parseLocations();
@@ -226,7 +222,6 @@ switch ($sOperation) {
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killSession">kill the session<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killTag">remove tag<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="mergeTags">merge a tag<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="migrateTagsIndex">Migrate Tag Index<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="parseAllPDS">parse ALL PDS files<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="parseLocations">parse curiosity locations<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="parsePDS">parse PDS files<br>
