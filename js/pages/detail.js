@@ -94,67 +94,55 @@ class cDetail {
         });
     }
 
-    //###############################################################
-    //# Click Event Handlers
-    //###############################################################
-
     //***************************************************************
-    static onClickNextProduct() {
+    static pr_fetch_next_product(psDirection) {
         const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/nexttime.php', {
-            d: 'n',
+            d: psDirection,
             s: this.oItem.s,
             p: this.oItem.p,
             m: cMission.ID,
         });
         cCommonStatus.set_status('fetching next image details...');
         const oHttp = new cHttp2();
-        bean.on(oHttp, 'result', (oData) => this.nexttime_callback(oData));
+        bean.on(oHttp, 'result', (oData) => this.onNextProduct(oData));
         oHttp.fetch_json(sUrl);
     }
 
     //***************************************************************
-    static onClickPreviousProduct() {
-        const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/nexttime.php', {
-            d: 'p',
+    static pr_fetch_next_image(psDirection) {
+        // find the next image
+        cCommonStatus.set_status('fetching next image details...');
+        var sUrl = cBrowser.buildUrl(cAppLocations.rest + '/next.php', {
+            d: psDirection,
             s: this.oItem.s,
+            i: this.oItem.i,
             p: this.oItem.p,
             m: cMission.ID,
         });
-        cCommonStatus.set_status('fetching previous image details...');
         const oHttp = new cHttp2();
-        bean.on(oHttp, 'result', (oData) => this.nexttime_callback(oData));
+        bean.on(oHttp, 'result', (oData) => this.onNextImage(oData));
         oHttp.fetch_json(sUrl);
+    }
+
+    //###############################################################
+    //# Click Event Handlers
+    //###############################################################
+    static onClickNextProduct() {
+        this.pr_fetch_next_product('n');
+    }
+
+    static onClickPreviousProduct() {
+        this.pr_fetch_next_product('p');
     }
 
     //***************************************************************
     static onClickNext() {
-        // find the next product
-        cCommonStatus.set_status('fetching next image details...');
-        var sUrl = cBrowser.buildUrl(cAppLocations.rest + '/next.php', {
-            d: 'n',
-            s: this.oItem.s,
-            i: this.oItem.i,
-            p: this.oItem.p,
-            m: cMission.ID,
-        });
-        const oHttp = new cHttp2();
-        bean.on(oHttp, 'result', (oData) => this.next_callback(oData));
-        oHttp.fetch_json(sUrl);
+        this.pr_fetch_next_image('n');
     }
 
     //***************************************************************
     static onClickPrevious() {
-        cCommonStatus.set_status('fetching previous image details...');
-        const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/next.php', {
-            d: 'p',
-            s: this.oItem.s,
-            i: this.oItem.i,
-            p: this.oItem.p,
-            m: cMission.ID,
-        });
-        const oHttp = new cHttp2();
-        bean.on(oHttp, 'result', (oData) => this.next_callback(oData));
-        oHttp.fetch_json(sUrl);
+        this.pr_fetch_next_image('p');
     }
 
     //***************************************************************
@@ -307,9 +295,58 @@ class cDetail {
         cJquery.enable_element('submittag');
     }
 
-    //###############################################################
-    //* call backs
-    //###############################################################
+    //***************************************************************
+    static onNextProduct(poHttp) {
+        const oData = poHttp.response;
+        if (!oData) cCommonStatus.set_error_status('unable to find');
+        else
+            this.get_product_data(
+                oData.s,
+                oData.d.instrument,
+                oData.d.itemName,
+            );
+    }
+
+    //***************************************************************
+    static onNextImage(poHttp) {
+        const oData = poHttp.response;
+        this.get_product_data(oData.s, this.oItem.i, oData.d.p);
+    }
+
+    //***************************************************************
+    static OnImageLoaded(poEvent) {
+        var iWidth, iHeight, iImgW, iButW;
+
+        iHeight = $(poEvent.target).height();
+        iImgW = $(poEvent.target).width();
+        iButW = $('#prev_prod_top').innerWidth();
+        iWidth = iImgW / 2 - iButW;
+
+        // make the buttons the right size
+        cDebug.write('setting button sizes');
+        cDebug.write('imageWidth: ' + iImgW);
+        cDebug.write('button width: ' + iButW);
+        cDebug.write('width: ' + iWidth);
+        cDebug.write('height: ' + iHeight);
+
+        $('#next_right').height(iHeight);
+        $('#prev_left').height(iHeight);
+        $('#next_prod_top').innerWidth(iWidth);
+        $('#prev_prod_top').innerWidth(iWidth);
+        $('#next_prod_bottom').innerWidth(iWidth);
+        $('#prev_prod_bottom').innerWidth(iWidth);
+
+        // make the image clickable
+        $(poEvent.target).click((poImgEvent) => this.OnImageClick(poImgEvent));
+        cImgHilite.imgTarget = poEvent.target;
+
+        // get the highlights if any
+        this.getHighlights();
+
+        cCommonStatus.set_status('OK');
+    }
+
+    //***************************************************************
     static onGotAllTagNames(poJs) {
         cCommonStatus.set_status('got tag names');
         this.aTags = new Array();
@@ -320,15 +357,16 @@ class cDetail {
     }
 
     //***************************************************************
-    static onGotHighlights(paJS) {
+    static onGotHighlights(poHttp) {
         var i, aItem, oBox, oNumber;
-        if (!paJS.d) {
+        var oData = poHttp.response;
+        if (!oData.d) {
             cDebug.write('no highlights');
             return;
         }
 
-        for (i = 0; i < paJS.d.length; i++) {
-            aItem = paJS.d[i];
+        for (i = 0; i < oData.d.length; i++) {
+            aItem = oData.d[i];
             cDebug.write(
                 'adding highlight: top=' + aItem.t + ' left=' + aItem.l,
             );
@@ -367,51 +405,6 @@ class cDetail {
     }
 
     //***************************************************************
-    static pr_update_doc_title(poItem) {
-        //---------- THERE WAS DATA -----------------
-        // update the title
-        document.title =
-            'detail: s:' +
-            poItem.s +
-            ' i:' +
-            poItem.i +
-            ' p:' +
-            poItem.p +
-            ' (Curiosity Browser)';
-
-        // ------------update the address bar
-        var sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), {
-            s: poItem.s,
-            i: poItem.i,
-            p: poItem.p,
-        });
-        cBrowser.pushState('Detail', sUrl);
-    }
-
-    static pr_update_elements(poItem) {
-        $('#sol').html(poItem.s);
-        $('#instrument').html(poItem.i);
-        $('#max_images').html(poItem.max);
-        cAppRender.update_title(poItem.p);
-
-        //if not data hide controls
-        if (!poItem.d) {
-            var oTagDiv = cJquery.element(
-                cDetailPageConstants.TAGS_CONTAINER_ID,
-            );
-            oTagDiv.hide();
-
-            $('#date_utc').empty().append('unable to get date');
-            cJquery.disable_element(cDetailPageConstants.CAL_ID);
-            cJquery.disable_element('pds_product');
-            cJquery.disable_element('nasalink');
-            $('#msldata').hide();
-
-            cJquery.element(cDetailPageConstants.COMMENTS_CONTAINER_ID).hide();
-            return;
-        }
-    }
-    //***************************************************************
     static onGotDetails(poHttp) {
         var oData;
         cCommonStatus.set_status('received data...');
@@ -422,7 +415,7 @@ class cDetail {
         oData = this.oItem.d;
 
         //----these things can be done
-        this.populate_image();
+        this.pr_populate_image();
         this.pr_update_elements(oResponse);
         this.pr_update_doc_title(oResponse);
         if (!oData) return;
@@ -448,7 +441,62 @@ class cDetail {
     }
 
     //***************************************************************
-    static populate_image() {
+    static onSaveHighlight() {
+        cImgHilite.remove_boxes();
+        this.getHighlights();
+    }
+
+    //###############################################################
+    //# Privates
+    //###############################################################
+    static pr_update_doc_title(poItem) {
+        //---------- THERE WAS DATA -----------------
+        // update the title
+        document.title =
+            'detail: s:' +
+            poItem.s +
+            ' i:' +
+            poItem.i +
+            ' p:' +
+            poItem.p +
+            ' (Curiosity Browser)';
+
+        // ------------update the address bar
+        var sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), {
+            s: poItem.s,
+            i: poItem.i,
+            p: poItem.p,
+        });
+        cBrowser.pushState('Detail', sUrl);
+    }
+
+    //***************************************************************
+    static pr_update_elements(poItem) {
+        $('#sol').html(poItem.s);
+        $('#instrument').html(poItem.i);
+        $('#max_images').html(poItem.max);
+        cAppRender.update_title(poItem.p);
+
+        //if not data hide controls
+        if (!poItem.d) {
+            var oTagDiv = cJquery.element(
+                cDetailPageConstants.TAGS_CONTAINER_ID,
+            );
+            oTagDiv.hide();
+
+            $('#date_utc').empty().append('unable to get date');
+            cJquery.disable_element(cDetailPageConstants.CAL_ID);
+            cJquery.disable_element('pds_product');
+            cJquery.disable_element('nasalink');
+            $('#msldata').hide();
+
+            cJquery.element(cDetailPageConstants.COMMENTS_CONTAINER_ID).hide();
+            return;
+        }
+    }
+
+    //***************************************************************
+    static pr_populate_image() {
         // no data returned
         var oData = this.oItem.d;
 
@@ -506,69 +554,13 @@ class cDetail {
     }
 
     //***************************************************************
-    static nexttime_callback(poHttp) {
-        const oData = poHttp.response;
-        if (!oData) cCommonStatus.set_error_status('unable to find');
-        else
-            this.get_product_data(
-                oData.s,
-                oData.d.instrument,
-                oData.d.itemName,
-            );
-    }
-
-    //***************************************************************
-    static next_callback(poHttp) {
-        const oData = poHttp.response;
-        this.get_product_data(oData.s, this.oItem.i, oData.d.p);
-    }
-
-    //***************************************************************
-    static OnImageLoaded(poEvent) {
-        var iWidth, iHeight, iImgW, iButW;
-
-        iHeight = $(poEvent.target).height();
-        iImgW = $(poEvent.target).width();
-        iButW = $('#prev_prod_top').innerWidth();
-        iWidth = iImgW / 2 - iButW;
-
-        // make the buttons the right size
-        cDebug.write('setting button sizes');
-        cDebug.write('imageWidth: ' + iImgW);
-        cDebug.write('button width: ' + iButW);
-        cDebug.write('width: ' + iWidth);
-        cDebug.write('height: ' + iHeight);
-
-        $('#next_right').height(iHeight);
-        $('#prev_left').height(iHeight);
-        $('#next_prod_top').innerWidth(iWidth);
-        $('#prev_prod_top').innerWidth(iWidth);
-        $('#next_prod_bottom').innerWidth(iWidth);
-        $('#prev_prod_bottom').innerWidth(iWidth);
-
-        // make the image clickable
-        $(poEvent.target).click((poImgEvent) => this.OnImageClick(poImgEvent));
-        cImgHilite.imgTarget = poEvent.target;
-
-        // get the highlights if any
+    static getHighlights() {
+        var oThis = this;
         cImgHilite.getHighlights(
             this.oItem.s,
             this.oItem.i,
             this.oItem.p,
-            (oData) => this.onGotHighlights(oData),
-        );
-
-        cCommonStatus.set_status('OK');
-    }
-
-    //***************************************************************
-    static onSaveHighlight(poHttp) {
-        cImgHilite.remove_boxes();
-        cImgHilite.getHighlights(
-            this.oItem.s,
-            this.oItem.i,
-            this.oItem.p,
-            (poData) => this.onGotHighlights(poData),
+            (poHttp) => oThis.onGotHighlights(poHttp),
         );
     }
 
