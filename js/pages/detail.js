@@ -278,7 +278,7 @@ class cDetail {
             this.oItem.i,
             this.oItem.p,
             oBox,
-            () => this.onSaveHighlight(),
+            (poHttp) => this.onSaveHighlight(poHttp),
         );
     }
 
@@ -562,13 +562,13 @@ class cDetail {
     }
 
     //***************************************************************
-    static onSaveHighlight() {
+    static onSaveHighlight(poHttp) {
         cImgHilite.remove_boxes();
         cImgHilite.getHighlights(
             this.oItem.s,
             this.oItem.i,
             this.oItem.p,
-            (oData) => this.onGotHighlights(oData),
+            (poData) => this.onGotHighlights(poData),
         );
     }
 
