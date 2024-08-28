@@ -15,7 +15,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
 require_once  "$spaceInc/misc/comments.php";
-require_once  "$phpInc/extra/sbbcode/SBBCodeParser.php";
 
 //***************************************************
 $sOperation = $_GET["o"];
@@ -35,15 +34,9 @@ switch ($sOperation) {
         $sSol = $_GET["s"];
         $sInstrument = $_GET["i"];
         $sProduct = $_GET["p"];
-        $sBBcode = $_GET['v'];
+        $sText = $_GET['v'];
 
-        cDebug::write("input was $sBBcode");
-        $parser = new  SBBCodeParser\Node_Container_Document();
-        $parser->parse($sBBcode);
-        $sHTML = $parser->get_html();
-        $sComment = utf8_encode($sHTML);
-
-        $aResult = cSpaceComments::set($sSol, $sInstrument, $sProduct, $sComment, $sUser);
+        $aResult = cSpaceComments::set($sSol, $sInstrument, $sProduct, $sText, $sUser);
         break;
     case "topsolindex":
         $aResult = cSpaceComments::get_top_index();

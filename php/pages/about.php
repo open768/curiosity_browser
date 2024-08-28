@@ -80,7 +80,6 @@ include("$appPhpFragments/doctype.php");  ?>
                 <li>PHP: http://php.net/
                 <li>JQuery: http://jquery.org/
                 <li>Sciedit: http://www.sceditor.com/
-                <li>sbbcode: https://github.com/samclarke/SBBCodeParser
                 <li>camanjs: http://camanjs.com/
                 <li>bean: http://ender.no.de
                 <li>inview: https://github.com/zuk/jquery.inview

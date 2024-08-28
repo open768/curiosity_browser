@@ -138,9 +138,8 @@ class cCommentBox {
         var oElement = this.element;
         var sTEXT_ID = cJquery.child_ID(oElement, this.COMMENTS_TEXTAREA_ID);
         var oTextBox = cJquery.element(sTEXT_ID);
-        var sText = oTextBox.html();
 
-        oTextBox.sceditor('instance').val(); // gets the bbcode - MUST BE PARSED AT SERVER
+        var sText = oTextBox.sceditor('instance').val(); // gets the bbcode - MUST BE PARSED AT SERVER
         cSpaceComments.set(
             this.options.sol,
             this.options.instrument,
