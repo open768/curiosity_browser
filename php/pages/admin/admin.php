@@ -31,10 +31,6 @@ require_once "$spaceInc/misc/pencilnev.php";
 require_once "$spaceInc/misc/tags.php";
 require_once "$spaceInc/misc/pichighlight.php";
 
-//specific app includes
-require_once "$home/php/admin/migrate_objdata.php";
-require_once "$home/php/admin/migrate_fns.php";
-
 //settings to prevent buffering
 prevent_buffering();
 
@@ -200,11 +196,6 @@ switch ($sOperation) {
         break;
 
         //------------------------------------------------------
-    case "indexComm":
-        cMigrateComments::indexComments();
-        break;
-
-        //------------------------------------------------------
     case "mergeTags":
         throw new Exception("to be done");
         break;
@@ -224,18 +215,6 @@ switch ($sOperation) {
         cCuriosityLocations::parseLocations();
         break;
 
-        //------------------------------------------------------
-    case "migrate_to_Objdb":
-        cMigrateObjdata::migrate();
-        cDebug::write("finished");
-        break;
-        //------------------------------------------------------
-    case "del_ihighlite":
-        //deleteing ihighlite files
-        cMigrateHighlights::delete_old_ihighlite_files();
-        break;
-
-        //------------------------------------------------------
     default:
         $sTitle = "Admin";
         ?>
@@ -244,7 +223,6 @@ switch ($sOperation) {
             <Input type="radio" name="<?= OPS_PARAM ?>" value="backup">backup objdata<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="del_empty_folders">delete empty objdata folders<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="del_ihighlite">delete ihighlite files<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="deleteSolHighlights">Delete Sol highlight image files<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="indexComm">index Comments<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="indexGigas">index Nevilles gigapans<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="indexManifest">index curiosity manifests<br>
@@ -254,7 +232,6 @@ switch ($sOperation) {
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killSession">kill the session<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killTag">remove tag<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="mergeTags">merge a tag<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="migrate_to_Objdb">Migrate to objdb<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="parseAllPDS">parse ALL PDS files<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="parseLocations">parse curiosity locations<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="parsePDS">parse PDS files<br>
