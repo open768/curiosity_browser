@@ -17,6 +17,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 class cDetailTags {
     static TAGS_ID = 'cdid';
     static TAGS_TEXT_ID = 'cdtext';
+    static TAGS_TEXT_DROPDOWN_ID = 'cdtxtdrop';
     static TAGS_BUTTON_ID = 'cdbut';
 
     static render() {
@@ -54,15 +55,37 @@ class cDetailTags {
             //---input controls-----------------------------------------------
             oSpan = $('<span>', { class: 'w3-cell' });
             {
-                sID = cJquery.child_ID(oContainer, this.TAGS_TEXT_ID);
+                var oTagInputContainer = $('<div>', {
+                    class: 'w3-dropdown-hover',
+                });
                 {
-                    var oInput = $('<input>', {
-                        type: 'text',
-                        size: 20,
-                        id: sID,
-                    });
-                    cJquery.disable_element(oInput);
-                    oSpan.append(oInput);
+                    var sTextID = cJquery.child_ID(
+                        oContainer,
+                        this.TAGS_TEXT_ID,
+                    );
+                    {
+                        var oInput = $('<input>', {
+                            type: 'text',
+                            size: 20,
+                            id: sTextID,
+                        });
+                        cJquery.disable_element(oInput);
+                        oTagInputContainer.append(oInput);
+                    }
+
+                    var sDropdownID = cJquery.child_ID(
+                        oContainer,
+                        this.TAGS_TEXT_DROPDOWN_ID,
+                    );
+                    {
+                        var oDropdown = $('<DIV>', {
+                            id: sDropdownID,
+                            class: 'w3-dropdown-content w3-bar-block w3-border w3-grey',
+                        });
+                        oDropdown.append('type something');
+                        oTagInputContainer.append(oDropdown);
+                    }
+                    oSpan.append(oTagInputContainer);
                 }
 
                 sID = cJquery.child_ID(oContainer, this.TAGS_BUTTON_ID);
