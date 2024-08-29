@@ -55,6 +55,10 @@ switch ($sOperation) {
     case "all":
         $aData = cSpaceTagNames::get_top_tag_names();
         break;
+    case "search":
+        $sPartial = $_GET["v"];
+        cDebug::error("not implemented");
+        break;
 }
 
 //***************************************************

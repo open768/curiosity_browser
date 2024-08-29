@@ -19,6 +19,8 @@ class cDetailTags {
     static TAGS_TEXT_ID = 'cdtext';
     static TAGS_TEXT_DROPDOWN_ID = 'cdtxtdrop';
     static TAGS_BUTTON_ID = 'cdbut';
+    static REST_TAGS_URL = 'tag.php';
+    static TAG_PAGE_URL = 'tag.php';
 
     static render() {
         var oThis = this;
@@ -70,6 +72,7 @@ class cDetailTags {
                             id: sTextID,
                         });
                         cJquery.disable_element(oInput);
+                        oInput.on('keyup', () => oThis.onKeyUp(oInput));
                         oTagInputContainer.append(oInput);
                     }
 
@@ -110,6 +113,8 @@ class cDetailTags {
     }
 
     //***********************************************************
+    //* Utility functions
+    //***********************************************************
     static async get_tags() {
         var oThis = this;
 
@@ -122,14 +127,59 @@ class cDetailTags {
     }
 
     //***********************************************************
-    static onGotTags(poHttp) {
-        cCommonStatus.set_status('got tag');
-        //---------------------------------------------------
+    static enable() {
+        var oInput = this.pr_get_child(this.TAGS_TEXT_ID);
+        cJquery.enable_element(oInput);
+
+        var oButton = this.pr_get_child(this.TAGS_BUTTON_ID);
+        cJquery.enable_element(oButton);
+    }
+
+    //***********************************************************
+    static pr_get_child(psID) {
         var oContainer = cJquery.element(
             cDetailPageConstants.TAGS_CONTAINER_ID,
         );
-        var sID = cJquery.child_ID(oContainer, this.TAGS_ID);
-        var oTagDiv = cJquery.element(sID);
+        if (oContainer.length == 0) cDebug.error('TAG container doesnt exist');
+
+        var sID = cJquery.child_ID(oContainer, psID);
+        var oElement = cJquery.element(sID);
+
+        return oElement;
+    }
+
+    //***********************************************************
+    //* Events
+    //***********************************************************
+    static async onKeyUp(poInputElement) {
+        //----get the dropdown ID
+        var oDropdown = this.pr_get_child(this.TAGS_TEXT_DROPDOWN_ID);
+        oDropdown.empty();
+
+        //----get the input
+        var sText = poInputElement.val();
+
+        if (sText.length < 3) oDropdown.append('type more characters');
+        else {
+            oDropdown.append('enough characters');
+            var sUrl = cBrowser.buildUrl(
+                cAppLocations.rest + '/' + this.REST_TAGS_URL,
+                { o: 'search', v: sText },
+            );
+            var oThis = this;
+            var oHttp = new cHttp2();
+            bean.on(oHttp, 'result', (poHttp) =>
+                oThis.onGotSearchResults(poHttp),
+            );
+            oHttp.fetch_json(sUrl);
+        }
+    }
+
+    //***********************************************************
+    static onGotTags(poHttp) {
+        cCommonStatus.set_status('got tag');
+        //---------------------------------------------------
+        var oTagDiv = this.pr_get_child(this.TAGS_ID);
         oTagDiv.empty();
 
         //---------------------------------------------------
@@ -141,7 +191,7 @@ class cDetailTags {
             for (var i = 0; i < aData.length; i++) {
                 sTag = aData[i];
 
-                sUrl = cBrowser.buildUrl('tag.php', { t: sTag });
+                sUrl = cBrowser.buildUrl(this.TAG_PAGE_URL, { t: sTag });
                 oA = $('<A>', {
                     target: 'tags',
                     href: sUrl,
@@ -159,11 +209,7 @@ class cDetailTags {
     static async onClickAdd() {
         var sTag;
 
-        var oContainer = cJquery.element(
-            cDetailPageConstants.TAGS_CONTAINER_ID,
-        );
-        var sID = cJquery.child_ID(oContainer, this.TAGS_TEXT_ID);
-        var oText = cJquery.element(sID);
+        var oText = this.pr_get_child(this.TAGS_TEXT_ID);
 
         // check something was entered
         sTag = oText.val();
@@ -187,21 +233,8 @@ class cDetailTags {
         this.get_tags();
     }
 
-    //***********************************************************
-    static enable() {
-        var oContainer = cJquery.element(
-            cDetailPageConstants.TAGS_CONTAINER_ID,
-        );
-        if (oContainer.length == 0) cDebug.error('TAG container doesnt exist');
-
-        var sID = cJquery.child_ID(oContainer, this.TAGS_TEXT_ID);
-        var oElement = cJquery.element(sID);
-        cJquery.enable_element(oElement);
-
-        sID = cJquery.child_ID(oContainer, this.TAGS_BUTTON_ID);
-        oElement = cJquery.element(sID);
-        cJquery.enable_element(oElement);
-    }
+    //***************************************************************
+    static onGotSearchResults(poHttp) {}
 }
 
 //###############################################################
