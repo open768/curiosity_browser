@@ -73,8 +73,24 @@ switch ($sOperation) {
         break;
 
         //------------------------------------------------------
-    case "parseAllPDS":
-        cCuriosityPdsIndexer::index_everything();
+    case "del_empty_folders":
+        cCommonFiles::delete_empty_folders(cObjStore::$rootFolder);
+        break;
+
+        //------------------------------------------------------
+    case "deleteSolHighlights":
+        if (!array_key_exists("s", $_GET)) {
+?>
+            <form method="get">
+                <Input type="hidden" name="<?= OPS_PARAM ?>" value="<?= $sOperation ?>">
+                <Input type="hidden" name="debug" value="1">
+                Sol: <Input type="input" name="s"><br>
+                <input type="submit"></input>
+            </form>
+        <?php
+            exit();
+        }
+        cDebug::write("not implemented");
         break;
 
         //------------------------------------------------------
@@ -83,34 +99,7 @@ switch ($sOperation) {
         cDebug::write("done");
         break;
 
-        //------------------------------------------------------
-    case "parsePDS":
-        if (!array_key_exists("v", $_GET)) {
-            $aCats = cCuriosityPDS::catalogs();
-?>
-            <a target="PDS" href="<?= cCuriosity::PDS_VOLUMES ?>">Curiosity PDS released volumes</a>
-            <p>
-            <form method="get" name="pds">
-                <Input type="hidden" name="<?= OPS_PARAM ?>" value="<?= $sOperation ?>">
-                <Input type="hidden" name="debug" value="1">
-                volume: <select name="v">
-                    <?php
-                    foreach ($aCats as $sCat)
-                        echo "<option>$sCat</option>";
-                    ?>
-                </select>
-                Index: <Input type="input" name="i" value="EDRINDEX">
-                <input type="submit">
-            </form>
-        <?php
-            exit();
-        }
-        $sVolume = $_GET["v"];
-        if (!isset($_GET["i"])) cDebug::error("no index specified");
 
-        $sIndex = $_GET["i"];
-        cCuriosityPdsIndexer::run_indexer($sVolume, $sIndex);
-        break;
 
         //------------------------------------------------------
     case "killHighlight":
@@ -129,38 +118,6 @@ switch ($sOperation) {
             exit();
         }
         cSpaceImageHighlight::kill_highlites($_GET["s"], $_GET["i"], $_GET["p"], $_GET["w"]);
-        break;
-
-        //------------------------------------------------------
-    case "del_empty_folders":
-        cCommonFiles::delete_empty_folders(cObjStore::$rootFolder);
-        break;
-
-        //------------------------------------------------------
-    case "deleteSolHighlights":
-        if (!array_key_exists("s", $_GET)) {
-        ?>
-            <form method="get">
-                <Input type="hidden" name="<?= OPS_PARAM ?>" value="<?= $sOperation ?>">
-                <Input type="hidden" name="debug" value="1">
-                Sol: <Input type="input" name="s"><br>
-                <input type="submit"></input>
-            </form>
-        <?php
-            exit();
-        }
-        cDebug::write("not implemented");
-        break;
-
-        //------------------------------------------------------
-    case "indexGigas":
-        $aItems = cGigapan::get_all_gigapans("pencilnev");
-        cPencilNev::index_gigapans($aItems);
-        break;
-
-        //------------------------------------------------------
-    case  "indexManifest":
-        cCuriosityManifestIndex::indexManifest();
         break;
 
         //------------------------------------------------------
@@ -189,10 +146,15 @@ switch ($sOperation) {
         //cCachedHttp::clearCache();
         cDebug::error("not implemented");
         break;
+        //------------------------------------------------------
+    case "indexGigas":
+        $aItems = cGigapan::get_all_gigapans("pencilnev");
+        cPencilNev::index_gigapans($aItems);
+        break;
 
         //------------------------------------------------------
-    case "reindexHilite":
-        cSpaceImageHighlight::reindex();
+    case  "indexManifest":
+        cCuriosityManifestIndex::indexManifest();
         break;
 
         //------------------------------------------------------
@@ -200,11 +162,51 @@ switch ($sOperation) {
         cDebug::error("to be done");
         break;
 
-
+        //------------------------------------------------------
     case "parseLocations":
         cCuriosityLocations::parseLocations();
         break;
 
+        //------------------------------------------------------
+    case "parseAllPDS":
+        cCuriosityPdsIndexer::index_everything();
+        break;
+
+        //------------------------------------------------------
+    case "parsePDS":
+        if (!array_key_exists("v", $_GET)) {
+            $aCats = cCuriosityPDS::catalogs();
+        ?>
+            <a target="PDS" href="<?= cCuriosity::PDS_VOLUMES ?>">Curiosity PDS released volumes</a>
+            <p>
+            <form method="get" name="pds">
+                <Input type="hidden" name="<?= OPS_PARAM ?>" value="<?= $sOperation ?>">
+                <Input type="hidden" name="debug" value="1">
+                volume: <select name="v">
+                    <?php
+                    foreach ($aCats as $sCat)
+                        echo "<option>$sCat</option>";
+                    ?>
+                </select>
+                Index: <Input type="input" name="i" value="EDRINDEX">
+                <input type="submit">
+            </form>
+        <?php
+            exit();
+        }
+        $sVolume = $_GET["v"];
+        if (!isset($_GET["i"])) cDebug::error("no index specified");
+
+        $sIndex = $_GET["i"];
+        cCuriosityPdsIndexer::run_indexer($sVolume, $sIndex);
+        break;
+
+        //------------------------------------------------------
+    case "vacuum":
+        cAdminFunctions::vacuum();
+        break;
+
+        //------------------------------------------------------
     default:
         $sTitle = "Admin";
         ?>
@@ -225,6 +227,7 @@ switch ($sOperation) {
             <Input type="radio" name="<?= OPS_PARAM ?>" value="parseAllPDS">parse ALL PDS files<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="parseLocations">parse curiosity locations<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="parsePDS">parse PDS files<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="vacuum">sqllite vacuum database<br>
             <input type="submit" class="w3-button w3-theme-button-up"></input>
         </form>
 <?php
