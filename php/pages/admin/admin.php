@@ -72,6 +72,10 @@ switch ($sOperation) {
         cObjStore::backup();
         break;
 
+    case "clean_product_tags":
+        cSpaceTags::clean_product_tags();
+        break;
+
         //------------------------------------------------------
     case "del_empty_folders":
         cCommonFiles::delete_empty_folders(cObjStore::$rootFolder);
@@ -213,6 +217,7 @@ switch ($sOperation) {
 
         <form method="get">
             <Input type="radio" name="<?= OPS_PARAM ?>" value="backup">backup objdata<br>
+            <Input type="radio" name="<?= OPS_PARAM ?>" value="clean_product_tags">clean product tags<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="del_empty_folders">delete empty objdata folders<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="del_ihighlite">delete ihighlite files<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="indexComm">index Comments<br>
