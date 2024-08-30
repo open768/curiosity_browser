@@ -33,7 +33,7 @@ switch ($sOperation) {
         $sSol = $_GET["s"];
         $sInstrument = $_GET["i"];
         $sProduct = $_GET["p"];
-        $aTags = cSpaceTags::get_product_tags($sSol, $sInstrument, $sProduct);
+        $aTags = cSpaceTags::get_product_tag_names($sSol, $sInstrument, $sProduct);
         cDebug::vardump($aTags);
         $aData = ["p" => $sProduct, "d" => $aTags];
         break;
