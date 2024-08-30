@@ -57,7 +57,7 @@ switch ($sOperation) {
         break;
     case "search":
         $sPartial = $_GET["v"];
-        cDebug::error("not implemented");
+        $aData = cSpaceTagNames::search_tag_names($sPartial);
         break;
 }
 

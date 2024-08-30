@@ -47,7 +47,7 @@ class cDetailTags {
             oSpan = $('<span>', {
                 class: 'w3-cell',
                 id: sID,
-                style: 'min-width:400px',
+                style: 'width:500px',
             });
             {
                 oSpan.append('loading tags');
@@ -162,16 +162,10 @@ class cDetailTags {
         if (sText.length < 3) oDropdown.append('type more characters');
         else {
             oDropdown.append('enough characters');
-            var sUrl = cBrowser.buildUrl(
-                cAppLocations.rest + '/' + this.REST_TAGS_URL,
-                { o: 'search', v: sText },
-            );
             var oThis = this;
-            var oHttp = new cHttp2();
-            bean.on(oHttp, 'result', (poHttp) =>
+            cTagging.searchTags(sText, (poHttp) =>
                 oThis.onGotSearchResults(poHttp),
             );
-            oHttp.fetch_json(sUrl);
         }
     }
 
