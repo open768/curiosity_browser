@@ -25,14 +25,15 @@ class cAdminFunctions {
 
     //****************************************************************
     static function vacuum() {
-        cDebug::enter();
-        cDebug::write("vacuuming cOBjStoreDB");
-        cSqlLiteUtils::vacuum(cOBjStoreDB::DB_FILENAME);
+        cDebug::enter(); {
+            cDebug::write("vacuuming cOBjStoreDB");
+            cSqlLiteUtils::vacuum(cOBjStoreDB::DB_FILENAME);
 
-        cDebug::write("vacuuming cCuriosityManifestIndex");
-        cSqlLiteUtils::vacuum(cCuriosityManifestIndex::DB_FILENAME);
+            cDebug::write("vacuuming cCuriosityManifestIndex");
+            cSqlLiteUtils::vacuum(cCuriosityManifestIndex::DB_FILENAME);
 
-        cDebug::write("done");
+            cDebug::write("done");
+        }
         cDebug::leave();
     }
 }

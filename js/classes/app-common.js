@@ -23,7 +23,7 @@ class cAppRender {
                 oSpan.append(psCaption);
                 oButton.append(oSpan);
             }
-            oButton.click(() => pfnOnClick());
+            oButton.click((poEvent) => pfnOnClick(poEvent));
         }
         if (!psID) oButton.uniqueId();
         return oButton;

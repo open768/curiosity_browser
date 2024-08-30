@@ -15,11 +15,10 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 //# cDetail
 //###############################################################
 class cDetailTags {
-    static TAGS_ID = 'cdid';
+    static TAGS_OUTPUTID = 'cdid';
     static TAGS_TEXT_ID = 'cdtext';
     static TAGS_TEXT_DROPDOWN_ID = 'cdtxtdrop';
     static TAGS_BUTTON_ID = 'cdbut';
-    static REST_TAGS_URL = 'tag.php';
     static TAG_PAGE_URL = 'tag.php';
 
     static render() {
@@ -43,7 +42,7 @@ class cDetailTags {
             }
 
             //---where tags go--------------------------------------
-            var sID = cJquery.child_ID(oContainer, this.TAGS_ID);
+            var sID = cJquery.child_ID(oContainer, this.TAGS_OUTPUT_ID);
             oSpan = $('<span>', {
                 class: 'w3-cell',
                 id: sID,
@@ -83,7 +82,8 @@ class cDetailTags {
                     {
                         var oDropdown = $('<DIV>', {
                             id: sDropdownID,
-                            class: 'w3-dropdown-content w3-bar-block w3-border w3-grey',
+                            class: 'w3-dropdown-content w3-border w3-center w3-padding-small w3-theme-l4',
+                            style: 'z-index:100',
                         });
                         oDropdown.append('type something');
                         oTagInputContainer.append(oDropdown);
@@ -149,6 +149,19 @@ class cDetailTags {
     }
 
     //***********************************************************
+    static async pr_set_tag(psTag) {
+        var oThis = this;
+        cCommonStatus.set_status('setting tag: ' + psTag);
+        cTagging.setTag(
+            cDetail.sol,
+            cDetail.instrument,
+            cDetail.product,
+            psTag,
+            () => oThis.onSetTag(),
+        );
+    }
+
+    //***********************************************************
     //* Events
     //***********************************************************
     static async onKeyUp(poInputElement) {
@@ -173,7 +186,7 @@ class cDetailTags {
     static onGotTags(poHttp) {
         cCommonStatus.set_status('got tag');
         //---------------------------------------------------
-        var oTagDiv = this.pr_get_child(this.TAGS_ID);
+        var oTagDiv = this.pr_get_child(this.TAGS_OUTPUT_ID);
         oTagDiv.empty();
 
         //---------------------------------------------------
@@ -212,15 +225,13 @@ class cDetailTags {
             return;
         }
 
-        var oThis = this;
-        cCommonStatus.set_status('setting tag: ' + sTag);
-        cTagging.setTag(
-            cDetail.sol,
-            cDetail.instrument,
-            cDetail.product,
-            sTag,
-            () => oThis.onSetTag(),
-        );
+        this.pr_set_tag(sTag);
+    }
+
+    //***************************************************************
+    static async onClickSearchResult(poEvent) {
+        var sTag = poEvent.currentTarget.textContent;
+        this.pr_set_tag(sTag);
     }
     //***************************************************************
     static onSetTag() {
@@ -228,7 +239,32 @@ class cDetailTags {
     }
 
     //***************************************************************
-    static onGotSearchResults(poHttp) {}
+    static onGotSearchResults(poHttp) {
+        var oDiv = this.pr_get_child(this.TAGS_TEXT_DROPDOWN_ID);
+        oDiv.empty();
+
+        //-----get the response
+        var aData = poHttp.response;
+
+        if (aData.length == 0) {
+            oDiv.append('nothing matched');
+            return;
+        }
+
+        //output the results
+        var oThis = this;
+        for (var i = 0; i < aData.length; i++) {
+            var sTag = aData[i];
+            var oButton = cAppRender.make_button(
+                null,
+                sTag,
+                sTag,
+                false,
+                (poEvent) => oThis.onClickSearchResult(poEvent),
+            );
+            oDiv.append(oButton);
+        }
+    }
 }
 
 //###############################################################
