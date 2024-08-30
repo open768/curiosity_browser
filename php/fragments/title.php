@@ -1,9 +1,9 @@
 <!-- Tracking -->
 <?php
 //include("$appPhpFragments/google.php");
-if (!cDebug::is_localhost()) {
+if (!cDebug::is_localhost())
     include("$appPhpFragments/appd.php");
-}
+
 
 $sFile = cCommonFiles::server_filename();
 

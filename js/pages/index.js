@@ -14,8 +14,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 /*global cIndexPageConsts*/
 // cIndexPageConsts are defined in index.php - and written out line 57
 
-//cDebug.on()
-
 class cIndexPageOptions {
     static start_image = 1;
     static sol = null;

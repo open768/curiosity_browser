@@ -83,7 +83,6 @@ class cCommentBox {
         oElement.empty();
         this.render();
         var oThis = this;
-        cDebug.on(); //DEBUG
 
         //----------- hook onto facebook user - if readonly skip
         if (!this.options.read_only)

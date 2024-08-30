@@ -172,12 +172,12 @@ class cSolComments {
                 {
                     for (var sInstr in oInstr) {
                         var oInstrDiv = $('<div>', {
-                            class: 'w3-cell-row',
+                            class: 'w3-cell-row ',
                         });
                         {
                             var oGotoProductDiv = $('<div>', {
-                                class: 'w3-cell w3-padding',
-                                style: 'width:50px',
+                                class: 'w3-cell w3-padding w3-cell-top',
+                                style: 'width:70px',
                             });
                             {
                                 var sUrl = cBrowser.buildUrl('detail.php', {
@@ -190,10 +190,10 @@ class cSolComments {
                                     target: 'detail',
                                 });
                                 {
-                                    var oIcon =
-                                        cRenderGoogleFont.create_icon(
-                                            'open_in_browser',
-                                        );
+                                    var oIcon = cRenderGoogleFont.create_icon(
+                                        'pageview',
+                                        'font-size:100px',
+                                    );
                                     oLink.append(oIcon);
                                     oGotoProductDiv.append(oLink);
                                 }
@@ -201,7 +201,7 @@ class cSolComments {
                             }
 
                             var oInstrCommentDiv = $('<div>', {
-                                class: 'w3-cell',
+                                class: 'w3-cell w3-cell-top',
                             });
                             {
                                 oInstrCommentDiv.commentbox({
