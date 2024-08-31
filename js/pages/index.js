@@ -117,6 +117,7 @@ class cSideBar {
     static ID_SIDEBAR_EXPANDED = 'SBe';
     static CLOSED_WIDTH = '60px';
     static OPEN_WIDTH = '250px';
+    static FONT_SIZE = '40px';
 
     //*****************************************************************
     static onClickExpand() {
@@ -155,7 +156,7 @@ class cSideBar {
             {
                 oIcon = cRenderGoogleFont.create_icon(
                     'left_panel_open',
-                    'font-size:60px',
+                    'font-size:' + this.FONT_SIZE,
                 );
                 {
                     oIcon.addClass('w3-hover-grey');
@@ -179,7 +180,7 @@ class cSideBar {
         {
             oIcon = cRenderGoogleFont.create_icon(
                 'left_panel_close',
-                'font-size:60px',
+                'font-size:' + this.FONT_SIZE,
             );
             {
                 oIcon.addClass('w3-hover-grey');

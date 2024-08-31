@@ -68,7 +68,7 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
         </div>
 
         <!-- MAIN BODY OF PAGE -->
-        <div id="<?= cIndexPageConsts::ID_BODY ?>" class="w3-cell">
+        <div id="<?= cIndexPageConsts::ID_BODY ?>" class="w3-cell w3-cell-top">
             <!-- Search box -->
             <div class="w3-card w3-theme-d2" id="<?= cIndexPageConsts::ID_SEARCH_PANE ?>">... </div>
 
