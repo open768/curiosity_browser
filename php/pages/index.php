@@ -11,7 +11,6 @@ include "$appPhpFragments/doctype.php";
 
 //define PHP constants
 class cIndexPageConsts {
-    const ID_PAYLOAD = "P";
     const ID_LEFT_COL = "LC";
     const ID_BODY = "B";
     const ID_SEARCH = "SR";
@@ -62,7 +61,7 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
     include("$appPhpFragments/title.php");
     ?>
 
-    <DIV id="<?= cIndexPageConsts::ID_PAYLOAD ?>" class="w3-cell-row">
+    <DIV id="payload" class="w3-cell-row">
         <!-- LEFT COLUMN OF PAGE -->
         <div id="<?= cIndexPageConsts::ID_LEFT_COL ?>" class="w3-cell">
             Loading ...

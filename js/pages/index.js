@@ -115,64 +115,82 @@ class cSideBar {
     static ID_SIDEBAR = 'SB';
     static ID_SIDEBAR_COLLAPSED = 'SBc';
     static ID_SIDEBAR_EXPANDED = 'SBe';
+    static CLOSED_WIDTH = '60px';
+    static OPEN_WIDTH = '250px';
 
     //*****************************************************************
     static onClickExpand() {
+        cJquery.element(cIndexPageConsts.ID_LEFT_COL).width(this.OPEN_WIDTH);
+        cJquery.element(this.ID_SIDEBAR).width(this.OPEN_WIDTH);
         cJquery.element(this.ID_SIDEBAR_COLLAPSED).hide();
         cJquery.element(this.ID_SIDEBAR_EXPANDED).show();
     }
 
     //*****************************************************************
     static onClickCollapse() {
+        cJquery.element(cIndexPageConsts.ID_LEFT_COL).width(this.CLOSED_WIDTH);
+        cJquery.element(this.ID_SIDEBAR).width(this.CLOSED_WIDTH);
         cJquery.element(this.ID_SIDEBAR_COLLAPSED).show();
         cJquery.element(this.ID_SIDEBAR_EXPANDED).hide();
     }
 
     //*****************************************************************
-    static async render(poParent) {
-        var oButton, oIcon, oThis;
+    static async render() {
+        var oIcon, oThis;
         oThis = this;
+
+        var oParent = cJquery.element(cIndexPageConsts.ID_LEFT_COL);
 
         var oContainer = $('<DIV>', {
             id: this.ID_SIDEBAR,
             class: 'sidebar',
         });
         {
+            //-----------------------------------------------------------
             var oCollapsed = $('<DIV>', {
                 id: this.ID_SIDEBAR_COLLAPSED,
+                style: 'width:' + this.CLOSED_WIDTH,
+                class: 'w3-center',
             });
             {
-                oButton = $('<button>', { class: 'w3-button' });
+                oIcon = cRenderGoogleFont.create_icon(
+                    'left_panel_open',
+                    'font-size:60px',
+                );
                 {
-                    oIcon = cRenderGoogleFont.create_icon('left_panel_open');
-                    oButton.append(oIcon);
-                    oButton.click(() => oThis.onClickExpand());
-                    oCollapsed.append(oButton);
-
-                    var oText = $('<DIV>', { class: 'sidebar-text' });
+                    oIcon.addClass('w3-hover-grey');
+                    oIcon.click(() => oThis.onClickExpand());
+                    oCollapsed.append(oIcon);
+                }
+                var oText = $('<DIV>', { class: 'sidebar-text' });
+                {
                     oText.append('Menu');
                     oCollapsed.append(oText);
                 }
-                oContainer.append(oCollapsed);
             }
-
-            var oExpanded = $('<DIV>', {
-                id: this.ID_SIDEBAR_EXPANDED,
-            });
-            {
-                oButton = $('<button>', { class: 'w3-button' });
-                {
-                    oIcon = cRenderGoogleFont.create_icon('left_panel_close');
-                    oButton.append(oIcon);
-                    oButton.click(() => oThis.onClickCollapse());
-                    oExpanded.append(oButton);
-                    oExpanded.hide();
-                }
-                oContainer.append(oExpanded);
-            }
+            oContainer.append(oCollapsed);
         }
 
-        poParent.append(oContainer);
+        //-----------------------------------------------------------
+        var oExpanded = $('<DIV>', {
+            id: this.ID_SIDEBAR_EXPANDED,
+            style: 'width:' + this.OPEN_WIDTH_WIDTH,
+        });
+        {
+            oIcon = cRenderGoogleFont.create_icon(
+                'left_panel_close',
+                'font-size:60px',
+            );
+            {
+                oIcon.addClass('w3-hover-grey');
+                oIcon.click(() => oThis.onClickCollapse());
+                oExpanded.append(oIcon);
+            }
+
+            oExpanded.hide();
+            oContainer.append(oExpanded);
+        }
+        oParent.append(oContainer);
         return oContainer;
     }
 }
@@ -185,9 +203,10 @@ class cLeftColumn {
     static ID_TAB_SOL_CONTENT = 'idtsc';
     static ID_WIDGET_SOLCHOOSER = 'idWSC';
     static ID_WIDGET_SOLBUTTONS = 'idWSB';
+    static WIDTH = '270px';
 
     //**********************************************************
-    static async pr__render_tab_content_sol(poParent) {
+    static async pr__render_sol_tab(poParent) {
         var oSolTabContent = $('<DIV>', {
             class: 'tab-content',
             id: this.ID_TAB_SOL_CONTENT,
@@ -232,7 +251,7 @@ class cLeftColumn {
     }
 
     //**********************************************************
-    static async pr__render_tab_content_tags(poParent) {
+    static async pr__render_tag_tab(poParent) {
         //Tab Content (tags)
         var oTagContent = $('<DIV>', {
             class: 'tab-content leftcolumn',
@@ -248,27 +267,22 @@ class cLeftColumn {
     }
 
     //**********************************************************
-    static render(poParent) {
-        poParent.empty();
-        poParent.addClass('w3-theme-d1');
+    static render() {
+        var oLeftColDiv = cJquery.element(cIndexPageConsts.ID_LEFT_COL);
+        oLeftColDiv.empty();
+        oLeftColDiv.addClass('w3-theme-d1');
 
-        // side bar
-        var oSideBar;
-        oSideBar = cSideBar.render(poParent);
-        poParent.append(oSideBar);
-
-        // side bar
-
-        //tab bar
-        var oExpanded = cJquery.element(cSideBar.ID_SIDEBAR_EXPANDED);
-        cPageTabs.render(oExpanded);
-
-        // sol tab content
-        oExpanded.addClass('leftcolumn');
-        this.pr__render_tab_content_sol(oExpanded);
-
-        //  tags tab content
-        this.pr__render_tab_content_tags(oExpanded);
+        // side bar - contains an open and closed bit
+        cSideBar.render(oLeftColDiv);
+        {
+            //tab bar
+            var oExpandedBit = cJquery.element(cSideBar.ID_SIDEBAR_EXPANDED);
+            {
+                cPageTabs.render(oExpandedBit);
+                this.pr__render_sol_tab(oExpandedBit);
+                this.pr__render_tag_tab(oExpandedBit);
+            }
+        }
 
         //click the default tab
         cPageTabs.clickDefaultTab();
@@ -555,8 +569,7 @@ class cIndexPage {
         }
 
         // load the tabs and show the first one
-        var oLeftColumn = cJquery.element(cIndexPageConsts.ID_LEFT_COL);
-        cLeftColumn.render(oLeftColumn);
+        cLeftColumn.render();
 
         // remember the start_image if its there
         if (cBrowser.data[cSpaceBrowser.BEGIN_QUERYSTRING]) {
