@@ -319,15 +319,6 @@ class cDetail {
             this.onClickNextProduct(poEvent),
         );
 
-        // catch key presses but not on text inputs
-        $(window).keypress((poEvent) => this.onKeyPress(poEvent));
-        $(':input').each(function (index, oObj) {
-            if ($(oObj).attr('type') === 'text') {
-                $(oObj).focus(() => this.onInputFocus());
-                $(oObj).blur(() => this.onInputDefocus());
-            }
-        });
-
         // get user data
         cCommonStatus.set_status('loading user data...');
         var sSol = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING];
@@ -352,6 +343,10 @@ class cDetail {
 
         //tags
         cDetailTags.render();
+
+        // catch key presses but not on text inputs
+        $(window).keypress((poEvent) => this.onKeyPress(poEvent));
+        cBrowser.unbindInputKeyPress();
     }
 
     //***************************************************************
@@ -516,17 +511,6 @@ class cDetail {
     //**************************************************
     static onClickBoxCancel(poEvent) {
         cImgHilite.rejectBox(poEvent.currentTarget);
-    }
-
-    //###############################################################
-    //# Focus Event Handlers
-    //###############################################################
-    static onInputFocus() {
-        $(window).unbind('keypress');
-    }
-
-    static onInputDefocus() {
-        $(window).keypress(() => this.onKeyPress());
     }
 
     //###############################################################
