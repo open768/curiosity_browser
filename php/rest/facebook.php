@@ -48,7 +48,7 @@ switch ($sOperation) {
         //finally get user details from facebook
         if (!$sUser) {
             cDebug::write("stored details not found, getting  from Facebook");
-            $sUser = cFacebook_ServerSide::getUserIDDetails($sUserID, $sToken);
+            $sUser = cFacebook_ServerSide::getUserName($sUserID, $sToken);
         }
         break;
     default:
