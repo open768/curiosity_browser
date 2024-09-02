@@ -15,22 +15,20 @@ include("$appPhpFragments/doctype.php");
 
 <body onload="$(onLoadJQuery_SOLGIG);">
     <?php
-    $sTitle = "Gigapans for sol:<span id=\"sol\">??</span>";
+    $sTitle = "Gigapans for sol:<span id='sol'>??</span>";
     include("$appPhpFragments/title.php");
     ?>
-    <div class="gold">
-        <button class="leftbutton" onclick="cBrowser.openWindow('allgigas.php','allgigas');">All Gigapans</button>
-    </div>
-    <div class="gold" id="solgiga">
+    <div class="w3-container w3-theme-d2" id='buttons'>loading...</div>
+    <div class="w3-container w3-theme-l4" id="solgiga">
         Loading...
     </div>
-    <P>
+    <P />
 
-        <!-- *************** footer *********************** -->
-        <?php
-        $sExtraCredits = "Gigapans courtesy Neville Thompson http://www.gigapan.com/profiles/pencilnev.";
-        include("$appPhpFragments/footer.php")
-        ?>
+    <!-- *************** footer *********************** -->
+    <?php
+    $sExtraCredits = "Gigapans courtesy Neville Thompson http://www.gigapan.com/profiles/pencilnev";
+    include("$appPhpFragments/footer.php")
+    ?>
 </body>
 
 </html>

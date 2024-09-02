@@ -17,16 +17,13 @@ include("$appPhpFragments/doctype.php");
     $sTitle = "Tags for sol:<span id='sol'>??</span>";
     include("$appPhpFragments/title.php");
     ?>
-    <div class="gold">
-        <button class="leftbutton" onclick="cBrowser.openWindow('allsoltags.php','alltags');">All Sols</button>
-    </div>
-    <div class="gold" id="soltag">
+    <div class="w3-container w3-theme-d2" id="solbuttons">Please Wait</div>
+    <div class="w3-container w3-theme-l4" id="soltag">
         Loading...
     </div>
-    <P>
 
-        <!-- *************** footer *********************** -->
-        <?php include("$appPhpFragments/footer.php")     ?>
+    <!-- *************** footer *********************** -->
+    <?php include("$appPhpFragments/footer.php")     ?>
 </body>
 
 </html>

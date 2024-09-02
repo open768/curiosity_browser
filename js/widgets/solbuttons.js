@@ -164,7 +164,7 @@ class cSolButtons {
                 'Tags',
                 'All Tags',
                 false,
-                () => cBrowser.openWindow('allsoltags.php', 'alltags'),
+                () => cBrowser.openWindow('alltags.php', 'alltags'),
             );
             oBody.append(oButton);
 
@@ -174,7 +174,7 @@ class cSolButtons {
                 'Highlights',
                 'All Highlights',
                 false,
-                () => cBrowser.openWindow('allsolhighs.php', 'allhighs'),
+                () => cBrowser.openWindow('allhighs.php', 'allhighs'),
             );
             oBody.append(oButton);
 

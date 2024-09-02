@@ -24,8 +24,9 @@ class cSolCommentPageConstants {
 
     cPageOutput::write_JS_class_constant_IDs("cSolCommentPageConstants");
     ?>
-    <div class="w3-container w3-theme-l1" id="<?= cSolCommentPageConstants::ID_BUTTONS ?>">loading.. </div>
-    <div class="w3-container" id="<?= cSolCommentPageConstants::ID_COMMENTS_CONTAINER ?>">loading.. </div>
+
+    <div class="w3-container w3-theme-d2" id="<?= cSolCommentPageConstants::ID_BUTTONS ?>">loading.. </div>
+    <div class="w3-container w3-theme-l4" id="<?= cSolCommentPageConstants::ID_COMMENTS_CONTAINER ?>">loading.. </div>
 
     <!-- *************** footer *********************** -->
     <?php include("$appPhpFragments/footer.php")     ?>

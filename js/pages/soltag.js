@@ -10,15 +10,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 'use strict';
-
+/* global cAppSolButtons*/
 var current_sol = null;
-//###############################################################
-//# event handlers
-//###############################################################
-//eslint-disable-next-line no-unused-vars
-function onClickAllSols() {
-    cBrowser.openWindow('allsoltags.php', 'allsoltags');
-}
 
 //###############################################################
 //# Utility functions
@@ -26,6 +19,9 @@ function onClickAllSols() {
 //eslint-disable-next-line no-unused-vars
 function onLoadJQuery_SOLTAG() {
     var sUrl, sSol;
+
+    // render the sol buttons
+    cAppSolButtons.render_buttons('solbuttons');
 
     // update sol number
     sSol = cBrowser.data.s;

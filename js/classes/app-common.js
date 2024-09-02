@@ -1,5 +1,5 @@
 'use strict';
-// eslint-disable-next-line no-unused-vars
+
 class cAppRender {
     //****************************************************************
     static make_button(psID, psCaption, psTitle, pbDisabled, pfnOnClick) {
@@ -23,7 +23,7 @@ class cAppRender {
                 oSpan.append(psCaption);
                 oButton.append(oSpan);
             }
-            oButton.click((poEvent) => pfnOnClick(poEvent));
+            oButton.on('click', pfnOnClick);
         }
         if (!psID) oButton.uniqueId();
         return oButton;
@@ -53,5 +53,143 @@ class cAppRender {
     static update_title(psText) {
         var oDiv = cJquery.element('toptitle');
         oDiv.html(psText);
+    }
+}
+
+//######################################################################
+//#
+//######################################################################
+
+class cAppAllSolButtons {
+    static targets = [
+        {
+            page: 'solhigh',
+            target: 'allhighs.php',
+            caption: 'All Highlights',
+        },
+        {
+            page: 'solcomments',
+            target: 'allcomments.php',
+            caption: 'All Comments',
+        },
+        {
+            page: 'soltags',
+            target: 'alltags.php',
+            caption: 'All Tags',
+        },
+        { page: 'solgigas', target: 'allgigas.php', caption: 'All Gigapans' },
+    ];
+
+    //*********************************************************************
+    static render_buttons(psID) {
+        var oParent = cJquery.element(psID);
+        var oThis = this;
+
+        var oSpan = $('<span>');
+        {
+            var aTargets = this.targets;
+            for (var i = 0; i < aTargets.length; i++) {
+                var oTarget = aTargets[i];
+
+                var oButton = cAppRender.make_button(
+                    null,
+                    oTarget.caption,
+                    oTarget.caption,
+                    false,
+                    (e) => oThis.onClickButton(e),
+                );
+                oButton.attr('clicktarget', oTarget.target);
+                oSpan.append(oButton);
+            }
+            oParent.append(oSpan);
+        }
+    }
+
+    //*********************************************************************
+    static onClickButton(poEvent) {
+        var oTarget = $(poEvent.target);
+        var sTagname = oTarget.get(0).tagName;
+        if (sTagname !== 'button') oTarget = oTarget.parent();
+
+        var sUrl = oTarget.attr('clicktarget');
+
+        cBrowser.openWindow(sUrl);
+    }
+}
+
+//######################################################################
+//#
+//######################################################################
+//eslint-disable-next-line no-unused-vars
+class cAppSolButtons {
+    static current_sol = null;
+
+    static render_buttons(psID) {
+        var oButton, sSol;
+        var oParent = cJquery.element(psID);
+        oParent.empty();
+
+        //-------------- get the current sol
+        sSol = cBrowser.queryString(cSpaceBrowser.SOL_QUERYSTRING);
+        if (!sSol) {
+            oParent.html('sol missing!');
+            return;
+        }
+        var iSol = parseInt(sSol);
+        this.current_sol = iSol;
+        var oThis = this;
+
+        //------------render the buttons
+        var oSpan = $('<span>');
+        {
+            //-------------- the buttons
+            oButton = cAppRender.make_button(
+                null,
+                '&lt;&lt;&lt;',
+                'Previous Sol',
+                false,
+                () => oThis.onClickOtherSol(iSol - 1),
+            );
+            oSpan.append(oButton);
+
+            oButton = cAppRender.make_button(
+                null,
+                'Sol: ' + sSol,
+                'Sol details',
+                false,
+                () => oThis.onClickSolDetails(),
+            );
+            oSpan.append(oButton);
+
+            oButton = cAppRender.make_button(
+                null,
+                '&gt;&gt;&gt;',
+                'Next Sol',
+                false,
+                () => oThis.onClickOtherSol(iSol + 1),
+            );
+            oSpan.append(oButton);
+        }
+        oParent.append(oSpan);
+
+        //--------------render the all sol buttons
+        oParent.append(cBrowser.whitespace(50));
+        cAppAllSolButtons.render_buttons(psID);
+    }
+
+    //***************************************************
+    static onClickOtherSol(piSol) {
+        var sPageUrl = cBrowser.pageUrl();
+        var oParams = {};
+        oParams[cSpaceBrowser.SOL_QUERYSTRING] = piSol;
+        var sUrl = cBrowser.buildUrl(sPageUrl, oParams);
+        document.location.href = sUrl;
+    }
+    //***************************************************
+    static onClickSolDetails() {
+        var oParams = {};
+        oParams[cSpaceBrowser.SOL_QUERYSTRING] = this.current_sol;
+        const sUrl = cBrowser.buildUrl('index.php', oParams);
+        cBrowser.openWindow(sUrl, 'index');
     }
 }

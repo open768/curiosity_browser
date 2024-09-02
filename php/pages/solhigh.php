@@ -8,6 +8,13 @@ if (cFacebook_ServerSide::is_facebook()) {
     exit;
 }
 include("$appPhpFragments/doctype.php");
+class cSolHighPageConstants {
+    const  SOL_BUTTONS_ID = "sbid";
+    const  HIGHLIGHTS_ID = "hid";
+    const  CHK_MOSAIC_ID = "cmid";
+    const SOL_TITLE_ID = "st";
+}
+
 ?>
 
 <head>
@@ -19,25 +26,19 @@ include("$appPhpFragments/doctype.php");
 
 <body onload="$( ()=>cSolHighs.onLoadJQuery() );">
     <?php
-    $sTitle = "Highlights for sol:<span id='sol'>??</span>";
+    $sTitle = "Highlights for sol:<span id='" . cSolHighPageConstants::SOL_TITLE_ID . "'>??</span>";
+    cPageOutput::write_JS_class_constant_IDs("cSolHighPageConstants");
     include("$appPhpFragments/title.php");
     ?>
-    <div class="gold">
-        <button class="leftbutton" onclick="cSolHighs.onClickPrevious_sol()" title="previous sol">&lt;&lt;&lt;</button>
-        <button class="roundbutton" onclick="cSolHighs.onClickSol();">sol <span id="solbutton">???</span></button>
-        <button class="leftbutton" onclick="cBrowser.openWindow('allsolhighs.php','allhighs');">All Sols</button>
-        <button class="rightbutton" onclick="cSolHighs.onClickNext_sol()" title="next sol">&gt;&gt;&gt;</button>
+    <div class="w3-container w3-theme-d2">
+        <span id="<?= cSolHighPageConstants::SOL_BUTTONS_ID ?>"></span>
 
-        &nbsp;&nbsp;&nbsp;
-        <input id="chkMosaic" type="checkbox">Mosaic
+        <span><input id="<?= cSolHighPageConstants::CHK_MOSAIC_ID ?>" type="checkbox">Mosaic</span>
     </div>
-    <div class="gold" id="solhigh">
-        Loading...
-    </div>
-    <P>
+    <Div class="w3-container w3-theme-l2" id="<?= cSolHighPageConstants::HIGHLIGHTS_ID ?>"></div>
 
-        <!-- *************** footer *********************** -->
-        <?php include("$appPhpFragments/footer.php")     ?>
+    <!-- *************** footer *********************** -->
+    <?php include("$appPhpFragments/footer.php")     ?>
 </body>
 
 </html>
