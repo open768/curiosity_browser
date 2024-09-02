@@ -715,7 +715,10 @@ class cDetail {
         }
 
         // there was an image
-        const oImg = $('<img>').attr({ src: oData.i, id: 'baseimg' });
+        var sImgUrl = oData.i;
+        sImgUrl = sImgUrl.replace('http:', 'https:');
+
+        const oImg = $('<img>').attr({ src: sImgUrl, id: 'baseimg' });
         oImg.on('load', (poEvent) => this.OnImageLoaded(poEvent));
         $('#image').empty();
         $('#image').append(oImg);
@@ -723,7 +726,7 @@ class cDetail {
         //update the FB meta information for the image //should be a separate class
         $("meta[property='og:image']").attr(
             'content',
-            cAppLocations.home + '/' + oData.i,
+            cAppLocations.home + '/' + sImgUrl,
         ); // facebook tag for image
     }
     //***************************************************************
