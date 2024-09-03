@@ -1,6 +1,7 @@
 'use strict';
 
 class cAppRender {
+    static TAG_PAGE_URL = 'tag.php';
     //****************************************************************
     static make_button(psID, psCaption, psTitle, pbDisabled, pfnOnClick) {
         var oOptions = {
@@ -53,6 +54,30 @@ class cAppRender {
     static update_title(psText) {
         var oDiv = cJquery.element('toptitle');
         oDiv.html(psText);
+    }
+
+    //****************************************************************
+    static render_tags(poElement, paData) {
+        poElement.empty();
+
+        //---------------------------------------------------
+        if (paData.d.length == 0) {
+            poElement.html('No Tags found, be the first to add one');
+        } else {
+            var oA, sUrl, sTag;
+            for (var i = 0; i < paData.d.length; i++) {
+                sTag = paData.d[i];
+
+                sUrl = cBrowser.buildUrl(this.TAG_PAGE_URL, { t: sTag });
+                oA = $('<A>', {
+                    target: 'tags',
+                    href: sUrl,
+                    class: 'w3-tag w3-theme-tag w3-text-white w3-hover-grey w3-round-xxlarge',
+                });
+                oA.append(sTag);
+                poElement.append(oA);
+            }
+        }
     }
 }
 

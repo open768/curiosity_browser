@@ -19,7 +19,6 @@ class cDetailTags {
     static TAGS_TEXT_ID = 'cdtext';
     static TAGS_TEXT_DROPDOWN_ID = 'cdtxtdrop';
     static TAGS_BUTTON_ID = 'cdbut';
-    static TAG_PAGE_URL = 'tag.php';
 
     static render() {
         var oThis = this;
@@ -128,19 +127,19 @@ class cDetailTags {
 
     //***********************************************************
     static enable() {
-        var oInput = this.pr_get_child(this.TAGS_TEXT_ID);
+        var oInput = this.pr_get_tag_child(this.TAGS_TEXT_ID);
         cJquery.enable_element(oInput);
 
-        var oButton = this.pr_get_child(this.TAGS_BUTTON_ID);
+        var oButton = this.pr_get_tag_child(this.TAGS_BUTTON_ID);
         cJquery.enable_element(oButton);
     }
 
     //***********************************************************
-    static pr_get_child(psID) {
+    static pr_get_tag_child(psID) {
         var oContainer = cJquery.element(
             cDetailPageConstants.TAGS_CONTAINER_ID,
         );
-        if (oContainer.length == 0) cDebug.error('TAG container doesnt exist');
+        if (oContainer.length == 0) cDebug.error('container doesnt exist');
 
         var sID = cJquery.child_ID(oContainer, psID);
         var oElement = cJquery.element(sID);
@@ -166,7 +165,7 @@ class cDetailTags {
     //***********************************************************
     static async onKeyUp(poInputElement) {
         //----get the dropdown ID
-        var oDropdown = this.pr_get_child(this.TAGS_TEXT_DROPDOWN_ID);
+        var oDropdown = this.pr_get_tag_child(this.TAGS_TEXT_DROPDOWN_ID);
         oDropdown.empty();
 
         //----get the input
@@ -185,30 +184,10 @@ class cDetailTags {
     //***********************************************************
     static onGotTags(poHttp) {
         cCommonStatus.set_status('got tag');
-        //---------------------------------------------------
-        var oTagDiv = this.pr_get_child(this.TAGS_OUTPUT_ID);
-        oTagDiv.empty();
 
         //---------------------------------------------------
-        var aData = poHttp.response.d;
-        if (aData.length == 0) {
-            oTagDiv.html('No Tags found, be the first to add one');
-        } else {
-            var oA, sUrl, sTag;
-            for (var i = 0; i < aData.length; i++) {
-                sTag = aData[i];
-
-                sUrl = cBrowser.buildUrl(this.TAG_PAGE_URL, { t: sTag });
-                oA = $('<A>', {
-                    target: 'tags',
-                    href: sUrl,
-                    class: 'w3-tag w3-theme-tag',
-                });
-                oA.append(sTag);
-                oTagDiv.append(oA);
-            }
-        }
-
+        var oTagDiv = this.pr_get_tag_child(this.TAGS_OUTPUT_ID);
+        cAppRender.render_tags(oTagDiv, poHttp.response);
         cCommonStatus.set_status('ok');
     }
 
@@ -216,7 +195,7 @@ class cDetailTags {
     static async onClickAdd() {
         var sTag;
 
-        var oText = this.pr_get_child(this.TAGS_TEXT_ID);
+        var oText = this.pr_get_tag_child(this.TAGS_TEXT_ID);
 
         // check something was entered
         sTag = oText.val();
@@ -240,7 +219,7 @@ class cDetailTags {
 
     //***************************************************************
     static onGotSearchResults(poHttp) {
-        var oDiv = this.pr_get_child(this.TAGS_TEXT_DROPDOWN_ID);
+        var oDiv = this.pr_get_tag_child(this.TAGS_TEXT_DROPDOWN_ID);
         oDiv.empty();
 
         //-----get the response

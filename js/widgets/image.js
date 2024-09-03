@@ -13,12 +13,12 @@ $.widget('ck.instrumentimage', {
         src: null, // used when multiple images are requested for the same sol. reduced network bandwidth in this case
         date: null,
         image_div: null,
-        tags_div: null,
         mission: null,
     },
     consts: {
         WAIT_VISIBLE: 1000,
         WAIT_IMAGE: cAppLocations.home + '/images/browser/chicken_icon.png',
+        TAGS_CHILD_ID: 'iitci',
     },
 
     //#################################################################
@@ -145,6 +145,23 @@ $.widget('ck.instrumentimage', {
     },
 
     // ***************************************************************
+    prv__add_headerfield: function (poParent, psCaption, psValue) {
+        var oCaptionDiv = $('<SPAN>', { class: 'w3-theme' });
+        {
+            oCaptionDiv.append('<b>' + psCaption + ':</b> ');
+            poParent.append(oCaptionDiv);
+        }
+        var oValueDiv = $('<SPAN>', {
+            class: 'w3-theme-l2',
+            style: 'min-width:50px;display:inline-flex',
+        });
+        {
+            oValueDiv.append(psValue);
+            poParent.append(oValueDiv);
+        }
+    },
+
+    // ***************************************************************
     prv__render: function () {
         const oThis = this;
         const oOptions = oThis.options;
@@ -154,22 +171,21 @@ $.widget('ck.instrumentimage', {
         oElement.addClass('ui-widget-content');
 
         // build information div
-        const oInfoDiv = $('<DIV>', { class: 'ui-widget-header' });
-        oInfoDiv.append(
-            $('<SPAN>', { class: 'ui-state-highlight' }).html('Date: '),
-        );
-        oInfoDiv.append(oOptions.date);
-        oInfoDiv.append(
-            $('<SPAN>', { class: 'ui-state-highlight' }).html(' Product: '),
-        );
-        oInfoDiv.append(oOptions.product);
-        oInfoDiv.append(
-            $('<SPAN>', { class: 'ui-state-highlight' }).html(' Tags: '),
-        );
-        oOptions.tags_div = $('<SPAN>', { class: 'soltags' }).html(
-            'Loading ...',
-        );
-        oInfoDiv.append(oOptions.tags_div);
+        const oInfoDiv = $('<header>', { class: 'w3-theme-d3' });
+        {
+            this.prv__add_headerfield(oInfoDiv, 'Date', oOptions.date);
+            this.prv__add_headerfield(oInfoDiv, 'Product', oOptions.product);
+
+            var sTagsDivID = cJquery.child_ID(
+                oElement,
+                this.consts.TAGS_CHILD_ID,
+            );
+            var oTagsDiv = $('<span>', { id: sTagsDivID });
+            oTagsDiv.append('loading...');
+            this.prv__add_headerfield(oInfoDiv, 'Tags', oTagsDiv);
+
+            oElement.append(oInfoDiv);
+        }
 
         // build image div
         const oImgDiv = $('<DIV>', { class: 'ui-widget-body' }).css({
@@ -186,7 +202,6 @@ $.widget('ck.instrumentimage', {
         oImgDiv.append(oImg);
 
         // add the lot to the element
-        oElement.append(oInfoDiv);
         oElement.append(oImgDiv);
     },
 
@@ -238,24 +253,13 @@ $.widget('ck.instrumentimage', {
     },
 
     // ***************************************************************
-    onTags: function (paJS) {
-        var oDiv, oA, sTag, i;
+    onTags: function (poHttp) {
+        var oDiv;
 
-        oDiv = this.options.tags_div;
-        oDiv.empty();
-
-        if (paJS.d.length == 0) {
-            oDiv.html('no Tags');
-            return;
-        }
-
-        // put in the tags
-        for (i = 0; i < paJS.d.length; i++) {
-            sTag = paJS.d[i];
-            const sUrl = cBrowser.buildUrl('tag.php', { t: sTag });
-            oA = $('<A>', { href: sUrl }).html(sTag);
-            oDiv.append(oA).append(' ');
-        }
+        const oElement = this.element;
+        var sTagsDivID = cJquery.child_ID(oElement, this.consts.TAGS_CHILD_ID);
+        oDiv = cJquery.element(sTagsDivID);
+        cAppRender.render_tags(oDiv, poHttp.response);
     },
 
     // ***************************************************************
