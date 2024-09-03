@@ -266,10 +266,12 @@ class cSolButtons {
             m: oOptions.mission.ID,
         });
         var oHttp = new cHttp2();
-        bean.on(oHttp, 'result', function (poHttp) {
-            oThis.onFetchedGigapans(poHttp);
-        });
-        oHttp.fetch_json(sUrl);
+        {
+            bean.on(oHttp, 'result', (poHttp) =>
+                oThis.onFetchedGigapans(poHttp),
+            );
+            oHttp.fetch_json(sUrl);
+        }
 
         sUrl = cBrowser.buildUrl(cAppLocations.rest + '/tag.php', {
             o: 'solcount',
@@ -277,10 +279,12 @@ class cSolButtons {
             m: oOptions.mission.ID,
         });
         oHttp = new cHttp2();
-        bean.on(oHttp, 'result', function (poHttp) {
-            oThis.onFetchedTagCount(poHttp);
-        });
-        oHttp.fetch_json(sUrl);
+        {
+            bean.on(oHttp, 'result', (poHttp) =>
+                oThis.onFetchedTagCount(poHttp),
+            );
+            oHttp.fetch_json(sUrl);
+        }
 
         sUrl = cBrowser.buildUrl(cAppLocations.rest + '/img_highlight.php', {
             o: 'solcount',
@@ -288,10 +292,10 @@ class cSolButtons {
             m: oOptions.mission.ID,
         });
         oHttp = new cHttp2();
-        bean.on(oHttp, 'result', function (poHttp) {
-            oThis.onHiLiteCount(poHttp);
-        });
-        oHttp.fetch_json(sUrl);
+        {
+            bean.on(oHttp, 'result', (poHttp) => oThis.onHiLiteCount(poHttp));
+            oHttp.fetch_json(sUrl);
+        }
     }
 
     //#################################################################

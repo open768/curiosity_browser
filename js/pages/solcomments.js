@@ -69,9 +69,11 @@ class cSolComments {
             m: cMission.ID,
         });
         oHttp = new cHttp2();
-        bean.on(oHttp, 'result', (e) => this.onLoadSolComments(e));
-        bean.on(oHttp, 'error', (e) => this.onErrSolComments(e));
-        oHttp.fetch_json(sUrl);
+        {
+            bean.on(oHttp, 'result', (e) => this.onLoadSolComments(e));
+            bean.on(oHttp, 'error', (e) => this.onErrSolComments(e));
+            oHttp.fetch_json(sUrl);
+        }
     }
     //###############################################################
     //# events

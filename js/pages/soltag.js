@@ -39,8 +39,10 @@ function onLoadJQuery_SOLTAG() {
     cCommonStatus.set_status('fetching tags');
 
     const oHttp = new cHttp2();
-    bean.on(oHttp, 'result', load_soltag_callback);
-    oHttp.fetch_json(sUrl);
+    {
+        bean.on(oHttp, 'result', load_soltag_callback);
+        oHttp.fetch_json(sUrl);
+    }
 }
 
 //###############################################################

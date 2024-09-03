@@ -139,12 +139,8 @@ $.widget('ck.instrumentimage', {
             p: oOptions.product,
             m: oOptions.mission.ID,
         });
-        bean.on(oItem, 'result', function (poHttp) {
-            oThis.onProductDetails(poHttp);
-        });
-        bean.on(oItem, 'error', function (poHttp) {
-            oThis.onProductError(poHttp);
-        });
+        bean.on(oItem, 'result', (poHttp) => oThis.onProductDetails(poHttp));
+        bean.on(oItem, 'error', (poHttp) => oThis.onProductError(poHttp));
         goImageQueue.add(oItem);
     },
 

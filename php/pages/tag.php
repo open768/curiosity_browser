@@ -21,26 +21,20 @@ include("$appPhpFragments/doctype.php");  ?>
     $sTitle = "Instances of Tag <span id='tagname'>tag goes here</span>";
     include("$appPhpFragments/title.php");
     ?>
-    <table width="100%">
-        <tr>
-            <td class="leftcolumn" valign="top">
-                <div class="gold" id="tagcloud">Loading tags</div>
-            </td>
-            <td valign="top">
-                <div class="gold">
-                    This Tag was seen in the following:
-                    <p>
-                    <div id="tagdata">
-                        <span class="subtitle">initialising...</span>
-                    </div>
-                </div>
-            </td>
-        </tr>
-    </table>
-
-    <P>
-        <!-- footer -->
-        <?php include("$appPhpFragments/footer.php")     ?>
+    <div class="w3-cell-row">
+        <div class="w3-cell w3-theme-l3" style="width:200px" id="tagcloud">Loading tags</div>
+        <div class="w3-cell">
+            <header class="w3-theme-d2">
+                <h3>This Tag was seen in the following:</h3>
+            </header>
+            <div class="w3-container w3-theme-l4" id="tagdata">
+                <span class="subtitle">initialising...</span>
+            </div>
+        </div>
+    </div>
+    <P />
+    <!-- footer -->
+    <?php include("$appPhpFragments/footer.php")     ?>
 </body>
 
 </html>

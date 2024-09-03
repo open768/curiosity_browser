@@ -222,10 +222,12 @@ $.widget('ck.solinstrumentChooser', {
             },
         );
         const oHttp = new cHttp2();
-        bean.on(oHttp, 'result', function (poHttp) {
-            oThis.onLoadSolInstruments(poHttp);
-        });
-        oHttp.fetch_json(sUrl);
+        {
+            bean.on(oHttp, 'result', (poHttp) =>
+                oThis.onLoadSolInstruments(poHttp),
+            );
+            oHttp.fetch_json(sUrl);
+        }
     },
 
     //#################################################################
@@ -234,23 +236,25 @@ $.widget('ck.solinstrumentChooser', {
     prLoadLists: function () {
         const oThis = this;
 
-        const oHttp = new cHttp2();
-        bean.on(oHttp, 'result', function (poHttp) {
-            oThis.onLoadInstruments(poHttp);
-        });
         var sUrl = cBrowser.buildUrl(cAppLocations.rest + '/instruments.php', {
             m: this.options.mission.ID,
         });
-        oHttp.fetch_json(sUrl);
+        const oHttp = new cHttp2();
+        {
+            bean.on(oHttp, 'result', (poHttp) =>
+                oThis.onLoadInstruments(poHttp),
+            );
+            oHttp.fetch_json(sUrl);
+        }
 
-        const oHttp2 = new cHttp2();
-        bean.on(oHttp2, 'result', function (poHttp) {
-            oThis.onLoadSols(poHttp);
-        });
         sUrl = cBrowser.buildUrl(cAppLocations.rest + '/sols.php', {
             m: this.options.mission.ID,
         });
-        oHttp2.fetch_json(sUrl);
+        const oHttp2 = new cHttp2();
+        {
+            bean.on(oHttp2, 'result', (poHttp) => oThis.onLoadSols(poHttp));
+            oHttp2.fetch_json(sUrl);
+        }
     },
 
     //#################################################################

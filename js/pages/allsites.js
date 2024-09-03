@@ -38,8 +38,10 @@ function onGoogleEarthLoaded() {
         m: cMission.ID,
     });
     const oHttp = new cHttp2();
-    bean.on(oHttp, 'result', all_sites_callback);
-    oHttp.fetch_json(sUrl);
+    {
+        bean.on(oHttp, 'result', all_sites_callback);
+        oHttp.fetch_json(sUrl);
+    }
 }
 
 //###############################################################
@@ -136,8 +138,10 @@ function render_sites() {
         lo2: oBounds.long2,
     });
     const oHttp = new cHttp2();
-    bean.on(oHttp, 'result', hirise_callback);
-    oHttp.fetch_json(sUrl);
+    {
+        bean.on(oHttp, 'result', hirise_callback);
+        oHttp.fetch_json(sUrl);
+    }
 
     // fly to the centre
     oCentre = {
@@ -186,8 +190,10 @@ function lookat_callback() {
             m: cMission.ID,
         });
         const oHttp = new cHttp2();
-        bean.on(oHttp, 'result', get_site_callback);
-        oHttp.fetch_json(sUrl);
+        {
+            bean.on(oHttp, 'result', get_site_callback);
+            oHttp.fetch_json(sUrl);
+        }
     }
     cCommonStatus.set_status('ok');
 }

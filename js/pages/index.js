@@ -50,8 +50,10 @@ class cBackgroundImage {
             },
         );
         const oHttp = new cHttp2();
-        bean.on(oHttp, 'result', (poHttp) => oThis.OnImageResponse(poHttp));
-        oHttp.fetch_json(sUrl);
+        {
+            bean.on(oHttp, 'result', (poHttp) => oThis.OnImageResponse(poHttp));
+            oHttp.fetch_json(sUrl);
+        }
     }
 
     //*****************************************************************
@@ -414,10 +416,12 @@ class cSearchBox {
                 },
             );
             const oHttp = new cHttp2();
-            bean.on(oHttp, 'result', (poHttp) =>
-                oThis.OnSearchResponse(poHttp),
-            );
-            oHttp.fetch_json(sUrl);
+            {
+                bean.on(oHttp, 'result', (poHttp) =>
+                    oThis.OnSearchResponse(poHttp),
+                );
+                oHttp.fetch_json(sUrl);
+            }
         }
     }
 

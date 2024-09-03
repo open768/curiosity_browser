@@ -48,16 +48,16 @@ $.widget('ck.solgigas', {
         oElement.append(oLoader).append('Loading sol gigas:');
 
         // get the sols with Tags
-        const oHttp = new cHttp2();
-        bean.on(oHttp, 'result', function (poHttp) {
-            oThis.onGigaResponse(poHttp);
-        });
         var sUrl = cBrowser.buildUrl(cAppLocations.rest + '/gigapans.php', {
             s: oOptions.sol,
             o: 'sol',
             m: cMission.ID,
         });
-        oHttp.fetch_json(sUrl);
+        const oHttp = new cHttp2();
+        {
+            bean.on(oHttp, 'result', (poHttp) => oThis.onGigaResponse(poHttp));
+            oHttp.fetch_json(sUrl);
+        }
     },
 
     //#################################################################

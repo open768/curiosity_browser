@@ -359,8 +359,10 @@ class cDetail {
         });
         cCommonStatus.set_status('fetching next image details...');
         const oHttp = new cHttp2();
-        bean.on(oHttp, 'result', (oData) => this.onNextProduct(oData));
-        oHttp.fetch_json(sUrl);
+        {
+            bean.on(oHttp, 'result', (oData) => this.onNextProduct(oData));
+            oHttp.fetch_json(sUrl);
+        }
     }
 
     //***************************************************************
@@ -375,8 +377,10 @@ class cDetail {
             m: cMission.ID,
         });
         const oHttp = new cHttp2();
-        bean.on(oHttp, 'result', (oData) => this.onNextImage(oData));
-        oHttp.fetch_json(sUrl);
+        {
+            bean.on(oHttp, 'result', (oData) => this.onNextImage(oData));
+            oHttp.fetch_json(sUrl);
+        }
     }
 
     //###############################################################
@@ -758,7 +762,9 @@ class cDetail {
         });
         cCommonStatus.set_status('fetching data for ' + psProd);
         const oHttp = new cHttp2();
-        bean.on(oHttp, 'result', (oData) => this.onGotDetails(oData));
-        oHttp.fetch_json(sUrl);
+        {
+            bean.on(oHttp, 'result', (oData) => this.onGotDetails(oData));
+            oHttp.fetch_json(sUrl);
+        }
     }
 }
