@@ -22,7 +22,7 @@ include("$appPhpFragments/doctype.php");  ?>
     include("$appPhpFragments/title.php");
     ?>
     <div class="w3-cell-row">
-        <div class="w3-cell w3-theme-l3" style="width:200px" id="tagcloud">Loading tags</div>
+        <div class="w3-cell" id="tagcloud">Loading tags</div>
         <div class="w3-cell">
             <header class="w3-theme-d2">
                 <h3>This Tag was seen in the following:</h3>

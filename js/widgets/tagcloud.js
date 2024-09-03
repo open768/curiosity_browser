@@ -3,6 +3,8 @@
 class cTagCloud {
     static element = null;
     static options = null;
+    static WIDTH = 250;
+    static TAG_CHILD_ID = 'tci';
 
     //****************************************************************
     static init(poWidget) {
@@ -25,18 +27,20 @@ class cTagCloud {
 
         //------------ initialise
         oElement.uniqueId();
-        oElement.css('min-width', this.options.minWidth);
+        oElement.css('width', this.WIDTH);
+        oElement.addClass('w3-theme-l5');
         oElement.empty();
 
         //------------clear out the DIV and put some text in it
-        var oDiv = $('<DIV>', { class: 'ui-widget-header' });
+        var oDiv = $('<header>', { class: 'w3-theme-d3' });
         {
             oDiv.width('100%');
-            oDiv.append('Tag Cloud');
+            oDiv.append('<h3>Tag Cloud</h3>');
             oElement.append(oDiv);
         }
 
-        oDiv = $('<DIV>', { class: 'ui-widget-body' });
+        var sID = cJquery.child_ID(oElement, this.TAG_CHILD_ID);
+        oDiv = $('<DIV>', { id: sID });
         {
             oDiv.width('100%');
             oDiv.uniqueId();
@@ -49,14 +53,18 @@ class cTagCloud {
     }
 
     //****************************************************************
-    static process_response(poHttp) {
+    static onResponse(poHttp) {
         var sKey, iCount, iSize, iWeight, iMax, fsRatio, fwRatio;
         var oA, sUrl;
 
-        const oElement = this.element;
-        const oData = poHttp.response;
-
+        //-------------------------------
+        var oParent = this.element;
+        var sID = cJquery.child_ID(oParent, this.TAG_CHILD_ID);
+        var oElement = cJquery.element(sID);
         oElement.empty();
+
+        //-------------------------------
+        const oData = poHttp.response;
 
         iMax = 0;
         for (sKey in oData) {
@@ -80,7 +88,7 @@ class cTagCloud {
     }
 
     //****************************************************************
-    static process_error() {
+    static onError() {
         const oElement = this.element;
         oElement.empty();
         oElement.html('There was an error getting the tagcloud');
@@ -92,7 +100,8 @@ class cTagCloud {
         var oElement = this.element;
         oElement.off('inview'); // turn off the inview listener
 
-        oElement.empty();
+        var sID = cJquery.child_ID(oElement, this.TAG_CHILD_ID);
+        oElement = cJquery.element(sID);
 
         const oLoader = $('<DIV>');
         oLoader.gSpinner({ scale: 0.25 });
@@ -108,10 +117,8 @@ class cTagCloud {
         });
         const oHttp = new cHttp2();
         {
-            bean.on(oHttp, 'result', (poHttp) =>
-                oThis.process_response(poHttp),
-            );
-            bean.on(oHttp, 'error', (poHttp) => oThis.process_error(poHttp));
+            bean.on(oHttp, 'result', (poHttp) => oThis.onResponse(poHttp));
+            bean.on(oHttp, 'error', (poHttp) => oThis.onError(poHttp));
             oHttp.fetch_json(sUrl);
         }
     }
