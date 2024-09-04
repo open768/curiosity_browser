@@ -33,9 +33,6 @@ class cSolGridRenderer {
         var oElement = this.element;
 
         // check that the element is a div
-        if (!oElement.gSpinner) {
-            $.error('gSpinner is missing! check includes');
-        }
         const sElementName = oElement.get(0).tagName;
         if (sElementName !== 'DIV') {
             $.error('needs a DIV. this element is a: ' + sElementName);
@@ -47,9 +44,8 @@ class cSolGridRenderer {
         //update status
         oElement.uniqueId();
         oElement.empty();
-        const oLoader = $('<DIV>');
-        oLoader.gSpinner({ scale: 0.25 });
-        oElement.append(oLoader).append('Loading sol tags:');
+        const oLoader = cAppRender.make_spinner('Loading sol tags');
+        oElement.append(oLoader);
 
         //send request to get the data
         var oThis = this;
@@ -71,12 +67,13 @@ class cSolGridRenderer {
 
         if (this.solData === null) {
             oElement.empty();
-            oElement.attr('class', '.ui-state-error');
-            oElement.append('No data found');
+            oElement.append(cAppRender.make_note('No data found'));
         } else {
             //fetch a list of all the sols, so that the sols with Tags can be overlaid
             oElement.empty();
-            oElement.append('loading Sols...');
+            const oSpinner = cAppRender.make_spinner('Loading Sols');
+            oElement.append(oSpinner);
+
             const sUrl = cBrowser.buildUrl(this.solsUrl, { m: this.mission });
             const oHttp = new cHttp2();
             {

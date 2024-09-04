@@ -32,8 +32,6 @@ $.widget('ck.tagview', {
         if (!cActionQueue)
             $.error('cActionQueue class is missing! check includes');
         if (this.options.mission == null) $.error('mission is not set');
-        if (!oElement.gSpinner)
-            $.error('gspinner class is missing! check includes');
 
         // make sure this is a DIV
         const sElementName = oElement.get(0).tagName;
@@ -51,12 +49,10 @@ $.widget('ck.tagview', {
 
         // clear out the DIV and put some text in it
         oElement.empty();
-        var oDiv = $('<DIV>', { class: 'ui-widget-body' })
-            .width('100%')
-            .append('Loading Images for tag: ' + sTag);
-        const oLoader = $('<SPAN>').gSpinner({ scale: 0.25 });
-        oDiv.append(oLoader);
-        oElement.append(oDiv);
+        var oSpinner = cAppRender.make_spinner(
+            'Loading Images for tag: ' + sTag,
+        );
+        oElement.append(oSpinner);
 
         const oHttp = new cHttp2();
         {

@@ -35,7 +35,6 @@ $.widget('ck.instrumentimage', {
         if (oOptions.mission == null) $.error('mission is not set');
         if (!$.event.special.inview)
             $.error('inview class is missing! check includes');
-        if (!oElement.gSpinner) $.error('gSpinner is missing! check includes');
         if (!oElement.visible)
             $.error('visible class is missing! check includes');
 
@@ -120,16 +119,10 @@ $.widget('ck.instrumentimage', {
 
         // put up a loading...
         oElement.empty();
-        oElement.addClass('ui-widget-content');
-        var oDiv = $('<DIV>', { class: 'ui-widget-header' }).append(
+        var oSpinner = cAppRender.make_spinner(
             'Loading details for: ' + oOptions.product,
         );
-        oElement.append(oDiv);
-
-        oDiv = $('<DIV>', { class: 'ui-widget-body' });
-        const oLoader = $('<DIV>').gSpinner({ scale: 0.25 });
-        oDiv.append(oLoader).append('Loading :' + oOptions.product);
-        oElement.append(oDiv);
+        oElement.append(oSpinner);
 
         // load the data
         const oItem = new cHttpQueueItem();

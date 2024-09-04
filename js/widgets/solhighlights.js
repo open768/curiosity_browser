@@ -29,9 +29,6 @@ $.widget('ck.solhighlights', {
         if (!cHttp2) {
             $.error('http2 class is missing! check includes');
         }
-        if (!oElement.gSpinner) {
-            $.error('gSpinner is missing! check includes');
-        }
 
         //check that the options are passed correctly
         if (oOptions.mission == null) $.error('mission is not set');
@@ -45,10 +42,8 @@ $.widget('ck.solhighlights', {
 
         //clear out the DIV and put some text in it
         oElement.empty();
-        var oLoader = $('<DIV>');
-        oLoader.gSpinner({ scale: 0.25 });
-        oElement.append(oLoader);
-        oElement.append('taming velociraptors ....');
+        var oSpinner = cAppRender.make_spinner('taming velociraptors ....');
+        oElement.append(oSpinner);
 
         //ok get the data
         this.pr__get_sol_highlights();
@@ -92,11 +87,9 @@ $.widget('ck.solhighlights', {
         oElement.empty();
         var oData = poHttp.response;
 
-        if (oData.u == null) {
-            var oDiv = $('<DIV>', { class: 'ui-state-error' });
-            oDiv.append('Sorry no Highlights found');
-            oElement.append(oDiv);
-        } else {
+        if (oData.u == null)
+            oElement.append(cAppRender.make_note('Sorry no Mosaic found'));
+        else {
             var oImg = $('<IMG>').attr({ src: oData.u });
             oElement.append(oImg);
         }
@@ -134,9 +127,7 @@ $.widget('ck.solhighlights', {
         }
 
         if (iCount == 0) {
-            oDiv = $('<DIV>', { class: 'ui-state-error' });
-            oDiv.append('Sorry no Highlights found');
-            oElement.append(oDiv);
+            oElement.append(cAppRender.make_note('Sorry no Highlights found'));
         }
     },
 });
@@ -159,7 +150,7 @@ $.widget('ck.instrhighlight', {
         WAIT_VISIBLE: 750,
         HIGHLIGHT_URL: cAppLocations.rest + '/img_highlight.php',
         STAGE1_MSG: 'Sqeeezing Limes...',
-        STAGE2_MSG: 'Caltching Dodos... ',
+        STAGE2_MSG: 'Catching Dodos... ',
     },
 
     //#################################################################
@@ -181,9 +172,6 @@ $.widget('ck.instrhighlight', {
         }
         if (!$.event.special.inview) {
             $.error('inview class is missing! check includes');
-        }
-        if (!oElement.gSpinner) {
-            $.error('gSpinner is missing! check includes');
         }
 
         //check that the element is a div
@@ -271,9 +259,8 @@ $.widget('ck.instrhighlight', {
 
         //show a spinner
         poSpan.empty();
-        var oLoader = $('<DIV>');
-        oLoader.gSpinner({ scale: 0.25 });
-        poSpan.append(oLoader).append(this.consts.STAGE2_MSG);
+        var oSpinner = cAppRender.make_spinner(this.consts.STAGE2_MSG);
+        poSpan.append(oSpinner);
 
         //load the highlight information
         this.load_highlights(poSpan);

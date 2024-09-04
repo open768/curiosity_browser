@@ -31,9 +31,6 @@ $.widget('ck.thumbnailview', {
         if (!cHttp2) {
             $.error('http2 class is missing! check includes');
         }
-        if (!this.element.gSpinner) {
-            $.error('gSpinner is missing! check includes');
-        }
         if (!this.element.thumbnail) {
             $.error('thumbnail is missing! check includes');
         }
@@ -53,18 +50,12 @@ $.widget('ck.thumbnailview', {
             );
         }
 
-        // clear out the DIV and put some text in it
+        // make a spinner
         this.element.empty();
-        const oDiv = $('<DIV>', { class: '.ui-widget-content' });
-        const oLoader = $('<DIV>');
-        oLoader.gSpinner({ scale: 0.25 });
-        oDiv.append(oLoader).append(
-            'Loading thumbnails for sol:' + oOptions.sol,
-        );
-        this.element.append(oDiv);
-
-        if (oOptions.instrument)
-            this.element.append(', instr:' + oOptions.instrument);
+        var sCaption = 'Loading thumbnails for sol:' + oOptions.sol;
+        if (oOptions.instrument) sCaption += ", instr:' + oOptions.instrument";
+        var oSpinner = cAppRender.make_spinner(sCaption);
+        this.element.append(oSpinner);
 
         // start the normal thumbnail download
         this._trigger('onStatus', null, { text: 'loading basic thumbnails' });
@@ -104,11 +95,8 @@ $.widget('ck.thumbnailview', {
 
         aData = poHttp.response.d.data;
         if (aData.length == 0) {
-            const oDiv = $('<DIV>', { class: 'ui-state-error' });
-            oDiv.append('Sorry no thumbnails found');
-            oElement.append(oDiv);
+            oElement.append(cAppRender.append('Sorry no thumbnails found'));
             this._trigger('onStatus', null, { text: 'No thumbnails found' });
-            cDebug.write('no got basic thumbnails');
         } else {
             goBetterThumbQueue.reset(); // have to use a global otherwise cant reset the queue
 

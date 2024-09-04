@@ -79,6 +79,38 @@ class cAppRender {
             }
         }
     }
+
+    //***************************************************************************
+    static make_spinner(psCaption) {
+        const oDiv = $('<DIV>', {
+            class: 'w3-cell-row w3-panel w3-theme w3-leftbar w3-border-blue w3-padding-large',
+        });
+        {
+            const oSpinner = $('<DIV>', {
+                class: 'w3-cell',
+                style: 'width:100px',
+            });
+            if (!oSpinner.gSpinner) cDebug.error('gspinner is missing');
+            oSpinner.gSpinner({ scale: 0.25 });
+            oDiv.append(oSpinner);
+
+            const oText = $('<DIV>', {
+                class: 'w3-cell w3-text-white',
+            });
+            oText.append('<h2>' + psCaption + '</h2>');
+            oDiv.append(oText);
+        }
+        return oDiv;
+    }
+
+    //***************************************************************************
+    static make_note(psCaption) {
+        const oDiv = $('<DIV>', {
+            class: 'w3-panel w3-theme-l5 w3-leftbar w3-border-blue w3-padding-large',
+        });
+        oDiv.append('<h2>' + psCaption + '</h2>');
+        return oDiv;
+    }
 }
 
 //######################################################################

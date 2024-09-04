@@ -27,8 +27,6 @@ $.widget('ck.solcalendar', {
         if (oOptions.mission == null) $.error('mission is not set');
         if (oOptions.sol == null) $.error('sol is not set');
         if (oOptions.onClick == null) $.error('onClick is not set');
-        if (!oElement.gSpinner)
-            $.error('gspinner class is missing! check includes');
 
         // make sure this is a DIV
         const sElementName = oElement.get(0).tagName;
@@ -52,12 +50,10 @@ $.widget('ck.solcalendar', {
 
         // clear out the DIV and put some text in it
         oElement.empty();
-        var oDiv = $('<DIV>', { class: 'ui-widget-body' })
-            .width('100%')
-            .append('Loading calendar for sol: ' + oOptions.sol);
-        const oLoader = $('<SPAN>').gSpinner({ scale: 0.25 });
-        oDiv.append(oLoader);
-        oElement.append(oDiv);
+        var oSpinner = cAppRender.make_spinner(
+            'Loading calendar for sol: ' + oOptions.sol,
+        );
+        oElement.append(oSpinner);
 
         const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/cal.php', {
             s: oOptions.sol,
@@ -232,9 +228,7 @@ $.widget('ck.solcalendar', {
         const oElement = this.element;
 
         oElement.empty();
-        const oDiv = $('<DIV>', { class: 'ui-state-error' });
-        oDiv.append('Sorry no data was found');
-        oElement.append(oDiv);
+        oElement.append(cAppRender.make_note(Sorry no data was found""));
     },
 
     //***************************************************************

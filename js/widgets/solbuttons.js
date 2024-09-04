@@ -8,7 +8,6 @@ class cSolButtons {
         HIGH_ID: 'h',
         GIGA_ID: 'g',
         NOTEBOOK_ID: 'n',
-        NOTEBOOKMAP_ID: 'ni',
         CAL_ID: 'c',
         REFRESH_ID: 'r',
         ALLTHUMB_ID: 'at',
@@ -251,9 +250,6 @@ class cSolButtons {
         // enable selected
         var sID = this.element.attr('id');
         cJquery.element(sID + this.CONSTS.NOTEBOOK_ID).removeAttr('disabled');
-        cJquery
-            .element(sID + this.CONSTS.NOTEBOOKMAP_ID)
-            .removeAttr('disabled');
         cJquery.element(sID + this.CONSTS.CAL_ID).removeAttr('disabled');
         cJquery.element(sID + this.CONSTS.REFRESH_ID).removeAttr('disabled');
         cJquery.element(sID + this.CONSTS.ALLTHUMB_ID).removeAttr('disabled');

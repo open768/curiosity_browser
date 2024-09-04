@@ -15,7 +15,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 //eslint-disable-next-line no-unused-vars
 class cSolComments {
     static current_sol = null;
-    static ID_GOTO_SOL_BUTTON = 'igsb';
 
     //###############################################################
     //# Entry point
@@ -58,10 +57,6 @@ class cSolComments {
     static load_sol_comments() {
         var sUrl, oHttp;
 
-        //update the displayed sol
-        var oSolDiv = cJquery.element(this.ID_GOTO_SOL_BUTTON);
-        oSolDiv.html('Sol: ' + this.current_sol);
-
         //fetch sol data
         sUrl = cBrowser.buildUrl(cAppLocations.rest + '/comments.php', {
             o: 'sol',
@@ -96,7 +91,7 @@ class cSolComments {
 
         //--------parse the data
         if (oJson == null) {
-            oContainer.append('no data found!');
+            oContainer.append(cAppRender.make_note('no data found!'));
             return;
         }
         //--------parse the data

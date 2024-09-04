@@ -100,16 +100,9 @@ class cTagCloud {
         var oElement = this.element;
         oElement.off('inview'); // turn off the inview listener
 
-        var sID = cJquery.child_ID(oElement, this.TAG_CHILD_ID);
-        oElement = cJquery.element(sID);
-
-        const oLoader = $('<DIV>');
-        oLoader.gSpinner({ scale: 0.25 });
-
-        const oDiv = $('<div>', { class: 'ui-widget-header' })
-            .append('Loading Tags...')
-            .append(oLoader);
-        oElement.append(oDiv);
+        var oTagElement = cJquery.get_child(oElement, this.TAG_CHILD_ID);
+        var oSpinner = cAppRender.make_spinner('loading Tags');
+        oTagElement.append(oSpinner);
 
         const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/tag.php', {
             o: 'all',
@@ -148,9 +141,6 @@ $.widget('ck.tagcloud', {
             $.error('http2 class is missing! check includes');
         }
         if (this.options.mission == null) $.error('mission is not set');
-        if (!this.element.gSpinner) {
-            $.error('gSpinner is missing! check includes');
-        }
         if (!$.event.special.inview) $.error('jquery inview is missing');
 
         cTagCloud.init(this);

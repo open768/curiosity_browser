@@ -30,6 +30,12 @@ function onLoadJQuery_SOLTAG() {
     $('#sol').html("<a href='" + sUrl + "'>" + sSol + '</a>');
     current_sol = sSol;
 
+    // put up a spinner
+    var oDiv = $('#soltag');
+    oDiv.empty();
+    var oSpinner = cAppRender.make_spinner('fetching tags');
+    oDiv.append(oSpinner);
+
     // load tags
     sUrl = cBrowser.buildUrl(cAppLocations.rest + '/tag.php', {
         s: sSol,
@@ -57,7 +63,7 @@ function load_soltag_callback(poHttp) {
     const aData = poHttp.response;
 
     if (aData == null) {
-        oDiv.append('No Tags Found');
+        oDiv.append(cAppRender.make_note('no tags found'));
         return;
     }
 

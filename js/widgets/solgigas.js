@@ -25,9 +25,6 @@ $.widget('ck.solgigas', {
         if (!cHttp2) {
             $.error('http2 class is missing! check includes');
         }
-        if (!oElement.gSpinner) {
-            $.error('gSpinner is missing! check includes');
-        }
 
         // check that the options are passed correctly
         if (oOptions.mission == null) $.error('mission is not set');
@@ -42,10 +39,8 @@ $.widget('ck.solgigas', {
 
         // clear out the DIV and put some text in it
         oElement.empty();
-
-        const oLoader = $('<DIV>');
-        oLoader.gSpinner({ scale: 0.25 });
-        oElement.append(oLoader).append('Loading sol gigas:');
+        var oSpinner = cAppRender.make_spinner('Loading sol gigas');
+        oElement.append(oSpinner);
 
         // get the sols with Tags
         var sUrl = cBrowser.buildUrl(cAppLocations.rest + '/gigapans.php', {
@@ -70,9 +65,7 @@ $.widget('ck.solgigas', {
         // --------------------------------------------------------------
         oElement.empty();
         if (aData == null) {
-            const oDiv = $('<DIV>', { class: 'ui-state-error' });
-            oDiv.append('Sorry no data was found');
-            oElement.append(oDiv);
+            oElement.append(cAppRender.make_note('Sorry no data was found'));
             return;
         }
 

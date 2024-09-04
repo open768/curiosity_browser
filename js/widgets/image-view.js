@@ -35,9 +35,6 @@ $.widget('ck.imageview', {
         if (!cHttp2) {
             $.error('http2 class is missing! check includes');
         }
-        if (!this.element.gSpinner) {
-            $.error('gSpinner is missing! check includes');
-        }
 
         // init
         const sElementName = this.element.get(0).tagName;
@@ -70,15 +67,12 @@ $.widget('ck.imageview', {
         const oElement = this.element;
         oElement.empty();
 
-        const oDiv = $('<DIV>', { class: '.ui-widget-content' });
-        const oLoader = $('<DIV>');
-        oLoader.gSpinner({ scale: 0.25 });
-        oDiv.append(oLoader).append(
+        var sCaption =
             'Loading Images for sol:' +
-                oOptions.sol +
-                ' instr:' +
-                oOptions.instrument,
-        );
+            oOptions.sol +
+            ' instr:' +
+            oOptions.instrument;
+        const oDiv = cAppRender.make_spinner(sCaption);
         oElement.append(oDiv);
 
         // load images
@@ -128,7 +122,7 @@ $.widget('ck.imageview', {
 
         // build the html to put into the div
         if (oJson.max == 0) {
-            this.element.html('No data found');
+            this.element.append(cAppRender.make_note('No data found'));
         } else {
             // nothing in this div
             this.element.empty();
