@@ -21,6 +21,7 @@ include("$appPhpFragments/doctype.php");
     <script>
         function onLoadJQuery_GIGAS() {
             $("#solgiga").allgrid({
+                caption: "gigas",
                 mission: cMission,
                 data_url: 'gigapans.php',
                 sol_url: 'solgigas.php'

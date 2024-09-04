@@ -107,7 +107,7 @@ class cAppRender {
 		const oDiv = $('<DIV>', {
 			class: 'w3-panel w3-theme-l5 w3-leftbar w3-border-blue w3-padding-large'
 		})
-		oDiv.append('<h2>' + psCaption + '</h2>')
+		oDiv.append('<h3>' + psCaption + '</h3>')
 		return oDiv
 	}
 }

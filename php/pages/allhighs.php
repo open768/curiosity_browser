@@ -21,6 +21,7 @@ require_once "$home/php/fragments/app-common.php";
     <script>
         function onLoadJQuery_HIGHS() {
             $("#solhighs").allgrid({
+                caption: "highlights",
                 mission: cMission,
                 data_url: 'img_highlight.php',
                 sol_url: 'solhigh.php'

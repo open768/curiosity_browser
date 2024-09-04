@@ -10,14 +10,16 @@ class cSolGridRenderer {
 	DataRestUrl = null
 	solsUrl = null
 	solData = null
+	caption = null
 
 	//*********************************************************************
-	constructor(psMissionID, poElement, psDataRestUrl, psOnClickUrl) {
+	constructor(psMissionID, poElement, psCaption, psDataRestUrl, psOnClickUrl) {
 		this.mission = psMissionID
 		this.onClickUrl = psOnClickUrl
 		this.element = poElement
 		this.DataRestUrl = cAppLocations.rest + '/' + psDataRestUrl
 		this.solsUrl = cAppLocations.rest + '/sols.php'
+		this.caption = psCaption
 
 		// check for necessary classes
 		if (!bean) {
@@ -41,7 +43,7 @@ class cSolGridRenderer {
 		// check that the options are passed correctly
 		if (this.mission == null) $.error('mission is not set')
 
-		//update status
+		//SPINNER
 		oElement.uniqueId()
 		oElement.empty()
 		const oLoader = cAppRender.make_spinner('Loading sol tags')
@@ -91,28 +93,37 @@ class cSolGridRenderer {
 		oElement.empty()
 		var sSol, i
 
-		//iterate all sols
-		for (i = 0; i < aSols.length; i++) {
-			//iterate each sol
-			sSol = aSols[i].sol.toString()
-			const oDiv = $('<DIV>', { class: 'solbuttonDiv' }) //container for each button
+		var oContextDiv = cAppRender.make_note(
+			'This grid shows all the Sols (martian days) that the rover has been on mars. The blue buttons show where there is ' + this.caption + ' data'
+		)
+		oElement.append(oContextDiv)
 
-			if (this.solData[sSol]) {
-				//does sol have data?
-				const oButton = $('<button>', {
-					class: 'w3-button w3-blue w3-padding-small',
-					sol: sSol
-				}).append(sSol)
-				oButton.click(poEvent => this.onButtonClick(poEvent))
-				oDiv.append(oButton)
-			} else {
-				//no data for the sol, link back to the index page for the sol
-				const sUrl = cBrowser.buildUrl('index.php', { s: sSol })
-				const oA = $('<a>', { href: sUrl, class: 'sollink' }).append(sSol)
-				oDiv.append(oA)
+		var oDataDiv = $('<DIV>')
+		{
+			//iterate all sols
+			for (i = 0; i < aSols.length; i++) {
+				//iterate each sol
+				sSol = aSols[i].sol.toString()
+				const oDiv = $('<DIV>', { class: 'solbuttonDiv' }) //container for each button
+
+				if (this.solData[sSol]) {
+					//does sol have data?
+					const oButton = $('<button>', {
+						class: 'w3-button w3-blue w3-padding-small',
+						sol: sSol
+					}).append(sSol)
+					oButton.click(poEvent => this.onButtonClick(poEvent))
+					oDiv.append(oButton)
+				} else {
+					//no data for the sol, link back to the index page for the sol
+					const sUrl = cBrowser.buildUrl('index.php', { s: sSol })
+					const oA = $('<a>', { href: sUrl, class: 'sollink' }).append(sSol)
+					oDiv.append(oA)
+				}
+
+				oDataDiv.append(oDiv)
 			}
-
-			oElement.append(oDiv)
+			oElement.append(oDataDiv)
 		}
 	}
 
