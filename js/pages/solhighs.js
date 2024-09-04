@@ -72,7 +72,7 @@ class cSolHighs {
         if (this.is_mosaic) oParams[cSpaceBrowser.MOSAIC_QUERYSTRING] = 1;
 
         const sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), oParams);
-        cBrowser.pushState('solhigh', sUrl);
+        cBrowser.update_state('solhigh', sUrl);
     }
 
     //###############################################################
@@ -96,7 +96,7 @@ class cSolHighs {
             cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING];
         oParams[cSpaceBrowser.MOSAIC_QUERYSTRING] = 1;
         sUrl = cBrowser.buildUrl('solhigh.php', oParams);
-        cBrowser.pushState('highlights', sUrl);
+        cBrowser.update_state('highlights', sUrl);
         cCommonStatus.set_status('loading..');
         this.onLoadJQuery();
     }

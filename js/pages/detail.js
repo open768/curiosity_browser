@@ -634,7 +634,7 @@ class cDetail {
             i: poItem.i,
             p: poItem.p,
         });
-        cBrowser.pushState('Detail', sUrl);
+        cBrowser.update_state('Detail', sUrl);
     }
 
     //***************************************************************

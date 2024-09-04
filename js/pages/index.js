@@ -702,7 +702,7 @@ class cIndexPage {
             oParams[cSpaceBrowser.BEGIN_QUERYSTRING] =
                 cIndexPageOptions.start_image;
         const sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), oParams);
-        cBrowser.pushState('Index', sUrl);
+        cBrowser.update_state('Index', sUrl);
     }
 
     //***************************************************************
@@ -823,7 +823,7 @@ class cIndexPage {
 
         //---- create the widget to display the images
         cDebug.write('creating widget');
-        oDiv.imageview({
+        oDiv.image_list({
             // apply widget
             sol: piSol,
             instrument: psInstr,

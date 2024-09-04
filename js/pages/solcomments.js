@@ -46,7 +46,7 @@ class cSolComments {
         oParams[cSpaceBrowser.SOL_QUERYSTRING] = this.current_sol;
 
         const sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), oParams);
-        cBrowser.pushState('solcomments', sUrl);
+        cBrowser.update_state('solcomments', sUrl);
     }
 
     //###############################################################

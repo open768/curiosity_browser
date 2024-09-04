@@ -67,7 +67,7 @@ class cAppCal {
         const sURL = cBrowser.buildUrl(cBrowser.pageUrl(), {
             s: this.current_sol,
         });
-        cBrowser.pushState('calendar', sURL);
+        cBrowser.update_state('calendar', sURL);
     }
 
     static onClickCal(poEvent, poData) {

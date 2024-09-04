@@ -24,7 +24,7 @@ function set_browser_url() {
     const oParams = {};
     oParams[cSpaceBrowser.SOL_QUERYSTRING] = sSol;
     const sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), oParams);
-    cBrowser.pushState('solgigas', sUrl);
+    cBrowser.update_state('solgigas', sUrl);
 }
 
 // eslint-disable-next-line no-unused-vars
