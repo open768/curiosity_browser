@@ -339,9 +339,10 @@ class cSearchBox {
         var oThis = this;
         var oElement = cJquery.element(cIndexPageConsts.ID_SEARCH_PANE);
         oElement.empty();
-        oElement.addClass('w3-cell-row');
 
-        var oCell = $('<div>', { class: 'w3-cell' });
+        var oSearchDiv = $('<span>', {
+            style: 'width:400px;display:inline',
+        });
         {
             //--------- input box
             var oTextbox = $('<input>', {
@@ -349,7 +350,7 @@ class cSearchBox {
                 id: cIndexPageConsts.ID_SEARCH,
                 size: 30,
             });
-            oCell.append(oTextbox);
+            oSearchDiv.append(oTextbox);
 
             //--------- button
             var oButton = cAppRender.make_button(
@@ -359,26 +360,41 @@ class cSearchBox {
                 false,
                 () => oThis.onClickSearch(),
             );
-            oCell.append(oButton);
-            oElement.append(oCell);
+            oSearchDiv.append(oButton);
+
+            oElement.append(oSearchDiv);
         }
 
-        oCell = $('<div>', { class: 'w3-cell' });
+        // setup keypress
+        this.pr_instrument_box();
+
+        //-------------------------------------------
+        oElement.append(cBrowser.whitespace(50));
+
+        //--------- checkbox
+        var oCheckDiv = $('<span>', { class: 'w3-border w3-padding' });
         {
-            //--------- checkbox
             var oCheckbox = $('<input>', {
                 class: 'w3-check',
                 type: 'checkbox',
                 id: cIndexPageConsts.ID_CHKTHUMBS,
             });
-            oCell.append(oCheckbox);
+            oCheckDiv.append(oCheckbox);
 
-            oCell.append('<label>Show Thumbnails</label>');
-            oElement.append(oCell);
+            oCheckDiv.append('<label>Show Thumbnails</label>');
+            oElement.append(oCheckDiv);
         }
 
-        // setup keypress
-        this.pr_instrument_box();
+        //--------- raw images
+        oElement.append(cBrowser.whitespace(50));
+        oButton = cAppRender.make_button(
+            cIndexPage.RAW_BUTTON_ID,
+            'Raw Images',
+            'See Raw images for this sol',
+            true,
+            () => cIndexPage.onClickRawImage(),
+        );
+        oElement.append(oButton);
     }
 
     //***************************************************************
@@ -403,7 +419,7 @@ class cSearchBox {
         cIndexPageOptions.instrument = null;
         var oThis = this;
 
-        if (!isNaN(sText)) {
+        if (cCommon.is_numeric(sText)) {
             cJquery
                 .element(cLeftColumn.ID_WIDGET_SOLCHOOSER)
                 .solinstrumentChooser('set_sol', sText);
@@ -559,6 +575,7 @@ class cPageTabs {
 //###############################################################
 
 class cIndexPage {
+    RAW_BUTTON_ID = 'rbid';
     /**
      *called  when jQuery is loaded
      *
