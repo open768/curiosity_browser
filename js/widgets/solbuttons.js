@@ -3,16 +3,14 @@
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 /*jshint esversion: 6 */
 class cSolButtons {
-	CONSTS = {
-		TAG_ID: 't',
-		HIGH_ID: 'h',
-		GIGA_ID: 'g',
-		NOTEBOOK_ID: 'n',
-		CAL_ID: 'c',
-		REFRESH_ID: 'r',
-		ALLTHUMB_ID: 'at',
-		SITE_ID: 's'
-	}
+	TAG_ID = 't'
+	HIGH_ID = 'h'
+	GIGA_ID = 'g'
+	NOTEBOOK_ID = 'n'
+	CAL_ID = 'c'
+	REFRESH_ID = 'r'
+	ALLTHUMB_ID = 'at'
+	SITE_ID = 's'
 	options = null
 	element = null
 	widget = null
@@ -36,36 +34,43 @@ class cSolButtons {
 		{
 			var oBody = oWidget.body
 			// ----------------------------------------------------
-			sID = cJquery.child_ID(oElement, this.CONSTS.TAG_ID)
+			sID = cJquery.child_ID(oElement, this.TAG_ID)
 			oButton = cAppRender.make_button(sID, 'Tags', 'Tags', true, () => oThis.onClickTag())
 			oBody.append(oButton)
 
 			// ----------------------------------------------------
-			oButton = cAppRender.make_button(sID + this.CONSTS.HIGH_ID, 'Highlights', 'Highlights', true, () => oThis.onClickHighlights())
+			sID = cJquery.child_ID(oElement, this.HIGH_ID)
+			oButton = cAppRender.make_button(sID, 'Highlights', 'Highlights', true, () => oThis.onClickHighlights())
 			oBody.append(oButton)
 
 			// ----------------------------------------------------
-			oButton = cAppRender.make_button(sID + this.CONSTS.GIGA_ID, 'Gigapans', 'Gigapans', true, () => oThis.onClickGigapans())
+			sID = cJquery.child_ID(oElement, this.GIGA_ID)
+			oButton = cAppRender.make_button(sID, 'Gigapans', 'Gigapans', true, () => oThis.onClickGigapans())
 			oBody.append(oButton)
 
 			// ----------------------------------------------------
-			oButton = cAppRender.make_button(sID + this.CONSTS.NOTEBOOK_ID, 'MSL Notebook', 'MSL Notebook', true, () => oThis.onClickMSLNotebook())
+			sID = cJquery.child_ID(oElement, this.NOTEBOOK_ID)
+			oButton = cAppRender.make_button(sID, 'MSL Notebook', 'MSL Notebook', true, () => oThis.onClickMSLNotebook())
 			oBody.append(oButton)
 
 			// ----------------------------------------------------
-			oButton = cAppRender.make_button(sID + this.CONSTS.CAL_ID, 'Calendar', 'Calendar', true, () => oThis.onClickCalender())
+			sID = cJquery.child_ID(oElement, this.CAL_ID)
+			oButton = cAppRender.make_button(sID, 'Calendar', 'Calendar', true, () => oThis.onClickCalender())
 			oBody.append(oButton)
 
 			// ----------------------------------------------------
-			oButton = cAppRender.make_button(sID + this.CONSTS.REFRESH_ID, 'Refresh', 'Refresh', true, () => oThis.onClickRefresh())
+			sID = cJquery.child_ID(oElement, this.REFRESH_ID)
+			oButton = cAppRender.make_button(sID, 'Refresh', 'Refresh', true, () => oThis.onClickRefresh())
 			oBody.append(oButton)
 
 			// ----------------------------------------------------
-			oButton = cAppRender.make_button(sID + this.CONSTS.ALLTHUMB_ID, 'All thumbnails', 'All thumbnails', true, () => oThis.onClickAllThumbs())
+			sID = cJquery.child_ID(oElement, this.ALLTHUMB_ID)
+			oButton = cAppRender.make_button(sID, 'All thumbnails', 'All thumbnails', true, () => oThis.onClickAllThumbs())
 			oBody.append(oButton)
 
 			// ----------------------------------------------------
-			oButton = cAppRender.make_button(sID + this.CONSTS.SITE_ID, 'Site', 'Site', true, () => oThis.onClickSite())
+			sID = cJquery.child_ID(oElement, this.SITE_ID)
+			oButton = cAppRender.make_button(sID, 'Site', 'Site', true, () => oThis.onClickSite())
 			oBody.append(oButton)
 		}
 		oElement.append(oWidget)
@@ -151,19 +156,25 @@ class cSolButtons {
 		// store the sol
 		const oOptions = this.options
 		oOptions.sol = psSol
+		const oElement = this.element
 
 		// disable all buttons in this widget;
-		this.element.children('button').each(function () {
+		oElement.children('button').each(function () {
 			$(this).attr('disabled', 'disabled')
 		})
 
-		// enable selected
-		var sID = this.element.attr('id')
-		cJquery.element(sID + this.CONSTS.NOTEBOOK_ID).removeAttr('disabled')
-		cJquery.element(sID + this.CONSTS.CAL_ID).removeAttr('disabled')
-		cJquery.element(sID + this.CONSTS.REFRESH_ID).removeAttr('disabled')
-		cJquery.element(sID + this.CONSTS.ALLTHUMB_ID).removeAttr('disabled')
-		cJquery.element(sID + this.CONSTS.SITE_ID).removeAttr('disabled')
+		// enable selected buttons
+		var sID
+		sID = cJquery.child_ID(oElement, this.NOTEBOOK_ID)
+		cJquery.enable_element(cJquery.element(sID))
+		sID = cJquery.child_ID(oElement, this.CAL_ID)
+		cJquery.enable_element(cJquery.element(sID))
+		sID = cJquery.child_ID(oElement, this.REFRESH_ID)
+		cJquery.enable_element(cJquery.element(sID))
+		sID = cJquery.child_ID(oElement, this.ALLTHUMB_ID)
+		cJquery.enable_element(cJquery.element(sID))
+		sID = cJquery.child_ID(oElement, this.SITE_ID)
+		cJquery.enable_element(cJquery.element(sID))
 
 		// fetch tags, highlights and gigapans
 		var sUrl = cBrowser.buildUrl(cAppLocations.rest + '/gigapans.php', {
@@ -205,24 +216,27 @@ class cSolButtons {
 	//#################################################################
 	onHiLiteCount(poHttp) {
 		if (poHttp.response > 0) {
-			const sID = '#' + this.element.attr('id') + this.CONSTS.HIGH_ID
-			$(sID).removeAttr('disabled')
+			const oElement = this.element
+			const sID = cJquery.child_ID(oElement, this.NOTEBOOK_ID)
+			cJquery.enable_element(cJquery.element(sID))
 		}
 	}
 
 	//*****************************************************************
 	onFetchedTagCount(poHttp) {
 		if (poHttp.response > 0) {
-			const sID = '#' + this.element.attr('id') + this.CONSTS.TAG_ID
-			$(sID).removeAttr('disabled')
+			const oElement = this.element
+			const sID = cJquery.child_ID(oElement, this.TAG_ID)
+			cJquery.enable_element(cJquery.element(sID))
 		}
 	}
 
 	//*****************************************************************
 	onFetchedGigapans(poHttp) {
 		if (poHttp.response) {
-			const sID = '#' + this.element.attr('id') + this.CONSTS.GIGA_ID
-			$(sID).removeAttr('disabled')
+			const oElement = this.element
+			const sID = cJquery.child_ID(oElement, this.GIGA_ID)
+			cJquery.enable_element(cJquery.element(sID))
 		}
 	}
 
