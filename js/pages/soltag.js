@@ -21,7 +21,8 @@ function onLoadJQuery_SOLTAG() {
 	var sUrl, sSol
 
 	// render the sol buttons
-	cAppSolButtons.render_buttons('solbuttons')
+	var oDiv = cJquery.element('solbuttons')
+	cAppSolButtons.render_buttons(oDiv)
 
 	// update sol number
 	sSol = cBrowser.data.s
@@ -31,7 +32,7 @@ function onLoadJQuery_SOLTAG() {
 	current_sol = sSol
 
 	// put up a spinner
-	var oDiv = $('#soltag')
+	oDiv = cJquery.element('soltag')
 	oDiv.empty()
 	var oSpinner = cAppRender.make_spinner('fetching tags')
 	oDiv.append(oSpinner)

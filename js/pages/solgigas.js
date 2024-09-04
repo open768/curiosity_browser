@@ -32,7 +32,8 @@ function onLoadJQuery_SOLGIG() {
 	var sSol
 
 	set_browser_url()
-	cAppSolButtons.render_buttons('buttons')
+	const oDiv = cJquery.element('buttons')
+	cAppSolButtons.render_buttons(oDiv)
 
 	// update sol number
 	sSol = cBrowser.data.s

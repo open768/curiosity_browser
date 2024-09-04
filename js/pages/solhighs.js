@@ -34,7 +34,9 @@ class cSolHighs {
 		oElMosaic.on('change', () => this.onCheckMosaic())
 
 		this.set_browser_url()
-		cAppSolButtons.render_buttons(cSolHighPageConstants.SOL_BUTTONS_ID)
+
+		const oDiv = cJquery.element(cSolHighPageConstants.SOL_BUTTONS_ID)
+		cAppSolButtons.render_buttons(oDiv)
 		this.render_highlights()
 	}
 

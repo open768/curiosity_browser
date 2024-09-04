@@ -137,8 +137,7 @@ class cAppAllSolButtons {
 	]
 
 	//*********************************************************************
-	static render_buttons(psID) {
-		var oParent = cJquery.element(psID)
+	static render_buttons(poParent) {
 		var oThis = this
 
 		var oSpan = $('<span>')
@@ -151,7 +150,7 @@ class cAppAllSolButtons {
 				oButton.attr('clicktarget', oTarget.target)
 				oSpan.append(oButton)
 			}
-			oParent.append(oSpan)
+			poParent.append(oSpan)
 		}
 	}
 
@@ -174,15 +173,14 @@ class cAppAllSolButtons {
 class cAppSolButtons {
 	static current_sol = null
 
-	static render_buttons(psID) {
+	static render_buttons(poParent) {
 		var oButton, sSol
-		var oParent = cJquery.element(psID)
-		oParent.empty()
+		poParent.empty()
 
 		//-------------- get the current sol
 		sSol = cBrowser.queryString(cSpaceBrowser.SOL_QUERYSTRING)
 		if (!sSol) {
-			oParent.html('sol missing!')
+			poParent.html('sol missing!')
 			return
 		}
 		var iSol = parseInt(sSol)
@@ -202,11 +200,11 @@ class cAppSolButtons {
 			oButton = cAppRender.make_button(null, '&gt;&gt;&gt;', 'Next Sol', false, () => oThis.onClickOtherSol(iSol + 1))
 			oSpan.append(oButton)
 		}
-		oParent.append(oSpan)
+		poParent.append(oSpan)
 
 		//--------------render the all sol buttons
-		oParent.append(cBrowser.whitespace(50))
-		cAppAllSolButtons.render_buttons(psID)
+		poParent.append(cBrowser.whitespace(50))
+		cAppAllSolButtons.render_buttons(poParent)
 	}
 
 	//***************************************************

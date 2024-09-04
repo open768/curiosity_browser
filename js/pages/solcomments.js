@@ -29,7 +29,8 @@ class cSolComments {
 
 		// change status of checkbox
 		this.set_browser_url()
-		cAppSolButtons.render_buttons(cSolCommentPageConstants.ID_BUTTONS)
+		const oDiv = cJquery.element(cSolCommentPageConstants.ID_BUTTONS)
+		cAppSolButtons.render_buttons(oDiv)
 		this.load_sol_comments()
 	}
 

@@ -1,6 +1,7 @@
 'use strict'
 
 //TODO make this into a widget
+/* global cAppAllSolButtons */
 
 //eslint-disable-next-line no-unused-vars
 class cSolGridRenderer {
@@ -93,12 +94,21 @@ class cSolGridRenderer {
 		oElement.empty()
 		var sSol, i
 
+		//---------------------all sol buttons
+		const oButtonDiv = $('<div>', { class: 'w3-panel w3-theme-d2' })
+		{
+			cAppAllSolButtons.render_buttons(oButtonDiv)
+			oElement.append(oButtonDiv)
+		}
+
+		//---------------------helpful note
 		var oContextDiv = cAppRender.make_note(
-			'This grid shows all the Sols (martian days) that the rover has been on mars. The blue buttons show where there is ' + this.caption + ' data'
+			'This grid shows all the sols (Martian days) that the rover has been on Mars. The blue buttons show where there is ' + this.caption + ' data'
 		)
 		oElement.append(oContextDiv)
 
-		var oDataDiv = $('<DIV>')
+		//---------------------the data
+		const oDataDiv = $('<DIV>', { class: 'w3-panel' })
 		{
 			//iterate all sols
 			for (i = 0; i < aSols.length; i++) {
