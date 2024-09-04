@@ -9,7 +9,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
-'use strict';
+'use strict'
 
 /* globals cAppSolButtons */
 //###############################################################
@@ -17,27 +17,27 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 //###############################################################
 
 function set_browser_url() {
-    var sSol = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING];
-    var oSolDiv = cJquery.element('sol');
-    oSolDiv.html(sSol);
+	var sSol = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]
+	var oSolDiv = cJquery.element('sol')
+	oSolDiv.html(sSol)
 
-    const oParams = {};
-    oParams[cSpaceBrowser.SOL_QUERYSTRING] = sSol;
-    const sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), oParams);
-    cBrowser.update_state('solgigas', sUrl);
+	const oParams = {}
+	oParams[cSpaceBrowser.SOL_QUERYSTRING] = sSol
+	const sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), oParams)
+	cBrowser.update_state('solgigas', sUrl)
 }
 
 // eslint-disable-next-line no-unused-vars
 function onLoadJQuery_SOLGIG() {
-    var sSol;
+	var sSol
 
-    set_browser_url();
-    cAppSolButtons.render_buttons('buttons');
+	set_browser_url()
+	cAppSolButtons.render_buttons('buttons')
 
-    // update sol number
-    sSol = cBrowser.data.s;
-    $('#solgiga').solgigas({
-        sol: sSol,
-        mission: cMission,
-    });
+	// update sol number
+	sSol = cBrowser.data.s
+	$('#solgiga').solgigas({
+		sol: sSol,
+		mission: cMission
+	})
 }
