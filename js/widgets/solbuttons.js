@@ -1,7 +1,7 @@
 'use strict'
+/* global cAppAllSolButtons */
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-/*jshint esversion: 6 */
 class cSolButtons {
 	TAG_ID = 't'
 	HIGH_ID = 'h'
@@ -97,29 +97,14 @@ class cSolButtons {
 	//****************************************************************
 	pr_render_all_sols() {
 		var oElement = this.element
-		var oButton
 
 		var oWidget = cAppRender.create_widget('All Sols:')
 		{
 			var oBody = oWidget.body
-			// ----------------------------------------------------
-			oButton = cAppRender.make_button(null, 'Tags', 'All Tags', false, () => cBrowser.openWindow('alltags.php', 'alltags'))
-			oBody.append(oButton)
+			cAppAllSolButtons.render_buttons(oBody)
 
 			// ----------------------------------------------------
-			oButton = cAppRender.make_button(null, 'Highlights', 'All Highlights', false, () => cBrowser.openWindow('allhighs.php', 'allhighs'))
-			oBody.append(oButton)
-
-			// ----------------------------------------------------
-			oButton = cAppRender.make_button(null, 'Gigapans', 'All Gigapans', false, () => cBrowser.openWindow('allgigas.php', 'allgigas'))
-			oBody.append(oButton)
-
-			// ----------------------------------------------------
-			oButton = cAppRender.make_button(null, 'Comments', 'All Comments', false, () => cBrowser.openWindow('allcomments.php', 'allcomments'))
-			oBody.append(oButton)
-
-			// ----------------------------------------------------
-			oButton = cAppRender.make_button(null, 'Sites', 'All Sites', false, () => cBrowser.openWindow('allsites.php', 'allsites'))
+			var oButton = cAppRender.make_button(null, 'Sites', 'All Sites', false, () => cBrowser.openWindow('allsites.php', 'allsites'))
 			oBody.append(oButton)
 		}
 		oElement.append(oWidget)
