@@ -117,10 +117,11 @@ class cAppRender {
 //######################################################################
 class cAppAllSolButtons {
 	static targets = [
-		{ page: 'solhigh', target: 'allhighs.php', title: 'All Highlights', caption: 'Highlights', icon: 'photo_size_select_small' },
-		{ page: 'solcomments', target: 'allcomments.php', title: 'All Comments', caption: 'Comments', icon: 'forum' },
-		{ page: 'soltags', target: 'alltags.php', title: 'All Tags', caption: 'Tags', icon: 'bookmarks' },
-		{ page: 'solgigas', target: 'allgigas.php', caption: 'All Gigapans', icon: 'panorama_photosphere' }
+		{ target: 'allhighs.php', title: 'All Highlights', caption: 'Highlights', icon: 'photo_size_select_small' },
+		{ target: 'allcomments.php', title: 'All Comments', caption: 'Comments', icon: 'forum' },
+		{ target: 'alltags.php', title: 'All Tags', caption: 'Tags', icon: 'bookmarks' },
+		{ target: 'allgigas.php', caption: 'All Gigapans', icon: 'panorama_photosphere' },
+		{ target: 'utccalendar.php', caption: 'Calendar', icon: 'today' }
 	]
 
 	//*********************************************************************
