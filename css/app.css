@@ -1,459 +1,432 @@
 body {
-   background-color: white;
+	background-color: white;
 
-   font:
-      15px arial,
-      sans-serif;
+	font:
+		15px arial,
+		sans-serif;
 }
 
 .about {
-   border: 2px solid #e86005;
-   border-radius: 10px;
-   display: table-cell;
-   height: 70px;
-   padding: 10px;
-   text-align: center;
-   vertical-align: middle;
+	border: 2px solid #e86005;
+	border-radius: 10px;
+	display: table-cell;
+	height: 70px;
+	padding: 10px;
+	text-align: center;
+	vertical-align: middle;
 
-   /*background-color:lightsalmon;*/
+	/*background-color:lightsalmon;*/
 }
 
 .big_error {
-   color: #e86005;
-   font-family: "Helvetica Neue", Helvetica, sans-serif;
-   font-size: 50px;
-   line-height: 1em;
-   text-shadow: 1px 1px 0 rgb(107, -29, -120);
+	color: #e86005;
+	font-family: 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 50px;
+	line-height: 1em;
+	text-shadow: 1px 1px 0 rgb(107, -29, -120);
+}
+.legend_outer {
+	margin: 5px;
+	width: 120px;
+	padding: 5px;
+}
+.legend_tag {
+	font-size: 11px;
+}
+.legend_line {
+	display: flex;
+	height: 10px;
+	border-style: solid;
+	border-width: 1px;
 }
 
 .comments {
-   color: grey;
-   font-style: italic;
+	color: grey;
+	font-style: italic;
 }
 
 .credits {
-   color: #e86005;
-   font-family: "Helvetica Neue", Helvetica, sans-serif;
-   font-size: 14px;
-   line-height: 1em;
-   text-shadow: 1px 1px 0 rgb(107, -29, -120);
+	color: #e86005;
+	font-family: 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 14px;
+	line-height: 1em;
+	text-shadow: 1px 1px 0 rgb(107, -29, -120);
 }
 
 .disclaim {
-   border-radius: 10px;
-   font-size: 11px;
+	border-radius: 10px;
+	font-size: 11px;
 }
 
 .FBloginButton {
-   background: #627aac url(images/facebook_small.png) left no-repeat;
-   border-bottom: 1px solid #1a356e;
-   border-left: none;
-   border-right: 1px solid #29447e;
-   border-top: 1px solid #29447e;
-   color: white;
-   display: inline-block;
-   font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
-   font-size: 11px;
-   font-weight: bold;
-   height: 22px;
-   line-height: 22px;
-   padding-left: 29px;
-   padding-right: 7px;
-   text-decoration: none;
+	background: #627aac url(images/facebook_small.png) left no-repeat;
+	border-bottom: 1px solid #1a356e;
+	border-left: none;
+	border-right: 1px solid #29447e;
+	border-top: 1px solid #29447e;
+	color: white;
+	display: inline-block;
+	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	height: 22px;
+	line-height: 22px;
+	padding-left: 29px;
+	padding-right: 7px;
+	text-decoration: none;
 }
 
 .github {
-   background-color: #e5e5e5;
-   padding: 5px;
-   resize: horizontal;
+	background-color: #e5e5e5;
+	padding: 5px;
+	resize: horizontal;
 }
 
 .gold {
-   border: 1px solid #999999;
-   border-radius: 3px;
-   margin-bottom: 3px;
-   padding: 10px;
+	border: 1px solid #999999;
+	border-radius: 3px;
+	margin-bottom: 3px;
+	padding: 10px;
 }
 
 .greybox {
-   background: #f0f0f0;
-   border-top: 1px solid #fff;
-   display: inline-flex;
-   font-size: 10px;
-   outline: 1px solid #ddd;
-   padding: 5px;
+	background: #f0f0f0;
+	border-top: 1px solid #fff;
+	display: inline-flex;
+	font-size: 10px;
+	outline: 1px solid #ddd;
+	padding: 5px;
 }
 
 .highlight_body {
-   background: oldlace;
-   border: 2px solid white;
-   display: inline-flex;
-   margin-right: 5px;
-   margin-top: 20px;
-   min-height: 120px;
-   min-width: 120px;
-   vertical-align: top;
+	background: oldlace;
+	border: 2px solid white;
+	display: inline-flex;
+	margin-right: 5px;
+	margin-top: 20px;
+	min-height: 120px;
+	min-width: 120px;
+	vertical-align: top;
 
-   box-shadow:
-      inset 0px 0px 7px 0px rgba(0, 0, 0, 1),
-      0px 0px 7px 0px rgba(0, 0, 0, 1);
+	box-shadow:
+		inset 0px 0px 7px 0px rgba(0, 0, 0, 1),
+		0px 0px 7px 0px rgba(0, 0, 0, 1);
 }
 
 .highlight_product {
-   background: floralwhite;
-   display: inline-flex;
-   height: 40px;
-   margin-bottom: 100px;
-   min-width: 100px;
-   padding-right: 5px;
-   text-align: right;
-   vertical-align: bottom;
+	background: floralwhite;
+	display: inline-flex;
+	height: 40px;
+	margin-bottom: 100px;
+	min-width: 100px;
+	padding-right: 5px;
+	text-align: right;
+	vertical-align: bottom;
 }
 
 .imagenav {
-   width: 100%;
+	width: 100%;
 }
 
 .imginfo {
-   -moz-border-radius: 5px;
-   -webkit-border-radius: 5px;
-   background-color: rgba(255, 255, 255, 0.5);
-   border: 3px solid white;
-   border-radius: 5px;
-   color: red;
-   display: inline-block;
-   font-family: "Helvetica Neue", Helvetica, sans-serif;
-   font-size: 20px;
-   font-weight: bold;
-   height: 25px;
-   left: 5px;
-   position: relative;
-   text-align: center;
-   top: -40px;
-   width: 25px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	background-color: rgba(255, 255, 255, 0.5);
+	border: 3px solid white;
+	border-radius: 5px;
+	color: red;
+	display: inline-block;
+	font-family: 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	height: 25px;
+	left: 5px;
+	position: relative;
+	text-align: center;
+	top: -40px;
+	width: 25px;
 }
 
 .image_error {
-   background-color: red;
-   color: white;
-   height: 200px;
-   width: 800px;
-   font-size: 50px;
-   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-   text-align: center;
-   display: flex;
-   justify-content: center;
-   align-items: center;
+	background-color: red;
+	color: white;
+	height: 200px;
+	width: 800px;
+	font-size: 50px;
+	font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .instruments {
-   font-family: "Helvetica Neue", Helvetica, sans-serif;
-   font-size: 12px;
+	font-family: 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 12px;
 }
 
 .intro_text {
-   background-color: rgba(255, 255, 255, 0.75);
-   display: table; /* keep the background color wrapped tight */
-   padding: 5px;
-   margin: 10px;
-   font-size: 18px;
-   border-radius: 10px;
+	background-color: rgba(255, 255, 255, 0.75);
+	display: table; /* keep the background color wrapped tight */
+	padding: 5px;
+	margin: 10px;
+	font-size: 18px;
+	border-radius: 10px;
 }
 
 .leftcolumn {
-   width: 230px;
+	width: 230px;
 }
 
 .maintable {
-   width: 100%;
+	width: 100%;
 }
 
 .pagenav {
-   width: 150px;
+	width: 150px;
 }
 
 .polaroid {
-   border: 2px solid white;
-   display: inline-flex;
-   margin: 2px;
-   min-height: 120px;
-   min-width: 120px;
-   padding: 7px;
+	border: 2px solid white;
+	display: inline-flex;
+	margin: 2px;
+	min-height: 120px;
+	min-width: 120px;
+	padding: 7px;
 
-   box-shadow:
-      inset 0px 0px 7px 0px rgba(0, 0, 0, 1),
-      0px 0px 7px 0px rgba(0, 0, 0, 1);
+	box-shadow:
+		inset 0px 0px 7px 0px rgba(0, 0, 0, 1),
+		0px 0px 7px 0px rgba(0, 0, 0, 1);
 }
 
 .redbox {
-   border: 3px solid red;
-   height: 120px;
-   position: absolute;
-   width: 120px;
-   z-index: 3;
+	border: 3px solid red;
+	height: 120px;
+	position: absolute;
+	width: 120px;
+	z-index: 3;
 }
 
 .sidebar {
-   height: 100%;
-   width: 100%;
-   color: whitesmoke;
+	height: 100%;
+	width: 100%;
+	color: whitesmoke;
 }
 
 .sidebar-text {
-   writing-mode: vertical-rl;
-   font: normal bold 36px/1 "arial";
-   color: whitesmoke;
-   text-shadow: -1px -1px 0px rgba(32, 32, 32, 0.3);
+	writing-mode: vertical-rl;
+	font: normal bold 36px/1 'arial';
+	color: whitesmoke;
+	text-shadow: -1px -1px 0px rgba(32, 32, 32, 0.3);
 }
 
 .solbuttonDiv {
-   align-items: center;
-   display: inline-flex;
-   justify-content: center;
-   margin: 2px;
-   text-align: center;
-   width: 45px;
+	align-items: center;
+	display: inline-flex;
+	justify-content: center;
+	margin: 2px;
+	text-align: center;
+	width: 45px;
 }
 
 .solnav {
-   width: 70px;
+	width: 70px;
 }
 
 .sols {
-   width: 230px;
+	width: 230px;
 }
 
 .soltags {
-   font-family: "Helvetica Neue", Helvetica, sans-serif;
-   font-size: 12px;
-   font-style: italic;
+	font-family: 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: italic;
 }
 
 .subtitle {
-   background: white;
-   color: #903a01;
-   font-family: "Helvetica Neue", Helvetica, sans-serif;
-   font-size: 16px;
-   line-height: 1em;
-   padding-bottom: 2px;
+	background: white;
+	color: #903a01;
+	font-family: 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 16px;
+	line-height: 1em;
+	padding-bottom: 2px;
 }
 
 .tagtable {
-   border: 1px solid #999999;
-   padding: 3px;
-   width: 80%;
+	border: 1px solid #999999;
+	padding: 3px;
+	width: 80%;
 }
 
 .title {
-   color: black;
-   font-family: "Helvetica Neue", Helvetica, sans-serif;
-   font-size: 18px;
-   font-weight: bold;
+	color: black;
+	font-family: 'Helvetica Neue', Helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: bold;
 }
 
 /* ------------------------------------- */
 .titlebar {
-   background-color: #e5e5e5;
-   resize: horizontal;
+	background-color: #e5e5e5;
+	resize: horizontal;
 }
 
 .warning {
-   background: red;
-   color: white;
-   outline: 1px solid yellow;
+	background: red;
+	color: white;
+	outline: 1px solid yellow;
 }
 
 /*----thumbnails---------------------------------------------------------------------*/
 .thumb-error {
-   background: mistyrose;
+	background: mistyrose;
 }
 
 .thumb-final {
-   background: repeating-linear-gradient(
-      0deg,
-      white,
-      white 10px,
-      oldlace 10px,
-      oldlace 20px
-   );
+	background: repeating-linear-gradient(0deg, white, white 10px, oldlace 10px, oldlace 20px);
 }
 
 .thumb-invis {
-   background: lemmonchiffon;
+	background: lemmonchiffon;
 }
 
 .thumb-missing {
-   background: yellow;
+	background: yellow;
 }
 
 .thumb-orig {
-   background: repeating-linear-gradient(
-      45deg,
-      white,
-      white 10px,
-      lemonchiffon 10px,
-      lemonchiffon 20px
-   );
+	background: repeating-linear-gradient(45deg, white, white 10px, lemonchiffon 10px, lemonchiffon 20px);
 }
 
 .thumb-wait1 {
-   background: repeating-linear-gradient(
-      45deg,
-      white,
-      white 5px,
-      darkgray 5px,
-      darkgray 10px
-   );
+	background: repeating-linear-gradient(45deg, white, white 5px, darkgray 5px, darkgray 10px);
 }
 
 .thumb-wait2 {
-   background: repeating-linear-gradient(
-      45deg,
-      white,
-      white 7px,
-      silver 7px,
-      silver 15px
-   );
+	background: repeating-linear-gradient(45deg, white, white 7px, silver 7px, silver 15px);
 }
 
 .thumb-wait3 {
-   background: repeating-linear-gradient(
-      45deg,
-      white,
-      white 10px,
-      gainsboro 10px,
-      gainsboro 20px
-   );
+	background: repeating-linear-gradient(45deg, white, white 10px, gainsboro 10px, gainsboro 20px);
 }
 
 .thumb-work {
-   background: repeating-linear-gradient(
-      30deg,
-      white,
-      white 5px,
-      hotpink 5px,
-      hotpink 10px
-   );
+	background: repeating-linear-gradient(30deg, white, white 5px, hotpink 5px, hotpink 10px);
 }
 
 /* ---nav buttons---------------------------------- */
 .botnavbut {
-   height: 25;
-   margin: 0;
-   vertical-align: top;
+	height: 25;
+	margin: 0;
+	vertical-align: top;
 }
 .lnavbut {
-   margin: 0;
-   margin-right: 0;
+	margin: 0;
+	margin-right: 0;
 }
 .rnavbut {
-   margin: 0;
-   margin-left: 0;
+	margin: 0;
+	margin-left: 0;
 }
 
 .topnavbut {
-   height: 25;
-   margin: 0;
-   vertical-align: bottom;
+	height: 25;
+	margin: 0;
+	vertical-align: bottom;
 }
 
 /* -----------buttons -------------------------- */
 .homebutton {
-   height: 35px;
-   margin-right: 10px;
-   mask-image: radial-gradient(
-      circle,
-      black 60%,
-      darkgray 63%,
-      rgba(0, 0, 0, 0) 65%
-   );
+	height: 35px;
+	margin-right: 10px;
+	mask-image: radial-gradient(circle, black 60%, darkgray 63%, rgba(0, 0, 0, 0) 65%);
 }
 
 .leftarrow {
-   background: white url(mb_images/greyleft.png) left no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-left: 30px;
+	background: white url(mb_images/greyleft.png) left no-repeat;
+	background-size: contain;
+	border-radius: 15px;
+	height: 30px;
+	padding: 5px;
+	padding-left: 30px;
 }
 
 .leftarrow:hover {
-   background: papayawhip url(mb_images/colourleft.png) left no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-left: 30px;
+	background: papayawhip url(mb_images/colourleft.png) left no-repeat;
+	background-size: contain;
+	border-radius: 15px;
+	height: 30px;
+	padding: 5px;
+	padding-left: 30px;
 }
 
 /* ------------------------------------- */
 .leftbutton {
-   background: white url(mb_images/greyportal.png) left no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-left: 30px;
+	background: white url(mb_images/greyportal.png) left no-repeat;
+	background-size: contain;
+	border-radius: 15px;
+	height: 30px;
+	padding: 5px;
+	padding-left: 30px;
 }
 
 .leftbutton:hover {
-   background: papayawhip url(mb_images/colourportal.png) left no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-left: 30px;
+	background: papayawhip url(mb_images/colourportal.png) left no-repeat;
+	background-size: contain;
+	border-radius: 15px;
+	height: 30px;
+	padding: 5px;
+	padding-left: 30px;
 }
 
 .rightarrow {
-   background: white url(mb_images/greyright.png) right no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-right: 30px;
+	background: white url(mb_images/greyright.png) right no-repeat;
+	background-size: contain;
+	border-radius: 15px;
+	height: 30px;
+	padding: 5px;
+	padding-right: 30px;
 }
 
 .rightarrow:hover {
-   background: papayawhip url(mb_images/colourright.png) right no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-right: 30px;
+	background: papayawhip url(mb_images/colourright.png) right no-repeat;
+	background-size: contain;
+	border-radius: 15px;
+	height: 30px;
+	padding: 5px;
+	padding-right: 30px;
 }
 
 /* ------------------------------------- */
 .rightbutton {
-   background: white url(mb_images/greyportal.png) right no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-right: 30px;
+	background: white url(mb_images/greyportal.png) right no-repeat;
+	background-size: contain;
+	border-radius: 15px;
+	height: 30px;
+	padding: 5px;
+	padding-right: 30px;
 }
 
 .rightbutton:hover {
-   background: papayawhip url(mb_images/colourportal.png) right no-repeat;
-   background-size: contain;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
-   padding-right: 30px;
+	background: papayawhip url(mb_images/colourportal.png) right no-repeat;
+	background-size: contain;
+	border-radius: 15px;
+	height: 30px;
+	padding: 5px;
+	padding-right: 30px;
 }
 
 /* ------------------------------------- */
 .roundbutton {
-   background: white;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
+	background: white;
+	border-radius: 15px;
+	height: 30px;
+	padding: 5px;
 }
 
 .roundbutton:hover {
-   background: papayawhip;
-   border-radius: 15px;
-   height: 30px;
-   padding: 5px;
+	background: papayawhip;
+	border-radius: 15px;
+	height: 30px;
+	padding: 5px;
 }

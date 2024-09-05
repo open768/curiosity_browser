@@ -86,18 +86,19 @@ class cSolCalendar {
 			{
 				for (var i = 0; i < paInstr.length; i++) {
 					const oInstr = paInstr[i]
-					const oOuterSpan = $('<div>').attr({
-						class: 'w3-tag w3-light-grey w3-monospace w3-round-large w3-border',
-						style: 'margin:5px;width:120px;font-size:11px;padding:5px'
+					const oOuterSpan = $('<div>', {
+						class: 'w3-tag w3-light-grey w3-round-large w3-border legend_outer'
 					})
 					{
-						oOuterSpan.append('<div>' + oInstr.name + '</div>')
-
-						const oColorDiv = $('<div>').attr({
-							style: 'background-color:' + oInstr.colour
-						})
+						const oNameDiv = $('<div>', { class: 'legend_tag' })
 						{
-							oColorDiv.append(cBrowser.whitespace(75))
+							oNameDiv.append(oInstr.name)
+							oOuterSpan.append(oNameDiv)
+						}
+
+						const oColorDiv = $('<div>', { class: 'legend_line' })
+						{
+							oColorDiv.css('background-color', oInstr.colour)
 							oOuterSpan.append(oColorDiv)
 						}
 						oBody.append(oOuterSpan)
@@ -202,16 +203,16 @@ class cSolCalendar {
 	//#################################################################
 	static onButtonClick(poEvent) {
 		const oOptions = this.options
-		const oItem = $(poEvent.target)
+		const oButton = $(poEvent.target)
 
 		const oParams = {
 			s: oOptions.sol,
-			i: oItem.attr('i'),
-			p: oItem.attr('p'),
+			i: oButton.attr('i'),
+			p: oButton.attr('p'),
 			m: oOptions.mission.ID
 		}
 		const sUrl = cBrowser.buildUrl('detail.php', oParams)
-		document.open(sUrl, 'detail')
+		cBrowser.openWindow(sUrl, 'detail')
 	}
 
 	//***************************************************************
