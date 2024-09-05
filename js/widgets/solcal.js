@@ -1,7 +1,7 @@
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // % Definition
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-/*global cAppCal */
+/*global cCalendar */
 $.widget('ck.solcalendar', {
 	//#################################################################
 	//# Definition
@@ -184,7 +184,7 @@ $.widget('ck.solcalendar', {
 			oItem = paItems[i]
 			sColour = poColours[oItem.i]
 			sStyle = 'background-color:' + sColour
-			if (oItem.d === cAppCal.current_date) {
+			if (oItem.d === cCalendar.current_date) {
 				sStyle += ';border:4px double black'
 			}
 

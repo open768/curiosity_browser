@@ -115,7 +115,6 @@ class cAppRender {
 //######################################################################
 //#
 //######################################################################
-
 class cAppAllSolButtons {
 	static targets = [
 		{ page: 'solhigh', target: 'allhighs.php', title: 'All Highlights', caption: 'Highlights', icon: 'photo_size_select_small' },
@@ -179,9 +178,11 @@ class cAppAllSolButtons {
 class cAppSolButtons {
 	static current_sol = null
 
-	static render_buttons(poParent) {
+	static render_buttons(poParent, pbAllButtons = true) {
 		var oButton, sSol
 		poParent.empty()
+		poParent.addClass('w3-container')
+		poParent.addClass('w3-theme-d3')
 
 		//-------------- get the current sol
 		sSol = cBrowser.queryString(cSpaceBrowser.SOL_QUERYSTRING)
@@ -209,8 +210,10 @@ class cAppSolButtons {
 		poParent.append(oSpan)
 
 		//--------------render the all sol buttons
-		poParent.append(cBrowser.whitespace(50))
-		cAppAllSolButtons.render_buttons(poParent)
+		if (pbAllButtons) {
+			poParent.append(cBrowser.whitespace(50))
+			cAppAllSolButtons.render_buttons(poParent)
+		}
 	}
 
 	//***************************************************

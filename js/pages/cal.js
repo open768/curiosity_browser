@@ -10,8 +10,9 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 'use strict'
+/* global cAppSolButtons */
 //eslint-disable-next-line no-unused-vars
-class cAppCal {
+class cCalendar {
 	static current_sol = null
 	static current_date = null
 	static oColours = {}
@@ -21,6 +22,10 @@ class cAppCal {
 	//###############################################################
 	static onLoadJQuery() {
 		this.current_sol = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]
+
+		const oDiv = cJquery.element('solButtons')
+		cAppSolButtons.render_buttons(oDiv, false)
+
 		this.load_widget()
 	}
 
@@ -32,16 +37,19 @@ class cAppCal {
 		cBrowser.openWindow(sUrl, 'index')
 	}
 
+	//************************************************************
 	static onClickNext() {
 		this.current_sol = parseInt(this.current_sol) + 1
 		this.load_widget()
 	}
 
+	//************************************************************
 	static onClickPrevious() {
 		this.current_sol = parseInt(this.current_sol) - 1
 		this.load_widget()
 	}
 
+	//************************************************************
 	static onClickRefresh() {
 		cCommonStatus.set_status('refreshing data')
 
@@ -57,6 +65,7 @@ class cAppCal {
 		}
 	}
 
+	//************************************************************
 	static onLoadedCal(poEvent, psSol) {
 		this.current_sol = psSol
 		$('#gotoSOL').html(psSol)
@@ -67,11 +76,13 @@ class cAppCal {
 		cBrowser.update_state('calendar', sURL)
 	}
 
+	//************************************************************
 	static onClickCal(poEvent, poData) {
 		const sUrl = cBrowser.buildUrl('detail.php', poData)
 		cBrowser.openWindow(sUrl, 'detail')
 	}
 
+	//************************************************************
 	static load_widget() {
 		const oDiv = $('#calendar')
 		var oWidget = oDiv.data('ckSolcalendar') // capitalise the first letter of the widget
