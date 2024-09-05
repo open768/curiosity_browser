@@ -26,72 +26,24 @@ class cCalendar {
 		const oDiv = cJquery.element('solButtons')
 		cAppSolButtons.render_buttons(oDiv, false)
 
+		//update the page
+		$('#sol').html(this.current_sol)
+		const sURL = cBrowser.buildUrl(cBrowser.pageUrl(), { s: this.current_sol })
+		cBrowser.update_state('calendar', sURL)
+
 		this.load_widget()
 	}
 
 	//###############################################################
 	//# Event Handlers
 	//###############################################################
-	static onClickGotoSol() {
-		const sUrl = cBrowser.buildUrl('index.php', { s: this.current_sol })
-		cBrowser.openWindow(sUrl, 'index')
-	}
-
-	//************************************************************
-	static onClickNext() {
-		this.current_sol = parseInt(this.current_sol) + 1
-		this.load_widget()
-	}
-
-	//************************************************************
-	static onClickPrevious() {
-		this.current_sol = parseInt(this.current_sol) - 1
-		this.load_widget()
-	}
-
-	//************************************************************
-	static onClickRefresh() {
-		cCommonStatus.set_status('refreshing data')
-
-		const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/instruments.php', {
-			s: this.current_sol,
-			r: 'true',
-			m: cMission.ID
-		}) // force a refresh on the server
-		const oHttp = new cHttp2()
-		{
-			bean.on(oHttp, 'result', () => this.onLoadedCal())
-			oHttp.fetch_json(sUrl)
-		}
-	}
-
-	//************************************************************
-	static onLoadedCal(poEvent, psSol) {
-		this.current_sol = psSol
-		$('#gotoSOL').html(psSol)
-		$('#sol').html(psSol)
-		const sURL = cBrowser.buildUrl(cBrowser.pageUrl(), {
-			s: this.current_sol
-		})
-		cBrowser.update_state('calendar', sURL)
-	}
-
-	//************************************************************
-	static onClickCal(poEvent, poData) {
-		const sUrl = cBrowser.buildUrl('detail.php', poData)
-		cBrowser.openWindow(sUrl, 'detail')
-	}
-
-	//************************************************************
 	static load_widget() {
 		const oDiv = $('#calendar')
 		var oWidget = oDiv.data('ckSolcalendar') // capitalise the first letter of the widget
 		if (oWidget) oWidget.destroy()
 		$('#calendar').solcalendar({
 			mission: cMission,
-			sol: this.current_sol,
-			onLoaded: () => this.onLoadedCal(),
-			onClick: () => this.onClickCal()
+			sol: this.current_sol
 		})
 	}
 }
