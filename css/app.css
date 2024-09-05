@@ -421,12 +421,6 @@ body {
 	background: white;
 	border-radius: 15px;
 	height: 30px;
-	padding: 5px;
-}
-
-.roundbutton:hover {
-	background: papayawhip;
-	border-radius: 15px;
-	height: 30px;
-	padding: 5px;
+	width: 18px;
+	margin: 1px;
 }

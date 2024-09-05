@@ -202,11 +202,11 @@ class cSolCalendar {
 			}
 
 			oButton = $('<button>', {
-				class: 'calbutton roundbutton',
+				class: 'roundbutton w3-hover-grey',
 				style: sStyle,
 				i: oItem.i,
 				p: oItem.p,
-				title: oItem.i + ',' + oItem.p
+				title: 'instrument:' + oItem.i + '\nproduct:' + oItem.p
 			})
 			oButton.append('&nbsp;')
 			oButton.click(e => oThis.onButtonClick(e))
