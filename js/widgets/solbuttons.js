@@ -84,11 +84,23 @@ class cSolButtons {
 		{
 			var oBody = oWidget.body
 			// ----------------------------------------------------
-			oButton = cAppRender.make_button(null, 'about', 'about', false, () => cBrowser.openWindow('about.php', 'about'))
+			oButton = cAppRender.make_button(null, '', 'about', false, () => cBrowser.openWindow('about.php', 'about'))
+			{
+				oButton.append(cRenderGoogleFont.create_icon('info'))
+				oButton.append(' About')
+				oBody.append(oButton)
+			}
+
+			// ----------------------------------------------------
+			oButton = cAppRender.make_button(null, '', 'Where is curiosity now?', false, () => cBrowser.openWindow(cCuriosity.WHERE_IS_ROVER, 'whereami'))
+			{
+				oButton.append(cRenderGoogleFont.create_icon('map'))
+				oButton.append(' Map')
+			}
 			oBody.append(oButton)
 
 			// ----------------------------------------------------
-			oButton = cAppRender.make_button(null, 'curiosity?', 'Where is curiosity now?', false, () => cBrowser.openWindow(cCuriosity.WHERE_IS_ROVER, 'whereami'))
+			var oButton = cAppRender.make_button(null, 'Sites', 'All Sites', false, () => cBrowser.openWindow('allsites.php', 'allsites'))
 			oBody.append(oButton)
 		}
 		oElement.append(oWidget)
@@ -102,10 +114,6 @@ class cSolButtons {
 		{
 			var oBody = oWidget.body
 			cAppAllSolButtons.render_buttons(oBody)
-
-			// ----------------------------------------------------
-			var oButton = cAppRender.make_button(null, 'Sites', 'All Sites', false, () => cBrowser.openWindow('allsites.php', 'allsites'))
-			oBody.append(oButton)
 		}
 		oElement.append(oWidget)
 	}

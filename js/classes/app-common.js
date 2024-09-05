@@ -7,7 +7,7 @@ class cAppRender {
 		var oOptions = {
 			title: psTitle,
 			class: 'w3-button w3-theme-action w3-round w3-padding-small w3-theme-margin-1',
-			style: 'display:inline-block'
+			style: 'display:inline-flex;vertical-align: middle;'
 		}
 		if (pbDisabled) oOptions.disabled = 'disabled'
 		if (psID) oOptions.id = psID

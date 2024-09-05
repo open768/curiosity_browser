@@ -21,7 +21,7 @@ include("$appPhpFragments/doctype.php");
     <script>
         function onLoadJQuery_Comments() {
             $("#solcomments").allgrid({
-                caption: "comments",
+                caption: "comment",
                 mission: cMission,
                 data_url: 'comments.php',
                 sol_url: 'solcomment.php'

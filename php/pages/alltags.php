@@ -18,7 +18,7 @@ $sTitle = "Tagged Sols";
     <script>
         function onLoadJQuery_TAGS() {
             $("#soltag").allgrid({
-                caption: "tags",
+                caption: "tag",
                 mission: cMission,
                 data_url: 'tag.php',
                 sol_url: 'soltag.php'
