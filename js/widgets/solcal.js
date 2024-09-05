@@ -86,16 +86,22 @@ class cSolCalendar {
 			{
 				for (var i = 0; i < paInstr.length; i++) {
 					const oInstr = paInstr[i]
-					const oOuterSpan = $('<span>').attr({ class: 'greybox' })
+					const oOuterSpan = $('<div>').attr({
+						class: 'w3-tag w3-light-grey w3-monospace w3-round-large w3-border',
+						style: 'margin:5px;width:120px;font-size:11px;padding:5px'
+					})
 					{
-						oOuterSpan.append(oInstr.name).append('&nbsp;')
-						const oInnerSpan = $('<span>').attr({
+						oOuterSpan.append('<div>' + oInstr.name + '</div>')
+
+						const oColorDiv = $('<div>').attr({
 							style: 'background-color:' + oInstr.colour
 						})
-						oInnerSpan.append(cBrowser.whitespace(100))
-						oOuterSpan.append(oInnerSpan)
+						{
+							oColorDiv.append(cBrowser.whitespace(75))
+							oOuterSpan.append(oColorDiv)
+						}
+						oBody.append(oOuterSpan)
 					}
-					oBody.append(oOuterSpan)
 					oColours[oInstr.abbr] = oInstr.colour
 				}
 				oContainer.append(oBody)
@@ -107,7 +113,7 @@ class cSolCalendar {
 	}
 
 	//***************************************************************
-	static prv__build_cal_part(paDates, poColours) {
+	static pr_render_calendar(paDates, poColours) {
 		var i, oTable, oRow, oCell
 		const oElement = this.element
 
@@ -227,7 +233,7 @@ class cSolCalendar {
 		oElement.empty()
 		const oColours = this.pr_render_legend(aInstr)
 
-		this.prv__build_cal_part(aDates, oColours)
+		this.pr_render_calendar(aDates, oColours)
 	}
 }
 
