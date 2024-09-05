@@ -1,48 +1,25 @@
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// % Definition
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 /*global cCalendar */
-$.widget('ck.solcalendar', {
-	//#################################################################
-	//# Definition
-	//#################################################################
-	options: {
-		mission: null,
-		sol: null,
-		onLoadedCal: null,
-		onClick: null
-	},
+class cSolCalendar {
+	options = null
+	element = null
+	widget = null
 
-	//#################################################################
-	//# Constructor
-	//#################################################################
-	_create: function () {
-		// check that the element is a div
-		const oElement = this.element
-		const oOptions = this.options
-
-		// check for necessary classes
-		if (!bean) $.error('bean class is missing! check includes')
-		if (!cHttp2) $.error('http2 class is missing! check includes')
-		if (oOptions.mission == null) $.error('mission is not set')
-		if (oOptions.sol == null) $.error('sol is not set')
-		if (oOptions.onClick == null) $.error('onClick is not set')
-
-		// make sure this is a DIV
-		const sElementName = oElement.get(0).tagName
-		if (sElementName !== 'DIV') {
-			$.error('calendar view needs a DIV. this element is a: ' + sElementName)
-		}
-		oElement.uniqueId()
-
+	//**************************************************************
+	//**************************************************************
+	static init(poWidget) {
+		this.widget = poWidget
+		this.options = poWidget.options
+		this.element = poWidget.element
 		this.prv__getData()
-	},
+	}
 
+	//**************************************************************
+	//**************************************************************
 	//#################################################################
 	//# Private
 	//#################################################################
-	prv__getData: function () {
-		const oWidget = this
+	static prv__getData() {
+		const oThis = this
 		const oElement = this.element
 		const oOptions = this.options
 
@@ -57,14 +34,14 @@ $.widget('ck.solcalendar', {
 		})
 		const oHttp = new cHttp2()
 		{
-			bean.on(oHttp, 'result', poHttp => oWidget.onCalResponse(poHttp))
-			bean.on(oHttp, 'error', poHttp => oWidget.onError(poHttp))
+			bean.on(oHttp, 'result', poHttp => oThis.onCalResponse(poHttp))
+			bean.on(oHttp, 'error', poHttp => oThis.onError(poHttp))
 			oHttp.fetch_json(sUrl, oElement)
 		}
-	},
+	}
 
 	//***************************************************************
-	prv__get_Headings: function (paDates) {
+	static prv__get_Headings(paDates) {
 		const aHeadings = Array()
 		var sDateKey
 
@@ -72,10 +49,10 @@ $.widget('ck.solcalendar', {
 			aHeadings.push(sDateKey)
 		}
 		return aHeadings
-	},
+	}
 
 	//***************************************************************
-	prv__get_Times: function (paDates) {
+	static prv__get_Times(paDates) {
 		var sDate, sTime
 		const aTimes = Array()
 
@@ -89,41 +66,53 @@ $.widget('ck.solcalendar', {
 		aTimes.sort()
 
 		return aTimes
-	},
+	}
 
 	//#################################################################
 	//# render functions
 	//#################################################################
-	prv__build_colour_part: function (paInstr) {
+	static pr_render_legend(paInstr) {
 		const oElement = this.element
 		const oColours = {}
 
-		var oDiv = $('<DIV>', { class: 'ui-widget-header' }).append('legend')
-		oElement.append(oDiv)
-
-		oDiv = $('<DIV>', { class: 'ui-widget-body' })
-		for (var i = 0; i < paInstr.length; i++) {
-			const oInstr = paInstr[i]
-			const oOuterSpan = $('<span>').attr({ class: 'greybox' })
-			oOuterSpan.append(oInstr.name).append('&nbsp;')
-			const oInnerSpan = $('<span>').attr({
-				style: 'background-color:' + oInstr.colour
-			})
-			oInnerSpan.append(cBrowser.whitespace(100))
-			oOuterSpan.append(oInnerSpan)
-			oDiv.append(oOuterSpan)
-			oDiv.append(' ')
-			oColours[oInstr.abbr] = oInstr.colour
+		var oContainer = $('<div>', { class: 'w3-card' })
+		{
+			var oHeader = $('<header>', { class: 'w3-container w3-theme-d1' })
+			{
+				oHeader.append('<b>legend</b>')
+				oContainer.append(oHeader)
+			}
+			var oBody = $('<DIV>', { class: 'w3-container' })
+			{
+				for (var i = 0; i < paInstr.length; i++) {
+					const oInstr = paInstr[i]
+					const oOuterSpan = $('<span>').attr({ class: 'greybox' })
+					{
+						oOuterSpan.append(oInstr.name).append('&nbsp;')
+						const oInnerSpan = $('<span>').attr({
+							style: 'background-color:' + oInstr.colour
+						})
+						oInnerSpan.append(cBrowser.whitespace(100))
+						oOuterSpan.append(oInnerSpan)
+					}
+					oBody.append(oOuterSpan)
+					oColours[oInstr.abbr] = oInstr.colour
+				}
+				oContainer.append(oBody)
+			}
+			oElement.append(oContainer)
 		}
-		oElement.append(oDiv)
 
 		return oColours
-	},
+	}
 
 	//***************************************************************
-	prv__build_cal_part: function (paHeadings, paDates, paTimes, poColours) {
+	static prv__build_cal_part(paDates, poColours) {
 		var i, oTable, oRow, oCell
 		const oElement = this.element
+
+		const aHeadings = this.prv__get_Headings(paDates)
+		const aTimes = this.prv__get_Times(paDates)
 
 		const oDiv = $('<DIV>', { class: 'ui-widget-body' })
 		oTable = $('<TABLE>', { class: 'cal' })
@@ -133,24 +122,24 @@ $.widget('ck.solcalendar', {
 		// header row of table
 		oRow = $('<TR>')
 		oRow.append($('<TD>'))
-		for (i = 0; i < paHeadings.length; i++) {
+		for (i = 0; i < aHeadings.length; i++) {
 			oCell = $('<TH>')
 				.attr({ class: 'caldate' })
-				.append('UTC:' + paHeadings[i])
+				.append('UTC:' + aHeadings[i])
 			oRow.append(oCell)
 		}
 		oTable.append(oRow)
 
 		// now the calendar entries
-		for (i = 0; i < paTimes.length; i++) {
-			const sTime = paTimes[i]
-			oRow = this.prv_renderRow(sTime, paHeadings, paDates, poColours)
+		for (i = 0; i < aTimes.length; i++) {
+			const sTime = aTimes[i]
+			oRow = this.prv_renderRow(sTime, aHeadings, paDates, poColours)
 			oTable.append(oRow)
 		}
-	},
+	}
 
 	//***************************************************************
-	prv_renderRow: function (psTime, paHeadings, paDates, poColours) {
+	static prv_renderRow(psTime, paHeadings, paDates, poColours) {
 		var i, oRow, oCell
 		var oDate, sDate, aItems
 
@@ -173,12 +162,12 @@ $.widget('ck.solcalendar', {
 		}
 
 		return oRow
-	},
+	}
 
 	//***************************************************************
-	prv_render_items: function (poCell, paItems, poColours) {
+	static prv_render_items(poCell, paItems, poColours) {
 		var i, oItem, oButton, sColour, sStyle
-		const oWidget = this
+		const oThis = this
 
 		for (i = 0; i < paItems.length; i++) {
 			oItem = paItems[i]
@@ -196,57 +185,83 @@ $.widget('ck.solcalendar', {
 				title: oItem.i + ',' + oItem.p
 			})
 			oButton.append('&nbsp;')
-			oButton.click(function (poEvent) {
-				oWidget.onButtonClick(poEvent.target)
-			})
+			oButton.click(e => oThis.onButtonClick(e))
 
 			poCell.append(oButton)
 		}
-	},
+	}
 
 	//#################################################################
 	//# Events
 	//#################################################################
-	onButtonClick: function (poButton) {
+	static onButtonClick(poEvent) {
 		const oOptions = this.options
-		const oItem = $(poButton)
+		const oItem = $(poEvent.target)
 
-		this._trigger('onClick', null, {
+		const oParams = {
 			s: oOptions.sol,
 			i: oItem.attr('i'),
 			p: oItem.attr('p'),
 			m: oOptions.mission.ID
-		})
-	},
+		}
+		const sUrl = cBrowser.buildUrl('detail.php', oParams)
+		document.open(sUrl, 'detail')
+	}
 
 	//***************************************************************
-	onError: function () {
+	static onError() {
 		const oElement = this.element
 
 		oElement.empty()
 		oElement.append(cAppRender.make_note('Sorry no data was found'))
-	},
+	}
 
 	//***************************************************************
-	onCalResponse: function (poHttp) {
+	static onCalResponse(poHttp) {
 		const oElement = this.element
-		const oOptions = this.options
-
-		oElement.empty()
-		oElement.addClass('ui-widget-content')
 
 		const oData = poHttp.response
 		const aDates = oData.cal
 		const aInstr = oData.instr
 
-		const oColours = this.prv__build_colour_part(aInstr)
+		oElement.empty()
+		const oColours = this.pr_render_legend(aInstr)
 
-		oElement.append('<p>')
+		this.prv__build_cal_part(aDates, oColours)
+	}
+}
 
-		const aHeadings = this.prv__get_Headings(aDates)
-		const aTimes = this.prv__get_Times(aDates)
+$.widget('ck.solcalendar', {
+	//#################################################################
+	//# Definition
+	//#################################################################
+	options: {
+		mission: null,
+		sol: null,
+		onLoadedCal: null,
+		onClick: null
+	},
 
-		this.prv__build_cal_part(aHeadings, aDates, aTimes, oColours)
-		this._trigger('onLoadedCal', null, oOptions.sol)
+	//#################################################################
+	//# Constructor
+	//#################################################################
+	_create() {
+		const oOptions = this.options
+		const oElement = this.element
+
+		// check for necessary classes
+		if (!bean) $.error('bean class is missing! check includes')
+		if (!cHttp2) $.error('http2 class is missing! check includes')
+		if (oOptions.mission == null) $.error('mission is not set')
+		if (oOptions.sol == null) $.error('sol is not set')
+
+		// make sure this is a DIV
+		const sElementName = oElement.get(0).tagName
+		if (sElementName !== 'DIV') {
+			$.error('calendar view needs a DIV. this element is a: ' + sElementName)
+		}
+		oElement.uniqueId()
+
+		cSolCalendar.init(this)
 	}
 })
