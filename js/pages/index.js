@@ -323,8 +323,13 @@ class cSearchBox {
 			oSearchDiv.append(oTextbox)
 
 			//--------- button
-			var oButton = cAppRender.make_button(null, 'Search', 'Search for a product', false, () => oThis.onClickSearch())
-			oSearchDiv.append(oButton)
+			var oButton = cAppRender.make_button(null, '', 'Search for a product', false, () => oThis.onClickSearch())
+			{
+				const oIcon = cRenderGoogleFont.create_icon('search')
+				oButton.append(oIcon)
+				oButton.append(' Search')
+				oSearchDiv.append(oButton)
+			}
 
 			oElement.append(oSearchDiv)
 		}

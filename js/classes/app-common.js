@@ -118,22 +118,10 @@ class cAppRender {
 
 class cAppAllSolButtons {
 	static targets = [
-		{
-			page: 'solhigh',
-			target: 'allhighs.php',
-			caption: 'All Highlights'
-		},
-		{
-			page: 'solcomments',
-			target: 'allcomments.php',
-			caption: 'All Comments'
-		},
-		{
-			page: 'soltags',
-			target: 'alltags.php',
-			caption: 'All Tags'
-		},
-		{ page: 'solgigas', target: 'allgigas.php', caption: 'All Gigapans' }
+		{ page: 'solhigh', target: 'allhighs.php', title: 'All Highlights', caption: 'Highlights', icon: 'photo_size_select_small' },
+		{ page: 'solcomments', target: 'allcomments.php', title: 'All Comments', caption: 'Comments', icon: 'forum' },
+		{ page: 'soltags', target: 'alltags.php', title: 'All Tags', caption: 'Tags', icon: 'bookmarks' },
+		{ page: 'solgigas', target: 'allgigas.php', caption: 'All Gigapans', icon: 'panorama_photosphere' }
 	]
 
 	//*********************************************************************
@@ -146,7 +134,13 @@ class cAppAllSolButtons {
 			for (var i = 0; i < aTargets.length; i++) {
 				var oTarget = aTargets[i]
 
-				var oButton = cAppRender.make_button(null, oTarget.caption, oTarget.caption, false, e => oThis.onClickButton(e))
+				var oButton = cAppRender.make_button(null, oTarget.caption, oTarget.title, false, e => oThis.onClickButton(e))
+				if (oTarget.icon) {
+					oButton.html('')
+					const oIcon = cRenderGoogleFont.create_icon(oTarget.icon)
+					oButton.append(oIcon)
+					oButton.append(' ' + oTarget.caption)
+				}
 				oButton.attr('clicktarget', oTarget.target)
 				oSpan.append(oButton)
 			}
@@ -157,10 +151,22 @@ class cAppAllSolButtons {
 	//*********************************************************************
 	static onClickButton(poEvent) {
 		var oTarget = $(poEvent.target)
-		var sTagname = oTarget.get(0).tagName
-		if (sTagname !== 'button') oTarget = oTarget.parent()
+		var sTagname = oTarget.get(0).tagName.toLowerCase()
+
+		if (sTagname !== 'button') {
+			oTarget = oTarget.parent()
+			sTagname = oTarget.get(0).tagName.toLowerCase()
+			if (sTagname !== 'button') {
+				cDebug.error('unable to find button')
+				return
+			}
+		}
 
 		var sUrl = oTarget.attr('clicktarget')
+		if (sUrl == null) {
+			cDebug.error('no clicktarget')
+			return
+		}
 
 		cBrowser.openWindow(sUrl)
 	}

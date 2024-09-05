@@ -100,7 +100,7 @@ class cSolButtons {
 			oBody.append(oButton)
 
 			// ----------------------------------------------------
-			var oButton = cAppRender.make_button(null, 'Sites', 'All Sites', false, () => cBrowser.openWindow('allsites.php', 'allsites'))
+			oButton = cAppRender.make_button(null, 'Sites', 'All Sites', false, () => cBrowser.openWindow('allsites.php', 'allsites'))
 			oBody.append(oButton)
 		}
 		oElement.append(oWidget)
