@@ -74,6 +74,8 @@ class cSolCalendar {
 	static pr_render_legend(paInstr) {
 		const oElement = this.element
 		const oColours = {}
+		const oOptions = this.options
+		const oThis = this
 
 		var oContainer = $('<div>', { class: 'w3-card' })
 		{
@@ -82,12 +84,14 @@ class cSolCalendar {
 				oHeader.append('<b>legend</b>')
 				oContainer.append(oHeader)
 			}
-			var oBody = $('<DIV>', { class: 'w3-container' })
+			var oBody = $('<DIV>', { class: 'w3-container w3-theme-l5' })
 			{
 				for (var i = 0; i < paInstr.length; i++) {
 					const oInstr = paInstr[i]
 					const oOuterSpan = $('<div>', {
-						class: 'w3-tag w3-light-grey w3-round-large w3-border legend_outer'
+						class: 'w3-tag w3-white w3-round-large w3-border legend_outer w3-hover-grey',
+						i: oInstr.name,
+						s: oOptions.sol
 					})
 					{
 						const oNameDiv = $('<div>', { class: 'legend_tag' })
@@ -102,6 +106,7 @@ class cSolCalendar {
 							oOuterSpan.append(oColorDiv)
 						}
 						oBody.append(oOuterSpan)
+						oOuterSpan.click(e => oThis.onLegendClick(e))
 					}
 					oColours[oInstr.abbr] = oInstr.colour
 				}
@@ -121,27 +126,35 @@ class cSolCalendar {
 		const aHeadings = this.prv__get_Headings(paDates)
 		const aTimes = this.prv__get_Times(paDates)
 
-		const oDiv = $('<DIV>', { class: 'ui-widget-body' })
-		oTable = $('<TABLE>', { class: 'cal' })
-		oDiv.append(oTable)
-		oElement.append(oDiv)
+		const oDiv = $('<DIV>', { class: 'w3-panel' })
+		{
+			oTable = $('<TABLE>', { border: 1, cellspacing: 0, cellpadding: 4 })
+			{
+				// header row of table
+				oRow = $('<TR>')
+				{
+					//------empty column for dates
+					oRow.append($('<TD>', { class: 'w3-light-grey' }))
 
-		// header row of table
-		oRow = $('<TR>')
-		oRow.append($('<TD>'))
-		for (i = 0; i < aHeadings.length; i++) {
-			oCell = $('<TH>')
-				.attr({ class: 'caldate' })
-				.append('UTC:' + aHeadings[i])
-			oRow.append(oCell)
-		}
-		oTable.append(oRow)
+					//------empty column for dates
+					for (i = 0; i < aHeadings.length; i++) {
+						oCell = $('<TH>')
+							.attr({ class: 'caldate' })
+							.append('UTC:' + aHeadings[i])
+						oRow.append(oCell)
+					}
+					oTable.append(oRow)
+				}
 
-		// now the calendar entries
-		for (i = 0; i < aTimes.length; i++) {
-			const sTime = aTimes[i]
-			oRow = this.prv_renderRow(sTime, aHeadings, paDates, poColours)
-			oTable.append(oRow)
+				// now the calendar entries
+				for (i = 0; i < aTimes.length; i++) {
+					const sTime = aTimes[i]
+					oRow = this.prv_renderRow(sTime, aHeadings, paDates, poColours)
+					oTable.append(oRow)
+				}
+				oDiv.append(oTable)
+			}
+			oElement.append(oDiv)
 		}
 	}
 
@@ -151,20 +164,24 @@ class cSolCalendar {
 		var oDate, sDate, aItems
 
 		oRow = $('<tr>', { class: 'caltime' })
-
-		oCell = $('<th>').append(psTime)
-		oRow.append(oCell)
-
-		for (i = 0; i < paHeadings.length; i++) {
-			sDate = paHeadings[i]
-			oCell = $('<td>')
+		{
+			//-----time
+			oCell = $('<th>').append(psTime)
 			oRow.append(oCell)
 
-			oDate = paDates[sDate]
-			//eslint-disable-next-line no-prototype-builtins
-			if (oDate.hasOwnProperty(psTime)) {
-				aItems = oDate[psTime]
-				this.prv_render_items(oCell, aItems, poColours)
+			//------buttons
+			for (i = 0; i < paHeadings.length; i++) {
+				sDate = paHeadings[i]
+				oCell = $('<td>')
+				{
+					oDate = paDates[sDate]
+					//eslint-disable-next-line no-prototype-builtins
+					if (oDate.hasOwnProperty(psTime)) {
+						aItems = oDate[psTime]
+						this.prv_render_items(oCell, aItems, poColours)
+					}
+					oRow.append(oCell)
+				}
 			}
 		}
 
@@ -213,6 +230,20 @@ class cSolCalendar {
 		}
 		const sUrl = cBrowser.buildUrl('detail.php', oParams)
 		cBrowser.openWindow(sUrl, 'detail')
+	}
+
+	//***************************************************************
+	static onLegendClick(poEvent) {
+		const oButton = $(poEvent.target)
+		const oOptions = this.options
+		const oParams = {
+			s: oOptions.sol,
+			i: oButton.attr('i'),
+			m: oOptions.mission.ID,
+			b: 1
+		}
+		const sUrl = cBrowser.buildUrl('index.php', oParams)
+		cBrowser.openWindow(sUrl, 'index')
 	}
 
 	//***************************************************************
