@@ -59,15 +59,14 @@ class cBackgroundImage {
 		const oData = poHttp.response
 		if (!oData) cCommonStatus.set_status('couldnt get image')
 
-		//------------show the image
-		var oBodyDiv = cJquery.element(cIndexPageConsts.ID_INTRO_BODY)
-
-		//stop if the intro section has gone
-		if (oBodyDiv.length === 0) {
-			this.stop = true
+		//------------check whether the intro page has gone (user has chosen a sol while timer was active)
+		try {
+			var oBodyDiv = cJquery.element(cIndexPageConsts.ID_INTRO_BODY)
+		} catch (e) {
 			return
 		}
 
+		//-----------display popunder image
 		var oImgData = oData.d[0]
 		oBodyDiv.css('background-image', 'url(' + oImgData.d + ')')
 		oBodyDiv.css('background-size', 'contain')
