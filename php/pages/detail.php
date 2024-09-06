@@ -32,13 +32,13 @@ include("$appPhpFragments/doctype.php");
     <LINK href="<?= $home ?>/css/drag.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="<?= $jsExtra ?>/sceditor/minified/themes/default.min.css" type="text/css" media="all">
     <title>Detail: Curiosity Browser</title>
-    <?php
-    cPageOutput::write_JS_class_constant_IDs("cDetailPageConstants");
-    ?>
     <script src="<?= $jsSpaceInc ?>/comments.js"></script>
     <script src="<?= $jsExtra ?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
     <script src="<?= $AppJS ?>/pages/detail.js"></script>
     <script src="<?= $AppJSWidgets ?>/comment-box.js"></script>
+    <?php
+    cPageOutput::write_JS_class_constant_IDs("cDetailPageConstants");
+    ?>
 </head>
 
 <body onload="$( ()=>cDetail.onLoadJQuery() );">
