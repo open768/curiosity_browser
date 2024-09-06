@@ -97,13 +97,6 @@ switch ($sOperation) {
         cDebug::write("not implemented");
         break;
 
-        //------------------------------------------------------
-    case "killPDSIndex":
-        cPDS::kill_index_files();
-        cDebug::write("done");
-        break;
-
-
 
         //------------------------------------------------------
     case "killHighlight":
@@ -225,7 +218,6 @@ switch ($sOperation) {
             <Input type="radio" name="<?= OPS_PARAM ?>" value="indexManifest">index curiosity manifests<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killCache">clear cache<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killHighlight">erase particular highlight<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="killPDSIndex">Kill ALL PDS index files<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killSession">kill the session<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="killTag">remove tag<br>
             <Input type="radio" name="<?= OPS_PARAM ?>" value="mergeTags">merge a tag<br>

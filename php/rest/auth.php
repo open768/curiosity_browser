@@ -12,7 +12,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
  **************************************************************************/
 
-$root = realpath("../..");
+$home = "../..";
 require_once  "$home/php/fragments/app-common.php";
 include "$appPhpFragments/rest_header.php";
 
@@ -21,7 +21,6 @@ $sOperation = $_GET["o"];
 
 switch ($sOperation) {
     case "getuser":
-        cHeader::start_session();
         $sUser = cAuth::get_user();
         cDebug::write("user : $sUser");
         break;
