@@ -17,10 +17,11 @@ require_once  "$home/php/fragments/app-common.php";
 require_once  "$spaceInc/curiosity/instrument.php";
 
 cDebug::check_GET_or_POST();
-
-if (isset(cHeader::get(cSpaceUrlParams::SOL))) {
-    if (cHeader::get("r") === "true") cCuriosityManifest::clearSolDataCache(cHeader::get(cSpaceUrlParams::SOL));
-    $aList = cCuriosity::getSolInstrumentList(cHeader::get(cSpaceUrlParams::SOL));
+$sSol = cHeader::get(cSpaceUrlParams::SOL);
+$sRefresh = cHeader::get(cAppUrlParams::REFRESH);
+if ($sSol) {
+    if ($sRefresh === "true") cCuriosityManifest::clearSolDataCache($sSol);
+    $aList = cCuriosity::getSolInstrumentList($sSol);
 } else
     $aList = cInstrument::getInstrumentList();
 

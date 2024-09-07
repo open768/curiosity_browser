@@ -18,7 +18,7 @@ require_once  "$spaceInc/misc/tags.php";
 
 
 //***************************************************
-$sOperation = cHeader::get("o");
+$sOperation = cHeader::get(cAppUrlParams::OPERATION);
 $aData = null;
 
 switch ($sOperation) {

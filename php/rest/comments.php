@@ -17,7 +17,7 @@ require_once  "$home/php/fragments/app-common.php";
 require_once  "$spaceInc/misc/comments.php";
 
 //***************************************************
-$sOperation = cHeader::get("o");
+$sOperation = cHeader::get(cAppUrlParams::OPERATION);
 $oResult = null;
 
 switch ($sOperation) {

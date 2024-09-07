@@ -17,7 +17,7 @@ require_once  "$home/php/fragments/app-common.php";
 include "$appPhpFragments/rest_header.php";
 
 //***************************************************
-$sOperation = cHeader::get("o");
+$sOperation = cHeader::get(cAppUrlParams::OPERATION);
 
 switch ($sOperation) {
     case "getuser":

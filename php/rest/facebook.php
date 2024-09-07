@@ -34,7 +34,7 @@ if (!$sToken) cDebug::error("token parameter missing");
 $sUser = null;
 
 
-$sOperation = cHeader::get("o");
+$sOperation = cHeader::get(cAppUrlParams::OPERATION);
 cDebug::write("Operation is : $sOperation");
 switch ($sOperation) {
     case "getuser":

@@ -4,7 +4,7 @@ require_once  "$home/php/fragments/app-common.php";
 require_once  "$spaceInc/misc/pencilnev.php";
 
 $aData = null;
-$sOption = cHeader::get("o");
+$sOption = cHeader::get(cAppUrlParams::OPERATION);
 switch ($sOption) {
     case "sol":
         $aData = cPencilNev::get_sol_gigas(cHeader::get(cSpaceUrlParams::SOL));

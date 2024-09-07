@@ -48,3 +48,8 @@ cAppLocations::init();
 class cAppIDs {
     const STATUS_ID = "status";
 }
+
+class cAppUrlParams {
+    const OPERATION = "o";
+    const REFRESH = "r";
+}

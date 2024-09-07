@@ -22,7 +22,7 @@ cDebug::check_GET_or_POST();
 
 
 //***************************************************
-$sOperation = cHeader::get("o");
+$sOperation = cHeader::get(cAppUrlParams::OPERATION);
 $oResult = null;
 
 switch ($sOperation) {

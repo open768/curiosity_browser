@@ -5,7 +5,7 @@ require_once  "$spaceInc/curiosity/locations.php";
 
 
 $aData = null;
-$sOper = cHeader::get("o");
+$sOper = cHeader::get(cAppUrlParams::OPERATION);
 $sVal = null;
 $sDataType = null;
 
