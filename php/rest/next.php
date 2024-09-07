@@ -15,10 +15,10 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
 
-$sDirection = $_GET["d"];
-$sSol = $_GET["s"];
-$sInstrument = $_GET["i"];
-$sProduct = $_GET["p"];
+$sDirection = cHeader::get("d");
+$sSol = cHeader::get("s");
+$sInstrument = cHeader::get("i");
+$sProduct = cHeader::get("p");
 $iFound = -1;
 
 //get the data for sol and instrument to find the index of the product

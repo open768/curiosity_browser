@@ -23,9 +23,9 @@ $iTagCount = 0;
 $iHighCount = 0;
 
 //***************************************************
-$sSol = $_GET["s"];
-$sInstrument = $_GET["i"];
-$sProduct = $_GET["p"];
+$sSol = cHeader::get("s");
+$sInstrument = cHeader::get("i");
+$sProduct = cHeader::get("p");
 
 $aTagData = cSpaceTags::get_product_tags($sSol, $sInstrument, $sProduct);
 if ($aTagData) $iTagCount = count($aTagData);

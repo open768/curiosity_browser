@@ -17,9 +17,9 @@ require_once  "$home/php/fragments/app-common.php";
 
 
 //***************************************************
-$sOperation = $_GET["o"];
+$sOperation = cHeader::get("o");
 if (cCommon::is_string_empty($sOperation)) cDebug::error("operation missing");
-$iHowMany = $_GET["h"];
+$iHowMany = cHeader::get("h");
 if (cCommon::is_string_empty($iHowMany)) cDebug::error("how many missing");
 if ($iHowMany < 1) cDebug::error("how many must be at least 1");
 

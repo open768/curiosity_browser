@@ -15,9 +15,9 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
 
-$sSol = $_GET["s"];
-$sInstrument = $_GET["i"];
-$sProduct = $_GET["p"];
+$sSol = cHeader::get("s");
+$sInstrument = cHeader::get("i");
+$sProduct = cHeader::get("p");
 
 cDebug::write("getting product details for $sSol, $sInstrument, $sProduct");
 $oData = cCuriosity::getLocalThumbnail($sSol, $sInstrument, $sProduct);

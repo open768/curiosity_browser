@@ -19,11 +19,11 @@ require_once  "$spaceInc/curiosity/curiositypds.php";
 require_once  "$spaceInc/pds/pdsreader.php";
 
 
-switch ($_GET["a"]) {
+switch (cHeader::get("a")) {
     case "s":
-        $sSol = $_GET["s"];
-        $sInstr = $_GET["i"];
-        $sProduct = $_GET["p"];
+        $sSol = cHeader::get("s");
+        $sInstr = cHeader::get("i");
+        $sProduct = cHeader::get("p");
         if (!$sSol || !$sInstr || !$sProduct) cDebug::error("missing parameters!");
 
 
@@ -37,7 +37,7 @@ switch ($_GET["a"]) {
         break;
 
     case "p":
-        $sPDSUrl =  $_GET["u"];
+        $sPDSUrl =  cHeader::get("u");
         cDebug::write($sPDSUrl);
         try {
             $oData = cCuriosityPDS::get_pds_product($sPDSUrl);

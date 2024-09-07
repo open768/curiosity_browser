@@ -18,45 +18,45 @@ require_once  "$spaceInc/misc/tags.php";
 
 
 //***************************************************
-$sOperation = $_GET["o"];
+$sOperation = cHeader::get("o");
 $aData = null;
 
 switch ($sOperation) {
     case "set":
         $sUser = cAuth::must_get_user();
-        $sSol = $_GET["s"];
-        $sInstrument = $_GET["i"];
-        $sProduct = $_GET["p"];
-        $sTag = $_GET["v"];
+        $sSol = cHeader::get("s");
+        $sInstrument = cHeader::get("i");
+        $sProduct = cHeader::get("p");
+        $sTag = cHeader::get("v");
         cSpaceTags::set_product_tag($sSol, $sInstrument, $sProduct, $sTag, $sUser);
     case "get":
-        $sSol = $_GET["s"];
-        $sInstrument = $_GET["i"];
-        $sProduct = $_GET["p"];
+        $sSol = cHeader::get("s");
+        $sInstrument = cHeader::get("i");
+        $sProduct = cHeader::get("p");
         $aTags = cSpaceTags::get_product_tag_names($sSol, $sInstrument, $sProduct);
         cDebug::vardump($aTags);
         $aData = ["p" => $sProduct, "d" => $aTags];
         break;
     case "detail":
-        $sTag = $_GET["t"];
+        $sTag = cHeader::get("t");
         $aData = cSpaceTagNames::get_tag_name_index($sTag);
         break;
     case "topsolindex":
         $aData = cSpaceTagsIndex::get_top_sol_index();
         break;
     case "sol":
-        $sSol = $_GET["s"];
+        $sSol = cHeader::get("s");
         $aData = cSpaceTags::get_sol_tags($sSol);
         break;
     case "solcount":
-        $sSol = $_GET["s"];
+        $sSol = cHeader::get("s");
         $aData = cSpaceTags::get_sol_tag_count($sSol);
         break;
     case "all":
         $aData = cSpaceTagNames::get_top_tag_names();
         break;
     case "search":
-        $sPartial = $_GET["v"];
+        $sPartial = cHeader::get("v");
         $aData = cSpaceTagNames::search_tag_names($sPartial);
         break;
 }

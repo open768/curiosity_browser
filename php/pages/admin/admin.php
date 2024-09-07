@@ -56,10 +56,10 @@ cAdminFunctions::check_admin_file();
 
 //##################################################################
 const OPS_PARAM = "o";
-if (!isset($_GET[OPS_PARAM]))
+if (!isset(cHeader::get(OPS_PARAM)))
     $sOperation = "";
 else {
-    $sOperation = $_GET[OPS_PARAM];
+    $sOperation = cHeader::get(OPS_PARAM);
     cDebug::on(true);
 }
 cDebug::write("Operation is '$sOperation'");
@@ -114,7 +114,7 @@ switch ($sOperation) {
         <?php
             exit();
         }
-        cSpaceImageHighlight::kill_highlites($_GET["s"], $_GET["i"], $_GET["p"], $_GET["w"]);
+        cSpaceImageHighlight::kill_highlites(cHeader::get("s"), cHeader::get("i"), cHeader::get("p"), cHeader::get("w"));
         break;
 
         //------------------------------------------------------
@@ -130,7 +130,7 @@ switch ($sOperation) {
         <?php
             exit();
         }
-        cSpaceTagNames::kill_tag_name($_GET["t"]);
+        cSpaceTagNames::kill_tag_name(cHeader::get("t"));
         break;
 
         //------------------------------------------------------
@@ -191,10 +191,10 @@ switch ($sOperation) {
         <?php
             exit();
         }
-        $sVolume = $_GET["v"];
-        if (!isset($_GET["i"])) cDebug::error("no index specified");
+        $sVolume = cHeader::get("v");
+        if (!isset(cHeader::get("i"))) cDebug::error("no index specified");
 
-        $sIndex = $_GET["i"];
+        $sIndex = cHeader::get("i");
         cCuriosityPdsIndexer::run_indexer($sVolume, $sIndex);
         break;
 

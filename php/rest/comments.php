@@ -17,24 +17,24 @@ require_once  "$home/php/fragments/app-common.php";
 require_once  "$spaceInc/misc/comments.php";
 
 //***************************************************
-$sOperation = $_GET["o"];
+$sOperation = cHeader::get("o");
 $oResult = null;
 
 switch ($sOperation) {
     case "get":
-        $sSol = $_GET["s"];
-        $sInstrument = $_GET["i"];
-        $sProduct = $_GET["p"];
+        $sSol = cHeader::get("s");
+        $sInstrument = cHeader::get("i");
+        $sProduct = cHeader::get("p");
 
         $aResult = cSpaceComments::get($sSol, $sInstrument, $sProduct);
 
         break;
     case "set":
         $sUser = cAuth::must_get_user();
-        $sSol = $_GET["s"];
-        $sInstrument = $_GET["i"];
-        $sProduct = $_GET["p"];
-        $sText = $_GET['v'];
+        $sSol = cHeader::get("s");
+        $sInstrument = cHeader::get("i");
+        $sProduct = cHeader::get("p");
+        $sText = cHeader::get('v');
 
         $aResult = cSpaceComments::set($sSol, $sInstrument, $sProduct, $sText, $sUser);
         break;
@@ -43,7 +43,7 @@ switch ($sOperation) {
         break;
 
     case "sol":
-        $sSol = $_GET["s"];
+        $sSol = cHeader::get("s");
         $aResult = cSpaceComments::get_all_sol_data($sSol);
         break;
 

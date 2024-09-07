@@ -22,34 +22,34 @@ cDebug::check_GET_or_POST();
 
 
 //***************************************************
-$sOperation = $_GET["o"];
+$sOperation = cHeader::get("o");
 $oResult = null;
 
 switch ($sOperation) {
     case "add":
         $sUser = cAuth::must_get_user();
-        $sSol = $_GET["s"];
-        $sInstrument = $_GET["i"];
-        $sProduct = $_GET["p"];
-        $top = $_GET["t"];
-        $left = $_GET["l"];
+        $sSol = cHeader::get("s");
+        $sInstrument = cHeader::get("i");
+        $sProduct = cHeader::get("p");
+        $top = cHeader::get("t");
+        $left = cHeader::get("l");
         $oResult = cSpaceImageHighlight::set($sSol, $sInstrument, $sProduct, $top, $left, $sUser);
         break;
     case "get":
-        $sSol = $_GET["s"];
-        $sInstrument = $_GET["i"];
-        $sProduct = $_GET["p"];
+        $sSol = cHeader::get("s");
+        $sInstrument = cHeader::get("i");
+        $sProduct = cHeader::get("p");
         $oResult = cSpaceImageHighlight::get($sSol, $sInstrument, $sProduct);
         break;
     case "thumbs":
-        $sSol = $_GET["s"];
-        $sInstrument = $_GET["i"];
-        $sProduct = $_GET["p"];
+        $sSol = cHeader::get("s");
+        $sInstrument = cHeader::get("i");
+        $sProduct = cHeader::get("p");
         $oResult = cSpaceImageHighlight::get_thumbs($sSol, $sInstrument, $sProduct);
         break;
 
     case "solcount":
-        $sSol = $_GET["s"];
+        $sSol = cHeader::get("s");
         $oResult = cSpaceIndex::get_solcount($sSol, cSpaceIndex::HILITE_SUFFIX);
         break;
 
@@ -62,11 +62,11 @@ switch ($sOperation) {
         break;
 
     case "soldata":
-        $oResult = cSpaceImageHighlight::get_sol_highlighted_products($_GET["s"]);
+        $oResult = cSpaceImageHighlight::get_sol_highlighted_products(cHeader::get("s"));
         break;
 
     case "mosaic":
-        $sSol = $_GET["s"];
+        $sSol = cHeader::get("s");
         $sURL = cSpaceImageMosaic::get_sol_high_mosaic($sSol);
         $oResult = [
             "s" => $sSol,

@@ -18,9 +18,9 @@ require_once  "$spaceInc/curiosity/instrument.php";
 
 cDebug::check_GET_or_POST();
 
-if (isset($_GET["s"])) {
-    if ($_GET["r"] === "true") cCuriosityManifest::clearSolDataCache($_GET["s"]);
-    $aList = cCuriosity::getSolInstrumentList($_GET["s"]);
+if (isset(cHeader::get("s"))) {
+    if (cHeader::get("r") === "true") cCuriosityManifest::clearSolDataCache(cHeader::get("s"));
+    $aList = cCuriosity::getSolInstrumentList(cHeader::get("s"));
 } else
     $aList = cInstrument::getInstrumentList();
 

@@ -5,39 +5,39 @@ require_once  "$spaceInc/curiosity/locations.php";
 
 
 $aData = null;
-$sOper = $_GET["o"];
+$sOper = cHeader::get("o");
 $sVal = null;
 $sDataType = null;
 
 switch ($sOper) {
     case "sol":
         $sDataType = "sol";
-        $sVal = $_GET[$sDataType];
+        $sVal = cHeader::get($sDataType);
         $aData = cCuriosityLocations::getSol($sVal);
         break;
     case "solBounds":
         $sDataType = "sol";
-        $sVal = $_GET[$sDataType];
+        $sVal = cHeader::get($sDataType);
         $aData = cCuriosityLocations::getSolBounds($sVal);
         break;
     case "site":
         $sDataType = "site";
-        $sVal = $_GET[$sDataType];
+        $sVal = cHeader::get($sDataType);
         $aData = cCuriosityLocations::getSite($sVal);
         break;
     case "siteBounds":
         $sDataType = "site";
-        $sVal = $_GET[$sDataType];
+        $sVal = cHeader::get($sDataType);
         $aData = cCuriosityLocations::getSiteBounds($sVal);
         break;
     case "drive":
         $sDataType = "drive";
-        $sVal = $_GET[$sDataType];
+        $sVal = cHeader::get($sDataType);
         $aData = cCuriosityLocations::getDrive($sVal);
         break;
     case "driveBounds":
         $sDataType = "drive";
-        $sVal = $_GET[$sDataType];
+        $sVal = cHeader::get($sDataType);
         $aData = cCuriosityLocations::getDriveBounds($sVal);
         break;
     case "allSitesIndex":

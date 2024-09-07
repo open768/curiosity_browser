@@ -18,7 +18,7 @@ require_once "$home/php/fragments/app-common.php";
 require_once  "$spaceInc/curiosity/curiosity.php";
 
 
-$sSearch = $_GET["s"];
+$sSearch = cHeader::get("s");
 $oData = cCuriosity::search_product($sSearch);
 
 cCommon::write_json($oData);

@@ -15,10 +15,10 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
 
-$sSol = $_GET["s"];
-$sInstrument = $_GET["i"];
-$iStart = $_GET["b"];
-$iEnd = $_GET["e"];
+$sSol = cHeader::get("s");
+$sInstrument = cHeader::get("i");
+$iStart = cHeader::get("b");
+$iEnd = cHeader::get("e");
 if ($sInstrument === "null") $sInstrument = null;
 
 
