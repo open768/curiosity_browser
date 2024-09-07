@@ -7,9 +7,10 @@ $phpInc = "$root/../phpinc";        //have to set phpinc here to pull in header.
 $spaceInc = "$root/../spaceinc";
 
 //php locations (these shouldnt need to be changed)
-$appPhpFragments = "$root/php/fragments";
+$appPHP = "$root/php";
+$appPhpFragments = "$appPHP/fragments";
 $appImages = "$home/images/";
-$appConfig = "$root/php/app-config";
+$appConfig = "$appPHP/app-config";
 
 // Javascript locations (these are URL locations, not disk locations)
 $AppJS = "$home/js";
@@ -17,9 +18,9 @@ $AppJSWidgets = "$AppJS/widgets";
 $jsInc = "$home/../jsinc";            //check this works
 $jsExtra = "$jsInc/extra";
 $jsSpaceInc = "$jsInc/ck-inc/space";
-$AppRest = "$home/php/rest";
+$jsAppRest = "$home/php/rest";
 
-//*****************************************************
+//##########################################################
 //* nothing needs to be changed below here
 require_once  "$appConfig/app-secret.php";
 
@@ -29,15 +30,16 @@ class cAppConfig {
     const FB_VERSION = "v20.0";
 }
 
+//##########################################################
 class cAppLocations {
     static $home = null;
     static $rest = null;
     static $jsextra = null;
 
     static function init() {
-        global $home, $AppRest, $jsExtra;
+        global $home, $jsAppRest, $jsExtra;
         self::$home = $home;
-        self::$rest = $AppRest;
+        self::$rest = $jsAppRest;
         self::$jsextra = $jsExtra;
     }
 }
