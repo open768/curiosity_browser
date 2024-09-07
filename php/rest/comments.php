@@ -22,18 +22,18 @@ $oResult = null;
 
 switch ($sOperation) {
     case "get":
-        $sSol = cHeader::get("s");
-        $sInstrument = cHeader::get("i");
-        $sProduct = cHeader::get("p");
+        $sSol = cHeader::get(cSpaceUrlParams::SOL);
+        $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT);
+        $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
 
         $aResult = cSpaceComments::get($sSol, $sInstrument, $sProduct);
 
         break;
     case "set":
         $sUser = cAuth::must_get_user();
-        $sSol = cHeader::get("s");
-        $sInstrument = cHeader::get("i");
-        $sProduct = cHeader::get("p");
+        $sSol = cHeader::get(cSpaceUrlParams::SOL);
+        $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT);
+        $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
         $sText = cHeader::get('v');
 
         $aResult = cSpaceComments::set($sSol, $sInstrument, $sProduct, $sText, $sUser);
@@ -43,7 +43,7 @@ switch ($sOperation) {
         break;
 
     case "sol":
-        $sSol = cHeader::get("s");
+        $sSol = cHeader::get(cSpaceUrlParams::SOL);
         $aResult = cSpaceComments::get_all_sol_data($sSol);
         break;
 

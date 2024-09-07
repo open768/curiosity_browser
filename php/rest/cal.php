@@ -20,7 +20,7 @@ require_once  "$spaceInc/curiosity/instrument.php";
 const TIMESLOT = 10;
 
 
-$sSol = cHeader::get("s");
+$sSol = cHeader::get(cSpaceUrlParams::SOL);
 
 cDebug::write("getting instruments");
 $oInstruments = cInstrument::getInstrumentList();

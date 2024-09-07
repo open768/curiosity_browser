@@ -26,7 +26,7 @@ include("$appPhpFragments/doctype.php");
                 <td>
                     <font class="big_error">OOPS THERE WAS AN ERROR</font>
                     <P>
-                        Message was "<?= cHeader::get("m") ?>"
+                        Message was "<?= cHeader::get(cSpaceUrlParams::MISSION) ?>"
                 </td>
                 <td align="right">
                     <img src="<?= $appImages ?>/browser/dude.png" height="120">

@@ -16,8 +16,8 @@ $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
 
 $sDirection = cHeader::get("d");
-$sSol = cHeader::get("s");
-$sProduct = cHeader::get("p");
+$sSol = cHeader::get(cSpaceUrlParams::SOL);
+$sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
 $iFound = -1;
 $oData = null;
 cDebug::write("looking for $sProduct in sol $sSol");

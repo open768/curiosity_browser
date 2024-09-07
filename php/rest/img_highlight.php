@@ -28,28 +28,28 @@ $oResult = null;
 switch ($sOperation) {
     case "add":
         $sUser = cAuth::must_get_user();
-        $sSol = cHeader::get("s");
-        $sInstrument = cHeader::get("i");
-        $sProduct = cHeader::get("p");
+        $sSol = cHeader::get(cSpaceUrlParams::SOL);
+        $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT);
+        $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
         $top = cHeader::get("t");
         $left = cHeader::get("l");
         $oResult = cSpaceImageHighlight::set($sSol, $sInstrument, $sProduct, $top, $left, $sUser);
         break;
     case "get":
-        $sSol = cHeader::get("s");
-        $sInstrument = cHeader::get("i");
-        $sProduct = cHeader::get("p");
+        $sSol = cHeader::get(cSpaceUrlParams::SOL);
+        $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT);
+        $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
         $oResult = cSpaceImageHighlight::get($sSol, $sInstrument, $sProduct);
         break;
     case "thumbs":
-        $sSol = cHeader::get("s");
-        $sInstrument = cHeader::get("i");
-        $sProduct = cHeader::get("p");
+        $sSol = cHeader::get(cSpaceUrlParams::SOL);
+        $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT);
+        $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
         $oResult = cSpaceImageHighlight::get_thumbs($sSol, $sInstrument, $sProduct);
         break;
 
     case "solcount":
-        $sSol = cHeader::get("s");
+        $sSol = cHeader::get(cSpaceUrlParams::SOL);
         $oResult = cSpaceIndex::get_solcount($sSol, cSpaceIndex::HILITE_SUFFIX);
         break;
 
@@ -62,11 +62,11 @@ switch ($sOperation) {
         break;
 
     case "soldata":
-        $oResult = cSpaceImageHighlight::get_sol_highlighted_products(cHeader::get("s"));
+        $oResult = cSpaceImageHighlight::get_sol_highlighted_products(cHeader::get(cSpaceUrlParams::SOL));
         break;
 
     case "mosaic":
-        $sSol = cHeader::get("s");
+        $sSol = cHeader::get(cSpaceUrlParams::SOL);
         $sURL = cSpaceImageMosaic::get_sol_high_mosaic($sSol);
         $oResult = [
             "s" => $sSol,

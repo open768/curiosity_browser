@@ -21,9 +21,9 @@ require_once  "$spaceInc/pds/pdsreader.php";
 
 switch (cHeader::get("a")) {
     case "s":
-        $sSol = cHeader::get("s");
-        $sInstr = cHeader::get("i");
-        $sProduct = cHeader::get("p");
+        $sSol = cHeader::get(cSpaceUrlParams::SOL);
+        $sInstr = cHeader::get(cSpaceUrlParams::INSTRUMENT);
+        $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
         if (!$sSol || !$sInstr || !$sProduct) cDebug::error("missing parameters!");
 
 

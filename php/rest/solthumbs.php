@@ -15,8 +15,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
 
-$sSol = cHeader::get("s");
-$sInstr = cHeader::get("i");
+$sSol = cHeader::get(cSpaceUrlParams::SOL);
+$sInstr = cHeader::get(cSpaceUrlParams::INSTRUMENT);
 
 if (!$sSol || !$sInstr) cDebug::error("wrong parameters");
 

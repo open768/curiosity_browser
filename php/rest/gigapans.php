@@ -7,7 +7,7 @@ $aData = null;
 $sOption = cHeader::get("o");
 switch ($sOption) {
     case "sol":
-        $aData = cPencilNev::get_sol_gigas(cHeader::get("s"));
+        $aData = cPencilNev::get_sol_gigas(cHeader::get(cSpaceUrlParams::SOL));
         break;
     case "topsolindex":
         $aData = cPencilNev::get_top_gigas();

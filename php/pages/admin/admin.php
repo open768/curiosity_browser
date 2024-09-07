@@ -114,7 +114,7 @@ switch ($sOperation) {
         <?php
             exit();
         }
-        cSpaceImageHighlight::kill_highlites(cHeader::get("s"), cHeader::get("i"), cHeader::get("p"), cHeader::get("w"));
+        cSpaceImageHighlight::kill_highlites(cHeader::get(cSpaceUrlParams::SOL), cHeader::get(cSpaceUrlParams::INSTRUMENT), cHeader::get(cSpaceUrlParams::PRODUCT), cHeader::get("w"));
         break;
 
         //------------------------------------------------------
@@ -192,9 +192,9 @@ switch ($sOperation) {
             exit();
         }
         $sVolume = cHeader::get("v");
-        if (!isset(cHeader::get("i"))) cDebug::error("no index specified");
+        if (!isset(cHeader::get(cSpaceUrlParams::INSTRUMENT))) cDebug::error("no index specified");
 
-        $sIndex = cHeader::get("i");
+        $sIndex = cHeader::get(cSpaceUrlParams::INSTRUMENT);
         cCuriosityPdsIndexer::run_indexer($sVolume, $sIndex);
         break;
 

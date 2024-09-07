@@ -24,15 +24,15 @@ $aData = null;
 switch ($sOperation) {
     case "set":
         $sUser = cAuth::must_get_user();
-        $sSol = cHeader::get("s");
-        $sInstrument = cHeader::get("i");
-        $sProduct = cHeader::get("p");
+        $sSol = cHeader::get(cSpaceUrlParams::SOL);
+        $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT);
+        $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
         $sTag = cHeader::get("v");
         cSpaceTags::set_product_tag($sSol, $sInstrument, $sProduct, $sTag, $sUser);
     case "get":
-        $sSol = cHeader::get("s");
-        $sInstrument = cHeader::get("i");
-        $sProduct = cHeader::get("p");
+        $sSol = cHeader::get(cSpaceUrlParams::SOL);
+        $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT);
+        $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
         $aTags = cSpaceTags::get_product_tag_names($sSol, $sInstrument, $sProduct);
         cDebug::vardump($aTags);
         $aData = ["p" => $sProduct, "d" => $aTags];
@@ -45,11 +45,11 @@ switch ($sOperation) {
         $aData = cSpaceTagsIndex::get_top_sol_index();
         break;
     case "sol":
-        $sSol = cHeader::get("s");
+        $sSol = cHeader::get(cSpaceUrlParams::SOL);
         $aData = cSpaceTags::get_sol_tags($sSol);
         break;
     case "solcount":
-        $sSol = cHeader::get("s");
+        $sSol = cHeader::get(cSpaceUrlParams::SOL);
         $aData = cSpaceTags::get_sol_tag_count($sSol);
         break;
     case "all":
