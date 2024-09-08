@@ -55,13 +55,8 @@ cAdminFunctions::check_user_is_admin();
 cAdminFunctions::check_admin_file();
 
 //##################################################################
-const OPS_PARAM = "o";
-if (!isset(cHeader::get(OPS_PARAM)))
-    $sOperation = "";
-else {
-    $sOperation = cHeader::get(OPS_PARAM);
-    cDebug::on(true);
-}
+$sOperation = cHeader::get(cAppUrlParams::OPERATION);
+if ($sOperation !== null)    cDebug::on(true);
 cDebug::write("Operation is '$sOperation'");
 
 $aData = null;
@@ -86,7 +81,7 @@ switch ($sOperation) {
         if (!array_key_exists("s", $_GET)) {
 ?>
             <form method="get">
-                <Input type="hidden" name="<?= OPS_PARAM ?>" value="<?= $sOperation ?>">
+                <Input type="hidden" name="<?= cAppUrlParams::OPERATION ?>" value="<?= $sOperation ?>">
                 <Input type="hidden" name="debug" value="1">
                 Sol: <Input type="input" name="s"><br>
                 <input type="submit"></input>
@@ -103,7 +98,7 @@ switch ($sOperation) {
         if (!array_key_exists("p", $_GET)) {
         ?>
             <form method="get">
-                <Input type="hidden" name=<?= OPS_PARAM ?> value="<?= $sOperation ?>">
+                <Input type="hidden" name=<?= cAppUrlParams::OPERATION ?> value="<?= $sOperation ?>">
                 <Input type="hidden" name="debug" value="1">
                 sol: <Input type="input" name="s"><br>
                 instr: <Input type="input" name="i"><br>
@@ -122,7 +117,7 @@ switch ($sOperation) {
         if (!array_key_exists("t", $_GET)) {
         ?>
             <form method="get">
-                <Input type="hidden" name="<?= OPS_PARAM ?>" value="<?= $sOperation ?>">
+                <Input type="hidden" name="<?= cAppUrlParams::OPERATION ?>" value="<?= $sOperation ?>">
                 <Input type="hidden" name="debug" value="1">
                 <Input type="input" name="t"><br>
                 <input type="submit"></input>
@@ -177,7 +172,7 @@ switch ($sOperation) {
             <a target="PDS" href="<?= cCuriosity::PDS_VOLUMES ?>">Curiosity PDS released volumes</a>
             <p>
             <form method="get" name="pds">
-                <Input type="hidden" name="<?= OPS_PARAM ?>" value="<?= $sOperation ?>">
+                <Input type="hidden" name="<?= cAppUrlParams::OPERATION ?>" value="<?= $sOperation ?>">
                 <Input type="hidden" name="debug" value="1">
                 volume: <select name="v">
                     <?php
@@ -192,9 +187,9 @@ switch ($sOperation) {
             exit();
         }
         $sVolume = cHeader::get("v");
-        if (!isset(cHeader::get(cSpaceUrlParams::INSTRUMENT))) cDebug::error("no index specified");
+        $sIndex = cHeader::get("i");
+        if ($sIndex == null) cDebug::error("no index specified");
 
-        $sIndex = cHeader::get(cSpaceUrlParams::INSTRUMENT);
         cCuriosityPdsIndexer::run_indexer($sVolume, $sIndex);
         break;
 
@@ -204,32 +199,37 @@ switch ($sOperation) {
         break;
 
         //------------------------------------------------------
-    default:
+    case null:
         $sTitle = "Admin";
+        cDebug::write("Default operation"); {
         ?>
 
-        <form method="get">
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="backup">backup objdata<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="clean_product_tags">clean product tags<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="del_empty_folders">delete empty objdata folders<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="del_ihighlite">delete ihighlite files<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="indexComm">index Comments<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="indexGigas">index Nevilles gigapans<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="indexManifest">index curiosity manifests<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="killCache">clear cache<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="killHighlight">erase particular highlight<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="killSession">kill the session<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="killTag">remove tag<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="mergeTags">merge a tag<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="parseAllPDS">parse ALL PDS files<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="parseLocations">parse curiosity locations<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="parsePDS">parse PDS files<br>
-            <Input type="radio" name="<?= OPS_PARAM ?>" value="vacuum">sqllite vacuum database<br>
-            <input type="submit" class="w3-button w3-theme-button-up"></input>
-        </form>
+            <form method="get">
+                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="backup">backup objdata<br>
+                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="clean_product_tags">clean product tags<br>
+                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="del_empty_folders">delete empty objdata folders<br>
+                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="indexComm">index Comments<br>
+                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="indexGigas">index Nevilles gigapans<br>
+                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="indexManifest">index curiosity manifests<br>
+                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killCache">clear cache<br>
+                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killHighlight">erase particular highlight<br>
+                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killSession">kill the session<br>
+                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killTag">remove tag<br>
+                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="mergeTags">merge a tag<br>
+                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parseAllPDS">parse ALL PDS files<br>
+                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parseLocations">parse curiosity locations<br>
+                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parsePDS">parse PDS files<br>
+                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="vacuum">sqllite vacuum database<br>
+                <input type="submit" class="w3-button w3-theme-button-up"></input>
+            </form>#
 <?php
+        }
         break;
+    default:
+        cDebug::error("unsupported operation: $sOperation");
 }
+if ($sOperation !== null)    cDebug::write("done");
+
 echo "</BODY>";
 
 ?>
