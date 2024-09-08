@@ -79,7 +79,7 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
                         <h2>Curiosity Browser</h2>
                     </header>
                     <div class="w3-container w3-padding-large" style="height:800px" id="<?= cIndexPageConsts::ID_INTRO_BODY ?>">
-                        <img src="<?= $appImages ?>/browser/dude.png" height="180" align="left" style="margin:20px">
+                        <img src="<?= $appImages ?>/browser/dude.png" height="200" align="left" style="margin:20px">
                         <span>
                             <div class="intro_text">
                                 Welcome to the best place to find great images beamed from Curiosity, NASA's Mars Science Lab on Mars.
@@ -100,12 +100,18 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
                                     <li>Then select from the <span class="subtitle">instruments</span> shown for that SOL to see the amazing images.</li>
                                 </ol>
                             </div>
+                            <div class="intro_text">
+                                <a href="about.php" class="w3-theme-action w3-button"><span class="material-symbols-outlined">info</span> click here to find out more about this website</a>
+                            </div>
+                        </span>
                     </div>
-                    <footer class="w3-container w3-theme-l3" style:"display:none" id="<?= cIndexPageConsts::ID_INTRO_FOOTER ?>">
-                    </footer>
+
                 </div>
+                <footer class="w3-container w3-theme-l3" style:"display:none" id="<?= cIndexPageConsts::ID_INTRO_FOOTER ?>">
+                </footer>
             </div>
         </div>
+    </div>
     </div>
     </div>
     <!-- Footer -->

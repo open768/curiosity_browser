@@ -63,7 +63,7 @@ cPageOutput::write_JS_class_constant_IDs("cAppLocations");
 <script src="<?= $AppJS ?>/classes/app-common.js"></script>
 
 <script>
-    cFacebook.ServerSide = "<?= $home ?>/php/rest/facebook.php";
+    cFacebook.ServerSide = cAppLocations.rest + "/facebook.php";
     cFacebook.ServerUser = "<?= $sFBUser ?>";
     cFacebook.Version = "<?= cAppConfig::FB_VERSION ?>";
     cFacebook.AppID = <?= $oFBAppId->id ?>;

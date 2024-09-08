@@ -30,7 +30,7 @@ $.widget('ck.thumbnail', {
 			FINAL: 'thumb-final',
 			MISSING: 'thumb-missing'
 		},
-		BETTER_URL: cAppLocations.rest + '/solthumb.php',
+		BETTER_URL: cAppLocations.rest + '/prodthumb.php',
 		DEFAULT_THUMBNAIL: cAppLocations.home + '/images/browser/chicken_icon.png',
 		WAIT_VISIBLE: 2000
 	},
