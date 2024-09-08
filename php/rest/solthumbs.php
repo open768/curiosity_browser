@@ -21,6 +21,6 @@ $sInstr = cHeader::get(cSpaceUrlParams::INSTRUMENT);
 if (!$sSol || !$sInstr) cDebug::error("wrong parameters");
 
 cDebug::write("getting sol $sSol thumbnails data");
-$aData = cCuriosity::getThumbnails($sSol, $sInstr);
+$aData = cCuriosityImages::getThumbnails($sSol, $sInstr);
 
 cCommon::write_json($aData);
