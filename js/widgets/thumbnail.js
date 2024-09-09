@@ -13,7 +13,6 @@ $.widget('ck.thumbnail', {
 		product: null,
 		base_id: null,
 		url: null,
-		img: null,
 		loaded_better: false,
 		mission: null
 	},
@@ -30,9 +29,10 @@ $.widget('ck.thumbnail', {
 			FINAL: 'thumb-final',
 			MISSING: 'thumb-missing'
 		},
-		BETTER_URL: cAppLocations.rest + '/prodthumb.php',
+		THUMBNAILER_URL: cAppLocations.thumbnailer,
 		DEFAULT_THUMBNAIL: cAppLocations.home + '/images/browser/chicken_icon.png',
-		WAIT_VISIBLE: 2000
+		WAIT_VISIBLE: 2000,
+		CHILD_IMG_ID: 'CID'
 	},
 
 	//#################################################################
@@ -65,10 +65,12 @@ $.widget('ck.thumbnail', {
 		if (oOptions.mission == null) $.error('mission is not set')
 
 		oElement.uniqueId() // sets a unique ID on the SPAN.
-		const sImgID = oElement.attr('id') + 'i'
 
 		oElement.attr('class', this.consts.DEFAULT_STYLE)
+		this.pr__set_style(this.consts.STYLES.ORIG)
 
+		//---------- add img to element
+		const sImgID = cJquery.child_ID(oElement, this.consts.CHILD_IMG_ID)
 		oImg = $('<IMG>', {
 			title: this.options.product,
 			border: 0,
@@ -76,14 +78,14 @@ $.widget('ck.thumbnail', {
 			src: this.consts.DEFAULT_THUMBNAIL,
 			ID: sImgID
 		})
-		oImg.click(function () {
-			oThis.onThumbClick()
-		})
-		this.options.img = sImgID
-		this.pr__set_style(this.consts.STYLES.ORIG)
+		{
+			oImg.click(function () {
+				oThis.onThumbClick()
+			})
+			oElement.append(oImg)
+		}
 
 		// optimise server requests, only display thumbnail if its in viewport
-		oElement.append(oImg)
 		oElement.on('inview', function (poEvent, pbIsInView) {
 			oThis.onPlaceholderInView(pbIsInView)
 		})
@@ -126,24 +128,23 @@ $.widget('ck.thumbnail', {
 
 		if (oElement.visible()) {
 			// load the basic thumbnail
-			oImg = cJquery.element(this.options.img)
-			oImg.on('load', function () {
-				oThis.onBasicThumbLoaded()
-			}) // do something when thumbnail loaded
+			oImg = cJquery.get_child(oElement, this.consts.CHILD_IMG_ID)
+			oImg.on('load', () => oThis.onBasicThumbLoaded()) // do something when thumbnail loaded
 			oImg.attr('src', this.options.url) // load basic thumbnail
 		} else {
 			// image is not visible - reset the inview trigger
 			cDebug.write('placeholder not visible  ' + this.options.product)
-			oElement.on('inview', function (poEvent, pbIsInView) {
-				oThis.onPlaceholderInView(pbIsInView)
-			})
+			oElement.on('inview', (e, pbFlag) => oThis.onPlaceholderInView(pbFlag))
 		}
 	},
 
 	//******************************************************************
+	//* Basic thumbnail
+	//******************************************************************
 	onBasicThumbLoaded: function () {
 		const oThis = this
-		const oImg = cJquery.element(this.options.img)
+		const oElement = this.element
+		const oImg = cJquery.get_child(oElement, this.consts.CHILD_IMG_ID)
 
 		if (goBetterThumbQueue.stopping) return
 		oImg.off('load') // remove the load event so it doesnt fire again
@@ -156,34 +157,15 @@ $.widget('ck.thumbnail', {
 	//******************************************************************
 	onBasicThumbViewDelay: function () {
 		const oThis = this
-		const oOptions = this.options
-		const oImg = cJquery.element(this.options.img)
+
 		const oElement = this.element
+		const oImg = cJquery.get_child(oElement, this.consts.CHILD_IMG_ID)
 
 		if (goBetterThumbQueue.stopping) return
-		if (oImg.visible()) {
-			this.pr__set_style(oThis.consts.STYLES.WAITING3)
-			const oItem = new cHttpQueueItem()
-			{
-				oItem.url = cBrowser.buildUrl(this.consts.BETTER_URL, {
-					s: oOptions.sol,
-					i: oOptions.instrument,
-					p: oOptions.product,
-					m: oOptions.mission.ID
-				})
-
-				bean.on(oItem, 'result', poHttp => oThis.onBetterThumbResponse(poHttp))
-				bean.on(oItem, 'error', poHttp => oThis.onBetterThumbError(poHttp))
-				bean.on(oItem, 'start', () => oThis.onBetterThumbStarting())
-
-				// add request for the better thumbnail to the queue
-				goBetterThumbQueue.add(oItem)
-			}
-		} else {
+		if (oImg.visible()) this.show_better_thumb()
+		else {
 			cDebug.write('Basic thumb not in view: ')
-			oElement.on('inview', function (poEvent, pbIsInView) {
-				oThis.onBasicThumbInView(pbIsInView)
-			})
+			oElement.on('inview', (e, pbFlag) => oThis.onBasicThumbInView(pbFlag))
 		}
 	},
 
@@ -198,39 +180,24 @@ $.widget('ck.thumbnail', {
 	},
 
 	//******************************************************************
-	onBetterThumbStarting: function () {
-		if (goBetterThumbQueue.stopping) return
-
-		// ** TBD ** at this stage is the div is not visible stop the request
-		this.pr__set_style(this.consts.STYLES.WORKING)
+	//* Better thumbnail
+	//******************************************************************
+	show_better_thumb: function () {
+		var oOptions = this.options
+		const oElement = this.element
+		const oImg = cJquery.get_child(oElement, this.consts.CHILD_IMG_ID)
+		var sThumbUrl = cBrowser.buildUrl(this.consts.THUMBNAILER_URL, {
+			s: oOptions.sol,
+			i: oOptions.instrument,
+			p: oOptions.product,
+			m: oOptions.mission.ID
+		})
+		setTimeout(() => oImg.attr('src', sThumbUrl), 100)
+		this.pr__set_style(this.consts.STYLES.FINAL)
 	},
 
 	//******************************************************************
-	onBetterThumbResponse: function (poHttp) {
-		const oImg = cJquery.element(this.options.img)
-		const oData = poHttp.response
-
-		if (goBetterThumbQueue.stopping) return
-		if (!oData.u) {
-			cDebug.write('missing image for: ' + oData.p)
-			this.pr__set_style(this.consts.STYLES.MISSING)
-		} else {
-			cDebug.write('got better thumbnail: ' + oData.p)
-			this.pr__set_style(this.consts.STYLES.FINAL)
-			// update the displayed image - on a Timer to be in a different non-blocking thread
-			var sUrl = cBrowser.buildUrl(cAppLocations.home + '/' + oData.u, {
-				r: Math.random()
-			})
-			setTimeout(() => oImg.attr('src', sUrl), 0)
-		}
-	},
-
-	//******************************************************************
-	onBetterThumbError: function (poHttp) {
-		this.pr__set_style(this.consts.STYLES.ERROR)
-		cDebug.write('ERROR: ' + poHttp.data + '\n' + poHttp.url + '\n' + poHttp.errorStatus + ' - ' + poHttp.error)
-	},
-
+	//* click
 	//******************************************************************
 	onThumbClick: function () {
 		const oOptions = this.options
