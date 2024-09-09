@@ -395,7 +395,7 @@ class cDetail {
 			s: this.oItem.s,
 			i: this.oItem.i,
 			p: this.oItem.p,
-			t: escape(this.oItem.d.du)
+			t: encodeURIComponent(this.oItem.d.du)
 		})
 		cBrowser.openWindow(sUrl, 'pds')
 	}

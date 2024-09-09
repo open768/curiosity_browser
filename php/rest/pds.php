@@ -18,8 +18,8 @@ require_once "$home/php/fragments/app-common.php";
 require_once  "$spaceInc/curiosity/curiositypds.php";
 require_once  "$spaceInc/pds/pdsreader.php";
 
-
-switch (cHeader::get("a")) {
+$sOperation = cHeader::get(cAppUrlParams::OPERATION);
+switch ($sOperation) {
     case "s":
         $sSol = cHeader::get(cSpaceUrlParams::SOL);
         $sInstr = cHeader::get(cSpaceUrlParams::INSTRUMENT);
@@ -35,17 +35,8 @@ switch (cHeader::get("a")) {
             $oData = null;
         }
         break;
-
-    case "p":
-        $sPDSUrl =  cHeader::get("u");
-        cDebug::write($sPDSUrl);
-        try {
-            $oData = cCuriosityPDS::get_pds_product($sPDSUrl);
-        } catch (Exception $e) {
-            cDebug::write("error :" . e);
-            $oData = null;
-        }
-        break;
+    default:
+        cDebug::error("unknown operation $sOperation");
 }
 //############################### response ####################
 include "$appPhpFragments/rest_header.php";

@@ -51,13 +51,14 @@ function onClickNotebook() {
 function onLoadJQuery_PDS() {
 	cCommonStatus.set_status('loading pds data...')
 
-	const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/pds.php', {
-		a: 's',
+	const oParams = {
+		o: 's',
 		s: cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING],
 		i: cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING],
 		p: cBrowser.data[cSpaceBrowser.PRODUCT_QUERYSTRING],
 		m: cMission.ID
-	})
+	}
+	const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/pds.php', oParams)
 	const oHttp = new cHttp2()
 	{
 		bean.on(oHttp, 'result', get_pds_callback)
