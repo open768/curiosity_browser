@@ -1,22 +1,11 @@
 //#TODO# use chttpqueue
 const goBetterThumbQueue = new cHttpQueue()
 
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-$.widget('ck.thumbnail', {
-	//#################################################################
-	//# Definition
-	//#################################################################
-	options: {
-		sol: null,
-		instrument: null,
-		product: null,
-		base_id: null,
-		url: null,
-		loaded_better: false,
-		mission: null
-	},
-	consts: {
+class cThumbnail {
+	element = null
+	widget = null
+	options = null
+	consts = {
 		SIZE: 144,
 		DEFAULT_STYLE: 'polaroid',
 		STYLES: {
@@ -33,17 +22,14 @@ $.widget('ck.thumbnail', {
 		DEFAULT_THUMBNAIL: cAppLocations.home + '/images/browser/chicken_icon.png',
 		WAIT_VISIBLE: 2000,
 		CHILD_IMG_ID: 'CID'
-	},
+	}
 
-	//#################################################################
-	//# Constructor
-	//#################################################################
-	_create: function () {
-		var oImg, oThis, oElement
-		const oOptions = this.options
-
-		oThis = this
-		oElement = this.element
+	//******************************************************************
+	//******************************************************************
+	constructor(poWidget) {
+		this.widget = poWidget
+		this.element = poWidget.element
+		this.options = poWidget.options
 
 		// check for necessary classes
 		if (!bean) {
@@ -55,18 +41,27 @@ $.widget('ck.thumbnail', {
 		if (!$.event.special.inview) {
 			$.error('inview class is missing! check includes')
 		}
-		if (!oElement.visible) $.error('visible class is missing! check includes')
+		if (!this.element.visible) $.error('visible class is missing! check includes')
 
-		// init
+		const oOptions = this.options
 		if (oOptions.sol == null) $.error('sol is not set')
 		if (oOptions.instrument == null) $.error('instrument is not set')
 		if (oOptions.product == null) $.error('product is not set')
 		if (oOptions.url == null) $.error('url is not set')
 		if (oOptions.mission == null) $.error('mission is not set')
+	}
 
+	//******************************************************************
+	//******************************************************************
+	init() {
+		var oImg, oThis, oElement
+
+		oThis = this
+		oElement = this.element
+
+		// init
 		oElement.uniqueId() // sets a unique ID on the SPAN.
 
-		oElement.attr('class', this.consts.DEFAULT_STYLE)
 		this.pr__set_style(this.consts.STYLES.ORIG)
 
 		//---------- add img to element
@@ -89,25 +84,24 @@ $.widget('ck.thumbnail', {
 		oElement.on('inview', function (poEvent, pbIsInView) {
 			oThis.onPlaceholderInView(pbIsInView)
 		})
-	},
-
+	}
 	//#################################################################
 	//# methods
 	//#################################################################
-	stop_queue: function () {
+	stop_queue() {
 		goBetterThumbQueue.stop()
-	},
+	}
 
 	//******************************************************************
-	pr__set_style: function (psStyle) {
+	pr__set_style(psStyle) {
 		this.element.attr('class', this.consts.DEFAULT_STYLE + ' ' + psStyle)
-	},
+	}
 
 	//#################################################################
 	//# events
 	//#################################################################
 	//******************************************************************
-	onPlaceholderInView: function (pbIsInView) {
+	onPlaceholderInView(pbIsInView) {
 		const oThis = this
 
 		if (goBetterThumbQueue.stopping) return
@@ -117,10 +111,10 @@ $.widget('ck.thumbnail', {
 		this.pr__set_style(oThis.consts.STYLES.WAITING1)
 
 		setTimeout(() => oThis.onPlaceholderDelay(), this.consts.WAIT_VISIBLE)
-	},
+	}
 
 	//******************************************************************
-	onPlaceholderDelay: function () {
+	onPlaceholderDelay() {
 		var oImg, oThis
 		const oElement = this.element
 		oThis = this
@@ -136,12 +130,12 @@ $.widget('ck.thumbnail', {
 			cDebug.write('placeholder not visible  ' + this.options.product)
 			oElement.on('inview', (e, pbFlag) => oThis.onPlaceholderInView(pbFlag))
 		}
-	},
+	}
 
 	//******************************************************************
 	//* Basic thumbnail
 	//******************************************************************
-	onBasicThumbLoaded: function () {
+	onBasicThumbLoaded() {
 		const oThis = this
 		const oElement = this.element
 		const oImg = cJquery.get_child(oElement, this.consts.CHILD_IMG_ID)
@@ -152,10 +146,10 @@ $.widget('ck.thumbnail', {
 		if (goBetterThumbQueue.stopping) return
 		this.pr__set_style(oThis.consts.STYLES.WAITING2)
 		setTimeout(() => oThis.onBasicThumbViewDelay(), this.consts.WAIT_VISIBLE)
-	},
+	}
 
 	//******************************************************************
-	onBasicThumbViewDelay: function () {
+	onBasicThumbViewDelay() {
 		const oThis = this
 
 		const oElement = this.element
@@ -167,22 +161,22 @@ $.widget('ck.thumbnail', {
 			cDebug.write('Basic thumb not in view: ')
 			oElement.on('inview', (e, pbFlag) => oThis.onBasicThumbInView(pbFlag))
 		}
-	},
+	}
 
 	//******************************************************************
-	onBasicThumbInView: function (pbIsInView) {
+	onBasicThumbInView(pbIsInView) {
 		if (goBetterThumbQueue.stopping) return
 
 		if (!pbIsInView) return
 
 		this.element.off('inview') // turn off the inview listener
 		this.onBasicThumbLoaded() // go back to
-	},
+	}
 
 	//******************************************************************
 	//* Better thumbnail
 	//******************************************************************
-	show_better_thumb: function () {
+	show_better_thumb() {
 		var oOptions = this.options
 		const oElement = this.element
 		const oImg = cJquery.get_child(oElement, this.consts.CHILD_IMG_ID)
@@ -194,12 +188,12 @@ $.widget('ck.thumbnail', {
 		})
 		setTimeout(() => oImg.attr('src', sThumbUrl), 100)
 		this.pr__set_style(this.consts.STYLES.FINAL)
-	},
+	}
 
 	//******************************************************************
 	//* click
 	//******************************************************************
-	onThumbClick: function () {
+	onThumbClick() {
 		const oOptions = this.options
 		goBetterThumbQueue.stop()
 		this._trigger('onStatus', null, {
@@ -210,5 +204,30 @@ $.widget('ck.thumbnail', {
 			instr: oOptions.instrument,
 			product: oOptions.product
 		})
+	}
+}
+
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+$.widget('ck.thumbnail', {
+	//#################################################################
+	//# Definition
+	//#################################################################
+	options: {
+		sol: null,
+		instrument: null,
+		product: null,
+		base_id: null,
+		url: null,
+		loaded_better: false,
+		mission: null
+	},
+
+	//#################################################################
+	//# Constructor
+	//#################################################################
+	_create() {
+		var oInstance = new cThumbnail(this)
+		oInstance.init()
 	}
 })
