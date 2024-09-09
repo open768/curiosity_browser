@@ -96,7 +96,8 @@ class cThumbnail {
 	//# methods
 	//#################################################################
 	stop_queue() {
-		cQueueRunner.stop()
+		const oThumbQ = cThumbnail.thumbqueue
+		oThumbQ.stop()
 	}
 
 	//******************************************************************
@@ -187,6 +188,11 @@ class cThumbnail {
 	//* Better thumbnail
 	//******************************************************************
 	onBetterQStep() {
+		const oThis = this
+		setTimeout(() => oThis.load_better_thumb(), 100)
+	}
+
+	load_better_thumb() {
 		var oOptions = this.options
 		const oElement = this.element
 		const oImg = cJquery.get_child(oElement, this.consts.CHILD_IMG_ID)
@@ -196,7 +202,8 @@ class cThumbnail {
 			p: oOptions.product,
 			m: oOptions.mission.ID
 		})
-		setTimeout(() => oImg.attr('src', sThumbUrl), 100)
+		oImg.attr('src', sThumbUrl)
+		oImg.addClass('w3-hover-grey')
 		this.pr__set_style(this.consts.STYLES.FINAL)
 	}
 
@@ -206,10 +213,10 @@ class cThumbnail {
 	onThumbClick() {
 		const oOptions = this.options
 		if (cThumbnail.thumbqueue.stop()) return
-		this._trigger('onStatus', null, {
+		this.widget._trigger('onStatus', null, {
 			text: 'clicked: ' + oOptions.product
 		})
-		this._trigger('onClick', null, {
+		this.widget._trigger('onClick', null, {
 			sol: oOptions.sol,
 			instr: oOptions.instrument,
 			product: oOptions.product
