@@ -19,6 +19,8 @@ $jsInc = "$home/../jsinc";            //check this works
 $jsExtra = "$jsInc/extra";
 $jsSpaceInc = "$jsInc/ck-inc/space";
 $jsAppRest = "$home/php/rest";
+$jsThumbNailer = "$home/php/images/thumbnailer.php";
+$jsImages = "$home/images";
 
 //##########################################################
 //* nothing needs to be changed below here
@@ -35,12 +37,16 @@ class cAppLocations {
     static $home = null;
     static $rest = null;
     static $jsextra = null;
+    static $thumbnailer = null;
+    static $images = null;
 
     static function init() {
-        global $home, $jsAppRest, $jsExtra;
+        global $home, $jsAppRest, $jsExtra, $jsThumbNailer, $jsImages;
         self::$home = $home;
         self::$rest = $jsAppRest;
         self::$jsextra = $jsExtra;
+        self::$thumbnailer = $jsThumbNailer;
+        self::$images = $jsImages;
     }
 }
 cAppLocations::init();

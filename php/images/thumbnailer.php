@@ -1,7 +1,6 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-require_once  "$phpInc/ckinc/blobber.php";
 require_once  "$phpInc/ckinc/image.php";
 
 $sMission = cHeader::get(cSpaceUrlParams::MISSION);
@@ -18,4 +17,12 @@ if ($sMission == null || $sSol == null || $sInstr == null || $sProduct == null) 
     cDebug::error($sErr);
 }
 
-$sURL = $home;
+try {
+    $aData = cCuriosityImages::getThumbBlobData($sSol, $sInstr, $sProduct);
+    $sMime = $aData["m"];
+    $sBlob = $aData["b"];
+    header("Content-Type: $sMime");
+    echo $sBlob;
+} catch (Exception $e) {
+    cHeader::redirect(cAppLocations::$images . "/browser/nothumb.png");
+}
