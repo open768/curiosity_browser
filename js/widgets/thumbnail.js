@@ -222,12 +222,13 @@ $.widget('ck.thumbnail', {
 		loaded_better: false,
 		mission: null
 	},
+	instance: null,
 
 	//#################################################################
 	//# Constructor
 	//#################################################################
 	_create() {
-		var oInstance = new cThumbnail(this)
-		oInstance.init()
+		this.instance = new cThumbnail(this)
+		this.instance.init()
 	}
 })
