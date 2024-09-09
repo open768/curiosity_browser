@@ -130,8 +130,11 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case "killSession":
-        cDebug::write("ok");
         session_destroy();
+        break;
+        //------------------------------------------------------
+    case "killThumbFiles":
+        cCommonFiles::delTree(cAppLocations::$images . "/[thumbs]");
         break;
         //------------------------------------------------------
     case "killCache":
@@ -215,6 +218,7 @@ switch ($sOperation) {
                 <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killHighlight">erase particular highlight<br>
                 <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killSession">kill the session<br>
                 <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killTag">remove tag<br>
+                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killThumbFiles">remove thumbnails folder<br>
                 <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="mergeTags">merge a tag<br>
                 <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parseAllPDS">parse ALL PDS files<br>
                 <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parseLocations">parse curiosity locations<br>
