@@ -1,7 +1,14 @@
 //#TODO# use chttpqueue
-const goBetterThumbQueue = new cHttpQueue()
 
+/* global cQueueRunner */
 class cThumbnail {
+	static delay = 50
+	static thumbqueue
+
+	static {
+		cThumbnail.thumbqueue = new cQueueRunner(cThumbnail.delay)
+	}
+
 	element = null
 	widget = null
 	options = null
@@ -89,7 +96,7 @@ class cThumbnail {
 	//# methods
 	//#################################################################
 	stop_queue() {
-		goBetterThumbQueue.stop()
+		cQueueRunner.stop()
 	}
 
 	//******************************************************************
@@ -104,7 +111,7 @@ class cThumbnail {
 	onPlaceholderInView(pbIsInView) {
 		const oThis = this
 
-		if (goBetterThumbQueue.stopping) return
+		if (cThumbnail.thumbqueue.stopping) return
 		if (!pbIsInView) return
 
 		this.element.off('inview') // turn off the inview listener
@@ -118,7 +125,7 @@ class cThumbnail {
 		var oImg, oThis
 		const oElement = this.element
 		oThis = this
-		if (goBetterThumbQueue.stopping) return
+		if (cThumbnail.thumbqueue.stopping) return
 
 		if (oElement.visible()) {
 			// load the basic thumbnail
@@ -140,10 +147,9 @@ class cThumbnail {
 		const oElement = this.element
 		const oImg = cJquery.get_child(oElement, this.consts.CHILD_IMG_ID)
 
-		if (goBetterThumbQueue.stopping) return
+		if (cThumbnail.thumbqueue.stopping) return
 		oImg.off('load') // remove the load event so it doesnt fire again
 
-		if (goBetterThumbQueue.stopping) return
 		this.pr__set_style(oThis.consts.STYLES.WAITING2)
 		setTimeout(() => oThis.onBasicThumbViewDelay(), this.consts.WAIT_VISIBLE)
 	}
@@ -155,9 +161,13 @@ class cThumbnail {
 		const oElement = this.element
 		const oImg = cJquery.get_child(oElement, this.consts.CHILD_IMG_ID)
 
-		if (goBetterThumbQueue.stopping) return
-		if (oImg.visible()) this.show_better_thumb()
-		else {
+		const oThumbQ = cThumbnail.thumbqueue
+		if (oThumbQ.stopping) return
+		if (oImg.visible()) {
+			oThumbQ.queue.push(null, this)
+			bean.on(oThumbQ, cQueueRunner.EVENT_STEP, oq => oq.onBetterQStep())
+			if (!oThumbQ.running) oThumbQ.start()
+		} else {
 			cDebug.write('Basic thumb not in view: ')
 			oElement.on('inview', (e, pbFlag) => oThis.onBasicThumbInView(pbFlag))
 		}
@@ -165,7 +175,7 @@ class cThumbnail {
 
 	//******************************************************************
 	onBasicThumbInView(pbIsInView) {
-		if (goBetterThumbQueue.stopping) return
+		if (cThumbnail.thumbqueue.stopping) return
 
 		if (!pbIsInView) return
 
@@ -176,7 +186,7 @@ class cThumbnail {
 	//******************************************************************
 	//* Better thumbnail
 	//******************************************************************
-	show_better_thumb() {
+	onBetterQStep() {
 		var oOptions = this.options
 		const oElement = this.element
 		const oImg = cJquery.get_child(oElement, this.consts.CHILD_IMG_ID)
@@ -195,7 +205,7 @@ class cThumbnail {
 	//******************************************************************
 	onThumbClick() {
 		const oOptions = this.options
-		goBetterThumbQueue.stop()
+		if (cThumbnail.thumbqueue.stop()) return
 		this._trigger('onStatus', null, {
 			text: 'clicked: ' + oOptions.product
 		})

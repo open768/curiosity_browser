@@ -1,4 +1,4 @@
-/* global goBetterThumbQueue */
+/* global cThumbnail */
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // % Definition
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -72,7 +72,8 @@ $.widget('ck.thumbnailview', {
 	//# methods
 	//#################################################################
 	stop_queue: function () {
-		goBetterThumbQueue.stop() // have to use a global otherwise cant reset the queue
+		const oQRunner = cThumbnail.thumbqueue
+		oQRunner.stop() // have to use a global otherwise cant reset the queue
 	},
 
 	//#################################################################
@@ -95,7 +96,8 @@ $.widget('ck.thumbnailview', {
 			oElement.append(cAppRender.append('Sorry no thumbnails found'))
 			this._trigger('onStatus', null, { text: 'No thumbnails found' })
 		} else {
-			goBetterThumbQueue.reset() // have to use a global otherwise cant reset the queue
+			const oQRunner = cThumbnail.thumbqueue
+			oQRunner.reset() // have to use a global otherwise cant reset the queue
 
 			for (i = 0; i < aData.length; i++) {
 				oItem = aData[i]
