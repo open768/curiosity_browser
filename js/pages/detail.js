@@ -120,8 +120,7 @@ class cDetailTags {
 		var oContainer = cJquery.element(cDetailPageConstants.TAGS_CONTAINER_ID)
 		if (oContainer.length == 0) cDebug.error('container doesnt exist')
 
-		var sID = cJquery.child_ID(oContainer, psID)
-		var oElement = cJquery.element(sID)
+		var oElement = cJquery.get_child(oContainer, psID)
 
 		return oElement
 	}

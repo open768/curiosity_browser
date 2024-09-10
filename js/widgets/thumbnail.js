@@ -81,9 +81,7 @@ class cThumbnail {
 			ID: sImgID
 		})
 		{
-			oImg.on('click', function () {
-				oThis.onThumbClick()
-			})
+			oImg.on('click', () => oThis.onThumbClick())
 			oElement.append(oImg)
 		}
 

@@ -177,9 +177,7 @@ $.widget('ck.instrumentimage', {
 		oImg.on('load', function () {
 			oThis.onLoadedImage()
 		})
-		oImg.on('click', function () {
-			oThis._trigger('onClick', null, oOptions)
-		})
+		oImg.on('click', () => oThis._trigger('onClick', null, oOptions))
 		oImgDiv.append(oImg)
 
 		// add the lot to the element

@@ -500,7 +500,7 @@ class cPageTabs {
 		oButton.width('50%')
 		oButton.append(psCaption)
 		oButton.on('click', function () {
-			oThis.onTabClick($(this))
+			oThis.onTabClick($(this)) //cant reduce to a arrow function
 		})
 
 		//add button to parent
@@ -511,9 +511,8 @@ class cPageTabs {
 	//*********************************************************************
 	static clickDefaultTab() {
 		var oBar = cJquery.element(this.ID_TAB_BAR)
-		var sButtonID = cJquery.child_ID(oBar, this.SOL_CAPTION)
-		var oButton = cJquery.element(sButtonID)
-		oButton.on('click')
+		var oButton = cJquery.get_child(oBar, this.SOL_CAPTION)
+		oButton.click()
 	}
 }
 
