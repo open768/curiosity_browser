@@ -146,7 +146,7 @@ class cSideBar {
 				oIcon = cRenderGoogleFont.create_icon('left_panel_open', 'font-size:' + this.FONT_SIZE)
 				{
 					oIcon.addClass('w3-hover-grey')
-					oIcon.click(() => oThis.onClickExpand())
+					oIcon.on('click', () => oThis.onClickExpand())
 					oCollapsed.append(oIcon)
 				}
 				var oText = $('<DIV>', { class: 'sidebar-text' })
@@ -167,7 +167,7 @@ class cSideBar {
 			oIcon = cRenderGoogleFont.create_icon('left_panel_close', 'font-size:' + this.FONT_SIZE)
 			{
 				oIcon.addClass('w3-hover-grey')
-				oIcon.click(() => oThis.onClickCollapse())
+				oIcon.on('click', () => oThis.onClickCollapse())
 				oExpanded.append(oIcon)
 			}
 
@@ -513,7 +513,7 @@ class cPageTabs {
 		var oBar = cJquery.element(this.ID_TAB_BAR)
 		var sButtonID = cJquery.child_ID(oBar, this.SOL_CAPTION)
 		var oButton = cJquery.element(sButtonID)
-		oButton.click()
+		oButton.on('click')
 	}
 }
 

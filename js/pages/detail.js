@@ -224,34 +224,34 @@ class cDetail {
 	//***********************************************************
 	static onLoadJQuery() {
 		//set click handlers
-		$('#sol').click(poEvent => this.onClickSol(poEvent))
-		$('#instrument').click(poEvent => this.onClickInstr(poEvent))
-		cJquery.element(cDetailPageConstants.CAL_ID).click(poEvent => this.onClickCal(poEvent))
-		$('#showthumb').click(poEvent => this.onClickThumbnails(poEvent))
-		$('#highlights').click(poEvent => this.onClickHighlights(poEvent))
-		$('#nasalink').click(poEvent => this.onClickNASA(poEvent))
-		$('#mslrawlink').click(poEvent => this.onClickMSLRaw(poEvent))
-		$('#pds_product').click(poEvent => this.onClickPDS(poEvent))
-		$('#google').click(poEvent => this.onClickGoogle(poEvent))
+		$('#sol').on('click', poEvent => this.onClickSol(poEvent))
+		$('#instrument').on('click', poEvent => this.onClickInstr(poEvent))
+		cJquery.element(cDetailPageConstants.CAL_ID).on('click', poEvent => this.onClickCal(poEvent))
+		$('#showthumb').on('click', poEvent => this.onClickThumbnails(poEvent))
+		$('#highlights').on('click', poEvent => this.onClickHighlights(poEvent))
+		$('#nasalink').on('click', poEvent => this.onClickNASA(poEvent))
+		$('#mslrawlink').on('click', poEvent => this.onClickMSLRaw(poEvent))
+		$('#pds_product').on('click', poEvent => this.onClickPDS(poEvent))
+		$('#google').on('click', poEvent => this.onClickGoogle(poEvent))
 
-		$('#submittag').click(poEvent => this.onClickAddTag(poEvent))
+		$('#submittag').on('click', poEvent => this.onClickAddTag(poEvent))
 
-		$('#prev_prod_top').click(poEvent => this.onClickPreviousProduct(poEvent))
-		$('#prev_top').click(poEvent => this.onClickPrevious(poEvent))
-		$('#next_top').click(poEvent => this.onClickNext(poEvent))
-		$('#next_prod_top').click(poEvent => this.onClickNextProduct(poEvent))
+		$('#prev_prod_top').on('click', poEvent => this.onClickPreviousProduct(poEvent))
+		$('#prev_top').on('click', poEvent => this.onClickPrevious(poEvent))
+		$('#next_top').on('click', poEvent => this.onClickNext(poEvent))
+		$('#next_prod_top').on('click', poEvent => this.onClickNextProduct(poEvent))
 
-		$('#prev_left').click(poEvent => this.onClickPrevious(poEvent))
+		$('#prev_left').on('click', poEvent => this.onClickPrevious(poEvent))
 
-		$('#tmpl_accept').click(poEvent => this.onClickBoxAccept(poEvent))
-		$('#tmpl_cancel').click(poEvent => this.onClickBoxCancel(poEvent))
+		$('#tmpl_accept').on('click', poEvent => this.onClickBoxAccept(poEvent))
+		$('#tmpl_cancel').on('click', poEvent => this.onClickBoxCancel(poEvent))
 
-		$('#next_right').click(poEvent => this.onClickNext(poEvent))
+		$('#next_right').on('click', poEvent => this.onClickNext(poEvent))
 
-		$('#prev_prod_bottom').click(poEvent => this.onClickPreviousProduct(poEvent))
-		$('#prev_bottom').click(poEvent => this.onClickPrevious(poEvent))
-		$('#next_bottom').click(poEvent => this.onClickNext(poEvent))
-		$('#next_prod_bottom').click(poEvent => this.onClickNextProduct(poEvent))
+		$('#prev_prod_bottom').on('click', poEvent => this.onClickPreviousProduct(poEvent))
+		$('#prev_bottom').on('click', poEvent => this.onClickPrevious(poEvent))
+		$('#next_bottom').on('click', poEvent => this.onClickNext(poEvent))
+		$('#next_prod_bottom').on('click', poEvent => this.onClickNextProduct(poEvent))
 
 		// get user data
 		cCommonStatus.set_status('loading user data...')
@@ -488,7 +488,7 @@ class cDetail {
 		$('#prev_prod_bottom').innerWidth(iWidth)
 
 		// make the image clickable
-		$(poEvent.target).click(poImgEvent => this.OnImageClick(poImgEvent))
+		$(poEvent.target).on('click', poImgEvent => this.OnImageClick(poImgEvent))
 		cImgHilite.imgTarget = poEvent.target
 
 		// get the highlights if any

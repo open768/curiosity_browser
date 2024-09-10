@@ -87,7 +87,7 @@ function all_sites_callback(poHttp) {
 			if (oBounds != null) {
 				oButton = $('<button>' + i + '</button>')
 					.attr({ value: i })
-					.click(onclickSite)
+					.on('click', onclickSite)
 				$('#site').append(oButton)
 
 				// create geometry in earth

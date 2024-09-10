@@ -122,7 +122,7 @@ class cSolGridRenderer {
 						class: 'w3-button w3-blue w3-padding-small',
 						sol: sSol
 					}).append(sSol)
-					oButton.click(poEvent => this.onButtonClick(poEvent))
+					oButton.on('click', poEvent => this.onButtonClick(poEvent))
 					oDiv.append(oButton)
 				} else {
 					//no data for the sol, link back to the index page for the sol

@@ -177,7 +177,7 @@ $.widget('ck.instrumentimage', {
 		oImg.on('load', function () {
 			oThis.onLoadedImage()
 		})
-		oImg.click(function () {
+		oImg.on('click', function () {
 			oThis._trigger('onClick', null, oOptions)
 		})
 		oImgDiv.append(oImg)
