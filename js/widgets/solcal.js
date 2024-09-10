@@ -106,7 +106,7 @@ class cSolCalendar {
 							oOuterSpan.append(oColorDiv)
 						}
 						oBody.append(oOuterSpan)
-						oOuterSpan.click(e => oThis.onLegendClick(e))
+						oOuterSpan.on('click', e => oThis.onLegendClick(e))
 					}
 					oColours[oInstr.abbr] = oInstr.colour
 				}
@@ -209,7 +209,7 @@ class cSolCalendar {
 				title: 'instrument:' + oItem.i + '\nproduct:' + oItem.p
 			})
 			oButton.append('&nbsp;')
-			oButton.click(e => oThis.onButtonClick(e))
+			oButton.on('click', e => oThis.onButtonClick(e))
 
 			poCell.append(oButton)
 		}
@@ -234,13 +234,20 @@ class cSolCalendar {
 
 	//***************************************************************
 	static onLegendClick(poEvent) {
-		const oButton = $(poEvent.target)
+		var oEl = $(poEvent.target)
 		const oOptions = this.options
+		var sInstr = oEl.attr('i')
+		if (sInstr == null) {
+			oEl = oEl.parent('[i]')
+			sInstr = oEl.attr('i')
+		}
+
 		const oParams = {
 			s: oOptions.sol,
-			i: oButton.attr('i'),
+			i: sInstr,
 			m: oOptions.mission.ID,
-			b: 1
+			b: 1,
+			t: 1
 		}
 		const sUrl = cBrowser.buildUrl('index.php', oParams)
 		cBrowser.openWindow(sUrl, 'index')
