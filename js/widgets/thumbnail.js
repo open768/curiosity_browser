@@ -2,7 +2,7 @@
 
 /* global cQueueRunner */
 class cThumbnail {
-	static delay = 50
+	static delay = 350
 	static thumbqueue
 
 	static {
