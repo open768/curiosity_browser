@@ -6,6 +6,7 @@
 *.orig
 *.zip
 *secret*
+*.ldb
 \[Largeurls\]/
 \[backup\]/
 \[cache\]/
