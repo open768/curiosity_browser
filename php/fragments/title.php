@@ -26,30 +26,10 @@ cPageOutput::write_JS_class_constant_IDs("cTitleConstants");
 
 ?>
 <div id='fb-root'></div>
-<script>
-    function render_title() {
-        var oDiv = $("#titlebut")
-        oDiv.empty();
-        if (!cTitleConstants.IS_HOME) {
-            var sUrl = cAppLocations.home + "/php/pages/index.php"
-            var sImgUrl = cAppLocations.home + "/css/mb_images/greydude.png"
-            var oImg = $("<img>", {
-                class: "homebutton",
-                src: sImgUrl
-            })
-            var oButton = cAppRender.make_button(null, "Home", "Home", false, () => cBrowser.openWindow(sUrl, "index"));
-            {
-                oButton.prepend(oImg);
-                //oButton.addClass("homebutton")
-                oDiv.append(oButton);
-            }
-        } else
-            oDiv.append("Curiosity Browser")
-        oDiv.append(" - " + cTitleConstants.TITLE)
 
-        if (cTitleConstants.IS_LOCALHOST) oDiv.append(" - <font color='red'>DEVELOPMENT</font>")
-    }
-    $(render_title)
+<script src="<?= $AppJS ?>/classes/title.js"></script>
+<script>
+    $(() => cAppTitle.render_title("titlebut"))
 </script>
 
 <!-- Title Bar -->
