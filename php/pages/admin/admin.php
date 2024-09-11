@@ -78,7 +78,7 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case "deleteSolHighlights":
-        if (!array_key_exists("s", $_GET)) {
+        if (cHeader::get("s") == null) {
 ?>
             <form method="get">
                 <Input type="hidden" name="<?= cAppUrlParams::OPERATION ?>" value="<?= $sOperation ?>">
@@ -95,7 +95,7 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case "killHighlight":
-        if (!array_key_exists("p", $_GET)) {
+        if (cHeader::get("p") == null) {
         ?>
             <form method="get">
                 <Input type="hidden" name=<?= cAppUrlParams::OPERATION ?> value="<?= $sOperation ?>">
@@ -114,7 +114,7 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case "killTag":
-        if (!array_key_exists("t", $_GET)) {
+        if (cHeader::get("t") == null) {
         ?>
             <form method="get">
                 <Input type="hidden" name="<?= cAppUrlParams::OPERATION ?>" value="<?= $sOperation ?>">
@@ -153,7 +153,17 @@ switch ($sOperation) {
         break;
         //------------------------------------------------------
     case "deleteManifest":
-        cCuriosityManifestIndex::deleteIndex();
+        $sSure = cHeader::get("sure");
+        if ($sSure !== "yes") {
+        ?>
+            <h1>delete manifest</h1>
+            <form method="get" name="mani">
+                <Input type="hidden" name="<?= cAppUrlParams::OPERATION ?>" value="<?= $sOperation ?>">
+                Sure? <input type="submit" name="sure" value="yes">
+            </form>
+        <?php
+        } else
+            cCuriosityManifestIndex::deleteIndex();
         break;
 
         //------------------------------------------------------
@@ -173,7 +183,7 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case "parsePDS":
-        if (!array_key_exists("v", $_GET)) {
+        if (cHeader::get("v") == null) {
             $aCats = cCuriosityPDS::catalogs();
         ?>
             <a target="PDS" href="<?= cCuriosity::PDS_VOLUMES ?>">Curiosity PDS released volumes</a>
