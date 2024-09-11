@@ -151,6 +151,10 @@ switch ($sOperation) {
     case  "indexManifest":
         cCuriosityManifestIndex::indexManifest();
         break;
+        //------------------------------------------------------
+    case "deleteManifest":
+        cCuriosityManifestIndex::deleteIndex();
+        break;
 
         //------------------------------------------------------
     case "mergeTags":
@@ -214,6 +218,7 @@ switch ($sOperation) {
                 <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="indexComm">index Comments<br>
                 <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="indexGigas">index Nevilles gigapans<br>
                 <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="indexManifest">index curiosity manifests<br>
+                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="deleteManifest">delete manifest index(severe)<br>
                 <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killCache">clear cache<br>
                 <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killHighlight">erase particular highlight<br>
                 <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killSession">kill the session<br>
