@@ -51,10 +51,10 @@ cPageOutput::write_JS_class_constant_IDs(cSpaceUrlParams::class);
 <script src="<?= $jsInc ?>/ck-inc/http.js"></script>
 <script src="<?= $jsInc ?>/ck-inc/httpqueue.js"></script>
 <script src="<?= $jsInc ?>/ck-inc/auth.js"></script>
-<script src="<?= $jsSpaceInc ?>/curiosity.js"></script>
-<script src="<?= $jsSpaceInc ?>/space.js"></script>
-<script src="<?= $jsSpaceInc ?>/tagging.js"></script>
-<script src="<?= $jsSpaceInc ?>/imghilite.js"></script>
+<script src="<?= cAppGlobals::$jsSpaceInc ?>/curiosity.js"></script>
+<script src="<?= cAppGlobals::$jsSpaceInc ?>/space.js"></script>
+<script src="<?= cAppGlobals::$jsSpaceInc ?>/tagging.js"></script>
+<script src="<?= cAppGlobals::$jsSpaceInc ?>/imghilite.js"></script>
 
 <!-- Facebook -->
 <script src="<?= $jsInc ?>/ck-inc/facebook.js"></script>

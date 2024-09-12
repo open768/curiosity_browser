@@ -15,9 +15,7 @@ $appConfig = "$appPHP/app-config";
 $AppJS = "$home/js";
 $AppJSWidgets = "$AppJS/widgets";
 $jsInc = "$home/../jsinc";            //check this works
-$jsSpaceInc = "$jsInc/ck-inc/space";
-$jsAppRest = "$home/php/rest";
-$jsImages = "$home/images";
+
 
 //##########################################################
 //* nothing needs to be changed below here
@@ -28,16 +26,23 @@ class cAppGlobals {
     static $jsExtra = null;
     static $jsThumbNailer = null;
     static $spaceInc = null;
+    static $jsAppRest = null;
+    static $jsSpaceInc = null;
+    static $jsImages = null;
 
     static function init() {
         global $jsInc, $home, $root;
         self::$jsExtra = "$jsInc/extra";
         self::$jsThumbNailer = "$home/php/images/thumbnailer.php";
         self::$spaceInc = "$root/../spaceinc";
+        self::$jsAppRest = "$home/php/rest";
+        self::$jsSpaceInc = "$jsInc/ck-inc/space";
+        self::$jsImages = "$home/images";
     }
 }
 cAppGlobals::init();
 
+//##########################################################
 class cAppConfig {
     const FB_SCOPE = "public_profile";
     const FB_ELEMENT_ID = "FB_User";
@@ -53,12 +58,12 @@ class cAppLocations {
     static $images = null;
 
     static function init() {
-        global $home, $jsAppRest, $jsExtra, $jsImages;
+        global $home;
         self::$home = $home;
-        self::$rest = $jsAppRest;
-        self::$jsextra = $jsExtra;
+        self::$rest = cAppGlobals::$jsAppRest;
+        self::$jsextra = cAppGlobals::$jsExtra;
         self::$thumbnailer = cAppGlobals::$jsThumbNailer;
-        self::$images = $jsImages;
+        self::$images = cAppGlobals::$jsImages;
     }
 }
 cAppLocations::init();

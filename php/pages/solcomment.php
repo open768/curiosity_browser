@@ -12,7 +12,7 @@ class cSolCommentPageConstants {
 <head>
     <?php include "$appPhpFragments/header.php"; ?>
     <title>Sol comments - Curiosity Browser </title>
-    <script src="<?= $jsSpaceInc ?>/comments.js"></script>
+    <script src="<?= cAppGlobals::$jsSpaceInc ?>/comments.js"></script>
     <script src="<?= $AppJS ?>/pages/solcomments.js"></script>
     <script src="<?= $AppJSWidgets ?>/comment-box.js"></script>
 </head>
