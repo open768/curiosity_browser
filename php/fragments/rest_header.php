@@ -1,13 +1,12 @@
 <?php
-
 if (cDebug::is_debugging()) {
     include "$appPhpFragments/doctype.php";
-    $title = "REST interface " . __FILE__;
+    cAppGlobals::$title = "REST interface " . cCommonFiles::server_filename();
 ?>
     <HTML>
 
     <HEAD>
-        <TITLE>REST interface "<?= $title ?></title>
+        <TITLE><?= cAppGlobals::$title ?></title>
         <?php include "$appPhpFragments/header.php";  ?>
     </HEAD>
 
