@@ -36,8 +36,8 @@ if (!cDebug::is_cli())
 //includes
 require_once "$phpInc/ckinc/common.php";
 require_once "$phpInc/ckinc/auth.php";
-require_once "$spaceInc/misc/constants.php";
-require_once "$spaceInc/curiosity/curiosity.php";
-require_once "$spaceInc/curiosity/static.php";
+require_once cAppGlobals::$spaceInc . "/misc/constants.php";
+require_once cAppGlobals::$spaceInc . "/curiosity/curiosity.php";
+require_once cAppGlobals::$spaceInc . "/curiosity/static.php";
 
 cDebug::extra_debug("finished app-common.php");

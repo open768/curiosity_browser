@@ -14,8 +14,8 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
-require_once  "$spaceInc/misc/pichighlight.php";
-require_once  "$spaceInc/misc/indexes.php";
+require_once  cAppGlobals::$spaceInc . "/misc/pichighlight.php";
+require_once  cAppGlobals::$spaceInc . "/misc/indexes.php";
 require_once  "$phpInc/ckinc/common.php";
 
 cDebug::check_GET_or_POST();

@@ -23,13 +23,13 @@ require_once "$phpInc/ckinc/debug.php";
 require_once "$phpInc/ckinc/cached_http.php";
 
 //space includes
-require_once "$spaceInc/curiosity/static.php";
-require_once "$spaceInc/curiosity/pdsindexer.php";
-require_once "$spaceInc/curiosity/locations.php";
-require_once "$spaceInc/misc/gigapan.php";
-require_once "$spaceInc/misc/pencilnev.php";
-require_once "$spaceInc/misc/tags.php";
-require_once "$spaceInc/misc/pichighlight.php";
+require_once cAppGlobals::$spaceInc . "/curiosity/static.php";
+require_once cAppGlobals::$spaceInc . "/curiosity/pdsindexer.php";
+require_once cAppGlobals::$spaceInc . "/curiosity/locations.php";
+require_once cAppGlobals::$spaceInc . "/misc/gigapan.php";
+require_once cAppGlobals::$spaceInc . "/misc/pencilnev.php";
+require_once cAppGlobals::$spaceInc . "/misc/tags.php";
+require_once cAppGlobals::$spaceInc . "/misc/pichighlight.php";
 
 //other includes
 require_once "$home/php/classes/admin-funcs.php";

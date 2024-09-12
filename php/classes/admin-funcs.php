@@ -1,5 +1,5 @@
 <?php
-require_once "$spaceInc/misc/tags.php";
+require_once cAppGlobals::$spaceInc . "/misc/tags.php";
 
 class cAdminFunctions {
     //****************************************************************

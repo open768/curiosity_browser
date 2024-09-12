@@ -1,7 +1,7 @@
 <?php
 $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
-require_once  "$spaceInc/misc/pencilnev.php";
+require_once  cAppGlobals::$spaceInc . "/misc/pencilnev.php";
 
 $aData = null;
 $sOption = cHeader::get(cAppUrlParams::OPERATION);

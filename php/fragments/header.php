@@ -13,8 +13,8 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 <link rel="icon" href="<?= $appImages ?>/browser/dude.ico" type="image/x-icon">
 <LINK href="<?= $home ?>/css/app.css" rel="stylesheet" type="text/css">
 <LINK href="<?= $home ?>/css/app-theme.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="<?= $jsExtra ?>/jquery-ui/jquery-ui.min.css">
-<link rel="stylesheet" href="<?= $jsExtra ?>/jquery-spinner/css/gspinner.min.css">
+<link rel="stylesheet" href="<?= cAppGlobals::$jsExtra ?>/jquery-ui/jquery-ui.min.css">
+<link rel="stylesheet" href="<?= cAppGlobals::$jsExtra ?>/jquery-spinner/css/gspinner.min.css">
 
 <!-- CSS frameworks -->
 <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
@@ -36,15 +36,15 @@ cPageOutput::write_JS_class_constant_IDs(cSpaceUrlParams::class);
 <script src="<?= $jsInc ?>/ck-inc/common.js"></script>
 <script src="<?= $jsInc ?>/ck-inc/render.js"></script>
 <script src="<?= $jsInc ?>/ck-inc/debug.js"></script>
-<script src="<?= $jsExtra ?>/bean/bean.js"></script>
+<script src="<?= cAppGlobals::$jsExtra ?>/bean/bean.js"></script>
 
 <!-- jquery -->
-<script src="<?= $jsExtra ?>/jquery/jquery-3.6.0.min.js"></script>
-<script src="<?= $jsExtra ?>/jquery-ui/jquery-ui.js"></script>
-<script src="<?= $jsExtra ?>/jquery-inview/jquery.inview.min.js"></script>
-<script src="<?= $jsExtra ?>/jquery-visible/jquery.visible.min.js"></script>
-<script src="<?= $jsExtra ?>/jquery-spinner/g-spinner.min.js"></script>
-<script src="<?= $jsExtra ?>/jquery-cookie/jquery.cookie.js"></script>
+<script src="<?= cAppGlobals::$jsExtra ?>/jquery/jquery-3.6.0.min.js"></script>
+<script src="<?= cAppGlobals::$jsExtra ?>/jquery-ui/jquery-ui.js"></script>
+<script src="<?= cAppGlobals::$jsExtra ?>/jquery-inview/jquery.inview.min.js"></script>
+<script src="<?= cAppGlobals::$jsExtra ?>/jquery-visible/jquery.visible.min.js"></script>
+<script src="<?= cAppGlobals::$jsExtra ?>/jquery-spinner/g-spinner.min.js"></script>
+<script src="<?= cAppGlobals::$jsExtra ?>/jquery-cookie/jquery.cookie.js"></script>
 <script src="<?= $jsInc ?>/ck-inc/jquery/jquery.common.js"></script>
 
 <!-- everything else -->

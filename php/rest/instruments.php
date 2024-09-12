@@ -14,7 +14,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
-require_once  "$spaceInc/curiosity/instrument.php";
+require_once  cAppGlobals::$spaceInc . "/curiosity/instrument.php";
 
 cDebug::check_GET_or_POST();
 $sSol = cHeader::get(cSpaceUrlParams::SOL);

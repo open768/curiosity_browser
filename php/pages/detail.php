@@ -3,7 +3,7 @@ $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 
 require_once  "$phpInc/ckinc/header.php";
-require_once  "$spaceInc/curiosity/facebook.php";
+require_once  cAppGlobals::$spaceInc . "/curiosity/facebook.php";
 cHeader::redirect_if_referred();
 if (cFacebook_ServerSide::is_facebook()) {
     cFacebookTags::make_fb_detail_tags();
@@ -30,10 +30,10 @@ include "$appPhpFragments/doctype.php";
 <head>
     <?php include "$appPhpFragments/header.php"; ?>
     <LINK href="<?= $home ?>/css/drag.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="<?= $jsExtra ?>/sceditor/minified/themes/default.min.css" type="text/css" media="all">
+    <link rel="stylesheet" href="<?= cAppGlobals::$jsExtra ?>/sceditor/minified/themes/default.min.css" type="text/css" media="all">
     <title>Detail: Curiosity Browser</title>
     <script src="<?= $jsSpaceInc ?>/comments.js"></script>
-    <script src="<?= $jsExtra ?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
+    <script src="<?= cAppGlobals::$jsExtra ?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
     <script src="<?= $AppJS ?>/pages/detail.js"></script>
     <script src="<?= $AppJSWidgets ?>/comment-box.js"></script>
     <?php
