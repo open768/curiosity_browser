@@ -10,7 +10,7 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
     ?>
     <title>All Gigapans - by Neville Thompson</title>
     <script src="<?= cAppGlobals::$AppJSWidgets ?>/allgrid.js"></script>
-    <script src="<?= cAppGlobals::$AppJS ?>/classes/solgrid.js"></script>
+    <script src="<?= cAppGlobals::$jsHome ?>/classes/solgrid.js"></script>
 </head>
 
 <body onload="$(onLoadJQuery_GIGAS);">

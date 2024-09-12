@@ -9,7 +9,7 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
     include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
     <title>All Sites - Curiosity Browser</title>
-    <script src="<?= cAppGlobals::$AppJS ?>/pages/allsites.js"></script>
+    <script src="<?= cAppGlobals::$jsHome ?>/pages/allsites.js"></script>
     <script>
         google.load("earth", "1");
     </script>

@@ -60,8 +60,8 @@ cPageOutput::write_JS_class_constant_IDs(cSpaceUrlParams::class);
 <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/facebook.js"></script>
 
 <!-- app stuff -->
-<script src="<?= cAppGlobals::$AppJS ?>/classes/curiosity.js"></script>
-<script src="<?= cAppGlobals::$AppJS ?>/classes/app-common.js"></script>
+<script src="<?= cAppGlobals::$jsHome ?>/classes/curiosity.js"></script>
+<script src="<?= cAppGlobals::$jsHome ?>/classes/app-common.js"></script>
 
 <script>
     cFacebook.ServerSide = cAppLocations.rest + "/facebook.php";

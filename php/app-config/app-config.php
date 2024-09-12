@@ -5,12 +5,10 @@ $root = realpath($home);
 //the following must reflect where the folders are on disk
 $phpInc = "$root/../phpinc";        //have to set phpinc here to pull in header.php
 
-//php locations (these shouldnt need to be changed)
-$appPHP = "$root/php";
 
 class cAppGlobals {
-    static $AppJS = null;
-    static $AppJSWidgets = null;
+    static $jsHome, $AppJSWidgets, $appPHP, $appImages, $appConfig, $appPhpFragments;
+
     static $jsAppRest = null;
     static $jsExtra = null;
     static $jsImages = null;
@@ -19,12 +17,10 @@ class cAppGlobals {
     static $jsThumbNailer = null;
     static $spaceInc = null;
     static $title = "title not set";
-    static $appImages = null;
-    static $appConfig = null;
-    static $appPhpFragments = null;
 
     static function init() {
-        global $home, $root, $appPHP;
+        global $home, $root;
+        $appPHP = "$root/php";
         self::$appImages = "$home/images/";
         self::$appConfig =  "$appPHP/app-config";
         self::$appPhpFragments = "$appPHP/fragments";
@@ -34,13 +30,13 @@ class cAppGlobals {
 
         //JS stuff 
         self::$jsInc = "$home/../jsinc";            //configure this
-        self::$AppJS = "$home/js";
+        self::$jsHome = "$home/js";
         self::$jsExtra = self::$jsInc . "/extra";
         self::$jsThumbNailer = "$home/php/images/thumbnailer.php"; //this will likely move out of the app
         self::$jsAppRest = "$home/php/rest";
         self::$jsSpaceInc = self::$jsInc . "/ck-inc/space";
         self::$jsImages = "$home/images";
-        self::$AppJSWidgets = self::$AppJS . "/widgets";
+        self::$AppJSWidgets = self::$jsHome . "/widgets";
     }
 }
 cAppGlobals::init();

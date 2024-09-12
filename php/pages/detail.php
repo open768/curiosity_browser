@@ -34,7 +34,7 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
     <title>Detail: Curiosity Browser</title>
     <script src="<?= cAppGlobals::$jsSpaceInc ?>/comments.js"></script>
     <script src="<?= cAppGlobals::$jsExtra ?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
-    <script src="<?= cAppGlobals::$AppJS ?>/pages/detail.js"></script>
+    <script src="<?= cAppGlobals::$jsHome ?>/pages/detail.js"></script>
     <script src="<?= cAppGlobals::$AppJSWidgets ?>/comment-box.js"></script>
     <?php
     cPageOutput::write_JS_class_constant_IDs(cDetailPageConstants::class);

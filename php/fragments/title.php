@@ -26,7 +26,7 @@ cPageOutput::write_JS_class_constant_IDs(cTitleConstants::class);
 ?>
 <div id='fb-root'></div>
 
-<script src="<?= cAppGlobals::$AppJS ?>/classes/title.js"></script>
+<script src="<?= cAppGlobals::$jsHome ?>/classes/title.js"></script>
 <script>
     $(() => cAppTitle.render_title("titlebut"))
 </script>

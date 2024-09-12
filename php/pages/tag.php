@@ -8,7 +8,7 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";  ?>
     include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
     <title>Tags: Curiosity Browser</title>
-    <script src="<?= cAppGlobals::$AppJS ?>/pages/tag.js"></script>
+    <script src="<?= cAppGlobals::$jsHome ?>/pages/tag.js"></script>
     <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/queue.js"></script>
     <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/actionqueue.js"></script>
     <script src="<?= cAppGlobals::$AppJSWidgets ?>/tag-view.js"></script>

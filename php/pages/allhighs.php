@@ -10,7 +10,7 @@ require_once "$home/php/fragments/app-common.php";
     ?>
     <title>All Highlights - Curiosity Browser</title>
     <script src="<?= cAppGlobals::$AppJSWidgets ?>/allgrid.js"></script>
-    <script src="<?= cAppGlobals::$AppJS ?>/classes/solgrid.js"></script>
+    <script src="<?= cAppGlobals::$jsHome ?>/classes/solgrid.js"></script>
 </head>
 
 <body onload="$(onLoadJQuery_HIGHS);">

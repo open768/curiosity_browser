@@ -9,7 +9,7 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
     include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
     <title>sol Gigapans - Curiosity Browser</title>
-    <script src="<?= cAppGlobals::$AppJS ?>/pages/solgigas.js"></script>
+    <script src="<?= cAppGlobals::$jsHome ?>/pages/solgigas.js"></script>
     <script src="<?= cAppGlobals::$AppJSWidgets ?>/solgigas.js"></script>
 </head>
 

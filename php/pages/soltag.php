@@ -9,7 +9,7 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
     include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
     <title>sol Tags - Curiosity Browser</title>
-    <script src="<?= cAppGlobals::$AppJS ?>/pages/soltag.js"></script>
+    <script src="<?= cAppGlobals::$jsHome ?>/pages/soltag.js"></script>
 </head>
 
 <body onload="$(onLoadJQuery_SOLTAG);">

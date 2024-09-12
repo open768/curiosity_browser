@@ -36,7 +36,7 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
     <LINK href="<?= $home ?>/css/tabs.css" rel="stylesheet" type="text/css">
     <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/queue.js"></script>
     <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/actionqueue.js"></script>
-    <script src="<?= cAppGlobals::$AppJS ?>/pages/index.js"></script>
+    <script src="<?= cAppGlobals::$jsHome ?>/pages/index.js"></script>
     <script src="<?= cAppGlobals::$AppJSWidgets ?>/thumbnail.js"></script>
     <script src="<?= cAppGlobals::$AppJSWidgets ?>/thumbnail-view.js"></script>
     <script src="<?= cAppGlobals::$AppJSWidgets ?>/image-view.js"></script>

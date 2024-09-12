@@ -9,7 +9,7 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
     include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
     <title>calendar - Curiosity Browser</title>
-    <script src="<?= cAppGlobals::$AppJS ?>/pages/cal.js"></script>
+    <script src="<?= cAppGlobals::$jsHome ?>/pages/cal.js"></script>
     <script src="<?= cAppGlobals::$AppJSWidgets ?>/solcal.js"></script>
 </head>
 
