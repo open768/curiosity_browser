@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 */
 
 require_once "$home/php/fragments/app-common.php";
-include "$appPhpFragments/doctype.php";
+include cAppGlobals::$appPhpFragments . "/doctype.php";
 
 //define PHP constants
 class cIndexPageConsts {
@@ -28,7 +28,7 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
 
 <head>
     <!-- header fragments -->
-    <?php include "$appPhpFragments/header.php";  ?>
+    <?php include cAppGlobals::$appPhpFragments . "/header.php";  ?>
 
     <!-- main scripts -->
     <title>Curiosity Browser</title>
@@ -58,7 +58,7 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
     ?>
     <?php
     cAppGlobals::$title = "Home";
-    include "$appPhpFragments/title.php";
+    include cAppGlobals::$appPhpFragments . "/title.php";
     ?>
 
     <DIV id="payload" class="w3-cell-row">
@@ -116,7 +116,7 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
     </div>
     <!-- Footer -->
     <?php
-    include "$appPhpFragments/disclaim.html";
-    include "$appPhpFragments/footer.php";
+    include cAppGlobals::$appPhpFragments . "/disclaim.html";
+    include cAppGlobals::$appPhpFragments . "/footer.php";
     ?>
 </body>

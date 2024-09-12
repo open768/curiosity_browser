@@ -7,7 +7,7 @@ if (cFacebook_ServerSide::is_facebook()) {
     cFacebookTags::make_fb_sol_high_tags();
     exit;
 }
-include "$appPhpFragments/doctype.php";
+include cAppGlobals::$appPhpFragments . "/doctype.php";
 class cSolHighPageConstants {
     const  SOL_BUTTONS_ID = "sbid";
     const  HIGHLIGHTS_ID = "hid";
@@ -18,7 +18,7 @@ class cSolHighPageConstants {
 ?>
 
 <head>
-    <?php include "$appPhpFragments/header.php"; ?>
+    <?php include cAppGlobals::$appPhpFragments . "/header.php"; ?>
     <title>Sol Highlights - Curiosity Browser </title>
     <script src="<?= cAppGlobals::$AppJS ?>/pages/solhighs.js"></script>
     <script src="<?= cAppGlobals::$AppJSWidgets ?>/solhighlights.js"></script>
@@ -28,7 +28,7 @@ class cSolHighPageConstants {
     <?php
     cAppGlobals::$title = "Highlights for sol:<span id='" . cSolHighPageConstants::SOL_TITLE_ID . "'>??</span>";
     cPageOutput::write_JS_class_constant_IDs(cSolHighPageConstants::class);
-    include "$appPhpFragments/title.php";
+    include cAppGlobals::$appPhpFragments . "/title.php";
     ?>
     <div class="w3-container w3-theme-d2">
         <span id="<?= cSolHighPageConstants::SOL_BUTTONS_ID ?>"></span>
@@ -38,7 +38,7 @@ class cSolHighPageConstants {
     <Div class="w3-container w3-theme-l2" id="<?= cSolHighPageConstants::HIGHLIGHTS_ID ?>"></div>
 
     <!-- *************** footer *********************** -->
-    <?php include "$appPhpFragments/footer.php"     ?>
+    <?php include cAppGlobals::$appPhpFragments . "/footer.php"     ?>
 </body>
 
 </html>

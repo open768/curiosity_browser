@@ -39,15 +39,15 @@ prevent_buffering();
 
 //##################################################################
 //headers
-include "$appPhpFragments/doctype.php";
+include cAppGlobals::$appPhpFragments . "/doctype.php";
 echo "<HEAD>\n";
 cAppGlobals::$title = "Curiosity browser - Admin";
-include "$appPhpFragments/header.php";
+include cAppGlobals::$appPhpFragments . "/header.php";
 echo "</HEAD>\n";
 
 //##################################################################
 echo "<BODY>\n";
-include "$appPhpFragments/title.php";
+include cAppGlobals::$appPhpFragments . "/title.php";
 
 //force the user to logon
 

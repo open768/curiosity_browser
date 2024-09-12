@@ -1,12 +1,12 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-include "$appPhpFragments/doctype.php";
+include cAppGlobals::$appPhpFragments . "/doctype.php";
 ?>
 
 <head>
     <?php
-    include "$appPhpFragments/header.php";
+    include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
     <title>sol Tags - Curiosity Browser</title>
     <script src="<?= cAppGlobals::$AppJS ?>/pages/soltag.js"></script>
@@ -15,7 +15,7 @@ include "$appPhpFragments/doctype.php";
 <body onload="$(onLoadJQuery_SOLTAG);">
     <?php
     cAppGlobals::$title = "Tags for sol:<span id='sol'>??</span>";
-    include "$appPhpFragments/title.php";
+    include cAppGlobals::$appPhpFragments . "/title.php";
     ?>
     <div class="w3-container w3-theme-d2" id="solbuttons">Please Wait</div>
     <div class="w3-container w3-theme-l4" id="soltag">
@@ -23,7 +23,7 @@ include "$appPhpFragments/doctype.php";
     </div>
 
     <!-- *************** footer *********************** -->
-    <?php include "$appPhpFragments/footer.php"     ?>
+    <?php include cAppGlobals::$appPhpFragments . "/footer.php"     ?>
 </body>
 
 </html>

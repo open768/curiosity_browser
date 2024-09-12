@@ -23,5 +23,5 @@ cDebug::write("getting product details for $sSol, $sInstrument, $sProduct");
 $oInstrumentData = cCuriosity::getProductDetails($sSol, $sInstrument, $sProduct);
 
 //############################### response ####################
-include "$appPhpFragments/rest_header.php";
+include cAppGlobals::$appPhpFragments . "/rest_header.php";
 cCommon::write_json($oInstrumentData);

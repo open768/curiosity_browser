@@ -36,5 +36,5 @@ switch ($sOperation) {
 }
 
 //############################### response ####################
-include "$appPhpFragments/rest_header.php";
+include cAppGlobals::$appPhpFragments . "/rest_header.php";
 cCommon::write_json($oOutput);

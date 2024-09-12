@@ -1,12 +1,12 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-include "$appPhpFragments/doctype.php";
+include cAppGlobals::$appPhpFragments . "/doctype.php";
 ?>
 
 <head>
     <?php
-    include "$appPhpFragments/header.php";
+    include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
     <title>All Gigapans - by Neville Thompson</title>
     <script src="<?= cAppGlobals::$AppJSWidgets ?>/allgrid.js"></script>
@@ -16,7 +16,7 @@ include "$appPhpFragments/doctype.php";
 <body onload="$(onLoadJQuery_GIGAS);">
     <?php
     cAppGlobals::$title = "All Gigapans - by Neville Thompson";
-    include "$appPhpFragments/title.php";
+    include cAppGlobals::$appPhpFragments . "/title.php";
     ?>
     <script>
         function onLoadJQuery_GIGAS() {
@@ -40,7 +40,7 @@ include "$appPhpFragments/doctype.php";
         <!-- *************** footer *********************** -->
         <?php
         $sExtraCredits = "Data courtesy Neville Thompson http://www.gigapan.com/profiles/pencilnev";
-        include "$appPhpFragments/footer.php"
+        include cAppGlobals::$appPhpFragments . "/footer.php"
         ?>
 </body>
 

@@ -1,8 +1,8 @@
 <!-- Tracking -->
 <?php
-//include "$appPhpFragments/google.php";
+//include cAppGlobals::$appPhpFragments."/google.php";
 if (!cDebug::is_localhost())
-    include "$appPhpFragments/appd.php";
+    include cAppGlobals::$appPhpFragments . "/appd.php";
 
 
 $sFile = cCommonFiles::server_filename();

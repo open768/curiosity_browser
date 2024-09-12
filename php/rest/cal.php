@@ -56,5 +56,5 @@ foreach ($aImages as $oItem) {
     array_push($aData["cal"][$sDate][$sTimeKey], ["i" => $sInstrAbbr, "d" => $sDateTime, "p" => $oItem->itemName]);
 }
 //############################### response ####################
-include "$appPhpFragments/rest_header.php";
+include cAppGlobals::$appPhpFragments . "/rest_header.php";
 cCommon::write_json($aData);

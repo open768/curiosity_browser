@@ -7,10 +7,6 @@ $phpInc = "$root/../phpinc";        //have to set phpinc here to pull in header.
 
 //php locations (these shouldnt need to be changed)
 $appPHP = "$root/php";
-$appPhpFragments = "$appPHP/fragments";
-
-
-
 
 class cAppGlobals {
     static $AppJS = null;
@@ -25,11 +21,13 @@ class cAppGlobals {
     static $title = "title not set";
     static $appImages = null;
     static $appConfig = null;
+    static $appPhpFragments = null;
 
     static function init() {
         global $home, $root, $appPHP;
         self::$appImages = "$home/images/";
         self::$appConfig =  "$appPHP/app-config";
+        self::$appPhpFragments = "$appPHP/fragments";
 
         //space stuff stuff 
         self::$spaceInc = "$root/../spaceinc";      //configure this

@@ -1,11 +1,11 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-include "$appPhpFragments/doctype.php";  ?>
+include cAppGlobals::$appPhpFragments . "/doctype.php";  ?>
 
 <head>
     <?php
-    include "$appPhpFragments/header.php";
+    include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
     <title>About the Curiosity Browser </title>
 </head>
@@ -13,7 +13,7 @@ include "$appPhpFragments/doctype.php";  ?>
 <body>
     <?php
     cAppGlobals::$title = "About me";
-    include "$appPhpFragments/title.php";
+    include cAppGlobals::$appPhpFragments . "/title.php";
     ?>
     <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/common.js"></script>
     <div class="gold">
@@ -145,7 +145,7 @@ include "$appPhpFragments/doctype.php";  ?>
 
         <!-- ##################################################################### -->
         <?php
-        include "$appPhpFragments/disclaim.html"; ?>
+        include cAppGlobals::$appPhpFragments . "/disclaim.html"; ?>
 
         <!-- ##################################################################### -->
         <div class="w3-panel w3-card-2 w3-padding-large w3-theme-action">
@@ -155,7 +155,7 @@ include "$appPhpFragments/doctype.php";  ?>
 
         <!-- footer -->
         <?php
-        include "$appPhpFragments/footer.php"     ?>
+        include cAppGlobals::$appPhpFragments . "/footer.php"     ?>
 </body>
 
 </html>

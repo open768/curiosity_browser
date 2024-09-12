@@ -24,11 +24,11 @@ class cDetailPageConstants {
     const MSL_ID = "msl";
 }
 
-include "$appPhpFragments/doctype.php";
+include cAppGlobals::$appPhpFragments . "/doctype.php";
 ?>
 
 <head>
-    <?php include "$appPhpFragments/header.php"; ?>
+    <?php include cAppGlobals::$appPhpFragments . "/header.php"; ?>
     <LINK href="<?= $home ?>/css/drag.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="<?= cAppGlobals::$jsExtra ?>/sceditor/minified/themes/default.min.css" type="text/css" media="all">
     <title>Detail: Curiosity Browser</title>
@@ -44,7 +44,7 @@ include "$appPhpFragments/doctype.php";
 <body onload="$( ()=>cDetail.onLoadJQuery() );">
     <?php
     cAppGlobals::$title = "Product Detail";
-    include "$appPhpFragments/title.php";
+    include cAppGlobals::$appPhpFragments . "/title.php";
     ?>
     <div id="<?= cDetailPageConstants::PAGE_CONTENTS_ID ?>" class="w3-container w3-padding-small">
         <!-- controls -->
@@ -122,7 +122,7 @@ include "$appPhpFragments/doctype.php";
 
     <!-- footer -->
     <?php
-    include "$appPhpFragments/footer.php"
+    include cAppGlobals::$appPhpFragments . "/footer.php"
     ?>
 </body>
 

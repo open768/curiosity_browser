@@ -46,5 +46,5 @@ for ($iIndex = $iStart - 1; $iIndex < $iEnd; $iIndex++) {
 //output the json
 $aData = ["max" => $iCount, "start" => $iStart, "images" => $aOutput];
 //############################### response ####################
-include "$appPhpFragments/rest_header.php";
+include cAppGlobals::$appPhpFragments . "/rest_header.php";
 cCommon::write_json($aData);
