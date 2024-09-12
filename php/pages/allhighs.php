@@ -6,7 +6,7 @@ require_once "$home/php/fragments/app-common.php";
 
 <head>
     <?php
-    include("$appPhpFragments/header.php");
+    include "$appPhpFragments/header.php";
     ?>
     <title>All Highlights - Curiosity Browser</title>
     <script src="<?= $AppJSWidgets ?>/allgrid.js"></script>
@@ -15,8 +15,8 @@ require_once "$home/php/fragments/app-common.php";
 
 <body onload="$(onLoadJQuery_HIGHS);">
     <?php
-    $sTitle = "Sols with Highlights";
-    include("$appPhpFragments/title.php");
+    cAppGlobals::$title = "Sols with Highlights";
+    include "$appPhpFragments/title.php";
     ?>
     <script>
         function onLoadJQuery_HIGHS() {
@@ -35,7 +35,7 @@ require_once "$home/php/fragments/app-common.php";
 
         <!-- *************** footer *********************** -->
         <?php
-        include("$appPhpFragments/footer.php")
+        include "$appPhpFragments/footer.php"
         ?>
 </body>
 

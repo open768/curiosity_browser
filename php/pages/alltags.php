@@ -1,13 +1,13 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-include("$appPhpFragments/doctype.php");
-$sTitle = "Tagged Sols";
+include "$appPhpFragments/doctype.php";
+cAppGlobals::$title = "Tagged Sols";
 ?>
 
 <head>
     <?php
-    include("$appPhpFragments/header.php");
+    include "$appPhpFragments/header.php";
     ?>
     <title>Sol Tags - Curiosity Browser</title>
     <script src="<?= $AppJSWidgets ?>/allgrid.js"></script>
@@ -26,7 +26,7 @@ $sTitle = "Tagged Sols";
         }
     </script>
     <?php
-    include("$appPhpFragments/title.php");
+    include "$appPhpFragments/title.php";
     ?>
     <DIV class="title">Tagged Sols</DIV>
     <p>
@@ -37,7 +37,7 @@ $sTitle = "Tagged Sols";
 
         <!-- *************** footer *********************** -->
         <?php
-        include("$appPhpFragments/footer.php")
+        include "$appPhpFragments/footer.php"
         ?>
 </body>
 

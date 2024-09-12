@@ -7,7 +7,7 @@ if (cFacebook_ServerSide::is_facebook()) {
     cFacebookTags::make_fb_sol_high_tags();
     exit;
 }
-include("$appPhpFragments/doctype.php");
+include "$appPhpFragments/doctype.php";
 class cSolHighPageConstants {
     const  SOL_BUTTONS_ID = "sbid";
     const  HIGHLIGHTS_ID = "hid";
@@ -18,7 +18,7 @@ class cSolHighPageConstants {
 ?>
 
 <head>
-    <?php include("$appPhpFragments/header.php"); ?>
+    <?php include "$appPhpFragments/header.php"; ?>
     <title>Sol Highlights - Curiosity Browser </title>
     <script src="<?= $AppJS ?>/pages/solhighs.js"></script>
     <script src="<?= $AppJSWidgets ?>/solhighlights.js"></script>
@@ -26,9 +26,9 @@ class cSolHighPageConstants {
 
 <body onload="$( ()=>cSolHighs.onLoadJQuery() );">
     <?php
-    $sTitle = "Highlights for sol:<span id='" . cSolHighPageConstants::SOL_TITLE_ID . "'>??</span>";
+    cAppGlobals::$title = "Highlights for sol:<span id='" . cSolHighPageConstants::SOL_TITLE_ID . "'>??</span>";
     cPageOutput::write_JS_class_constant_IDs(cSolHighPageConstants::class);
-    include("$appPhpFragments/title.php");
+    include "$appPhpFragments/title.php";
     ?>
     <div class="w3-container w3-theme-d2">
         <span id="<?= cSolHighPageConstants::SOL_BUTTONS_ID ?>"></span>
@@ -38,7 +38,7 @@ class cSolHighPageConstants {
     <Div class="w3-container w3-theme-l2" id="<?= cSolHighPageConstants::HIGHLIGHTS_ID ?>"></div>
 
     <!-- *************** footer *********************** -->
-    <?php include("$appPhpFragments/footer.php")     ?>
+    <?php include "$appPhpFragments/footer.php"     ?>
 </body>
 
 </html>

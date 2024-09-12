@@ -1,7 +1,7 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-include("$appPhpFragments/doctype.php");
+include "$appPhpFragments/doctype.php";
 class cSolCommentPageConstants {
     const ID_BUTTONS = "scb";
     const ID_COMMENTS_CONTAINER = "scc";
@@ -10,7 +10,7 @@ class cSolCommentPageConstants {
 ?>
 
 <head>
-    <?php include("$appPhpFragments/header.php"); ?>
+    <?php include "$appPhpFragments/header.php"; ?>
     <title>Sol comments - Curiosity Browser </title>
     <script src="<?= $jsSpaceInc ?>/comments.js"></script>
     <script src="<?= $AppJS ?>/pages/solcomments.js"></script>
@@ -19,8 +19,8 @@ class cSolCommentPageConstants {
 
 <body onload="$( ()=>cSolComments.onLoadJQuery() );">
     <?php
-    $sTitle = "Comments for sol:<span id='" . cSolCommentPageConstants::ID_SOL . "'>??</span>";
-    include("$appPhpFragments/title.php");
+    cAppGlobals::$title = "Comments for sol:<span id='" . cSolCommentPageConstants::ID_SOL . "'>??</span>";
+    include "$appPhpFragments/title.php";
 
     cPageOutput::write_JS_class_constant_IDs(cSolCommentPageConstants::class);
     ?>
@@ -29,7 +29,7 @@ class cSolCommentPageConstants {
     <div class="w3-container w3-theme-l4" id="<?= cSolCommentPageConstants::ID_COMMENTS_CONTAINER ?>">loading.. </div>
 
     <!-- *************** footer *********************** -->
-    <?php include("$appPhpFragments/footer.php")     ?>
+    <?php include "$appPhpFragments/footer.php"     ?>
 </body>
 
 </html>

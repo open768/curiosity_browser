@@ -41,13 +41,13 @@ prevent_buffering();
 //headers
 include "$appPhpFragments/doctype.php";
 echo "<HEAD>\n";
-$sTitle = "Curiosity browser - Admin";
-include("$appPhpFragments/header.php");
+cAppGlobals::$title = "Curiosity browser - Admin";
+include "$appPhpFragments/header.php";
 echo "</HEAD>\n";
 
 //##################################################################
 echo "<BODY>\n";
-include("$appPhpFragments/title.php");
+include "$appPhpFragments/title.php";
 
 //force the user to logon
 
@@ -217,7 +217,7 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case null:
-        $sTitle = "Admin";
+        cAppGlobals::$title = "Admin";
         cDebug::write("Default operation"); {
         ?>
 

@@ -1,12 +1,12 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-include("$appPhpFragments/doctype.php");
+include "$appPhpFragments/doctype.php";
 ?>
 
 <head>
     <?php
-    include("$appPhpFragments/header.php");
+    include "$appPhpFragments/header.php";
     ?>
     <title>All Sites - Curiosity Browser</title>
     <script src="<?= $AppJS ?>/pages/allsites.js"></script>
@@ -17,8 +17,8 @@ include("$appPhpFragments/doctype.php");
 
 <body onload="$(onLoadJQuery_SITES);">
     <?php
-    $sTitle = "Sites";
-    include("$appPhpFragments/title.php");
+    cAppGlobals::$title = "Sites";
+    include "$appPhpFragments/title.php";
     ?>
     <div class="gold">
         <font class="subtitle">Site:</font> <span id="sites"> loading...</span>
@@ -29,7 +29,7 @@ include("$appPhpFragments/doctype.php");
     </div>
     <P>
 
-        <?php include("$appPhpFragments/footer.php") ?>
+        <?php include "$appPhpFragments/footer.php" ?>
 </body>
 
 </html>

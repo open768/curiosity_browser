@@ -26,6 +26,10 @@ $jsImages = "$home/images";
 //* nothing needs to be changed below here
 require_once  "$appConfig/app-secret.php";
 
+class cAppGlobals {
+    static $title = "title not set";
+}
+
 class cAppConfig {
     const FB_SCOPE = "public_profile";
     const FB_ELEMENT_ID = "FB_User";

@@ -1,8 +1,8 @@
 <!-- Tracking -->
 <?php
-//include("$appPhpFragments/google.php");
+//include "$appPhpFragments/google.php";
 if (!cDebug::is_localhost())
-    include("$appPhpFragments/appd.php");
+    include "$appPhpFragments/appd.php";
 
 
 $sFile = cCommonFiles::server_filename();
@@ -13,10 +13,9 @@ class cTitleConstants {
     static $IS_LOCALHOST;
 
     static function init($psFile) {
-        global $sTitle;
         $bIsHome = ($psFile === "index.php" && (cHeader::count_params() == 0));
         self::$IS_HOME = $bIsHome;
-        self::$TITLE = $sTitle;
+        self::$TITLE = cAppGlobals::$title;
         self::$IS_LOCALHOST =  cDebug::is_localhost();
     }
 }

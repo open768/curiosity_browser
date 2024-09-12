@@ -1,20 +1,20 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-include("$appPhpFragments/doctype.php");
+include "$appPhpFragments/doctype.php";
 ?>
 
 <head>
     <?php
-    include("$appPhpFragments/header.php");
+    include "$appPhpFragments/header.php";
     ?>
     <title>Migrate</title>
 </head>
 
 <body>
     <?php
-    $sTitle = "Migrate";
-    include("$appPhpFragments/title.php");
+    cAppGlobals::$title = "Migrate";
+    include "$appPhpFragments/title.php";
     ?>
     <script src="<?= $jsInc ?>/ck-inc/common.js"></script>
     <div class="gold">
@@ -42,7 +42,7 @@ include("$appPhpFragments/doctype.php");
     </div>
 
     <!-- footer -->
-    <?php include("$appPhpFragments/footer.php")     ?>
+    <?php include "$appPhpFragments/footer.php"     ?>
 </body>
 
 </html>

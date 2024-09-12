@@ -1,11 +1,11 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-include("$appPhpFragments/doctype.php");  ?>
+include "$appPhpFragments/doctype.php";  ?>
 
 <head>
     <?php
-    include("$appPhpFragments/header.php");
+    include "$appPhpFragments/header.php";
     ?>
     <title>PDS details - Curiosity Browser</title>
     <script src="<?= $AppJS ?>/pages/pds.js"></script>
@@ -13,8 +13,8 @@ include("$appPhpFragments/doctype.php");  ?>
 
 <body onload="$(onLoadJQuery_PDS);">
     <?php
-    $sTitle = "PDS details";
-    include("$appPhpFragments/title.php");
+    cAppGlobals::$title = "PDS details";
+    include "$appPhpFragments/title.php";
     ?>
     <DIV class="gold">
         <button class="leftbutton" onclick="cBrowser.openWindow('index.php','index')">Home</button>
@@ -49,7 +49,7 @@ include("$appPhpFragments/doctype.php");  ?>
         lOAdING pds Images...
     </div>
     <!-- footer -->
-    <?php include("$appPhpFragments/footer.php") ?>
+    <?php include "$appPhpFragments/footer.php" ?>
 </body>
 
 </html>

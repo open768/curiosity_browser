@@ -28,7 +28,7 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
 
 <head>
     <!-- header fragments -->
-    <?php include("$appPhpFragments/header.php");  ?>
+    <?php include "$appPhpFragments/header.php";  ?>
 
     <!-- main scripts -->
     <title>Curiosity Browser</title>
@@ -57,8 +57,8 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
     cPageOutput::write_JS_class_constant_IDs(cIndexPageConsts::class);
     ?>
     <?php
-    $sTitle = "Home";
-    include("$appPhpFragments/title.php");
+    cAppGlobals::$title = "Home";
+    include "$appPhpFragments/title.php";
     ?>
 
     <DIV id="payload" class="w3-cell-row">

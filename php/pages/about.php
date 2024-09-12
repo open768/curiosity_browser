@@ -1,19 +1,19 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-include("$appPhpFragments/doctype.php");  ?>
+include "$appPhpFragments/doctype.php";  ?>
 
 <head>
     <?php
-    include("$appPhpFragments/header.php");
+    include "$appPhpFragments/header.php";
     ?>
     <title>About the Curiosity Browser </title>
 </head>
 
 <body>
     <?php
-    $sTitle = "About me";
-    include("$appPhpFragments/title.php");
+    cAppGlobals::$title = "About me";
+    include "$appPhpFragments/title.php";
     ?>
     <script src="<?= $jsInc ?>/ck-inc/common.js"></script>
     <div class="gold">

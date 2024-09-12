@@ -1,11 +1,11 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-include("$appPhpFragments/doctype.php");  ?>
+include "$appPhpFragments/doctype.php";  ?>
 
 <head>
     <?php
-    include("$appPhpFragments/header.php");
+    include "$appPhpFragments/header.php";
     ?>
     <title>Tags: Curiosity Browser</title>
     <script src="<?= $AppJS ?>/pages/tag.js"></script>
@@ -18,8 +18,8 @@ include("$appPhpFragments/doctype.php");  ?>
 
 <body onload="$(onLoadJQuery_TAG);">
     <?php
-    $sTitle = "Instances of Tag <span id='tagname'>tag goes here</span>";
-    include("$appPhpFragments/title.php");
+    cAppGlobals::$title = "Instances of Tag <span id='tagname'>tag goes here</span>";
+    include "$appPhpFragments/title.php";
     ?>
     <div class="w3-cell-row">
         <div class="w3-cell" id="tagcloud">Loading tags</div>
@@ -34,7 +34,7 @@ include("$appPhpFragments/doctype.php");  ?>
     </div>
     <P />
     <!-- footer -->
-    <?php include("$appPhpFragments/footer.php")     ?>
+    <?php include "$appPhpFragments/footer.php"     ?>
 </body>
 
 </html>

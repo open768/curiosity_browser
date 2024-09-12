@@ -1,13 +1,13 @@
 <?php
 $home = "../..";
-$sTitle = "All Comments";
+cAppGlobals::$title = "All Comments";
 require_once "$home/php/fragments/app-common.php";
-include("$appPhpFragments/doctype.php");
+include "$appPhpFragments/doctype.php";
 ?>
 
 <head>
     <?php
-    include("$appPhpFragments/header.php");
+    include "$appPhpFragments/header.php";
     ?>
     <title>All Comments - Curiosity Browser</title>
     <script src="<?= $AppJSWidgets ?>/allgrid.js"></script>
@@ -16,7 +16,7 @@ include("$appPhpFragments/doctype.php");
 
 <body onload="$(onLoadJQuery_Comments);">
     <?php
-    include("$appPhpFragments/title.php");
+    include "$appPhpFragments/title.php";
     ?>
     <script>
         function onLoadJQuery_Comments() {
@@ -34,7 +34,7 @@ include("$appPhpFragments/doctype.php");
 
     <!-- *************** footer *********************** -->
     <?php
-    include("$appPhpFragments/footer.php")
+    include "$appPhpFragments/footer.php"
     ?>
 </body>
 
