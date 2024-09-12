@@ -1,6 +1,5 @@
 <?php
 //**********************************************************************************
-$root = realpath($home);
 include "../app-config/app-config.php";    //config for the application
 
 

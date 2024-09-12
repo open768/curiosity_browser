@@ -1,9 +1,8 @@
 <?php
 //$home is set by each page abd identifies its relative location in the folder structure
-$root = realpath($home);
-
 
 class cAppGlobals {
+    static $root;
     static $appPHP, $appImages, $appConfig, $appPhpFragments;
     static $jsHome, $jsWidgets, $jsAppRest, $jsExtra, $jsImages, $jsInc, $jsSpaceInc, $jsThumbNailer;
 
@@ -12,17 +11,18 @@ class cAppGlobals {
     static $title = "title not set";
 
     static function init() {
-        global $home, $root;
+        global $home;
 
-        self::$phpInc = "$root/../phpinc";        //configure this
+        self::$root = realpath($home);
+        self::$phpInc = self::$root . "/../phpinc";        //configure this
 
-        $appPHP = "$root/php";
+        $appPHP = self::$root . "/php";
         self::$appImages = "$home/images/";
         self::$appConfig =  "$appPHP/app-config";
         self::$appPhpFragments = "$appPHP/fragments";
 
         //space stuff stuff 
-        self::$spaceInc = "$root/../spaceinc";      //configure this
+        self::$spaceInc = self::$root . "/../spaceinc";      //configure this
 
         //JS stuff 
         self::$jsInc = "$home/../jsinc";            //configure this
