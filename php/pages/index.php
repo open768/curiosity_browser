@@ -79,7 +79,7 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
                         <h2>Curiosity Browser</h2>
                     </header>
                     <div class="w3-container w3-padding-large" style="height:800px" id="<?= cIndexPageConsts::ID_INTRO_BODY ?>">
-                        <img src="<?= $appImages ?>/browser/dude.png" height="200" align="left" style="margin:20px">
+                        <img src="<?= cAppGlobals::$appImages ?>/browser/dude.png" height="200" align="left" style="margin:20px">
                         <span>
                             <div class="intro_text">
                                 Welcome to the best place to find great images beamed from Curiosity, NASA's Mars Science Lab on Mars.

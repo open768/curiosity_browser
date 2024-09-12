@@ -21,7 +21,7 @@ include "$appPhpFragments/doctype.php";
         <table border="0" width="100%">
             <tr>
                 <td valign=middle>
-                    <img src="<?= $appImages ?>/browser/rover.png" height="120">
+                    <img src="<?= cAppGlobals::$appImages ?>/browser/rover.png" height="120">
                 </td>
                 <td>
                     <font class="big_error">OOPS THERE WAS AN ERROR</font>
@@ -29,7 +29,7 @@ include "$appPhpFragments/doctype.php";
                         Message was "<?= cHeader::get(cSpaceUrlParams::MISSION) ?>"
                 </td>
                 <td align="right">
-                    <img src="<?= $appImages ?>/browser/dude.png" height="120">
+                    <img src="<?= cAppGlobals::$appImages ?>/browser/dude.png" height="120">
                 </td>
             </tr>
         </table>

@@ -1,7 +1,7 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-require_once "$appConfig/app-secret.php";
+require_once cAppGlobals::$appConfig . "/app-secret.php";
 ?>
 ;window.NREUM||(NREUM={});NREUM.init={privacy:{cookies_enabled:true},ajax:{deny_list:["bam.eu01.nr-data.net"]}};
 ;NREUM.loader_config={accountID:"<?= cAppSecret::NR_ACCOUNT ?>",trustKey:"<?= cAppSecret::NR_ACCOUNT ?>",agentID:"<?= cAppSecret::NR_APPLICATION ?>",licenseKey:"",applicationID:"<?= cAppSecret::NR_APPLICATION ?>"};

@@ -8,13 +8,9 @@ $phpInc = "$root/../phpinc";        //have to set phpinc here to pull in header.
 //php locations (these shouldnt need to be changed)
 $appPHP = "$root/php";
 $appPhpFragments = "$appPHP/fragments";
-$appImages = "$home/images/";
-$appConfig = "$appPHP/app-config";
 
 
-//##########################################################
-//* nothing needs to be changed below here
-require_once  "$appConfig/app-secret.php";
+
 
 class cAppGlobals {
     static $AppJS = null;
@@ -27,15 +23,22 @@ class cAppGlobals {
     static $jsThumbNailer = null;
     static $spaceInc = null;
     static $title = "title not set";
+    static $appImages = null;
+    static $appConfig = null;
 
     static function init() {
-        global $home, $root;
-        self::$jsInc = "$home/../jsinc";            //check this works
-        self::$AppJS = "$home/js";
+        global $home, $root, $appPHP;
+        self::$appImages = "$home/images/";
+        self::$appConfig =  "$appPHP/app-config";
 
+        //space stuff stuff 
+        self::$spaceInc = "$root/../spaceinc";      //configure this
+
+        //JS stuff 
+        self::$jsInc = "$home/../jsinc";            //configure this
+        self::$AppJS = "$home/js";
         self::$jsExtra = self::$jsInc . "/extra";
-        self::$jsThumbNailer = "$home/php/images/thumbnailer.php";
-        self::$spaceInc = "$root/../spaceinc";
+        self::$jsThumbNailer = "$home/php/images/thumbnailer.php"; //this will likely move out of the app
         self::$jsAppRest = "$home/php/rest";
         self::$jsSpaceInc = self::$jsInc . "/ck-inc/space";
         self::$jsImages = "$home/images";
@@ -43,6 +46,10 @@ class cAppGlobals {
     }
 }
 cAppGlobals::init();
+
+//##########################################################
+//* nothing needs to be changed below here
+require_once  cAppGlobals::$appConfig . "/app-secret.php";
 
 //##########################################################
 class cAppConfig {

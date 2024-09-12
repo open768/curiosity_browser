@@ -72,7 +72,7 @@ include "$appPhpFragments/doctype.php";
                     <td></td>
                     <td valign="bottom">
                         <nobr>
-                            <button id="prev_prod_top" class="topnavbut leftbutton" title="previous in timeline (P)" style="width:100"><img src="<?= $appImages ?>/browser/back.png"></button><button title="previous (p)" id="prev_top" class="topnavbut leftbutton" style="width:300">&lt;</button><button title="next (n)" id="next_top" class="topnavbut rightbutton" style="width:300">&gt;</button> <button title="next product" id="next_prod_top" class="topnavbut rightbutton" title="next in timeline (N)" style="width:100"><img src="<?= $appImages ?>/browser/forward.png"></button>
+                            <button id="prev_prod_top" class="topnavbut leftbutton" title="previous in timeline (P)" style="width:100"><img src="<?= cAppGlobals::$appImages ?>/browser/back.png"></button><button title="previous (p)" id="prev_top" class="topnavbut leftbutton" style="width:300">&lt;</button><button title="next (n)" id="next_top" class="topnavbut rightbutton" style="width:300">&gt;</button> <button title="next product" id="next_prod_top" class="topnavbut rightbutton" title="next in timeline (N)" style="width:100"><img src="<?= cAppGlobals::$appImages ?>/browser/forward.png"></button>
                         </nobr>
                     </td>
                     <td></td>
@@ -89,7 +89,7 @@ include "$appPhpFragments/doctype.php";
                         <!-- template div is not visible and doesnt have to be contained -->
                         <div id="box_template" class="redbox" style="display:none" highlight="true">
                             <div id="controls">
-                                <button class="smallbutton" title="accept" id="tmpl_accept"><img src="<?= $appImages ?>/browser/bullet_tick.png"></button><button class="smallbutton" title="cancel" id="tmpl_cancel"><img src="<?= $appImages ?>/browser/bullet_cross.png"></button>
+                                <button class="smallbutton" title="accept" id="tmpl_accept"><img src="<?= cAppGlobals::$appImages ?>/browser/bullet_tick.png"></button><button class="smallbutton" title="cancel" id="tmpl_cancel"><img src="<?= cAppGlobals::$appImages ?>/browser/bullet_cross.png"></button>
                             </div>
                             <div id="number" class="lucky8"></div>
                         </div>
@@ -102,7 +102,7 @@ include "$appPhpFragments/doctype.php";
                 <tr>
                     <td></td>
                     <td valign="top">
-                        <button id="prev_prod_bottom" class="topnavbut leftbutton" title="previous in timeline (P)" style="width:100"><img src="<?= $appImages ?>/browser/back.png"></button><button title="previous (p)" id="prev_bottom" class="topnavbut leftbutton" style="width:300">&lt;</button><button title="next (n)" id="next_bottom" class="topnavbut rightbutton" style="width:300">&gt;</button><button title="next product" id="next_prod_bottom" class="topnavbut rightbutton" title="next in timeline (N)" style="width:100"><img src="<?= $appImages ?>/browser/forward.png"></button>
+                        <button id="prev_prod_bottom" class="topnavbut leftbutton" title="previous in timeline (P)" style="width:100"><img src="<?= cAppGlobals::$appImages ?>/browser/back.png"></button><button title="previous (p)" id="prev_bottom" class="topnavbut leftbutton" style="width:300">&lt;</button><button title="next (n)" id="next_bottom" class="topnavbut rightbutton" style="width:300">&gt;</button><button title="next product" id="next_prod_bottom" class="topnavbut rightbutton" title="next in timeline (N)" style="width:100"><img src="<?= cAppGlobals::$appImages ?>/browser/forward.png"></button>
                     </td>
                     <td></td>
                 </tr>

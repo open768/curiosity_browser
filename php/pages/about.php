@@ -22,7 +22,7 @@ include "$appPhpFragments/doctype.php";  ?>
         <div class="w3-panel w3-card-2 w3-padding-large w3-theme">
             <div class="w3-cell-row">
                 <div class="w3-cell w3-padding-small">
-                    <img src="<?= $appImages ?>/browser/rover.png" height="120">
+                    <img src="<?= cAppGlobals::$appImages ?>/browser/rover.png" height="120">
                 </div>
                 <div class="w3-cell w3-padding-large">
                     <h1>About Curiosity Browser</h1>
@@ -30,7 +30,7 @@ include "$appPhpFragments/doctype.php";  ?>
                     highlight and comment on images.
                 </div>
                 <div class="w3-cell w3-right">
-                    <img src="<?= $appImages ?>/browser/dude.png" height="120">
+                    <img src="<?= cAppGlobals::$appImages ?>/browser/dude.png" height="120">
                 </div>
             </div>
         </div>

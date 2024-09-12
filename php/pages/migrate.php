@@ -21,7 +21,7 @@ include "$appPhpFragments/doctype.php";
         <table border="0" width="100%">
             <tr>
                 <td valign=middle>
-                    <img src="<?= $appImages ?>/browser/rover.png" height="120">
+                    <img src="<?= cAppGlobals::$appImages ?>/browser/rover.png" height="120">
                 </td>
                 <td>
                     <font class="big_error">Migrating</font>
@@ -35,7 +35,7 @@ include "$appPhpFragments/doctype.php";
                         Migrating To: "<?= cHeader::get("pto") ?>"
                 </td>
                 <td align="right">
-                    <img src="<?= $appImages ?>/browser/dude.png" height="120">
+                    <img src="<?= cAppGlobals::$appImages ?>/browser/dude.png" height="120">
                 </td>
             </tr>
         </table>
