@@ -1,5 +1,5 @@
 <?php
-//$home is set by each page abd identifies its relative location in the folder structure
+//$home is set by each page to identify its relative location in the folder structure
 
 class cAppGlobals {
     static $root;
@@ -10,32 +10,31 @@ class cAppGlobals {
     static $phpInc = null;
     static $title = "title not set";
 
-    static function init() {
-        global $home;
+    static function init($psHome) {
+        self::$root = realpath($psHome);
 
-        self::$root = realpath($home);
-        self::$phpInc = self::$root . "/../phpinc";        //configure this
+        //configurable things 
+        self::$phpInc = self::$root . "/../phpinc";
+        self::$spaceInc = self::$root . "/../spaceinc";
+        self::$jsInc = "$psHome/../jsinc";
 
+        //app  stuff 
         $appPHP = self::$root . "/php";
-        self::$appImages = "$home/images/";
+        self::$appImages = "$psHome/images/";
         self::$appConfig =  "$appPHP/app-config";
         self::$appPhpFragments = "$appPHP/fragments";
 
-        //space stuff stuff 
-        self::$spaceInc = self::$root . "/../spaceinc";      //configure this
-
         //JS stuff 
-        self::$jsInc = "$home/../jsinc";            //configure this
-        self::$jsHome = "$home/js";
+        self::$jsHome = "$psHome/js";
         self::$jsExtra = self::$jsInc . "/extra";
-        self::$jsThumbNailer = "$home/php/images/thumbnailer.php"; //this will likely move out of the app
-        self::$jsAppRest = "$home/php/rest";
+        self::$jsThumbNailer = "$psHome/php/images/thumbnailer.php"; //this will likely move out of the app
+        self::$jsAppRest = "$psHome/php/rest";
         self::$jsSpaceInc = self::$jsInc . "/ck-inc/space";
-        self::$jsImages = "$home/images";
+        self::$jsImages = "$psHome/images";
         self::$jsWidgets = self::$jsHome . "/widgets";
     }
 }
-cAppGlobals::init();
+cAppGlobals::init($home);
 
 //##########################################################
 //* nothing needs to be changed below here
