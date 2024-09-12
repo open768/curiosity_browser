@@ -16,7 +16,7 @@ include "$appPhpFragments/doctype.php";
     cAppGlobals::$title = "Migrate";
     include "$appPhpFragments/title.php";
     ?>
-    <script src="<?= $jsInc ?>/ck-inc/common.js"></script>
+    <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/common.js"></script>
     <div class="gold">
         <table border="0" width="100%">
             <tr>

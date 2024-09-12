@@ -33,9 +33,9 @@ cPageOutput::write_JS_class_constant_IDs(cAppLocations::class);
 cPageOutput::write_JS_class_constant_IDs(cSpaceUrlParams::class);
 ?>
 <!-- common ckinc -->
-<script src="<?= $jsInc ?>/ck-inc/common.js"></script>
-<script src="<?= $jsInc ?>/ck-inc/render.js"></script>
-<script src="<?= $jsInc ?>/ck-inc/debug.js"></script>
+<script src="<?= cAppGlobals::$jsInc ?>/ck-inc/common.js"></script>
+<script src="<?= cAppGlobals::$jsInc ?>/ck-inc/render.js"></script>
+<script src="<?= cAppGlobals::$jsInc ?>/ck-inc/debug.js"></script>
 <script src="<?= cAppGlobals::$jsExtra ?>/bean/bean.js"></script>
 
 <!-- jquery -->
@@ -45,19 +45,19 @@ cPageOutput::write_JS_class_constant_IDs(cSpaceUrlParams::class);
 <script src="<?= cAppGlobals::$jsExtra ?>/jquery-visible/jquery.visible.min.js"></script>
 <script src="<?= cAppGlobals::$jsExtra ?>/jquery-spinner/g-spinner.min.js"></script>
 <script src="<?= cAppGlobals::$jsExtra ?>/jquery-cookie/jquery.cookie.js"></script>
-<script src="<?= $jsInc ?>/ck-inc/jquery/jquery.common.js"></script>
+<script src="<?= cAppGlobals::$jsInc ?>/ck-inc/jquery/jquery.common.js"></script>
 
 <!-- everything else -->
-<script src="<?= $jsInc ?>/ck-inc/http.js"></script>
-<script src="<?= $jsInc ?>/ck-inc/httpqueue.js"></script>
-<script src="<?= $jsInc ?>/ck-inc/auth.js"></script>
+<script src="<?= cAppGlobals::$jsInc ?>/ck-inc/http.js"></script>
+<script src="<?= cAppGlobals::$jsInc ?>/ck-inc/httpqueue.js"></script>
+<script src="<?= cAppGlobals::$jsInc ?>/ck-inc/auth.js"></script>
 <script src="<?= cAppGlobals::$jsSpaceInc ?>/curiosity.js"></script>
 <script src="<?= cAppGlobals::$jsSpaceInc ?>/space.js"></script>
 <script src="<?= cAppGlobals::$jsSpaceInc ?>/tagging.js"></script>
 <script src="<?= cAppGlobals::$jsSpaceInc ?>/imghilite.js"></script>
 
 <!-- Facebook -->
-<script src="<?= $jsInc ?>/ck-inc/facebook.js"></script>
+<script src="<?= cAppGlobals::$jsInc ?>/ck-inc/facebook.js"></script>
 
 <!-- app stuff -->
 <script src="<?= cAppGlobals::$AppJS ?>/classes/curiosity.js"></script>

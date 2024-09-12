@@ -10,7 +10,7 @@ include "$appPhpFragments/doctype.php";
     ?>
     <title>Site - Curiosity Browser</title>
     <script src="<?= cAppGlobals::$AppJS ?>/pages/site.js"></script>
-    <script src="<?= $jsInc ?>/ck-inc/googleearth.js"></script>
+    <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/googleearth.js"></script>
     <script src="https://www.google.com/jsapi"></script>
     <script>
         google.load("earth", "1");

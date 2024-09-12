@@ -9,8 +9,8 @@ include "$appPhpFragments/doctype.php";  ?>
     ?>
     <title>Tags: Curiosity Browser</title>
     <script src="<?= cAppGlobals::$AppJS ?>/pages/tag.js"></script>
-    <script src="<?= $jsInc ?>/ck-inc/queue.js"></script>
-    <script src="<?= $jsInc ?>/ck-inc/actionqueue.js"></script>
+    <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/queue.js"></script>
+    <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/actionqueue.js"></script>
     <script src="<?= cAppGlobals::$AppJSWidgets ?>/tag-view.js"></script>
     <script src="<?= cAppGlobals::$AppJSWidgets ?>/image.js"></script>
     <script src="<?= cAppGlobals::$AppJSWidgets ?>/tagcloud.js"></script>

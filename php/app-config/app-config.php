@@ -11,34 +11,34 @@ $appPhpFragments = "$appPHP/fragments";
 $appImages = "$home/images/";
 $appConfig = "$appPHP/app-config";
 
-// Javascript locations (these are URL locations, not disk locations)
-$jsInc = "$home/../jsinc";            //check this works
-
 
 //##########################################################
 //* nothing needs to be changed below here
 require_once  "$appConfig/app-secret.php";
 
 class cAppGlobals {
-    static $title = "title not set";
-    static $jsExtra = null;
-    static $jsThumbNailer = null;
-    static $spaceInc = null;
-    static $jsAppRest = null;
-    static $jsSpaceInc = null;
-    static $jsImages = null;
     static $AppJS = null;
     static $AppJSWidgets = null;
+    static $jsAppRest = null;
+    static $jsExtra = null;
+    static $jsImages = null;
+    static $jsInc = null;
+    static $jsSpaceInc = null;
+    static $jsThumbNailer = null;
+    static $spaceInc = null;
+    static $title = "title not set";
 
     static function init() {
-        global $jsInc, $home, $root;
-        self::$jsExtra = "$jsInc/extra";
+        global $home, $root;
+        self::$jsInc = "$home/../jsinc";            //check this works
+        self::$AppJS = "$home/js";
+
+        self::$jsExtra = self::$jsInc . "/extra";
         self::$jsThumbNailer = "$home/php/images/thumbnailer.php";
         self::$spaceInc = "$root/../spaceinc";
         self::$jsAppRest = "$home/php/rest";
-        self::$jsSpaceInc = "$jsInc/ck-inc/space";
+        self::$jsSpaceInc = self::$jsInc . "/ck-inc/space";
         self::$jsImages = "$home/images";
-        self::$AppJS = "$home/js";
         self::$AppJSWidgets = self::$AppJS . "/widgets";
     }
 }
