@@ -37,13 +37,13 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
     <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/queue.js"></script>
     <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/actionqueue.js"></script>
     <script src="<?= cAppGlobals::$jsHome ?>/pages/index.js"></script>
-    <script src="<?= cAppGlobals::$AppJSWidgets ?>/thumbnail.js"></script>
-    <script src="<?= cAppGlobals::$AppJSWidgets ?>/thumbnail-view.js"></script>
-    <script src="<?= cAppGlobals::$AppJSWidgets ?>/image-view.js"></script>
-    <script src="<?= cAppGlobals::$AppJSWidgets ?>/image.js"></script>
-    <script src="<?= cAppGlobals::$AppJSWidgets ?>/solinstrchooser.js"></script>
-    <script src="<?= cAppGlobals::$AppJSWidgets ?>/solbuttons.js"></script>
-    <script src="<?= cAppGlobals::$AppJSWidgets ?>/tagcloud.js"></script>
+    <script src="<?= cAppGlobals::$jsWidgets ?>/thumbnail.js"></script>
+    <script src="<?= cAppGlobals::$jsWidgets ?>/thumbnail-view.js"></script>
+    <script src="<?= cAppGlobals::$jsWidgets ?>/image-view.js"></script>
+    <script src="<?= cAppGlobals::$jsWidgets ?>/image.js"></script>
+    <script src="<?= cAppGlobals::$jsWidgets ?>/solinstrchooser.js"></script>
+    <script src="<?= cAppGlobals::$jsWidgets ?>/solbuttons.js"></script>
+    <script src="<?= cAppGlobals::$jsWidgets ?>/tagcloud.js"></script>
     <!-- end of scripts -->
 
     <!-- meta properties for facebook -->

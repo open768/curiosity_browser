@@ -1,7 +1,7 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-require_once  "$phpInc/ckinc/image.php";
+require_once  cAppGlobals::$phpInc . "/ckinc/image.php";
 
 $sMission = cHeader::get(cSpaceUrlParams::MISSION);
 $sSol = cHeader::get(cSpaceUrlParams::SOL);

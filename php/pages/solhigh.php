@@ -1,7 +1,7 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-require_once  "$phpInc/ckinc/facebook.php";
+require_once  cAppGlobals::$phpInc . "/ckinc/facebook.php";
 cHeader::redirect_if_referred();
 if (cFacebook_ServerSide::is_facebook()) {
     cFacebookTags::make_fb_sol_high_tags();
@@ -21,7 +21,7 @@ class cSolHighPageConstants {
     <?php include cAppGlobals::$appPhpFragments . "/header.php"; ?>
     <title>Sol Highlights - Curiosity Browser </title>
     <script src="<?= cAppGlobals::$jsHome ?>/pages/solhighs.js"></script>
-    <script src="<?= cAppGlobals::$AppJSWidgets ?>/solhighlights.js"></script>
+    <script src="<?= cAppGlobals::$jsWidgets ?>/solhighlights.js"></script>
 </head>
 
 <body onload="$( ()=>cSolHighs.onLoadJQuery() );">

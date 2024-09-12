@@ -11,9 +11,9 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";  ?>
     <script src="<?= cAppGlobals::$jsHome ?>/pages/tag.js"></script>
     <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/queue.js"></script>
     <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/actionqueue.js"></script>
-    <script src="<?= cAppGlobals::$AppJSWidgets ?>/tag-view.js"></script>
-    <script src="<?= cAppGlobals::$AppJSWidgets ?>/image.js"></script>
-    <script src="<?= cAppGlobals::$AppJSWidgets ?>/tagcloud.js"></script>
+    <script src="<?= cAppGlobals::$jsWidgets ?>/tag-view.js"></script>
+    <script src="<?= cAppGlobals::$jsWidgets ?>/image.js"></script>
+    <script src="<?= cAppGlobals::$jsWidgets ?>/tagcloud.js"></script>
 </head>
 
 <body onload="$(onLoadJQuery_TAG);">

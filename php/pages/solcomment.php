@@ -14,7 +14,7 @@ class cSolCommentPageConstants {
     <title>Sol comments - Curiosity Browser </title>
     <script src="<?= cAppGlobals::$jsSpaceInc ?>/comments.js"></script>
     <script src="<?= cAppGlobals::$jsHome ?>/pages/solcomments.js"></script>
-    <script src="<?= cAppGlobals::$AppJSWidgets ?>/comment-box.js"></script>
+    <script src="<?= cAppGlobals::$jsWidgets ?>/comment-box.js"></script>
 </head>
 
 <body onload="$( ()=>cSolComments.onLoadJQuery() );">

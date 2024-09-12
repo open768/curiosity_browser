@@ -2,24 +2,20 @@
 //$home is set by each page abd identifies its relative location in the folder structure
 $root = realpath($home);
 
-//the following must reflect where the folders are on disk
-$phpInc = "$root/../phpinc";        //have to set phpinc here to pull in header.php
-
 
 class cAppGlobals {
-    static $jsHome, $AppJSWidgets, $appPHP, $appImages, $appConfig, $appPhpFragments;
+    static $appPHP, $appImages, $appConfig, $appPhpFragments;
+    static $jsHome, $jsWidgets, $jsAppRest, $jsExtra, $jsImages, $jsInc, $jsSpaceInc, $jsThumbNailer;
 
-    static $jsAppRest = null;
-    static $jsExtra = null;
-    static $jsImages = null;
-    static $jsInc = null;
-    static $jsSpaceInc = null;
-    static $jsThumbNailer = null;
     static $spaceInc = null;
+    static $phpInc = null;
     static $title = "title not set";
 
     static function init() {
         global $home, $root;
+
+        self::$phpInc = "$root/../phpinc";        //configure this
+
         $appPHP = "$root/php";
         self::$appImages = "$home/images/";
         self::$appConfig =  "$appPHP/app-config";
@@ -36,7 +32,7 @@ class cAppGlobals {
         self::$jsAppRest = "$home/php/rest";
         self::$jsSpaceInc = self::$jsInc . "/ck-inc/space";
         self::$jsImages = "$home/images";
-        self::$AppJSWidgets = self::$jsHome . "/widgets";
+        self::$jsWidgets = self::$jsHome . "/widgets";
     }
 }
 cAppGlobals::init();

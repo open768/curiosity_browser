@@ -10,7 +10,7 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
     ?>
     <title>sol Gigapans - Curiosity Browser</title>
     <script src="<?= cAppGlobals::$jsHome ?>/pages/solgigas.js"></script>
-    <script src="<?= cAppGlobals::$AppJSWidgets ?>/solgigas.js"></script>
+    <script src="<?= cAppGlobals::$jsWidgets ?>/solgigas.js"></script>
 </head>
 
 <body onload="$(onLoadJQuery_SOLGIG);">

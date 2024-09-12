@@ -9,7 +9,7 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
     include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
     <title>All Gigapans - by Neville Thompson</title>
-    <script src="<?= cAppGlobals::$AppJSWidgets ?>/allgrid.js"></script>
+    <script src="<?= cAppGlobals::$jsWidgets ?>/allgrid.js"></script>
     <script src="<?= cAppGlobals::$jsHome ?>/classes/solgrid.js"></script>
 </head>
 

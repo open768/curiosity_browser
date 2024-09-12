@@ -10,7 +10,7 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
     include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
     <title>All Comments - Curiosity Browser</title>
-    <script src="<?= cAppGlobals::$AppJSWidgets ?>/allgrid.js"></script>
+    <script src="<?= cAppGlobals::$jsWidgets ?>/allgrid.js"></script>
     <script src="<?= cAppGlobals::$jsHome ?>/classes/solgrid.js"></script>
 </head>
 

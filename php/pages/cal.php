@@ -10,7 +10,7 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
     ?>
     <title>calendar - Curiosity Browser</title>
     <script src="<?= cAppGlobals::$jsHome ?>/pages/cal.js"></script>
-    <script src="<?= cAppGlobals::$AppJSWidgets ?>/solcal.js"></script>
+    <script src="<?= cAppGlobals::$jsWidgets ?>/solcal.js"></script>
 </head>
 
 <body onload="$( ()=>cCalendar.onLoadJQuery() )">

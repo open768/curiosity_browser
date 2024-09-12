@@ -5,8 +5,8 @@ include "../app-config/app-config.php";    //config for the application
 
 
 //**********************************************************************************
-require_once "$phpInc/ckinc/header.php";    //this starts the session
-require_once "$phpInc/ckinc/debug.php";
+require_once cAppGlobals::$phpInc . "/ckinc/header.php";    //this starts the session
+require_once cAppGlobals::$phpInc . "/ckinc/debug.php";
 
 //**********************************************************************************
 //check for extensions
@@ -33,8 +33,8 @@ if (!cDebug::is_cli())
     }
 
 //includes
-require_once "$phpInc/ckinc/common.php";
-require_once "$phpInc/ckinc/auth.php";
+require_once cAppGlobals::$phpInc . "/ckinc/common.php";
+require_once cAppGlobals::$phpInc . "/ckinc/auth.php";
 require_once cAppGlobals::$spaceInc . "/misc/constants.php";
 require_once cAppGlobals::$spaceInc . "/curiosity/curiosity.php";
 require_once cAppGlobals::$spaceInc . "/curiosity/static.php";

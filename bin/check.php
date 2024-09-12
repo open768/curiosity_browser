@@ -53,10 +53,10 @@ else
 
 //-------------------------------------------------------------------
 //check for existance of phpinc
-if (is_dir($phpInc))
-    cDebug::write("\$phpInc found $phpInc");
+if (is_dir(cAppGlobals::$phpInc))
+    cDebug::write("\$phpInc found " . cAppGlobals::$phpInc);
 else {
-    cDebug::write(print "couldnt find \$phpInc: $phpInc");
+    cDebug::write(print "couldnt find \$phpInc: " . cAppGlobals::$phpInc);
     //lets find it
 }
 

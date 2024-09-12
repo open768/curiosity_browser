@@ -15,12 +15,12 @@ $home = "../../..";
 require_once "$home/php/fragments/app-common.php";
 
 //phpinc includes
-require_once "$phpInc/ckinc/session.php";
-require_once "$phpInc/ckinc/common.php";
-require_once "$phpInc/ckinc/header.php";
-require_once "$phpInc/ckinc/auth.php";
-require_once "$phpInc/ckinc/debug.php";
-require_once "$phpInc/ckinc/cached_http.php";
+require_once cAppGlobals::$phpInc . "/ckinc/session.php";
+require_once cAppGlobals::$phpInc . "/ckinc/common.php";
+require_once cAppGlobals::$phpInc . "/ckinc/header.php";
+require_once cAppGlobals::$phpInc . "/ckinc/auth.php";
+require_once cAppGlobals::$phpInc . "/ckinc/debug.php";
+require_once cAppGlobals::$phpInc . "/ckinc/cached_http.php";
 
 //space includes
 require_once cAppGlobals::$spaceInc . "/curiosity/static.php";

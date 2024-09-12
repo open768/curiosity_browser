@@ -2,7 +2,7 @@
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 
-require_once  "$phpInc/ckinc/header.php";
+require_once  cAppGlobals::$phpInc . "/ckinc/header.php";
 require_once  cAppGlobals::$spaceInc . "/curiosity/facebook.php";
 cHeader::redirect_if_referred();
 if (cFacebook_ServerSide::is_facebook()) {
@@ -35,7 +35,7 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
     <script src="<?= cAppGlobals::$jsSpaceInc ?>/comments.js"></script>
     <script src="<?= cAppGlobals::$jsExtra ?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
     <script src="<?= cAppGlobals::$jsHome ?>/pages/detail.js"></script>
-    <script src="<?= cAppGlobals::$AppJSWidgets ?>/comment-box.js"></script>
+    <script src="<?= cAppGlobals::$jsWidgets ?>/comment-box.js"></script>
     <?php
     cPageOutput::write_JS_class_constant_IDs(cDetailPageConstants::class);
     ?>

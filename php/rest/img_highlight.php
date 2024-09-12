@@ -16,7 +16,7 @@ $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
 require_once  cAppGlobals::$spaceInc . "/misc/pichighlight.php";
 require_once  cAppGlobals::$spaceInc . "/misc/indexes.php";
-require_once  "$phpInc/ckinc/common.php";
+require_once  cAppGlobals::$phpInc . "/ckinc/common.php";
 
 cDebug::check_GET_or_POST();
 
