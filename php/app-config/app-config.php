@@ -12,8 +12,6 @@ $appImages = "$home/images/";
 $appConfig = "$appPHP/app-config";
 
 // Javascript locations (these are URL locations, not disk locations)
-$AppJS = "$home/js";
-$AppJSWidgets = "$AppJS/widgets";
 $jsInc = "$home/../jsinc";            //check this works
 
 
@@ -29,6 +27,8 @@ class cAppGlobals {
     static $jsAppRest = null;
     static $jsSpaceInc = null;
     static $jsImages = null;
+    static $AppJS = null;
+    static $AppJSWidgets = null;
 
     static function init() {
         global $jsInc, $home, $root;
@@ -38,6 +38,8 @@ class cAppGlobals {
         self::$jsAppRest = "$home/php/rest";
         self::$jsSpaceInc = "$jsInc/ck-inc/space";
         self::$jsImages = "$home/images";
+        self::$AppJS = "$home/js";
+        self::$AppJSWidgets = self::$AppJS . "/widgets";
     }
 }
 cAppGlobals::init();

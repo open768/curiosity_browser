@@ -8,12 +8,12 @@ include "$appPhpFragments/doctype.php";  ?>
     include "$appPhpFragments/header.php";
     ?>
     <title>Tags: Curiosity Browser</title>
-    <script src="<?= $AppJS ?>/pages/tag.js"></script>
+    <script src="<?= cAppGlobals::$AppJS ?>/pages/tag.js"></script>
     <script src="<?= $jsInc ?>/ck-inc/queue.js"></script>
     <script src="<?= $jsInc ?>/ck-inc/actionqueue.js"></script>
-    <script src="<?= $AppJSWidgets ?>/tag-view.js"></script>
-    <script src="<?= $AppJSWidgets ?>/image.js"></script>
-    <script src="<?= $AppJSWidgets ?>/tagcloud.js"></script>
+    <script src="<?= cAppGlobals::$AppJSWidgets ?>/tag-view.js"></script>
+    <script src="<?= cAppGlobals::$AppJSWidgets ?>/image.js"></script>
+    <script src="<?= cAppGlobals::$AppJSWidgets ?>/tagcloud.js"></script>
 </head>
 
 <body onload="$(onLoadJQuery_TAG);">

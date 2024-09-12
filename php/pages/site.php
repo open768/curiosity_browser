@@ -9,7 +9,7 @@ include "$appPhpFragments/doctype.php";
     include "$appPhpFragments/header.php";
     ?>
     <title>Site - Curiosity Browser</title>
-    <script src="<?= $AppJS ?>/pages/site.js"></script>
+    <script src="<?= cAppGlobals::$AppJS ?>/pages/site.js"></script>
     <script src="<?= $jsInc ?>/ck-inc/googleearth.js"></script>
     <script src="https://www.google.com/jsapi"></script>
     <script>

@@ -10,8 +10,8 @@ include "$appPhpFragments/doctype.php";
     include "$appPhpFragments/header.php";
     ?>
     <title>All Comments - Curiosity Browser</title>
-    <script src="<?= $AppJSWidgets ?>/allgrid.js"></script>
-    <script src="<?= $AppJS ?>/classes/solgrid.js"></script>
+    <script src="<?= cAppGlobals::$AppJSWidgets ?>/allgrid.js"></script>
+    <script src="<?= cAppGlobals::$AppJS ?>/classes/solgrid.js"></script>
 </head>
 
 <body onload="$(onLoadJQuery_Comments);">

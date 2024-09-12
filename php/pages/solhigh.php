@@ -20,8 +20,8 @@ class cSolHighPageConstants {
 <head>
     <?php include "$appPhpFragments/header.php"; ?>
     <title>Sol Highlights - Curiosity Browser </title>
-    <script src="<?= $AppJS ?>/pages/solhighs.js"></script>
-    <script src="<?= $AppJSWidgets ?>/solhighlights.js"></script>
+    <script src="<?= cAppGlobals::$AppJS ?>/pages/solhighs.js"></script>
+    <script src="<?= cAppGlobals::$AppJSWidgets ?>/solhighlights.js"></script>
 </head>
 
 <body onload="$( ()=>cSolHighs.onLoadJQuery() );">

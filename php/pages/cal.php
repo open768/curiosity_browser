@@ -9,8 +9,8 @@ include "$appPhpFragments/doctype.php";
     include "$appPhpFragments/header.php";
     ?>
     <title>calendar - Curiosity Browser</title>
-    <script src="<?= $AppJS ?>/pages/cal.js"></script>
-    <script src="<?= $AppJSWidgets ?>/solcal.js"></script>
+    <script src="<?= cAppGlobals::$AppJS ?>/pages/cal.js"></script>
+    <script src="<?= cAppGlobals::$AppJSWidgets ?>/solcal.js"></script>
 </head>
 
 <body onload="$( ()=>cCalendar.onLoadJQuery() )">

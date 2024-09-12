@@ -8,7 +8,7 @@ include "$appPhpFragments/doctype.php";  ?>
     include "$appPhpFragments/header.php";
     ?>
     <title>PDS details - Curiosity Browser</title>
-    <script src="<?= $AppJS ?>/pages/pds.js"></script>
+    <script src="<?= cAppGlobals::$AppJS ?>/pages/pds.js"></script>
 </head>
 
 <body onload="$(onLoadJQuery_PDS);">

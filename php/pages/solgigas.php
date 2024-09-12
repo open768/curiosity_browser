@@ -9,8 +9,8 @@ include "$appPhpFragments/doctype.php";
     include "$appPhpFragments/header.php";
     ?>
     <title>sol Gigapans - Curiosity Browser</title>
-    <script src="<?= $AppJS ?>/pages/solgigas.js"></script>
-    <script src="<?= $AppJSWidgets ?>/solgigas.js"></script>
+    <script src="<?= cAppGlobals::$AppJS ?>/pages/solgigas.js"></script>
+    <script src="<?= cAppGlobals::$AppJSWidgets ?>/solgigas.js"></script>
 </head>
 
 <body onload="$(onLoadJQuery_SOLGIG);">
