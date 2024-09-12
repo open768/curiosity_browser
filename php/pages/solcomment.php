@@ -22,7 +22,7 @@ class cSolCommentPageConstants {
     $sTitle = "Comments for sol:<span id='" . cSolCommentPageConstants::ID_SOL . "'>??</span>";
     include("$appPhpFragments/title.php");
 
-    cPageOutput::write_JS_class_constant_IDs("cSolCommentPageConstants");
+    cPageOutput::write_JS_class_constant_IDs(cSolCommentPageConstants::class);
     ?>
 
     <div class="w3-container w3-theme-d2" id="<?= cSolCommentPageConstants::ID_BUTTONS ?>">loading.. </div>

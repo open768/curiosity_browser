@@ -37,7 +37,7 @@ include("$appPhpFragments/doctype.php");
     <script src="<?= $AppJS ?>/pages/detail.js"></script>
     <script src="<?= $AppJSWidgets ?>/comment-box.js"></script>
     <?php
-    cPageOutput::write_JS_class_constant_IDs("cDetailPageConstants");
+    cPageOutput::write_JS_class_constant_IDs(cDetailPageConstants::class);
     ?>
 </head>
 

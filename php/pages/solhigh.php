@@ -27,7 +27,7 @@ class cSolHighPageConstants {
 <body onload="$( ()=>cSolHighs.onLoadJQuery() );">
     <?php
     $sTitle = "Highlights for sol:<span id='" . cSolHighPageConstants::SOL_TITLE_ID . "'>??</span>";
-    cPageOutput::write_JS_class_constant_IDs("cSolHighPageConstants");
+    cPageOutput::write_JS_class_constant_IDs(cSolHighPageConstants::class);
     include("$appPhpFragments/title.php");
     ?>
     <div class="w3-container w3-theme-d2">

@@ -29,7 +29,8 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
     }
 </script>
 <?php
-cPageOutput::write_JS_class_constant_IDs("cAppLocations");
+cPageOutput::write_JS_class_constant_IDs(cAppLocations::class);
+cPageOutput::write_JS_class_constant_IDs(cSpaceUrlParams::class);
 ?>
 <!-- common ckinc -->
 <script src="<?= $jsInc ?>/ck-inc/common.js"></script>

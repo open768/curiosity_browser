@@ -54,7 +54,7 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
 
 <body onload="$( function(){ cIndexPage.onLoadJQuery()} );">
     <?php
-    cPageOutput::write_JS_class_constant_IDs("cIndexPageConsts");
+    cPageOutput::write_JS_class_constant_IDs(cIndexPageConsts::class);
     ?>
     <?php
     $sTitle = "Home";
