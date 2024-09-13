@@ -62,14 +62,17 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
                     <td></td>
                     <td valign="bottom">
                         <nobr>
-                            <button id="prev_prod_top" class="topnavbut leftbutton" title="previous in timeline (P)" style="width:100"><img src="<?= cAppGlobals::$appImages ?>/browser/back.png"></button><button title="previous (p)" id="prev_top" class="topnavbut leftbutton" style="width:300">&lt;</button><button title="next (n)" id="next_top" class="topnavbut rightbutton" style="width:300">&gt;</button> <button title="next product" id="next_prod_top" class="topnavbut rightbutton" title="next in timeline (N)" style="width:100"><img src="<?= cAppGlobals::$appImages ?>/browser/forward.png"></button>
+                            <button id="prev_prod_top" class="topnavbut leftbutton" title="previous in timeline (P)" style="width:100"><img src="<?= cAppGlobals::$appImages ?>/browser/back.png"></button>
+                            <button title="previous (p)" id="prev_top" class="topnavbut leftbutton" style="width:300">&lt;</button>
+                            <button title="next (n)" id="next_top" class="topnavbut rightbutton" style="width:300">&gt;</button>
+                            <button title="next product" id="next_prod_top" class="topnavbut rightbutton" title="next in timeline (N)" style="width:100"><img src="<?= cAppGlobals::$appImages ?>/browser/forward.png"></button>
                         </nobr>
                     </td>
                     <td></td>
                 </tr>
                 <tr> <!-- middle row -->
                     <td align="right">
-                        <button title="previous (p)" class="roundbutton" id="prev_left" ;" style="height:600" class="lnavbut">&lt;</button>
+                        <button title="previous (p)" class="roundbutton" id="prev_left" ;" style="height:600px;width:30px" class="lnavbut">&lt;</button>
                     </td>
                     <td align="middle">
                         <DIV id="container" class="container">
@@ -86,13 +89,16 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
 
                     </td>
                     <td align="left">
-                        <button id="next_right" title="next (n)" class="roundbutton" style="height:600" class="rnavbut">&gt;</button>
+                        <button id="next_right" title="next (n)" class="roundbutton" style="height:600px;width:30px" class="rnavbut">&gt;</button>
                     </td>
                 </tr>
                 <tr>
                     <td></td>
                     <td valign="top">
-                        <button id="prev_prod_bottom" class="topnavbut leftbutton" title="previous in timeline (P)" style="width:100"><img src="<?= cAppGlobals::$appImages ?>/browser/back.png"></button><button title="previous (p)" id="prev_bottom" class="topnavbut leftbutton" style="width:300">&lt;</button><button title="next (n)" id="next_bottom" class="topnavbut rightbutton" style="width:300">&gt;</button><button title="next product" id="next_prod_bottom" class="topnavbut rightbutton" title="next in timeline (N)" style="width:100"><img src="<?= cAppGlobals::$appImages ?>/browser/forward.png"></button>
+                        <button id="prev_prod_bottom" class="topnavbut leftbutton" title="previous in timeline (P)" style="width:100"><img src="<?= cAppGlobals::$appImages ?>/browser/back.png"></button>
+                        <button title="previous (p)" id="prev_bottom" class="topnavbut leftbutton">&lt;</button>
+                        <button title="next (n)" id="next_bottom" class="topnavbut rightbutton" style="width:300px">&gt;</button>
+                        <button title="next product" id="next_prod_bottom" class="topnavbut rightbutton" title="next in timeline (N)" style="width:100"><img src="<?= cAppGlobals::$appImages ?>/browser/forward.png"></button>
                     </td>
                     <td></td>
                 </tr>

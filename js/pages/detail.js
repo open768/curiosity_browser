@@ -278,9 +278,10 @@ class cDetailSolButtons {
 	//* events
 	//***************************************************************
 	static onClickSol() {
+		const oItem = cDetail.oItem
 		const sUrl = cBrowser.buildUrl('index.php', {
-			s: cDetail.oItem.s,
-			i: cDetail.oItem.i,
+			s: oItem.s,
+			i: oItem.i,
 			b: cDetail.iNum
 		})
 		cBrowser.openWindow(sUrl, 'index')
@@ -292,39 +293,47 @@ class cDetailSolButtons {
 	}
 	//***************************************************************
 	static onClickNASA() {
-		window.open(cDetail.oItem.d.i, 'nasa')
+		const oItem = cDetail.oItem
+		window.open(oItem.d.i, 'nasa')
 	}
 
 	//***************************************************************
 	static onClickMSLRaw() {
-		const sUrl = cCuriosity.get_raw_image(cDetail.oItem.s, cDetail.oItem.p)
+		const oItem = cDetail.oItem
+		const sUrl = cCuriosity.get_raw_image(oItem.s, oItem.p)
 		window.open(sUrl, 'mslraw')
 	}
 
 	//***************************************************************
 	static onClickPDS() {
+		const oItem = cDetail.oItem
+
 		const sUrl = cBrowser.buildUrl('pds.php', {
-			s: cDetail.oItem.s,
-			i: cDetail.oItem.i,
-			p: cDetail.oItem.p,
-			t: encodeURIComponent(cDetail.oItem.d.du)
+			s: oItem.s,
+			i: oItem.i,
+			p: oItem.p,
+			t: encodeURIComponent(oItem.d.du)
 		})
 		cBrowser.openWindow(sUrl, 'pds')
 	}
 	//***************************************************************
 	static onClickCal() {
+		const oItem = cDetail.oItem
+
 		const sUrl = cBrowser.buildUrl('cal.php', {
-			s: cDetail.oItem.s,
-			t: cDetail.oItem.d.du
+			s: oItem.s,
+			t: oItem.d.du
 		})
 		cBrowser.openWindow(sUrl, 'calendar')
 	}
 
 	//***************************************************************
 	static onClickThumbnails() {
+		const oItem = cDetail.oItem
+
 		const sUrl = cBrowser.buildUrl('index.php', {
-			s: cDetail.oItem.s,
-			i: cDetail.oItem.i,
+			s: oItem.s,
+			i: oItem.i,
 			t: 1
 		})
 		cBrowser.openWindow(sUrl, 'solthumb')
@@ -332,12 +341,16 @@ class cDetailSolButtons {
 
 	//***************************************************************
 	static onClickHighlights() {
-		const sUrl = cBrowser.buildUrl('solhigh.php', { s: cDetail.oItem.s })
+		const oItem = cDetail.oItem
+
+		const sUrl = cBrowser.buildUrl('solhigh.php', { s: oItem.s })
 		cBrowser.openWindow(sUrl, 'solthumb')
 	}
 	//***************************************************************
 	static onClickGoogle() {
-		const sUrl = 'https://www.google.com/#q=%22' + cDetail.oItem.p + '%22'
+		const oItem = cDetail.oItem
+
+		const sUrl = 'https://www.google.com/#q=%22' + oItem.p + '%22'
 		window.open(sUrl, 'map')
 	}
 
@@ -352,7 +365,63 @@ class cDetailSolButtons {
 //###############################################################
 //# cDetailImage
 //###############################################################
-class cDetailImage {}
+class cDetailImage {
+	static populate_image() {
+		// no data returned
+		const oItem = cDetail.oItem
+		var oData = oItem.d
+
+		// empty highligths as there may have been a product before
+		cDetailHighlight.init()
+
+		// set status
+		cCommonStatus.set_status('Image Loading')
+
+		//--------------there was no data returned
+		if (oData === null) {
+			cDebug.warn('product ' + oItem.p + ' was not found')
+			var oDiv = cJquery.element(cDetailPageConstants.IMAGE_CONTAINER_ID)
+			{
+				oDiv.empty()
+				oDiv.addClass('image_error')
+				oDiv.append('product not found')
+			}
+
+			var sUrl
+			if (oItem.migrate !== null) {
+				sUrl = cBrowser.buildUrl('migrate.php', {
+					s: oItem.s,
+					i: oItem.i,
+					pfrom: oItem.p,
+					pto: oItem.migrate
+				})
+
+				cBrowser.openWindow(sUrl, 'migrate')
+			} else {
+				sUrl = cBrowser.buildUrl('error.php', {
+					m: 'product ' + oItem.p + ' was not found'
+				})
+				cBrowser.openWindow(sUrl, 'error')
+			}
+			return
+		}
+
+		// there was an image
+		var sImgUrl = oData.i
+		sImgUrl = sImgUrl.replace('http:', 'https:')
+
+		var oContainer = cJquery.element(cDetailPageConstants.IMAGE_ID)
+		const oImg = $('<img>').attr({ src: sImgUrl, id: 'baseimg' })
+		{
+			oImg.on('load', poEvent => cDetail.OnImageLoaded(poEvent))
+			oContainer.empty()
+			oContainer.append(oImg)
+		}
+
+		//update the FB meta information for the image //should be a separate class
+		$("meta[property='og:image']").attr('content', cAppLocations.home + '/' + sImgUrl) // facebook tag for image
+	}
+}
 
 //###############################################################
 //# cDetailImage
@@ -371,20 +440,29 @@ class cDetailHighlight {
 
 	//***************************************************************
 	static onGotHighlights(poHttp) {
-		var i, aItem, oBox, oNumber
+		var i, oBox, oNumber
 		var oData = poHttp.response
 		if (!oData.d) {
 			cDebug.write('no highlights')
 			return
 		}
 
+		var last_top = -1
+		var last_left = -1
 		for (i = 0; i < oData.d.length; i++) {
-			aItem = oData.d[i]
-			cDebug.write('adding highlight: top=' + aItem.t + ' left=' + aItem.l)
-			oBox = cImgHilite.make_fixed_box(aItem.t, aItem.l)
+			var oItem = oData.d[i]
+			if (oItem.t == last_top && oItem.l == last_left) {
+				cDebug.warn('duplicate box found')
+				continue
+			}
+			cDebug.write('adding highlight: top=' + oItem.t + ' left=' + oItem.l)
+			oBox = cImgHilite.make_fixed_box(oItem.t, oItem.l)
 
-			oNumber = $(oBox).find(cImgHilite.numberID)
+			oNumber = $(oBox).find(cImgHilite.numberID) //find the child element of the number
 			oNumber.html(i + 1)
+
+			last_left = oItem.l
+			last_top = oItem.t
 		}
 	}
 	//**************************************************
@@ -471,10 +549,11 @@ class cDetail {
 
 	//***************************************************************
 	static pr_fetch_next_product(psDirection) {
+		const oItem = this.oItem
 		const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/nexttime.php', {
 			d: psDirection,
-			s: this.oItem.s,
-			p: this.oItem.p,
+			s: oItem.s,
+			p: oItem.p,
 			m: cMission.ID
 		})
 		cCommonStatus.set_status('fetching next image details...')
@@ -489,11 +568,12 @@ class cDetail {
 	static pr_fetch_next_image(psDirection) {
 		// find the next image
 		cCommonStatus.set_status('fetching next image details...')
+		const oItem = this.oItem
 		var sUrl = cBrowser.buildUrl(cAppLocations.rest + '/next.php', {
 			d: psDirection,
-			s: this.oItem.s,
-			i: this.oItem.i,
-			p: this.oItem.p,
+			s: oItem.s,
+			i: oItem.i,
+			p: oItem.p,
 			m: cMission.ID
 		})
 		const oHttp = new cHttp2()
@@ -568,31 +648,33 @@ class cDetail {
 	//***************************************************************
 	static onNextImage(poHttp) {
 		const oData = poHttp.response
-		this.get_product_data(oData.s, this.oItem.i, oData.d.p)
+		const oItem = this.oItem
+
+		this.get_product_data(oData.s, oItem.i, oData.d.p)
 	}
 
 	//***************************************************************
 	static OnImageLoaded(poEvent) {
-		var iWidth, iHeight, iImgW, iButW
+		var iWidth, iHeight, iImgW
 
-		iHeight = $(poEvent.target).height()
-		iImgW = $(poEvent.target).width()
-		iButW = $('#prev_prod_top').innerWidth()
-		iWidth = iImgW / 2 - iButW
+		const oImg = $(poEvent.target)
+		iHeight = oImg.height()
+		iImgW = oImg.width()
+		iWidth = iImgW / 4 - 5
 
 		// make the buttons the right size
-		cDebug.write('setting button sizes')
-		cDebug.write('imageWidth: ' + iImgW)
-		cDebug.write('button width: ' + iButW)
-		cDebug.write('width: ' + iWidth)
-		cDebug.write('height: ' + iHeight)
-
 		$('#next_right').height(iHeight)
 		$('#prev_left').height(iHeight)
-		$('#next_prod_top').innerWidth(iWidth)
+
 		$('#prev_prod_top').innerWidth(iWidth)
-		$('#next_prod_bottom').innerWidth(iWidth)
+		$('#prev_top').innerWidth(iWidth)
+		$('#next_top').innerWidth(iWidth)
+		$('#next_prod_top').innerWidth(iWidth)
+
 		$('#prev_prod_bottom').innerWidth(iWidth)
+		$('#prev_bottom').innerWidth(iWidth)
+		$('#next_bottom').innerWidth(iWidth)
+		$('#next_prod_bottom').innerWidth(iWidth)
 
 		// make the image clickable
 		$(poEvent.target).on('click', poImgEvent => this.OnImageClick(poImgEvent))
@@ -612,7 +694,7 @@ class cDetail {
 		// rely upon what came back rather than the query string
 		var oResponse = poHttp.response
 		this.oItem = oResponse
-		oData = this.oItem.d
+		oData = oResponse.d
 
 		//----remember the details
 		this.sol = oResponse.s
@@ -620,7 +702,7 @@ class cDetail {
 		this.instrument = oResponse.i
 
 		//----these things can be done
-		this.pr_populate_image()
+		cDetailImage.populate_image()
 		this.pr_update_elements(oResponse)
 		this.pr_update_doc_title(oResponse)
 		if (!oData) return
@@ -678,57 +760,7 @@ class cDetail {
 	}
 
 	//***************************************************************
-	static pr_populate_image() {
-		// no data returned
-		var oData = this.oItem.d
-
-		// empty highligths as there may have been a product before
-		cDetailHighlight.init()
-
-		// set status
-		cCommonStatus.set_status('Image Loading')
-
-		//--------------there was no data returned
-		if (oData === null) {
-			cDebug.warn('product ' + this.oItem.p + ' was not found')
-			var oDiv = cJquery.element(cDetailPageConstants.IMAGE_CONTAINER_ID)
-			{
-				oDiv.empty()
-				oDiv.addClass('image_error')
-				oDiv.append('product not found')
-			}
-
-			var sUrl
-			if (this.oItem.migrate !== null) {
-				sUrl = cBrowser.buildUrl('migrate.php', {
-					s: this.oItem.s,
-					i: this.oItem.i,
-					pfrom: this.oItem.p,
-					pto: this.oItem.migrate
-				})
-
-				cBrowser.openWindow(sUrl, 'migrate')
-			} else {
-				sUrl = cBrowser.buildUrl('error.php', {
-					m: 'product ' + this.oItem.p + ' was not found'
-				})
-				cBrowser.openWindow(sUrl, 'error')
-			}
-			return
-		}
-
-		// there was an image
-		var sImgUrl = oData.i
-		sImgUrl = sImgUrl.replace('http:', 'https:')
-
-		const oImg = $('<img>').attr({ src: sImgUrl, id: 'baseimg' })
-		oImg.on('load', poEvent => this.OnImageLoaded(poEvent))
-		$('#image').empty()
-		$('#image').append(oImg)
-
-		//update the FB meta information for the image //should be a separate class
-		$("meta[property='og:image']").attr('content', cAppLocations.home + '/' + sImgUrl) // facebook tag for image
-	}
+	static pr_populate_image() {}
 	//***************************************************************
 	static pr_update_msl(oData) {
 		const sDump = cDebug.getvardump(oData, 1)
