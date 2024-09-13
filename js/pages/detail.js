@@ -216,8 +216,9 @@ class cDetailTags {
 class cDetailSolButtons {
 	static SOL_CHILD_ID = 's'
 	static INSTR_CHILD_ID = 'i'
-	static IMGNO_CHILD_ID = 'n'
-	static IMGMAX_CHILD_ID = 'n'
+	static IMGNO_CHILD_ID = 'no'
+	static UTC_CHILD_ID = 'u'
+	static IMGMAX_CHILD_ID = 'max'
 
 	static $sol_button_id = null
 
@@ -233,6 +234,13 @@ class cDetailSolButtons {
 		this.pr_add_button(oContainer, sID, 'Choose Sol', '???', e => oThis.onClickSol(e))
 		sID = cJquery.child_ID(oContainer, this.INSTR_CHILD_ID)
 		this.pr_add_button(oContainer, sID, 'Choose Intrument', 'loading', () => oThis.onClickInstr())
+
+		sID = cJquery.child_ID(oContainer, this.UTC_CHILD_ID)
+		var oSpan = $('<SPAN>', { id: sID })
+		{
+			oSpan.append('date goes here')
+			oContainer.append(oSpan)
+		}
 
 		this.pr_add_button(oContainer, null, 'Show Sol Calendar', 'Calendar', () => oThis.onClickCal())
 		this.pr_add_button(oContainer, null, 'Highlights', 'Highlights', () => oThis.onClickHighlights())
@@ -336,8 +344,8 @@ class cDetailSolButtons {
 	//***************************************************************
 	static update_child(psChild, psSol) {
 		const oContainer = cJquery.element(cDetailPageConstants.SOL_CONTROLS_ID)
-		const oButton = cJquery.get_child(oContainer, psChild)
-		oButton.html(psSol)
+		const oElement = cJquery.get_child(oContainer, psChild)
+		oElement.html(psSol)
 	}
 }
 
@@ -608,7 +616,7 @@ class cDetail {
 		cDetailSolButtons.update_child(cDetailSolButtons.IMGNO_CHILD_ID, oResponse.item)
 
 		// populate the remaining fields
-		$('#date_utc').html(oData.du)
+		cDetailSolButtons.update_child(cDetailSolButtons.UTC_CHILD_ID, oData.du)
 
 		// get the tags
 		cDetailTags.get_tags()
