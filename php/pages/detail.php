@@ -16,12 +16,13 @@ class cDetailPageConstants {
     const IMAGE_ID = "image";
     const TAGS_ID = "tags";
     const TAGS_CONTAINER_ID = "tcontain";
-    const CONTROLS_ID = "controls";
+    const SOL_CONTROLS_ID = "solcontrols";
     const COMMENTS_ID = "comments";
     const COMMENTS_CONTAINER_ID = "commentContainer";
     const PAGE_CONTENTS_ID = "pagec";
     const CAL_ID = "solCal";
     const MSL_ID = "msl";
+    const IMG_INDEX = "img_index";
 }
 
 include cAppGlobals::$appPhpFragments . "/doctype.php";
@@ -46,27 +47,16 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
     cAppGlobals::$title = "Product Detail";
     include cAppGlobals::$appPhpFragments . "/title.php";
     ?>
-    <div id="<?= cDetailPageConstants::PAGE_CONTENTS_ID ?>" class="w3-container w3-padding-small">
-        <!-- controls -->
-        <DIV id=" <?= cDetailPageConstants::CONTROLS_ID ?>" class="w3-container w3-theme-l1 w3-padding">
-            <button class="w3-button w3-padding-small w3-theme-action" id="sol" title="Choose Sol">loading...</button>
-            <button class="w3-button w3-padding-small w3-theme-action" id="instrument" title="Choose Instrument">loading</button>
-            <button class="w3-button w3-padding-small w3-theme-action" id="<?= cDetailPageConstants::CAL_ID ?>" title="Show SOL Calendar">Calendar</button>
-            <button class="w3-button w3-padding-small w3-theme-action" id="showthumb" title="Show thumbnails">Thumbnails</button>
-            <button class="w3-button w3-padding-small w3-theme-action" id="highlights" title="Highlights">Highlights</button>
-            <button class="w3-button w3-padding-small w3-theme-action" id="nasalink" title="Original Nasa image">Original</button>
-            <button class="w3-button w3-padding-small w3-theme-action" id="mslrawlink" title="MSL curiosity Raw images">MSL Raw Image</button>
-            <button class="w3-button w3-padding-small w3-theme-action" id="pds_product" title="released PDS product">PDS Product</button>
-            <button class="w3-button w3-padding-small w3-theme-action" id="google" title="Search related with google">Google</button>
-            <span style="display:inline-block;width:50px"></span>
-            image <span id="img_index">??</span> of <span id="max_images">??</span>
-            </nobr>
-        </div>
-        <!-- tags -->
-        <div id="<?= cDetailPageConstants::TAGS_CONTAINER_ID ?>">loading tags widget </div>
+    <DIV id="<?= cDetailPageConstants::PAGE_CONTENTS_ID ?>" class="w3-container w3-padding-small">
+        <DIV>
+            <!-- controls -->
+            <DIV id="<?= cDetailPageConstants::SOL_CONTROLS_ID ?>" class="w3-container w3-theme-d3 w3-padding">Loading</DIV>
+            <!-- tags -->
+            <DIV id="<?= cDetailPageConstants::TAGS_CONTAINER_ID ?>">loading tags widget </DIV>
+        </DIV>
 
         <!-- image container -->
-        <div ID="<?= cDetailPageConstants::IMAGE_CONTAINER_ID ?>" class="w3-card">
+        <DIV ID="<?= cDetailPageConstants::IMAGE_CONTAINER_ID ?>" class="w3-card">
             <table border="0" class="gold">
                 <tr> <!-- top row -->
                     <td></td>
@@ -82,16 +72,16 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
                         <button title="previous (p)" class="roundbutton" id="prev_left" ;" style="height:600" class="lnavbut">&lt;</button>
                     </td>
                     <td align="middle">
-                        <div id="container" class="container">
-                            <div id="<?= cDetailPageConstants::IMAGE_ID ?>">Image Loading</div>
-                            <div id="highlight"></div>
+                        <DIV id="container" class="container">
+                            <DIV id="<?= cDetailPageConstants::IMAGE_ID ?>">Image Loading</div>
+                            <DIV id="highlight"></div>
                         </div>
                         <!-- template div is not visible and doesnt have to be contained -->
-                        <div id="box_template" class="redbox" style="display:none" highlight="true">
-                            <div id="controls">
+                        <DIV id="box_template" class="redbox" style="display:none" highlight="true">
+                            <DIV id="controls">
                                 <button class="smallbutton" title="accept" id="tmpl_accept"><img src="<?= cAppGlobals::$appImages ?>/browser/bullet_tick.png"></button><button class="smallbutton" title="cancel" id="tmpl_cancel"><img src="<?= cAppGlobals::$appImages ?>/browser/bullet_cross.png"></button>
                             </div>
-                            <div id="number" class="lucky8"></div>
+                            <DIV id="number" class="lucky8"></div>
                         </div>
 
                     </td>
@@ -110,11 +100,11 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
         </div>
         <!-- end image container -->
         <p>
-        <div id="<?= cDetailPageConstants::COMMENTS_CONTAINER_ID ?>"></div>
+        <DIV id="<?= cDetailPageConstants::COMMENTS_CONTAINER_ID ?>"></div>
 
-        <div class="w3-card w3-theme-l3 w3-margin" ">
+        <DIV class="w3-card w3-theme-l3 w3-margin" ">
             <header class=" w3-container w3-theme">MSL Data</header>
-            <div class="w3-container" ID="<?= cDetailPageConstants::MSL_ID ?>">
+            <DIV class="w3-container" ID="<?= cDetailPageConstants::MSL_ID ?>">
                 loading MSL data
             </div>
         </div>

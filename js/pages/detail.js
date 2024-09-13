@@ -12,7 +12,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 'use strict'
 
 //###############################################################
-//# cDetail
+//# cDetail Tags
 //###############################################################
 class cDetailTags {
 	static TAGS_OUTPUTID = 'cdid'
@@ -211,6 +211,147 @@ class cDetailTags {
 }
 
 //###############################################################
+//# cDetailImage
+//###############################################################
+class cDetailSolButtons {
+	static SOL_CHILD_ID = 's'
+	static INSTR_CHILD_ID = 'i'
+	static IMGNO_CHILD_ID = 'n'
+	static IMGMAX_CHILD_ID = 'n'
+
+	static $sol_button_id = null
+
+	static render() {
+		const oThis = this
+		const oContainer = cJquery.element(cDetailPageConstants.SOL_CONTROLS_ID)
+
+		oContainer.empty()
+
+		//-------------------------------------------------------------------------------
+		var sID
+		sID = cJquery.child_ID(oContainer, this.SOL_CHILD_ID)
+		this.pr_add_button(oContainer, sID, 'Choose Sol', '???', e => oThis.onClickSol(e))
+		sID = cJquery.child_ID(oContainer, this.INSTR_CHILD_ID)
+		this.pr_add_button(oContainer, sID, 'Choose Intrument', 'loading', () => oThis.onClickInstr())
+
+		this.pr_add_button(oContainer, null, 'Show Sol Calendar', 'Calendar', () => oThis.onClickCal())
+		this.pr_add_button(oContainer, null, 'Highlights', 'Highlights', () => oThis.onClickHighlights())
+		this.pr_add_button(oContainer, null, 'Show Thumbnails', 'Thumbnails', () => oThis.onClickThumbnails())
+		this.pr_add_button(oContainer, null, 'Original NASA Image', 'Original', () => oThis.onClickNASA())
+		this.pr_add_button(oContainer, null, 'MSL curiosity Raw images', 'MSL Raw Image', () => oThis.onClickMSLRaw())
+		this.pr_add_button(oContainer, null, 'released PDS product', 'PDS Product', () => oThis.onClickPDS())
+		this.pr_add_button(oContainer, null, 'Search related with google', 'Google', () => oThis.onClickGoogle())
+
+		//------------------------------------------------------------------------------
+		oContainer.append(cBrowser.whitespace(50))
+
+		//------------------------------------------------------------------------------
+		const sImgNoID = cJquery.child_ID(oContainer, this.IMGNO_CHILD_ID)
+		const sImgMaxID = cJquery.child_ID(oContainer, this.IMGMAX_CHILD_ID)
+		oContainer.append("image <span id='" + sImgNoID + "'>??</span> of <span id='" + sImgMaxID + "'>??</span>")
+	}
+
+	//****************************************************************
+	//* privates
+	//****************************************************************
+	static pr_add_button(poParent, psID = null, psTitle, psCaption, pfnOnClick) {
+		var oParams = { class: 'w3-button w3-padding-small w3-theme-action', title: psTitle }
+		if (psID !== null) oParams.id = psID
+		var oButton = $('<button>', oParams)
+		{
+			oButton.append(psCaption)
+			oButton.on('click', pfnOnClick)
+			poParent.append(oButton)
+			poParent.append(' ')
+		}
+	}
+
+	//***************************************************************
+	//* events
+	//***************************************************************
+	static onClickSol() {
+		const sUrl = cBrowser.buildUrl('index.php', {
+			s: cDetail.oItem.s,
+			i: cDetail.oItem.i,
+			b: cDetail.iNum
+		})
+		cBrowser.openWindow(sUrl, 'index')
+	}
+
+	//***************************************************************
+	static onClickInstr() {
+		this.onClickSol()
+	}
+	//***************************************************************
+	static onClickNASA() {
+		window.open(cDetail.oItem.d.i, 'nasa')
+	}
+
+	//***************************************************************
+	static onClickMSLRaw() {
+		const sUrl = cCuriosity.get_raw_image(cDetail.oItem.s, cDetail.oItem.p)
+		window.open(sUrl, 'mslraw')
+	}
+
+	//***************************************************************
+	static onClickPDS() {
+		const sUrl = cBrowser.buildUrl('pds.php', {
+			s: cDetail.oItem.s,
+			i: cDetail.oItem.i,
+			p: cDetail.oItem.p,
+			t: encodeURIComponent(cDetail.oItem.d.du)
+		})
+		cBrowser.openWindow(sUrl, 'pds')
+	}
+	//***************************************************************
+	static onClickCal() {
+		const sUrl = cBrowser.buildUrl('cal.php', {
+			s: cDetail.oItem.s,
+			t: cDetail.oItem.d.du
+		})
+		cBrowser.openWindow(sUrl, 'calendar')
+	}
+
+	//***************************************************************
+	static onClickThumbnails() {
+		const sUrl = cBrowser.buildUrl('index.php', {
+			s: cDetail.oItem.s,
+			i: cDetail.oItem.i,
+			t: 1
+		})
+		cBrowser.openWindow(sUrl, 'solthumb')
+	}
+
+	//***************************************************************
+	static onClickHighlights() {
+		const sUrl = cBrowser.buildUrl('solhigh.php', { s: cDetail.oItem.s })
+		cBrowser.openWindow(sUrl, 'solthumb')
+	}
+	//***************************************************************
+	static onClickGoogle() {
+		const sUrl = 'https://www.google.com/#q=%22' + cDetail.oItem.p + '%22'
+		window.open(sUrl, 'map')
+	}
+
+	//***************************************************************
+	static update_child(psChild, psSol) {
+		const oContainer = cJquery.element(cDetailPageConstants.SOL_CONTROLS_ID)
+		const oButton = cJquery.get_child(oContainer, psChild)
+		oButton.html(psSol)
+	}
+}
+
+//###############################################################
+//# cDetailImage
+//###############################################################
+class cDetailImage {}
+
+//###############################################################
+//# cDetailImage
+//###############################################################
+class cDetailHighlight {}
+
+//###############################################################
 //# cDetail
 //###############################################################
 class cDetail {
@@ -223,15 +364,7 @@ class cDetail {
 	//***********************************************************
 	static onLoadJQuery() {
 		//set click handlers
-		$('#sol').on('click', poEvent => this.onClickSol(poEvent))
-		$('#instrument').on('click', poEvent => this.onClickInstr(poEvent))
-		cJquery.element(cDetailPageConstants.CAL_ID).on('click', poEvent => this.onClickCal(poEvent))
-		$('#showthumb').on('click', poEvent => this.onClickThumbnails(poEvent))
-		$('#highlights').on('click', poEvent => this.onClickHighlights(poEvent))
-		$('#nasalink').on('click', poEvent => this.onClickNASA(poEvent))
-		$('#mslrawlink').on('click', poEvent => this.onClickMSLRaw(poEvent))
-		$('#pds_product').on('click', poEvent => this.onClickPDS(poEvent))
-		$('#google').on('click', poEvent => this.onClickGoogle(poEvent))
+		cDetailSolButtons.render()
 
 		$('#submittag').on('click', poEvent => this.onClickAddTag(poEvent))
 
@@ -338,68 +471,6 @@ class cDetail {
 	}
 
 	//***************************************************************
-	static onClickCal() {
-		const sUrl = cBrowser.buildUrl('cal.php', {
-			s: this.oItem.s,
-			t: this.oItem.d.du
-		})
-		cBrowser.openWindow(sUrl, 'calendar')
-	}
-
-	//***************************************************************
-	static onClickSol() {
-		const sUrl = cBrowser.buildUrl('index.php', {
-			s: this.oItem.s,
-			i: this.oItem.i,
-			b: this.iNum
-		})
-		cBrowser.openWindow(sUrl, 'index')
-	}
-
-	//***************************************************************
-	static onClickThumbnails() {
-		const sUrl = cBrowser.buildUrl('index.php', {
-			s: this.oItem.s,
-			i: this.oItem.i,
-			t: 1
-		})
-		cBrowser.openWindow(sUrl, 'solthumb')
-	}
-
-	//***************************************************************
-	static onClickHighlights() {
-		const sUrl = cBrowser.buildUrl('solhigh.php', { s: this.oItem.s })
-		cBrowser.openWindow(sUrl, 'solthumb')
-	}
-
-	//***************************************************************
-	static onClickInstr() {
-		this.onClickSol()
-	}
-
-	//***************************************************************
-	static onClickNASA() {
-		window.open(this.oItem.d.i, 'nasa')
-	}
-
-	//***************************************************************
-	static onClickMSLRaw() {
-		const sUrl = cCuriosity.get_raw_image(this.oItem.s, this.oItem.p)
-		window.open(sUrl, 'mslraw')
-	}
-
-	//***************************************************************
-	static onClickPDS() {
-		const sUrl = cBrowser.buildUrl('pds.php', {
-			s: this.oItem.s,
-			i: this.oItem.i,
-			p: this.oItem.p,
-			t: encodeURIComponent(this.oItem.d.du)
-		})
-		cBrowser.openWindow(sUrl, 'pds')
-	}
-
-	//***************************************************************
 	static onKeyPress(poEvent) {
 		const sChar = String.fromCharCode(poEvent.which)
 		switch (sChar) {
@@ -416,12 +487,6 @@ class cDetail {
 				this.onClickPreviousProduct()
 				break
 		}
-	}
-
-	//***************************************************************
-	static onClickGoogle() {
-		const sUrl = 'https://www.google.com/#q=%22' + this.oItem.p + '%22'
-		window.open(sUrl, 'map')
 	}
 
 	//***************************************************************
@@ -540,7 +605,7 @@ class cDetail {
 
 		// update image index details
 		this.iNum = oResponse.item
-		$('#img_index').html(oResponse.item)
+		cDetailSolButtons.update_child(cDetailSolButtons.IMGNO_CHILD_ID, oResponse.item)
 
 		// populate the remaining fields
 		$('#date_utc').html(oData.du)
@@ -574,9 +639,10 @@ class cDetail {
 
 	//***************************************************************
 	static pr_update_elements(poItem) {
-		$('#sol').html(poItem.s)
-		$('#instrument').html(poItem.i)
-		$('#max_images').html(poItem.max)
+		cDetailSolButtons.update_child(cDetailSolButtons.SOL_CHILD_ID, poItem.s)
+		cDetailSolButtons.update_child(cDetailSolButtons.INSTR_CHILD_ID, poItem.i)
+		cDetailSolButtons.update_child(cDetailSolButtons.IMGMAX_CHILD_ID, poItem.max)
+
 		cAppRender.update_title(poItem.p)
 
 		//if not data hide controls
