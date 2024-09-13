@@ -357,7 +357,56 @@ class cDetailImage {}
 //###############################################################
 //# cDetailImage
 //###############################################################
-class cDetailHighlight {}
+class cDetailHighlight {
+	static init() {
+		cImgHilite.remove_boxes()
+		$('#tmpl_accept').on('click', poEvent => this.onClickBoxAccept(poEvent))
+		$('#tmpl_cancel').on('click', poEvent => this.onClickBoxCancel(poEvent))
+	}
+
+	static getHighlights() {
+		var oThis = this
+		cImgHilite.getHighlights(cDetail.oItem.s, cDetail.oItem.i, cDetail.oItem.p, poHttp => oThis.onGotHighlights(poHttp))
+	}
+
+	//***************************************************************
+	static onGotHighlights(poHttp) {
+		var i, aItem, oBox, oNumber
+		var oData = poHttp.response
+		if (!oData.d) {
+			cDebug.write('no highlights')
+			return
+		}
+
+		for (i = 0; i < oData.d.length; i++) {
+			aItem = oData.d[i]
+			cDebug.write('adding highlight: top=' + aItem.t + ' left=' + aItem.l)
+			oBox = cImgHilite.make_fixed_box(aItem.t, aItem.l)
+
+			oNumber = $(oBox).find(cImgHilite.numberID)
+			oNumber.html(i + 1)
+		}
+	}
+	//**************************************************
+	static onClickBoxAccept(poEvent) {
+		const oBox = cImgHilite.getBoxFromButton(poEvent.currentTarget)
+		cImgHilite.save_highlight(cDetail.oItem.s, cDetail.oItem.i, cDetail.oItem.p, oBox, poHttp => this.onSaveHighlight(poHttp))
+	}
+
+	//**************************************************
+	static onClickBoxCancel(poEvent) {
+		cImgHilite.rejectBox(poEvent.currentTarget)
+	}
+
+	static onSaveHighlight() {
+		cImgHilite.remove_boxes()
+		this.getHighlights()
+	}
+
+	static makeBox(piX, piY) {
+		cImgHilite.makeBox(piX, piY, true)
+	}
+}
 
 //###############################################################
 //# cDetail
@@ -382,9 +431,6 @@ class cDetail {
 		$('#next_prod_top').on('click', poEvent => this.onClickNextProduct(poEvent))
 
 		$('#prev_left').on('click', poEvent => this.onClickPrevious(poEvent))
-
-		$('#tmpl_accept').on('click', poEvent => this.onClickBoxAccept(poEvent))
-		$('#tmpl_cancel').on('click', poEvent => this.onClickBoxCancel(poEvent))
 
 		$('#next_right').on('click', poEvent => this.onClickNext(poEvent))
 
@@ -500,21 +546,10 @@ class cDetail {
 	//***************************************************************
 	static OnImageClick(poEvent) {
 		if (cAuth.user) {
-			cImgHilite.makeBox(poEvent.pageX, poEvent.pageY, true)
+			cDetailHighlight.makeBox(poEvent.pageX, poEvent.pageY)
 		} else {
 			alert('log in to highlight')
 		}
-	}
-
-	//**************************************************
-	static onClickBoxAccept(poEvent) {
-		const oBox = cImgHilite.getBoxFromButton(poEvent.currentTarget)
-		cImgHilite.save_highlight(this.oItem.s, this.oItem.i, this.oItem.p, oBox, poHttp => this.onSaveHighlight(poHttp))
-	}
-
-	//**************************************************
-	static onClickBoxCancel(poEvent) {
-		cImgHilite.rejectBox(poEvent.currentTarget)
 	}
 
 	//###############################################################
@@ -564,28 +599,9 @@ class cDetail {
 		cImgHilite.imgTarget = poEvent.target
 
 		// get the highlights if any
-		this.getHighlights()
+		cDetailHighlight.getHighlights()
 
 		cCommonStatus.set_status('OK')
-	}
-
-	//***************************************************************
-	static onGotHighlights(poHttp) {
-		var i, aItem, oBox, oNumber
-		var oData = poHttp.response
-		if (!oData.d) {
-			cDebug.write('no highlights')
-			return
-		}
-
-		for (i = 0; i < oData.d.length; i++) {
-			aItem = oData.d[i]
-			cDebug.write('adding highlight: top=' + aItem.t + ' left=' + aItem.l)
-			oBox = cImgHilite.make_fixed_box(aItem.t, aItem.l)
-
-			oNumber = $(oBox).find(cImgHilite.numberID)
-			oNumber.html(i + 1)
-		}
 	}
 
 	//***************************************************************
@@ -623,11 +639,6 @@ class cDetail {
 	}
 
 	//***************************************************************
-	static onSaveHighlight() {
-		cImgHilite.remove_boxes()
-		this.getHighlights()
-	}
-
 	//###############################################################
 	//# Privates
 	//###############################################################
@@ -672,7 +683,7 @@ class cDetail {
 		var oData = this.oItem.d
 
 		// empty highligths as there may have been a product before
-		cImgHilite.remove_boxes()
+		cDetailHighlight.init()
 
 		// set status
 		cCommonStatus.set_status('Image Loading')
@@ -724,12 +735,6 @@ class cDetail {
 
 		var oMSLDiv = cJquery.element(cDetailPageConstants.MSL_ID)
 		oMSLDiv.html($('<pre>').append(sDump))
-	}
-
-	//***************************************************************
-	static getHighlights() {
-		var oThis = this
-		cImgHilite.getHighlights(this.oItem.s, this.oItem.i, this.oItem.p, poHttp => oThis.onGotHighlights(poHttp))
 	}
 
 	//***************************************************************
