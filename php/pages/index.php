@@ -112,8 +112,6 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
             </div>
         </div>
     </div>
-    </div>
-    </div>
     <!-- Footer -->
     <?php
     include cAppGlobals::$appPhpFragments . "/disclaim.html";
