@@ -429,8 +429,8 @@ class cDetailImage {
 class cDetailHighlight {
 	static init() {
 		cImgHilite.remove_boxes()
-		$('#tmpl_accept').on('click', poEvent => this.onClickBoxAccept(poEvent))
-		$('#tmpl_cancel').on('click', poEvent => this.onClickBoxCancel(poEvent))
+		$('#tmpl_accept').on('click', poEvent => this.onClickHighlightAccept(poEvent))
+		$('#tmpl_cancel').on('click', poEvent => this.onClickHighlightCancel(poEvent))
 	}
 
 	static getHighlights() {
@@ -466,17 +466,17 @@ class cDetailHighlight {
 		}
 	}
 	//**************************************************
-	static onClickBoxAccept(poEvent) {
+	static onClickHighlightAccept(poEvent) {
 		const oBox = cImgHilite.getBoxFromButton(poEvent.currentTarget)
-		cImgHilite.save_highlight(cDetail.oItem.s, cDetail.oItem.i, cDetail.oItem.p, oBox, poHttp => this.onSaveHighlight(poHttp))
+		cImgHilite.save_highlight(cDetail.oItem.s, cDetail.oItem.i, cDetail.oItem.p, oBox, poHttp => this.onSavedHighlight(poHttp))
 	}
 
 	//**************************************************
-	static onClickBoxCancel(poEvent) {
+	static onClickHighlightCancel(poEvent) {
 		cImgHilite.rejectBox(poEvent.currentTarget)
 	}
 
-	static onSaveHighlight() {
+	static onSavedHighlight() {
 		cImgHilite.remove_boxes()
 		this.getHighlights()
 	}
