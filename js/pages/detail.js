@@ -372,7 +372,7 @@ class cDetailImage {
 		var oData = oItem.d
 
 		// empty highligths as there may have been a product before
-		cDetailHighlight.init()
+		cDetailHighlight.clear()
 
 		// set status
 		cCommonStatus.set_status('Image Loading')
@@ -427,10 +427,13 @@ class cDetailImage {
 //# cDetailImage
 //###############################################################
 class cDetailHighlight {
-	static init() {
+	static onLoad() {
+		const oThis = this
+		cImgHilite.set_onclick_accept(e => oThis.onClickHighlightAccept(e))
+	}
+
+	static clear() {
 		cImgHilite.remove_boxes()
-		$('#tmpl_accept').on('click', poEvent => this.onClickHighlightAccept(poEvent))
-		$('#tmpl_cancel').on('click', poEvent => this.onClickHighlightCancel(poEvent))
 	}
 
 	static getHighlights() {
@@ -469,11 +472,6 @@ class cDetailHighlight {
 	static onClickHighlightAccept(poEvent) {
 		const oBox = cImgHilite.getBoxFromButton(poEvent.currentTarget)
 		cImgHilite.save_highlight(cDetail.oItem.s, cDetail.oItem.i, cDetail.oItem.p, oBox, poHttp => this.onSavedHighlight(poHttp))
-	}
-
-	//**************************************************
-	static onClickHighlightCancel(poEvent) {
-		cImgHilite.rejectBox(poEvent.currentTarget)
 	}
 
 	static onSavedHighlight() {
@@ -545,6 +543,8 @@ class cDetail {
 		// catch key presses but not on text inputs
 		$(window).keypress(poEvent => this.onKeyPress(poEvent))
 		cBrowser.unbindInputKeyPress()
+
+		cDetailHighlight.onLoad()
 	}
 
 	//***************************************************************
@@ -625,11 +625,8 @@ class cDetail {
 
 	//***************************************************************
 	static OnImageClick(poEvent) {
-		if (cAuth.user) {
-			cDetailHighlight.makeBox(poEvent.pageX, poEvent.pageY)
-		} else {
-			alert('log in to highlight')
-		}
+		if (cAuth.user) cDetailHighlight.makeBox(poEvent.pageX, poEvent.pageY)
+		else alert('log in to highlight')
 	}
 
 	//###############################################################
