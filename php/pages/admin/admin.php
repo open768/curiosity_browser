@@ -57,7 +57,7 @@ cAdminFunctions::check_admin_file();
 //##################################################################
 $sOperation = cHeader::get(cAppUrlParams::OPERATION);
 if ($sOperation !== null)    cDebug::on(true);
-echo "<div class='w3-container w3-theme-l5' style='word-wrap:break-word'>";
+echo "<div class='w3-container w3-theme-l5 admin'>";
 cDebug::write("Operation is '$sOperation'");
 
 $aData = null;

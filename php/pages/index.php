@@ -74,12 +74,12 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
 
             <!-- will contain images when selected -->
             <div class="w3-container" id="<?= cIndexPageConsts::ID_IMAGE_CONTAINER ?>">
-                <div id="<?= cIndexPageConsts::ID_INTRO ?>" class="w3-card" style="display:none">
+                <div id="<?= cIndexPageConsts::ID_INTRO ?>" class="w3-card hidden">
                     <header class="w3-container w3-theme-l1">
                         <h2>Curiosity Browser</h2>
                     </header>
-                    <div class="w3-container w3-padding-large" style="height:800px" id="<?= cIndexPageConsts::ID_INTRO_BODY ?>">
-                        <img src="<?= cAppGlobals::$appImages ?>/browser/dude.png" height="200" align="left" style="margin:20px">
+                    <div class="w3-container w3-padding-large intro" id="<?= cIndexPageConsts::ID_INTRO_BODY ?>">
+                        <img src="<?= cAppGlobals::$appImages ?>/browser/dude.png" class="intro-dude">
                         <span>
                             <div class="intro_text">
                                 Welcome to the best place to find great images beamed from Curiosity, NASA's Mars Science Lab on Mars.

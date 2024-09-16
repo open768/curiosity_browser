@@ -80,7 +80,7 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
                             <DIV id="highlight"></div>
                         </div>
                         <!-- template div is not visible and doesnt have to be contained -->
-                        <DIV id="box_template" class="redbox" style="display:none" highlight="true">
+                        <DIV id="box_template" class="redbox hidden" highlight="true">
                             <DIV id="controls">
                                 <button class="smallbutton" title="accept" id="tmpl_accept"><img src="<?= cAppGlobals::$appImages ?>/browser/bullet_tick.png"></button><button class="smallbutton" title="cancel" id="tmpl_cancel"><img src="<?= cAppGlobals::$appImages ?>/browser/bullet_cross.png"></button>
                             </div>

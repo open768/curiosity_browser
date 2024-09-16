@@ -18,23 +18,6 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
 </head>
 
 <body onload="$(onLoadJQuery_SITES);">
-    <?php
-    cAppGlobals::$title = "Site <span id=\"siteid\"></span>";
-    include cAppGlobals::$appPhpFragments . "/title.php";
-    ?>
-    <div class="gold">
-        <button class="leftbutton" onclick="cBrowser.openWindow('allsites.php','allsites');">All Sites</button>
-    </div>
-    <div class="gold" id="site">
-        Loading...
-    </div>
-    <div class="gold" id="geplugin">
-        <div id="map" style="height: 400px; width: 600px;"></div>
-    </div>
-    <P>
-
-        <!-- *************** footer *********************** -->
-        <?php include cAppGlobals::$appPhpFragments . "/footer.php" ?>
 </body>
 
 </html>

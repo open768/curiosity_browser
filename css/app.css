@@ -17,6 +17,9 @@ body {
 
 	/*background-color:lightsalmon;*/
 }
+.admin {
+	word-wrap: break-word;
+}
 
 .big_error {
 	color: #e86005;
@@ -58,6 +61,15 @@ body {
 	font-size: 11px;
 }
 
+.fb_name {
+	display: inline-block;
+	width: 300px;
+}
+.fb_button {
+	display: inline-block;
+	width: 100px;
+}
+
 .FBloginButton {
 	background: #627aac url(images/facebook_small.png) left no-repeat;
 	border-bottom: 1px solid #1a356e;
@@ -96,6 +108,10 @@ body {
 	font-size: 10px;
 	outline: 1px solid #ddd;
 	padding: 5px;
+}
+
+.hidden {
+	display: none;
 }
 
 .highlight_body {
@@ -163,6 +179,16 @@ body {
 .instruments {
 	font-family: 'Helvetica Neue', Helvetica, sans-serif;
 	font-size: 12px;
+}
+
+.intro {
+	height: 800px;
+}
+
+.intro-dude {
+	margin: 20px;
+	height: 200px;
+	float: left;
 }
 
 .intro_text {

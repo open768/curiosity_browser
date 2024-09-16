@@ -38,8 +38,8 @@ cPageOutput::write_JS_class_constant_IDs(cTitleConstants::class);
         <span class="w3-cell" id="toptitle"> - </span>
     </div>
     <div class="w3-cell w3-right-align">
-        <span style="display: inline-block; width: 300px;" id="<?= cAppConfig::FB_ELEMENT_ID ?>">One Moment please...</span>
-        <span style="display: inline-block; width: 100px;">
+        <span class="fb_name" id="<?= cAppConfig::FB_ELEMENT_ID ?>">One Moment please...</span>
+        <span class="fb_button">
             <fb:login-button scope="<?= cAppConfig::FB_SCOPE ?>" onlogin="cFacebook.checkLoginStatus();" auto_logout_link="true" />
         </span>
     </div>
