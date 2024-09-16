@@ -14,12 +14,10 @@ class cAdminFunctions {
     //****************************************************************
     static function check_user_is_admin() {
         global $home;
-        try {
-            $sUser = cAuth::must_get_user();
-        } catch (Exception $e) {
-            cPageOutput::errorbox($e->getMessage());
-            cPageOutput::messagebox("go back to <a href='$home'>login</a>");
-            cDebug::error($e);
+        $sAdmin = cAuth::current_user_is_admin();
+        if ($sAdmin !== cAuth::YES) {
+            cPageOutput::messagebox("not an admin go back to <a href='$home'>login</a>");
+            cDebug::error("not an admin");
         }
     }
 
