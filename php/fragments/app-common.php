@@ -1,7 +1,15 @@
 <?php
-//**********************************************************************************
-include "../app-config/app-config.php";    //config for the application
+//****checks************************************************************************
+if (!isset($home))
+    throw new Exception("cant find home: $home");
+if (!is_dir($home))
+    throw new Exception("home directory doesnt exist: $home");
+$sConfigFile = "$home/php/app-config/app-config.php";
+if (!file_exists($sConfigFile))
+    throw new Exception("cant find app-config file: $sConfigFile");
 
+//**********************************************************************************
+include $sConfigFile;    //config for the application
 
 //**********************************************************************************
 require_once cAppGlobals::$phpInc . "/ckinc/header.php";    //this starts the session
