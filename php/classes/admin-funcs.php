@@ -44,26 +44,26 @@ class cAdminFunctions {
 
         $aSolData = cSpaceImageHighlight::get_top_index();
         foreach ($aSolData as $sSol => $iSolCount) {
-            cCommon::flushprint(" +");
 
             $aSolData = cSpaceImageHighlight::get_sol_highlighted_products($sSol);
             if ($aSolData == null) {
-                cCommon::flushprint("X");
+                cCommon::flushprint(" 🌇");
                 continue;
             }
+            cCommon::flushprint(" ☀️");
 
             foreach ($aSolData as $sIntrument => $aProductData) {
-                cCommon::flushprint("=");
+                cCommon::flushprint("🎺");
 
                 foreach ($aProductData as $sProduct => $iProductCount) {
-                    cCommon::flushprint("-");
                     $aMemory = [];
                     $aHighs = cSpaceImageHighlight::get($sSol, $sIntrument, $sProduct);
                     $aBoxes = $aHighs["d"];
                     if ($aBoxes == null) {
-                        cCommon::flushprint("X");
+                        cCommon::flushprint("🍗");
                         continue;
                     }
+                    cCommon::flushprint(".");
 
                     foreach ($aBoxes as $iBoxID => $aBox) {
                         cCommon::flushprint(".");
