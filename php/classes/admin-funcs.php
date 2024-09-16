@@ -24,7 +24,7 @@ class cAdminFunctions {
     }
 
     //****************************************************************
-    static function vacuum() {
+    static function vacuum_dbs() {
         cDebug::enter(); {
             cDebug::write("vacuuming cOBjStoreDB");
             cSqlLiteUtils::vacuum(cOBjStoreDB::DB_FILENAME);
@@ -34,6 +34,23 @@ class cAdminFunctions {
 
             cDebug::write("done");
         }
+        cDebug::leave();
+    }
+
+    //****************************************************************
+    static function remove_duplicate_highlights() {
+        cDebug::enter();
+
+        $aSolData = cSpaceImageHighlight::get_top_index();
+        foreach ($aSolData as $sSol => $iCount) {
+            cCommon::flushprint("+");
+
+            $aSolData = cSpaceImageHighlight::get_sol_highlighted_products($sSol);
+            $aMem = [];
+        }
+
+
+        cDebug::error("not implemented");
         cDebug::leave();
     }
 }

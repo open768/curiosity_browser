@@ -72,7 +72,7 @@ switch ($sOperation) {
         break;
 
         //------------------------------------------------------
-    case "del_empty_folders":
+    case "file_del_empty_folders":
         cCommonFiles::delete_empty_folders(cObjStore::$rootFolder);
         break;
 
@@ -92,6 +92,10 @@ switch ($sOperation) {
         cDebug::write("not implemented");
         break;
 
+        //------------------------------------------------------
+    case "duplicate_highlights":
+        cAdminFunctions::remove_duplicate_highlights();
+        break;
 
         //------------------------------------------------------
     case "killHighlight":
@@ -133,7 +137,7 @@ switch ($sOperation) {
         session_destroy();
         break;
         //------------------------------------------------------
-    case "killThumbFiles":
+    case "file_delete _thumbs":
         cCommonFiles::delTree(cAppLocations::$images . "/[thumbs]");
         break;
         //------------------------------------------------------
@@ -142,13 +146,13 @@ switch ($sOperation) {
         cDebug::error("not implemented");
         break;
         //------------------------------------------------------
-    case "indexGigas":
+    case "parse_gigas":
         $aItems = cGigapan::get_all_gigapans("pencilnev");
         cPencilNev::index_gigapans($aItems);
         break;
 
         //------------------------------------------------------
-    case  "indexManifest":
+    case  "parse_manifest":
         cCuriosityManifestIndex::indexManifest();
         break;
         //------------------------------------------------------
@@ -212,7 +216,7 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case "vacuum":
-        cAdminFunctions::vacuum();
+        cAdminFunctions::vacuum_dbs();
         break;
 
         //------------------------------------------------------
@@ -222,25 +226,42 @@ switch ($sOperation) {
         ?>
 
             <form method="get">
-                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="backup">backup objdata<br>
-                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="clean_product_tags">clean product tags<br>
-                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="del_empty_folders">delete empty objdata folders<br>
-                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="indexComm">index Comments<br>
-                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="indexGigas">index Nevilles gigapans<br>
-                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="indexManifest">index curiosity manifests<br>
-                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="deleteManifest">delete manifest index(severe)<br>
-                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killCache">clear cache<br>
-                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killHighlight">erase particular highlight<br>
-                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killSession">kill the session<br>
-                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killTag">remove tag<br>
-                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killThumbFiles">remove thumbnails folder<br>
-                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="mergeTags">merge a tag<br>
-                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parseAllPDS">parse ALL PDS files<br>
-                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parseLocations">parse curiosity locations<br>
-                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parsePDS">parse PDS files<br>
-                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="vacuum">sqllite vacuum database<br>
+                <dl>
+                    <dt>removing stuff</dt>
+                    <dd>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killCache">clear cache<br>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killHighlight">erase particular highlight<br>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killSession">kill the session<br>
+                    </dd>
+                    <dt>Files</dt>
+                    <dd>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="file_delete _thumbs">remove thumbnails folder<br>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="file_del_empty_folders">delete empty objdata folders<br>
+                    </dd>
+                    <dt>Parsing external data</dt>
+                    <dd>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parse_gigas">index Nevilles gigapans<br>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parse_manifest">index curiosity manifests<br>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parseAllPDS">parse ALL PDS files<br>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parseLocations">parse curiosity locations<br>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parsePDS">parse PDS files<br>
+                    </dd>
+                    <dt>Database stuff</dt>
+                    <dd>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="deleteManifest">delete manifest index(severe)<br>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="mergeTags">merge a tag<br>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="duplicate_highlights">remove duplicate highlights<br>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="vacuum">sqllite vacuum database<br>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killTag">remove tag<br>
+                    </dd>
+                    <dt>possibly Obsolete stuff</dt>
+                    <dd>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="backup">backup objdata<br>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="clean_product_tags">clean product tags<br>
+                    </dd>
+                </dl>
                 <input type="submit" class="w3-button w3-theme-button-up"></input>
-            </form>#
+            </form>
 <?php
         }
         break;
