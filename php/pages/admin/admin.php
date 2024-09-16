@@ -57,6 +57,7 @@ cAdminFunctions::check_admin_file();
 //##################################################################
 $sOperation = cHeader::get(cAppUrlParams::OPERATION);
 if ($sOperation !== null)    cDebug::on(true);
+echo "<div class='w3-container w3-theme-l5' style='word-wrap:break-word'>";
 cDebug::write("Operation is '$sOperation'");
 
 $aData = null;
@@ -269,6 +270,7 @@ switch ($sOperation) {
         cDebug::error("unsupported operation: $sOperation");
 }
 if ($sOperation !== null)    cDebug::write("done");
+echo "</div>";
 
 echo "</BODY>";
 

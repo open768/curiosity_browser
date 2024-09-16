@@ -40,17 +40,48 @@ class cAdminFunctions {
     //****************************************************************
     static function remove_duplicate_highlights() {
         cDebug::enter();
+        $iCount = 0;
 
         $aSolData = cSpaceImageHighlight::get_top_index();
-        foreach ($aSolData as $sSol => $iCount) {
-            cCommon::flushprint("+");
+        foreach ($aSolData as $sSol => $iSolCount) {
+            cCommon::flushprint(" +");
 
             $aSolData = cSpaceImageHighlight::get_sol_highlighted_products($sSol);
-            $aMem = [];
+            if ($aSolData == null) {
+                cCommon::flushprint("X");
+                continue;
+            }
+
+            foreach ($aSolData as $sIntrument => $aProductData) {
+                cCommon::flushprint("=");
+
+                foreach ($aProductData as $sProduct => $iProductCount) {
+                    cCommon::flushprint("-");
+                    $aMemory = [];
+                    $aHighs = cSpaceImageHighlight::get($sSol, $sIntrument, $sProduct);
+                    $aBoxes = $aHighs["d"];
+                    if ($aBoxes == null) {
+                        cCommon::flushprint("X");
+                        continue;
+                    }
+
+                    foreach ($aBoxes as $iBoxID => $aBox) {
+                        cCommon::flushprint(".");
+                        $sTop = $aBox["t"];
+                        $sLeft = $aBox["l"];
+                        $sKey = "{$sTop}{$sLeft}";
+                        if (array_key_exists($sKey, $aMemory)) {
+                            $iCount++;
+                            cCommon::flushprint("❌");
+                        } else
+                            $aMemory[$sKey] = 1;
+                    }
+                }
+            }
         }
+        cDebug::write("");
+        cDebug::write("$iCount Duplicate items found");
 
-
-        cDebug::error("not implemented");
         cDebug::leave();
     }
 }
