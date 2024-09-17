@@ -219,6 +219,9 @@ class cDetailSolButtons {
 	static IMGNO_CHILD_ID = 'no'
 	static UTC_CHILD_ID = 'u'
 	static IMGMAX_CHILD_ID = 'max'
+	static CAL_CHILD_ID = 'c'
+	static PDS_CHILD_ID = 'p'
+	static NASA_CHILD_ID = 'n'
 
 	static $sol_button_id = null
 
@@ -242,12 +245,15 @@ class cDetailSolButtons {
 			oContainer.append(oSpan)
 		}
 
-		this.pr_add_button(oContainer, null, 'Show Sol Calendar', 'Calendar', () => oThis.onClickCal())
+		sID = cJquery.child_ID(oContainer, this.CAL_CHILD_ID)
+		this.pr_add_button(oContainer, sID, 'Show Sol Calendar', 'Calendar', () => oThis.onClickCal())
 		this.pr_add_button(oContainer, null, 'Highlights', 'Highlights', () => oThis.onClickHighlights())
 		this.pr_add_button(oContainer, null, 'Show Thumbnails', 'Thumbnails', () => oThis.onClickThumbnails())
 		this.pr_add_button(oContainer, null, 'Original NASA Image', 'Original', () => oThis.onClickNASA())
-		this.pr_add_button(oContainer, null, 'MSL curiosity Raw images', 'MSL Raw Image', () => oThis.onClickMSLRaw())
-		this.pr_add_button(oContainer, null, 'released PDS product', 'PDS Product', () => oThis.onClickPDS())
+		sID = cJquery.child_ID(oContainer, this.NASA_CHILD_ID)
+		this.pr_add_button(oContainer, sID, 'MSL curiosity Raw images', 'MSL Raw Image', () => oThis.onClickMSLRaw())
+		sID = cJquery.child_ID(oContainer, this.PDS_CHILD_ID)
+		this.pr_add_button(oContainer, sID, 'released PDS product', 'PDS Product', () => oThis.onClickPDS())
 		this.pr_add_button(oContainer, null, 'Search related with google', 'Google', () => oThis.onClickGoogle())
 
 		//------------------------------------------------------------------------------
@@ -355,10 +361,16 @@ class cDetailSolButtons {
 	}
 
 	//***************************************************************
-	static update_child(psChild, psSol) {
+	static update_child(psChild, psText) {
+		const oElement = this.get_child(psChild)
+		oElement.html(psText)
+	}
+
+	//***************************************************************
+	static get_child(psChild) {
 		const oContainer = cJquery.element(cDetailPageConstants.SOL_CONTROLS_ID)
 		const oElement = cJquery.get_child(oContainer, psChild)
-		oElement.html(psSol)
+		return oElement
 	}
 }
 
@@ -746,9 +758,15 @@ class cDetail {
 		//if not data hide controls
 		if (!poItem.d) {
 			$('#date_utc').empty().append('unable to get date')
-			cJquery.disable_element(cDetailPageConstants.CAL_ID)
-			cJquery.disable_element('pds_product')
-			cJquery.disable_element('nasalink')
+			var oButton = cDetailSolButtons.get_child(cDetailSolButtons.CAL_CHILD_ID)
+			cJquery.disable_element(oButton)
+
+			oButton = cDetailSolButtons.get_child(cDetailSolButtons.PDS_CHILD_ID)
+			cJquery.disable_element(oButton)
+
+			oButton = cDetailSolButtons.get_child(cDetailSolButtons.NASA_CHILD_ID)
+			cJquery.disable_element(oButton)
+            
 			$('#msldata').hide()
 
 			cJquery.element(cDetailPageConstants.COMMENTS_CONTAINER_ID).hide()
