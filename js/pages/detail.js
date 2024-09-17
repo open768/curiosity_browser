@@ -757,7 +757,7 @@ class cDetail {
 
 		//if not data hide controls
 		if (!poItem.d) {
-			$('#date_utc').empty().append('unable to get date')
+			cDetailSolButtons.update_child(cDetailSolButtons.UTC_CHILD_ID, 'unable to get date')
 			var oButton = cDetailSolButtons.get_child(cDetailSolButtons.CAL_CHILD_ID)
 			cJquery.disable_element(oButton)
 
@@ -766,7 +766,7 @@ class cDetail {
 
 			oButton = cDetailSolButtons.get_child(cDetailSolButtons.NASA_CHILD_ID)
 			cJquery.disable_element(oButton)
-            
+
 			$('#msldata').hide()
 
 			cJquery.element(cDetailPageConstants.COMMENTS_CONTAINER_ID).hide()
