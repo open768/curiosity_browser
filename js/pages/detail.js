@@ -441,6 +441,7 @@ class cDetailImage {
 class cDetailHighlight {
 	static onLoad() {
 		const oThis = this
+		cImgHilite.onLoad()
 		cImgHilite.set_onclick_accept(e => oThis.onClickHighlightAccept(e))
 	}
 
