@@ -19,6 +19,6 @@ require_once  cAppGlobals::$spaceInc . "/curiosity/curiosity.php";
 
 
 $sSearch = cHeader::get(cSpaceUrlParams::SOL);
-$oData = cCuriosity::search_product($sSearch);
+$oData = cCuriosityManifestUtils::search_for_product($sSearch);
 
 cCommon::write_json($oData);
