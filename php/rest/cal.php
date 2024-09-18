@@ -24,7 +24,7 @@ $sSol = cHeader::get(cSpaceUrlParams::SOL);
 
 cDebug::write("getting instruments");
 $oInstruments = cInstrument::getInstrumentList();
-$oData = cCuriosity::getAllSolData($sSol);
+$oData = cCuriosity::getAllSolData($sSol);              //this is ok to use as it needs utc field which is not indexed
 $aImages = $oData->images;
 
 $aData = ["sol" => $sSol, "cal" => [], "instr" => $oInstruments];
