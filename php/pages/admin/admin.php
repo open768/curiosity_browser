@@ -263,6 +263,9 @@ switch ($sOperation) {
                 </dl>
                 <input type="submit" class="w3-button w3-theme-button-up"></input>
             </form>
+            <p>
+                <a href="info.php">php info</a>
+            </p>
 <?php
         }
         break;
