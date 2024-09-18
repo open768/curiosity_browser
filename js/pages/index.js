@@ -406,9 +406,9 @@ class cSearchBox {
 		} else {
 			cCommonStatus.set_status('got search callback')
 			sUrl = cBrowser.buildUrl('detail.php', {
-				s: oData.s,
-				i: oData.d.instrument,
-				p: oData.d.itemName
+				s: oData.sol,
+				i: oData.instr,
+				p: oData.product
 			})
 			document.location.href = sUrl
 		}
