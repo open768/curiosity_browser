@@ -62,10 +62,10 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
                     <td></td>
                     <td valign="bottom">
                         <nobr>
-                            <button id="prev_prod_top" class="topnavbut leftbutton" title="previous in timeline (P)" style="width:100"><img src="<?= cAppGlobals::$appImages ?>/browser/back.png"></button>
-                            <button title="previous (p)" id="prev_top" class="topnavbut leftbutton" style="width:300">&lt;</button>
-                            <button title="next (n)" id="next_top" class="topnavbut rightbutton" style="width:300">&gt;</button>
-                            <button title="next product" id="next_prod_top" class="topnavbut rightbutton" title="next in timeline (N)" style="width:100"><img src="<?= cAppGlobals::$appImages ?>/browser/forward.png"></button>
+                            <button title="previous image from any instrument in timeline (P)" id="prev_prod_top" class="topnavbut leftbutton" style="width:100"><img src="<?= cAppGlobals::$appImages ?>/browser/back.png"></button>
+                            <button title="previous (p) image from this instrument" id="prev_top" class="topnavbut leftbutton" style="width:300">&lt;</button>
+                            <button title="next (n) image from this instrument" id="next_top" class="topnavbut rightbutton" style="width:300">&gt;</button>
+                            <button title="next product from any instrument in timeline (N)" id="next_prod_top" class="topnavbut rightbutton" title="next in timeline (N)" style="width:100"><img src="<?= cAppGlobals::$appImages ?>/browser/forward.png"></button>
                         </nobr>
                     </td>
                     <td></td>

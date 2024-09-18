@@ -374,6 +374,50 @@ class cDetailSolButtons {
 	}
 }
 
+class cDetailContainer {
+	//*********************************************************************
+	static get_child(psChildName) {
+		const oParent = cJquery.element(cDetailPageConstants.IMAGE_CONTAINER_ID)
+		return cJquery.get_child(oParent, psChildName)
+	}
+
+	//*********************************************************************
+	static render() {
+		const oParent = cJquery.element(cDetailPageConstants.IMAGE_CONTAINER_ID)
+		oParent.empty()
+		var oEmptyCell = $('<TD>')
+		var oButton = null
+
+		const oTable = $('<table>')
+		{
+			//--------------------------------------------------------------------
+			const oTopRow = $('<TR>')
+			{
+				oTopRow.append(oEmptyCell)
+				var oTopMiddleCell = $('<TR>')
+				{
+				}
+				oTable.append(oTopRow)
+			}
+			//--------------------------------------------------------------------
+			const oMiddleRow = $('<TR>')
+			{
+				oTable.append(oMiddleRow)
+			}
+			//--------------------------------------------------------------------
+			const oBottomRow = $('<TR>')
+			{
+				oTable.append(oBottomRow)
+			}
+
+			oParent.append(oTable)
+		}
+	}
+
+	//*********************************************************************
+	static resize_buttons() {}
+}
+
 //###############################################################
 //# cDetailImage
 //###############################################################
@@ -510,6 +554,7 @@ class cDetail {
 	//***********************************************************
 	static onLoadJQuery() {
 		//set click handlers
+		//cDetailContainer.render()  //todo
 		cDetailSolButtons.render()
 
 		$('#submittag').on('click', poEvent => this.onClickAddTag(poEvent))
