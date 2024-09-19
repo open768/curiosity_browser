@@ -17,44 +17,10 @@ require_once  "$home/php/fragments/app-common.php";
 
 require_once  cAppGlobals::$spaceInc . "/curiosity/instrument.php";
 
-const TIMESLOT = 10;
+$sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
+cDebug::write($sSol);
+$aData = cCuriosityManifestUtils::get_calendar($sSol);
 
-
-$sSol = cHeader::get(cSpaceUrlParams::SOL);
-
-cDebug::write("getting instruments");
-$oInstruments = cInstrument::getInstrumentList();
-$oData = cCuriosity::getAllSolData($sSol);              //this is ok to use as it needs utc field which is not indexed
-$aImages = $oData->images;
-
-$aData = ["sol" => $sSol, "cal" => [], "instr" => $oInstruments];
-
-
-cDebug::write("processing images");
-foreach ($aImages as $oItem) {
-    $sInstr = $oItem->instrument;
-    $sInstrAbbr = cInstrument::getInstrumentAbbr($sInstr);
-    $sDateTime = $oItem->utc;
-
-    //ignore thumbnails
-    if ($oItem->sampleType === "thumbnail")
-        continue;
-
-    //create array of dates, hours and 15 mins
-    $aSplit = explode("T", $sDateTime);
-    $sDate = $aSplit[0];
-    if (!isset($aData["cal"][$sDate]))
-        $aData["cal"][$sDate] = [];
-
-    $aSplit = explode(":", $aSplit[1]);
-    $min = floor($aSplit[1] / TIMESLOT) * TIMESLOT;
-    $sTimeKey = $aSplit[0] . ":" . $min;
-
-    if (!isset($aData["cal"][$sDate][$sTimeKey]))
-        $aData["cal"][$sDate][$sTimeKey] = [];
-
-    array_push($aData["cal"][$sDate][$sTimeKey], ["i" => $sInstrAbbr, "d" => $sDateTime, "p" => $oItem->itemName]);
-}
 //############################### response ####################
 include cAppGlobals::$appPhpFragments . "/rest_header.php";
 cCommon::write_json($aData);
