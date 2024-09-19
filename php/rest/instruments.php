@@ -23,6 +23,6 @@ if ($sSol) {
     if ($sRefresh === "true") cCuriosityManifest::clearSolDataCache($sSol);
     $aList = cCuriosity::getSolInstrumentList($sSol);
 } else
-    $aList = cInstrument::getInstrumentList();
+    $aList = cCuriosityInstrument::getInstrumentList();
 
 cCommon::write_json($aList);

@@ -168,7 +168,7 @@ switch ($sOperation) {
             </form>
         <?php
         } else
-            cCuriosityManifestIndex::deleteIndex();
+            cCuriosityManifestIndex::deleteEntireIndex();
         break;
 
         //------------------------------------------------------
