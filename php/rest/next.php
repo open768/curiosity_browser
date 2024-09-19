@@ -16,9 +16,9 @@ $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
 
 $sDirection = cHeader::get("d");
-$sSol = cHeader::get(cSpaceUrlParams::SOL);
-$sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT);
-$sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
+$sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
+$sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT, true);
+$sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
 $iFound = -1;
 
 //get the data for sol and instrument to find the index of the product

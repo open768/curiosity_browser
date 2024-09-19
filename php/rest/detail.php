@@ -15,9 +15,9 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
 
-$sSol = cHeader::get(cSpaceUrlParams::SOL);
-$sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT);
-$sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
+$sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
+$sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT, true);
+$sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
 
 cDebug::write("getting product details for $sSol, $sInstrument, $sProduct");
 $oInstrumentData = cCuriosity::getProductDetails($sSol, $sInstrument, $sProduct);

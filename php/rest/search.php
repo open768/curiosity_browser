@@ -18,7 +18,7 @@ require_once "$home/php/fragments/app-common.php";
 require_once  cAppGlobals::$spaceInc . "/curiosity/curiosity.php";
 
 
-$sSearch = cHeader::get(cSpaceUrlParams::SOL);
+$sSearch = cHeader::get(cSpaceUrlParams::SOL, true);
 $oData = cCuriosityManifestUtils::search_for_product($sSearch);
 
 cCommon::write_json($oData);

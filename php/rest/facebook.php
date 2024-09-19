@@ -22,12 +22,10 @@ cDebug::check_GET_or_POST();
 
 //***************************************************
 //check inputs
-$sUserID = cHeader::get("u");
-if (!$sUserID) cDebug::error("user parameter missing");
+$sUserID = cHeader::get("u",true);
 cDebug::write("userID: $sUserID");
 
-$sToken = cHeader::get("t");
-if (!$sToken) cDebug::error("token parameter missing");
+$sToken = cHeader::get("t",true);
 //cDebug::write("access token: $sToken");
 
 //***************************************************

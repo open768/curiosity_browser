@@ -15,7 +15,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
 
-$sSol = cHeader::get(cSpaceUrlParams::SOL);
+$sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
 $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT);
 $iStart = cHeader::get("b");
 $iEnd = cHeader::get("e");

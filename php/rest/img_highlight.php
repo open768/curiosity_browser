@@ -28,28 +28,28 @@ $oResult = null;
 switch ($sOperation) {
     case "add":
         $sUser = cAuth::must_get_user();
-        $sSol = cHeader::get(cSpaceUrlParams::SOL);
-        $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT);
-        $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
-        $top = cHeader::get("t");
-        $left = cHeader::get("l");
+        $sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
+        $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT, true);
+        $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
+        $top = cHeader::get("t", true);
+        $left = cHeader::get("l", true);
         $oResult = cSpaceImageHighlight::set($sSol, $sInstrument, $sProduct, $top, $left, $sUser);
         break;
     case "get":
-        $sSol = cHeader::get(cSpaceUrlParams::SOL);
-        $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT);
-        $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
+        $sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
+        $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT, true);
+        $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
         $oResult = cSpaceImageHighlight::get($sSol, $sInstrument, $sProduct);
         break;
     case "thumbs":
-        $sSol = cHeader::get(cSpaceUrlParams::SOL);
+        $sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
         $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT);
         $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
         $oResult = cSpaceImageHighlight::get_thumbs($sSol, $sInstrument, $sProduct);
         break;
 
     case "solcount":
-        $sSol = cHeader::get(cSpaceUrlParams::SOL);
+        $sSol = cHeader::get(cSpaceUrlParams::SOL, true);
         $oResult = cSpaceIndex::get_solcount($sSol, cSpaceIndex::HILITE_SUFFIX);
         break;
 
@@ -62,11 +62,12 @@ switch ($sOperation) {
         break;
 
     case "soldata":
-        $oResult = cSpaceImageHighlight::get_sol_highlighted_products(cHeader::get(cSpaceUrlParams::SOL));
+        $sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
+        $oResult = cSpaceImageHighlight::get_sol_highlighted_products($sSol);
         break;
 
     case "mosaic":
-        $sSol = cHeader::get(cSpaceUrlParams::SOL);
+        $sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
         $sURL = cSpaceImageMosaic::get_sol_high_mosaic($sSol);
         $oResult = [
             "s" => $sSol,
