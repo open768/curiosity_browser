@@ -18,44 +18,10 @@ require_once  "$home/php/fragments/app-common.php";
 $sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
 $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
 $sDirection = cHeader::get(cAppUrlParams::DIRECTION, true);
-$iFound = -1;
-$oData = null;
+
 cDebug::write("looking for $sProduct in sol $sSol");
+$oData = cCuriosityManifestUtils::find_time_sequential_product($sSol, $sProduct, $sDirection);
 
-// find the product in the sol
-$aImages = cCuriosity::getNoThumbnails($sSol);
-for ($i = 0; $i < count($aImages); $i++) {
-    $oItem = $aImages[$i];
-    if ($oItem->itemName === $sProduct) {
-        cDebug::write("found it");
-        $iFound = $i;
-        break;
-    }
-}
-
-//and then the next or previous
-if ($iFound >= 0) {
-    switch ($sDirection) {
-        case cAppUrlParams::DIRECTION_PREVIOUS:
-            $iFound--;
-            if ($iFound < 0) {
-                $sSol = $sSol - 1;
-                $aImages = cCuriosity::getNoThumbnails($sSol);
-                $iFound = count($aImages) - 1;
-            }
-            break;
-
-        case cAppUrlParams::DIRECTION_NEXT:
-            $iFound++;
-            if ($iFound >= count($aImages)) {
-                $sSol = $sSol + 1;
-                $aImages = cCuriosity::getNoThumbnails($sSol);
-                $iFound = 0;
-            }
-            break;
-    }
-    $oData = ["s" => $sSol, "d" => $aImages[$iFound]];
-}
 
 //############################### response ####################
 include cAppGlobals::$appPhpFragments . "/rest_header.php";
