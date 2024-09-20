@@ -23,7 +23,7 @@ if ($iHowMany < 1) cDebug::error("how many must be at least 1");
 
 $oOutput = null;
 switch ($sOperation) {
-    case "i":
+    case cAppUrlParams::IMAGE:
         //images
         $aResult = cCuriosityManifestUtils::get_random_images("MAST_%", $iHowMany);
         $oOutput = ["d" => $aResult];

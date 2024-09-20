@@ -12,4 +12,9 @@ class cAppUrlParams {
     const END = "e";
     const DIRECTION = "d";
     const HOWMANY = "h";
+
+    const DIRECTION_NEXT = "n";
+    const DIRECTION_PREVIOUS = "p";
+    const SEARCH = "s";
+    const IMAGE = "i";
 }

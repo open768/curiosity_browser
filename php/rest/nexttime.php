@@ -36,7 +36,7 @@ for ($i = 0; $i < count($aImages); $i++) {
 //and then the next or previous
 if ($iFound >= 0) {
     switch ($sDirection) {
-        case "p":
+        case cAppUrlParams::DIRECTION_PREVIOUS:
             $iFound--;
             if ($iFound < 0) {
                 $sSol = $sSol - 1;
@@ -45,7 +45,7 @@ if ($iFound >= 0) {
             }
             break;
 
-        case "n":
+        case cAppUrlParams::DIRECTION_NEXT:
             $iFound++;
             if ($iFound >= count($aImages)) {
                 $sSol = $sSol + 1;
