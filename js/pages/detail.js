@@ -10,7 +10,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 **************************************************************************/
 'use strict'
-
+/* global cSpaceConstants */
 //###############################################################
 //# cDetail Tags
 //###############################################################
@@ -374,50 +374,6 @@ class cDetailSolButtons {
 	}
 }
 
-class cDetailContainer {
-	//*********************************************************************
-	static get_child(psChildName) {
-		const oParent = cJquery.element(cDetailPageConstants.IMAGE_CONTAINER_ID)
-		return cJquery.get_child(oParent, psChildName)
-	}
-
-	//*********************************************************************
-	static render() {
-		const oParent = cJquery.element(cDetailPageConstants.IMAGE_CONTAINER_ID)
-		oParent.empty()
-		var oEmptyCell = $('<TD>')
-		var oButton = null
-
-		const oTable = $('<table>')
-		{
-			//--------------------------------------------------------------------
-			const oTopRow = $('<TR>')
-			{
-				oTopRow.append(oEmptyCell)
-				var oTopMiddleCell = $('<TR>')
-				{
-				}
-				oTable.append(oTopRow)
-			}
-			//--------------------------------------------------------------------
-			const oMiddleRow = $('<TR>')
-			{
-				oTable.append(oMiddleRow)
-			}
-			//--------------------------------------------------------------------
-			const oBottomRow = $('<TR>')
-			{
-				oTable.append(oBottomRow)
-			}
-
-			oParent.append(oTable)
-		}
-	}
-
-	//*********************************************************************
-	static resize_buttons() {}
-}
-
 //###############################################################
 //# cDetailImage
 //###############################################################
@@ -617,7 +573,7 @@ class cDetail {
 		cCommonStatus.set_status('fetching next image details...')
 		const oHttp = new cHttp2()
 		{
-			bean.on(oHttp, 'result', oData => this.onNextProduct(oData))
+			bean.on(oHttp, 'result', poHttp => this.onNextProduct(poHttp))
 			oHttp.fetch_json(sUrl)
 		}
 	}
@@ -636,7 +592,7 @@ class cDetail {
 		})
 		const oHttp = new cHttp2()
 		{
-			bean.on(oHttp, 'result', oData => this.onNextImage(oData))
+			bean.on(oHttp, 'result', poHttp => this.onNextImage(poHttp))
 			oHttp.fetch_json(sUrl)
 		}
 	}
@@ -645,21 +601,21 @@ class cDetail {
 	//# Click Event Handlers
 	//###############################################################
 	static onClickNextProduct() {
-		this.pr_fetch_next_product('n')
+		this.pr_fetch_next_product(cSpaceConstants.DIRECTION_NEXT)
 	}
 
 	static onClickPreviousProduct() {
-		this.pr_fetch_next_product('p')
+		this.pr_fetch_next_product(cSpaceConstants.DIRECTION_PREVIOUS)
 	}
 
 	//***************************************************************
 	static onClickNext() {
-		this.pr_fetch_next_image('n')
+		this.pr_fetch_next_image(cSpaceConstants.DIRECTION_NEXT)
 	}
 
 	//***************************************************************
 	static onClickPrevious() {
-		this.pr_fetch_next_image('p')
+		this.pr_fetch_next_image(cSpaceConstants.DIRECTION_PREVIOUS)
 	}
 
 	//***************************************************************
@@ -696,7 +652,7 @@ class cDetail {
 		const oData = poHttp.response
 		if (!oData) cCommonStatus.set_error_status('unable to find')
 		else {
-			this.get_product_data(oData.s, oData.d.instrument, oData.d.itemName)
+			this.get_product_data(oData.sol, oData.instr, oData.product)
 		}
 	}
 
