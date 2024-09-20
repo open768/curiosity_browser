@@ -20,7 +20,7 @@ require_once  cAppGlobals::$spaceInc . "/pds/pdsreader.php";
 
 $sOperation = cHeader::get(cAppUrlParams::OPERATION);
 switch ($sOperation) {
-    case cAppUrlParams::SEARCH:
+    case cAppUrlParams::OP_SEARCH:
         $sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
         $sInstr = cHeader::get(cSpaceUrlParams::INSTRUMENT, true);
         $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);

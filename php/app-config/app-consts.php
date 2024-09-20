@@ -15,6 +15,6 @@ class cAppUrlParams {
 
     const DIRECTION_NEXT = "n";
     const DIRECTION_PREVIOUS = "p";
-    const SEARCH = "s";
-    const IMAGE = "i";
+    const OP_SEARCH = "s";
+    const OP_IMAGE = "i";
 }
