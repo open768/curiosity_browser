@@ -24,7 +24,7 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
         <font class="subtitle">Site:</font> <span id="sites"> loading...</span>
         <font class="subtitle">HiRise:</font><span id="hirise"> loading...</span>
     </div>
-    <div class="w3-panel w3-pale-red w3-leftbar w3-border-red">
+    <div class="w3-panel w3-red w3-leftbar w3-border-yellow">
         <h1>Work in progress - feature not available</h2>
     </div>
     <P>

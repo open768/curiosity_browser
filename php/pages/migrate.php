@@ -25,14 +25,14 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
                 </td>
                 <td>
                     <font class="big_error">Migrating</font>
-                    <P>
+                    <div class="w3-panel w3-red w3-leftbar w3-border-yellow">
                         Sorry About this, those clever space agency people have moved data around. We're the ones who have to restore order to this data chaos.
-                        Hang on a while, we're migrating our data and having regulation tea breaks... may be a while... a long while... days if not longer.... has been known to be weeks.
-                    <p>
-                        Sol: "<?= cHeader::get(cSpaceUrlParams::SOL) ?>"
-                        Instrument: "<?= cHeader::get(cSpaceUrlParams::INSTRUMENT) ?>"
-                        Migrating From: "<?= cHeader::get("pfrom") ?>"
-                        Migrating To: "<?= cHeader::get("pto") ?>"
+                        Hang on a while, we're migrating our data and having regulation tea breaks... may be a while... a long while... days if not longer.... has been known to be weeks... actually to be honest months .. a lot of months.
+                    </DIV>
+                    Sol: "<?= cHeader::get(cSpaceUrlParams::SOL) ?>"
+                    Instrument: "<?= cHeader::get(cSpaceUrlParams::INSTRUMENT) ?>"
+                    Migrating From: "<?= cHeader::get(cAppUrlParams::PRODUCT_FROM) ?>"
+                    Migrating To: "<?= cHeader::get(cAppUrlParams::PRODUCT_TO) ?>"
                 </td>
                 <td align="right">
                     <img src="<?= cAppGlobals::$appImages ?>/browser/dude.png" height="120">
