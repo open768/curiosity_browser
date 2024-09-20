@@ -22,10 +22,10 @@ cDebug::check_GET_or_POST();
 
 //***************************************************
 //check inputs
-$sUserID = cHeader::get("u",true);
+$sUserID = cHeader::get(cAppUrlParams::USER, true);
 cDebug::write("userID: $sUserID");
 
-$sToken = cHeader::get("t",true);
+$sToken = cHeader::get(cAppUrlParams::TOKEN, true);
 //cDebug::write("access token: $sToken");
 
 //***************************************************

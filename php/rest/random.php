@@ -18,7 +18,7 @@ require_once  "$home/php/fragments/app-common.php";
 
 //***************************************************
 $sOperation = cHeader::get(cAppUrlParams::OPERATION, true);
-$iHowMany = cHeader::get("h", true, true);
+$iHowMany = cHeader::get(cAppUrlParams::HOWMANY, true, true);
 if ($iHowMany < 1) cDebug::error("how many must be at least 1");
 
 $oOutput = null;

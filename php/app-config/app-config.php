@@ -66,11 +66,4 @@ class cAppLocations {
 }
 cAppLocations::init();
 
-class cAppIDs {
-    const STATUS_ID = "status";
-}
-
-class cAppUrlParams {
-    const OPERATION = "o";
-    const REFRESH = "r";
-}
+require_once  cAppGlobals::$appConfig . "/app-consts.php";

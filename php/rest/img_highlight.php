@@ -31,8 +31,8 @@ switch ($sOperation) {
         $sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
         $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT, true);
         $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
-        $top = cHeader::get("t", true);
-        $left = cHeader::get("l", true);
+        $top = cHeader::get(cSpaceUrlParams::HIGHLIGHT_TOP, true);
+        $left = cHeader::get(cSpaceUrlParams::HIGHLIGHT_LEFT, true);
         $oResult = cSpaceImageHighlight::set($sSol, $sInstrument, $sProduct, $top, $left, $sUser);
         break;
     case "get":

@@ -17,8 +17,8 @@ require_once  "$home/php/fragments/app-common.php";
 
 $sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
 $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT);
-$iStart = cHeader::get("b");
-$iEnd = cHeader::get("e");
+$iStart = cHeader::get(cAppUrlParams::BEGIN);
+$iEnd = cHeader::get(cAppUrlParams::END);
 if ($sInstrument === "null") $sInstrument = null;
 
 

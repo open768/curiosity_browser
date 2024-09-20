@@ -79,12 +79,11 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case "deleteSolHighlights":
-        if (cHeader::get("s") == null) {
+        if (cHeader::get(cSpaceUrlParams::SOL) == null) {
 ?>
             <form method="get">
                 <Input type="hidden" name="<?= cAppUrlParams::OPERATION ?>" value="<?= $sOperation ?>">
-                <Input type="hidden" name="debug" value="1">
-                Sol: <Input type="input" name="s"><br>
+                Sol: <Input type="input" name="<?= cSpaceUrlParams::SOL ?>"><br>
                 <input type="submit"></input>
             </form>
         <?php
@@ -100,37 +99,35 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case "killHighlight":
-        if (cHeader::get("p") == null) {
+        if (cHeader::get(cSpaceUrlParams::PRODUCT) == null) {
         ?>
             <form method="get">
                 <Input type="hidden" name=<?= cAppUrlParams::OPERATION ?> value="<?= $sOperation ?>">
-                <Input type="hidden" name="debug" value="1">
-                sol: <Input type="input" name="s"><br>
-                instr: <Input type="input" name="i"><br>
-                product: <Input type="input" name="p"><br>
-                which: <Input type="input" name="w"><br>
+                sol: <Input type="input" name="<?= cSpaceUrlParams::SOL ?>"><br>
+                instr: <Input type="input" name="<?= cSpaceUrlParams::INSTRUMENT ?>"><br>
+                product: <Input type="input" name="<?= cSpaceUrlParams::PRODUCT ?>"><br>
                 <input type="submit">
             </form>
         <?php
             exit();
         }
-        cSpaceImageHighlight::kill_highlites(cHeader::get(cSpaceUrlParams::SOL), cHeader::get(cSpaceUrlParams::INSTRUMENT), cHeader::get(cSpaceUrlParams::PRODUCT), cHeader::get("w"));
+        cSpaceImageHighlight::kill_highlites(cHeader::get(cSpaceUrlParams::SOL), cHeader::get(cSpaceUrlParams::INSTRUMENT), cHeader::get(cSpaceUrlParams::PRODUCT));
         break;
 
         //------------------------------------------------------
     case "killTag":
-        if (cHeader::get("t") == null) {
+        $sTag = cHeader::get(cSpaceUrlParams::TAG);
+        if ($sTag == null) {
         ?>
             <form method="get">
                 <Input type="hidden" name="<?= cAppUrlParams::OPERATION ?>" value="<?= $sOperation ?>">
-                <Input type="hidden" name="debug" value="1">
-                <Input type="input" name="t"><br>
+                <Input type="input" name="<?= cSpaceUrlParams::TAG ?>"><br>
                 <input type="submit"></input>
             </form>
         <?php
             exit();
         }
-        cSpaceTagNames::kill_tag_name(cHeader::get("t"));
+        cSpaceTagNames::kill_tag_name($sTag);
         break;
 
         //------------------------------------------------------
@@ -188,31 +185,30 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case "parsePDS":
-        if (cHeader::get("v") == null) {
+        $sVol = cHeader::get(cSpaceUrlParams::PDS_VOLUME);
+        if ($sVol == null) {
             $aCats = cCuriosityPDS::catalogs();
         ?>
             <a target="PDS" href="<?= cCuriosity::PDS_VOLUMES ?>">Curiosity PDS released volumes</a>
             <p>
             <form method="get" name="pds">
                 <Input type="hidden" name="<?= cAppUrlParams::OPERATION ?>" value="<?= $sOperation ?>">
-                <Input type="hidden" name="debug" value="1">
-                volume: <select name="v">
+                volume: <select name="<?= cSpaceUrlParams::PDS_VOLUME ?>">
                     <?php
                     foreach ($aCats as $sCat)
                         echo "<option>$sCat</option>";
                     ?>
                 </select>
-                Index: <Input type="input" name="i" value="EDRINDEX">
+                Index: <Input type="input" name="<?= cSpaceUrlParams::EDR_INDEX ?>" value="EDRINDEX">
                 <input type="submit">
             </form>
         <?php
             exit();
         }
-        $sVolume = cHeader::get("v");
-        $sIndex = cHeader::get("i");
+        $sIndex = cHeader::get(cSpaceUrlParams::EDR_INDEX);
         if ($sIndex == null) cDebug::error("no index specified");
 
-        cCuriosityPdsIndexer::run_indexer($sVolume, $sIndex);
+        cCuriosityPdsIndexer::run_indexer($sVol, $sIndex);
         break;
 
         //------------------------------------------------------
