@@ -17,4 +17,9 @@ class cAppUrlParams {
     const DIRECTION_PREVIOUS = "p";
     const OP_SEARCH = "s";
     const OP_IMAGE = "i";
+    const SURE = "sr";
+    const FACEBOOK = "fb";
+
+    const PRODUCT_FROM = "pfrom";
+    const PRODUCT_TO = "pto";
 }

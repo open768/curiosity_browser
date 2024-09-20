@@ -155,13 +155,13 @@ switch ($sOperation) {
         break;
         //------------------------------------------------------
     case "deleteManifest":
-        $sSure = cHeader::get("sure");
+        $sSure = cHeader::get(cAppUrlParams::SURE);
         if ($sSure !== "yes") {
         ?>
             <h1>delete manifest</h1>
             <form method="get" name="mani">
                 <Input type="hidden" name="<?= cAppUrlParams::OPERATION ?>" value="<?= $sOperation ?>">
-                Sure? <input type="submit" name="sure" value="yes">
+                Sure? <input type="submit" name="<?= cAppUrlParams::SURE ?>" value="yes">
             </form>
         <?php
         } else
