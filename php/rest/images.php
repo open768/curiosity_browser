@@ -23,7 +23,7 @@ if ($sInstrument === "null") $sInstrument = null;
 
 
 cDebug::write("getting sol $sSol data");
-$oInstrumentData = cCuriosity::getSolRawData($sSol, $sInstrument);
+$oInstrumentData = cCuriosity::getSolRawData($sSol, $sInstrument); //doesnt need raw data
 $aData = $oInstrumentData->data;
 $iCount = count($aData);
 

@@ -22,7 +22,7 @@ $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
 $iFound = -1;
 
 //get the data for sol and instrument to find the index of the product
-$oInstrumentData = cCuriosity::getSolRawData($sSol, $sInstrument);
+$oInstrumentData = cCuriosity::getSolRawData($sSol, $sInstrument); //doesnt need raw data
 $aImages = $oInstrumentData->data;
 $iCount = count($aImages);
 
@@ -57,7 +57,7 @@ if (($iFound < 0) || ($iFound >= $iCount)) {
             return;
         }
 
-        $oInstrumentData = cCuriosity::getSolRawData($sSol, $sInstrument);
+        $oInstrumentData = cCuriosity::getSolRawData($sSol, $sInstrument); //doesnt need raw data
         $aImages = $oInstrumentData->data;
         $iCountNew = count($aImages);
         if ($iCountNew > 0) {

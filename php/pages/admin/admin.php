@@ -151,7 +151,7 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case  "parse_manifest":
-        cCuriosityManifestIndex::indexManifest();
+        cCuriosityManifestIndex::updateIndex();
         break;
         //------------------------------------------------------
     case "deleteManifest":
