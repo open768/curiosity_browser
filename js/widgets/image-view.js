@@ -59,7 +59,7 @@ class cImageList {
 		})
 		const oHttp = new cHttp2()
 		{
-			bean.on(oHttp, 'result', poHttp => oThis.onImagesLoaded(poHttp))
+			bean.on(oHttp, 'result', poHttp => oThis.onGotImages(poHttp))
 			oHttp.fetch_json(sUrl)
 		}
 	}
@@ -111,7 +111,7 @@ class cImageList {
 	//*****************************************************************************
 	//* Events
 	//*****************************************************************************
-	onImagesLoaded(poHttp) {
+	onGotImages(poHttp) {
 		const oThis = this
 		var oDiv, iIndex
 
@@ -141,11 +141,11 @@ class cImageList {
 				// build up the div
 				oDiv = $('<DIV>').instrumentimage({
 					sol: oOptions.sol,
-					instrument: oOptions.instrument,
-					product: oItem.p,
-					mission: oOptions.mission,
-					src: oItem.i,
-					date: oItem.du,
+					instrument: oItem.instr,
+					product: oItem.product,
+					mission: oItem.mission,
+					src: oItem.image_url,
+					date: new Date(oItem.utc_date * 1000),
 					onClick: function (poEvent, poData) {
 						oThis.widget._trigger('onClick', poEvent, poData)
 					},
