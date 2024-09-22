@@ -140,13 +140,11 @@ class cSideBar {
 			var oCollapsed = $('<DIV>', {
 				id: this.ID_SIDEBAR_COLLAPSED,
 				style: 'width:' + this.CLOSED_WIDTH,
-				class: 'w3-center'
+				class: 'w3-center w3-hover-grey'
 			})
 			{
 				oIcon = cRenderGoogleFont.create_icon('left_panel_open', 'font-size:' + this.FONT_SIZE)
 				{
-					oIcon.addClass('w3-hover-grey')
-					oIcon.on('click', () => oThis.onClickExpand())
 					oCollapsed.append(oIcon)
 				}
 				var oText = $('<DIV>', { class: 'sidebar-text' })
@@ -154,6 +152,7 @@ class cSideBar {
 					oText.append('Menu')
 					oCollapsed.append(oText)
 				}
+				oCollapsed.on('click', () => oThis.onClickExpand())
 			}
 			oContainer.append(oCollapsed)
 		}
@@ -251,7 +250,7 @@ class cLeftColumn {
 	static render() {
 		var oLeftColDiv = cJquery.element(cIndexPageConsts.ID_LEFT_COL)
 		oLeftColDiv.empty()
-		oLeftColDiv.addClass('w3-theme-d1')
+		oLeftColDiv.addClass('w3-theme-d1 leftcontainer')
 
 		// side bar - contains an open and closed bit
 		cSideBar.render(oLeftColDiv)

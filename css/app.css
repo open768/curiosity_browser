@@ -200,6 +200,10 @@ body {
 	border-radius: 10px;
 }
 
+.leftcontainer {
+	display: flex;
+}
+
 .leftcolumn {
 	width: 230px;
 }
@@ -234,9 +238,8 @@ body {
 }
 
 .sidebar {
-	height: 100%;
-	width: 100%;
 	color: whitesmoke;
+	display: flex;
 }
 
 .sidebar-text {
