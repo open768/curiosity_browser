@@ -10,8 +10,9 @@ $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
 
 try {
     $aData = cCuriosityImages::getThumbBlobData($sSol, $sInstr, $sProduct);
-    $sMime = $aData["m"];
-    $sBlob = $aData["b"];
+    cDebug::vardump($aData);
+    $sMime = $aData->m;
+    $sBlob = $aData->b;
     header("Content-Type: $sMime");
     echo $sBlob;
 } catch (Exception $e) {
