@@ -198,7 +198,7 @@ class cThumbnail {
 			s: oOptions.sol,
 			i: oOptions.instrument,
 			p: oOptions.product,
-			m: oOptions.mission.ID
+			m: oOptions.mission
 		})
 		oImg.attr('src', sThumbUrl)
 		oImg.addClass('w3-hover-grey')

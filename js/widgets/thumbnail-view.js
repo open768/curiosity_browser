@@ -82,11 +82,11 @@ class cThumbnailView {
 			for (i = 0; i < aData.length; i++) {
 				oItem = aData[i]
 				const oThumbnailWidget = $('<SPAN>').thumbnail({
-					sol: poHttp.response.s,
-					instrument: oItem.data.instrument,
-					product: oItem.p,
-					url: oItem.i,
-					mission: this.options.mission,
+					sol: oItem.sol,
+					instrument: oItem.instr,
+					product: oItem.product,
+					url: oItem.image_url,
+					mission: oItem.mission,
 					onStatus: function (poEvent, poData) {
 						oThis.widget._trigger('onStatus', poEvent, poData)
 					},
