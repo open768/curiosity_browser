@@ -195,12 +195,14 @@ $.widget('ck.instrhighlight', {
 		oElement.append(oBody)
 
 		//get the list of products
+		var bOtherColour = false
 		for (sProduct in oOptions.products) {
 			//dont do anything if the queue is stopping
 			if (goHighlightQueue.stopping) return
 
 			// Add the product header
-			var oSpan = $('<SPAN>', { class: 'highlight_product' })
+			var sColourClass = bOtherColour ? 'highlight_colour1' : 'highlight_colour2'
+			var oSpan = $('<SPAN>', { class: 'highlight_product ' + sColourClass })
 			oSpan.uniqueId()
 			oSpan.append(sProduct)
 			oBody.append(oSpan)
@@ -212,9 +214,8 @@ $.widget('ck.instrhighlight', {
 			oBody.append(oHighlights)
 
 			//wait for placeholder to become visible
-			oHighlights.on('inview', function (poEvent, pbIsInView) {
-				oThis.onInView(poEvent.target, pbIsInView)
-			})
+			oHighlights.on('inview', (e, pb) => oThis.onInView(e.target, pb))
+			bOtherColour = !bOtherColour
 		}
 	},
 
@@ -307,7 +308,7 @@ $.widget('ck.instrhighlight', {
 				var sImgUrl = oOptions.home + '/' + aUrls[i]
 				oImg = $('<IMG>').attr({
 					src: sImgUrl,
-					class: 'highlight_body'
+					class: 'highlight_body image'
 				})
 				var sProduct = oSpan.attr('product')
 				oImg.on('click', () => this.onImageClick(sProduct))

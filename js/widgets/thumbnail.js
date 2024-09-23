@@ -201,7 +201,7 @@ class cThumbnail {
 			m: oOptions.mission
 		})
 		oImg.attr('src', sThumbUrl)
-		oImg.addClass('w3-hover-grey')
+		oImg.addClass('image')
 		this.pr__set_style(this.consts.STYLES.FINAL)
 	}
 
