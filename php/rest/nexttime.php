@@ -20,7 +20,7 @@ $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
 $sDirection = cHeader::get(cAppUrlParams::DIRECTION, true);
 
 cDebug::write("looking for $sProduct in sol $sSol");
-$oData = cCuriosityManifestUtils::find_time_sequential_product($sSol, $sProduct, $sDirection);
+$oData = cCuriosityManifestUtils::find_sequential_product($sProduct, $sDirection, true);
 
 
 //############################### response ####################

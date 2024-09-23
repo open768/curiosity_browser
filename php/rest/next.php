@@ -22,24 +22,7 @@ $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
 $iFound = -1;
 
 //get the data for sol and instrument to find the index of the product
-$oInstrumentData = cCuriosity::getSolRawData($sSol, $sInstrument); //doesnt need raw data
-$aImages = $oInstrumentData->data;
-$iCount = count($aImages);
-
-//LOOK FOR THE PRODUCT
-for ($i = 0; $i < $iCount; $i++) {
-    $oItem = $aImages[$i];
-    if ($oItem["p"] == $sProduct) {
-        $iFound =  $i;
-        cDebug::write("found it - $i");
-        break;
-    }
-}
-
-if ($iFound == -1) {
-    cDebug::error("product not found - incorrect parameters given");
-    return;
-}
+$iIndex = cCuriosityManifestUtils::get_product_index($sProduct);
 
 // go backwards or forwards in instrument list depending on parameters to script
 $bOverflow = false;
