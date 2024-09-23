@@ -566,7 +566,6 @@ class cDetail {
 		const oItem = this.oItem
 		const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/nexttime.php', {
 			d: psDirection,
-			s: oItem.s,
 			p: oItem.p,
 			m: cMission.ID
 		})
@@ -585,8 +584,6 @@ class cDetail {
 		const oItem = this.oItem
 		var sUrl = cBrowser.buildUrl(cAppLocations.rest + '/next.php', {
 			d: psDirection,
-			s: oItem.s,
-			i: oItem.i,
 			p: oItem.p,
 			m: cMission.ID
 		})
@@ -659,9 +656,8 @@ class cDetail {
 	//***************************************************************
 	static onNextImage(poHttp) {
 		const oData = poHttp.response
-		const oItem = this.oItem
 
-		this.get_product_data(oData.s, oItem.i, oData.d.p)
+		this.get_product_data(oData.sol, oData.instr, oData.product)
 	}
 
 	//***************************************************************

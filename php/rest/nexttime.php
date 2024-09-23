@@ -15,11 +15,9 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
 
-$sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
 $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
 $sDirection = cHeader::get(cAppUrlParams::DIRECTION, true);
 
-cDebug::write("looking for $sProduct in sol $sSol");
 $oData = cCuriosityManifestUtils::find_sequential_product($sProduct, $sDirection, true);
 
 

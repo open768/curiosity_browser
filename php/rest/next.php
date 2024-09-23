@@ -16,41 +16,11 @@ $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
 
 $sDirection = cHeader::get(cAppUrlParams::DIRECTION);
-$sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
-$sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT, true);
 $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
-$iFound = -1;
 
 //get the data for sol and instrument to find the index of the product
-$iIndex = cCuriosityManifestUtils::get_product_index($sProduct);
-
-// go backwards or forwards in instrument list depending on parameters to script
-$bOverflow = false;
-$iIncrement = 1;
-if ($sDirection === "p") $iIncrement = -1;
-$iFound += $iIncrement;
-
-//have we gone past the beginning or end? look in neighbouring sols
-if (($iFound < 0) || ($iFound >= $iCount)) {
-    cDebug::write("rolled off the beginning of the sol");
-    while (($sSol > 0) || ($sSol < $iCount)) {
-        $sSol = cCuriosity::nextSol($sSol, $iIncrement);
-        if ($sSol == null) {
-            cDebug::error("no more sols - sorry");
-            return;
-        }
-
-        $oInstrumentData = cCuriosity::getSolRawData($sSol, $sInstrument); //doesnt need raw data
-        $aImages = $oInstrumentData->data;
-        $iCountNew = count($aImages);
-        if ($iCountNew > 0) {
-            $iFound = 0;
-            if ($iIncrement == -1) $iFound = $iCountNew - 1;
-            break;
-        }
-    }
-}
+$oItem = cCuriosityManifestUtils::find_sequential_product($sProduct, $sDirection, false);
 
 //############################### response ####################
 include cAppGlobals::$appPhpFragments . "/rest_header.php";
-cCommon::write_json(["s" => $sSol, "d" => $aImages[$iFound]]);
+cCommon::write_json($oItem);
