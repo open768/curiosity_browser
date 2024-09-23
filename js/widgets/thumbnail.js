@@ -56,24 +56,24 @@ class cThumbnail {
 		if (oOptions.product == null) $.error('product is not set')
 		if (oOptions.url == null) $.error('url is not set')
 		if (oOptions.mission == null) $.error('mission is not set')
+
+		const oElement = this.element
+		oElement.uniqueId() // sets a unique ID on the SPAN.
+		this.init()
 	}
 
 	//******************************************************************
 	//******************************************************************
 	init() {
-		var oImg, oThis, oElement
-
-		oThis = this
-		oElement = this.element
+		const oThis = this
+		const oElement = this.element
 
 		// init
-		oElement.uniqueId() // sets a unique ID on the SPAN.
-
 		this.pr__set_style(this.consts.STYLES.ORIG)
 
 		//---------- add img to element
 		const sImgID = cJquery.child_ID(oElement, this.consts.CHILD_IMG_ID)
-		oImg = $('<IMG>', {
+		const oImg = $('<IMG>', {
 			title: this.options.product,
 			border: 0,
 			height: this.consts.SIZE,
@@ -237,13 +237,11 @@ $.widget('ck.thumbnail', {
 		loaded_better: false,
 		mission: null
 	},
-	instance: null,
 
 	//#################################################################
 	//# Constructor
 	//#################################################################
 	_create() {
-		this.instance = new cThumbnail(this)
-		this.instance.init()
+		const oInstance = new cThumbnail(this)
 	}
 })
