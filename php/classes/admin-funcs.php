@@ -137,7 +137,30 @@ class cAdminFunctions {
     //******************************************************************
     static function export_tags() {
         cDebug::enter();
-        cDebug::error("not implemented");
+
+        echo "Tag,Sol,Instrument,Product,image_url\n";
+        echo "=,=,=,=,=\n";
+
+        $aTopTags = cSpaceTagNames::get_top_tag_names();
+        foreach ($aTopTags as $sName => $iCount) {
+            if (cCommon::is_string_empty($sName)) continue;
+
+            $aTagDetails = cSpaceTagNames::get_tag_name_index($sName);
+            foreach ($aTagDetails as $sItem) {
+                $aParts = explode("/", $sItem);
+                $sSol = $aParts[0];
+                $sInstr = $aParts[1];
+                $sProduct = $aParts[2];
+                try {
+                    $oProduct = cCuriosityManifestUtils::search_for_product($sProduct);
+                    $sUrl = $oProduct->image_url;
+                } catch (Exception $e) {
+                    $sUrl = "unknown url";
+                }
+                cCommon::flushprint("$sName,$sSol,$sInstr,$sProduct,$sUrl\n");
+            }
+        }
+
         cDebug::leave();
     }
 }

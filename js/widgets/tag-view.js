@@ -90,7 +90,7 @@ $.widget('ck.tagview', {
 		// create image
 		for (i = 0; i < aList.length; i++) {
 			sItem = aList[i]
-			aParts = sItem.split('/')
+			aParts = sItem.split('/') //really why did i think this was a good idea?? @todo
 			cDebug.write('got a detail: ' + sItem)
 
 			const oDiv = $('<DIV>')
