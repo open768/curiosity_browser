@@ -1,8 +1,9 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-include cAppGlobals::$appPhpFragments . "/doctype.php";  ?>
+include cAppGlobals::$appPhpFragments . "/doctype.php";
 cAppGlobals::$title = "Instances of Tag <span id='tagname'>tag goes here</span>";
+?>
 
 <head>
     <?php
