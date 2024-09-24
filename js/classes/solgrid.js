@@ -80,7 +80,8 @@ class cSolGridRenderer {
 			const sUrl = cBrowser.buildUrl(this.solsUrl, { m: this.mission })
 			const oHttp = new cHttp2()
 			{
-				bean.on(oHttp, 'result', poHttp => this.onSolsResponse(poHttp))
+				const oThis = this
+				bean.on(oHttp, 'result', poHttp => oThis.onSolsResponse(poHttp))
 				oHttp.fetch_json(sUrl)
 			}
 		}
@@ -122,7 +123,8 @@ class cSolGridRenderer {
 						class: 'w3-button w3-blue w3-padding-small',
 						sol: sSol
 					}).append(sSol)
-					oButton.on('click', poEvent => this.onButtonClick(poEvent))
+                    const oThis = this
+					oButton.on('click', poEvent => oThis.onButtonClick(poEvent))
 					oDiv.append(oButton)
 				} else {
 					//no data for the sol, link back to the index page for the sol

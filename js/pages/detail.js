@@ -158,6 +158,8 @@ class cDetailTags {
 		//---------------------------------------------------
 		var oTagDiv = this.pr_get_tag_child(this.TAGS_OUTPUT_ID)
 		cAppRender.render_tags(oTagDiv, poHttp.response)
+		cBrowser.unbindInputKeyPress()
+
 		cCommonStatus.set_status('ok')
 	}
 
@@ -488,7 +490,8 @@ class cDetailHighlight {
 	//**************************************************
 	static onClickHighlightAccept(poEvent) {
 		const oBox = cImgHilite.getBoxFromButton(poEvent.currentTarget)
-		cImgHilite.save_highlight(cDetail.oItem.s, cDetail.oItem.i, cDetail.oItem.p, oBox, poHttp => this.onSavedHighlight(poHttp))
+		const oThis = this
+		cImgHilite.save_highlight(cDetail.oItem.s, cDetail.oItem.i, cDetail.oItem.p, oBox, poHttp => oThis.onSavedHighlight(poHttp))
 	}
 
 	static onSavedHighlight() {
@@ -517,21 +520,21 @@ class cDetail {
 		//cDetailContainer.render()  //todo
 		cDetailSolButtons.render()
 
-		$('#submittag').on('click', poEvent => this.onClickAddTag(poEvent))
+		$('#submittag').on('click', poEvent => oThis.onClickAddTag(poEvent))
 
-		$('#prev_prod_top').on('click', poEvent => this.onClickPreviousProduct(poEvent))
-		$('#prev_top').on('click', poEvent => this.onClickPrevious(poEvent))
-		$('#next_top').on('click', poEvent => this.onClickNext(poEvent))
-		$('#next_prod_top').on('click', poEvent => this.onClickNextProduct(poEvent))
+		$('#prev_prod_top').on('click', poEvent => oThis.onClickPreviousProduct(poEvent))
+		$('#prev_top').on('click', poEvent => oThis.onClickPrevious(poEvent))
+		$('#next_top').on('click', poEvent => oThis.onClickNext(poEvent))
+		$('#next_prod_top').on('click', poEvent => oThis.onClickNextProduct(poEvent))
 
-		$('#prev_left').on('click', poEvent => this.onClickPrevious(poEvent))
+		$('#prev_left').on('click', poEvent => oThis.onClickPrevious(poEvent))
 
-		$('#next_right').on('click', poEvent => this.onClickNext(poEvent))
+		$('#next_right').on('click', poEvent => oThis.onClickNext(poEvent))
 
-		$('#prev_prod_bottom').on('click', poEvent => this.onClickPreviousProduct(poEvent))
-		$('#prev_bottom').on('click', poEvent => this.onClickPrevious(poEvent))
-		$('#next_bottom').on('click', poEvent => this.onClickNext(poEvent))
-		$('#next_prod_bottom').on('click', poEvent => this.onClickNextProduct(poEvent))
+		$('#prev_prod_bottom').on('click', poEvent => oThis.onClickPreviousProduct(poEvent))
+		$('#prev_bottom').on('click', poEvent => oThis.onClickPrevious(poEvent))
+		$('#next_bottom').on('click', poEvent => oThis.onClickNext(poEvent))
+		$('#next_prod_bottom').on('click', poEvent => oThis.onClickNextProduct(poEvent))
 
 		// get user data
 		cCommonStatus.set_status('loading user data...')
@@ -559,7 +562,8 @@ class cDetail {
 		cDetailTags.render()
 
 		// catch key presses but not on text inputs
-		$(window).keypress(poEvent => this.onKeyPress(poEvent))
+		var oThis = this
+		$(window).keypress(poEvent => oThis.onKeyPress(poEvent))
 		cBrowser.unbindInputKeyPress()
 
 		cDetailHighlight.onLoad()
@@ -576,7 +580,8 @@ class cDetail {
 		cCommonStatus.set_status('fetching next image details...')
 		const oHttp = new cHttp2()
 		{
-			bean.on(oHttp, 'result', poHttp => this.onNextProduct(poHttp))
+			const oThis = this
+			bean.on(oHttp, 'result', poHttp => oThis.onNextProduct(poHttp))
 			oHttp.fetch_json(sUrl)
 		}
 	}
@@ -593,7 +598,8 @@ class cDetail {
 		})
 		const oHttp = new cHttp2()
 		{
-			bean.on(oHttp, 'result', poHttp => this.onNextImage(poHttp))
+			const oThis = this
+			bean.on(oHttp, 'result', poHttp => oThis.onNextImage(poHttp))
 			oHttp.fetch_json(sUrl)
 		}
 	}
@@ -688,7 +694,8 @@ class cDetail {
 		$('#next_prod_bottom').innerWidth(iWidth)
 
 		// make the image clickable
-		$(poEvent.target).on('click', poImgEvent => this.OnImageClick(poImgEvent))
+		const oThis = this
+		$(poEvent.target).on('click', poImgEvent => oThis.OnImageClick(poImgEvent))
 		cImgHilite.imgTarget = poEvent.target
 
 		// get the highlights if any
@@ -797,7 +804,8 @@ class cDetail {
 		cCommonStatus.set_status('fetching data for ' + psProd)
 		const oHttp = new cHttp2()
 		{
-			bean.on(oHttp, 'result', oData => this.onGotDetails(oData))
+			const oThis = this
+			bean.on(oHttp, 'result', oData => oThis.onGotDetails(oData))
 			oHttp.fetch_json(sUrl)
 		}
 	}

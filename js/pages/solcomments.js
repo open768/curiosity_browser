@@ -64,14 +64,16 @@ class cSolComments {
 		})
 		oHttp = new cHttp2()
 		{
-			bean.on(oHttp, 'result', e => this.onLoadSolComments(e))
-			bean.on(oHttp, 'error', e => this.onErrSolComments(e))
+			const oThis = this
+			bean.on(oHttp, 'result', e => oThis.onLoadSolComments(e))
+			bean.on(oHttp, 'error', e => oThis.onErrSolComments(e))
 			oHttp.fetch_json(sUrl)
 		}
 	}
 	//###############################################################
 	//# events
 	//###############################################################
+	// eslint-disable-next-line no-unused-vars
 	static onErrSolComments(poHttp) {
 		var oContainer = cJquery.element(cSolCommentPageConstants.ID_COMMENTS_CONTAINER)
 		oContainer.html('error loading data')

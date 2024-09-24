@@ -31,7 +31,8 @@ class cSolHighs {
 		// change status of checkbox
 		var oElMosaic = cJquery.element(cSolHighPageConstants.CHK_MOSAIC_ID)
 		if (cBrowser.data[cSpaceBrowser.MOSAIC_QUERYSTRING] != null) oElMosaic.prop('checked', true)
-		oElMosaic.on('change', () => this.onCheckMosaic())
+		const oThis = this
+		oElMosaic.on('change', () => oThis.onCheckMosaic())
 
 		this.set_browser_url()
 
@@ -51,12 +52,13 @@ class cSolHighs {
 		if (oWidget) oWidget.destroy()
 
 		//render widget
+		const oThis = this
 		oDiv.solhighlights({
 			sol: this.current_sol,
 			mission: cMission,
 			home: cAppLocations.home,
-			onStatus: (poEvent, poData) => this.onStatusEvent(poEvent, poData),
-			onClick: (poEvent, poData) => this.onHighlightClick(poEvent, poData)
+			onStatus: (poEvent, poData) => oThis.onStatusEvent(poEvent, poData),
+			onClick: (poEvent, poData) => oThis.onHighlightClick(poEvent, poData)
 		})
 	}
 

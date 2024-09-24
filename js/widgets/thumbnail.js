@@ -242,6 +242,6 @@ $.widget('ck.thumbnail', {
 	//# Constructor
 	//#################################################################
 	_create() {
-		const oInstance = new cThumbnail(this)
+		new cThumbnail(this)
 	}
 })

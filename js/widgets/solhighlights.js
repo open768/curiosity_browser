@@ -311,7 +311,8 @@ $.widget('ck.instrhighlight', {
 					class: 'highlight_body image'
 				})
 				var sProduct = oSpan.attr('product')
-				oImg.on('click', () => this.onImageClick(sProduct))
+				const oThis = this
+				oImg.on('click', () => oThis.onImageClick(sProduct))
 				oSpan.after(oImg) //append the image
 			}
 

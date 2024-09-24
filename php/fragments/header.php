@@ -41,8 +41,8 @@ cPageOutput::write_JS_class_constant_IDs(cAppUrlParams::class);
 <script src="<?= cAppGlobals::$jsExtra ?>/bean/bean.js"></script>
 
 <!-- jquery -->
-<script src="<?= cAppGlobals::$jsExtra ?>/jquery/jquery-3.6.0.min.js"></script>
-<script src="<?= cAppGlobals::$jsExtra ?>/jquery-ui/jquery-ui.js"></script>
+<script src="<?= cAppGlobals::$jsExtra ?>/jquery/jquery-3.7.1.min.js"></script>
+<script src="<?= cAppGlobals::$jsExtra ?>/jquery-ui/1.14/jquery-ui.js"></script>
 <script src="<?= cAppGlobals::$jsExtra ?>/jquery-inview/jquery.inview.min.js"></script>
 <script src="<?= cAppGlobals::$jsExtra ?>/jquery-visible/jquery.visible.min.js"></script>
 <script src="<?= cAppGlobals::$jsExtra ?>/jquery-spinner/g-spinner.min.js"></script>
