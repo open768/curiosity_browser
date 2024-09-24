@@ -98,6 +98,17 @@ switch ($sOperation) {
         break;
 
         //------------------------------------------------------
+    case "export_tags":
+        cDebug::off();
+        cHeader::redirect("export.php?o=tags");
+        break;
+        //------------------------------------------------------
+    case "export_highs":
+        cDebug::off();
+        cHeader::redirect("export.php?o=highs");
+        break;
+        //------------------------------------------------------
+
     case "killHighlight":
         if (cHeader::get(cSpaceUrlParams::PRODUCT) == null) {
         ?>
@@ -251,6 +262,11 @@ switch ($sOperation) {
                         <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="vacuum">sqllite vacuum database<br>
                         <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killTag">remove tag<br>
                     </dd>
+                    <dt>Exports</dt>
+                    <DD>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="export_tags">Export Tags<br>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="export_high">Export Highlights<br>
+                    </DD>
                     <dt>possibly Obsolete stuff</dt>
                     <dd>
                         <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="backup">backup objdata<br>
