@@ -1,5 +1,10 @@
 <?php
+require_once cAppGlobals::$spaceInc . "/curiosity/pdsindexer.php";
+require_once cAppGlobals::$spaceInc . "/curiosity/locations.php";
+require_once cAppGlobals::$spaceInc . "/misc/gigapan.php";
+require_once cAppGlobals::$spaceInc . "/misc/pencilnev.php";
 require_once cAppGlobals::$spaceInc . "/misc/tags.php";
+require_once cAppGlobals::$spaceInc . "/misc/pichighlight.php";
 
 class cAdminFunctions {
     //****************************************************************
@@ -44,8 +49,8 @@ class cAdminFunctions {
         $oDB->SHOW_SQL = false;
 
         //----------sol
-        $aSolData = cSpaceImageHighlight::get_top_index();
-        foreach ($aSolData as $sSol => $iSolCount) {
+        $aTopData = cSpaceImageHighlight::get_top_index();
+        foreach ($aTopData as $sSol => $iSolCount) {
 
             $aSolData = cSpaceImageHighlight::get_sol_highlighted_products($sSol);
             if ($aSolData == null) {
@@ -95,6 +100,44 @@ class cAdminFunctions {
         cDebug::write("");
         cDebug::write("$iCount Duplicate items found");
 
+        cDebug::leave();
+    }
+
+    //******************************************************************
+    static function export_highs() {
+        cDebug::enter();
+        echo "Sol,Instrument,Product,top,left,image_url\n";
+        echo "=,=,=,=,=,=\n";
+
+        $aTopData = cSpaceImageHighlight::get_top_index();
+        foreach ($aTopData as $sSol => $iSolCount) {
+            $aSolData = cSpaceImageHighlight::get_sol_highlighted_products($sSol);
+            foreach ($aSolData as $sInstrument => $aProductData)
+                foreach ($aProductData as $sProduct => $iProductCount) {
+                    try {
+                        $oProduct = cCuriosityManifestUtils::search_for_product($sProduct);
+                        $sUrl = $oProduct->image_url;
+                    } catch (Exception $e) {
+                        $sUrl = "unknown url";
+                    }
+
+                    $aHighs = cSpaceImageHighlight::get($sSol, $sInstrument, $sProduct);
+                    $aBoxes = $aHighs["d"];
+                    if ($aBoxes == null || count($aBoxes) == 0) continue;
+                    foreach ($aBoxes as $iBoxID => $aBox) {
+                        $sTop = $aBox["t"];
+                        $sLeft = $aBox["l"];
+                        cCommon::flushprint("$sSol,$sInstrument,$sProduct,$sTop,$sLeft, $sUrl\n");
+                    }
+                }
+        }
+        cDebug::leave();
+    }
+
+    //******************************************************************
+    static function export_tags() {
+        cDebug::enter();
+        cDebug::error("not implemented");
         cDebug::leave();
     }
 }

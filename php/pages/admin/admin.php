@@ -14,22 +14,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 $home = "../../..";
 require_once "$home/php/fragments/app-common.php";
 
-//phpinc includes
-require_once cAppGlobals::$phpInc . "/ckinc/session.php";
-require_once cAppGlobals::$phpInc . "/ckinc/common.php";
-require_once cAppGlobals::$phpInc . "/ckinc/header.php";
-require_once cAppGlobals::$phpInc . "/ckinc/auth.php";
-require_once cAppGlobals::$phpInc . "/ckinc/debug.php";
-require_once cAppGlobals::$phpInc . "/ckinc/cached_http.php";
-
-//space includes
-require_once cAppGlobals::$spaceInc . "/curiosity/static.php";
-require_once cAppGlobals::$spaceInc . "/curiosity/pdsindexer.php";
-require_once cAppGlobals::$spaceInc . "/curiosity/locations.php";
-require_once cAppGlobals::$spaceInc . "/misc/gigapan.php";
-require_once cAppGlobals::$spaceInc . "/misc/pencilnev.php";
-require_once cAppGlobals::$spaceInc . "/misc/tags.php";
-require_once cAppGlobals::$spaceInc . "/misc/pichighlight.php";
 
 //other includes
 require_once "$home/php/classes/admin-funcs.php";
