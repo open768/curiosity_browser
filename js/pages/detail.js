@@ -234,12 +234,12 @@ class cDetailSolButtons {
 		//-------------------------------------------------------------------------------
 		var sID
 		sID = cJquery.child_ID(oContainer, this.SOL_CHILD_ID)
-		this.pr_add_button(oContainer, sID, 'Choose Sol', '???', e => oThis.onClickSol(e))
+		this.pr_add_button(oContainer, sID, ' All Sol Images', '???', e => oThis.onClickSol(e))
 		sID = cJquery.child_ID(oContainer, this.INSTR_CHILD_ID)
-		this.pr_add_button(oContainer, sID, 'Choose Intrument', 'loading', () => oThis.onClickInstr())
+		this.pr_add_button(oContainer, sID, 'Show Intrument Images', 'loading', () => oThis.onClickInstr())
 
 		sID = cJquery.child_ID(oContainer, this.UTC_CHILD_ID)
-		var oSpan = $('<SPAN>', { id: sID })
+		var oSpan = $('<SPAN>', { id: sID, class: 'date' })
 		{
 			oSpan.append('date goes here')
 			oContainer.append(oSpan)
@@ -286,16 +286,20 @@ class cDetailSolButtons {
 	static onClickSol() {
 		const oItem = cDetail.oItem
 		const sUrl = cBrowser.buildUrl('index.php', {
-			s: oItem.s,
-			i: oItem.i,
-			b: cDetail.iNum
+			s: oItem.s
 		})
 		cBrowser.openWindow(sUrl, 'index')
 	}
 
 	//***************************************************************
 	static onClickInstr() {
-		this.onClickSol()
+		const oItem = cDetail.oItem
+		const sUrl = cBrowser.buildUrl('index.php', {
+			s: oItem.s,
+			i: oItem.i,
+			b: cDetail.iNum
+		})
+		cBrowser.openWindow(sUrl, 'index')
 	}
 	//***************************************************************
 	static onClickNASA() {

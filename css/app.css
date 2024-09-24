@@ -28,6 +28,12 @@ body {
 	line-height: 1em;
 	text-shadow: 1px 1px 0 rgb(107, -29, -120);
 }
+
+.date {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
 .legend_outer {
 	margin: 3px;
 	width: 100px;
@@ -302,7 +308,6 @@ body {
 	padding: 3px;
 	width: 80%;
 }
-
 
 .title {
 	color: black;
