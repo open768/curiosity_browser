@@ -201,19 +201,24 @@ $.widget('ck.instrhighlight', {
 
 				// Add the product header
 				var sColourClass = bOtherColour ? 'highlight_colour1' : 'highlight_colour2'
-				var oSpan = $('<SPAN>', { class: 'highlight_product ' + sColourClass })
+				var oContainer = $('<DIV>', { class: 'highlight_container ' + sColourClass })
 				{
-					oSpan.append(sProduct)
-					oBody.append(oSpan)
-				}
+					var oSpan = $('<DIV>', { class: 'highlight_product' })
+					{
+						oSpan.append(sProduct)
+						oContainer.append(oSpan)
+					}
 
-				// add a Placeholder
-				var oHighlights = $('<SPAN>', { class: 'highlight_body' })
-				{
-					oHighlights.append(this.consts.STAGE1_MSG)
-					oHighlights.attr({ Product: sProduct })
-					oBody.append(oHighlights)
+					// add a Placeholder
+					var oHighlights = $('<DIV>', { class: 'highlight_body' })
+					{
+						oHighlights.append(this.consts.STAGE1_MSG)
+						oHighlights.attr({ Product: sProduct })
+						oContainer.append(oHighlights)
+					}
+					oBody.append(oContainer)
 				}
+				oBody.append(' ')
 
 				//wait for placeholder to become visible
 				oHighlights.on('inview', (e, pb) => oThis.onInView(e.target, pb))
@@ -275,11 +280,13 @@ $.widget('ck.instrhighlight', {
 		var sUrl = cBrowser.buildUrl(this.consts.HIGHLIGHT_URL, oParams)
 
 		var oItem = new cHttpQueueItem()
-		oItem.url = sUrl
-		oItem.element = poSpan
-		bean.on(oItem, 'result', poHttp => oThis.onHighlightResponse(oItem, poHttp))
-		bean.on(oItem, 'error', poHttp => oThis.onHighlightError(oItem, poHttp))
-		goHighlightQueue.add(oItem)
+		{
+			oItem.url = sUrl
+			oItem.element = poSpan
+			bean.on(oItem, 'result', poHttp => oThis.onHighlightResponse(oItem, poHttp))
+			bean.on(oItem, 'error', poHttp => oThis.onHighlightError(oItem, poHttp))
+			goHighlightQueue.add(oItem)
+		}
 	},
 
 	//*******************************************************************
@@ -312,16 +319,13 @@ $.widget('ck.instrhighlight', {
 				var sImgUrl = oOptions.home + '/' + aUrls[i]
 				oImg = $('<IMG>').attr({
 					src: sImgUrl,
-					class: 'highlight_body image'
+					class: 'image'
 				})
 				var sProduct = oSpan.attr('product')
 				const oThis = this
 				oImg.on('click', () => oThis.onImageClick(sProduct))
-				oSpan.after(oImg) //append the image
+				oSpan.append(oImg) //append the image
 			}
-
-			//and remove the placeholder span
-			oSpan.remove()
 		}
 	},
 
