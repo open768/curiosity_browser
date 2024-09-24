@@ -185,37 +185,41 @@ $.widget('ck.instrhighlight', {
 		//using the query CSS styles
 		oElement.uniqueId()
 		oElement.empty()
-		oElement.addClass('ui-widget-content')
+		oElement.addClass('w3-card')
 
-		var oHeader = $('<DIV>', { class: 'ui-widget-header' })
+		var oHeader = $('<Header>', { class: 'w3-container w3-theme-d3' })
 		oHeader.append(oOptions.instr)
 		oElement.append(oHeader)
 
-		var oBody = $('<DIV>', { class: 'ui-widget-body' })
-		oElement.append(oBody)
+		var oBody = $('<div>', { class: 'w3-container w3-theme-l4 w3-padding-16' })
+		{
+			//get the list of products
+			var bOtherColour = false
+			for (sProduct in oOptions.products) {
+				//dont do anything if the queue is stopping
+				if (goHighlightQueue.stopping) return
 
-		//get the list of products
-		var bOtherColour = false
-		for (sProduct in oOptions.products) {
-			//dont do anything if the queue is stopping
-			if (goHighlightQueue.stopping) return
+				// Add the product header
+				var sColourClass = bOtherColour ? 'highlight_colour1' : 'highlight_colour2'
+				var oSpan = $('<SPAN>', { class: 'highlight_product ' + sColourClass })
+				{
+					oSpan.append(sProduct)
+					oBody.append(oSpan)
+				}
 
-			// Add the product header
-			var sColourClass = bOtherColour ? 'highlight_colour1' : 'highlight_colour2'
-			var oSpan = $('<SPAN>', { class: 'highlight_product ' + sColourClass })
-			oSpan.uniqueId()
-			oSpan.append(sProduct)
-			oBody.append(oSpan)
+				// add a Placeholder
+				var oHighlights = $('<SPAN>', { class: 'highlight_body' })
+				{
+					oHighlights.append(this.consts.STAGE1_MSG)
+					oHighlights.attr({ Product: sProduct })
+					oBody.append(oHighlights)
+				}
 
-			// add a Placeholder
-			var oHighlights = $('<SPAN>', { class: 'highlight_body' })
-			oHighlights.append(this.consts.STAGE1_MSG)
-			oHighlights.attr({ Product: sProduct })
-			oBody.append(oHighlights)
-
-			//wait for placeholder to become visible
-			oHighlights.on('inview', (e, pb) => oThis.onInView(e.target, pb))
-			bOtherColour = !bOtherColour
+				//wait for placeholder to become visible
+				oHighlights.on('inview', (e, pb) => oThis.onInView(e.target, pb))
+				bOtherColour = !bOtherColour
+			}
+			oElement.append(oBody)
 		}
 	},
 
