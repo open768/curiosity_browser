@@ -33,7 +33,18 @@ cPageOutput::write_JS_class_constant_IDs(cAppLocations::class);
 cPageOutput::write_JS_class_constant_IDs(cSpaceConstants::class);
 cPageOutput::write_JS_class_constant_IDs(cSpaceUrlParams::class);
 cPageOutput::write_JS_class_constant_IDs(cAppUrlParams::class);
+
+//write out the title
+if (cCommon::is_string_empty(cAppGlobals::$title))
+    cAppGlobals::$title = "MISSING TITLE";
+$title = "";
+if (cDebug::is_localhost()) $title = "DEVELOPMENT";
+$title .= " - " . strip_tags(cAppGlobals::$title);
+$title .= " - " . cAppConfig::APP_NAME;
 ?>
+<title><?= $title ?></TITLE>
+
+
 <!-- common ckinc -->
 <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/common.js"></script>
 <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/render.js"></script>

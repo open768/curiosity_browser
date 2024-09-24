@@ -2,13 +2,13 @@
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 include cAppGlobals::$appPhpFragments . "/doctype.php";
+cAppGlobals::$title = "Sites";
 ?>
 
 <head>
     <?php
     include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
-    <title>All Sites - Curiosity Browser</title>
     <script src="<?= cAppGlobals::$jsHome ?>/pages/allsites.js"></script>
     <script>
         google.load("earth", "1");
@@ -17,7 +17,6 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
 
 <body onload="$(onLoadJQuery_SITES);">
     <?php
-    cAppGlobals::$title = "Sites";
     include cAppGlobals::$appPhpFragments . "/title.php";
     ?>
     <div class="gold">

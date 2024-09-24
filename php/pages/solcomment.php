@@ -7,11 +7,11 @@ class cSolCommentPageConstants {
     const ID_COMMENTS_CONTAINER = "scc";
     const ID_SOL = "scs";
 }
+cAppGlobals::$title = "Comments for sol:<span id='" . cSolCommentPageConstants::ID_SOL . "'>??</span>";
 ?>
 
 <head>
     <?php include cAppGlobals::$appPhpFragments . "/header.php"; ?>
-    <title>Sol comments - Curiosity Browser </title>
     <script src="<?= cAppGlobals::$jsSpaceInc ?>/comments.js"></script>
     <script src="<?= cAppGlobals::$jsHome ?>/pages/solcomments.js"></script>
     <script src="<?= cAppGlobals::$jsWidgets ?>/comment-box.js"></script>
@@ -19,7 +19,6 @@ class cSolCommentPageConstants {
 
 <body onload="$( ()=>cSolComments.onLoadJQuery() );">
     <?php
-    cAppGlobals::$title = "Comments for sol:<span id='" . cSolCommentPageConstants::ID_SOL . "'>??</span>";
     include cAppGlobals::$appPhpFragments . "/title.php";
 
     cPageOutput::write_JS_class_constant_IDs(cSolCommentPageConstants::class);

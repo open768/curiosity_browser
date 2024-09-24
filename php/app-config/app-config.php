@@ -45,6 +45,8 @@ class cAppConfig {
     const FB_SCOPE = "public_profile";
     const FB_ELEMENT_ID = "FB_User";
     const FB_VERSION = "v20.0";
+    const MISSION_ID = "MSL";
+    const APP_NAME = "Curiosity Browser";
 }
 
 //##########################################################

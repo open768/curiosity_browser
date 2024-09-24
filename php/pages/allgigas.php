@@ -2,20 +2,19 @@
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 include cAppGlobals::$appPhpFragments . "/doctype.php";
+cAppGlobals::$title = "All Gigapans - by Neville Thompson";
 ?>
 
 <head>
     <?php
     include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
-    <title>All Gigapans - by Neville Thompson</title>
     <script src="<?= cAppGlobals::$jsWidgets ?>/allgrid.js"></script>
     <script src="<?= cAppGlobals::$jsHome ?>/classes/solgrid.js"></script>
 </head>
 
 <body onload="$(onLoadJQuery_GIGAS);">
     <?php
-    cAppGlobals::$title = "All Gigapans - by Neville Thompson";
     include cAppGlobals::$appPhpFragments . "/title.php";
     ?>
     <script>

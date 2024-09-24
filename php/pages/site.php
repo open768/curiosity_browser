@@ -8,7 +8,6 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
     <?php
     include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
-    <title>Site - Curiosity Browser</title>
     <script src="<?= cAppGlobals::$jsHome ?>/pages/site.js"></script>
     <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/googleearth.js"></script>
     <script src="https://www.google.com/jsapi"></script>

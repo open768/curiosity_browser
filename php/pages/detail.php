@@ -26,13 +26,13 @@ class cDetailPageConstants {
 }
 
 include cAppGlobals::$appPhpFragments . "/doctype.php";
+cAppGlobals::$title = "Product Detail";
 ?>
 
 <head>
     <?php include cAppGlobals::$appPhpFragments . "/header.php"; ?>
     <LINK href="<?= $home ?>/css/drag.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="<?= cAppGlobals::$jsExtra ?>/sceditor/minified/themes/default.min.css" type="text/css" media="all">
-    <title>Detail: Curiosity Browser</title>
     <script src="<?= cAppGlobals::$jsSpaceInc ?>/comments.js"></script>
     <script src="<?= cAppGlobals::$jsExtra ?>/sceditor/minified/jquery.sceditor.bbcode.min.js"></script>
     <script src="<?= cAppGlobals::$jsHome ?>/pages/detail.js"></script>
@@ -44,7 +44,6 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";
 
 <body onload="$( ()=>cDetail.onLoadJQuery() );">
     <?php
-    cAppGlobals::$title = "Product Detail";
     include cAppGlobals::$appPhpFragments . "/title.php";
     ?>
     <DIV id="<?= cDetailPageConstants::PAGE_CONTENTS_ID ?>" class="w3-container w3-padding-small">

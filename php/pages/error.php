@@ -2,18 +2,17 @@
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 include cAppGlobals::$appPhpFragments . "/doctype.php";
+cAppGlobals::$title = "Errrrrror";
 ?>
 
 <head>
     <?php
     include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
-    <title>Error </title>
 </head>
 
 <body>
     <?php
-    cAppGlobals::$title = "Errrrrror";
     include cAppGlobals::$appPhpFragments . "/title.php";
     ?>
     <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/common.js"></script>

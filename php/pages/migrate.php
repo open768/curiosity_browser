@@ -2,18 +2,17 @@
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 include cAppGlobals::$appPhpFragments . "/doctype.php";
+cAppGlobals::$title = "Migrate";
 ?>
 
 <head>
     <?php
     include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
-    <title>Migrate</title>
 </head>
 
 <body>
     <?php
-    cAppGlobals::$title = "Migrate";
     include cAppGlobals::$appPhpFragments . "/title.php";
     ?>
     <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/common.js"></script>

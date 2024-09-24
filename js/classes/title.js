@@ -18,7 +18,10 @@ class cAppTitle {
 				//oButton.addClass("homebutton")
 				oDiv.append(oButton)
 			}
-		} else oDiv.append('Curiosity Browser')
+		} else {
+			oDiv.append('Curiosity Browser')
+		}
+
 		oDiv.append(' - ' + cTitleConstants.TITLE)
 
 		if (cTitleConstants.IS_LOCALHOST) oDiv.append(" - <font class='dev'>DEVELOPMENT</font>")

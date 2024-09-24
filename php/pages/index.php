@@ -24,6 +24,7 @@ class cIndexPageConsts {
     static $IS_ADMIN = "no";
 }
 cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
+cAppGlobals::$title = "Home";
 ?>
 
 <head>
@@ -31,7 +32,6 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
     <?php include cAppGlobals::$appPhpFragments . "/header.php";  ?>
 
     <!-- main scripts -->
-    <title>Curiosity Browser</title>
     <LINK href="<?= $home ?>/css/drag.css" rel="stylesheet" type="text/css">
     <LINK href="<?= $home ?>/css/tabs.css" rel="stylesheet" type="text/css">
     <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/queue.js"></script>
@@ -57,7 +57,6 @@ cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
     cPageOutput::write_JS_class_constant_IDs(cIndexPageConsts::class);
     ?>
     <?php
-    cAppGlobals::$title = "Home";
     include cAppGlobals::$appPhpFragments . "/title.php";
     ?>
 

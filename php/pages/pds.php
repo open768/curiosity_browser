@@ -2,18 +2,17 @@
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 include cAppGlobals::$appPhpFragments . "/doctype.php";  ?>
+cAppGlobals::$title = "PDS details";
 
 <head>
     <?php
     include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
-    <title>PDS details - Curiosity Browser</title>
     <script src="<?= cAppGlobals::$jsHome ?>/pages/pds.js"></script>
 </head>
 
 <body onload="$(onLoadJQuery_PDS);">
     <?php
-    cAppGlobals::$title = "PDS details";
     include cAppGlobals::$appPhpFragments . "/title.php";
     ?>
     <DIV class="gold">

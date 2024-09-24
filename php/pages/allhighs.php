@@ -1,21 +1,20 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-(cAppGlobals::$appPhpFragments . "/doctype.php");
+include cAppGlobals::$appPhpFragments . "/doctype.php";
+cAppGlobals::$title = "Sols with Highlights";
 ?>
 
 <head>
     <?php
     include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
-    <title>All Highlights - Curiosity Browser</title>
     <script src="<?= cAppGlobals::$jsWidgets ?>/allgrid.js"></script>
     <script src="<?= cAppGlobals::$jsHome ?>/classes/solgrid.js"></script>
 </head>
 
 <body onload="$(onLoadJQuery_HIGHS);">
     <?php
-    cAppGlobals::$title = "Sols with Highlights";
     include cAppGlobals::$appPhpFragments . "/title.php";
     ?>
     <script>

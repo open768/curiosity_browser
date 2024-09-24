@@ -41,7 +41,7 @@ prevent_buffering();
 //headers
 include cAppGlobals::$appPhpFragments . "/doctype.php";
 echo "<HEAD>\n";
-cAppGlobals::$title = "Curiosity browser - Admin";
+cAppGlobals::$title = "Admin";
 include cAppGlobals::$appPhpFragments . "/header.php";
 echo "</HEAD>\n";
 

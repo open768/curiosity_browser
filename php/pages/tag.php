@@ -2,12 +2,12 @@
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 include cAppGlobals::$appPhpFragments . "/doctype.php";  ?>
+cAppGlobals::$title = "Instances of Tag <span id='tagname'>tag goes here</span>";
 
 <head>
     <?php
     include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
-    <title>Tags: Curiosity Browser</title>
     <script src="<?= cAppGlobals::$jsHome ?>/pages/tag.js"></script>
     <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/queue.js"></script>
     <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/actionqueue.js"></script>
@@ -18,7 +18,6 @@ include cAppGlobals::$appPhpFragments . "/doctype.php";  ?>
 
 <body onload="$(onLoadJQuery_TAG);">
     <?php
-    cAppGlobals::$title = "Instances of Tag <span id='tagname'>tag goes here</span>";
     include cAppGlobals::$appPhpFragments . "/title.php";
     ?>
     <div class="w3-cell-row">

@@ -19,7 +19,6 @@ class cSolHighPageConstants {
 
 <head>
     <?php include cAppGlobals::$appPhpFragments . "/header.php"; ?>
-    <title>Sol Highlights - Curiosity Browser </title>
     <script src="<?= cAppGlobals::$jsHome ?>/pages/solhighs.js"></script>
     <script src="<?= cAppGlobals::$jsWidgets ?>/solhighlights.js"></script>
 </head>

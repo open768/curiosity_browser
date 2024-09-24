@@ -9,7 +9,6 @@ cAppGlobals::$title = "Tagged Sols";
     <?php
     include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
-    <title>Sol Tags - Curiosity Browser</title>
     <script src="<?= cAppGlobals::$jsWidgets ?>/allgrid.js"></script>
     <script src="<?= cAppGlobals::$jsHome ?>/classes/solgrid.js"></script>
 </head>
