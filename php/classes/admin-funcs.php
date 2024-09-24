@@ -40,6 +40,10 @@ class cAdminFunctions {
         cDebug::enter();
         $iCount = 0;
 
+        $oDB = cSpaceImageHighlight::get_db();
+        $oDB->SHOW_SQL = false;
+
+        //----------sol
         $aSolData = cSpaceImageHighlight::get_top_index();
         foreach ($aSolData as $sSol => $iSolCount) {
 
@@ -50,30 +54,41 @@ class cAdminFunctions {
             }
             cCommon::flushprint(" ☀️");
 
+            //----------instrument
             foreach ($aSolData as $sIntrument => $aProductData) {
                 cCommon::flushprint("🎺");
 
+                //------product
                 foreach ($aProductData as $sProduct => $iProductCount) {
                     $aMemory = [];
                     $aHighs = cSpaceImageHighlight::get($sSol, $sIntrument, $sProduct);
                     $aBoxes = $aHighs["d"];
-                    if ($aBoxes == null) {
+                    if ($aBoxes == null || count($aBoxes) == 0) {
                         cCommon::flushprint("🍗");
                         continue;
                     }
                     cCommon::flushprint(".");
 
+                    $aOut = [];
+                    $iProdCount = 0;
                     foreach ($aBoxes as $iBoxID => $aBox) {
                         cCommon::flushprint(".");
                         $sTop = $aBox["t"];
                         $sLeft = $aBox["l"];
                         $sKey = "{$sTop}{$sLeft}";
                         if (array_key_exists($sKey, $aMemory)) {
-                            $iCount++;
+                            $iProdCount++;
                             cCommon::flushprint("❌");
-                        } else
+                        } else {
                             $aMemory[$sKey] = 1;
+                            $aOut[] = $aBox;
+                        }
                     }
+                    if ($iProdCount > 0) {
+                        cCommon::flushprint("💾");
+                        cSpaceImageHighlight::put($sSol, $sIntrument, $sProduct, $aOut);
+                    }
+                    $iCount += $iProdCount;
                 }
             }
         }
