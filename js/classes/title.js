@@ -21,6 +21,6 @@ class cAppTitle {
 		} else oDiv.append('Curiosity Browser')
 		oDiv.append(' - ' + cTitleConstants.TITLE)
 
-		if (cTitleConstants.IS_LOCALHOST) oDiv.append(" - <font color='red'>DEVELOPMENT</font>")
+		if (cTitleConstants.IS_LOCALHOST) oDiv.append(" - <font class='dev'>DEVELOPMENT</font>")
 	}
 }

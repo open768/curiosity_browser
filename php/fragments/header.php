@@ -13,7 +13,7 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 <link rel="icon" href="<?= cAppGlobals::$appImages ?>/browser/dude.ico" type="image/x-icon">
 <LINK href="<?= $home ?>/css/app.css" rel="stylesheet" type="text/css">
 <LINK href="<?= $home ?>/css/app-theme.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="<?= cAppGlobals::$jsExtra ?>/jquery-ui/jquery-ui.min.css">
+<link rel="stylesheet" href="<?= cAppGlobals::$jsExtra ?>/jquery-ui/1.14/jquery-ui.min.css">
 <link rel="stylesheet" href="<?= cAppGlobals::$jsExtra ?>/jquery-spinner/css/gspinner.min.css">
 
 <!-- CSS frameworks -->

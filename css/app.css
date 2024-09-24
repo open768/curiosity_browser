@@ -34,21 +34,6 @@ body {
 	margin-right: 10px;
 }
 
-.legend_outer {
-	margin: 3px;
-	width: 100px;
-	padding: 3px;
-}
-.legend_tag {
-	font-size: 11px;
-}
-.legend_line {
-	display: flex;
-	height: 10px;
-	border-style: solid;
-	border-width: 1px;
-}
-
 .comments {
 	color: grey;
 	font-style: italic;
@@ -60,6 +45,15 @@ body {
 	font-size: 14px;
 	line-height: 1em;
 	text-shadow: 1px 1px 0 rgb(107, -29, -120);
+}
+
+.dev {
+	font-size: x-large;
+	color: white;
+	padding: 5px;
+	background-color: red;
+	font-weight: bold;
+	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .disclaim {
@@ -228,6 +222,21 @@ body {
 
 .leftcolumn {
 	width: 230px;
+}
+
+.legend_outer {
+	margin: 3px;
+	width: 100px;
+	padding: 3px;
+}
+.legend_tag {
+	font-size: 11px;
+}
+.legend_line {
+	display: flex;
+	height: 10px;
+	border-style: solid;
+	border-width: 1px;
 }
 
 .maintable {
