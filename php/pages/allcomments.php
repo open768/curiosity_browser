@@ -1,7 +1,7 @@
 <?php
 $home = "../..";
-cAppGlobals::$title = "All Comments";
 require_once "$home/php/fragments/app-common.php";
+cAppGlobals::$title = "All Comments";
 include cAppGlobals::$appPhpFragments . "/doctype.php";
 ?>
 

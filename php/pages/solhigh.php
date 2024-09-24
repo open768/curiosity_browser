@@ -14,6 +14,7 @@ class cSolHighPageConstants {
     const  CHK_MOSAIC_ID = "cmid";
     const SOL_TITLE_ID = "st";
 }
+cAppGlobals::$title = "Highlights for sol:<span id='" . cSolHighPageConstants::SOL_TITLE_ID . "'>??</span>";
 
 ?>
 
@@ -25,7 +26,6 @@ class cSolHighPageConstants {
 
 <body onload="$( ()=>cSolHighs.onLoadJQuery() );">
     <?php
-    cAppGlobals::$title = "Highlights for sol:<span id='" . cSolHighPageConstants::SOL_TITLE_ID . "'>??</span>";
     cPageOutput::write_JS_class_constant_IDs(cSolHighPageConstants::class);
     include cAppGlobals::$appPhpFragments . "/title.php";
     ?>
