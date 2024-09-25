@@ -3,10 +3,11 @@ $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 require_once  cAppGlobals::$phpInc . "/ckinc/image.php";
 
-$sMission = cHeader::get(cSpaceUrlParams::MISSION, true);
-$sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
-$sInstr = cHeader::get(cSpaceUrlParams::INSTRUMENT, true);
-$sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
+$sUrl = cHeader::get("u", true);
+$iTop = cHeader::get("t", true, true);
+$iLeft = cHeader::get("l", true, true);
+$iWidth = cHeader::get("w", true, true);
+$iHeight = cHeader::get("h", true, true);
 
 try {
     $aData = cCuriosityImages::getThumbBlobData($sSol, $sInstr, $sProduct);
