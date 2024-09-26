@@ -3,6 +3,111 @@ var goHighlightQueue = new cHttpQueue()
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //% Definition
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+class ckSolHighlights {
+	widget = null
+	element = null
+	options = {
+		mission: null,
+		sol: null,
+		home: null,
+		onStatus: null,
+		onClick: null
+	}
+
+	//**************************************************************
+	constructor(poWidget) {
+		this.widget = poWidget
+		this.options = poWidget.options
+		this.element = poWidget.element
+	}
+
+	//**************************************************************
+	init() {
+		const oElement = this.element
+
+		//clear out the DIV and put some text in it
+		oElement.empty()
+		var oSpinner = cAppRender.make_spinner('taming velociraptors ....')
+		oElement.append(oSpinner)
+
+		//ok get the data
+		this.pr__get_sol_highlights()
+	}
+	//***************************************************************************
+	pr__get_sol_highlights() {
+		var oParams = {}
+		var oThis = this
+
+		this.widget._trigger('onStatus', null, { text: 'fetching highlights' })
+
+		oParams[cSpaceBrowser.SOL_QUERYSTRING] = this.options.sol
+
+		var oHttp = new cHttp2()
+		{
+			if (cBrowser.data[cSpaceBrowser.MOSAIC_QUERYSTRING] != null) {
+				oParams[cSpaceBrowser.OUTPUT_QUERYSTRING] = 'mosaic'
+				bean.on(oHttp, 'result', poHttp => oThis.onMosaicResponse(poHttp))
+			} else {
+				oParams[cSpaceBrowser.OUTPUT_QUERYSTRING] = 'soldata'
+				bean.on(oHttp, 'result', poHttp => oThis.onSheetResponse(poHttp))
+			}
+
+			var sUrl = cBrowser.buildUrl(cAppLocations.rest + '/img_highlight.php', oParams)
+			oHttp.fetch_json(sUrl)
+		}
+	}
+
+	//***************************************************************************
+	onMosaicResponse(poHttp) {
+		var oElement = this.element
+
+		oElement.empty()
+		var oData = poHttp.response
+
+		if (oData.u == null) oElement.append(cAppRender.make_note('Sorry no Mosaic found'))
+		else {
+			var oImg = $('<IMG>').attr({ src: oData.u })
+			oElement.append(oImg)
+		}
+		this.widget._trigger('onStatus', null, { text: 'ok' })
+	}
+
+	//***************************************************************************
+	onSheetResponse(poHttp) {
+		var oElement = this.element
+		var oThis = this
+		var oDiv
+
+		//-----------------------------------------------------------------
+		this.widget._trigger('onStatus', null, { text: 'got some data.. processing' })
+		oElement.empty()
+
+		//-----------------------------------------------------------------
+		var iCount = 0
+		var aData = poHttp.response
+		var sInstrument
+		for (sInstrument in aData) {
+			oDiv = $('<DIV>').instrhighlight({
+				mission: this.options.mission,
+				sol: this.options.sol,
+				instr: sInstrument,
+				products: aData[sInstrument],
+				home: this.options.home,
+				onClick: function (poEvent, poData) {
+					oThis._trigger('onClick', null, poData)
+				}
+			})
+			oElement.append(oDiv)
+			oElement.append('<P>')
+			iCount++
+		}
+
+		if (iCount == 0) {
+			oElement.append(cAppRender.make_note('Sorry no Highlights found'))
+		}
+	}
+}
+
 $.widget('ck.solhighlights', {
 	//#################################################################
 	//# Definition
@@ -39,87 +144,8 @@ $.widget('ck.solhighlights', {
 		var sElementName = oElement.get(0).tagName
 		if (sElementName !== 'DIV') $.error('needs a DIV. this element is a: ' + sElementName)
 
-		//clear out the DIV and put some text in it
-		oElement.empty()
-		var oSpinner = cAppRender.make_spinner('taming velociraptors ....')
-		oElement.append(oSpinner)
-
-		//ok get the data
-		this.pr__get_sol_highlights()
-	},
-
-	//***************************************************************************
-	pr__get_sol_highlights: function () {
-		var oParams = {}
-		var oThis = this
-
-		this._trigger('onStatus', null, { text: 'fetching highlights' })
-
-		oParams[cSpaceBrowser.SOL_QUERYSTRING] = this.options.sol
-
-		var oHttp = new cHttp2()
-		{
-			if (cBrowser.data[cSpaceBrowser.MOSAIC_QUERYSTRING] != null) {
-				oParams[cSpaceBrowser.OUTPUT_QUERYSTRING] = 'mosaic'
-				bean.on(oHttp, 'result', poHttp => oThis.onMosaicResponse(poHttp))
-			} else {
-				oParams[cSpaceBrowser.OUTPUT_QUERYSTRING] = 'soldata'
-				bean.on(oHttp, 'result', poHttp => oThis.onSheetResponse(poHttp))
-			}
-
-			var sUrl = cBrowser.buildUrl(cAppLocations.rest + '/img_highlight.php', oParams)
-			oHttp.fetch_json(sUrl)
-		}
-	},
-
-	//***************************************************************************
-	onMosaicResponse: function (poHttp) {
-		var oElement = this.element
-
-		oElement.empty()
-		var oData = poHttp.response
-
-		if (oData.u == null) oElement.append(cAppRender.make_note('Sorry no Mosaic found'))
-		else {
-			var oImg = $('<IMG>').attr({ src: oData.u })
-			oElement.append(oImg)
-		}
-		this._trigger('onStatus', null, { text: 'ok' })
-	},
-
-	//***************************************************************************
-	onSheetResponse: function (poHttp) {
-		var oElement = this.element
-		var oThis = this
-		var oDiv
-
-		//-----------------------------------------------------------------
-		this._trigger('onStatus', null, { text: 'got some data.. processing' })
-		oElement.empty()
-
-		//-----------------------------------------------------------------
-		var iCount = 0
-		var aData = poHttp.response
-		var sInstrument
-		for (sInstrument in aData) {
-			oDiv = $('<DIV>').instrhighlight({
-				mission: this.options.mission,
-				sol: this.options.sol,
-				instr: sInstrument,
-				products: aData[sInstrument],
-				home: this.options.home,
-				onClick: function (poEvent, poData) {
-					oThis._trigger('onClick', null, poData)
-				}
-			})
-			oElement.append(oDiv)
-			oElement.append('<P>')
-			iCount++
-		}
-
-		if (iCount == 0) {
-			oElement.append(cAppRender.make_note('Sorry no Highlights found'))
-		}
+		const oInstance = new ckSolHighlights(this)
+		oInstance.init()
 	}
 })
 
