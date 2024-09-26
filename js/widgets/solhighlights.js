@@ -40,15 +40,15 @@ class ckSolHighlights {
 
 		this.widget._trigger('onStatus', null, { text: 'fetching highlights' })
 
-		oParams[cSpaceBrowser.SOL_QUERYSTRING] = this.options.sol
+		oParams[cSpaceBrowser.SOL_PARAM] = this.options.sol
 
 		var oHttp = new cHttp2()
 		{
-			if (cBrowser.data[cSpaceBrowser.MOSAIC_QUERYSTRING] != null) {
-				oParams[cSpaceBrowser.OUTPUT_QUERYSTRING] = 'mosaic'
+			if (cBrowser.data[cSpaceBrowser.MOSAIC_PARAM] != null) {
+				oParams[cSpaceBrowser.OPERATION_PARAM] = 'mosaic'
 				bean.on(oHttp, 'result', poHttp => oThis.onMosaicResponse(poHttp))
 			} else {
-				oParams[cSpaceBrowser.OUTPUT_QUERYSTRING] = 'soldata'
+				oParams[cSpaceBrowser.OPERATION_PARAM] = 'soldata'
 				bean.on(oHttp, 'result', poHttp => oThis.onSheetResponse(poHttp))
 			}
 
@@ -268,11 +268,11 @@ class cInstrHighlight {
 		var oThis = this
 
 		var oParams = {}
-		oParams[cSpaceBrowser.SOL_QUERYSTRING] = oOptions.sol
-		oParams[cSpaceBrowser.INSTR_QUERYSTRING] = oOptions.instr
-		oParams[cSpaceBrowser.PRODUCT_QUERYSTRING] = poSpan.attr('product')
-		oParams[cSpaceBrowser.OUTPUT_QUERYSTRING] = 'thumbs'
-		oParams[cSpaceBrowser.MISSION_QUERYSTRING] = oOptions.mission.ID
+		oParams[cSpaceBrowser.SOL_PARAM] = oOptions.sol
+		oParams[cSpaceBrowser.INSTR_PARAM] = oOptions.instr
+		oParams[cSpaceBrowser.PRODUCT_PARAM] = poSpan.attr('product')
+		oParams[cSpaceBrowser.OPERATION_PARAM] = 'highData'
+		oParams[cSpaceBrowser.MISSION_PARAM] = oOptions.mission.ID
 		var sUrl = cBrowser.buildUrl(this.HIGHLIGHT_URL, oParams)
 
 		var oItem = new cHttpQueueItem()

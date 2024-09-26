@@ -41,9 +41,9 @@ class cImageList {
 
 		// --------------update the Browser url
 		var oParams = {}
-		oParams[cSpaceBrowser.BEGIN_QUERYSTRING] = piStartImage
-		oParams[cSpaceBrowser.SOL_QUERYSTRING] = oOptions.sol
-		oParams[cSpaceBrowser.INSTR_QUERYSTRING] = oOptions.instrument
+		oParams[cSpaceBrowser.BEGIN_PARAM] = piStartImage
+		oParams[cSpaceBrowser.SOL_PARAM] = oOptions.sol
+		oParams[cSpaceBrowser.INSTR_PARAM] = oOptions.instrument
 		var sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), oParams)
 		cBrowser.update_state('index', sUrl)
 

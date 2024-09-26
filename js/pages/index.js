@@ -539,8 +539,8 @@ class cIndexPage {
 		cLeftColumn.render()
 
 		// remember the start_image if its there
-		if (cBrowser.data[cSpaceBrowser.BEGIN_QUERYSTRING]) {
-			cIndexPageOptions.start_image = parseInt(cBrowser.data[cSpaceBrowser.BEGIN_QUERYSTRING])
+		if (cBrowser.data[cSpaceBrowser.BEGIN_PARAM]) {
+			cIndexPageOptions.start_image = parseInt(cBrowser.data[cSpaceBrowser.BEGIN_PARAM])
 		}
 
 		// render searchbox
@@ -627,10 +627,10 @@ class cIndexPage {
 	//###############################################################
 	static update_url() {
 		const oParams = {}
-		oParams[cSpaceBrowser.SOL_QUERYSTRING] = cIndexPageOptions.sol
-		if (cIndexPageOptions.instrument) oParams[cSpaceBrowser.INSTR_QUERYSTRING] = cIndexPageOptions.instrument
-		if (this.is_thumbs_checked()) oParams[cSpaceBrowser.THUMB_QUERYSTRING] = '1'
-		if (cIndexPageOptions.start_image) oParams[cSpaceBrowser.BEGIN_QUERYSTRING] = cIndexPageOptions.start_image
+		oParams[cSpaceBrowser.SOL_PARAM] = cIndexPageOptions.sol
+		if (cIndexPageOptions.instrument) oParams[cSpaceBrowser.INSTR_PARAM] = cIndexPageOptions.instrument
+		if (this.is_thumbs_checked()) oParams[cSpaceBrowser.THUMB_PARAM] = '1'
+		if (cIndexPageOptions.start_image) oParams[cSpaceBrowser.BEGIN_PARAM] = cIndexPageOptions.start_image
 		const sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), oParams)
 		cBrowser.update_state('Index', sUrl)
 	}
@@ -673,7 +673,7 @@ class cIndexPage {
 		if (cIndexPageOptions.instrument) {
 			oChkThumb.removeAttr('disabled')
 			oChkThumb.off('change')
-			if (cBrowser.data[cSpaceBrowser.THUMB_QUERYSTRING]) {
+			if (cBrowser.data[cSpaceBrowser.THUMB_PARAM]) {
 				oChkThumb.prop('checked', true)
 				this.show_thumbs(cIndexPageOptions.sol, cIndexPageOptions.instrument)
 			} else {

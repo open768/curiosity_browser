@@ -403,8 +403,8 @@ $.widget('ck.solinstrumentChooser', {
 		}
 
 		// click the buttons if stuff was passed in the query string
-		if (cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING]) {
-			const sInstr = cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING]
+		if (cBrowser.data[cSpaceBrowser.INSTR_PARAM]) {
+			const sInstr = cBrowser.data[cSpaceBrowser.INSTR_PARAM]
 			oList.find('option[value="' + sInstr + '"]').attr('selected', true)
 		}
 
@@ -463,11 +463,11 @@ $.widget('ck.solinstrumentChooser', {
 		})
 
 		// select the sol and instrument if there on the querystring
-		if (cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING]) {
-			this.options.instrument = cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING]
+		if (cBrowser.data[cSpaceBrowser.INSTR_PARAM]) {
+			this.options.instrument = cBrowser.data[cSpaceBrowser.INSTR_PARAM]
 		}
-		if (cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]) {
-			this.set_sol(cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING])
+		if (cBrowser.data[cSpaceBrowser.SOL_PARAM]) {
+			this.set_sol(cBrowser.data[cSpaceBrowser.SOL_PARAM])
 		}
 
 		this._on(window, {

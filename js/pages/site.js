@@ -48,9 +48,9 @@ function do_op(psOper, psValue) {
 	$('#siteid').html(psOper + ': ' + psValue)
 
 	var oQueryData = {}
-	oQueryData[cSpaceBrowser.OUTPUT_QUERYSTRING] = psOper
+	oQueryData[cSpaceBrowser.OPERATION_PARAM] = psOper
 	oQueryData[psOper] = psValue
-	oQueryData[cSpaceBrowser.MISSION_QUERYSTRING] = cMission.ID
+	oQueryData[cSpaceBrowser.MISSION_PARAM] = cMission.ID
 	var sUrl = cBrowser.buildUrl(cAppLocations.rest + '/sites.php', oQueryData)
 	var oHttp = new cHttp2()
 	{
@@ -59,9 +59,9 @@ function do_op(psOper, psValue) {
 	}
 
 	oQueryData = {}
-	oQueryData[cSpaceBrowser.OUTPUT_QUERYSTRING] = 'siteBounds'
+	oQueryData[cSpaceBrowser.OPERATION_PARAM] = 'siteBounds'
 	oQueryData[psOper] = psValue
-	oQueryData[cSpaceBrowser.MISSION_QUERYSTRING] = cMission.ID
+	oQueryData[cSpaceBrowser.MISSION_PARAM] = cMission.ID
 	sUrl = cBrowser.buildUrl(cAppLocations.rest + '/sites.php', oQueryData)
 	oHttp = new cHttp2()
 	{

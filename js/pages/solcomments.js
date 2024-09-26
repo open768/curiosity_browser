@@ -20,7 +20,7 @@ class cSolComments {
 	//# Entry point
 	//###############################################################
 	static onLoadJQuery() {
-		this.current_sol = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]
+		this.current_sol = cBrowser.data[cSpaceBrowser.SOL_PARAM]
 		if (this.current_sol == null) {
 			var oContainer = cJquery.element(cSolCommentPageConstants.ID_COMMENTS_CONTAINER)
 			oContainer.append('no SOL provided!!!!')
@@ -42,7 +42,7 @@ class cSolComments {
 		oSolDiv.html(this.current_sol)
 		const oParams = {}
 
-		oParams[cSpaceBrowser.SOL_QUERYSTRING] = this.current_sol
+		oParams[cSpaceBrowser.SOL_PARAM] = this.current_sol
 
 		const sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), oParams)
 		cBrowser.update_state('solcomments', sUrl)

@@ -538,9 +538,9 @@ class cDetail {
 
 		// get user data
 		cCommonStatus.set_status('loading user data...')
-		var sSol = cBrowser.data[cSpaceBrowser.SOL_QUERYSTRING]
-		var sInstr = cBrowser.data[cSpaceBrowser.INSTR_QUERYSTRING]
-		var sProduct = cBrowser.data[cSpaceBrowser.PRODUCT_QUERYSTRING]
+		var sSol = cBrowser.data[cSpaceBrowser.SOL_PARAM]
+		var sInstr = cBrowser.data[cSpaceBrowser.INSTR_PARAM]
+		var sProduct = cBrowser.data[cSpaceBrowser.PRODUCT_PARAM]
 		this.sol = sSol
 		this.instrument = sInstr
 		this.product = sProduct

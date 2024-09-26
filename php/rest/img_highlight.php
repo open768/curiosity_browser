@@ -41,7 +41,7 @@ switch ($sOperation) {
         $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
         $oResult = cSpaceImageHighlight::get($sSol, $sInstrument, $sProduct);
         break;
-    case "thumbs":
+    case "highData":
         $sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
         $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT);
         $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
@@ -76,7 +76,7 @@ switch ($sOperation) {
         break;
 
     default:
-        cDebug::error("unsupported operation");
+        cDebug::error("unsupported operation '$sOperation'");
         break;
 }
 
