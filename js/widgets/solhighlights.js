@@ -94,7 +94,7 @@ class ckSolHighlights {
 				products: aData[sInstrument],
 				home: this.options.home,
 				onClick: function (poEvent, poData) {
-					oThis._trigger('onClick', null, poData)
+					oThis.widget._trigger('onClick', null, poData)
 				}
 			})
 			oElement.append(oDiv)
@@ -152,57 +152,27 @@ $.widget('ck.solhighlights', {
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //% Definition
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-$.widget('ck.instrhighlight', {
-	//#################################################################
-	//# Definition
-	//#################################################################
-	options: {
+class cInstrHighlight {
+	options = {
 		mission: null,
 		sol: null,
 		instr: null,
 		products: null,
 		onClick: null
-	},
-	consts: {
-		WAIT_VISIBLE: 750,
-		HIGHLIGHT_URL: cAppLocations.rest + '/img_highlight.php',
-		STAGE1_MSG: 'Sqeeezing Limes...',
-		STAGE2_MSG: 'Catching Dodos... '
-	},
+	}
+	WAIT_VISIBLE = 750
+	HIGHLIGHT_URL = 'not set'
+	STAGE1_MSG = 'Sqeeezing Limes...'
+	STAGE2_MSG = 'Catching Dodos... '
 
-	//#################################################################
-	//# Constructor
-	//#################################################################
-	_create: function () {
-		var oOptions = this.options
-		var oElement = this.element
+	constructor(poWidget) {
+		this.widget = poWidget
+		this.options = poWidget.options
+		this.element = poWidget.element
+		this.HIGHLIGHT_URL = cAppLocations.rest + '/img_highlight.php'
+	}
 
-		//check that the options are passed correctly
-		if (oOptions.mission == null) $.error('mission is not set')
-		if (oOptions.sol == null) $.error('sol is not set')
-		if (oOptions.instr == null) $.error('instr is not set')
-		if (oOptions.products == null) $.error('products not set')
-
-		//check that necessary libraries are included
-		if (!oElement.visible) {
-			$.error('visible is missing! check includes')
-		}
-		if (!$.event.special.inview) {
-			$.error('inview class is missing! check includes')
-		}
-
-		//check that the element is a div
-		var sElementName = oElement.get(0).tagName
-		if (sElementName !== 'DIV') $.error('needs a DIV. this element is a: ' + sElementName)
-
-		//clear out the DIV and get it ready for content
-		this.initialise()
-	},
-
-	//*******************************************************************
-	//*
-	//*******************************************************************
-	initialise: function () {
+	init() {
 		var oOptions = this.options
 		var oElement = this.element
 		var sProduct
@@ -238,7 +208,7 @@ $.widget('ck.instrhighlight', {
 					// add a Placeholder
 					var oHighlights = $('<DIV>', { class: 'highlight_body' })
 					{
-						oHighlights.append(this.consts.STAGE1_MSG)
+						oHighlights.append(this.STAGE1_MSG)
 						oHighlights.attr({ Product: sProduct })
 						oContainer.append(oHighlights)
 					}
@@ -252,25 +222,25 @@ $.widget('ck.instrhighlight', {
 			}
 			oElement.append(oBody)
 		}
-	},
+	}
 
-	//*******************************************************************
-	onInView: function (oTarget, pbIsInView) {
+	//**************************************************************************
+	onInView(poTarget, pbIsInView) {
 		var oThis = this
 		//dont do anything if the queue is stopping
 		if (goHighlightQueue.stopping) return
 		if (!pbIsInView) return
 
 		//turn off the inview listener
-		var oSpan = $(oTarget)
+		var oSpan = $(poTarget)
 		oSpan.off('inview')
 
 		//wait for object to remain visible
-		setTimeout(() => oThis.onTimer(oSpan), this.consts.WAIT_VISIBLE)
-	},
+		setTimeout(() => oThis.onTimer(oSpan), this.WAIT_VISIBLE)
+	}
 
 	//*******************************************************************
-	onTimer: function (poSpan) {
+	onTimer(poSpan) {
 		var oThis = this
 
 		//dont do anything if the queue is stopping
@@ -285,15 +255,15 @@ $.widget('ck.instrhighlight', {
 
 		//show a spinner
 		poSpan.empty()
-		var oSpinner = cAppRender.make_spinner(this.consts.STAGE2_MSG)
+		var oSpinner = cAppRender.make_spinner(this.STAGE2_MSG)
 		poSpan.append(oSpinner)
 
 		//load the highlight information
 		this.load_highlights(poSpan)
-	},
+	}
 
 	//*******************************************************************
-	load_highlights: function (poSpan) {
+	load_highlights(poSpan) {
 		var oOptions = this.options
 		var oThis = this
 
@@ -303,7 +273,7 @@ $.widget('ck.instrhighlight', {
 		oParams[cSpaceBrowser.PRODUCT_QUERYSTRING] = poSpan.attr('product')
 		oParams[cSpaceBrowser.OUTPUT_QUERYSTRING] = 'thumbs'
 		oParams[cSpaceBrowser.MISSION_QUERYSTRING] = oOptions.mission.ID
-		var sUrl = cBrowser.buildUrl(this.consts.HIGHLIGHT_URL, oParams)
+		var sUrl = cBrowser.buildUrl(this.HIGHLIGHT_URL, oParams)
 
 		var oItem = new cHttpQueueItem()
 		{
@@ -313,19 +283,20 @@ $.widget('ck.instrhighlight', {
 			bean.on(oItem, 'error', poHttp => oThis.onHighlightError(oItem, poHttp))
 			goHighlightQueue.add(oItem)
 		}
-	},
+	}
 
 	//*******************************************************************
 	// eslint-disable-next-line no-unused-vars
-	onHighlightError: function (poItem, poHttp) {
+	onHighlightError(poItem, poHttp) {
 		var oSpan = poItem.element
 		oSpan.empty()
 		var oDiv = $('<DIV>', { class: 'ui-state-error' })
 		oDiv.append('Unable to fetch highlights')
 		oSpan.append(oDiv)
-	},
+	}
+
 	//*******************************************************************
-	onHighlightResponse: function (poItem, poHttp) {
+	onHighlightResponse(poItem, poHttp) {
 		var oError, oImg
 		var oSpan = poItem.element
 		oSpan.empty()
@@ -353,16 +324,59 @@ $.widget('ck.instrhighlight', {
 				oSpan.append(oImg) //append the image
 			}
 		}
-	},
+	}
 
 	//************************************************************* */
-	onImageClick: function (psProduct) {
+	onImageClick(psProduct) {
 		var oOptions = this.options
 		goHighlightQueue.stop()
-		this._trigger('onClick', null, {
+		this.widget._trigger('onClick', null, {
 			s: oOptions.sol,
 			i: oOptions.instr,
 			p: psProduct
 		})
+	}
+}
+
+$.widget('ck.instrhighlight', {
+	//#################################################################
+	//# Definition
+	//#################################################################
+	options: {
+		mission: null,
+		sol: null,
+		instr: null,
+		products: null,
+		onClick: null
+	},
+
+	//#################################################################
+	//# Constructor
+	//#################################################################
+	_create: function () {
+		var oOptions = this.options
+		var oElement = this.element
+
+		//check that the options are passed correctly
+		if (oOptions.mission == null) $.error('mission is not set')
+		if (oOptions.sol == null) $.error('sol is not set')
+		if (oOptions.instr == null) $.error('instr is not set')
+		if (oOptions.products == null) $.error('products not set')
+
+		//check that necessary libraries are included
+		if (!oElement.visible) {
+			$.error('visible is missing! check includes')
+		}
+		if (!$.event.special.inview) {
+			$.error('inview class is missing! check includes')
+		}
+
+		//check that the element is a div
+		var sElementName = oElement.get(0).tagName
+		if (sElementName !== 'DIV') $.error('needs a DIV. this element is a: ' + sElementName)
+
+		//clear out the DIV and get it ready for content
+		const oInstance = new cInstrHighlight(this)
+		oInstance.init()
 	}
 })
