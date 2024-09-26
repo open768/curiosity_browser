@@ -10,8 +10,7 @@ $iWidth = cHeader::get("w", true, true);
 $iHeight = cHeader::get("h", true, true);
 
 try {
-    $aData = cCuriosityImages::getThumbBlobData($sSol, $sInstr, $sProduct);
-    cDebug::vardump($aData);
+    $aData = cCropper::get_crop_blob_data($sUrl, $iLeft, $iTop, $iWidth, $iHeight);
     $sMime = $aData->m;
     $sBlob = $aData->b;
     header("Content-Type: $sMime");
