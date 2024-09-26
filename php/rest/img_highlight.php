@@ -45,7 +45,7 @@ switch ($sOperation) {
         $sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
         $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT);
         $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
-        $oResult = cSpaceImageHighlight::get_thumbs($sSol, $sInstrument, $sProduct);
+        $oResult = cSpaceImageHighlight::get_thumb_data($sSol, $sInstrument, $sProduct);
         break;
 
     case "solcount":
