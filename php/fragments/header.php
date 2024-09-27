@@ -29,10 +29,12 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
     }
 </script>
 <?php
+cPageOutput::write_JS_class_constant_IDs(cAppConsts::class);
 cPageOutput::write_JS_class_constant_IDs(cAppLocations::class);
+cPageOutput::write_JS_class_constant_IDs(cAppUrlParams::class);
 cPageOutput::write_JS_class_constant_IDs(cSpaceConstants::class);
 cPageOutput::write_JS_class_constant_IDs(cSpaceUrlParams::class);
-cPageOutput::write_JS_class_constant_IDs(cAppUrlParams::class);
+
 
 //write out the title
 if (cCommon::is_string_empty(cAppGlobals::$title))

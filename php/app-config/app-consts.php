@@ -3,6 +3,12 @@ class cAppIDs {
     const STATUS_ID = "status";
 }
 
+class cAppConsts {
+    const CROP_WIDTH = 120;
+    const CROP_HEIGHT = 120;
+    const THUMB_QUALITY = 90;
+}
+
 class cAppUrlParams {
     const OPERATION = "o";
     const REFRESH = "r";
@@ -20,4 +26,13 @@ class cAppUrlParams {
 
     const PRODUCT_FROM = "pfrom";
     const PRODUCT_TO = "pto";
+
+    const HIGHLIGHT_TOP = "t";
+    const HIGHLIGHT_LEFT = "l";
+    const HIGHLIGHT_WIDTH = "w";
+    const HIGHLIGHT_HEIGHT = "h";
+
+    const TAG = "t";
+    const VALUE = "v";
+    const URL = "U";
 }

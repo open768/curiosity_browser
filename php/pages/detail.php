@@ -21,7 +21,7 @@ class cDetailPageConstants {
     const COMMENTS_CONTAINER_ID = "commentContainer";
     const PAGE_CONTENTS_ID = "pagec";
     const CAL_ID = "solCal";
-    const MSL_ID = "msl";
+    const MSL_ID = cAppConfig::MISSION_ID;
     const IMG_INDEX = "img_index";
 }
 

@@ -3,11 +3,11 @@ $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 require_once  cAppGlobals::$phpInc . "/ckinc/image.php";
 
-$sUrl = cHeader::get("u", true);
-$iTop = cHeader::get("t", true, true);
-$iLeft = cHeader::get("l", true, true);
-$iWidth = cHeader::get("w", true, true);
-$iHeight = cHeader::get("h", true, true);
+$sUrl = cHeader::get(cAppUrlParams::URL, true);
+$iTop = cHeader::get(cAppUrlParams::HIGHLIGHT_TOP, true, true);
+$iLeft = cHeader::get(cAppUrlParams::HIGHLIGHT_LEFT, true, true);
+$iWidth = cHeader::get(cAppUrlParams::HIGHLIGHT_WIDTH, true, true);
+$iHeight = cHeader::get(cAppUrlParams::HIGHLIGHT_HEIGHT, true, true);
 
 try {
     $aData = cCropper::get_crop_blob_data($sUrl, $iLeft, $iTop, $iWidth, $iHeight);

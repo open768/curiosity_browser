@@ -27,7 +27,7 @@ switch ($sOperation) {
         $sSol = cHeader::get(cSpaceUrlParams::SOL);
         $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT);
         $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
-        $sTag = cHeader::get(cSpaceUrlParams::VALUE);
+        $sTag = cHeader::get(cAppUrlParams::VALUE);
         cSpaceTags::set_product_tag($sSol, $sInstrument, $sProduct, $sTag, $sUser);
     case "get":
         $sSol = cHeader::get(cSpaceUrlParams::SOL);
@@ -38,7 +38,7 @@ switch ($sOperation) {
         $aData = ["p" => $sProduct, "d" => $aTags];
         break;
     case "detail":
-        $sTag = cHeader::get(cSpaceUrlParams::TAG);
+        $sTag = cHeader::get(cAppUrlParams::TAG);
         $aData = cSpaceTagNames::get_tag_name_index($sTag);
         break;
     case "topsolindex":
@@ -56,7 +56,7 @@ switch ($sOperation) {
         $aData = cSpaceTagNames::get_top_tag_names();
         break;
     case "search":
-        $sPartial = cHeader::get(cSpaceUrlParams::VALUE);
+        $sPartial = cHeader::get(cAppUrlParams::VALUE);
         $aData = cSpaceTagNames::search_tag_names($sPartial);
         break;
 }

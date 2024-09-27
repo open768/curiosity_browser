@@ -66,7 +66,7 @@ class cAdminFunctions {
                 //------product
                 foreach ($aProductData as $sProduct => $iProductCount) {
                     $aMemory = [];
-                    $aHighs = cSpaceImageHighlight::get($sSol, $sIntrument, $sProduct);
+                    $aHighs = cSpaceImageHighlight::get($sSol, $sIntrument, $sProduct, false);
                     $aBoxes = $aHighs["d"];
                     if ($aBoxes == null || count($aBoxes) == 0) {
                         cCommon::flushprint("🍗");
@@ -121,7 +121,7 @@ class cAdminFunctions {
                         $sUrl = "unknown url";
                     }
 
-                    $aHighs = cSpaceImageHighlight::get($sSol, $sInstrument, $sProduct);
+                    $aHighs = cSpaceImageHighlight::get($sSol, $sInstrument, $sProduct, false);
                     $aBoxes = $aHighs["d"];
                     if ($aBoxes == null || count($aBoxes) == 0) continue;
                     foreach ($aBoxes as $iBoxID => $aBox) {

@@ -111,12 +111,12 @@ switch ($sOperation) {
 
         //------------------------------------------------------
     case "killTag":
-        $sTag = cHeader::get(cSpaceUrlParams::TAG);
+        $sTag = cHeader::get(cAppUrlParams::TAG);
         if ($sTag == null) {
         ?>
             <form method="get">
                 <Input type="hidden" name="<?= cAppUrlParams::OPERATION ?>" value="<?= $sOperation ?>">
-                <Input type="input" name="<?= cSpaceUrlParams::TAG ?>"><br>
+                <Input type="input" name="<?= cAppUrlParams::TAG ?>"><br>
                 <input type="submit"></input>
             </form>
         <?php
