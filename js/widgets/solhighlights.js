@@ -40,15 +40,15 @@ class ckSolHighlights {
 
 		this.widget._trigger('onStatus', null, { text: 'fetching highlights' })
 
-		oParams[cSpaceBrowser.SOL_PARAM] = this.options.sol
+		oParams[cSpaceUrlParams.SOL] = this.options.sol
 
 		var oHttp = new cHttp2()
 		{
-			if (cBrowser.data[cSpaceBrowser.MOSAIC_PARAM] != null) {
-				oParams[cSpaceBrowser.OPERATION_PARAM] = 'mosaic'
+			if (cBrowser.data[cAppUrlParams.MOSAIC_PARAM] != null) {
+				oParams[cAppUrlParams.OPERATION] = 'mosaic'
 				bean.on(oHttp, 'result', poHttp => oThis.onMosaicResponse(poHttp))
 			} else {
-				oParams[cSpaceBrowser.OPERATION_PARAM] = 'soldata'
+				oParams[cAppUrlParams.OPERATION] = 'soldata'
 				bean.on(oHttp, 'result', poHttp => oThis.onSheetResponse(poHttp))
 			}
 
@@ -206,7 +206,8 @@ class cInstrHighlight {
 					}
 
 					// add a Placeholder
-					var oHighlights = $('<DIV>', { class: 'highlight_body' })
+					const sBodyID = cJquery.child_ID(oElement, sProduct)
+					var oHighlights = $('<DIV>', { class: 'highlight_body', id: sBodyID })
 					{
 						oHighlights.append(this.STAGE1_MSG)
 						oHighlights.attr({ Product: sProduct })
@@ -268,60 +269,78 @@ class cInstrHighlight {
 		var oThis = this
 
 		var oParams = {}
-		oParams[cSpaceBrowser.SOL_PARAM] = oOptions.sol
-		oParams[cSpaceBrowser.INSTR_PARAM] = oOptions.instr
-		oParams[cSpaceBrowser.PRODUCT_PARAM] = poSpan.attr('product')
-		oParams[cSpaceBrowser.OPERATION_PARAM] = 'highData'
-		oParams[cSpaceBrowser.MISSION_PARAM] = oOptions.mission.ID
+		oParams[cSpaceUrlParams.SOL] = oOptions.sol
+		oParams[cSpaceUrlParams.INSTRUMENT] = oOptions.instr
+		oParams[cSpaceUrlParams.PRODUCT] = poSpan.attr('product')
+		oParams[cAppUrlParams.OPERATION] = 'getcropdata'
+		oParams[cSpaceUrlParams.MISSION] = oOptions.mission.ID
 		var sUrl = cBrowser.buildUrl(this.HIGHLIGHT_URL, oParams)
 
 		var oItem = new cHttpQueueItem()
 		{
 			oItem.url = sUrl
 			oItem.element = poSpan
-			bean.on(oItem, 'result', poHttp => oThis.onHighlightResponse(oItem, poHttp))
-			bean.on(oItem, 'error', poHttp => oThis.onHighlightError(oItem, poHttp))
+			bean.on(oItem, 'result', poHttp => oThis.onHighlightResponse(poHttp))
+			bean.on(oItem, 'error', poHttp => oThis.onHighlightError(poHttp))
 			goHighlightQueue.add(oItem)
 		}
 	}
 
 	//*******************************************************************
 	// eslint-disable-next-line no-unused-vars
-	onHighlightError(poItem, poHttp) {
-		var oSpan = poItem.element
-		oSpan.empty()
+	onHighlightError(poHttp) {
+		const oElement = this.element
+		oElement.empty()
 		var oDiv = $('<DIV>', { class: 'ui-state-error' })
-		oDiv.append('Unable to fetch highlights')
-		oSpan.append(oDiv)
+		{
+			oDiv.append('Unable to fetch highlights')
+			oElement.append(oDiv)
+		}
 	}
 
 	//*******************************************************************
-	onHighlightResponse(poItem, poHttp) {
+	onHighlightResponse(poHttp) {
 		var oError, oImg
-		var oSpan = poItem.element
-		oSpan.empty()
+		var oElement = this.element
 
-		var aUrls = poHttp.response.u
-		var oOptions = this.options
+		const aData = poHttp.response
+		const aHighData = aData.d
+		const sProduct = aData[cSpaceUrlParams.PRODUCT]
 
-		if (aUrls.length == 0) {
+		const oBodyDiv = cJquery.get_child(oElement, sProduct)
+		oBodyDiv.empty()
+
+		if (aHighData.length == 0) {
 			oError = $('<DIV>', { class: 'ui-state-error' })
 			oError.append('no thumbnails found')
-			oSpan.append(oError)
+			oBodyDiv.append(oError)
 		} else {
-			var i
-
 			//add allthe found highlights
-			for (i = 0; i < aUrls.length; i++) {
-				var sImgUrl = oOptions.home + '/' + aUrls[i]
+			var aParams = {}
+			{
+				aParams[cAppUrlParams.URL] = aData[cAppUrlParams.URL]
+				aParams[cAppUrlParams.HIGHLIGHT_WIDTH] = cAppConsts.CROP_WIDTH
+				aParams[cAppUrlParams.HIGHLIGHT_HEIGHT] = cAppConsts.CROP_HEIGHT
+			}
+
+			for (var iBox = 0; iBox < aHighData.length; iBox++) {
+				const oBox = aHighData[iBox]
+				var sTop = oBox[cAppUrlParams.HIGHLIGHT_TOP]
+				sTop = sTop.slice(0, -2)
+				aParams[cAppUrlParams.HIGHLIGHT_TOP] = sTop
+
+				var sLeft = oBox[cAppUrlParams.HIGHLIGHT_LEFT]
+				sLeft = sLeft.slice(0, -2)
+				aParams[cAppUrlParams.HIGHLIGHT_LEFT] = sLeft
+
+				var sCropperUrl = cBrowser.buildUrl(cAppLocations.cropper, aParams)
 				oImg = $('<IMG>').attr({
-					src: sImgUrl,
+					src: sCropperUrl,
 					class: 'image'
 				})
-				var sProduct = oSpan.attr('product')
 				const oThis = this
 				oImg.on('click', () => oThis.onImageClick(sProduct))
-				oSpan.append(oImg) //append the image
+				oBodyDiv.append(oImg) //append the image
 			}
 		}
 	}

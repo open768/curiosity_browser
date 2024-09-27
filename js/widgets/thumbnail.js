@@ -25,7 +25,6 @@ class cThumbnail {
 			FINAL: 'thumb-final',
 			MISSING: 'thumb-missing'
 		},
-		THUMBNAILER_URL: cAppLocations.thumbnailer,
 		DEFAULT_THUMBNAIL: cAppLocations.home + '/images/browser/chicken_icon.png',
 		WAIT_VISIBLE: 2000,
 		CHILD_IMG_ID: 'CID'
@@ -194,7 +193,7 @@ class cThumbnail {
 		var oOptions = this.options
 		const oElement = this.element
 		const oImg = cJquery.get_child(oElement, this.consts.CHILD_IMG_ID)
-		var sThumbUrl = cBrowser.buildUrl(this.consts.THUMBNAILER_URL, {
+		var sThumbUrl = cBrowser.buildUrl(cAppLocations.thumbnailer, {
 			s: oOptions.sol,
 			i: oOptions.instrument,
 			p: oOptions.product,

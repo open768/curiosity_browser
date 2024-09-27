@@ -186,7 +186,7 @@ class cAppSolButtons {
 		poParent.addClass('w3-theme-d3')
 
 		//-------------- get the current sol
-		sSol = cBrowser.queryString(cSpaceBrowser.SOL_PARAM)
+		sSol = cBrowser.queryString(cSpaceUrlParams.SOL)
 		if (!sSol) {
 			poParent.html('sol missing!')
 			return
@@ -221,14 +221,14 @@ class cAppSolButtons {
 	static onClickOtherSol(piSol) {
 		var sPageUrl = cBrowser.pageUrl()
 		var oParams = {}
-		oParams[cSpaceBrowser.SOL_PARAM] = piSol
+		oParams[cSpaceUrlParams.SOL] = piSol
 		var sUrl = cBrowser.buildUrl(sPageUrl, oParams)
 		document.location.href = sUrl
 	}
 	//***************************************************
 	static onClickSolDetails() {
 		var oParams = {}
-		oParams[cSpaceBrowser.SOL_PARAM] = this.current_sol
+		oParams[cSpaceUrlParams.SOL] = this.current_sol
 		const sUrl = cBrowser.buildUrl('index.php', oParams)
 		cBrowser.openWindow(sUrl, 'index')
 	}

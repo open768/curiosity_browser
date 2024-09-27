@@ -17,12 +17,12 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 //###############################################################
 
 function set_browser_url() {
-	var sSol = cBrowser.data[cSpaceBrowser.SOL_PARAM]
+	var sSol = cBrowser.data[cSpaceUrlParams.SOL]
 	var oSolDiv = cJquery.element('sol')
 	oSolDiv.html(sSol)
 
 	const oParams = {}
-	oParams[cSpaceBrowser.SOL_PARAM] = sSol
+	oParams[cSpaceUrlParams.SOL] = sSol
 	const sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), oParams)
 	cBrowser.update_state('solgigas', sUrl)
 }

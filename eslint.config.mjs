@@ -11,8 +11,10 @@ export default [
 				...globals.browser,
 				bean: 'readonly',
 				cActionQueue: 'readonly',
+				cAppConsts: 'readonly',
 				cAppLocations: 'readonly',
 				cAppRender: 'readonly',
+				cAppUrlParams: 'readonly',
 				cAuth: 'readonly',
 				cBrowser: 'readonly',
 				cCommon: 'readonly',
@@ -31,6 +33,7 @@ export default [
 				cRenderGoogleFont: 'readonly',
 				cSpaceBrowser: 'readonly',
 				cSpaceComments: 'readonly',
+				cSpaceUrlParams: 'readonly',
 				cString: 'readonly',
 				cTagging: 'readonly'
 			}

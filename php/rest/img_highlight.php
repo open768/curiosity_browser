@@ -31,21 +31,25 @@ switch ($sOperation) {
         $sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
         $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT, true);
         $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
-        $top = cHeader::get(cSpaceUrlParams::HIGHLIGHT_TOP, true);
-        $left = cHeader::get(cSpaceUrlParams::HIGHLIGHT_LEFT, true);
+        $top = cHeader::get(cAppUrlParams::HIGHLIGHT_TOP, true);
+        $left = cHeader::get(cAppUrlParams::HIGHLIGHT_LEFT, true);
         $oResult = cSpaceImageHighlight::set($sSol, $sInstrument, $sProduct, $top, $left, $sUser);
         break;
+
     case "get":
         $sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
         $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT, true);
         $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
-        $oResult = cSpaceImageHighlight::get($sSol, $sInstrument, $sProduct);
+        $oResult = cSpaceImageHighlight::get($sSol, $sInstrument, $sProduct, false);
+        $oResult = $oResult->get_abbreviated_data();
         break;
-    case "highData":
+
+    case "getcropdata":
         $sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
-        $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT);
-        $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
-        $oResult = cSpaceImageHighlight::get_thumb_data($sSol, $sInstrument, $sProduct);
+        $sInstrument = cHeader::get(cSpaceUrlParams::INSTRUMENT, true);
+        $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
+        $oResult = cSpaceImageHighlight::get($sSol, $sInstrument, $sProduct, true);
+        $oResult = $oResult->get_abbreviated_data();
         break;
 
     case "solcount":

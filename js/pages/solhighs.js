@@ -21,7 +21,7 @@ class cSolHighs {
 	//# Entry point
 	//###############################################################
 	static onLoadJQuery() {
-		this.current_sol = cBrowser.data[cSpaceBrowser.SOL_PARAM]
+		this.current_sol = cBrowser.data[cSpaceUrlParams.SOL]
 		if (this.current_sol == null) {
 			var oSolHighDiv = cJquery.element(cSolHighPageConstants.HIGHLIGHTS_ID)
 			oSolHighDiv.append('no SOL provided!!!!')
@@ -30,7 +30,7 @@ class cSolHighs {
 
 		// change status of checkbox
 		var oElMosaic = cJquery.element(cSolHighPageConstants.CHK_MOSAIC_ID)
-		if (cBrowser.data[cSpaceBrowser.MOSAIC_PARAM] != null) oElMosaic.prop('checked', true)
+		if (cBrowser.data[cAppUrlParams.MOSAIC_PARAM] != null) oElMosaic.prop('checked', true)
 		const oThis = this
 		oElMosaic.on('change', () => oThis.onCheckMosaic())
 
@@ -68,8 +68,8 @@ class cSolHighs {
 		oSolTitle.html(this.current_sol)
 		const oParams = {}
 
-		oParams[cSpaceBrowser.SOL_PARAM] = this.current_sol
-		if (this.is_mosaic) oParams[cSpaceBrowser.MOSAIC_PARAM] = 1
+		oParams[cSpaceUrlParams.SOL] = this.current_sol
+		if (this.is_mosaic) oParams[cAppUrlParams.MOSAIC_PARAM] = 1
 
 		const sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), oParams)
 		cBrowser.update_state('solhigh', sUrl)
@@ -89,11 +89,11 @@ class cSolHighs {
 	static onClickMosaic() {
 		var sUrl
 
-		if (cBrowser.data[cSpaceBrowser.MOSAIC_PARAM] != null) return
+		if (cBrowser.data[cAppUrlParams.MOSAIC_PARAM] != null) return
 		//pr_stop_queue()   //TODO find out what stop-queue is
 		const oParams = {}
-		oParams[cSpaceBrowser.SOL_PARAM] = cBrowser.data[cSpaceBrowser.SOL_PARAM]
-		oParams[cSpaceBrowser.MOSAIC_PARAM] = 1
+		oParams[cSpaceUrlParams.SOL] = cBrowser.data[cSpaceUrlParams.SOL]
+		oParams[cAppUrlParams.MOSAIC_PARAM] = 1
 		sUrl = cBrowser.buildUrl('solhigh.php', oParams)
 		cBrowser.update_state('highlights', sUrl)
 		cCommonStatus.set_status('loading..')
@@ -103,9 +103,9 @@ class cSolHighs {
 	//***************************************************************
 	static onHighlightClick(poEvent, poData) {
 		const oParams = {}
-		oParams[cSpaceBrowser.SOL_PARAM] = poData.s
-		oParams[cSpaceBrowser.INSTR_PARAM] = poData.i
-		oParams[cSpaceBrowser.PRODUCT_PARAM] = poData.p
+		oParams[cSpaceUrlParams.SOL] = poData.s
+		oParams[cSpaceUrlParams.INSTRUMENT] = poData.i
+		oParams[cSpaceUrlParams.PRODUCT] = poData.p
 		const sUrl = cBrowser.buildUrl('detail.php', oParams)
 		cBrowser.openWindow(sUrl, 'detail')
 	}

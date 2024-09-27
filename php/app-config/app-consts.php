@@ -34,5 +34,11 @@ class cAppUrlParams {
 
     const TAG = "t";
     const VALUE = "v";
-    const URL = "U";
+    const URL = "u";
+
+    const THUMB_PARAM = 't';
+    const BEGIN_PARAM = 'b';
+    const MOSAIC_PARAM = 'mos';
+
+    const ALL_INSTRUMENTS = 'All';
 }

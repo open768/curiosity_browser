@@ -28,9 +28,9 @@ function onClickEDRLBL() {
 function onClickDetail() {
 	var sSol, sInstr, sProduct, sUrl
 
-	sInstr = cBrowser.data[cSpaceBrowser.INSTR_PARAM]
-	sProduct = cBrowser.data[cSpaceBrowser.PRODUCT_PARAM]
-	sSol = cBrowser.data[cSpaceBrowser.SOL_PARAM]
+	sInstr = cBrowser.data[cSpaceUrlParams.INSTRUMENT]
+	sProduct = cBrowser.data[cSpaceUrlParams.PRODUCT]
+	sSol = cBrowser.data[cSpaceUrlParams.SOL]
 
 	sUrl = cBrowser.buildUrl('detail.php', { s: sSol, i: sInstr, p: sProduct })
 	cBrowser.openWindow(sUrl, 'detail')
@@ -53,9 +53,9 @@ function onLoadJQuery_PDS() {
 
 	const oParams = {
 		o: 's',
-		s: cBrowser.data[cSpaceBrowser.SOL_PARAM],
-		i: cBrowser.data[cSpaceBrowser.INSTR_PARAM],
-		p: cBrowser.data[cSpaceBrowser.PRODUCT_PARAM],
+		s: cBrowser.data[cSpaceUrlParams.SOL],
+		i: cBrowser.data[cSpaceUrlParams.INSTRUMENT],
+		p: cBrowser.data[cSpaceUrlParams.PRODUCT],
 		m: cMission.ID
 	}
 	const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/pds.php', oParams)

@@ -21,7 +21,7 @@ class cCalendar {
 	//# entry point
 	//###############################################################
 	static onLoadJQuery() {
-		this.current_sol = cBrowser.data[cSpaceBrowser.SOL_PARAM]
+		this.current_sol = cBrowser.data[cSpaceUrlParams.SOL]
 
 		const oDiv = cJquery.element('solButtons')
 		cAppSolButtons.render_buttons(oDiv, false)

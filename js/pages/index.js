@@ -539,8 +539,8 @@ class cIndexPage {
 		cLeftColumn.render()
 
 		// remember the start_image if its there
-		if (cBrowser.data[cSpaceBrowser.BEGIN_PARAM]) {
-			cIndexPageOptions.start_image = parseInt(cBrowser.data[cSpaceBrowser.BEGIN_PARAM])
+		if (cBrowser.data[cAppUrlParams.BEGIN_PARAM]) {
+			cIndexPageOptions.start_image = parseInt(cBrowser.data[cAppUrlParams.BEGIN_PARAM])
 		}
 
 		// render searchbox
@@ -627,10 +627,10 @@ class cIndexPage {
 	//###############################################################
 	static update_url() {
 		const oParams = {}
-		oParams[cSpaceBrowser.SOL_PARAM] = cIndexPageOptions.sol
-		if (cIndexPageOptions.instrument) oParams[cSpaceBrowser.INSTR_PARAM] = cIndexPageOptions.instrument
-		if (this.is_thumbs_checked()) oParams[cSpaceBrowser.THUMB_PARAM] = '1'
-		if (cIndexPageOptions.start_image) oParams[cSpaceBrowser.BEGIN_PARAM] = cIndexPageOptions.start_image
+		oParams[cSpaceUrlParams.SOL] = cIndexPageOptions.sol
+		if (cIndexPageOptions.instrument) oParams[cSpaceUrlParams.INSTRUMENT] = cIndexPageOptions.instrument
+		if (this.is_thumbs_checked()) oParams[cAppUrlParams.THUMB_PARAM] = '1'
+		if (cIndexPageOptions.start_image) oParams[cAppUrlParams.BEGIN_PARAM] = cIndexPageOptions.start_image
 		const sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), oParams)
 		cBrowser.update_state('Index', sUrl)
 	}
@@ -673,7 +673,7 @@ class cIndexPage {
 		if (cIndexPageOptions.instrument) {
 			oChkThumb.removeAttr('disabled')
 			oChkThumb.off('change')
-			if (cBrowser.data[cSpaceBrowser.THUMB_PARAM]) {
+			if (cBrowser.data[cAppUrlParams.THUMB_PARAM]) {
 				oChkThumb.prop('checked', true)
 				this.show_thumbs(cIndexPageOptions.sol, cIndexPageOptions.instrument)
 			} else {
@@ -682,7 +682,7 @@ class cIndexPage {
 			oChkThumb.on('change', poEvent => oThis.onCheckThumbsEvent(poEvent))
 		} else {
 			oChkThumb.attr('disabled', 'disabled')
-			this.show_thumbs(cIndexPageOptions.sol, cSpaceBrowser.ALL_INSTRUMENTS)
+			this.show_thumbs(cIndexPageOptions.sol, cAppUrlParams.ALL_INSTRUMENTS)
 		}
 	}
 
