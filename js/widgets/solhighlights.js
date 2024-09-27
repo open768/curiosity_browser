@@ -336,7 +336,8 @@ class cInstrHighlight {
 				var sCropperUrl = cBrowser.buildUrl(cAppLocations.cropper, aParams)
 				oImg = $('<IMG>').attr({
 					src: sCropperUrl,
-					class: 'image'
+					class: 'image',
+					title: sProduct
 				})
 				const oThis = this
 				oImg.on('click', () => oThis.onImageClick(sProduct))

@@ -9,6 +9,9 @@ $iLeft = cHeader::get(cAppUrlParams::HIGHLIGHT_LEFT, true, true);
 $iWidth = cHeader::get(cAppUrlParams::HIGHLIGHT_WIDTH, true, true);
 $iHeight = cHeader::get(cAppUrlParams::HIGHLIGHT_HEIGHT, true, true);
 
+$iTop = floor(floatval($iTop));
+$iLeft = floor(floatval($iLeft));
+
 try {
     $aData = cCropper::get_crop_blob_data($sUrl, $iLeft, $iTop, $iWidth, $iHeight);
     $sMime = $aData->m;
