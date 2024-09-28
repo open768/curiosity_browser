@@ -192,7 +192,14 @@ class cThumbnail {
 	load_better_thumb() {
 		var oOptions = this.options
 		const oElement = this.element
-		const oImg = cJquery.get_child(oElement, this.consts.CHILD_IMG_ID)
+		var oImg
+		try {
+			oImg = cJquery.get_child(oElement, this.consts.CHILD_IMG_ID)
+		} catch (oErr) {
+			cDebug.write(oErr)
+			return
+		}
+
 		var sThumbUrl = cBrowser.buildUrl(cAppLocations.thumbnailer, {
 			s: oOptions.sol,
 			i: oOptions.instrument,
