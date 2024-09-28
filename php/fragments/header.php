@@ -1,6 +1,7 @@
 <?php
 require_once cAppGlobals::$phpInc . "/ckinc/header.php";
 require_once cAppGlobals::$phpInc . "/ckinc/facebook.php";
+
 ?>
 <!-- facebook meta tags -->
 <?php
@@ -29,6 +30,11 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
     }
 </script>
 <?php
+if (cAppConfig::DATABASE_DOWN) {
+    cPageOutput::errorbox("Application is currently down for maintenance");
+    cDebug::error("app is down - Note to admin: " . realpath(cAppLocations::$appconfig));
+}
+
 cPageOutput::write_JS_class_constant_IDs(cAppConsts::class);
 cPageOutput::write_JS_class_constant_IDs(cAppLocations::class);
 cPageOutput::write_JS_class_constant_IDs(cAppUrlParams::class);

@@ -50,6 +50,7 @@ class cAppConfig {
     const FB_VERSION = "v20.0";
     const MISSION_ID = cSpaceMissions::CURIOSITY;
     const APP_NAME = "Curiosity Browser";
+    const DATABASE_DOWN = false;
 }
 
 //##########################################################
@@ -60,6 +61,7 @@ class cAppLocations {
     static $thumbnailer = null;
     static $cropper = null;
     static $images = null;
+    static $appconfig = null;
 
     static function init() {
         global $home;
@@ -69,6 +71,7 @@ class cAppLocations {
         self::$thumbnailer = cAppGlobals::$jsThumbNailer;
         self::$images = cAppGlobals::$jsImages;
         self::$cropper = cAppGlobals::$jsCropper;
+        self::$appconfig = "$home/php/app-config/app-config.php";
     }
 }
 cAppLocations::init();

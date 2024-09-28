@@ -260,7 +260,10 @@ switch ($sOperation) {
                 <input type="submit" class="w3-button w3-theme-button-up"></input>
             </form>
             <p>
-                <a href="info.php">php info</a>
+            <ul>
+                <li><a href="info.php">php info</a>
+                <li>to mark app as down edit: <?= realpath(cAppLocations::$appconfig) ?>
+            </ul>
             </p>
 <?php
         }
