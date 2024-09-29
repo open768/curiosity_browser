@@ -72,6 +72,7 @@ $title .= " - " . cAppConfig::APP_NAME;
 <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/http.js"></script>
 <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/httpqueue.js"></script>
 <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/auth.js"></script>
+<script src="<?= cAppGlobals::$jsInc ?>/ck-inc/queue.js"></script>
 <script src="<?= cAppGlobals::$jsSpaceInc ?>/curiosity.js"></script>
 <script src="<?= cAppGlobals::$jsSpaceInc ?>/tagging.js"></script>
 <script src="<?= cAppGlobals::$jsSpaceInc ?>/imghilite.js"></script>

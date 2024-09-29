@@ -7,7 +7,9 @@ class cAppConsts {
     const CROP_WIDTH = 120;
     const CROP_HEIGHT = 120;
     const THUMB_QUALITY = 90;
+    static $CK_IMAGE = null;
 }
+cAppConsts::$CK_IMAGE = cAppGlobals::$jsImages . "/browser/chicken-icon.png";
 
 class cAppUrlParams {
     const OPERATION = "o";

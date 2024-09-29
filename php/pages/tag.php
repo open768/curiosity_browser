@@ -10,7 +10,6 @@ cAppGlobals::$title = "Instances of Tag <span id='tagname'>tag goes here</span>"
     include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
     <script src="<?= cAppGlobals::$jsHome ?>/pages/tag.js"></script>
-    <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/queue.js"></script>
     <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/actionqueue.js"></script>
     <script src="<?= cAppGlobals::$jsWidgets ?>/tag-view.js"></script>
     <script src="<?= cAppGlobals::$jsWidgets ?>/image.js"></script>

@@ -3,10 +3,9 @@
 /* global cQueueRunner */
 class cThumbnail {
 	static delay = 250
-	static thumbqueue
-
+	static thumbqueue = null
 	static {
-		cThumbnail.thumbqueue = new cQueueRunner(cThumbnail.delay)
+		this.thumbqueue = new cQueueRunner(this.delay)
 	}
 
 	element = null
@@ -83,6 +82,8 @@ class cThumbnail {
 			oImg.on('click', () => oThis.onThumbClick())
 			oElement.append(oImg)
 		}
+		const oThumbQ = cThumbnail.thumbqueue
+		bean.on(oThumbQ, cQueueRunner.EVENT_STEP, oInstance => oInstance.onBetterQStep())
 
 		// optimise server requests, only display thumbnail if its in viewport
 		oElement.on('inview', function (poEvent, pbIsInView) {
@@ -163,7 +164,6 @@ class cThumbnail {
 		if (oThumbQ.stopping) return
 		if (oImg.visible()) {
 			oThumbQ.queue.push(null, this)
-			bean.on(oThumbQ, cQueueRunner.EVENT_STEP, oq => oq.onBetterQStep())
 			if (!oThumbQ.running) oThumbQ.start()
 		} else {
 			cDebug.write('Basic thumb not in view: ')

@@ -152,7 +152,12 @@ $.widget('ck.solhighlights', {
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //% Definition
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/* global cQueueRunner */
 class cInstrHighlight {
+	static delay = 250
+	static {
+		this.imgqueue = new cQueueRunner(this.delay)
+	}
 	options = {
 		mission: null,
 		sol: null,
@@ -181,6 +186,12 @@ class cInstrHighlight {
 		//using the query CSS styles
 		oElement.uniqueId()
 		oElement.empty()
+
+		//subscribe to the queue
+		const oQueue = cInstrHighlight.imgqueue
+		bean.on(oQueue, cQueueRunner.EVENT_STEP, () => oThis.onImageQueue())
+
+		//render
 		oElement.addClass('w3-card')
 
 		var oHeader = $('<Header>', { class: 'w3-container w3-theme-d3' })

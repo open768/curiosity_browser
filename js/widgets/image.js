@@ -17,7 +17,6 @@ $.widget('ck.instrumentimage', {
 	},
 	consts: {
 		WAIT_VISIBLE: 1000,
-		WAIT_IMAGE: cAppLocations.home + '/images/browser/chicken_icon.png',
 		TAGS_CHILD_ID: 'iitci'
 	},
 
@@ -55,7 +54,7 @@ $.widget('ck.instrumentimage', {
 		oDiv = $('<DIV>', { class: 'ui-widget-body' })
 		const sWaitImgID = oElement.attr('id') + 'i'
 		const oWaitImg = $('<IMG>', {
-			src: this.consts.WAIT_IMAGE,
+			src: cAppLocations.CK_IMAGE,
 			id: sWaitImgID
 		})
 		oDiv.append(oWaitImg)

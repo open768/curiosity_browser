@@ -235,36 +235,46 @@ class cDetailSolButtons {
 
 		//-------------------------------------------------------------------------------
 		var sID
-		sID = cJquery.child_ID(oContainer, this.SOL_CHILD_ID)
-		this.pr_add_button(oContainer, sID, ' All Sol Images', '???', e => oThis.onClickSol(e))
-		sID = cJquery.child_ID(oContainer, this.INSTR_CHILD_ID)
-		this.pr_add_button(oContainer, sID, 'Show Intrument Images', 'loading', () => oThis.onClickInstr())
-
-		sID = cJquery.child_ID(oContainer, this.UTC_CHILD_ID)
-		var oSpan = $('<SPAN>', { id: sID, class: 'date' })
+		var oSubcontainer = $('<SPAN>', { class: 'w3-theme-l1 w3-padding' })
 		{
-			oSpan.append('date goes here')
-			oContainer.append(oSpan)
+			oSubcontainer.append('Sol: ')
+			sID = cJquery.child_ID(oContainer, this.SOL_CHILD_ID)
+			this.pr_add_button(oSubcontainer, sID, ' All Sol Images', '???', e => oThis.onClickSol(e))
+			sID = cJquery.child_ID(oContainer, this.INSTR_CHILD_ID)
+			this.pr_add_button(oSubcontainer, sID, 'Show Intrument Images', 'loading', () => oThis.onClickInstr())
+			sID = cJquery.child_ID(oContainer, this.CAL_CHILD_ID)
+			this.pr_add_button(oSubcontainer, sID, 'Show Sol Calendar', 'Calendar', () => oThis.onClickCal())
+			this.pr_add_button(oSubcontainer, null, 'Highlights', 'Highlights', () => oThis.onClickHighlights())
+			this.pr_add_button(oSubcontainer, null, 'Show Thumbnails', 'Thumbnails', () => oThis.onClickThumbnails())
+			oContainer.append(oSubcontainer)
 		}
+		oContainer.append(cBrowser.whitespace(20))
 
-		sID = cJquery.child_ID(oContainer, this.CAL_CHILD_ID)
-		this.pr_add_button(oContainer, sID, 'Show Sol Calendar', 'Calendar', () => oThis.onClickCal())
-		this.pr_add_button(oContainer, null, 'Highlights', 'Highlights', () => oThis.onClickHighlights())
-		this.pr_add_button(oContainer, null, 'Show Thumbnails', 'Thumbnails', () => oThis.onClickThumbnails())
-		this.pr_add_button(oContainer, null, 'Original NASA Image', 'Original', () => oThis.onClickNASA())
-		sID = cJquery.child_ID(oContainer, this.NASA_CHILD_ID)
-		this.pr_add_button(oContainer, sID, 'MSL curiosity Raw images', 'MSL Raw Image', () => oThis.onClickMSLRaw())
-		sID = cJquery.child_ID(oContainer, this.PDS_CHILD_ID)
-		this.pr_add_button(oContainer, sID, 'released PDS product', 'PDS Product', () => oThis.onClickPDS())
-		this.pr_add_button(oContainer, null, 'Search related with google', 'Google', () => oThis.onClickGoogle())
+		oSubcontainer = $('<SPAN>', { class: 'w3-theme-l1 w3-padding' })
+		{
+			oSubcontainer.append('This Product: ')
+			sID = cJquery.child_ID(oContainer, this.UTC_CHILD_ID)
+			var oSpan = $('<SPAN>', { id: sID, class: 'date' })
+			{
+				oSpan.append('date goes here')
+				oSubcontainer.append(oSpan)
+			}
+			this.pr_add_button(oSubcontainer, null, 'Original NASA Image', 'Original', () => oThis.onClickNASA())
+			sID = cJquery.child_ID(oContainer, this.NASA_CHILD_ID)
+			this.pr_add_button(oSubcontainer, sID, 'MSL curiosity Raw images', 'MSL Raw Image', () => oThis.onClickMSLRaw())
+			sID = cJquery.child_ID(oContainer, this.PDS_CHILD_ID)
+			this.pr_add_button(oSubcontainer, sID, 'released PDS product', 'PDS Product', () => oThis.onClickPDS())
+			this.pr_add_button(oSubcontainer, null, 'Search related with google', 'Google', () => oThis.onClickGoogle())
 
-		//------------------------------------------------------------------------------
-		oContainer.append(cBrowser.whitespace(50))
+			//------------------------------------------------------------------------------
+			oSubcontainer.append(cBrowser.whitespace(20))
 
-		//------------------------------------------------------------------------------
-		const sImgNoID = cJquery.child_ID(oContainer, this.IMGNO_CHILD_ID)
-		const sImgMaxID = cJquery.child_ID(oContainer, this.IMGMAX_CHILD_ID)
-		oContainer.append("image <span id='" + sImgNoID + "'>??</span> of <span id='" + sImgMaxID + "'>??</span>")
+			//------------------------------------------------------------------------------
+			const sImgNoID = cJquery.child_ID(oContainer, this.IMGNO_CHILD_ID)
+			const sImgMaxID = cJquery.child_ID(oContainer, this.IMGMAX_CHILD_ID)
+			oSubcontainer.append("image <span id='" + sImgNoID + "'>??</span> of <span id='" + sImgMaxID + "'>??</span>")
+			oContainer.append(oSubcontainer)
+		}
 	}
 
 	//****************************************************************
