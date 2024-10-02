@@ -349,7 +349,7 @@ class cInstrHighlight {
 				sLeft = sLeft.slice(0, -2)
 
 				var sImgID = 'img' + sProduct + '_' + sTop + '_' + sLeft
-				sImgID = sImgID.replaceAll('.', '') //fix floating point boxes - cant have a dot in the ID
+				sImgID = sImgID.replaceAll('.', '') //fix floating point boxes - cant have a dot in the ID - @whoknew
 
 				const oData = new cHighlightbox()
 				{
