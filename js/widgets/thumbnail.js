@@ -24,7 +24,6 @@ class cThumbnail {
 			FINAL: 'thumb-final',
 			MISSING: 'thumb-missing'
 		},
-		DEFAULT_THUMBNAIL: cAppLocations.home + '/images/browser/chicken_icon.png',
 		WAIT_VISIBLE: 2000,
 		CHILD_IMG_ID: 'CID'
 	}
@@ -75,7 +74,7 @@ class cThumbnail {
 			title: this.options.product,
 			border: 0,
 			height: this.consts.SIZE,
-			src: this.consts.DEFAULT_THUMBNAIL,
+			src: cAppConsts.CK_IMAGE,
 			ID: sImgID
 		})
 		{

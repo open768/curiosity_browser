@@ -9,7 +9,7 @@ class cAppConsts {
     const THUMB_QUALITY = 90;
     static $CK_IMAGE = null;
 }
-cAppConsts::$CK_IMAGE = cAppGlobals::$jsImages . "/browser/chicken-icon.png";
+cAppConsts::$CK_IMAGE = cAppGlobals::$jsImages . "/browser/chicken_icon.png";
 
 class cAppUrlParams {
     const OPERATION = "o";

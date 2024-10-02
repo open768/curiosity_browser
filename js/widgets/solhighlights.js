@@ -153,10 +153,19 @@ $.widget('ck.solhighlights', {
 //% Definition
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 /* global cQueueRunner */
+class cHighlightbox {
+	top = -1
+	left = -1
+	instrument = 'not set'
+	product = 'not set'
+	imgUrl = 'not set'
+	imgID = 'not set'
+}
+
 class cInstrHighlight {
 	static delay = 250
 	static {
-		this.imgqueue = new cQueueRunner(this.delay)
+		this.imgqueue = new cQueueRunner(this.delay) //has to be static as shared by mutliple instruments?
 	}
 	options = {
 		mission: null,
@@ -189,7 +198,7 @@ class cInstrHighlight {
 
 		//subscribe to the queue
 		const oQueue = cInstrHighlight.imgqueue
-		bean.on(oQueue, cQueueRunner.EVENT_STEP, () => oThis.onImageQueue())
+		bean.on(oQueue, cQueueRunner.EVENT_STEP, poData => oThis.onQueueEvent(poData))
 
 		//render
 		oElement.addClass('w3-card')
@@ -280,11 +289,13 @@ class cInstrHighlight {
 		var oThis = this
 
 		var oParams = {}
-		oParams[cSpaceUrlParams.SOL] = oOptions.sol
-		oParams[cSpaceUrlParams.INSTRUMENT] = oOptions.instr
-		oParams[cSpaceUrlParams.PRODUCT] = poSpan.attr('product')
-		oParams[cAppUrlParams.OPERATION] = 'getcropdata'
-		oParams[cSpaceUrlParams.MISSION] = oOptions.mission.ID
+		{
+			oParams[cSpaceUrlParams.SOL] = oOptions.sol
+			oParams[cSpaceUrlParams.INSTRUMENT] = oOptions.instr
+			oParams[cSpaceUrlParams.PRODUCT] = poSpan.attr('product')
+			oParams[cAppUrlParams.OPERATION] = 'getcropdata'
+			oParams[cSpaceUrlParams.MISSION] = oOptions.mission.ID
+		}
 		var sUrl = cBrowser.buildUrl(this.HIGHLIGHT_URL, oParams)
 
 		var oItem = new cHttpQueueItem()
@@ -317,6 +328,8 @@ class cInstrHighlight {
 		const aData = poHttp.response
 		const aHighData = aData.d
 		const sProduct = aData[cSpaceUrlParams.PRODUCT]
+		const sInstr = aData[cSpaceUrlParams.INSTRUMENT]
+		const oThis = this
 
 		const oBodyDiv = cJquery.get_child(oElement, sProduct)
 		oBodyDiv.empty()
@@ -327,44 +340,75 @@ class cInstrHighlight {
 			oBodyDiv.append(oError)
 		} else {
 			//add allthe found highlights
-			var aParams = {}
-			{
-				aParams[cAppUrlParams.URL] = aData[cAppUrlParams.URL]
-				aParams[cAppUrlParams.HIGHLIGHT_WIDTH] = cAppConsts.CROP_WIDTH
-				aParams[cAppUrlParams.HIGHLIGHT_HEIGHT] = cAppConsts.CROP_HEIGHT
-			}
 
 			for (var iBox = 0; iBox < aHighData.length; iBox++) {
+				//- - - - - - - - get the data from the response
 				const oBox = aHighData[iBox]
 				var sTop = oBox[cAppUrlParams.HIGHLIGHT_TOP]
 				sTop = sTop.slice(0, -2)
-				aParams[cAppUrlParams.HIGHLIGHT_TOP] = sTop
 
 				var sLeft = oBox[cAppUrlParams.HIGHLIGHT_LEFT]
 				sLeft = sLeft.slice(0, -2)
-				aParams[cAppUrlParams.HIGHLIGHT_LEFT] = sLeft
 
-				var sCropperUrl = cBrowser.buildUrl(cAppLocations.cropper, aParams)
+				const sImgID = 'img' + sProduct + '_' + sTop + '_' + sLeft
+				const oData = new cHighlightbox()
+				{
+					oData.top = sTop
+					oData.left = sLeft
+					oData.product = sProduct
+					oData.instrument = sInstr
+					oData.imgUrl = aData[cAppUrlParams.URL]
+					oData.imgID = sImgID
+				}
+
+				//- - - - - - - - add a placeholder
 				oImg = $('<IMG>').attr({
-					src: sCropperUrl,
+					src: cAppConsts.CK_IMAGE,
 					class: 'image',
-					title: sProduct
+					title: sProduct,
+					id: sImgID
 				})
-				const oThis = this
-				oImg.on('click', () => oThis.onImageClick(sProduct))
 				oBodyDiv.append(oImg) //append the image
+
+				//- - - - - - - let the dfault image load
+				setTimeout(() => oThis.onCKImageTimerEvent(oData), 100)
 			}
 		}
 	}
 
+	onCKImageTimerEvent(poData) {
+		const oQueue = cInstrHighlight.imgqueue
+		oQueue.queue.push(null, poData)
+		if (!oQueue.running) oQueue.start()
+	}
+
 	//************************************************************* */
-	onImageClick(psProduct) {
+	onQueueEvent(poData) {
+		var aParams = {}
+		{
+			aParams[cAppUrlParams.URL] = poData.imgUrl
+			aParams[cAppUrlParams.HIGHLIGHT_WIDTH] = cAppConsts.CROP_WIDTH
+			aParams[cAppUrlParams.HIGHLIGHT_HEIGHT] = cAppConsts.CROP_HEIGHT
+			aParams[cAppUrlParams.HIGHLIGHT_TOP] = poData.top
+			aParams[cAppUrlParams.HIGHLIGHT_LEFT] = poData.left
+		}
+		var sCropperUrl = cBrowser.buildUrl(cAppLocations.cropper, aParams)
+
+		const oThis = this
+		const oImg = cJquery.element(poData.imgID)
+		oImg.attr('src', sCropperUrl)
+
+		oImg.on('click', () => oThis.onImageClick(poData))
+	}
+
+	//************************************************************* */
+	onImageClick(poData) {
 		var oOptions = this.options
 		goHighlightQueue.stop()
 		this.widget._trigger('onClick', null, {
 			s: oOptions.sol,
-			i: oOptions.instr,
-			p: psProduct
+			i: poData.instrument,
+			p: poData.product
 		})
 	}
 }
