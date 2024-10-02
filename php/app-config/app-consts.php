@@ -8,6 +8,9 @@ class cAppConsts {
     const CROP_HEIGHT = 120;
     const THUMB_QUALITY = 90;
     static $CK_IMAGE = null;
+    const SPINNER_MSG = 'taming velociraptors ....';
+    const STAGE1_MSG = 'Sqeeezing Limes...';
+    const STAGE2_MSG = 'Catching Dodos... ';
 }
 cAppConsts::$CK_IMAGE = cAppGlobals::$jsImages . "/browser/chicken_icon.png";
 

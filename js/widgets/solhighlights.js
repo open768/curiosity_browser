@@ -27,7 +27,7 @@ class ckSolHighlights {
 
 		//clear out the DIV and put some text in it
 		oElement.empty()
-		var oSpinner = cAppRender.make_spinner('taming velociraptors ....')
+		var oSpinner = cAppRender.make_spinner(cAppConsts.SPINNER_MSG)
 		oElement.append(oSpinner)
 
 		//ok get the data
@@ -176,8 +176,6 @@ class cInstrHighlight {
 	}
 	WAIT_VISIBLE = 750
 	HIGHLIGHT_URL = 'not set'
-	STAGE1_MSG = 'Sqeeezing Limes...'
-	STAGE2_MSG = 'Catching Dodos... '
 
 	constructor(poWidget) {
 		this.widget = poWidget
@@ -229,7 +227,7 @@ class cInstrHighlight {
 					const sBodyID = cJquery.child_ID(oElement, sProduct)
 					var oHighlights = $('<DIV>', { class: 'highlight_body', id: sBodyID })
 					{
-						oHighlights.append(this.STAGE1_MSG)
+						oHighlights.append(cAppConsts.STAGE1_MSG)
 						oHighlights.attr({ Product: sProduct })
 						oContainer.append(oHighlights)
 					}
@@ -276,7 +274,7 @@ class cInstrHighlight {
 
 		//show a spinner
 		poSpan.empty()
-		var oSpinner = cAppRender.make_spinner(this.STAGE2_MSG)
+		var oSpinner = cAppRender.make_spinner(cAppConsts.STAGE2_MSG)
 		poSpan.append(oSpinner)
 
 		//load the highlight information
@@ -350,7 +348,9 @@ class cInstrHighlight {
 				var sLeft = oBox[cAppUrlParams.HIGHLIGHT_LEFT]
 				sLeft = sLeft.slice(0, -2)
 
-				const sImgID = 'img' + sProduct + '_' + sTop + '_' + sLeft
+				var sImgID = 'img' + sProduct + '_' + sTop + '_' + sLeft
+				sImgID = sImgID.replaceAll('.', '') //fix floating point boxes - cant have a dot in the ID
+
 				const oData = new cHighlightbox()
 				{
 					oData.top = sTop
