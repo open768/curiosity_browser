@@ -46,7 +46,6 @@ class cAdminFunctions {
         $iCount = 0;
 
         $oDB = cSpaceImageHighlight::get_db();
-        $oDB->SHOW_SQL = false;
 
         //----------sol
         $aTopData = cSpaceImageHighlight::get_top_index();
