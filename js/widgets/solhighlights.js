@@ -274,8 +274,7 @@ class cInstrHighlight {
 
 		//show a spinner
 		poSpan.empty()
-		var oSpinner = cAppRender.make_spinner(cAppConsts.STAGE2_MSG)
-		poSpan.append(oSpinner)
+		poSpan.append(cAppConsts.STAGE2_MSG)
 
 		//load the highlight information
 		this.load_highlights(poSpan)
@@ -351,16 +350,6 @@ class cInstrHighlight {
 				var sImgID = 'img' + sProduct + '_' + sTop + '_' + sLeft
 				sImgID = sImgID.replaceAll('.', '') //fix floating point boxes - cant have a dot in the ID - @whoknew
 
-				const oData = new cHighlightbox()
-				{
-					oData.top = sTop
-					oData.left = sLeft
-					oData.product = sProduct
-					oData.instrument = sInstr
-					oData.imgUrl = aData[cAppUrlParams.URL]
-					oData.imgID = sImgID
-				}
-
 				//- - - - - - - - add a placeholder
 				oImg = $('<IMG>').attr({
 					src: cAppConsts.CK_IMAGE,
@@ -370,16 +359,26 @@ class cInstrHighlight {
 				})
 				oBodyDiv.append(oImg) //append the image
 
-				//- - - - - - - let the dfault image load
+				//- - - - - - - create a data object - and go to next stage
+				const oData = new cHighlightbox()
+				{
+					oData.top = sTop
+					oData.left = sLeft
+					oData.product = sProduct
+					oData.instrument = sInstr
+					oData.imgUrl = aData[cAppUrlParams.URL]
+					oData.imgID = sImgID
+				}
 				setTimeout(() => oThis.onCKImageTimerEvent(oData), 100)
 			}
 		}
 	}
 
+	//************************************************************* */
 	onCKImageTimerEvent(poData) {
 		const oQueue = cInstrHighlight.imgqueue
 		oQueue.queue.push(null, poData)
-		if (!oQueue.running) oQueue.start()
+		if (!oQueue.running) oQueue.start() //start the queue
 	}
 
 	//************************************************************* */
