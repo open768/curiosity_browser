@@ -28,7 +28,7 @@ class cSolButtons {
 		var oWidget, oButton
 		var oElement = this.element
 		var sID
-		var oThis = this
+		const oThis = this
 
 		oWidget = cAppRender.create_widget('Sol Information:')
 		{

@@ -43,7 +43,7 @@ $.widget('ck.solinstrumentChooser', {
 	render_part_sols: function () {
 		var oElement = this.element
 		var sID = oElement.attr('id')
-		var oThis = this
+		const oThis = this
 
 		var oWidgetHeader = $('<SPAN>')
 		{
@@ -134,9 +134,9 @@ $.widget('ck.solinstrumentChooser', {
 
 	//*******************************************************************
 	render: function () {
-		var oThis, oElement
+		const oThis = this
+		var oElement
 
-		oThis = this
 		oElement = oThis.element
 		oElement.uniqueId()
 

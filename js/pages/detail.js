@@ -21,7 +21,7 @@ class cDetailTags {
 	static TAGS_BUTTON_ID = 'cdbut'
 
 	static render() {
-		var oThis = this
+		const oThis = this
 		var oContainer = cJquery.element(cDetailPageConstants.TAGS_CONTAINER_ID)
 		{
 			//--------------------------------------------------
@@ -91,7 +91,6 @@ class cDetailTags {
 			}
 		}
 		//catch FB event
-		oThis = this
 		bean.on(cFacebook, cFacebook.STATUS_EVENT, () => oThis.enable())
 
 		this.get_tags()
@@ -101,7 +100,7 @@ class cDetailTags {
 	//* Utility functions
 	//***********************************************************
 	static async get_tags() {
-		var oThis = this
+		const oThis = this
 
 		cTagging.getTags(cDetail.sol, cDetail.instrument, cDetail.product, poHttp => oThis.onGotTags(poHttp))
 	}
@@ -127,7 +126,7 @@ class cDetailTags {
 
 	//***********************************************************
 	static async pr_set_tag(psTag) {
-		var oThis = this
+		const oThis = this
 		cCommonStatus.set_status('setting tag: ' + psTag)
 		cTagging.setTag(cDetail.sol, cDetail.instrument, cDetail.product, psTag, () => oThis.onSetTag())
 	}
@@ -146,7 +145,7 @@ class cDetailTags {
 		if (sText.length < 3) oDropdown.append('type more characters')
 		else {
 			oDropdown.append('enough characters')
-			var oThis = this
+			const oThis = this
 			cTagging.searchTags(sText, poHttp => oThis.onGotSearchResults(poHttp))
 		}
 	}
@@ -203,7 +202,7 @@ class cDetailTags {
 		}
 
 		//output the results
-		var oThis = this
+		const oThis = this
 		for (var i = 0; i < aData.length; i++) {
 			var sTag = aData[i]
 			var oButton = cAppRender.make_button(null, sTag, sTag, false, poEvent => oThis.onClickSearchResult(poEvent))
@@ -466,7 +465,7 @@ class cDetailHighlight {
 	}
 
 	static getHighlights() {
-		var oThis = this
+		const oThis = this
 		cImgHilite.getHighlights(cDetail.oItem.s, cDetail.oItem.i, cDetail.oItem.p, poHttp => oThis.onGotHighlights(poHttp))
 	}
 
@@ -572,7 +571,7 @@ class cDetail {
 		cDetailTags.render()
 
 		// catch key presses but not on text inputs
-		var oThis = this
+		const oThis = this
 		$(window).keypress(poEvent => oThis.onKeyPress(poEvent))
 		cBrowser.unbindInputKeyPress()
 

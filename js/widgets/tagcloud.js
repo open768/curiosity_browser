@@ -17,7 +17,7 @@ class cTagCloud {
 	//****************************************************************
 	static render() {
 		var oElement = this.element
-		var oThis = this
+		const oThis = this
 
 		//------- check that the element is a div
 		const sElementName = oElement.get(0).tagName

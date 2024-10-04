@@ -62,7 +62,7 @@ class cCommentBox {
 		}
 
 		var sBUT_ID, oButton
-		var oThis = this
+		const oThis = this
 		sBUT_ID = cJquery.child_ID(oElement, this.COMMENTS_BUTTON_ID)
 		{
 			oButton = cAppRender.make_button(sBUT_ID, 'comment', 'submit comment', true, () => oThis.onClick())
@@ -76,7 +76,7 @@ class cCommentBox {
 		var oElement = this.element
 		oElement.empty()
 		this.render()
-		var oThis = this
+		const oThis = this
 
 		//----------- hook onto facebook user - if readonly skip
 		if (!this.options.read_only) bean.on(cFacebook, cFacebook.STATUS_EVENT, () => oThis.onFacebookUser())
@@ -86,7 +86,7 @@ class cCommentBox {
 
 	//*************************************************************
 	get_comments() {
-		var oThis = this
+		const oThis = this
 		//get the comments
 		var sSOl = this.options.sol
 		var sProduct = this.options.product
@@ -121,7 +121,7 @@ class cCommentBox {
 			resizeEnabled: false,
 			emoticonsRoot: cAppLocations.jsextra + '/sceditor/'
 		})
-		var oThis = this
+		const oThis = this
 		oTextBox.sceditor('instance').blur(() => oThis.onInputDefocus())
 		oTextBox.sceditor('instance').focus(() => oThis.onInputFocus())
 	}
@@ -133,7 +133,7 @@ class cCommentBox {
 		var oTextBox = cJquery.element(sTEXT_ID)
 
 		var sText = oTextBox.sceditor('instance').val() // gets the bbcode - MUST BE PARSED AT SERVER
-		var oThis = this
+		const oThis = this
 		cSpaceComments.set(this.options.sol, this.options.instrument, this.options.product, sText, () => oThis.get_comments())
 	}
 

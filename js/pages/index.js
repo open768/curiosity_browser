@@ -84,7 +84,7 @@ class cBackgroundImage {
 		})
 
 		//------ add info to footer
-		var oThis = this
+		const oThis = this
 		var oA = $('<A>', { href: sUrl, target: 'detail' })
 		{
 			oA.append('Click here to see background image')
@@ -275,7 +275,7 @@ class cLeftColumn {
 class cAdminBox {
 	//*************************************************************
 	static async render(poParent) {
-		var oThis = this
+		const oThis = this
 		var oWidget = cAppRender.create_widget('Admin')
 		var oBody = oWidget.body
 		{
@@ -304,7 +304,7 @@ class cSearchBox {
 	//***************************************************************
 	static async render() {
 		// populate contents
-		var oThis = this
+		const oThis = this
 		var oElement = cJquery.element(cIndexPageConsts.ID_SEARCH_PANE)
 		oElement.empty()
 
@@ -360,7 +360,7 @@ class cSearchBox {
 
 	//***************************************************************
 	static pr_instrument_box() {
-		var oThis = this
+		const oThis = this
 		cJquery.element(cIndexPageConsts.ID_SEARCH).keypress(function (e) {
 			oThis.onSearchKeypress(e)
 		})
@@ -378,7 +378,7 @@ class cSearchBox {
 		const sText = cJquery.element(cIndexPageConsts.ID_SEARCH).val()
 		if (sText == '') return
 		cIndexPageOptions.instrument = null
-		var oThis = this
+		const oThis = this
 
 		if (cCommon.is_numeric(sText)) {
 			cJquery.element(cLeftColumn.ID_WIDGET_SOLCHOOSER).solinstrumentChooser('set_sol', sText)
@@ -461,7 +461,7 @@ class cPageTabs {
 		})
 
 		//remove the highlight of all buttons within the TAB BAR
-		var oThis = this
+		const oThis = this
 		var oParent = cJquery.element(this.ID_TAB_BAR)
 		var oChildren = oParent.children('.' + this.BUTTON_CLASS)
 

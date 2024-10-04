@@ -51,7 +51,7 @@ class cSolGridRenderer {
 		oElement.append(oLoader)
 
 		//send request to get the data
-		var oThis = this
+		const oThis = this
 		var oOptions = { m: this.mission }
 		if (poExtraParams) Object.assign(oOptions, poExtraParams)
 		var sUrl = cBrowser.buildUrl(this.DataRestUrl, oOptions)
@@ -123,7 +123,7 @@ class cSolGridRenderer {
 						class: 'w3-button w3-blue w3-padding-small',
 						sol: sSol
 					}).append(sSol)
-                    const oThis = this
+					const oThis = this
 					oButton.on('click', poEvent => oThis.onButtonClick(poEvent))
 					oDiv.append(oButton)
 				} else {

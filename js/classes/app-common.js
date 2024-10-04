@@ -126,7 +126,7 @@ class cAppAllSolButtons {
 
 	//*********************************************************************
 	static render_buttons(poParent) {
-		var oThis = this
+		const oThis = this
 
 		var oSpan = $('<span>')
 		{
@@ -193,7 +193,7 @@ class cAppSolButtons {
 		}
 		var iSol = parseInt(sSol)
 		this.current_sol = iSol
-		var oThis = this
+		const oThis = this
 
 		//------------render the buttons
 		var oSpan = $('<span>')

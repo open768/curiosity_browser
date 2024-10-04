@@ -28,16 +28,19 @@ class cSolHighs {
 			return
 		}
 
-		// change status of checkbox
-		var oElMosaic = cJquery.element(cSolHighPageConstants.CHK_MOSAIC_ID)
-		if (cBrowser.data[cAppUrlParams.MOSAIC_PARAM] != null) oElMosaic.prop('checked', true)
-		const oThis = this
-		oElMosaic.on('change', () => oThis.onCheckMosaic())
-
-		this.set_browser_url()
-
 		const oDiv = cJquery.element(cSolHighPageConstants.SOL_BUTTONS_ID)
 		cAppSolButtons.render_buttons(oDiv)
+
+		//add a mosaic button
+		if (!cBrowser.get_url_param(cAppUrlParams.MOSAIC_PARAM)) {
+			oDiv.append(cBrowser.whitespace(50))
+			const oThis = this
+			const oMosaicBut = cAppRender.make_button(null, '<span class="material-symbols-outlined">dataset</span> Mosaic', 'create a mosaic of highlights', false, () =>
+				oThis.onClickMosaicButton()
+			)
+			oDiv.append(oMosaicBut)
+		}
+
 		this.render_highlights()
 	}
 
@@ -78,9 +81,8 @@ class cSolHighs {
 	//###############################################################
 	//# events
 	//###############################################################
-	static onCheckMosaic() {
-		var oChkMosaic = cJquery.element(cSolHighPageConstants.CHK_MOSAIC_ID)
-		this.is_mosaic = oChkMosaic[0].checked
+	static onClickMosaicButton() {
+		this.is_mosaic = true
 		this.set_browser_url()
 		this.render_highlights()
 	}

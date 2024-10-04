@@ -36,7 +36,7 @@ class ckSolHighlights {
 	//***************************************************************************
 	pr__get_sol_highlights() {
 		var oParams = {}
-		var oThis = this
+		const oThis = this
 
 		this.widget._trigger('onStatus', null, { text: 'fetching highlights' })
 
@@ -75,7 +75,7 @@ class ckSolHighlights {
 	//***************************************************************************
 	onSheetResponse(poHttp) {
 		var oElement = this.element
-		var oThis = this
+		const oThis = this
 		var oDiv
 
 		//-----------------------------------------------------------------
@@ -188,7 +188,7 @@ class cInstrHighlight {
 		var oOptions = this.options
 		var oElement = this.element
 		var sProduct
-		var oThis = this
+		const oThis = this
 
 		//using the query CSS styles
 		oElement.uniqueId()
@@ -245,7 +245,7 @@ class cInstrHighlight {
 
 	//**************************************************************************
 	onInView(poTarget, pbIsInView) {
-		var oThis = this
+		const oThis = this
 		//dont do anything if the queue is stopping
 		if (goHighlightQueue.stopping) return
 		if (!pbIsInView) return
@@ -260,7 +260,7 @@ class cInstrHighlight {
 
 	//*******************************************************************
 	onTimer(poSpan) {
-		var oThis = this
+		const oThis = this
 
 		//dont do anything if the queue is stopping
 		if (goHighlightQueue.stopping) return
@@ -283,7 +283,7 @@ class cInstrHighlight {
 	//*******************************************************************
 	load_highlights(poSpan) {
 		var oOptions = this.options
-		var oThis = this
+		const oThis = this
 
 		var oParams = {}
 		{
