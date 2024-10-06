@@ -9,10 +9,10 @@ $sInstr = cHeader::get(cSpaceUrlParams::INSTRUMENT, true);
 $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
 
 try {
-    $aData = cCuriosityImages::getThumbBlobData($sSol, $sInstr, $sProduct);
-    cDebug::vardump($aData);
-    $sMime = $aData->m;
-    $sBlob = $aData->b;
+    $oData = cCuriosityImages::getThumbBlobData($sSol, $sInstr, $sProduct);
+    cDebug::vardump($oData);
+    $sMime = $oData->mime_type;
+    $sBlob = $oData->blob;
     header("Content-Type: $sMime");
     echo $sBlob;
 } catch (Exception $e) {
