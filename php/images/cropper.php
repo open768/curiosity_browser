@@ -13,9 +13,9 @@ $iTop = floor(floatval($iTop));
 $iLeft = floor(floatval($iLeft));
 
 try {
-    $aData = cCropper::get_crop_blob_data($sUrl, $iLeft, $iTop, $iWidth, $iHeight);
-    $sMime = $aData->m;
-    $sBlob = $aData->b;
+    $oCropData = cCropper::get_crop_blob_data($sUrl, $iLeft, $iTop, $iWidth, $iHeight);
+    $sMime = $oCropData->blob->mime_type;
+    $sBlob = $oCropData->blob->blob;
     header("Content-Type: $sMime");
     echo $sBlob;
 } catch (Exception $e) {
