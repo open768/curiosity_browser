@@ -35,10 +35,12 @@ class cSolHighs {
 		if (!cBrowser.get_url_param(cAppUrlParams.MOSAIC_PARAM)) {
 			oDiv.append(cBrowser.whitespace(50))
 			const oThis = this
-			const oMosaicBut = cAppRender.make_button(null, '<span class="material-symbols-outlined">dataset</span> Mosaic', 'create a mosaic of highlights', false, () =>
-				oThis.onClickMosaicButton()
-			)
-			oDiv.append(oMosaicBut)
+			const oMosaicBut = cAppRender.make_button(null, ' Mosaic', 'create a mosaic of highlights', false, () => oThis.onClickMosaicButton())
+			{
+				const oIcon = cRenderGoogleFont.create_icon('dataset')
+				oMosaicBut.prepend(oIcon)
+				oDiv.append(oMosaicBut)
+			}
 		}
 
 		this.render_highlights()
