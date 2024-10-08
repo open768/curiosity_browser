@@ -4,7 +4,8 @@
 class cAppGlobals {
     static $root;
     static $appPHP, $appImages, $appConfig, $appPhpFragments;
-    static $jsHome, $jsWidgets, $jsAppRest, $jsExtra, $jsImages, $jsInc, $jsSpaceInc, $jsThumbNailer, $jsCropper;
+    static $jsHome, $jsWidgets, $jsAppRest, $jsExtra, $jsImages, $jsInc, $jsSpaceInc;
+    static $jsThumbNailer, $jsCropper, $jsMosaicer;
 
     static $spaceInc = null;
     static $phpInc = null;
@@ -35,6 +36,7 @@ class cAppGlobals {
         //image functions
         self::$jsThumbNailer = "$psHome/php/images/thumbnailer.php"; //this will likely move out of the browser app into its own app
         self::$jsCropper = "$psHome/php/images/cropper.php"; //this will likely move out of the app (as above)
+        self::$jsMosaicer = "$psHome/php/images/mosaicer.php"; //this will likely move out of the app (as above)
     }
 }
 cAppGlobals::init($home);

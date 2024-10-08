@@ -189,7 +189,7 @@ $.widget('ck.solinstrumentChooser', {
 		})
 
 		// get the instruments for this sol
-		const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/instruments.php', {
+		const sUrl = cBrowser.buildUrl(cAppRest.base_url('/instruments.php'), {
 			s: psSol,
 			r: 0,
 			m: this.options.mission.ID
@@ -207,7 +207,7 @@ $.widget('ck.solinstrumentChooser', {
 	prLoadLists: function () {
 		const oThis = this
 
-		var sUrl = cBrowser.buildUrl(cAppLocations.rest + '/instruments.php', {
+		var sUrl = cBrowser.buildUrl(cAppRest.base_url('/instruments.php'), {
 			m: this.options.mission.ID
 		})
 		const oHttp = new cHttp2()
@@ -216,7 +216,7 @@ $.widget('ck.solinstrumentChooser', {
 			oHttp.fetch_json(sUrl)
 		}
 
-		sUrl = cBrowser.buildUrl(cAppLocations.rest + '/sols.php', {
+		sUrl = cBrowser.buildUrl(cAppRest.base_url('/sols.php'), {
 			m: this.options.mission.ID
 		})
 		const oHttp2 = new cHttp2()

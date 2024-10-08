@@ -581,7 +581,7 @@ class cDetail {
 	//***************************************************************
 	static pr_fetch_next_product(psDirection) {
 		const oItem = this.oItem
-		const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/nexttime.php', {
+		const sUrl = cBrowser.buildUrl(cAppRest.base_url('/nexttime.php'), {
 			d: psDirection,
 			p: oItem.p,
 			m: cMission.ID
@@ -600,7 +600,7 @@ class cDetail {
 		// find the next image
 		cCommonStatus.set_status('fetching next image details...')
 		const oItem = this.oItem
-		var sUrl = cBrowser.buildUrl(cAppLocations.rest + '/next.php', {
+		var sUrl = cBrowser.buildUrl(cAppRest.base_url('/next.php'), {
 			d: psDirection,
 			p: oItem.p,
 			m: cMission.ID
@@ -804,7 +804,7 @@ class cDetail {
 
 	//***************************************************************
 	static get_product_data(psSol, psInstr, psProd) {
-		const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/detail.php', {
+		const sUrl = cBrowser.buildUrl(cAppRest.base_url('/detail.php'), {
 			s: psSol,
 			i: psInstr,
 			p: psProd,

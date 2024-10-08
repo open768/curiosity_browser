@@ -32,7 +32,7 @@ function onGoogleEarthLoaded() {
 	bPluginLoaded = true
 	$('#site').empty()
 
-	const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/sites.php', {
+	const sUrl = cBrowser.buildUrl(cAppRest.base_url('/sites.php'), {
 		o: 'allSitesBounds',
 		m: cMission.ID
 	})
@@ -51,7 +51,7 @@ function do_op(psOper, psValue) {
 	oQueryData[cAppUrlParams.OPERATION] = psOper
 	oQueryData[psOper] = psValue
 	oQueryData[cSpaceUrlParams.MISSION] = cMission.ID
-	var sUrl = cBrowser.buildUrl(cAppLocations.rest + '/sites.php', oQueryData)
+	var sUrl = cBrowser.buildUrl(cAppRest.base_url('/sites.php'), oQueryData)
 	var oHttp = new cHttp2()
 	{
 		bean.on(oHttp, 'result', traverse_callback)
@@ -62,7 +62,7 @@ function do_op(psOper, psValue) {
 	oQueryData[cAppUrlParams.OPERATION] = 'siteBounds'
 	oQueryData[psOper] = psValue
 	oQueryData[cSpaceUrlParams.MISSION] = cMission.ID
-	sUrl = cBrowser.buildUrl(cAppLocations.rest + '/sites.php', oQueryData)
+	sUrl = cBrowser.buildUrl(cAppRest.base_url('/sites.php'), oQueryData)
 	oHttp = new cHttp2()
 	{
 		bean.on(oHttp, 'result', bounds_callback)

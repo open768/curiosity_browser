@@ -33,7 +33,7 @@ function onLoadJQuery_SITES() {
 
 function onGoogleEarthLoaded() {
 	cCommonStatus.set_status('retrieving sites')
-	const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/sites.php', {
+	const sUrl = cBrowser.buildUrl(cAppRest.base_url('/sites.php'), {
 		o: 'allSitesBounds',
 		m: cMission.ID
 	})
@@ -179,7 +179,7 @@ function lookat_callback() {
 	cGoogleEarth.removeListener('frameend', lookat_callback)
 	cCommonStatus.set_status('fetching sites')
 	for (var i = 0; i < aSites.length; i++) {
-		const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/sites.php', {
+		const sUrl = cBrowser.buildUrl(cAppRest.base_url('/sites.php'), {
 			o: 'site',
 			site: i,
 			m: cMission.ID

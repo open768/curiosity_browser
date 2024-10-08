@@ -58,7 +58,7 @@ function onLoadJQuery_PDS() {
 		p: cBrowser.data[cSpaceUrlParams.PRODUCT],
 		m: cMission.ID
 	}
-	const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/pds.php', oParams)
+	const sUrl = cBrowser.buildUrl(cAppRest.base_url('/pds.php'), oParams)
 	const oHttp = new cHttp2()
 	{
 		bean.on(oHttp, 'result', get_pds_callback)

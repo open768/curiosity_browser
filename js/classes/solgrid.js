@@ -18,8 +18,8 @@ class cSolGridRenderer {
 		this.mission = psMissionID
 		this.onClickUrl = psOnClickUrl
 		this.element = poElement
-		this.DataRestUrl = cAppLocations.rest + '/' + psDataRestUrl
-		this.solsUrl = cAppLocations.rest + '/sols.php'
+		this.DataRestUrl = cAppRest.base_url(psDataRestUrl)
+		this.solsUrl = cAppRest.base_url('/sols.php')
 		this.caption = psCaption
 
 		// check for necessary classes

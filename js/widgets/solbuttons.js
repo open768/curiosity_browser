@@ -170,7 +170,7 @@ class cSolButtons {
 		cJquery.enable_element(cJquery.element(sID))
 
 		// fetch tags, highlights and gigapans
-		var sUrl = cBrowser.buildUrl(cAppLocations.rest + '/gigapans.php', {
+		var sUrl = cBrowser.buildUrl(cAppRest.base_url('/gigapans.php'), {
 			o: 'sol',
 			s: this.options.sol,
 			m: oOptions.mission.ID
@@ -181,7 +181,7 @@ class cSolButtons {
 			oHttp.fetch_json(sUrl)
 		}
 
-		sUrl = cBrowser.buildUrl(cAppLocations.rest + '/tag.php', {
+		sUrl = cBrowser.buildUrl(cAppRest.base_url('/tag.php'), {
 			o: 'solcount',
 			s: this.options.sol,
 			m: oOptions.mission.ID
@@ -192,7 +192,7 @@ class cSolButtons {
 			oHttp.fetch_json(sUrl)
 		}
 
-		sUrl = cBrowser.buildUrl(cAppLocations.rest + '/img_highlight.php', {
+		sUrl = cBrowser.buildUrl(cAppRest.base_url('/img_highlight.php'), {
 			o: 'solcount',
 			s: this.options.sol,
 			m: oOptions.mission.ID

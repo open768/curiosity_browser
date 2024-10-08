@@ -233,3 +233,10 @@ class cAppSolButtons {
 		cBrowser.openWindow(sUrl, 'index')
 	}
 }
+
+//eslint-disable-next-line no-unused-vars
+class cAppRest {
+	static base_url(psAPI) {
+		return cAppLocations.rest + '/' + psAPI
+	}
+}

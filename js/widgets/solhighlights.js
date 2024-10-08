@@ -44,32 +44,12 @@ class ckSolHighlights {
 
 		var oHttp = new cHttp2()
 		{
-			if (cBrowser.data[cAppUrlParams.MOSAIC_PARAM] != null) {
-				oParams[cAppUrlParams.OPERATION] = 'mosaic'
-				bean.on(oHttp, 'result', poHttp => oThis.onMosaicResponse(poHttp))
-			} else {
-				oParams[cAppUrlParams.OPERATION] = 'soldata'
-				bean.on(oHttp, 'result', poHttp => oThis.onSheetResponse(poHttp))
-			}
+			oParams[cAppUrlParams.OPERATION] = 'soldata'
+			bean.on(oHttp, 'result', poHttp => oThis.onSheetResponse(poHttp))
 
-			var sUrl = cBrowser.buildUrl(cAppLocations.rest + '/img_highlight.php', oParams)
+			var sUrl = cBrowser.buildUrl(cAppRest.base_url('/img_highlight.php'), oParams)
 			oHttp.fetch_json(sUrl)
 		}
-	}
-
-	//***************************************************************************
-	onMosaicResponse(poHttp) {
-		var oElement = this.element
-
-		oElement.empty()
-		var oData = poHttp.response
-
-		if (oData.u == null) oElement.append(cAppRender.make_note('Sorry no Mosaic found'))
-		else {
-			var oImg = $('<IMG>').attr({ src: oData.u })
-			oElement.append(oImg)
-		}
-		this.widget._trigger('onStatus', null, { text: 'ok' })
 	}
 
 	//***************************************************************************
@@ -181,7 +161,7 @@ class cInstrHighlight {
 		this.widget = poWidget
 		this.options = poWidget.options
 		this.element = poWidget.element
-		this.HIGHLIGHT_URL = cAppLocations.rest + '/img_highlight.php'
+		this.HIGHLIGHT_URL = cAppRest.base_url('/img_highlight.php')
 	}
 
 	init() {

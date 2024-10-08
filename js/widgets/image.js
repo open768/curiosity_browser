@@ -116,7 +116,7 @@ $.widget('ck.instrumentimage', {
 
 		// load the data
 		const oItem = new cHttpQueueItem()
-		oItem.url = cBrowser.buildUrl(cAppLocations.rest + '/detail.php', {
+		oItem.url = cBrowser.buildUrl(cAppRest.base_url('/detail.php'), {
 			s: oOptions.sol,
 			i: oOptions.instrument,
 			p: oOptions.product,

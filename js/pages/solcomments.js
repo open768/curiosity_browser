@@ -57,7 +57,7 @@ class cSolComments {
 		var sUrl, oHttp
 
 		//fetch sol data
-		sUrl = cBrowser.buildUrl(cAppLocations.rest + '/comments.php', {
+		sUrl = cBrowser.buildUrl(cAppRest.base_url('/comments.php'), {
 			o: 'sol',
 			s: this.current_sol,
 			m: cMission.ID

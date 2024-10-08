@@ -11,9 +11,9 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 'use strict'
 
-/*global cAppSolButtons,cSolHighPageConstants*/
+/*global cAppSolButtons,cSolMosaicPageConstants*/
 //eslint-disable-next-line no-unused-vars
-class cSolHighs {
+class cSolMosaic {
 	static current_sol = null
 
 	//###############################################################
@@ -22,66 +22,38 @@ class cSolHighs {
 	static onLoadJQuery() {
 		this.current_sol = cBrowser.data[cSpaceUrlParams.SOL]
 		if (this.current_sol == null) {
-			var oSolHighDiv = cJquery.element(cSolHighPageConstants.HIGHLIGHTS_ID)
+			var oSolHighDiv = cJquery.element(cSolMosaicPageConstants.HIGHLIGHTS_ID)
 			oSolHighDiv.append('no SOL provided!!!!')
 			return
 		}
 
-		const oDiv = cJquery.element(cSolHighPageConstants.SOL_BUTTONS_ID)
+		const oDiv = cJquery.element(cSolMosaicPageConstants.SOL_BUTTONS_ID)
 		cAppSolButtons.render_buttons(oDiv)
 
-		//add a mosaic button
-		oDiv.append(cBrowser.whitespace(50))
-		const oThis = this
-		const oMosaicBut = cAppRender.make_button(null, ' Mosaic', 'create a mosaic of highlights', false, () => oThis.onClickMosaicButton())
-		{
-			const oIcon = cRenderGoogleFont.create_icon('dataset')
-			oMosaicBut.prepend(oIcon)
-			oDiv.append(oMosaicBut)
-		}
-
-		const oTitle = cJquery.element(cSolHighPageConstants.SOL_TITLE_ID)
+		const oTitle = cJquery.element(cSolMosaicPageConstants.SOL_TITLE_ID)
 		{
 			oTitle.empty()
 			oTitle.append(this.current_sol)
 		}
 
-		this.render_highlights()
+		this.get_mosaic_url()
 	}
 
 	//###############################################################
 	//# Utility functions
 	//###############################################################
-	static render_highlights() {
-		var oDiv = cJquery.element(cSolHighPageConstants.HIGHLIGHTS_ID)
+	static get_mosaic_url() {
+		var oDiv = cJquery.element(cSolMosaicPageConstants.MOSAIC_ID)
+		oDiv.empty()
+		const oSpinner = cAppRender.make_spinner('loading mosaic')
+		oDiv.append(oSpinner)
 
-		//delete existing widget
-		const oWidget = oDiv.data('ckSolhighlights') // capitalise the first letter of the widget
-		if (oWidget) oWidget.destroy()
-
-		//render widget
-		const oThis = this
-		oDiv.solhighlights({
-			sol: this.current_sol,
-			mission: cMission,
-			home: cAppLocations.home,
-			onStatus: (poEvent, poData) => oThis.onStatusEvent(poEvent, poData),
-			onClick: (poEvent, poData) => oThis.onHighlightClick(poEvent, poData)
-		})
-	}
-
-	//***************************************************************
-	static set_browser_url() {
-		var oSolTitle = cJquery.element(cSolHighPageConstants.SOL_TITLE_ID)
-		oSolTitle.html(this.current_sol)
 		const oParams = {}
 		{
 			oParams[cSpaceUrlParams.SOL] = this.current_sol
 			oParams[cSpaceUrlParams.MISSION] = cMission.ID
 		}
-
-		const sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), oParams)
-		cBrowser.update_state('solhigh', sUrl)
+		const sUrl = cBrowser.buildUrl(cAppRest.base_url('/solmosaic.php'), oParams)
 	}
 
 	//###############################################################
@@ -95,16 +67,6 @@ class cSolHighs {
 		}
 		const sUrl = cBrowser.buildUrl('solmosaic.php', oParams)
 		cBrowser.openWindow(sUrl, 'solmosaic')
-	}
-
-	//***************************************************************
-	static onHighlightClick(poEvent, poData) {
-		const oParams = {}
-		oParams[cSpaceUrlParams.SOL] = poData.s
-		oParams[cSpaceUrlParams.INSTRUMENT] = poData.i
-		oParams[cSpaceUrlParams.PRODUCT] = poData.p
-		const sUrl = cBrowser.buildUrl('detail.php', oParams)
-		cBrowser.openWindow(sUrl, 'detail')
 	}
 
 	//***************************************************************

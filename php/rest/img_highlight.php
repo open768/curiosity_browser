@@ -70,15 +70,6 @@ switch ($sOperation) {
         $oResult = cSpaceImageHighlight::get_sol_highlighted_products($sSol);
         break;
 
-    case "mosaic":
-        $sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
-        $sURL = cSpaceImageMosaic::get_sol_high_mosaic($sSol);
-        $oResult = [
-            "s" => $sSol,
-            "u" => $sURL
-        ];
-        break;
-
     default:
         cDebug::error("unsupported operation '$sOperation'");
         break;

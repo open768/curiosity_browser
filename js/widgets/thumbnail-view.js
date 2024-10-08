@@ -12,7 +12,7 @@ class cThumbnailView {
 		onClick: null,
 		mission: null
 	}
-	static REST_URL = cAppLocations.rest + '/solthumbs.php'
+	static REST_URL = cAppRest.base_url('/solthumbs.php')
 
 	static init(poWidget) {
 		this.widget = poWidget

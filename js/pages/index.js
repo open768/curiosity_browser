@@ -42,7 +42,7 @@ class cBackgroundImage {
 		}
 
 		const oThis = this
-		const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/' + this.REST_URL, {
+		const sUrl = cBrowser.buildUrl(cAppRest.base_url(this.REST_URL), {
 			o: 'i', //images
 			h: 1 //only want 1 image
 		})
@@ -383,7 +383,7 @@ class cSearchBox {
 		if (cCommon.is_numeric(sText)) {
 			cJquery.element(cLeftColumn.ID_WIDGET_SOLCHOOSER).solinstrumentChooser('set_sol', sText)
 		} else {
-			const sUrl = cBrowser.buildUrl(cAppLocations.rest + '/' + this.REST_URL, {
+			const sUrl = cBrowser.buildUrl(cAppRest.base_url(this.REST_URL), {
 				s: sText,
 				m: cMission.ID
 			})
