@@ -68,6 +68,10 @@ $title .= " - " . cAppConfig::APP_NAME;
 <script src="<?= cAppGlobals::$jsExtra ?>/jquery-cookie/jquery.cookie.js"></script>
 <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/jquery/jquery.common.js"></script>
 
+<!-- app stuff -->
+<script src="<?= cAppGlobals::$jsHome ?>/classes/curiosity.js"></script>
+<script src="<?= cAppGlobals::$jsHome ?>/classes/app-common.js"></script>
+
 <!-- everything else -->
 <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/http.js"></script>
 <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/httpqueue.js"></script>
@@ -80,9 +84,6 @@ $title .= " - " . cAppConfig::APP_NAME;
 <!-- Facebook -->
 <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/facebook.js"></script>
 
-<!-- app stuff -->
-<script src="<?= cAppGlobals::$jsHome ?>/classes/curiosity.js"></script>
-<script src="<?= cAppGlobals::$jsHome ?>/classes/app-common.js"></script>
 
 <script>
     cFacebook.ServerSide = cAppLocations.rest + "/facebook.php";

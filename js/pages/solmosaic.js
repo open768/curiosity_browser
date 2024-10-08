@@ -53,12 +53,24 @@ class cSolMosaic {
 			oParams[cSpaceUrlParams.SOL] = this.current_sol
 			oParams[cSpaceUrlParams.MISSION] = cMission.ID
 		}
-		const sUrl = cBrowser.buildUrl(cAppRest.base_url('/solmosaic.php'), oParams)
+		const sUrl = cBrowser.buildUrl(cAppRest.base_url('solmosaic.php'), oParams)
+		const oHttp = new cHttp2()
+		{
+			const oThis = this
+			bean.on(oHttp, 'result', poHttp => oThis.onMosaicResponse(poHttp))
+			oHttp.fetch_json(sUrl)
+		}
 	}
 
 	//###############################################################
 	//# events
 	//###############################################################
+	static onMosaicResponse(poHttp) {
+		var oDiv = cJquery.element(cSolMosaicPageConstants.MOSAIC_ID)
+		oDiv.empty()
+		oDiv.append('i Got something')
+	}
+
 	static onClickMosaicButton() {
 		const oParams = {}
 		{

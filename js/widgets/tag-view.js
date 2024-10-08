@@ -50,7 +50,7 @@ $.widget('ck.tagview', {
 
 		const oHttp = new cHttp2()
 		{
-			const sUrl = cBrowser.buildUrl(cAppRest.base_url('/tag.php'), {
+			const sUrl = cBrowser.buildUrl(cAppRest.base_url('tag.php'), {
 				t: sTag,
 				o: 'detail',
 				m: this.options.mission.ID

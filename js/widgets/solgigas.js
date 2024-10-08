@@ -43,7 +43,7 @@ $.widget('ck.solgigas', {
 		oElement.append(oSpinner)
 
 		// get the sols with Tags
-		var sUrl = cBrowser.buildUrl(cAppRest.base_url('/gigapans.php'), {
+		var sUrl = cBrowser.buildUrl(cAppRest.base_url('gigapans.php'), {
 			s: oOptions.sol,
 			o: 'sol',
 			m: cMission.ID

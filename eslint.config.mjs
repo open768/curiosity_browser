@@ -14,6 +14,7 @@ export default [
 				cAppConsts: 'readonly',
 				cAppLocations: 'readonly',
 				cAppRender: 'readonly',
+				cAppRest: 'readonly',
 				cAppUrlParams: 'readonly',
 				cAuth: 'readonly',
 				cBrowser: 'readonly',

@@ -47,7 +47,7 @@ class ckSolHighlights {
 			oParams[cAppUrlParams.OPERATION] = 'soldata'
 			bean.on(oHttp, 'result', poHttp => oThis.onSheetResponse(poHttp))
 
-			var sUrl = cBrowser.buildUrl(cAppRest.base_url('/img_highlight.php'), oParams)
+			var sUrl = cBrowser.buildUrl(cAppRest.base_url('img_highlight.php'), oParams)
 			oHttp.fetch_json(sUrl)
 		}
 	}
@@ -161,7 +161,7 @@ class cInstrHighlight {
 		this.widget = poWidget
 		this.options = poWidget.options
 		this.element = poWidget.element
-		this.HIGHLIGHT_URL = cAppRest.base_url('/img_highlight.php')
+		this.HIGHLIGHT_URL = cAppRest.base_url('img_highlight.php')
 	}
 
 	init() {

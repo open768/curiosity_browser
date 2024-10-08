@@ -2,7 +2,7 @@
 // % Definition
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 class cImageList {
-	IMAGES_URL = cAppRest.base_url('/images.php')
+	IMAGES_URL = cAppRest.base_url('images.php')
 	IMAGES_TO_SHOW = 5
 	CURRENT_CHILD_ID = 'CILC'
 

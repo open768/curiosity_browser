@@ -104,7 +104,7 @@ class cTagCloud {
 		var oSpinner = cAppRender.make_spinner('loading Tags')
 		oTagElement.append(oSpinner)
 
-		const sUrl = cBrowser.buildUrl(cAppRest.base_url('/tag.php'), {
+		const sUrl = cBrowser.buildUrl(cAppRest.base_url('tag.php'), {
 			o: 'all',
 			m: this.options.mission.ID
 		})

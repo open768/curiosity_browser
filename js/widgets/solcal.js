@@ -28,7 +28,7 @@ class cSolCalendar {
 		var oSpinner = cAppRender.make_spinner('Loading calendar for sol: ' + oOptions.sol)
 		oElement.append(oSpinner)
 
-		const sUrl = cBrowser.buildUrl(cAppRest.base_url('/cal.php'), {
+		const sUrl = cBrowser.buildUrl(cAppRest.base_url('cal.php'), {
 			s: oOptions.sol,
 			m: oOptions.mission.ID
 		})
