@@ -1,6 +1,6 @@
 <?php
-require_once cAppGlobals::$phpInc . "/ckinc/header.php";
-require_once cAppGlobals::$phpInc . "/ckinc/facebook.php";
+require_once cAppGlobals::$ckPhpInc . "/header.php";
+require_once cAppGlobals::$ckPhpInc . "/facebook.php";
 
 ?>
 <!-- facebook meta tags -->

@@ -13,8 +13,8 @@ if (!file_exists($sConfigFile))
 include $sConfigFile;    //config for the application - sets up cAppglobals
 
 //**********************************************************************************
-require_once cAppGlobals::$phpInc . "/ckinc/header.php";    //this starts the session
-require_once cAppGlobals::$phpInc . "/ckinc/debug.php";
+require_once cAppGlobals::$ckPhpInc . "/header.php";    //this starts the session
+require_once cAppGlobals::$ckPhpInc . "/debug.php";
 
 //**********************************************************************************
 //check for extensions
@@ -41,8 +41,8 @@ if (!cDebug::is_cli())
     }
 
 //includes
-require_once cAppGlobals::$phpInc . "/ckinc/common.php";
-require_once cAppGlobals::$phpInc . "/ckinc/auth.php";
+require_once cAppGlobals::$ckPhpInc . "/common.php";
+require_once cAppGlobals::$ckPhpInc . "/auth.php";
 require_once cAppGlobals::$spaceInc . "/misc/constants.php";
 require_once cAppGlobals::$spaceInc . "/curiosity/curiosity.php";
 require_once cAppGlobals::$spaceInc . "/curiosity/static.php";

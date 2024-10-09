@@ -14,9 +14,9 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
 
-require_once  cAppGlobals::$phpInc . "/ckinc/header.php";
-require_once  cAppGlobals::$phpInc . "/ckinc/hash.php";
-require_once  cAppGlobals::$phpInc . "/ckinc/facebook.php";
+require_once  cAppGlobals::$ckPhpInc . "/header.php";
+require_once  cAppGlobals::$ckPhpInc . "/hash.php";
+require_once  cAppGlobals::$ckPhpInc . "/facebook.php";
 
 cDebug::check_GET_or_POST();
 

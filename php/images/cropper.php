@@ -1,7 +1,7 @@
 <?php
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
-require_once  cAppGlobals::$phpInc . "/ckinc/image.php";
+require_once  cAppGlobals::$ckPhpInc . "/image.php";
 
 $sUrl = cHeader::get(cAppUrlParams::URL, true);
 $iTop = cHeader::get(cAppUrlParams::HIGHLIGHT_TOP, true, true);

@@ -9,6 +9,7 @@ class cAppGlobals {
 
     static $spaceInc = null;
     static $phpInc = null;
+    static $ckPhpInc = null;
     static $title = "title not set";
 
     static function init($psHome) {
@@ -19,6 +20,8 @@ class cAppGlobals {
         self::$spaceInc = self::$root . "/../spaceinc";
         self::$jsInc = "$psHome/../jsinc";
 
+        //more php stuff
+        self::$ckPhpInc = self::$phpInc . "/ckinc";
         //app  stuff 
         $appPHP = self::$root . "/php";
         self::$appImages = "$psHome/images/";

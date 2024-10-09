@@ -92,7 +92,7 @@ class cCommentBox {
 		var sProduct = this.options.product
 		var sInstr = this.options.instrument
 		cDebug.write('getting comments for s:' + sSOl + ' p:' + sProduct + ' i:' + sInstr)
-		cSpaceComments.get(sSOl, sInstr, sProduct, d => oThis.onGotComments(d))
+		cComments.get(sSOl, sInstr, sProduct, d => oThis.onGotComments(d))
 	}
 
 	//*************************************************************
@@ -134,7 +134,7 @@ class cCommentBox {
 
 		var sText = oTextBox.sceditor('instance').val() // gets the bbcode - MUST BE PARSED AT SERVER
 		const oThis = this
-		cSpaceComments.set(this.options.sol, this.options.instrument, this.options.product, sText, () => oThis.get_comments())
+		cComments.set(this.options.sol, this.options.instrument, this.options.product, sText, () => oThis.get_comments())
 	}
 
 	//*************************************************************
@@ -193,7 +193,7 @@ $.widget('ck.commentbox', {
 	//*******************************************************************
 	_create: function () {
 		//-------checks
-		if (typeof cSpaceComments === 'undefined') cDebug.error('cSpaceComments is not defined')
+		if (typeof cComments === 'undefined') cDebug.error('cComments is not defined')
 
 		//-------proceed
 		var oBox = new cCommentBox(this)

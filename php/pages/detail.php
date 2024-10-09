@@ -2,7 +2,7 @@
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 
-require_once  cAppGlobals::$phpInc . "/ckinc/header.php";
+require_once  cAppGlobals::$ckPhpInc . "/header.php";
 require_once  cAppGlobals::$spaceInc . "/curiosity/facebook.php";
 cHeader::redirect_if_referred();
 if (cFacebook_ServerSide::is_facebook()) {
