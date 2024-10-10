@@ -67,6 +67,7 @@ class cAppLocations {
     static $cropper = null;
     static $images = null;
     static $appconfig = null;
+    static $mosaicer = null;
 
     static function init() {
         global $home;
@@ -76,6 +77,7 @@ class cAppLocations {
         self::$thumbnailer = cAppGlobals::$jsThumbNailer;
         self::$images = cAppGlobals::$jsImages;
         self::$cropper = cAppGlobals::$jsCropper;
+        self::$mosaicer = cAppGlobals::$jsMosaicer;
         self::$appconfig = "$home/php/app-config/app-config.php";
     }
 }

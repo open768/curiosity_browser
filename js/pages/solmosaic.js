@@ -68,17 +68,24 @@ class cSolMosaic {
 	static onMosaicResponse(poHttp) {
 		var oDiv = cJquery.element(cSolMosaicPageConstants.MOSAIC_ID)
 		oDiv.empty()
-		oDiv.append('i Got something')
+
+		const oData = poHttp.response
+		if (oData.mos == null) {
+			oDiv.append(cRender.messagebox('unable to create highlight'))
+			return
+		}
+
+		const sImgUrl = cBrowser.buildUrl(cAppLocations.mosaicer, oData)
+		const oImg = $('<img>', { src: sImgUrl, class: 'image' })
+		const oThis = this
+		oImg.click(() => oThis.onClickMosaic(oData))
+		oDiv.append(oImg)
 	}
 
-	static onClickMosaicButton() {
-		const oParams = {}
-		{
-			oParams[cSpaceUrlParams.SOL] = this.current_sol
-			oParams[cSpaceUrlParams.MISSION] = cMission.ID
-		}
-		const sUrl = cBrowser.buildUrl('solmosaic.php', oParams)
-		cBrowser.openWindow(sUrl, 'solmosaic')
+	//***************************************************************
+	static onClickMosaic(poData) {
+		const sUrl = cBrowser.buildUrl('solhigh.php', { s: poData[cSpaceUrlParams.SOL] })
+		cBrowser.openWindow(sUrl, 'index')
 	}
 
 	//***************************************************************

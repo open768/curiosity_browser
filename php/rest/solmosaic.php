@@ -25,13 +25,15 @@ $sUser = cAuth::must_get_user();
 $sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
 $sMission = cHeader::get(cSpaceUrlParams::MISSION, true);
 $oResult = cSpaceImageMosaic::get_sol_high_mosaic($sSol);
-
+$sKey = null;
+if ($oResult !== null) $sKey = $oResult->key;
+cDebug::vardump($oResult);
 
 //############################### response ####################
 include cAppGlobals::$appPhpFragments . "/rest_header.php";
 $aOut = []; {
     $aOut[cSpaceUrlParams::SOL] = $sSol;
     $aOut[cSpaceUrlParams::MISSION] = $sMission;
-    $aOut[cAppUrlParams::MOSAIC_PARAM] = $oResult->key;
+    $aOut[cAppUrlParams::MOSAIC_PARAM] = $sKey;
 }
 cCommon::write_json((object)$aOut);
