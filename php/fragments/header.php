@@ -26,7 +26,7 @@ $sFBUser = cFacebook_ServerSide::getSessionUser();
 <script>
     class cSecret {
         static GA_TrackingID = "<?= cAppSecret::GOOGLE_ANALYTICS_ID ?>"
-        static GA_App = "mars-tourist-guide.co.uk"
+        static GA_App = "<?= cAppSecret::GOOGLE_APP ?>"
     }
 </script>
 <?php

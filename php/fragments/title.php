@@ -1,7 +1,9 @@
 <!-- Tracking -->
 <?php
-//include cAppGlobals::$appPhpFragments."/google.php";
-if (!cDebug::is_localhost())
+if (cAppSecret::USE_GOOGLE_ANALYTICS)
+    include cAppGlobals::$appPhpFragments . "/google.php";
+
+if (!cDebug::is_localhost() && cAppSecret::USE_APPD)
     include cAppGlobals::$appPhpFragments . "/appd.php";
 
 

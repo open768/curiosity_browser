@@ -16,9 +16,9 @@ class cAppGlobals {
         self::$root = realpath($psHome);
 
         //configurable things 
-        self::$phpInc = self::$root . "/../phpinc";
-        self::$spaceInc = self::$root . "/../spaceinc";
-        self::$jsInc = "$psHome/../jsinc";
+        self::$phpInc = self::$root . "/../phpinc";				//disk location of where spaceinc can be found by PHP
+        self::$spaceInc = self::$root . "/../spaceinc";			//disk location of where spaceinc can be found by PHP
+        self::$jsInc = "$psHome/../jsinc";						//url where jsinc can be found on your webserver
 
         //more php stuff
         self::$ckPhpInc = self::$phpInc . "/ckinc";
