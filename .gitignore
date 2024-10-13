@@ -5,7 +5,7 @@
 *.old
 *.orig
 *.zip
-*secret*
+*app-secret.php
 *.ldb
 \[Largeurls\]/
 \[backup\]/
