@@ -1,5 +1,5 @@
 //uses sceditor https://www.sceditor.com/
-
+/* global cComments */
 class cCommentBox {
 	COMMENTS_DISPLAY_ID = 'CDI'
 	COMMENTS_TEXTAREA_ID = 'CTI'

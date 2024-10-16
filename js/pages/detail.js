@@ -514,21 +514,11 @@ class cDetailHighlight {
 }
 
 //###############################################################
-//# cDetail
+//# cImageButtons
 //###############################################################
-class cDetail {
-	static oItem = null
-	static iNum = null
-	static sol = null
-	static instrument = null
-	static product = null
-
-	//***********************************************************
-	static onLoadJQuery() {
-		//set click handlers
-		//cDetailContainer.render()  //todo
-		cDetailSolButtons.render()
-
+class cImageButtons {
+	static instrument_clicks() {
+		const oThis = this
 		$('#submittag').on('click', poEvent => oThis.onClickAddTag(poEvent))
 
 		$('#prev_prod_top').on('click', poEvent => oThis.onClickPreviousProduct(poEvent))
@@ -544,6 +534,45 @@ class cDetail {
 		$('#prev_bottom').on('click', poEvent => oThis.onClickPrevious(poEvent))
 		$('#next_bottom').on('click', poEvent => oThis.onClickNext(poEvent))
 		$('#next_prod_bottom').on('click', poEvent => oThis.onClickNextProduct(poEvent))
+	}
+
+	//***************************************************************
+	static onClickNextProduct() {
+		cDetail.pr_fetch_next_product(cSpaceConstants.DIRECTION_NEXT)
+	}
+
+	//***************************************************************
+	static onClickPreviousProduct() {
+		cDetail.pr_fetch_next_product(cSpaceConstants.DIRECTION_PREVIOUS)
+	}
+
+	//***************************************************************
+	static onClickNext() {
+		cDetail.pr_fetch_next_image(cSpaceConstants.DIRECTION_NEXT)
+	}
+
+	//***************************************************************
+	static onClickPrevious() {
+		cDetail.pr_fetch_next_image(cSpaceConstants.DIRECTION_PREVIOUS)
+	}
+}
+
+//###############################################################
+//# cDetail
+//###############################################################
+class cDetail {
+	static oItem = null
+	static iNum = null
+	static sol = null
+	static instrument = null
+	static product = null
+
+	//***********************************************************
+	static onLoadJQuery() {
+		//set click handlers
+		//cDetailContainer.render()  //todo
+		cDetailSolButtons.render()
+		cImageButtons.instrument_clicks()
 
 		// get user data
 		cCommonStatus.set_status('loading user data...')
@@ -556,16 +585,6 @@ class cDetail {
 
 		//get the image data
 		this.get_product_data(sSol, sInstr, sProduct)
-
-		// render comments
-		var oComment = cJquery.element('commentContainer')
-		oComment.commentbox({
-			mission: cMission,
-			sol: sSol,
-			product: sProduct,
-			instrument: sInstr,
-			read_only: false
-		})
 
 		//tags
 		cDetailTags.render()
@@ -616,23 +635,6 @@ class cDetail {
 	//###############################################################
 	//# Click Event Handlers
 	//###############################################################
-	static onClickNextProduct() {
-		this.pr_fetch_next_product(cSpaceConstants.DIRECTION_NEXT)
-	}
-
-	static onClickPreviousProduct() {
-		this.pr_fetch_next_product(cSpaceConstants.DIRECTION_PREVIOUS)
-	}
-
-	//***************************************************************
-	static onClickNext() {
-		this.pr_fetch_next_image(cSpaceConstants.DIRECTION_NEXT)
-	}
-
-	//***************************************************************
-	static onClickPrevious() {
-		this.pr_fetch_next_image(cSpaceConstants.DIRECTION_PREVIOUS)
-	}
 
 	//***************************************************************
 	static onKeyPress(poEvent) {
@@ -745,6 +747,19 @@ class cDetail {
 
 		// get the tags
 		cDetailTags.get_tags()
+
+		// render comments
+		var oComment = cJquery.element('commentContainer')
+		const oWidget = oComment.data('ckCommentbox') // capitalise the first letter of the widget
+		if (oWidget) oWidget.destroy()
+
+		oComment.commentbox({
+			mission: cMission,
+			sol: this.sol,
+			product: this.product,
+			instrument: this.instrument,
+			read_only: false
+		})
 	}
 
 	//***************************************************************
