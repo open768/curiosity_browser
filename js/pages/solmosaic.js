@@ -11,7 +11,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 **************************************************************************/
 'use strict'
 
-/*global cAppSolButtons,cSolMosaicPageConstants*/
+/*global cAppSolButtons cSolMosaicPageConstants cRender*/
 //eslint-disable-next-line no-unused-vars
 class cSolMosaic {
 	static current_sol = null
@@ -71,11 +71,14 @@ class cSolMosaic {
 
 		const oData = poHttp.response
 		if (oData.mos == null) {
-			oDiv.append(cRender.messagebox('unable to create highlight'))
+			oDiv.append(cRender.messagebox('unable to create mosaic'))
 			return
 		}
 
-		const sImgUrl = cBrowser.buildUrl(cAppLocations.mosaicer, oData)
+		const oParams = {}
+		oParams[cAppUrlParams.MOSAIC_PARAM] = oData[cAppUrlParams.MOSAIC_PARAM]
+
+		const sImgUrl = cBrowser.buildUrl(cAppLocations.mosaicer, oParams)
 		const oImg = $('<img>', { src: sImgUrl, class: 'image' })
 		const oThis = this
 		oImg.click(() => oThis.onClickMosaic(oData))
