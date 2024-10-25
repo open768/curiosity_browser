@@ -212,7 +212,7 @@ class cDetailTags {
 }
 
 //###############################################################
-//# cDetailImage
+//# cDetailSolButtons
 //###############################################################
 class cDetailSolButtons {
 	static SOL_CHILD_ID = 's'
@@ -451,7 +451,7 @@ class cDetailImage {
 }
 
 //###############################################################
-//# cDetailImage
+//# cDetailHighlight
 //###############################################################
 class cDetailHighlight {
 	static onLoad() {
@@ -510,6 +510,32 @@ class cDetailHighlight {
 
 	static makeBox(piX, piY) {
 		cImgHilite.makeBox(piX, piY, true)
+	}
+}
+
+//###############################################################
+//# cDetailComments
+//###############################################################
+class cDetailComments {
+	//***************************************************************************
+	static killWidget() {
+		var oComment = cJquery.element(cDetailPageConstants.COMMENTS_CONTAINER_ID)
+		const oWidget = oComment.data('ckCommentbox') // capitalise the first letter of the widget
+		if (oWidget) oWidget.destroy()
+	}
+
+	//***************************************************************************
+	static init_widget() {
+		this.killWidget()
+
+		var oComment = cJquery.element(cDetailPageConstants.COMMENTS_CONTAINER_ID)
+		oComment.commentbox({
+			mission: cMission,
+			sol: cDetail.sol,
+			product: cDetail.product,
+			instrument: cDetail.instrument,
+			read_only: false
+		})
 	}
 }
 
@@ -748,18 +774,8 @@ class cDetail {
 		// get the tags
 		cDetailTags.get_tags()
 
-		// render comments
-		var oComment = cJquery.element('commentContainer')
-		const oWidget = oComment.data('ckCommentbox') // capitalise the first letter of the widget
-		if (oWidget) oWidget.destroy()
-
-		oComment.commentbox({
-			mission: cMission,
-			sol: this.sol,
-			product: this.product,
-			instrument: this.instrument,
-			read_only: false
-		})
+		//init the comments widget
+		cDetailComments.init_widget()
 	}
 
 	//***************************************************************

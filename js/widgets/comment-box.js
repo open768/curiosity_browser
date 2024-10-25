@@ -79,8 +79,6 @@ class cCommentBox {
 		const oThis = this
 
 		//----------- hook onto facebook user - if readonly skip
-		if (!this.options.read_only) bean.on(cFacebook, cFacebook.STATUS_EVENT, () => oThis.onFacebookUser())
-
 		this.get_comments()
 	}
 
@@ -92,17 +90,18 @@ class cCommentBox {
 		var sProduct = this.options.product
 		var sInstr = this.options.instrument
 		cDebug.write('getting comments for s:' + sSOl + ' p:' + sProduct + ' i:' + sInstr)
-		cComments.get(sSOl, sInstr, sProduct, d => oThis.onGotComments(d))
+		cComments.get(sSOl, sInstr, sProduct, d => oThis.onCommentsResponse(d))
 	}
 
 	//*************************************************************
 	//* Events
 	//*************************************************************
-	onFacebookUser() {
+	enableEditor() {
 		var oElement = this.element
 
 		//-----------if readonly dont enable anything
 		if (this.options.read_only) return
+		if (cAuth.user == null) return
 
 		//-----------enable the button
 		var sBUT_ID = cJquery.child_ID(oElement, this.COMMENTS_BUTTON_ID)
@@ -138,11 +137,15 @@ class cCommentBox {
 	}
 
 	//*************************************************************
-	onGotComments(poHttp) {
+	onCommentsResponse(poHttp) {
 		var oElement = this.element
 		var sCommentsID = cJquery.child_ID(oElement, this.COMMENTS_DISPLAY_ID)
 		var oData = poHttp.response
 
+		// enable the editor
+		this.enableEditor()
+
+		// display the comments
 		var oDiv = cJquery.element(sCommentsID)
 		oDiv.empty()
 
@@ -150,8 +153,9 @@ class cCommentBox {
 			oDiv.append('No Comments - be the first !')
 		} else {
 			for (var i = 0; i < oData.length; i++) {
-				var sText = decodeURIComponent(oData[i].c)
-				var sUser = oData[i].u
+				var oItem = oData[i]
+				var sText = decodeURIComponent(oItem.c)
+				var sUser = oItem.u
 				if (sUser === '') sUser = 'anonymous'
 
 				var oCommentDiv = $('<DIV>', {
