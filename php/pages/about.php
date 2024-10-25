@@ -97,25 +97,35 @@ cAppGlobals::$title = "About me";
 
             <h2>Other Excellent sources of information about Curosity </h2>
             <ul>
-                <li>Curiosity mission page <a href="http://www.nasa.gov/mission_pages/msl/">http://www.nasa.gov/mission_pages/msl/</a>
-                <li>Curiosity Fact sheet <a href="http://www.jpl.nasa.gov/news/fact_sheets/mars-science-laboratory.pdf">http://www.jpl.nasa.gov/news/fact_sheets/mars-science-laboratory.pdf</a>
-                <li> Explore Mars! learn about the rover <a href="http://mars.jpl.nasa.gov/explore/learnaboutrover/">http://mars.jpl.nasa.gov/explore/learnaboutrover/</a>
-                <li> an amazing 3D visualisation <a href="http://www.midnightplanets.com/">Midnight Planets</a> by Midnight Martian
-                <li> panoramas by Neville Thompson <a href="http://nev-t-sa.weebly.com/msl--gigapans.html">nev-t-sa.weebly.com/msl--gigapans.html</a>
-                <li><a href="http://www.msl-chemcam.com/">MSL Chemcam results site</a>
-                <li><a href="http://www.spaceflight101.com/msl-sam-science-reports.html">MSL SAM instrument</a>
-                <li><a href="http://www.msl-chemcam.com/index.php?menu=inc&page_consult=textes&rubrique=74&sousrubrique=0&soussousrubrique=0&titre_url=Links#.U87gZdJdWSp">Other MSL instruments</a>
-                <li><a href="http://pds-geosciences.wustl.edu/missions/msl/chemcam.htm">PDS chemcam catalogue</a>
-                <li><a href="https://twitter.com/MarsCuriosity">Curiosity Twitter feed</a>
-                <li><a href="http://www.nytimes.com/interactive/science/space/mars-curiosity-rover-tracker.html">NY times curiosity tracker (partial)</a>
-                <li><a href="http://curiosityrover.com/synth/">not quite an automatic panorama but not bad!</a>
-                <li><a href="http://curiosityrover.com/rems/">REMS instrument Temperature measurements</a>
-                <li><a href="http://mslsci.com/pubs/msl_sci_team_key_papers.pdf">Key Mars Science Laboratory Science Team Papers</a>
-                <li><a href="http://www.unmannedspaceflight.com/index.php?showforum=59"> planetary society forums for MSL</a>
-                <li><a href="http://en.wikipedia.org/wiki/Mars_Science_Laboratory">Wikipaedia</a>
-                <li><a href="https://en.wikipedia.org/wiki/List_of_rocks_on_Mars#2012_.E2.80.93_Curiosity_rover_.28Mars_Science_Laboratory.29">List of rocks and areas</a>
-                <li><a href="http://www.reddit.com/r/curiosityrover">Reddit feed</a>
-                <li><a href="https://marstrek.jpl.nasa.gov/">Maps of Mars</a>
+                <li> NASA
+                    <ul>
+                        <a href="https://science.nasa.gov/mission/msl-curiosity/" target="sources">NASA Curiosity mission page </a>
+                        <li><a href="https://www.jpl.nasa.gov/missions/mars-science-laboratory-curiosity-rover-msl/" target="sources">JPL Curiosity site</a>
+                        <li><a href="http://mars.jpl.nasa.gov/explore/learnaboutrover/" target="sources">JPL Explore Mars! learn about the rover</a>
+                        <li><a href="https://eyes.nasa.gov/apps/mrn/#/mars" target="sources">3d visualisation of where Nasa rovers and spacecraft are</a>
+                        <li><a href="https://science.nasa.gov/mars/resources/?types=mosaics" target="sources">NASA Mars Mosaics</a>
+                        <li><a href="https://trek.nasa.gov/mars/" target="sources">Maps of Mars</a>
+                        <li><a href="http://pds-geosciences.wustl.edu/missions/msl/chemcam.htm" target="sources">PDS chemcam catalogue</a>
+                        <li><a href="http://www.msl-chemcam.com/" target="sources">MSL Chemcam results site</a>
+                    </ul>
+                <li>Others
+                    <ul>
+                        <li><a href="http://www.midnightplanets.com/" target="sources">Midnight Planets - an amazing 3D visualisation</a> by Midnight Martian (unfortunately on a hiatus)
+                        <li><a href="http://www.nev-t-gigamacros.com/" target="sources">panoramas by Neville Thompson</a>
+                            <!-- <li><a href="http://www.spaceflight101.com/msl-sam-science-reports.html" target="sources">MSL SAM instrument</a> -->
+                        <li><a href="https://twitter.com/MarsCuriosity" target="sources">Curiosity Twitter feed</a>
+                        <li><a href="http://www.nytimes.com/interactive/science/space/mars-curiosity-rover-tracker.html" target="sources">NY times curiosity tracker (upto sol 1065)</a>
+                            <!-- not there anymore
+                        <li><a href="http://curiosityrover.com/synth/">not quite an automatic panorama but not bad!</a>
+                        <li><a href="http://curiosityrover.com/rems/">REMS instrument Temperature measurements</a>
+                    -->
+                        <li><a href="https://mslsci.com/joy/papers.html" target="sources">publications from an ex MSL project scientist</a>
+                        <li><a href="http://www.unmannedspaceflight.com/index.php?showforum=59" target="sources"> planetary society forums for MSL</a>
+                        <li><a href="http://en.wikipedia.org/wiki/Mars_Science_Laboratory" target="sources">Wikipedia</a>
+                        <li><a href="https://en.wikipedia.org/wiki/List_of_rocks_on_Mars#2012_.E2.80.93_Curiosity_rover_.28Mars_Science_Laboratory.29" target="sources">Wikipedia List of rocks and areas</a>
+                        <li><a href="http://www.reddit.com/r/curiosityrover" target="sources">Reddit feed</a>
+                        <li><a href="https://marslife.org/" target="sources">marslife.org - Automatic Panoramas of Mars</a>
+                    </ul>
             </ul>
             <p>
         </div>
