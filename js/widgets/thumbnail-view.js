@@ -30,7 +30,7 @@ class cThumbnailView {
 
 		oElement.empty()
 		var sCaption = 'Loading thumbnails for sol:' + oOptions.sol
-		if (oOptions.instrument) sCaption += ", instr:' + oOptions.instrument"
+		if (oOptions.instrument) sCaption += ', instr: ' + oOptions.instrument
 		var oSpinner = cAppRender.make_spinner(sCaption)
 		oElement.append(oSpinner)
 
