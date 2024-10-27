@@ -636,6 +636,7 @@ class cDetail {
 		{
 			const oThis = this
 			bean.on(oHttp, 'result', poHttp => oThis.onNextProduct(poHttp))
+			bean.on(oHttp, 'error', poHttp => oThis.onNextError(poHttp))
 			oHttp.fetch_json(sUrl)
 		}
 	}
@@ -654,6 +655,7 @@ class cDetail {
 		{
 			const oThis = this
 			bean.on(oHttp, 'result', poHttp => oThis.onNextImage(poHttp))
+			bean.on(oHttp, 'error', poHttp => oThis.onNextError(poHttp))
 			oHttp.fetch_json(sUrl)
 		}
 	}
@@ -690,6 +692,13 @@ class cDetail {
 	//###############################################################
 	//# Event Handlers
 	//###############################################################
+
+	static onNextError(poHttp) {
+		const oContainer = cJquery.element(cDetailPageConstants.IMAGE_ID)
+		oContainer.empty()
+		const oErrorDiv = cRender.errorbox('error retrieving image - press reload for previous image')
+		oContainer.append(oErrorDiv)
+	}
 
 	//***************************************************************
 	static onNextProduct(poHttp) {
@@ -823,8 +832,6 @@ class cDetail {
 		}
 	}
 
-	//***************************************************************
-	static pr_populate_image() {}
 	//***************************************************************
 	static pr_update_msl(oData) {
 		const sDump = cDebug.getvardump(oData, 1)
