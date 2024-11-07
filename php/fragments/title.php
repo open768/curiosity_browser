@@ -34,7 +34,7 @@ cPageOutput::write_JS_class_constant_IDs(cTitleConstants::class);
 </script>
 
 <!-- Title Bar -->
-<div class="w3-cell-row w3-header-theme ">
+<div class="w3-cell-row w3-header-theme titlebar">
     <div class="w3-cell">
         <span class="w3-cell" id="titlebut">Crowded Spaces</span>
         <span class="w3-cell" id="toptitle"> - </span>

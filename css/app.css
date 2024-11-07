@@ -1,9 +1,6 @@
 body {
 	background-color: white;
-
-	font:
-		15px arial,
-		sans-serif;
+	font-size: 18px;
 }
 
 .about {
@@ -57,8 +54,7 @@ body {
 }
 
 .disclaim {
-	border-radius: 10px;
-	font-size: 11px;
+	font-size: 0.3em;
 }
 
 .fb_name {
@@ -79,7 +75,6 @@ body {
 	color: white;
 	display: inline-block;
 	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
-	font-size: 11px;
 	font-weight: bold;
 	height: 22px;
 	line-height: 22px;
@@ -105,7 +100,6 @@ body {
 	background: #f0f0f0;
 	border-top: 1px solid #fff;
 	display: inline-flex;
-	font-size: 10px;
 	outline: 1px solid #ddd;
 	padding: 5px;
 }
@@ -137,7 +131,7 @@ body {
 	overflow-wrap: break-word;
 	writing-mode: vertical-rl;
 	transform: rotate(-180deg);
-	font-size: small;
+	font-size: 0.5em;
 }
 .highlight_colour1 {
 	background: lemonchiffon;
@@ -166,7 +160,7 @@ body {
 	color: red;
 	display: inline-block;
 	font-family: 'Helvetica Neue', Helvetica, sans-serif;
-	font-size: 20px;
+	font-size: 1.5em;
 	font-weight: bold;
 	height: 25px;
 	left: 5px;
@@ -181,7 +175,7 @@ body {
 	color: white;
 	height: 200px;
 	width: 800px;
-	font-size: 50px;
+	font-size: 3em;
 	font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 	text-align: center;
 	display: flex;
@@ -191,7 +185,6 @@ body {
 
 .instruments {
 	font-family: 'Helvetica Neue', Helvetica, sans-serif;
-	font-size: 12px;
 }
 
 .intro {
@@ -209,7 +202,7 @@ body {
 	display: table; /* keep the background color wrapped tight */
 	padding: 5px;
 	margin: 10px;
-	font-size: 18px;
+	font-size: 1.2em;
 	border-radius: 10px;
 }
 
@@ -227,7 +220,7 @@ body {
 	padding: 3px;
 }
 .legend_tag {
-	font-size: 11px;
+	font-size: 1em;
 }
 .legend_line {
 	display: flex;
@@ -296,7 +289,7 @@ body {
 
 .soltags {
 	font-family: 'Helvetica Neue', Helvetica, sans-serif;
-	font-size: 12px;
+	font-size: 1em;
 	font-style: italic;
 }
 
@@ -304,7 +297,7 @@ body {
 	background: white;
 	color: #903a01;
 	font-family: 'Helvetica Neue', Helvetica, sans-serif;
-	font-size: 16px;
+	font-size: 1.5em;
 	line-height: 1em;
 	padding-bottom: 2px;
 }
@@ -318,7 +311,7 @@ body {
 .title {
 	color: black;
 	font-family: 'Helvetica Neue', Helvetica, sans-serif;
-	font-size: 18px;
+	font-size: 2em;
 	font-weight: bold;
 }
 
@@ -326,6 +319,7 @@ body {
 .titlebar {
 	background-color: #e5e5e5;
 	resize: horizontal;
+	font-size: 1.3em;
 }
 
 .warning {
