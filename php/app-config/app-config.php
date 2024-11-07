@@ -16,12 +16,18 @@ class cAppGlobals {
         self::$root = realpath($psHome);
 
         //configurable things 
-        self::$phpInc = self::$root . "/../phpinc";				//disk location of where spaceinc can be found by PHP
-        self::$spaceInc = self::$root . "/../spaceinc";			//disk location of where spaceinc can be found by PHP
-        self::$jsInc = "$psHome/../jsinc";						//url where jsinc can be found on your webserver
+        self::$phpInc = self::$root . "/../phpinc";                //disk location of where phpinc can be found by PHP
+        self::$spaceInc = self::$root . "/../spaceinc";            //disk location of where spaceinc can be found by PHP
+        self::$ckPhpInc = self::$phpInc . "/ckinc";                //dont modify this line
 
-        //more php stuff
-        self::$ckPhpInc = self::$phpInc . "/ckinc";
+        require_once self::$ckPhpInc . "/debug.php";               //dont modify this line
+        if (cDebug::is_localhost())
+            self::$jsInc = "$psHome/../jsinc";                     //url where jsinc can be found on your webserver
+        else
+            self::$jsInc = "https://www.mars-browser.co.uk/jsinc"; //dont modify this line
+
+
+        //dont modify below this line
         //app  stuff 
         $appPHP = self::$root . "/php";
         self::$appImages = "$psHome/images/";
