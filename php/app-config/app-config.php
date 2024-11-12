@@ -11,6 +11,7 @@ class cAppGlobals {
     static $phpInc = null;
     static $ckPhpInc = null;
     static $title = "title not set";
+    static $dbRoot = null;
 
     static function init($psHome) {
         self::$root = realpath($psHome);
@@ -20,15 +21,18 @@ class cAppGlobals {
         self::$spaceInc = self::$root . "/../spaceinc";            //disk location of where spaceinc can be found by PHP
         self::$ckPhpInc = self::$phpInc . "/ckinc";                //dont modify this line
 
-        require_once self::$ckPhpInc . "/debug.php";               //dont modify this line
+        require_once self::$ckPhpInc . "/debug.php";               //dont modify this line its needed for the next line
         if (cDebug::is_localhost())
-            self::$jsInc = "$psHome/../jsinc";                     //url where jsinc can be found on your webserver
+            self::$jsInc = "$psHome/../jsinc";                     //DEV url where jsinc can be found on your webserver 
         else
-            self::$jsInc = "https://www.mars-browser.co.uk/jsinc"; //dont modify this line
+            self::$jsInc = "https://www.mars-browser.co.uk/jsinc"; //PRODUCTION
 
 
-        //dont modify below this line
+        //========================================================================================================
+        //                   dont modify below this line
+        //========================================================================================================
         //app  stuff 
+        self::$dbRoot = self::$root . "/[db]";
         self::$appPHP = self::$root . "/php";
         self::$appImages = "$psHome/images/";
         self::$appConfig =  self::$appPHP . "/app-config";
