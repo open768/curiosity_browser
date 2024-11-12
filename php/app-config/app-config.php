@@ -29,10 +29,10 @@ class cAppGlobals {
 
         //dont modify below this line
         //app  stuff 
-        $appPHP = self::$root . "/php";
+        self::$appPHP = self::$root . "/php";
         self::$appImages = "$psHome/images/";
-        self::$appConfig =  "$appPHP/app-config";
-        self::$appPhpFragments = "$appPHP/fragments";
+        self::$appConfig =  self::$appPHP . "/app-config";
+        self::$appPhpFragments = self::$appPHP . "/fragments";
 
         //JS stuff 
         self::$jsHome = "$psHome/js";
@@ -42,7 +42,7 @@ class cAppGlobals {
         self::$jsImages = "$psHome/images";
         self::$jsWidgets = self::$jsHome . "/widgets";
 
-        //image functions
+        //image functio locations for javascript
         self::$jsThumbNailer = "$psHome/php/images/thumbnailer.php"; //this will likely move out of the browser app into its own app
         self::$jsCropper = "$psHome/php/images/cropper.php"; //this will likely move out of the app (as above)
         self::$jsMosaicer = "$psHome/php/images/mosaicer.php"; //this will likely move out of the app (as above)
@@ -53,6 +53,10 @@ cAppGlobals::init($home);
 //##########################################################
 //* nothing needs to be changed below here
 require_once  cAppGlobals::$appConfig . "/app-secret.php";
+
+//##########################################################
+//* load composer
+require cAppGlobals::$appPHP . '/vendor/autoload.php';
 
 //##########################################################
 class cAppConfig {
