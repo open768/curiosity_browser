@@ -35,3 +35,6 @@ images/thumbs/
 node_modules/
 package\-lock.json
 php/test
+composer.phar
+vendor/
+composer.*
