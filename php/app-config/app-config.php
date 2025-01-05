@@ -6,6 +6,7 @@ class cAppGlobals {
     static $appPHP, $appImages, $appConfig, $appPhpFragments;
     static $jsHome, $jsWidgets, $jsAppRest, $jsExtra, $jsImages, $jsInc, $jsSpaceInc;
     static $jsThumbNailer, $jsCropper, $jsMosaicer;
+    static $composerAutoload;
 
     static $spaceInc = null;
     static $phpInc = null;
@@ -37,6 +38,7 @@ class cAppGlobals {
         self::$appImages = "$psHome/images/";
         self::$appConfig =  self::$appPHP . "/app-config";
         self::$appPhpFragments = self::$appPHP . "/fragments";
+        self::$composerAutoload = self::$appPHP . "/vendor/autoload.php";
 
         //JS stuff 
         self::$jsHome = "$psHome/js";
@@ -60,7 +62,7 @@ require_once  cAppGlobals::$appConfig . "/app-secret.php";
 
 //##########################################################
 //* load composer
-require cAppGlobals::$appPHP . '/vendor/autoload.php';
+require cAppGlobals::$composerAutoload;
 
 //##########################################################
 class cAppConfig {

@@ -23,8 +23,9 @@
 \~*
 about.pptx
 admin/index.php
-composer.*
+composer.bat
 composer.phar
+composer.lock
 css/images/
 css/jquery/
 emoticons/*
