@@ -15,6 +15,7 @@ include $sConfigFile;    //config for the application - sets up cAppglobals
 //**********************************************************************************
 require_once cAppGlobals::$ckPhpInc . "/header.php";    //this starts the session
 require_once cAppGlobals::$ckPhpInc . "/debug.php";
+require_once cAppGlobals::$ckPhpInc . "/autoinstrument.php";
 
 //**********************************************************************************
 //check for extensions
@@ -44,5 +45,7 @@ require_once cAppGlobals::$ckPhpInc . "/auth.php";
 require_once cAppGlobals::$spaceInc . "/misc/constants.php";
 require_once cAppGlobals::$spaceInc . "/curiosity/curiosity.php";
 require_once cAppGlobals::$spaceInc . "/curiosity/static.php";
+require_once cAppGlobals::$ckPhpInc . "/autoinstrument.php";
 
 cDebug::extra_debug("finished app-common.php");
+cClassInstrumenter::instrument_classes();
