@@ -23,8 +23,6 @@ if (!extension_loaded("curl"))
 if (!extension_loaded("sqlite3"))
     cDebug::error("sqlite3 extension is not loaded - check " . php_ini_loaded_file());
 
-//check if debugging is needed
-cDebug::check_GET_or_POST();
 
 //requests without https get redirected
 if (!cDebug::is_cli())

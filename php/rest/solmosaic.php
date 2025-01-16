@@ -18,8 +18,6 @@ require_once  cAppGlobals::$spaceInc . "/misc/pichighlight.php";
 require_once  cAppGlobals::$spaceInc . "/misc/indexes.php";
 require_once  cAppGlobals::$ckPhpInc . "/common.php";
 
-cDebug::check_GET_or_POST();
-
 
 $sUser = cAuth::must_get_user();
 $sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);

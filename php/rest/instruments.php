@@ -16,7 +16,6 @@ $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
 require_once  cAppGlobals::$spaceInc . "/curiosity/instrument.php";
 
-cDebug::check_GET_or_POST();
 $sSol = cHeader::get(cSpaceUrlParams::SOL, false, true);
 $sRefresh = cHeader::get(cAppUrlParams::REFRESH);
 if ($sSol) {

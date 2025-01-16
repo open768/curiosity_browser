@@ -13,7 +13,6 @@ class cAdminFunctions {
         $sAdmin = cAuth::current_user_is_admin();
         if ($sAdmin !== cAuth::YES)
             cDebug::error("not an admin user ");
-        cDebug::check_GET_or_POST();
     }
 
     //****************************************************************

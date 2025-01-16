@@ -18,8 +18,6 @@ require_once  cAppGlobals::$ckPhpInc . "/header.php";
 require_once  cAppGlobals::$ckPhpInc . "/hash.php";
 require_once  cAppGlobals::$ckPhpInc . "/facebook.php";
 
-cDebug::check_GET_or_POST();
-
 //***************************************************
 //check inputs
 $sUserID = cHeader::get(cAppUrlParams::USER, true);
