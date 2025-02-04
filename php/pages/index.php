@@ -23,7 +23,10 @@ class cIndexPageConsts {
 
     static $IS_ADMIN = "no";
 }
-cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
+if (cAppConfig::USE_FACEBOOK)
+    cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
+else
+    cIndexPageConsts::$IS_ADMIN = "yes";
 cAppGlobals::$title = "Home";
 ?>
 

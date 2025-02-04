@@ -87,6 +87,7 @@ class cAppConfig {
     const MISSION_ID = cSpaceMissions::CURIOSITY;
     const APP_NAME = "Curiosity Browser";
     const DATABASE_DOWN = false;
+    const USE_FACEBOOK = true;
 }
 
 //##########################################################

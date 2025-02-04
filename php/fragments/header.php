@@ -13,15 +13,17 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 //
  **************************************************************************/
 require_once cAppGlobals::$ckPhpInc . "/header.php";
-require_once cAppGlobals::$ckPhpInc . "/facebook.php";
+if (cAppConfig::USE_FACEBOOK) {
+    require_once cAppGlobals::$ckPhpInc . "/facebook.php";
 
+    //!-- facebook meta tags
+    $oFBAppId = cFacebook_ServerSide::getAppID();
+    $sFBUser = cFacebook_ServerSide::getSessionUser();
 ?>
-<!-- facebook meta tags -->
+    <meta property="fb:app_id" content="<?= $oFBAppId->id ?>">
 <?php
-$oFBAppId = cFacebook_ServerSide::getAppID();
-$sFBUser = cFacebook_ServerSide::getSessionUser();
+}
 ?>
-<meta property="fb:app_id" content="<?= $oFBAppId->id ?>">
 
 <!-- CSS -->
 <link rel="icon" href="<?= cAppGlobals::$appImages ?>/browser/dude.ico" type="image/x-icon">
@@ -94,18 +96,21 @@ $title .= " - " . cAppConfig::APP_NAME;
 <script src="<?= cAppGlobals::$jsSpaceInc ?>/tagging.js"></script>
 <script src="<?= cAppGlobals::$jsSpaceInc ?>/imghilite.js"></script>
 
-<!-- Facebook -->
-<script src="<?= cAppGlobals::$jsInc ?>/ck-inc/facebook.js"></script>
-
-
-<script>
-    cFacebook.ServerSide = cAppLocations.rest + "/facebook.php";
-    cFacebook.ServerUser = "<?= $sFBUser ?>";
-    cFacebook.Version = "<?= cAppConfig::FB_VERSION ?>";
-    cFacebook.AppID = <?= $oFBAppId->id ?>;
-    bean.on(
-        cFacebook,
-        cFacebook.STATUS_EVENT,
-        (psText) => $("#<?= cAppConfig::FB_ELEMENT_ID ?>").html(psText)
-    );
-</script>
+<?php
+if (cAppConfig::USE_FACEBOOK) {
+?>
+    <!-- Facebook -->
+    <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/facebook.js"></script>
+    <script>
+        cFacebook.ServerSide = cAppLocations.rest + "/facebook.php";
+        cFacebook.ServerUser = "<?= $sFBUser ?>";
+        cFacebook.Version = "<?= cAppConfig::FB_VERSION ?>";
+        cFacebook.AppID = <?= $oFBAppId->id ?>;
+        bean.on(
+            cFacebook,
+            cFacebook.STATUS_EVENT,
+            (psText) => $("#<?= cAppConfig::FB_ELEMENT_ID ?>").html(psText)
+        );
+    </script>
+<?php
+}
