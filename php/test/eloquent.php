@@ -18,7 +18,8 @@ require_once cAppGlobals::$spaceInc . "/db/mission-manifest.php";
 require_once cAppGlobals::$spaceInc . "/curiosity/orm_manifest.php";
 
 
-cCuriosityORMManifest::empty_ORM_tables();
-cCuriosityORMManifest::updateIndex();
-$msl_id = tblMissions::get_id(null, "MSL");
+//cCuriosityORMManifest::empty_ORM_tables();
+$msl_id = tblMissions::get_id(null, cCuriosity::MISSION_ID);
 $instrument_id = tblInstruments::get_id($msl_id, "MAHLI");
+
+cCuriosityORMManifest::updateIndex();
