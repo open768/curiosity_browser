@@ -37,4 +37,5 @@ images/thumbs/
 node_modules/
 package\-lock.json
 vendor/
+php/vendor
 vendor.code-workspace
