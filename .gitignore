@@ -36,6 +36,5 @@ images/mosaics/
 images/thumbs/
 node_modules/
 package\-lock.json
-php/test
 vendor/
 vendor.code-workspace
