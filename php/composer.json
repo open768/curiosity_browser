@@ -1,5 +1,6 @@
 {
     "require": {
-        "illuminate/database": "^11.37"
+        "illuminate/database": "^11.37",
+        "sebastian/diff": "^6.0"
     }
 }

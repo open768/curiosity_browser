@@ -16,8 +16,11 @@ $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 require_once cAppGlobals::$spaceInc . "/db/mission-manifest.php";
 require_once cAppGlobals::$spaceInc . "/curiosity/orm_manifest.php";
+require_once  cAppGlobals::$ckPhpInc . "/common.php";
 
+prevent_buffering();
 
+//reset index status for DEBUGGING PRUPOSES
 //cCuriosityORMManifest::empty_ORM_tables();
 $iMSLID = tblMissions::get_id(null, cCuriosity::MISSION_ID);
 cDebug::write("curiosity mission DB id $iMSLID");
