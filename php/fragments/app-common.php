@@ -1,4 +1,5 @@
 <?php
+
 /**************************************************************************
 Copyright (C) Chicken Katsu 2013 - 2024
 
@@ -11,17 +12,19 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 //
  **************************************************************************/
+class AppCommonException extends Exception {
+}
 
 //****checks************************************************************************
 if (!isset($home))
-    throw new Exception("cant find home: $home");
+    throw new AppCommonException("cant find home: $home");
 if (!is_dir($home))
-    throw new Exception("home directory doesnt exist: $home");
+    throw new AppCommonException("home directory doesnt exist: $home");
 
 //**********************************************************************************
 $sConfigFile = "$home/php/app-config/app-config.php";
 if (!file_exists($sConfigFile))
-    throw new Exception("cant find app-config file: $sConfigFile");
+    throw new AppCommonException("cant find app-config file: $sConfigFile");
 
 include $sConfigFile;    //config for the application - sets up cAppglobals
 

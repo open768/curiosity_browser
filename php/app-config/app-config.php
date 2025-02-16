@@ -11,9 +11,11 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
  **************************************************************************/
 //$home is set by each page to identify its relative location in the folder structure
+class AppConfigException extends Exception {
+}
 if (! isset($home))
     #raise an exception     
-    throw new Exception("$home not set");
+    throw new AppConfigException("$home not set");
 
 
 class cAppGlobals {
