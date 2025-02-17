@@ -27,4 +27,4 @@ cDebug::write("curiosity mission DB id $iMSLID");
 $iInstrumentID = tblInstruments::get_id($iMSLID, "MAHLI");
 cDebug::write("curiosity instrumentID is $iMSLID");
 
-cCuriosityORMManifest::updateIndex();
+cCuriosityORMManifestIndexer::updateIndex();
