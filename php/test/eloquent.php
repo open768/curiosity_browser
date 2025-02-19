@@ -21,10 +21,19 @@ require_once  cAppGlobals::$ckPhpInc . "/common.php";
 prevent_buffering();
 
 //reset index status for DEBUGGING PRUPOSES
-//cCuriosityORMManifest::empty_ORM_tables();
+//cCuriosityORMManifest::deleteEntireIndex();
 $iMSLID = tblMissions::get_id(null, cCuriosity::MISSION_ID);
 cDebug::write("curiosity mission DB id $iMSLID");
 $iInstrumentID = tblInstruments::get_id($iMSLID, "MAHLI");
 cDebug::write("curiosity instrumentID is $iMSLID");
 
-cCuriosityORMManifestIndexer::updateIndex();
+//cCuriosityORMManifestIndexer::updateIndex();
+$iSol = "422";
+$bIndex  = cCuriosityORMManifest::is_sol_in_index($iSol);
+cDebug::write("sol $iSol in index: $bIndex");
+
+$bIndex  = cCuriosityORMManifestIndexer::is_reindex_needed($iSol);
+if ($bIndex)
+    cDebug::write("sol $iSol reindex needed: $bIndex");
+else
+    cDebug::write("no sol $iSol reindex needed");
