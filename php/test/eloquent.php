@@ -28,7 +28,19 @@ $iInstrumentID = tblInstruments::get_id($iMSLID, "MAHLI");
 cDebug::write("curiosity instrumentID is $iMSLID");
 
 //update the index
-cCuriosityORMManifestIndexer::updateIndex();
+try {
+    cCuriosityORMManifestIndexer::updateIndex();
+} catch (Exception $e) {
+    cDebug::write("ignoring error");
+}
+cDebug::write("updated index 😁");
+
+try {
+    cCuriosityORMManifestIndexer::remove_unwanted();
+} catch (Exception $e) {
+    cDebug::write("ignoring error");
+}
+cDebug::write("removed unwanted 😁");
 
 //tests
 $iSol = "422";
@@ -40,3 +52,5 @@ if ($bIndex)
     cDebug::write("sol $iSol reindex needed: $bIndex");
 else
     cDebug::write("no sol $iSol reindex needed");
+
+cDebug::write("Done 👌");
