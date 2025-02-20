@@ -27,7 +27,10 @@ cDebug::write("curiosity mission DB id $iMSLID");
 $iInstrumentID = tblInstruments::get_id($iMSLID, "MAHLI");
 cDebug::write("curiosity instrumentID is $iMSLID");
 
-//cCuriosityORMManifestIndexer::updateIndex();
+//update the index
+cCuriosityORMManifestIndexer::updateIndex();
+
+//tests
 $iSol = "422";
 $bIndex  = cCuriosityORMManifest::is_sol_in_index($iSol);
 cDebug::write("sol $iSol in index: $bIndex");
