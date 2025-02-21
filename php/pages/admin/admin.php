@@ -184,7 +184,7 @@ switch ($sOperation) {
         if ($sVol == null) {
             $aCats = cCuriosityPDS::catalogs();
         ?>
-            <a target="PDS" href="<?= cCuriosity::PDS_VOLUMES ?>">Curiosity PDS released volumes</a>
+            <a target="PDS" href="<?= cCuriosityConstants::PDS_VOLUMES ?>">Curiosity PDS released volumes</a>
             <p>
             <form method="get" name="pds">
                 <Input type="hidden" name="<?= cAppUrlParams::OPERATION ?>" value="<?= $sOperation ?>">

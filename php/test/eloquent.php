@@ -40,13 +40,6 @@ try {
 }
 cDebug::write("updated index 😁");
 
-try {
-    cCuriosityORMManifestIndexer::remove_unwanted();
-} catch (Exception $e) {
-    cDebug::write("ignoring error");
-}
-cDebug::write("removed unwanted 😁");
-
 //tests
 $iSol = "422";
 $bIndex  = cCuriosityORMManifest::is_sol_in_index($iSol);
