@@ -17,12 +17,17 @@ require_once "$home/php/fragments/app-common.php";
 require_once cAppGlobals::$spaceInc . "/db/mission-manifest.php";
 require_once cAppGlobals::$spaceInc . "/curiosity/orm_manifest.php";
 require_once  cAppGlobals::$ckPhpInc . "/common.php";
+include cAppGlobals::$appPhpFragments . "/rest_header.php";
 
+cDebug::on();
 prevent_buffering();
 
-//reset index status for DEBUGGING PRUPOSES
-//cCuriosityORMManifest::deleteEntireIndex();
-$iMSLID = tblMissions::get_id(null, cCuriosity::MISSION_ID);
+if (cCommonHeader::is_set("delete"))
+    cCuriosityORMManifest::deleteEntireIndex();
+else
+    cPageOutput::messagebox("use delete param to delete index!");
+
+$iMSLID = tblMissions::get_id(null, cCuriosityConstants::MISSION_ID);
 cDebug::write("curiosity mission DB id $iMSLID");
 $iInstrumentID = tblInstruments::get_id($iMSLID, "MAHLI");
 cDebug::write("curiosity instrumentID is $iMSLID");
