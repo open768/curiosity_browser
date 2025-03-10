@@ -15,7 +15,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 require_once cAppGlobals::$spaceInc . "/db/mission-manifest.php";
-require_once cAppGlobals::$spaceInc . "/curiosity/orm_manifest.php";
+require_once cAppGlobals::$spaceInc . "/curiosity/manifest/orm.php";
 require_once  cAppGlobals::$ckPhpInc . "/common.php";
 include cAppGlobals::$appPhpFragments . "/rest_header.php";
 
