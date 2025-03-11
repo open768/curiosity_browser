@@ -23,7 +23,7 @@ if ($sInstrument === "null") $sInstrument = null;
 
 
 cDebug::write("getting sol $sSol data");
-$oInstrumentData = cCuriosityManifestIndex::get_all_sol_data($sSol, $sInstrument, cCuriosityManifestIndex::SAMPLE_NONTHUMBS);
+$oInstrumentData = cCuriosityManifestIndex::get_all_sol_data($sSol, $sInstrument, eSpaceSampleTypes::SAMPLE_NONTHUMBS);
 $aData = $oInstrumentData->data;
 $iCount = count($aData);
 
