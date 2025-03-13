@@ -27,7 +27,7 @@ class cAdminFunctions {
 
     //****************************************************************
     static function vacuum_dbs() {
-        cDebug::enter(); {
+        cTracing::enter(); {
             cDebug::write("vacuuming cOBjStoreDB");
             cSqlLiteUtils::vacuum(cOBjStoreDB::DB_FILENAME);
 
@@ -36,12 +36,12 @@ class cAdminFunctions {
 
             cDebug::write("done");
         }
-        cDebug::leave();
+        cTracing::leave();
     }
 
     //****************************************************************
     static function remove_duplicate_highlights() {
-        cDebug::enter();
+        cTracing::enter();
         $iCount = 0;
 
         $oDB = cSpaceImageHighlight::get_db();
@@ -98,12 +98,12 @@ class cAdminFunctions {
         cDebug::write("");
         cDebug::write("$iCount Duplicate items found");
 
-        cDebug::leave();
+        cTracing::leave();
     }
 
     //******************************************************************
     static function export_highs() {
-        cDebug::enter();
+        cTracing::enter();
         echo "Sol,Instrument,Product,top,left,image_url\n";
         echo "=,=,=,=,=,=\n";
 
@@ -129,12 +129,12 @@ class cAdminFunctions {
                     }
                 }
         }
-        cDebug::leave();
+        cTracing::leave();
     }
 
     //******************************************************************
     static function export_tags() {
-        cDebug::enter();
+        cTracing::enter();
 
         echo "Tag,Sol,Instrument,Product,image_url\n";
         echo "=,=,=,=,=\n";
@@ -159,7 +159,7 @@ class cAdminFunctions {
             }
         }
 
-        cDebug::leave();
+        cTracing::leave();
     }
 }
 
