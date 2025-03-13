@@ -15,7 +15,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 if (cAppSecret::USE_GOOGLE_ANALYTICS)
     include cAppGlobals::$appPhpFragments . "/google.php";
 
-if (!cDebug::is_localhost() && cAppSecret::USE_APPD)
+if (!cCommonEnvironment::is_localhost() && cAppSecret::USE_APPD)
     include cAppGlobals::$appPhpFragments . "/appd.php";
 
 
@@ -30,7 +30,7 @@ class cTitleConstants {
         $bIsHome = ($psFile === "index.php" && (cHeader::count_params() == 0));
         self::$IS_HOME = $bIsHome;
         self::$TITLE = cAppGlobals::$title;
-        self::$IS_LOCALHOST =  cDebug::is_localhost();
+        self::$IS_LOCALHOST =  cCommonEnvironment::is_localhost();
     }
 }
 cTitleConstants::init($sFile);

@@ -42,11 +42,11 @@ if (!extension_loaded("sqlite3"))
 
 
 //requests without https get redirected
-if (!cDebug::is_cli())
+if (!cCommonEnvironment::is_cli())
     if ($_SERVER["REQUEST_SCHEME"] !== "https") {
         cDebug::extra_debug("request scheme is not https");
         $https_port = "";
-        if (cDebug::is_localhost()) $https_port = ":8443";
+        if (cCommonEnvironment::is_localhost()) $https_port = ":8443";
 
         $newURL = "https://" . $_SERVER["SERVER_NAME"] . $https_port . $_SERVER["REQUEST_URI"];
         cHeader::redirect($newURL);

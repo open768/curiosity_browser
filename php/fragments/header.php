@@ -61,7 +61,7 @@ cPageOutput::write_JS_class_constant_IDs(cSpaceUrlParams::class);
 if (cCommon::is_string_empty(cAppGlobals::$title))
     cAppGlobals::$title = "MISSING TITLE";
 $title = "";
-if (cDebug::is_localhost()) $title = "DEVELOPMENT -";
+if (cCommonEnvironment::is_localhost()) $title = "DEVELOPMENT -";
 $title .= strip_tags(cAppGlobals::$title);
 $title .= " - " . cAppConfig::APP_NAME;
 ?>

@@ -40,7 +40,7 @@ class cAppGlobals {
         self::$ckPhpInc = self::$phpInc . "/ckinc";                //dont modify this line
 
         require_once self::$ckPhpInc . "/debug.php";               //dont modify this line its needed for the next line
-        if (cDebug::is_localhost())
+        if (cCommonEnvironment::is_localhost())
             self::$jsInc = "$psHome/../jsinc";                     //DEV url where jsinc can be found on your webserver 
         else
             self::$jsInc = "https://www.mars-browser.co.uk/jsinc"; //PRODUCTION

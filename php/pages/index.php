@@ -25,7 +25,7 @@ class cIndexPageConsts {
 }
 if (cAppConfig::USE_FACEBOOK)
     cIndexPageConsts::$IS_ADMIN = cAuth::current_user_is_admin();
-elseif (cDebug::is_localhost())
+elseif (cCommonEnvironment::is_localhost())
     cIndexPageConsts::$IS_ADMIN = "yes";
 cAppGlobals::$title = "Home";
 ?>
