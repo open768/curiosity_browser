@@ -32,6 +32,9 @@ if (cAppConfig::USE_FACEBOOK) {
 <link rel="stylesheet" href="<?= cAppGlobals::$jsExtra ?>/jquery-ui/1.14/jquery-ui.min.css">
 <link rel="stylesheet" href="<?= cAppGlobals::$jsExtra ?>/jquery-spinner/css/gspinner.min.css">
 
+<!-- fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Tektur:wght@400..900&display=swap" rel="stylesheet">
+
 <!-- CSS frameworks -->
 <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
 <link rel="stylesheet" href="<?= $home ?>/css/w3.css" />

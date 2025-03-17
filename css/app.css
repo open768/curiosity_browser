@@ -206,6 +206,11 @@ body {
 	border-radius: 10px;
 }
 
+.intro_high {
+	font-family: tektur;
+	font-weight: bold;
+}
+
 .leftcontainer {
 	display: flex;
 }

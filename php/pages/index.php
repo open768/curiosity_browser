@@ -52,9 +52,6 @@ cAppGlobals::$title = "Home";
     <meta property="og:title" content="Curiosity Browser - ">
     <meta property="og:image" content="http://www.mars-browser.co.uk/curiosity/images/rover.png">
     <meta property="og:description" content="Be part of the greatest exploration team ever. Discover great finds in the amazing images from NASA's Curiosity Rover and share your discoveries with the world.">
-
-    <!-- additional style sheets -->
-    <link href="https://fonts.googleapis.com/css2?family=Tektur:wght@400..900&display=swap" rel="stylesheet">
 </head>
 
 <body onload="$( function(){ cIndexPage.onLoadJQuery()} );">
@@ -86,18 +83,18 @@ cAppGlobals::$title = "Home";
                         <a href="about.php"><img src="<?= cAppGlobals::$appImages ?>/browser/dude.png" class="intro-dude"></a>
                         <span>
                             <div class="intro_text">
-                                Your Personal Passport to Exploring <font face="tektur"><b>Another World</b></font> -
+                                Your Personal Passport to Exploring <span class="intro_high">Another World</span> -
                                 Ever wish you could hop onto a Mars rover and see the planet up close—no fancy degree required?
-                                <b>Now you can!</b> This website offers a fun, straightforward way to view real images from Mars
+                                <span class="intro_high">Now you can!</span> This website offers a fun, straightforward way to view real images from Mars
                                 (with more missions to come) and share what catches your eye.
                             </div>
                             <div class="intro_text">
-                                If something grabs your attention — like a strange shape or a curious patch of ground —
+                                If something grabs your attention — like a <span class="intro_high">strange shape</span> or a curious patch of ground —
                                 add a tag, write a comment, or draw a box around it, so that you can find it later and
                                 let everyone know about your discoveries.
                             </div>
                             <div class="intro_text">
-                                Best of all, space scientists might use your contributions when they plan future explorations.
+                                Best of all, space scientists might use your contributions when they plan <span class="intro_high">future explorations</span>.
                             </div>
                             <p>&nbsp;</p>
                             <div class="intro_text">

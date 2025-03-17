@@ -9,7 +9,6 @@ cAppGlobals::$title = "About me";
     <?php
     include cAppGlobals::$appPhpFragments . "/header.php";
     ?>
-    <link href="https://fonts.googleapis.com/css2?family=Tektur:wght@400..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -42,41 +41,40 @@ cAppGlobals::$title = "About me";
         Now you can! Our platform offers a fun, straightforward way to view real images from Mars (with more missions to come)
         and share what catches your eye. Best of all, space scientists might use your contributions when they plan future explorations.
 
-        <P><B><span class="material-symbols-outlined">
-                    label
-                </span>Tag What You See - </B>
+        <P>
+            <span class="material-symbols-outlined">label</span>
+            <span class="intro_high">Tag What You See -</span>
             If something grabs your attention — like a strange shape or a curious patch of ground —
             add a tag so you can find it later or share it with others.
         </P>
 
-        <P><B><span class="material-symbols-outlined">
-                    featured_video
-                </span>Highlight the Interesting Bits - </B>
+        <P>
+            <span class="material-symbols-outlined">featured_video</span>
+            <span class="intro_high">Highlight the Interesting Bits -</span>
             Draw a box around the exact spot that amazes you. Think of it like pointing a flashlight at the cool parts of a photo.
         </P>
 
-        <P><B><span class="material-symbols-outlined">
-                    chat_bubble
-                </span>Comment and Chat</B> - </B>
+        <P>
+            <span class="material-symbols-outlined">chat_bubble</span>
+            <span class="intro_high">Comment and Chat -</span>
             Have a hunch about what you’re looking at or just want to say, <font face="tektur">“Wow, look at that!”</font>? Leave a comment and start a conversation.
         </P>
 
-        <P><B><span class="material-symbols-outlined">
-                    share
-                </span>Share or Keep It Private</B> - </B>
+        <P>
+            <span class="material-symbols-outlined">share</span>
+            <span class="intro_high">Share or Keep It Private -</span>
             Invite friends and fellow space fans to check out your discoveries—or keep your thoughts just for yourself. It’s your choice.
         </P>
 
-        <P><B><span class="material-symbols-outlined">
-                    local_activity
-                </span>Explore What’s Popular</B> - </B>
+        <P>
+            <span class="material-symbols-outlined">local_activity</span>
+            <span class="intro_high">Explore What’s Popular -</span>
             Curious about everyone else’s favorites? See the most-tagged, highlighted, or talked-about images and dive into the latest buzz.
 
         </P>
 
-        <P><B><span class="material-symbols-outlined">
-                    science
-                </span>Why It Matters</B> - </B>
+        <P><span class="material-symbols-outlined">science</span>
+            <span class="intro_high">Why It Matters -</span>
             All these tags, highlights, and comments aren’t just for fun—space scientists can look at what people find fascinating, then use those insights to help shape where rovers go next, what they study, and how missions are planned. By exploring with us, you’re helping pave the way for exciting new discoveries on Mars and beyond.
         </P>
     </div>
