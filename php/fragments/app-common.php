@@ -61,7 +61,9 @@ require_once cAppGlobals::$ckPhpInc . "/auth.php";
 require_once cAppGlobals::$spaceInc . "/misc/constants.php";
 require_once cAppGlobals::$spaceInc . "/curiosity/curiosity.php";
 require_once cAppGlobals::$spaceInc . "/curiosity/static.php";
-require_once cAppGlobals::$ckPhpInc . "/autoinstrument.php";
+//require_once cAppGlobals::$ckPhpInc . "/autoinstrument.php";
+require_once cAppGlobals::$spaceInc . "/curiosity/manifest/orm.php";
+require_once cAppGlobals::$spaceInc . "/curiosity/manifest/ormutils.php";
 
 cDebug::extra_debug("finished app-common.php");
 cClassInstrumenter::instrument_classes();
