@@ -25,7 +25,7 @@ $oOutput = null;
 switch ($sOperation) {
     case cAppUrlParams::OP_IMAGE:
         //images
-        $aResult = cCuriosityManifestUtils::get_random_images("MAST_%", $iHowMany);
+        $aResult = cMSLManifestOrmUtils::get_random_images("MAST_%", $iHowMany);
         $oOutput = ["d" => $aResult];
         break;
     default:

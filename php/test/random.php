@@ -16,4 +16,5 @@ $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 include cAppGlobals::$appPhpFragments . "/rest_header.php";
 
-cManifestOrmUtils::get_random_images("MAST%", 1);
+$aProducts = cMSLManifestOrmUtils::get_random_images("MAST%", 1);
+cDebug::vardump($aProducts);
