@@ -16,5 +16,6 @@ $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 include cAppGlobals::$appPhpFragments . "/rest_header.php";
 
-$aProducts = cMSLManifestOrmUtils::get_random_images("MAST%", 1);
+//$aProducts = cMSLManifestOrmUtils::get_random_images("MAST%", 1);
+$aProducts = cMSLManifestOrmUtils::search_for_product("3865ML10426");
 cDebug::vardump($aProducts);
