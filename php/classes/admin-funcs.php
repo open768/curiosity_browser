@@ -113,7 +113,7 @@ class cAdminFunctions {
             foreach ($aSolData as $sInstrument => $aProductData)
                 foreach ($aProductData as $sProduct => $iProductCount) {
                     try {
-                        $oProduct = cCuriosityManifestUtils::search_for_product($sProduct);
+                        $oProduct = cMSLManifestOrmUtils::search_for_product($sProduct);
                         $sUrl = $oProduct->image_url;
                     } catch (Exception $e) {
                         $sUrl = "unknown url";
@@ -150,7 +150,7 @@ class cAdminFunctions {
                 $sInstr = $aParts[1];
                 $sProduct = $aParts[2];
                 try {
-                    $oProduct = cCuriosityManifestUtils::search_for_product($sProduct);
+                    $oProduct = cMSLManifestOrmUtils::search_for_product($sProduct);
                     $sUrl = $oProduct->image_url;
                 } catch (Exception $e) {
                     $sUrl = "unknown url";
