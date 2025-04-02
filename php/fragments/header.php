@@ -41,13 +41,19 @@ if (cAppConfig::USE_FACEBOOK) {
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 <!-- Constants -->
-<script>
-    class cSecret {
-        static GA_TrackingID = "<?= cAppSecret::GOOGLE_ANALYTICS_ID ?>"
-        static GA_App = "<?= cAppSecret::GOOGLE_APP ?>"
-    }
-</script>
 <?php
+if (cAppSecret::USE_GOOGLE_ANALYTICS) {
+    $sGA_ID = cAppSecret::GOOGLE_ANALYTICS_ID;
+    $sGA_APP = cAppSecret::GOOGLE_APP;
+    echo <<<END
+    <script>
+        class cSecret {
+            static GA_TrackingID = "$sGA_ID";
+            static GA_App = "$sGA_APP";
+        }
+    </script>
+    END;
+}
 if (cAppConfig::DATABASE_DOWN) {
     cPageOutput::errorbox("Application is currently down for maintenance");
     cDebug::error("app is down - Note to admin: " . realpath(cAppLocations::$appconfig));
@@ -101,19 +107,23 @@ $title .= " - " . cAppConfig::APP_NAME;
 
 <?php
 if (cAppConfig::USE_FACEBOOK) {
-?>
-    <!-- Facebook -->
-    <script src="<?= cAppGlobals::$jsInc ?>/ck-inc/facebook.js"></script>
-    <script>
-        cFacebook.ServerSide = cAppLocations.rest + "/facebook.php";
-        cFacebook.ServerUser = "<?= $sFBUser ?>";
-        cFacebook.Version = "<?= cAppConfig::FB_VERSION ?>";
-        cFacebook.AppID = <?= $oFBAppId->id ?>;
-        bean.on(
-            cFacebook,
-            cFacebook.STATUS_EVENT,
-            (psText) => $("#<?= cAppConfig::FB_ELEMENT_ID ?>").html(psText)
-        );
-    </script>
-<?php
+    $jsInc = cAppGlobals::$jsInc;
+    $FBid = $oFBAppId->id;
+    $FBVer = cAppConfig::FB_VERSION;
+    $FBElement = cAppConfig::FB_ELEMENT_ID;
+    echo <<<END2
+        <!-- Facebook -->
+        <script src="{$jsInc}/ck-inc/facebook.js"></script>
+        <script>
+            cFacebook.ServerSide = cAppLocations.rest + "/facebook.php";
+            cFacebook.ServerUser = "{$sFBUser}";
+            cFacebook.Version = "{$FBVer}";
+            cFacebook.AppID = {$FBid};
+            bean.on(
+                cFacebook,
+                cFacebook.STATUS_EVENT,
+                (psText) => \$("{$FBElement}").html(psText)
+            );
+        </script>
+    END2;
 }
