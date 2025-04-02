@@ -42,7 +42,7 @@ if (cAppConfig::USE_FACEBOOK) {
 
 <!-- Constants -->
 <?php
-if (cAppSecret::USE_GOOGLE_ANALYTICS) {
+if (cAppConfig::USE_GOOGLE_ANALYTICS) {
     $sGA_ID = cAppSecret::GOOGLE_ANALYTICS_ID;
     $sGA_APP = cAppSecret::GOOGLE_APP;
     echo <<<END

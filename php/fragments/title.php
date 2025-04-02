@@ -12,10 +12,10 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 // USE AT YOUR OWN RISK - NO GUARANTEES OR ANY FORM ARE EITHER EXPRESSED OR IMPLIED
 //
  **************************************************************************/
-if (cAppSecret::USE_GOOGLE_ANALYTICS)
+if (cAppConfig::USE_GOOGLE_ANALYTICS)
     include cAppGlobals::$appPhpFragments . "/google.php";
 
-if (!cCommonEnvironment::is_localhost() && cAppSecret::USE_APPD)
+if (!cCommonEnvironment::is_localhost() && cAppConfig::USE_APPD)
     include cAppGlobals::$appPhpFragments . "/appd.php";
 
 
