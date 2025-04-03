@@ -47,7 +47,7 @@ cDebug::write("Operation is '$sOperation'");
 $aData = null;
 
 switch ($sOperation) {
-        //------------------------------------------------------
+    //------------------------------------------------------
     case "backup":
         cObjStore::backup();
         break;
@@ -56,12 +56,12 @@ switch ($sOperation) {
         cSpaceTags::clean_product_tags();
         break;
 
-        //------------------------------------------------------
+    //------------------------------------------------------
     case "file_del_empty_folders":
         cCommonFiles::delete_empty_folders(cObjStore::$rootFolder);
         break;
 
-        //------------------------------------------------------
+    //------------------------------------------------------
     case "deleteSolHighlights":
         if (cHeader::get(cSpaceUrlParams::SOL) == null) {
 ?>
@@ -76,22 +76,22 @@ switch ($sOperation) {
         cDebug::write("not implemented");
         break;
 
-        //------------------------------------------------------
+    //------------------------------------------------------
     case "duplicate_highlights":
         cAdminFunctions::remove_duplicate_highlights();
         break;
 
-        //------------------------------------------------------
+    //------------------------------------------------------
     case "export_tags":
         cDebug::off();
         cHeader::redirect("export.php?o=tags");
         break;
-        //------------------------------------------------------
+    //------------------------------------------------------
     case "export_highs":
         cDebug::off();
         cHeader::redirect("export.php?o=highs");
         break;
-        //------------------------------------------------------
+    //------------------------------------------------------
 
     case "killHighlight":
         if (cHeader::get(cSpaceUrlParams::PRODUCT) == null) {
@@ -109,7 +109,7 @@ switch ($sOperation) {
         cSpaceImageHighlight::kill_highlites(cHeader::get(cSpaceUrlParams::SOL), cHeader::get(cSpaceUrlParams::INSTRUMENT), cHeader::get(cSpaceUrlParams::PRODUCT));
         break;
 
-        //------------------------------------------------------
+    //------------------------------------------------------
     case "killTag":
         $sTag = cHeader::get(cAppUrlParams::TAG);
         if ($sTag == null) {
@@ -125,30 +125,31 @@ switch ($sOperation) {
         cSpaceTagNames::kill_tag_name($sTag);
         break;
 
-        //------------------------------------------------------
+    //------------------------------------------------------
     case "killSession":
         session_destroy();
         break;
-        //------------------------------------------------------
+    //------------------------------------------------------
     case "file_delete _thumbs":
         cCommonFiles::delTree(cAppLocations::$images . "/[thumbs]");
         break;
-        //------------------------------------------------------
+    //------------------------------------------------------
     case "killCache":
         //cCachedHttp::clearCache();
         cDebug::error("not implemented");
         break;
-        //------------------------------------------------------
+    //------------------------------------------------------
     case "parse_gigas":
         $aItems = cGigapan::get_all_gigapans("pencilnev");
         cPencilNev::index_gigapans($aItems);
         break;
 
-        //------------------------------------------------------
+    //------------------------------------------------------
     case  "parse_manifest":
+        cDebug::on();
         cCuriosityORMManifestIndexer::updateIndex();
         break;
-        //------------------------------------------------------
+    //------------------------------------------------------
     case "deleteManifest":
         $sSure = cHeader::get(cAppUrlParams::SURE);
         if ($sSure !== "yes") {
@@ -160,25 +161,25 @@ switch ($sOperation) {
             </form>
         <?php
         } else
-            cCuriosityManifestIndex::deleteEntireIndex();
+            cCuriosityORMManifest::deleteEntireIndex();
         break;
 
-        //------------------------------------------------------
+    //------------------------------------------------------
     case "mergeTags":
         cDebug::error("to be done");
         break;
 
-        //------------------------------------------------------
+    //------------------------------------------------------
     case "parseLocations":
         cCuriosityLocations::parseLocations();
         break;
 
-        //------------------------------------------------------
+    //------------------------------------------------------
     case "parseAllPDS":
         cCuriosityPdsIndexer::index_everything();
         break;
 
-        //------------------------------------------------------
+    //------------------------------------------------------
     case "parsePDS":
         $sVol = cHeader::get(cSpaceUrlParams::PDS_VOLUME);
         if ($sVol == null) {
@@ -206,12 +207,12 @@ switch ($sOperation) {
         cCuriosityPdsIndexer::run_indexer($sVol, $sIndex);
         break;
 
-        //------------------------------------------------------
+    //------------------------------------------------------
     case "vacuum":
         cAdminFunctions::vacuum_dbs();
         break;
 
-        //------------------------------------------------------
+    //------------------------------------------------------
     case null:
         cAppGlobals::$title = "Admin";
         cDebug::write("Default operation"); {
