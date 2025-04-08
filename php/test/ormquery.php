@@ -16,11 +16,11 @@ $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 include cAppGlobals::$appPhpFragments . "/rest_header.php";
 
-cDebug::extra_debug("<h2>test 1</h2>");
+cDebug::extra_debug("<h2>test 1 - random</h2>");
 $aProducts = cMSLManifestOrmUtils::get_random_images("MAST%", 1);
 cDebug::vardump($aProducts);
 
-cDebug::extra_debug("<h2>test 2</h2>");
+cDebug::extra_debug("<h2>test 2 - search for bad product</h2>");
 $oProduct = cMSLManifestOrmUtils::search_for_product("3865ML10426");
 if ($oProduct !== null)
     cPageOutput::errorbox("failed test");
@@ -29,7 +29,7 @@ else {
     cDebug::vardump($oProduct);
 }
 
-cDebug::extra_debug("<h2>test 3</h2>");
+cDebug::extra_debug("<h2>test 3 - search for product</h2>");
 $oProduct = cMSLManifestOrmUtils::search_for_product("2838ML0148470330109174C00");
 if ($oProduct == null)
     cPageOutput::errorbox("failed test");
