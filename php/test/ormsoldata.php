@@ -16,6 +16,11 @@ $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 include cAppGlobals::$appPhpFragments . "/rest_header.php";
 
-cDebug::extra_debug("<h2>test 1</h2>");
-$aProducts = cCuriosityORMManifest::get_all_sol_data(4363);
-cDebug::vardump($aProducts);
+$iSol = 4363;
+echo ("<h2>test 1</h2>");
+$aProducts = cCuriosityORMManifest::get_all_sol_data($iSol);
+cDebug::vardump($aProducts, true);
+
+echo ("<h2>test 2</h2>");
+$oData = cCuriosityManifestIndex::get_all_sol_data($iSol, null, eSpaceSampleTypes::SAMPLE_NONTHUMBS);
+cDebug::vardump($oData, true);
