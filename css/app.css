@@ -480,3 +480,25 @@ body {
 	width: 18px;
 	margin: 1px;
 }
+
+.tracing {
+	color: #3b3c36;
+	font-family: courier;
+	font-size: 14px;
+}
+.debug_extra_warning {
+	color: red;
+}
+
+.debug_extra {
+	color: #483d8b;
+	background: #f9f9f9;
+	padding: 10px;
+	border-radius: 4px;
+}
+.debug {
+	color: #006400;
+	background: #f9f9f9;
+	padding: 10px;
+	border-radius: 4px;
+}

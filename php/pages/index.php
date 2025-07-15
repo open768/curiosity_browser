@@ -111,7 +111,7 @@ cAppGlobals::$title = "Home";
                     </div>
 
                 </div>
-                <footer class="w3-container w3-theme-l3" style:"display:none" id="<?= cIndexPageConsts::ID_INTRO_FOOTER ?>">
+                <footer class="w3-container w3-theme-l3" style="display:none" id="<?= cIndexPageConsts::ID_INTRO_FOOTER ?>">
                 </footer>
             </div>
         </div>
