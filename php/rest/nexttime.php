@@ -14,6 +14,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
+include cAppGlobals::$appPhpFragments . "/rest_header.php";
 
 $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
 $sDirection = cHeader::get(cAppUrlParams::DIRECTION, true);
@@ -22,5 +23,4 @@ $oData = cCuriosityManifestUtils::find_sequential_product($sProduct, $sDirection
 
 
 //############################### response ####################
-include cAppGlobals::$appPhpFragments . "/rest_header.php";
 cCommon::write_json($oData);

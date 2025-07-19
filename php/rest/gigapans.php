@@ -2,6 +2,7 @@
 $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
 require_once  cAppGlobals::$spaceInc . "/misc/pencilnev.php";
+include cAppGlobals::$appPhpFragments . "/rest_header.php";
 
 $aData = null;
 $sOption = cHeader::get(cAppUrlParams::OPERATION);
@@ -17,5 +18,4 @@ switch ($sOption) {
         cDebug::error("unrecognised option $sOption");
 }
 //############################### response ####################
-include cAppGlobals::$appPhpFragments . "/rest_header.php";
 cCommon::write_json($aData);

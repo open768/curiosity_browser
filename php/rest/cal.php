@@ -14,6 +14,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
+include cAppGlobals::$appPhpFragments . "/rest_header.php";
 
 require_once  cAppGlobals::$spaceInc . "/curiosity/instrument.php";
 
@@ -22,5 +23,4 @@ cDebug::write($sSol);
 $aData = cCuriosityManifestUtils::get_calendar($sSol);
 
 //############################### response ####################
-include cAppGlobals::$appPhpFragments . "/rest_header.php";
 cCommon::write_json($aData);

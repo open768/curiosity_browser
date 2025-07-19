@@ -13,6 +13,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
+include cAppGlobals::$appPhpFragments . "/rest_header.php";
 
 require_once  cAppGlobals::$ckPhpInc . "/header.php";
 require_once  cAppGlobals::$ckPhpInc . "/hash.php";
@@ -52,5 +53,4 @@ switch ($sOperation) {
 }
 
 //############################### response ####################
-include cAppGlobals::$appPhpFragments . "/rest_header.php";
 cCommon::write_json($sUser);

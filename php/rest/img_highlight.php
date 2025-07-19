@@ -17,6 +17,7 @@ require_once  "$home/php/fragments/app-common.php";
 require_once  cAppGlobals::$spaceInc . "/misc/pichighlight.php";
 require_once  cAppGlobals::$spaceInc . "/misc/indexes.php";
 require_once  cAppGlobals::$ckPhpInc . "/common.php";
+include cAppGlobals::$appPhpFragments . "/rest_header.php";
 
 
 //***************************************************
@@ -74,5 +75,4 @@ switch ($sOperation) {
 }
 
 //############################### response ####################
-include cAppGlobals::$appPhpFragments . "/rest_header.php";
 cCommon::write_json($oResult);

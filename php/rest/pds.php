@@ -17,6 +17,8 @@ require_once "$home/php/fragments/app-common.php";
 
 require_once  cAppGlobals::$spaceInc . "/curiosity/curiositypds.php";
 require_once  cAppGlobals::$spaceInc . "/pds/pdsreader.php";
+include cAppGlobals::$appPhpFragments . "/rest_header.php";
+
 
 $sOperation = cHeader::get(cAppUrlParams::OPERATION);
 switch ($sOperation) {
@@ -38,5 +40,4 @@ switch ($sOperation) {
         cDebug::error("unknown operation $sOperation");
 }
 //############################### response ####################
-include cAppGlobals::$appPhpFragments . "/rest_header.php";
 cCommon::write_json($oData);

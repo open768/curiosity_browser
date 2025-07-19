@@ -14,6 +14,7 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 
 $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
+include cAppGlobals::$appPhpFragments . "/rest_header.php";
 
 $sSol = cHeader::get(cSpaceUrlParams::SOL);
 $sInstr = cHeader::get(cSpaceUrlParams::INSTRUMENT);

@@ -2,6 +2,7 @@
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 require_once  cAppGlobals::$spaceInc . "/curiosity/locations.php";
+include cAppGlobals::$appPhpFragments . "/rest_header.php";
 
 
 $aData = null;
