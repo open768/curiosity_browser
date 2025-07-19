@@ -20,8 +20,8 @@ include cAppGlobals::$appPhpFragments . "/rest_header.php";
 $sSol = cHeader::get(cSpaceUrlParams::SOL, false, true);
 $sRefresh = cHeader::get(cAppUrlParams::REFRESH);
 if ($sSol) {
-    if ($sRefresh === "true") cCuriosityManifestIndex::delete_sol_index($sSol);
-    $aList = cCuriosity::getSolInstrumentList($sSol);
+    if ($sRefresh === "true") cCuriosity::deleteSolData($sSol);
+    $aList = cCuriosity::getSolInstrumentList($piSol);
 } else
     $aList = cCuriosityInstrument::getInstrumentList();
 
