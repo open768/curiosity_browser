@@ -21,7 +21,7 @@ $sSol = cHeader::get(cSpaceUrlParams::SOL, false, true);
 $sRefresh = cHeader::get(cAppUrlParams::REFRESH);
 if ($sSol) {
     if ($sRefresh === "true") cCuriosity::deleteSolData($sSol);
-    $aList = cCuriosity::getSolInstrumentList($piSol);
+    $aList = cCuriosity::getSolInstrumentList($sSol);
 } else
     $aList = cCuriosityInstrument::getInstrumentList();
 
