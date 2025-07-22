@@ -20,7 +20,7 @@ $sDirection = cHeader::get(cAppUrlParams::DIRECTION);
 $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
 
 //get the data for sol and instrument to find the index of the product
-$oItem = cCuriosityManifestUtils::find_sequential_product($sProduct, $sDirection, false);
+$oItem = cMSLManifestOrmUtils::find_sequential_product($sProduct, $sDirection, true);
 
 //############################### response ####################
 

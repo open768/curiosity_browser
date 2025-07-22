@@ -19,7 +19,7 @@ include cAppGlobals::$appPhpFragments . "/rest_header.php";
 $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
 $sDirection = cHeader::get(cAppUrlParams::DIRECTION, true);
 
-$oData = cCuriosityManifestUtils::find_sequential_product($sProduct, $sDirection, true);
+$oData = cMSLManifestOrmUtils::find_sequential_product($sProduct, $sDirection, false);
 
 
 //############################### response ####################
