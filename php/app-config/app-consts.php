@@ -46,4 +46,5 @@ class cAppUrlParams {
     const MOSAIC_PARAM = 'mos';
 
     const ALL_INSTRUMENTS = 'All';
+    const MESSAGE = "m";
 }
