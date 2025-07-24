@@ -58,9 +58,9 @@ class cSolComments {
 
 		//fetch sol data
 		sUrl = cBrowser.buildUrl(cAppRest.base_url('comments.php'), {
-			o: 'sol',
-			s: this.current_sol,
-			m: cMission.ID
+			[cAppUrlParams.OPERATION]: 'sol',
+			[cSpaceUrlParams.SOL]: this.current_sol,
+			[cSpaceUrlParams.MISSION]: cMission.ID
 		})
 		oHttp = new cHttp2()
 		{
@@ -123,9 +123,9 @@ class cSolComments {
 							})
 							{
 								var sUrl = cBrowser.buildUrl('detail.php', {
-									s: this.current_sol,
-									i: sInstr,
-									p: sProduct
+									[cSpaceUrlParams.SOL]: this.current_sol,
+									[cSpaceUrlParams.INSTRUMENT]: sInstr,
+									[cSpaceUrlParams.PRODUCT]: sProduct
 								})
 								var oLink = $('<A>', {
 									href: sUrl,

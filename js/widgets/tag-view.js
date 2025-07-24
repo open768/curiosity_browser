@@ -52,8 +52,8 @@ $.widget('ck.tagview', {
 		{
 			const sUrl = cBrowser.buildUrl(cAppRest.base_url('tag.php'), {
 				t: sTag,
-				o: 'detail',
-				m: this.options.mission.ID
+				[cAppUrlParams.OPERATION]: 'detail',
+				[cSpaceUrlParams.MISSION]: this.options.mission.ID
 			})
 
 			bean.on(oHttp, 'result', poHttp => oWidget.onTagUsage(poHttp))

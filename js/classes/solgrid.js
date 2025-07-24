@@ -52,7 +52,7 @@ class cSolGridRenderer {
 
 		//send request to get the data
 		const oThis = this
-		var oOptions = { m: this.mission }
+		var oOptions = { [cSpaceUrlParams.MISSION]: this.mission }
 		if (poExtraParams) Object.assign(oOptions, poExtraParams)
 		var sUrl = cBrowser.buildUrl(this.DataRestUrl, oOptions)
 		const oHttp = new cHttp2()
@@ -77,7 +77,7 @@ class cSolGridRenderer {
 			const oSpinner = cAppRender.make_spinner('Loading Sols')
 			oElement.append(oSpinner)
 
-			const sUrl = cBrowser.buildUrl(this.solsUrl, { m: this.mission })
+			const sUrl = cBrowser.buildUrl(this.solsUrl, { [cSpaceUrlParams.MISSION]: this.mission })
 			const oHttp = new cHttp2()
 			{
 				const oThis = this
@@ -128,7 +128,7 @@ class cSolGridRenderer {
 					oDiv.append(oButton)
 				} else {
 					//no data for the sol, link back to the index page for the sol
-					const sUrl = cBrowser.buildUrl('index.php', { s: sSol })
+					const sUrl = cBrowser.buildUrl('index.php', { [cSpaceUrlParams.SOL]: sSol })
 					const oA = $('<a>', { href: sUrl, class: 'sollink' }).append(sSol)
 					oDiv.append(oA)
 				}
@@ -143,7 +143,7 @@ class cSolGridRenderer {
 	onButtonClick(poEvent) {
 		const oButton = $(poEvent.target)
 		const sSol = oButton.attr('sol')
-		const sUrl = cBrowser.buildUrl(this.onClickUrl, { s: sSol })
+		const sUrl = cBrowser.buildUrl(this.onClickUrl, { [cSpaceUrlParams.SOL]: sSol })
 		cBrowser.openWindow(sUrl, 'clicked')
 	}
 }

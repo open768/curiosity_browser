@@ -87,7 +87,7 @@ class cSolMosaic {
 
 	//***************************************************************
 	static onClickMosaic(poData) {
-		const sUrl = cBrowser.buildUrl('solhigh.php', { s: poData[cSpaceUrlParams.SOL] })
+		const sUrl = cBrowser.buildUrl('solhigh.php', { [cSpaceUrlParams.SOL]: poData[cSpaceUrlParams.SOL] })
 		cBrowser.openWindow(sUrl, 'index')
 	}
 

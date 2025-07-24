@@ -385,9 +385,9 @@ class cInstrHighlight {
 		var oOptions = this.options
 		goHighlightQueue.stop()
 		this.widget._trigger('onClick', null, {
-			s: oOptions.sol,
-			i: poData.instrument,
-			p: poData.product
+			[cSpaceUrlParams.SOL]: oOptions.sol,
+			[cSpaceUrlParams.INSTRUMENT]: poData.instrument,
+			[cSpaceUrlParams.PRODUCT]: poData.product
 		})
 	}
 }

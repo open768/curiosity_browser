@@ -32,7 +32,7 @@ function onClickDetail() {
 	sProduct = cBrowser.data[cSpaceUrlParams.PRODUCT]
 	sSol = cBrowser.data[cSpaceUrlParams.SOL]
 
-	sUrl = cBrowser.buildUrl('detail.php', { s: sSol, i: sInstr, p: sProduct })
+	sUrl = cBrowser.buildUrl('detail.php', { [cSpaceUrlParams.SOL]: sSol, [cSpaceUrlParams.INSTRUMENT]: sInstr, [cSpaceUrlParams.PRODUCT]: sProduct })
 	cBrowser.openWindow(sUrl, 'detail')
 }
 
@@ -52,11 +52,11 @@ function onLoadJQuery_PDS() {
 	cCommonStatus.set_status('loading pds data...')
 
 	const oParams = {
-		o: 's',
-		s: cBrowser.data[cSpaceUrlParams.SOL],
-		i: cBrowser.data[cSpaceUrlParams.INSTRUMENT],
-		p: cBrowser.data[cSpaceUrlParams.PRODUCT],
-		m: cMission.ID
+		[cAppUrlParams.OPERATION]: 's',
+		[cSpaceUrlParams.SOL]: cBrowser.data[cSpaceUrlParams.SOL],
+		[cSpaceUrlParams.INSTRUMENT]: cBrowser.data[cSpaceUrlParams.INSTRUMENT],
+		[cSpaceUrlParams.PRODUCT]: cBrowser.data[cSpaceUrlParams.PRODUCT],
+		[cSpaceUrlParams.MISSION]: cMission.ID
 	}
 	const sUrl = cBrowser.buildUrl(cAppRest.base_url('pds.php'), oParams)
 	const oHttp = new cHttp2()

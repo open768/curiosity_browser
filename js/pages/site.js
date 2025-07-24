@@ -33,8 +33,8 @@ function onGoogleEarthLoaded() {
 	$('#site').empty()
 
 	const sUrl = cBrowser.buildUrl(cAppRest.base_url('sites.php'), {
-		o: 'allSitesBounds',
-		m: cMission.ID
+		[cAppUrlParams.OPERATION]: 'allSitesBounds',
+		[cSpaceUrlParams.MISSION]: cMission.ID
 	})
 	const oHttp = new cHttp2()
 	{

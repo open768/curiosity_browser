@@ -38,9 +38,9 @@ class cThumbnailView {
 		const oThis = this
 		this.widget._trigger('onStatus', null, { text: 'loading basic thumbnails' })
 		const sUrl = cBrowser.buildUrl(this.REST_URL, {
-			s: oOptions.sol,
-			i: oOptions.instrument,
-			m: oOptions.mission.ID
+			[cSpaceUrlParams.SOL]: oOptions.sol,
+			[cSpaceUrlParams.INSTRUMENT]: oOptions.instrument,
+			[cSpaceUrlParams.MISSION]: oOptions.mission.ID
 		})
 		const oHttp = new cHttp2()
 		{

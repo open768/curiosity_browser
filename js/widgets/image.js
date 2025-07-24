@@ -117,10 +117,10 @@ $.widget('ck.instrumentimage', {
 		// load the data
 		const oItem = new cHttpQueueItem()
 		oItem.url = cBrowser.buildUrl(cAppRest.base_url('detail.php'), {
-			s: oOptions.sol,
-			i: oOptions.instrument,
-			p: oOptions.product,
-			m: oOptions.mission.ID
+			[cSpaceUrlParams.SOL]: oOptions.sol,
+			[cSpaceUrlParams.INSTRUMENT]: oOptions.instrument,
+			[cSpaceUrlParams.PRODUCT]: oOptions.product,
+			[cSpaceUrlParams.MISSION]: oOptions.mission.ID
 		})
 		bean.on(oItem, 'result', poHttp => oThis.onProductDetails(poHttp))
 		bean.on(oItem, 'error', poHttp => oThis.onProductError(poHttp))

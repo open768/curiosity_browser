@@ -44,9 +44,9 @@ $.widget('ck.solgigas', {
 
 		// get the sols with Tags
 		var sUrl = cBrowser.buildUrl(cAppRest.base_url('gigapans.php'), {
-			s: oOptions.sol,
-			o: 'sol',
-			m: cMission.ID
+			[cSpaceUrlParams.SOL]: oOptions.sol,
+			[cAppUrlParams.OPERATION]: 'sol',
+			[cSpaceUrlParams.MISSION]: cMission.ID
 		})
 		const oHttp = new cHttp2()
 		{

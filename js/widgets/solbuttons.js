@@ -171,9 +171,9 @@ class cSolButtons {
 
 		// fetch tags, highlights and gigapans
 		var sUrl = cBrowser.buildUrl(cAppRest.base_url('gigapans.php'), {
-			o: 'sol',
-			s: this.options.sol,
-			m: oOptions.mission.ID
+			[cAppUrlParams.OPERATION]: 'sol',
+			[cSpaceUrlParams.SOL]: this.options.sol,
+			[cSpaceUrlParams.MISSION]: oOptions.mission.ID
 		})
 		var oHttp = new cHttp2()
 		{
@@ -182,9 +182,9 @@ class cSolButtons {
 		}
 
 		sUrl = cBrowser.buildUrl(cAppRest.base_url('tag.php'), {
-			o: 'solcount',
-			s: this.options.sol,
-			m: oOptions.mission.ID
+			[cAppUrlParams.OPERATION]: 'solcount',
+			[cSpaceUrlParams.SOL]: this.options.sol,
+			[cSpaceUrlParams.MISSION]: oOptions.mission.ID
 		})
 		oHttp = new cHttp2()
 		{
@@ -193,9 +193,9 @@ class cSolButtons {
 		}
 
 		sUrl = cBrowser.buildUrl(cAppRest.base_url('img_highlight.php'), {
-			o: 'solcount',
-			s: this.options.sol,
-			m: oOptions.mission.ID
+			[cAppUrlParams.OPERATION]: 'solcount',
+			[cSpaceUrlParams.SOL]: this.options.sol,
+			[cSpaceUrlParams.MISSION]: oOptions.mission.ID
 		})
 		oHttp = new cHttp2()
 		{
@@ -236,17 +236,17 @@ class cSolButtons {
 	//*****************************************************************
 	onClickTag() {
 		this.widget._trigger('onClick', null)
-		cBrowser.openWindow(cBrowser.buildUrl('soltag.php', { s: this.options.sol }), 'soltag')
+		cBrowser.openWindow(cBrowser.buildUrl('soltag.php', { [cSpaceUrlParams.SOL]: this.options.sol }), 'soltag')
 	}
 	//*****************************************************************
 	onClickHighlights() {
 		this.widget._trigger('onClick', null)
-		cBrowser.openWindow(cBrowser.buildUrl('solhigh.php', { sheet: 1, s: this.options.sol }), 'solhigh')
+		cBrowser.openWindow(cBrowser.buildUrl('solhigh.php', { sheet: 1, [cSpaceUrlParams.SOL]: this.options.sol }), 'solhigh')
 	}
 	//*****************************************************************
 	onClickGigapans() {
 		this.widget._trigger('onClick', null)
-		cBrowser.openWindow(cBrowser.buildUrl('solgigas.php', { s: this.options.sol }), 'solgigas')
+		cBrowser.openWindow(cBrowser.buildUrl('solgigas.php', { [cSpaceUrlParams.SOL]: this.options.sol }), 'solgigas')
 	}
 	//*****************************************************************
 	onClickMSLNotebook() {
@@ -257,7 +257,7 @@ class cSolButtons {
 	//*****************************************************************
 	onClickCalender() {
 		this.widget._trigger('onClick', null)
-		const sUrl = cBrowser.buildUrl('cal.php', { s: this.options.sol })
+		const sUrl = cBrowser.buildUrl('cal.php', { [cSpaceUrlParams.SOL]: this.options.sol })
 		cBrowser.openWindow(sUrl, 'calendar')
 	}
 	//*****************************************************************
@@ -267,7 +267,7 @@ class cSolButtons {
 	//*****************************************************************
 	onClickAllThumbs() {
 		this.widget._trigger('onClick', null)
-		this.widget._trigger('onAllSolThumbs', null, { s: this.options.sol })
+		this.widget._trigger('onAllSolThumbs', null, { [cSpaceUrlParams.SOL]: this.options.sol })
 	}
 	//*****************************************************************
 	onClickSite() {

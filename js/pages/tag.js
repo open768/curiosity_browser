@@ -37,9 +37,9 @@ function onStatusEvent(poEvent, paHash) {
 //***************************************************************
 function onImageClick(poEvent, poOptions) {
 	const sUrl = cBrowser.buildUrl('detail.php', {
-		s: poOptions.sol,
-		i: poOptions.instrument,
-		p: poOptions.product
+		[cSpaceUrlParams.SOL]: poOptions.sol,
+		[cSpaceUrlParams.INSTRUMENT]: poOptions.instrument,
+		[cSpaceUrlParams.PRODUCT]: poOptions.product
 	})
 	cBrowser.openWindow(sUrl, 'detail')
 }

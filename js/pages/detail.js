@@ -297,7 +297,7 @@ class cDetailSolButtons {
 	static onClickSol() {
 		const oItem = cDetail.oItem
 		const sUrl = cBrowser.buildUrl('index.php', {
-			s: oItem.s
+			[cSpaceUrlParams.SOL]: oItem.s
 		})
 		cBrowser.openWindow(sUrl, 'index')
 	}
@@ -306,9 +306,9 @@ class cDetailSolButtons {
 	static onClickInstr() {
 		const oItem = cDetail.oItem
 		const sUrl = cBrowser.buildUrl('index.php', {
-			s: oItem.s,
-			i: oItem.i,
-			b: cDetail.iNum
+			[cSpaceUrlParams.SOL]: oItem.s,
+			[cSpaceUrlParams.INSTRUMENT]: oItem.i,
+			[cAppUrlParams.BEGIN]: cDetail.iNum
 		})
 		cBrowser.openWindow(sUrl, 'index')
 	}
@@ -330,10 +330,9 @@ class cDetailSolButtons {
 		const oItem = cDetail.oItem
 
 		const sUrl = cBrowser.buildUrl('pds.php', {
-			s: oItem.s,
-			i: oItem.i,
-			p: oItem.p,
-			t: encodeURIComponent(oItem.d.du)
+			[cSpaceUrlParams.SOL]: oItem.s,
+			[cSpaceUrlParams.INSTRUMENT]: oItem.i,
+			[cSpaceUrlParams.PRODUCT]: oItem.p
 		})
 		cBrowser.openWindow(sUrl, 'pds')
 	}
@@ -342,8 +341,7 @@ class cDetailSolButtons {
 		const oItem = cDetail.oItem
 
 		const sUrl = cBrowser.buildUrl('cal.php', {
-			s: oItem.s,
-			t: oItem.d.du
+			[cSpaceUrlParams.SOL]: oItem.s
 		})
 		cBrowser.openWindow(sUrl, 'calendar')
 	}
@@ -353,9 +351,9 @@ class cDetailSolButtons {
 		const oItem = cDetail.oItem
 
 		const sUrl = cBrowser.buildUrl('index.php', {
-			s: oItem.s,
-			i: oItem.i,
-			t: 1
+			[cSpaceUrlParams.SOL]: oItem.s,
+			[cSpaceUrlParams.INSTRUMENT]: oItem.i,
+			[cSpaceUrlParams.THUMB_PARAM]: 1
 		})
 		cBrowser.openWindow(sUrl, 'solthumb')
 	}
@@ -364,7 +362,7 @@ class cDetailSolButtons {
 	static onClickHighlights() {
 		const oItem = cDetail.oItem
 
-		const sUrl = cBrowser.buildUrl('solhigh.php', { s: oItem.s })
+		const sUrl = cBrowser.buildUrl('solhigh.php', { [cSpaceUrlParams.SOL]: oItem.s })
 		cBrowser.openWindow(sUrl, 'solthumb')
 	}
 	//***************************************************************
@@ -417,16 +415,16 @@ class cDetailImage {
 			var sUrl
 			if (oItem.migrate !== null) {
 				sUrl = cBrowser.buildUrl('migrate.php', {
-					s: oItem.s,
-					i: oItem.i,
-					pfrom: oItem.p,
-					pto: oItem.migrate
+					[cSpaceUrlParams.SOL]: oItem.s,
+					[cSpaceUrlParams.INSTRUMENT]: oItem.i,
+					[cAppUrlParams.PRODUCT_FROM]: oItem.p,
+					[cAppUrlParams.PRODUCT_TO]: oItem.migrate
 				})
 
 				cBrowser.openWindow(sUrl, 'migrate')
 			} else {
 				sUrl = cBrowser.buildUrl('error.php', {
-					m: 'product ' + oItem.p + ' was not found'
+					[cAppUrlParams.MESSAGE]: 'product ' + oItem.p + ' was not found'
 				})
 				cBrowser.openWindow(sUrl, 'error')
 			}
@@ -627,9 +625,9 @@ class cDetail {
 	static pr_fetch_next_product(psDirection) {
 		const oItem = this.oItem
 		const sUrl = cBrowser.buildUrl(cAppRest.base_url('nexttime.php'), {
-			d: psDirection,
-			p: oItem.p,
-			m: cMission.ID
+			[cAppUrlParams.DIRECTION]: psDirection,
+			[cSpaceUrlParams.PRODUCT]: oItem.p,
+			[cSpaceUrlParams.MISSION]: cMission.ID
 		})
 		cCommonStatus.set_status('fetching next image details...')
 		const oHttp = new cHttp2()
@@ -647,9 +645,9 @@ class cDetail {
 		cCommonStatus.set_status('fetching next image details...')
 		const oItem = this.oItem
 		var sUrl = cBrowser.buildUrl(cAppRest.base_url('next.php'), {
-			d: psDirection,
-			p: oItem.p,
-			m: cMission.ID
+			[cAppUrlParams.DIRECTION]: psDirection,
+			[cSpaceUrlParams.PRODUCT]: oItem.p,
+			[cSpaceUrlParams.MISSION]: cMission.ID
 		})
 		const oHttp = new cHttp2()
 		{
@@ -798,9 +796,9 @@ class cDetail {
 
 		// ------------update the address bar
 		var sUrl = cBrowser.buildUrl(cBrowser.pageUrl(), {
-			s: poItem.s,
-			i: poItem.i,
-			p: poItem.p
+			[cSpaceUrlParams.SOL]: poItem.s,
+			[cSpaceUrlParams.INSTRUMENT]: poItem.i,
+			[cSpaceUrlParams.PRODUCT]: poItem.p
 		})
 		cBrowser.update_state('Detail', sUrl)
 	}
@@ -843,10 +841,10 @@ class cDetail {
 	//***************************************************************
 	static get_product_data(psSol, psInstr, psProd) {
 		const sUrl = cBrowser.buildUrl(cAppRest.base_url('detail.php'), {
-			s: psSol,
-			i: psInstr,
-			p: psProd,
-			m: cMission.ID
+			[cSpaceUrlParams.SOL]: psSol,
+			[cSpaceUrlParams.INSTRUMENT]: psInstr,
+			[cSpaceUrlParams.PRODUCT]: psProd,
+			[cSpaceUrlParams.MISSION]: cMission.ID
 		})
 		cCommonStatus.set_status('fetching data for ' + psProd)
 		const oHttp = new cHttp2()

@@ -43,7 +43,7 @@ class cBackgroundImage {
 
 		const oThis = this
 		const sUrl = cBrowser.buildUrl(cAppRest.base_url(this.REST_URL), {
-			o: 'i', //images
+			[cAppUrlParams.OPERATION]: 'i', //images
 			h: 1 //only want 1 image
 		})
 		const oHttp = new cHttp2()
@@ -78,9 +78,9 @@ class cBackgroundImage {
 		oFootDiv.empty()
 
 		const sUrl = cBrowser.buildUrl(cAppLocations.home + '/php/pages/detail.php', {
-			s: oImgData.s,
-			i: oImgData.i,
-			p: oImgData.p
+			[cSpaceUrlParams.SOL]: oImgData.s,
+			[cSpaceUrlParams.INSTRUMENT]: oImgData.i,
+			[cSpaceUrlParams.PRODUCT]: oImgData.p
 		})
 
 		//------ add info to footer
@@ -384,8 +384,8 @@ class cSearchBox {
 			cJquery.element(cLeftColumn.ID_WIDGET_SOLCHOOSER).solinstrumentChooser('set_sol', sText)
 		} else {
 			const sUrl = cBrowser.buildUrl(cAppRest.base_url(this.REST_URL), {
-				s: sText,
-				m: cMission.ID
+				[cSpaceUrlParams.SOL]: sText,
+				[cSpaceUrlParams.MISSION]: cMission.ID
 			})
 			const oHttp = new cHttp2()
 			{
@@ -405,9 +405,9 @@ class cSearchBox {
 		} else {
 			cCommonStatus.set_status('got search callback')
 			sUrl = cBrowser.buildUrl('detail.php', {
-				s: oData.sol,
-				i: oData.instr,
-				p: oData.product
+				[cSpaceUrlParams.SOL]: oData.sol,
+				[cSpaceUrlParams.INSTRUMENT]: oData.instr,
+				[cSpaceUrlParams.PRODUCT]: oData.product
 			})
 			document.location.href = sUrl
 		}
@@ -572,9 +572,9 @@ class cIndexPage {
 	static onImageClick(poEvent, poOptions) {
 		this.stop_queue()
 		const sUrl = cBrowser.buildUrl('detail.php', {
-			s: poOptions.sol,
-			i: poOptions.instrument,
-			p: poOptions.product
+			[cSpaceUrlParams.SOL]: poOptions.sol,
+			[cSpaceUrlParams.INSTRUMENT]: poOptions.instrument,
+			[cSpaceUrlParams.PRODUCT]: poOptions.product
 		})
 		cBrowser.openWindow(sUrl, 'detail')
 	}
@@ -601,9 +601,9 @@ class cIndexPage {
 	static onThumbClickEvent(poEvent, poData) {
 		this.stop_queue()
 		const sUrl = cBrowser.buildUrl('detail.php', {
-			s: poData.sol,
-			i: poData.instr,
-			p: poData.product
+			[cSpaceUrlParams.SOL]: poData.sol,
+			[cSpaceUrlParams.INSTRUMENT]: poData.instr,
+			[cSpaceUrlParams.PRODUCT]: poData.product
 		})
 		cDebug.write('loading page ' + sUrl)
 		var oImgDiv = cJquery.element(cIndexPageConsts.ID_IMAGE_CONTAINER)

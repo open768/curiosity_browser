@@ -20,6 +20,6 @@ $.widget('ck.allgrid', {
 	_create: function () {
 		const oOptions = this.options
 		var oGrid = new cSolGridRenderer(oOptions.mission.ID, this.element, oOptions.caption, oOptions.data_url, oOptions.sol_url)
-		oGrid.show_sol_grid({ o: 'topsolindex' })
+		oGrid.show_sol_grid({ [cAppUrlParams.OPERATION]: 'topsolindex' })
 	}
 })

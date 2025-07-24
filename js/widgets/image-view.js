@@ -51,11 +51,11 @@ class cImageList {
 
 		// ------------------load images
 		sUrl = cBrowser.buildUrl(this.IMAGES_URL, {
-			s: oOptions.sol,
-			i: oOptions.instrument,
+			[cSpaceUrlParams.SOL]: oOptions.sol,
+			[cSpaceUrlParams.INSTRUMENT]: oOptions.instrument,
 			b: piStartImage,
 			e: piStartImage + this.IMAGES_TO_SHOW,
-			m: oOptions.mission.ID
+			[cSpaceUrlParams.MISSION]: oOptions.mission.ID
 		})
 		const oHttp = new cHttp2()
 		{

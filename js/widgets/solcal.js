@@ -29,8 +29,8 @@ class cSolCalendar {
 		oElement.append(oSpinner)
 
 		const sUrl = cBrowser.buildUrl(cAppRest.base_url('cal.php'), {
-			s: oOptions.sol,
-			m: oOptions.mission.ID
+			[cSpaceUrlParams.SOL]: oOptions.sol,
+			[cSpaceUrlParams.MISSION]: oOptions.mission.ID
 		})
 		const oHttp = new cHttp2()
 		{
@@ -90,8 +90,8 @@ class cSolCalendar {
 					const oInstr = paInstr[i]
 					const oOuterSpan = $('<div>', {
 						class: 'w3-tag w3-white w3-round-large w3-border legend_outer w3-hover-grey',
-						i: oInstr.name,
-						s: oOptions.sol
+						[cSpaceUrlParams.INSTRUMENT]: oInstr.name,
+						[cSpaceUrlParams.SOL]: oOptions.sol
 					})
 					{
 						const oNameDiv = $('<div>', { class: 'legend_tag' })
@@ -204,8 +204,8 @@ class cSolCalendar {
 			oButton = $('<button>', {
 				class: 'roundbutton w3-hover-grey',
 				style: sStyle,
-				i: oItem.i,
-				p: oItem.p,
+				[cSpaceUrlParams.INSTRUMENT]: oItem.i,
+				[cSpaceUrlParams.PRODUCT]: oItem.p,
 				title: 'instrument:' + oItem.i + '\nproduct:' + oItem.p
 			})
 			oButton.append('&nbsp;')
@@ -223,10 +223,10 @@ class cSolCalendar {
 		const oButton = $(poEvent.target)
 
 		const oParams = {
-			s: oOptions.sol,
-			i: oButton.attr('i'),
-			p: oButton.attr('p'),
-			m: oOptions.mission.ID
+			[cSpaceUrlParams.SOL]: oOptions.sol,
+			[cSpaceUrlParams.INSTRUMENT]: oButton.attr('i'),
+			[cSpaceUrlParams.PRODUCT]: oButton.attr('p'),
+			[cSpaceUrlParams.MISSION]: oOptions.mission.ID
 		}
 		const sUrl = cBrowser.buildUrl('detail.php', oParams)
 		cBrowser.openWindow(sUrl, 'detail')
@@ -243,9 +243,9 @@ class cSolCalendar {
 		}
 
 		const oParams = {
-			s: oOptions.sol,
-			i: sInstr,
-			m: oOptions.mission.ID,
+			[cSpaceUrlParams.SOL]: oOptions.sol,
+			[cSpaceUrlParams.INSTRUMENT]: sInstr,
+			[cSpaceUrlParams.MISSION]: oOptions.mission.ID,
 			b: 1,
 			t: 1
 		}

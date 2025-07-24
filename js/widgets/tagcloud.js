@@ -105,8 +105,8 @@ class cTagCloud {
 		oTagElement.append(oSpinner)
 
 		const sUrl = cBrowser.buildUrl(cAppRest.base_url('tag.php'), {
-			o: 'all',
-			m: this.options.mission.ID
+			[cAppUrlParams.OPERATION]: 'all',
+			[cSpaceUrlParams.MISSION]: this.options.mission.ID
 		})
 		const oHttp = new cHttp2()
 		{

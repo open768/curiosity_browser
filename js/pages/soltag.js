@@ -27,7 +27,7 @@ function onLoadJQuery_SOLTAG() {
 	// update sol number
 	sSol = cBrowser.data.s
 
-	sUrl = cBrowser.buildUrl('index.php', { s: sSol })
+	sUrl = cBrowser.buildUrl('index.php', { [cSpaceUrlParams.SOL]: sSol })
 	$('#sol').html("<a href='" + sUrl + "'>" + sSol + '</a>')
 	current_sol = sSol
 
@@ -39,9 +39,9 @@ function onLoadJQuery_SOLTAG() {
 
 	// load tags
 	sUrl = cBrowser.buildUrl(cAppRest.base_url('tag.php'), {
-		s: sSol,
-		o: 'sol',
-		m: cMission.ID
+		[cSpaceUrlParams.SOL]: sSol,
+		[cAppUrlParams.OPERATION]: 'sol',
+		[cSpaceUrlParams.MISSION]: cMission.ID
 	})
 	cCommonStatus.set_status('fetching tags')
 
@@ -80,9 +80,9 @@ function load_soltag_callback(poHttp) {
 			var oATag = $('<A>', { href: sTagUrl }).append(sTag)
 
 			sProductURL = cBrowser.buildUrl('detail.php', {
-				s: current_sol,
-				i: sInstr,
-				p: sProduct
+				[cSpaceUrlParams.SOL]: current_sol,
+				[cSpaceUrlParams.INSTRUMENT]: sInstr,
+				[cSpaceUrlParams.PRODUCT]: sProduct
 			})
 			var oAProduct = $('<A>', { href: sProductURL }).append(sProduct)
 

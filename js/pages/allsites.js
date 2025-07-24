@@ -34,8 +34,8 @@ function onLoadJQuery_SITES() {
 function onGoogleEarthLoaded() {
 	cCommonStatus.set_status('retrieving sites')
 	const sUrl = cBrowser.buildUrl(cAppRest.base_url('sites.php'), {
-		o: 'allSitesBounds',
-		m: cMission.ID
+		[cAppUrlParams.OPERATION]: 'allSitesBounds',
+		[cSpaceUrlParams.MISSION]: cMission.ID
 	})
 	const oHttp = new cHttp2()
 	{
@@ -112,7 +112,7 @@ function render_sites() {
 		// make the placemark
 		var fLat = (oBounds.lat1 + oBounds.lat2) / 2
 		var fLong = (oBounds.long1 + oBounds.long2) / 2
-		var sUrl = cBrowser.buildUrl('site.php', { o: 'site', site: i })
+		var sUrl = cBrowser.buildUrl('site.php', { [cAppUrlParams.OPERATION]: 'site', [cSpaceUrlParams.SITE]: i })
 		sLink = '<a href="' + sUrl + '">click here</a>'
 		oPlace = cGoogleEarth.makePlacemark(fLat, fLong, 'site: ' + i, 'To see more details ' + sLink)
 
@@ -126,7 +126,7 @@ function render_sites() {
 	cCommonStatus.set_status('fetching hirise observations')
 
 	sUrl = cBrowser.buildUrl('../hirise', {
-		o: 'intersect',
+		[cAppUrlParams.OPERATION]: 'intersect',
 		la1: oBounds.lat1,
 		lo1: oBounds.long1,
 		la2: oBounds.lat2,
@@ -180,9 +180,9 @@ function lookat_callback() {
 	cCommonStatus.set_status('fetching sites')
 	for (var i = 0; i < aSites.length; i++) {
 		const sUrl = cBrowser.buildUrl(cAppRest.base_url('sites.php'), {
-			o: 'site',
-			site: i,
-			m: cMission.ID
+			[cAppUrlParams.OPERATION]: 'site',
+			[cSpaceUrlParams.SITE]: i,
+			[cSpaceUrlParams.MISSION]: cMission.ID
 		})
 		const oHttp = new cHttp2()
 		{

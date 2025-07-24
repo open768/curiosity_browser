@@ -200,10 +200,10 @@ class cThumbnail {
 		}
 
 		var sThumbUrl = cBrowser.buildUrl(cAppLocations.thumbnailer, {
-			s: oOptions.sol,
-			i: oOptions.instrument,
-			p: oOptions.product,
-			m: oOptions.mission
+			[cSpaceUrlParams.SOL]: oOptions.sol,
+			[cSpaceUrlParams.INSTRUMENT]: oOptions.instrument,
+			[cSpaceUrlParams.PRODUCT]: oOptions.product,
+			[cSpaceUrlParams.MISSION]: oOptions.mission
 		})
 		oImg.attr('src', sThumbUrl)
 		oImg.addClass('image')

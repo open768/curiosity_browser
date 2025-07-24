@@ -28,7 +28,7 @@ class cCalendar {
 
 		//update the page
 		$('#sol').html(this.current_sol)
-		const sURL = cBrowser.buildUrl(cBrowser.pageUrl(), { s: this.current_sol })
+		const sURL = cBrowser.buildUrl(cBrowser.pageUrl(), { [cSpaceUrlParams.SOL]: this.current_sol })
 		cBrowser.update_state('calendar', sURL)
 
 		this.load_widget()
