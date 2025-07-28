@@ -11,7 +11,9 @@ class cAppConsts {
     const SPINNER_MSG = 'taming velociraptors ....';
     const STAGE1_MSG = 'Sqeeezing Limes...';
     const STAGE2_MSG = 'Catching Dodos... ';
+    const NO_OPERATION = "noop";
 }
+
 cAppConsts::$CK_IMAGE = cAppGlobals::$jsImages . "/browser/chicken_icon.png";
 
 class cAppUrlParams {
@@ -47,4 +49,6 @@ class cAppUrlParams {
 
     const ALL_INSTRUMENTS = 'All';
     const MESSAGE = "m";
+
+    const KEEP_INSTRUMENT = "ki";
 }

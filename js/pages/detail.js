@@ -545,39 +545,31 @@ class cImageButtons {
 		const oThis = this
 		$('#submittag').on('click', poEvent => oThis.onClickAddTag(poEvent))
 
-		$('#prev_prod_top').on('click', poEvent => oThis.onClickPreviousProduct(poEvent))
-		$('#prev_top').on('click', poEvent => oThis.onClickPrevious(poEvent))
-		$('#next_top').on('click', poEvent => oThis.onClickNext(poEvent))
-		$('#next_prod_top').on('click', poEvent => oThis.onClickNextProduct(poEvent))
+		//---------------------------------------------------------------------------
+		$('#prev_prod_top').on('click', poEvent => oThis.onClickNavigateProduct(poEvent, cSpaceConstants.DIRECTION_PREVIOUS))
+		$('#prev_top').on('click', poEvent => oThis.onClickNavigate(poEvent, cSpaceConstants.DIRECTION_PREVIOUS))
+		$('#next_top').on('click', poEvent => oThis.onClickNavigate(poEvent, cSpaceConstants.DIRECTION_NEXT))
+		$('#next_prod_top').on('click', poEvent => oThis.onClickNavigateProduct(poEvent, cSpaceConstants.DIRECTION_NEXT))
 
-		$('#prev_left').on('click', poEvent => oThis.onClickPrevious(poEvent))
+		//---------------------------------------------------------------------------
+		$('#prev_left').on('click', poEvent => oThis.onClickNavigate(poEvent, cSpaceConstants.DIRECTION_PREVIOUS))
+		$('#next_right').on('click', poEvent => oThis.onClickNavigate(poEvent, cSpaceConstants.DIRECTION_NEXT))
 
-		$('#next_right').on('click', poEvent => oThis.onClickNext(poEvent))
-
-		$('#prev_prod_bottom').on('click', poEvent => oThis.onClickPreviousProduct(poEvent))
-		$('#prev_bottom').on('click', poEvent => oThis.onClickPrevious(poEvent))
-		$('#next_bottom').on('click', poEvent => oThis.onClickNext(poEvent))
-		$('#next_prod_bottom').on('click', poEvent => oThis.onClickNextProduct(poEvent))
+		//---------------------------------------------------------------------------
+		$('#prev_prod_bottom').on('click', poEvent => oThis.onClickNavigateProduct(poEvent, cSpaceConstants.DIRECTION_PREVIOUS))
+		$('#prev_bottom').on('click', poEvent => oThis.onClickNavigate(poEvent, cSpaceConstants.DIRECTION_PREVIOUS))
+		$('#next_bottom').on('click', poEvent => oThis.onClickNavigate(poEvent, cSpaceConstants.DIRECTION_NEXT))
+		$('#next_prod_bottom').on('click', poEvent => oThis.onClickNavigateProduct(poEvent, cSpaceConstants.DIRECTION_NEXT))
 	}
 
 	//***************************************************************
-	static onClickNextProduct() {
-		cDetail.pr_fetch_next_product(cSpaceConstants.DIRECTION_NEXT)
+	static onClickNavigateProduct(poEvent, piDirection) {
+		cDetail.pr_fetch_next_product(piDirection)
 	}
 
 	//***************************************************************
-	static onClickPreviousProduct() {
-		cDetail.pr_fetch_next_product(cSpaceConstants.DIRECTION_PREVIOUS)
-	}
-
-	//***************************************************************
-	static onClickNext() {
-		cDetail.pr_fetch_next_image(cSpaceConstants.DIRECTION_NEXT)
-	}
-
-	//***************************************************************
-	static onClickPrevious() {
-		cDetail.pr_fetch_next_image(cSpaceConstants.DIRECTION_PREVIOUS)
+	static onClickNavigate(poEvent, piDirection) {
+		cDetail.pr_fetch_next_image(piDirection)
 	}
 }
 
@@ -624,7 +616,7 @@ class cDetail {
 	//***************************************************************
 	static pr_fetch_next_product(psDirection) {
 		const oItem = this.oItem
-		const sUrl = cBrowser.buildUrl(cAppRest.base_url('nexttime.php'), {
+		const sUrl = cBrowser.buildUrl(cAppRest.base_url('next.php'), {
 			[cAppUrlParams.DIRECTION]: psDirection,
 			[cSpaceUrlParams.PRODUCT]: oItem.p,
 			[cSpaceUrlParams.MISSION]: cMission.ID
@@ -647,7 +639,8 @@ class cDetail {
 		var sUrl = cBrowser.buildUrl(cAppRest.base_url('next.php'), {
 			[cAppUrlParams.DIRECTION]: psDirection,
 			[cSpaceUrlParams.PRODUCT]: oItem.p,
-			[cSpaceUrlParams.MISSION]: cMission.ID
+			[cSpaceUrlParams.MISSION]: cMission.ID,
+			[cAppUrlParams.OPERATION]: cAppUrlParams.KEEP_INSTRUMENT
 		})
 		const oHttp = new cHttp2()
 		{

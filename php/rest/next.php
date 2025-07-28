@@ -18,9 +18,12 @@ include cAppGlobals::$appPhpFragments . "/rest_header.php";
 
 $sDirection = cHeader::get(cAppUrlParams::DIRECTION);
 $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
+$sOperation = cHeader::get(cAppUrlParams::OPERATION, cAppConsts::NO_OPERATION);
+$bKeepInstrument = ($sOperation === cAppUrlParams::KEEP_INSTRUMENT);
+
 
 //get the data for sol and instrument to find the index of the product
-$oItem = cMSLManifestOrmUtils::find_sequential_product($sProduct, $sDirection, true);
+$oItem = cMSLManifestOrmUtils::find_sequential_product($sProduct, $sDirection, $bKeepInstrument);
 
 //############################### response ####################
 
