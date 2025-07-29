@@ -18,7 +18,8 @@ include cAppGlobals::$appPhpFragments . "/rest_header.php";
 
 $sDirection = cHeader::get(cAppUrlParams::DIRECTION);
 $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT, true);
-$sOperation = cHeader::get(cAppUrlParams::OPERATION, cAppConsts::NO_OPERATION);
+$sOperation = cHeader::get(cAppUrlParams::OPERATION, false);
+
 $bKeepInstrument = ($sOperation === cAppUrlParams::KEEP_INSTRUMENT);
 
 
