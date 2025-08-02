@@ -2,6 +2,7 @@
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 require_once  cAppGlobals::$ckPhpInc . "/image.php";
+include cAppGlobals::$appPhpFragments . "/rest_header.php";
 
 $sKey = cHeader::get(cAppUrlParams::MOSAIC_PARAM, true);
 try {

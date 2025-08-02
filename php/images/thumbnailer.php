@@ -2,6 +2,7 @@
 $home = "../..";
 require_once "$home/php/fragments/app-common.php";
 require_once  cAppGlobals::$ckPhpInc . "/image.php";
+include cAppGlobals::$appPhpFragments . "/rest_header.php";
 
 $sMission = cHeader::get(cSpaceUrlParams::MISSION, true);
 $sSol = cHeader::get(cSpaceUrlParams::SOL, true, true);
