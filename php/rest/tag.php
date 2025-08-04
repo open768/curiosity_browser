@@ -35,7 +35,7 @@ switch ($sOperation) {
         $sProduct = cHeader::get(cSpaceUrlParams::PRODUCT);
         $aTags = cSpaceTags::get_product_tag_names($sSol, $sInstrument, $sProduct);
         cDebug::vardump($aTags);
-        $aData = ["p" => $sProduct, "d" => $aTags];
+        $aData = [cSpaceUrlParams::PRODUCT => $sProduct, "d" => $aTags];
         break;
     case "detail":
         $sTag = cHeader::get(cAppUrlParams::TAG);

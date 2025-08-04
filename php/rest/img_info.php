@@ -34,7 +34,7 @@ if ($aTagData) $iTagCount = count($aTagData);
 $aImgData = cSpaceImageHighlight::get($sSol, $sInstrument, $sProduct, false);
 if ($aImgData["d"]) $iHighCount = count($aImgData["d"]);
 
-$oResult = ["p" => $sProduct, "t" => $iTagCount, "h" => $iHighCount];
+$oResult = [cSpaceUrlParams::PRODUCT => $sProduct, "t" => $iTagCount, "h" => $iHighCount];
 
 
 //***************************************************
