@@ -11,6 +11,7 @@ class cThumbnail {
 	element = null
 	widget = null
 	options = null
+	thumb_url = null
 	consts = {
 		SIZE: 144,
 		DEFAULT_STYLE: 'polaroid',
@@ -53,6 +54,7 @@ class cThumbnail {
 		if (oOptions.product == null) $.error('product is not set')
 		if (oOptions.url == null) $.error('url is not set')
 		if (oOptions.mission == null) $.error('mission is not set')
+		if (oOptions.thumb_url == null) oOptions.thumb_url = cAppConsts.CK_IMAGE
 
 		const oElement = this.element
 		oElement.uniqueId() // sets a unique ID on the SPAN.
@@ -74,7 +76,7 @@ class cThumbnail {
 			title: this.options.product,
 			border: 0,
 			height: this.consts.SIZE,
-			src: cAppConsts.CK_IMAGE,
+			src: this.options.thumb_url,
 			ID: sImgID
 		})
 		{

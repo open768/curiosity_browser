@@ -16,12 +16,20 @@ $home = "../..";
 require_once  "$home/php/fragments/app-common.php";
 include cAppGlobals::$appPhpFragments . "/rest_header.php";
 
+$sMission = cHeader::get(cSpaceUrlParams::MISSION);
 $sSol = cHeader::get(cSpaceUrlParams::SOL);
 $sInstr = cHeader::get(cSpaceUrlParams::INSTRUMENT);
 
 if (!$sSol || !$sInstr) cDebug::error("wrong parameters");
 
 cDebug::write("getting sol $sSol thumbnails data");
-$aData = cCuriosityImages::getThumbnails($sSol, $sInstr);
+/** @var cManifestSolData  $oProducts*/
+$oProducts = cCuriosityImages::getThumbnails($sSol, $sInstr);
 
-cCommon::write_json($aData);
+$aOut = [
+    cSpaceUrlParams::MISSION => $sMission,
+    cSpaceUrlParams::SOL => $sSol,
+    cSpaceUrlParams::INSTRUMENT => $sInstr,
+    cSpaceUrlParams::DATA => $oProducts
+];
+cCommon::write_json($aOut);

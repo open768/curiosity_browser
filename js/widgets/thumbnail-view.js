@@ -71,7 +71,7 @@ class cThumbnailView {
 		// ok load the thumbnails
 		oElement.empty()
 
-		aData = poHttp.response.d.data
+		aData = poHttp.response[cSpaceUrlParams.DATA].data
 		if (aData.length == 0) {
 			oElement.append(cAppRender.append('Sorry no thumbnails found'))
 			this.widget._trigger('onStatus', null, { text: 'No thumbnails found' })
@@ -86,6 +86,7 @@ class cThumbnailView {
 					instrument: oItem.instr,
 					product: oItem.product,
 					url: oItem.image_url,
+					thumb_url: oItem.thumb_url,
 					mission: oItem.mission,
 					onStatus: function (poEvent, poData) {
 						oThis.widget._trigger('onStatus', poEvent, poData)
