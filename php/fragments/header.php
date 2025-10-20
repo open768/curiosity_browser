@@ -64,6 +64,8 @@ cPageOutput::write_JS_class_constant_IDs(cAppLocations::class);
 cPageOutput::write_JS_class_constant_IDs(cAppUrlParams::class);
 cPageOutput::write_JS_class_constant_IDs(cSpaceConstants::class);
 cPageOutput::write_JS_class_constant_IDs(cSpaceUrlParams::class);
+if (cAppConfig::USE_FACEBOOK)
+    cPageOutput::write_JS_class_constant_IDs(cFBConfig::class);
 
 
 //write out the title
@@ -107,9 +109,9 @@ $title .= " - " . cAppConfig::APP_NAME;
 
 <?php
 if (cAppConfig::USE_FACEBOOK) {
-    cPageOutput::write_JS_class_constant_IDs(cFBConfig::class);
     $jsInc = cAppGlobals::$jsInc;
     $FBid = $oFBAppId->id;
+    $FBel = cFBConfig::ELEMENT_ID;
     echo <<<END2
         <!-- Facebook -->
         <script src="{$jsInc}/ck-inc/facebook.js"></script>
@@ -119,7 +121,7 @@ if (cAppConfig::USE_FACEBOOK) {
             bean.on(
                 cFacebook,
                 cFacebook.STATUS_EVENT,
-                (psText) => \$("{cFBConfig.ELEMENT_ID}").html(psText)
+                (psText) => \$("{$FBel}").html(psText)
             );
         </script>
     END2;
