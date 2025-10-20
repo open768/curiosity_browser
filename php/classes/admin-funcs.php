@@ -29,10 +29,10 @@ class cAdminFunctions {
     static function vacuum_dbs() {
         cTracing::enter(); {
             cDebug::write("vacuuming cOBjStoreDB");
-            cSqlLiteUtils::vacuum(cOBjStoreDB::DB_FILENAME);
+            cSqlLiteUtils::vacuum(cOBjStoreDB::DEFAULT_DB_FILENAME);
 
-            cDebug::write("vacuuming cCuriosityManifestIndex");
-            cSqlLiteUtils::vacuum(cCuriosityManifestIndex::DB_FILENAME);
+            cDebug::write("vacuuming cMissionManifest");
+            cSqlLiteUtils::vacuum(cMissionManifest::DBNAME);
 
             cDebug::write("done");
         }

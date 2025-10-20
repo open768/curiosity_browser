@@ -145,26 +145,6 @@ switch ($sOperation) {
         break;
 
     //------------------------------------------------------
-    case  "parse_manifest":
-        cDebug::on();
-        cCuriosityORMManifestIndexer::updateIndex();
-        break;
-    //------------------------------------------------------
-    case "deleteManifest":
-        $sSure = cHeader::get(cAppUrlParams::SURE);
-        if ($sSure !== "yes") {
-        ?>
-            <h1>delete manifest</h1>
-            <form method="get" name="mani">
-                <Input type="hidden" name="<?= cAppUrlParams::OPERATION ?>" value="<?= $sOperation ?>">
-                Sure? <input type="submit" name="<?= cAppUrlParams::SURE ?>" value="yes">
-            </form>
-        <?php
-        } else
-            cCuriosityORMManifest::deleteEntireIndex();
-        break;
-
-    //------------------------------------------------------
     case "mergeTags":
         cDebug::error("to be done");
         break;
@@ -212,7 +192,39 @@ switch ($sOperation) {
         cAdminFunctions::vacuum_dbs();
         break;
 
+    //**********************************************************
+    //** manifest
+    //**********************************************************
+    case  "parse_manifest":
+        cDebug::on();
+        cCuriosityORMManifestIndexer::updateIndex();
+        break;
     //------------------------------------------------------
+    case "deleteManifest":
+        $sSure = cHeader::get(cAppUrlParams::SURE);
+        if ($sSure !== "yes") {
+        ?>
+            <h1>delete manifest</h1>
+            <form method="get" name="mani">
+                <Input type="hidden" name="<?= cAppUrlParams::OPERATION ?>" value="<?= $sOperation ?>">
+                Sure? <input type="submit" name="<?= cAppUrlParams::SURE ?>" value="yes">
+            </form>
+        <?php
+        } else
+            cCuriosityORMManifest::deleteEntireIndex();
+        break;
+
+    case "zipmanifest":
+        cDebug::error("not implemented");
+        break;
+
+    case "unzipmanifest":
+        cDebug::error("not implemented");
+        break;
+
+    //**********************************************************
+    //* UI
+    //**********************************************************
     case null:
         cAppGlobals::$title = "Admin";
         cDebug::write("Default operation"); {
@@ -234,19 +246,24 @@ switch ($sOperation) {
                     <dt>Parsing external data</dt>
                     <dd>
                         <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parse_gigas">index Nevilles gigapans<br>
-                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parse_manifest">index curiosity manifests<br>
                         <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parseAllPDS">parse ALL PDS files<br>
                         <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parseLocations">parse curiosity locations<br>
                         <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parsePDS">parse PDS files<br>
                     </dd>
                     <dt>Database stuff</dt>
                     <dd>
-                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="deleteManifest">delete manifest index(severe)<br>
                         <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="mergeTags">merge a tag<br>
                         <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="duplicate_highlights">remove duplicate highlights<br>
                         <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="vacuum">sqllite vacuum database<br>
                         <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killTag">remove tag<br>
                     </dd>
+                    <dt>manifest</dt>
+                    <DD>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="parse_manifest">index curiosity manifests<br>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="deleteManifest">delete manifest index(severe)<br>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="zipmanifest">Zip manifest<br>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="unzipmanifest">unZip manifest<br>
+                    </DD>
                     <dt>Exports</dt>
                     <DD>
                         <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="export_tags">Export Tags<br>
