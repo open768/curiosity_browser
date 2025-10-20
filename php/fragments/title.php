@@ -55,9 +55,9 @@ cPageOutput::write_JS_class_constant_IDs(cTitleConstants::class);
         <?php
         if (cAppConfig::USE_FACEBOOK) {
         ?>
-            <span class="fb_name" id="<?= cAppConfig::FB_ELEMENT_ID ?>">One Moment please...</span>
+            <span class="fb_name" id="<?= cFBConfig::ELEMENT_ID ?>">One Moment please...</span>
             <span class="fb_button">
-                <fb:login-button scope="<?= cAppConfig::FB_SCOPE ?>" onlogin="cFacebook.checkLoginStatus();" auto_logout_link="true" />
+                <fb:login-button scope="<?= cFBConfig::SCOPE ?>" onlogin="cFacebook.checkLoginStatus();" auto_logout_link="true" />
             </span>
         <?php
         } else

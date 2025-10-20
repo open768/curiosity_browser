@@ -107,22 +107,19 @@ $title .= " - " . cAppConfig::APP_NAME;
 
 <?php
 if (cAppConfig::USE_FACEBOOK) {
+    cPageOutput::write_JS_class_constant_IDs(cFBConfig::class);
     $jsInc = cAppGlobals::$jsInc;
     $FBid = $oFBAppId->id;
-    $FBVer = cAppConfig::FB_VERSION;
-    $FBElement = cAppConfig::FB_ELEMENT_ID;
     echo <<<END2
         <!-- Facebook -->
         <script src="{$jsInc}/ck-inc/facebook.js"></script>
         <script>
-            cFacebook.ServerSide = cAppLocations.rest + "/facebook.php";
             cFacebook.ServerUser = "{$sFBUser}";
-            cFacebook.Version = "{$FBVer}";
             cFacebook.AppID = {$FBid};
             bean.on(
                 cFacebook,
                 cFacebook.STATUS_EVENT,
-                (psText) => \$("{$FBElement}").html(psText)
+                (psText) => \$("{cFBConfig.ELEMENT_ID}").html(psText)
             );
         </script>
     END2;

@@ -79,13 +79,9 @@ require_once  cAppGlobals::$appConfig . "/app-secret.php";
 
 //##########################################################
 //* load composer
-require cAppGlobals::$composerAutoload;
+require cAppGlobals::$composerAutoload;         //TODO: autoload is deprecated
 
-//##########################################################
 class cAppConfig {
-    const FB_SCOPE = "public_profile";
-    const FB_ELEMENT_ID = "FB_User";
-    const FB_VERSION = "v20.0";
     const MISSION_ID = cSpaceMissions::CURIOSITY;
     const APP_NAME = "Curiosity Browser";
     const DATABASE_DOWN = false;
@@ -119,4 +115,20 @@ class cAppLocations {
 }
 cAppLocations::init();
 
+//##########################################################
+class cFBConfig {
+    const SCOPE = "public_profile";
+    const ELEMENT_ID = "FB_User";
+    const VERSION = "v20.0";
+    static $SERVER_SIDE = null;
+
+    static function init(): void {
+        self::$SERVER_SIDE = cAppLocations::$rest . "/facebook.php";
+    }
+}
+
+// initialize runtime values
+cFBConfig::init();
+
+//##########################################################
 require_once  cAppGlobals::$appConfig . "/app-consts.php";
