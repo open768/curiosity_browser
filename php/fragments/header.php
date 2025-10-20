@@ -112,17 +112,17 @@ if (cAppConfig::USE_FACEBOOK) {
     $jsInc = cAppGlobals::$jsInc;
     $FBid = $oFBAppId->id;
     $FBel = cFBConfig::ELEMENT_ID;
-    echo <<<END2
-        <!-- Facebook -->
-        <script src="{$jsInc}/ck-inc/facebook.js"></script>
-        <script>
-            cFacebook.ServerUser = "{$sFBUser}";
-            cFacebook.AppID = {$FBid};
-            bean.on(
-                cFacebook,
-                cFacebook.STATUS_EVENT,
-                (psText) => \$("{$FBel}").html(psText)
-            );
-        </script>
-    END2;
+?>
+    <!-- Facebook -->
+    <script src="<?= $jsInc ?>/ck-inc/facebook.js"></script>
+    <script>
+        cFacebook.ServerUser = "<?= $sFBUser ?>";
+        cFacebook.AppID = <?= $FBid ?>;
+        bean.on(
+            cFacebook,
+            cFacebook.STATUS_EVENT,
+            (psText) => $("#<?= $FBel ?>").html(psText)
+        );
+    </script>
+<?php
 }
