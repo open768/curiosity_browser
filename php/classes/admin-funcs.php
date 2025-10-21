@@ -39,6 +39,41 @@ class cAdminFunctions {
         cTracing::leave();
     }
 
+
+    //****************************************************************
+    static function unzip_db(string $psDBName, $psSure = "no") {
+        cTracing::enter(); {
+            //cant unzip if the .db file if there
+            //check if there is a zip file here
+            //perform the unzip
+            $sDBFname = cCommon::add_filename_to_dir(cAppGlobals::$dbRoot, $psDBName);
+
+            // try .zip
+            $sZipFname = str_replace(".db", ".zip", $sDBFname);
+            if (! file_exists($sZipFname))
+                cDebug::error("$sZipFname not found");
+
+            // if DB already exists we won't overwrite it
+            if (file_exists($sDBFname))
+                if ($psSure != "yes") {
+?>
+                <h1>delete <?= $sDBFname ?></h1>
+                <form method="get" name="mani">
+                    <Input type="hidden" name="<?= cAppUrlParams::OPERATION ?>" value="unzipmanifest">
+                    Sure? <input type="submit" name="<?= cAppUrlParams::SURE ?>" value="yes">
+                </form>
+<?php
+                } else {
+                    if ($psDBName === cMissionManifest::DBNAME)
+                        cMissionManifest::close_db();
+                    cDebug::write("Deleting $sDBFname");
+                    cCommon::force_delete_file($sDBFname);
+                    cDebug::error("not implemented");
+                }
+        }
+        cTracing::leave();
+    }
+
     //****************************************************************
     static function remove_duplicate_highlights() {
         cTracing::enter();

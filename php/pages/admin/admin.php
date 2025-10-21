@@ -14,7 +14,6 @@ For licenses that allow for commercial use please contact cluck@chickenkatsu.co.
 $home = "../../..";
 require_once "$home/php/fragments/app-common.php";
 
-
 //other includes
 require_once "$home/php/classes/admin-funcs.php";
 
@@ -219,7 +218,8 @@ switch ($sOperation) {
         break;
 
     case "unzipmanifest":
-        cDebug::error("not implemented");
+        $sSure = cHeader::get(cAppUrlParams::SURE);
+        cAdminFunctions::unzip_db(cMissionManifest::DBNAME, $sSure);
         break;
 
     //**********************************************************
