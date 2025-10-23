@@ -39,3 +39,4 @@ package\-lock.json
 vendor/
 php/vendor
 vendor.code-workspace
+.duck

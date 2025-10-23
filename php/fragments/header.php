@@ -54,9 +54,13 @@ if (cAppConfig::USE_GOOGLE_ANALYTICS) {
     </script>
     END;
 }
-if (cAppConfig::DATABASE_DOWN) {
-    cPageOutput::errorbox("Application is currently down for maintenance");
-    cDebug::error("app is down - Note to admin: " . realpath(cAppLocations::$appconfig));
+if (cAppStatus::$site_down) {
+    //if not the admin page
+    if (cCommonFiles::server_filename() !== "admin.php") {
+        cPageOutput::errorbox("Application is currently down for maintenance");
+        cDebug::write("<a href='$home/php/pages/admin/admin.php'>admin</a>");
+        cDebug::error("app is down for maintenance");
+    }
 }
 
 cPageOutput::write_JS_class_constant_IDs(cAppConsts::class);

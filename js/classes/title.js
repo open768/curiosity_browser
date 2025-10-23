@@ -25,5 +25,6 @@ class cAppTitle {
 		oDiv.append(cTitleConstants.TITLE)
 
 		if (cTitleConstants.IS_LOCALHOST) oDiv.append(" - <font class='dev'>DEVELOPMENT</font>")
+		if (cAppStatus.site_down) oDiv.append(" - <font class='dev'>SITE IS DOWN</font>")
 	}
 }

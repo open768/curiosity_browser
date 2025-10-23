@@ -36,6 +36,7 @@ class cTitleConstants {
 cTitleConstants::init($sFile);
 
 cPageOutput::write_JS_class_constant_IDs(cTitleConstants::class);
+cPageOutput::write_JS_class_constant_IDs(cAppStatus::class);
 
 ?>
 <div id='fb-root'></div>

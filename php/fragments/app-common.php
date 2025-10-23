@@ -59,6 +59,7 @@ require_once cAppGlobals::$ckPhpInc . "/common.php";
 require_once cAppGlobals::$ckPhpInc . "/auth.php";
 require_once cAppGlobals::$spaceInc . "/misc/constants.php";
 require_once cAppGlobals::$spaceInc . "/curiosity/curiosity.php";
+cAppStatus::check_site_down();
 require_once cAppGlobals::$spaceInc . "/curiosity/static.php";
 //require_once cAppGlobals::$ckPhpInc . "/autoinstrument.php";
 require_once cAppGlobals::$spaceInc . "/curiosity/manifest/orm.php";
