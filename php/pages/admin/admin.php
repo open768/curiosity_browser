@@ -192,6 +192,16 @@ switch ($sOperation) {
         break;
 
     //**********************************************************
+    //** site
+    //**********************************************************
+    case "site_down":
+        cAppConfig::site_down();
+        break;
+    case "site_up":
+        cAppConfig::site_up();
+        break;
+
+    //**********************************************************
     //** manifest
     //**********************************************************
     case  "parse_manifest":
@@ -269,6 +279,11 @@ switch ($sOperation) {
                         <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="export_tags">Export Tags<br>
                         <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="export_high">Export Highlights<br>
                     </DD>
+                    <dt>Site</dt>
+                    <dd>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="site_up">site up<br>
+                        <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="site_down">site_down<br>
+                    </dd>
                     <dt>possibly Obsolete stuff</dt>
                     <dd>
                         <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="backup">backup objdata<br>

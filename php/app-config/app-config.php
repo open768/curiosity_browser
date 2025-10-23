@@ -88,6 +88,29 @@ class cAppConfig {
     const USE_FACEBOOK = true;              //change this to turn off facebook features
     const USE_GOOGLE_ANALYTICS = true;      //change this to turn off Google analytics features
     const USE_APPD = true;
+    const SITE_DOWN_FILENAME = ".duck";
+    static $site_down = false;
+
+    public static function get_sitedown_fname() {
+        return cCommon::add_filename_to_dir(cAppGlobals::$root, self::SITE_DOWN_FILENAME);
+    }
+
+    public static function site_down() {
+        $sfilename = self::get_sitedown_fname();
+        touch($sfilename);
+        self::$site_down = true;
+    }
+
+    public static function site_up() {
+        $sfilename = self::get_sitedown_fname();
+        @unlink($sfilename);
+        self::$site_down = false;
+    }
+
+    public static function check_site_down() {
+        $sfilename = self::get_sitedown_fname();
+        self::$site_down = file_exists($sfilename);
+    }
 }
 
 //##########################################################
