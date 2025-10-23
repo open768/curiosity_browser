@@ -214,7 +214,7 @@ switch ($sOperation) {
         break;
 
     case "zipmanifest":
-        cDebug::error("not implemented");
+        cAdminFunctions::zip_db(cMissionManifest::DBNAME);
         break;
 
     case "unzipmanifest":

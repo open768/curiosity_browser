@@ -41,21 +41,66 @@ class cAdminFunctions {
 
 
     //****************************************************************
+    static function zip_db(string $psDBName) {
+        cTracing::enter(); {
+            //check if ziparchive exists
+            if (! class_exists("ZipArchive"))
+                cDebug::error("ZipArchive class not found");
+
+            if (! strstr($psDBName, ".db"))
+                cDebug::error("invalid DB name $psDBName - must end with .db");
+
+            //get the DB filename
+            $sDBFname = cCommon::add_filename_to_dir(cAppGlobals::$dbRoot, $psDBName);
+            if (! file_exists($sDBFname))
+                cDebug::error("DB file $sDBFname not found");
+            $sZipFname = str_replace(".db", ".zip", $sDBFname);
+            if (file_exists($sZipFname))
+                cDebug::error("$sZipFname allready exists");
+
+            //create the zip file
+            cDebug::write("creating $sZipFname from $sDBFname");
+            $oZip = new ZipArchive();
+            $oZip->open($sZipFname, ZipArchive::CREATE);
+            $oZip->addFile($sDBFname, $psDBName);
+            $oZip->close();
+            cDebug::write("created $sZipFname");
+        }
+        cTracing::leave();
+    }
+
+    //****************************************************************
     static function unzip_db(string $psDBName, $psSure = "no") {
         cTracing::enter(); {
-            //cant unzip if the .db file if there
-            //check if there is a zip file here
-            //perform the unzip
+            //check if ziparchive exists
+            if (! class_exists("ZipArchive"))
+                cDebug::error("ZipArchive class not found");
+
+            if (! strstr($psDBName, ".db"))
+                cDebug::error("invalid DB name $psDBName - must end with .db");
+
+            //check whether a native zip command exists
+            if (stripos(PHP_OS_FAMILY, 'Windows') !== false)
+                exec('where unzip', $aOutput, $iExitCode);
+            else
+                exec('command -v unzip', $aOutput, $iExitCode);
+
+            $bNativeZip = ($iExitCode == 0);
+            if ($bNativeZip)
+                cDebug::write("native unzip command found ");
+            else
+                cDebug::write("native unzip command not found - using PHP ZipArchive");
+
+            //get the DB filename
             $sDBFname = cCommon::add_filename_to_dir(cAppGlobals::$dbRoot, $psDBName);
 
-            // try .zip
+            // check if the zip file is there
             $sZipFname = str_replace(".db", ".zip", $sDBFname);
             if (! file_exists($sZipFname))
                 cDebug::error("$sZipFname not found");
 
-            // if DB already exists we won't overwrite it
-            if (file_exists($sDBFname))
-                if ($psSure != "yes") {
+            // if DB already exists check if user still wants to go ahead
+            if (file_exists($sDBFname) && ($psSure !== "yes")) {
 ?>
                 <h1>delete <?= $sDBFname ?></h1>
                 <form method="get" name="mani">
@@ -63,13 +108,42 @@ class cAdminFunctions {
                     Sure? <input type="submit" name="<?= cAppUrlParams::SURE ?>" value="yes">
                 </form>
 <?php
-                } else {
-                    if ($psDBName === cMissionManifest::DBNAME)
-                        cMissionManifest::close_db();
-                    cDebug::write("Deleting $sDBFname");
-                    cCommon::force_delete_file($sDBFname);
-                    cDebug::error("not implemented");
-                }
+                return;
+            }
+
+            //create a temporary directory
+            $sTmpDir = cCommon::add_filename_to_dir(cAppGlobals::$dbRoot, "_temp");
+            if (! is_dir($sTmpDir))
+                mkdir($sTmpDir);
+
+            //try extracting the zip file into the temporary directory
+            $sTmpDBFname = cCommon::add_filename_to_dir($sTmpDir, $psDBName);
+            if (file_exists($sTmpDBFname)) {
+                cDebug::write("deleting existing temp file $sTmpDBFname");
+                cCommon::force_delete_file($sTmpDBFname);
+            }
+
+            //extract the zip file into the temporary directory
+            cDebug::write("extracting $sZipFname to $sTmpDir");
+            $oZip = new ZipArchive();
+            if (!$oZip->open($sZipFname))
+                cDebug::error("could not open $sZipFname");
+            $oZip->extractTo($sTmpDir);
+            $oZip->close();
+            cDebug::write("extracted $sZipFname");
+
+            if (! file_exists($sTmpDBFname))
+                cDebug::error("extracted file $sTmpDBFname not found");
+
+            //delete existing DB file
+            if ($psDBName === cMissionManifest::DBNAME)
+                cMissionManifest::close_db();
+            cDebug::write("Deleting $sDBFname");
+            cCommon::force_delete_file($sDBFname);
+
+            //move extracted  file
+            rename($sTmpDBFname, $sDBFname);
+            cDebug::write("completed");
         }
         cTracing::leave();
     }
