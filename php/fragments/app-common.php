@@ -27,6 +27,7 @@ if (!file_exists($sConfigFile))
     throw new AppCommonException("cant find app-config file: $sConfigFile");
 
 include $sConfigFile;    //config for the application - sets up cAppglobals
+cAppStatus::check_site_down();
 
 //**********************************************************************************
 require_once cAppGlobals::$ckPhpInc . "/header.php";    //this starts the session
@@ -59,7 +60,6 @@ require_once cAppGlobals::$ckPhpInc . "/common.php";
 require_once cAppGlobals::$ckPhpInc . "/auth.php";
 require_once cAppGlobals::$spaceInc . "/misc/constants.php";
 require_once cAppGlobals::$spaceInc . "/curiosity/curiosity.php";
-cAppStatus::check_site_down();
 require_once cAppGlobals::$spaceInc . "/curiosity/static.php";
 //require_once cAppGlobals::$ckPhpInc . "/autoinstrument.php";
 require_once cAppGlobals::$spaceInc . "/curiosity/manifest/orm.php";

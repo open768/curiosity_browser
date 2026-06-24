@@ -19,19 +19,19 @@ if (! isset($home))
 
 
 class cAppGlobals {
-    static $root;
-    static $appPHP, $appImages, $appConfig, $appPhpFragments;
-    static $jsHome, $jsWidgets, $jsAppRest, $jsExtra, $jsImages, $jsInc, $jsSpaceInc;
-    static $jsThumbNailer, $jsCropper, $jsMosaicer;
-    static $composerAutoload;
+    static ?string $root;
+    static ?string $appPHP, $appImages, $appConfig, $appPhpFragments;
+    static ?string $jsHome, $jsWidgets, $jsAppRest, $jsExtra, $jsImages, $jsInc, $jsSpaceInc;
+    static ?string $jsThumbNailer, $jsCropper, $jsMosaicer;
+    static  $composerAutoload;
 
-    static $spaceInc = null;
-    static $phpInc = null;
-    static $ckPhpInc = null;
-    static $title = "title not set";
-    static $dbRoot = null;
+    static ?string $spaceInc = null;
+    static ?string $phpInc = null;
+    static ?string $ckPhpInc = null;
+    static ?string $title = "title not set";
+    static ?string $dbRoot = null;
 
-    static function init($psHome) {
+    static function init(?string $psHome) {
         self::$root = realpath($psHome);
 
         //configurable things 
