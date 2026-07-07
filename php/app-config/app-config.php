@@ -23,7 +23,6 @@ class cAppGlobals {
     static ?string $appPHP, $appImages, $appConfig, $appPhpFragments;
     static ?string $jsHome, $jsWidgets, $jsAppRest, $jsExtra, $jsImages, $jsInc, $jsSpaceInc;
     static ?string $jsThumbNailer, $jsCropper, $jsMosaicer;
-    static  $composerAutoload;
 
     static ?string $spaceInc = null;
     static ?string $phpInc = null;
@@ -55,7 +54,6 @@ class cAppGlobals {
         self::$appImages = "$psHome/images/";
         self::$appConfig =  self::$appPHP . "/app-config";
         self::$appPhpFragments = self::$appPHP . "/fragments";
-        self::$composerAutoload = self::$appPHP . "/vendor/autoload.php";
 
         //JS stuff 
         self::$jsHome = "$psHome/js";
@@ -75,11 +73,9 @@ cAppGlobals::init($home);
 
 //##########################################################
 //* nothing needs to be changed below here
-require_once  cAppGlobals::$appConfig . "/app-secret.php";
 
 //##########################################################
-//* load composer
-require cAppGlobals::$composerAutoload;         //TODO: autoload is deprecated
+require_once  cAppGlobals::$appConfig . "/app-secret.php";
 
 class cAppConfig {
     const MISSION_ID = cSpaceMissions::CURIOSITY;
