@@ -27,6 +27,7 @@ if (!file_exists($sConfigFile))
     throw new AppCommonException("cant find app-config file: $sConfigFile");
 
 include $sConfigFile;    //config for the application - sets up cAppglobals
+require_once cAppGlobals::$ckPhpInc . "/site.php";
 cAppStatus::check_site_down();
 
 //**********************************************************************************
