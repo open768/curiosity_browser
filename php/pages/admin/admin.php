@@ -28,7 +28,9 @@ function do_operation() {
     cDebug::on(true);
 
     switch ($sOperation) {
-        //------------------------------------------------------
+        //**********************************************************
+        //** possibly obsolete
+        //**********************************************************
         case "backup":
             cObjStore::backup();
             break;
@@ -37,9 +39,47 @@ function do_operation() {
             cSpaceTags::clean_product_tags();
             break;
 
+
+        //**********************************************************
+        //** exporting (will be obsolete when content moved into objdb)
+        //**********************************************************
+        case "export_tags":
+            cDebug::off();
+            cHeader::redirect("export.php?o=tags");
+            break;
         //------------------------------------------------------
-        case "file_del_empty_folders":
-            cCommonFiles::delete_empty_folders(cObjStore::$rootFolder);
+        case "export_highs":
+            cDebug::off();
+            cHeader::redirect("export.php?o=highs");
+            break;
+
+        //**********************************************************
+        //** removing stuff
+        //**********************************************************
+        case "killCache":
+            //cCachedHttp::clearCache();
+            cDebug::error("not implemented");
+            break;
+
+        case "killHighlight":
+            if (cHeader::get(cSpaceUrlParams::PRODUCT) == null) {
+            ?>
+                <form method="get">
+                    <Input type="hidden" name=<?= cAppUrlParams::OPERATION ?> value="<?= $sOperation ?>">
+                    sol: <Input type="input" name="<?= cSpaceUrlParams::SOL ?>"><br>
+                    instr: <Input type="input" name="<?= cSpaceUrlParams::INSTRUMENT ?>"><br>
+                    product: <Input type="input" name="<?= cSpaceUrlParams::PRODUCT ?>"><br>
+                    <input type="submit">
+                </form>
+            <?php
+                exit();
+            }
+            cSpaceImageHighlight::kill_highlites(cHeader::get(cSpaceUrlParams::SOL), cHeader::get(cSpaceUrlParams::INSTRUMENT), cHeader::get(cSpaceUrlParams::PRODUCT));
+            break;
+
+        //------------------------------------------------------
+        case "killSession":
+            session_destroy();
             break;
 
         //------------------------------------------------------
@@ -57,37 +97,29 @@ function do_operation() {
             cDebug::write("not implemented");
             break;
 
+        //**********************************************************
+        //** files
+        //**********************************************************
+        case "file_delete _thumbs":
+            cCommonFiles::delTree(cAppLocations::$images . "/[thumbs]");
+            break;
+
+        //------------------------------------------------------
+        case "file_del_empty_folders":
+            cCommonFiles::delete_empty_folders(cObjStore::$rootFolder);
+            break;
+
+            
+        //**********************************************************
+        //** Database stuff
+        //**********************************************************
+        case "mergeTags":
+            cDebug::error("to be done");
+            break;
+
         //------------------------------------------------------
         case "duplicate_highlights":
             cAdminFunctions::remove_duplicate_highlights();
-            break;
-
-        //------------------------------------------------------
-        case "export_tags":
-            cDebug::off();
-            cHeader::redirect("export.php?o=tags");
-            break;
-        //------------------------------------------------------
-        case "export_highs":
-            cDebug::off();
-            cHeader::redirect("export.php?o=highs");
-            break;
-        //------------------------------------------------------
-
-        case "killHighlight":
-            if (cHeader::get(cSpaceUrlParams::PRODUCT) == null) {
-            ?>
-                <form method="get">
-                    <Input type="hidden" name=<?= cAppUrlParams::OPERATION ?> value="<?= $sOperation ?>">
-                    sol: <Input type="input" name="<?= cSpaceUrlParams::SOL ?>"><br>
-                    instr: <Input type="input" name="<?= cSpaceUrlParams::INSTRUMENT ?>"><br>
-                    product: <Input type="input" name="<?= cSpaceUrlParams::PRODUCT ?>"><br>
-                    <input type="submit">
-                </form>
-            <?php
-                exit();
-            }
-            cSpaceImageHighlight::kill_highlites(cHeader::get(cSpaceUrlParams::SOL), cHeader::get(cSpaceUrlParams::INSTRUMENT), cHeader::get(cSpaceUrlParams::PRODUCT));
             break;
 
         //------------------------------------------------------
@@ -107,30 +139,18 @@ function do_operation() {
             break;
 
         //------------------------------------------------------
-        case "killSession":
-            session_destroy();
-            break;
-        //------------------------------------------------------
-        case "file_delete _thumbs":
-            cCommonFiles::delTree(cAppLocations::$images . "/[thumbs]");
-            break;
-        //------------------------------------------------------
-        case "killCache":
-            //cCachedHttp::clearCache();
-            cDebug::error("not implemented");
-            break;
-        //------------------------------------------------------
-        case "parse_gigas":
-            $aItems = cGigapan::get_all_gigapans("pencilnev");
-            cPencilNev::index_gigapans($aItems);
+        case "vacuum":
+            cAdminFunctions::vacuum_dbs();
             break;
 
         //------------------------------------------------------
-        case "mergeTags":
-            cDebug::error("to be done");
+        case "consolidate_user_data":
+            cDebug::error("not implemented"))
             break;
 
-        //------------------------------------------------------
+        //**********************************************************
+        //** parsing external data
+        //**********************************************************
         case "parseLocations":
             cCuriosityLocations::parseLocations();
             break;
@@ -140,6 +160,11 @@ function do_operation() {
             cCuriosityPdsIndexer::index_everything();
             break;
 
+        //------------------------------------------------------
+        case "parse_gigas":
+            $aItems = cGigapan::get_all_gigapans("pencilnev");
+            cPencilNev::index_gigapans($aItems);
+            break;
         //------------------------------------------------------
         case "parsePDS":
             $sVol = cHeader::get(cSpaceUrlParams::PDS_VOLUME);
@@ -168,10 +193,6 @@ function do_operation() {
             cCuriosityPdsIndexer::run_indexer($sVol, $sIndex);
             break;
 
-        //------------------------------------------------------
-        case "vacuum":
-            cAdminFunctions::vacuum_dbs();
-            break;
 
         //**********************************************************
         //** site
@@ -200,7 +221,7 @@ function do_operation() {
                     <Input type="hidden" name="<?= cAppUrlParams::OPERATION ?>" value="<?= $sOperation ?>">
                     Sure? <input type="submit" name="<?= cAppUrlParams::SURE ?>" value="yes">
                 </form>
-    <?php
+            <?php
             } else
                 cCuriosityORMManifest::deleteEntireIndex();
             break;
@@ -252,6 +273,7 @@ function show_form() {
                 <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="duplicate_highlights">remove duplicate highlights<br>
                 <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="vacuum">sqllite vacuum database<br>
                 <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="killTag">remove tag<br>
+                <Input type="radio" name="<?= cAppUrlParams::OPERATION ?>" value="consolidate_user_data">consolidate user data into objdb<br>
             </dd>
             <dt>manifest</dt>
             <DD>
